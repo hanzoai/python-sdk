@@ -21,15 +21,15 @@ from pydantic import Field, StrictStr, field_validator
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.ai_envelope import AiEnvelope
-from hanzoai.cloud.models.chat_post_auth_login_request import ChatPostAuthLoginRequest
-from hanzoai.cloud.models.chat_post_auth_requestpasswordreset_request import ChatPostAuthRequestpasswordresetRequest
 from hanzoai.cloud.models.commerce_account_exists200_response import CommerceAccountExists200Response
+from hanzoai.cloud.models.commerce_account_login_request import CommerceAccountLoginRequest
 from hanzoai.cloud.models.commerce_account_withdraw_request import CommerceAccountWithdrawRequest
 from hanzoai.cloud.models.commerce_commerce_enable_account_request import CommerceCommerceEnableAccountRequest
 from hanzoai.cloud.models.commerce_confirm_password_reset_request import CommerceConfirmPasswordResetRequest
 from hanzoai.cloud.models.commerce_create_account_request import CommerceCreateAccountRequest
 from hanzoai.cloud.models.commerce_order import CommerceOrder
 from hanzoai.cloud.models.commerce_payment_method import CommercePaymentMethod
+from hanzoai.cloud.models.commerce_request_password_reset_request import CommerceRequestPasswordResetRequest
 from hanzoai.cloud.models.commerce_user import CommerceUser
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -560,7 +560,7 @@ class AccountApi:
     @validate_call
     def commerce_account_login(
         self,
-        chat_post_auth_login_request: ChatPostAuthLoginRequest,
+        commerce_account_login_request: CommerceAccountLoginRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -577,8 +577,8 @@ class AccountApi:
         """Login to account
 
 
-        :param chat_post_auth_login_request: (required)
-        :type chat_post_auth_login_request: ChatPostAuthLoginRequest
+        :param commerce_account_login_request: (required)
+        :type commerce_account_login_request: CommerceAccountLoginRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -602,7 +602,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._commerce_account_login_serialize(
-            chat_post_auth_login_request=chat_post_auth_login_request,
+            commerce_account_login_request=commerce_account_login_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -627,7 +627,7 @@ class AccountApi:
     @validate_call
     def commerce_account_login_with_http_info(
         self,
-        chat_post_auth_login_request: ChatPostAuthLoginRequest,
+        commerce_account_login_request: CommerceAccountLoginRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -644,8 +644,8 @@ class AccountApi:
         """Login to account
 
 
-        :param chat_post_auth_login_request: (required)
-        :type chat_post_auth_login_request: ChatPostAuthLoginRequest
+        :param commerce_account_login_request: (required)
+        :type commerce_account_login_request: CommerceAccountLoginRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -669,7 +669,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._commerce_account_login_serialize(
-            chat_post_auth_login_request=chat_post_auth_login_request,
+            commerce_account_login_request=commerce_account_login_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -694,7 +694,7 @@ class AccountApi:
     @validate_call
     def commerce_account_login_without_preload_content(
         self,
-        chat_post_auth_login_request: ChatPostAuthLoginRequest,
+        commerce_account_login_request: CommerceAccountLoginRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -711,8 +711,8 @@ class AccountApi:
         """Login to account
 
 
-        :param chat_post_auth_login_request: (required)
-        :type chat_post_auth_login_request: ChatPostAuthLoginRequest
+        :param commerce_account_login_request: (required)
+        :type commerce_account_login_request: CommerceAccountLoginRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -736,7 +736,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._commerce_account_login_serialize(
-            chat_post_auth_login_request=chat_post_auth_login_request,
+            commerce_account_login_request=commerce_account_login_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -756,7 +756,7 @@ class AccountApi:
 
     def _commerce_account_login_serialize(
         self,
-        chat_post_auth_login_request,
+        commerce_account_login_request,
         _request_auth,
         _content_type,
         _headers,
@@ -782,8 +782,8 @@ class AccountApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if chat_post_auth_login_request is not None:
-            _body_params = chat_post_auth_login_request
+        if commerce_account_login_request is not None:
+            _body_params = commerce_account_login_request
 
 
         # set the HTTP header `Accept`
@@ -3317,7 +3317,7 @@ class AccountApi:
     @validate_call
     def commerce_request_password_reset(
         self,
-        chat_post_auth_requestpasswordreset_request: ChatPostAuthRequestpasswordresetRequest,
+        commerce_request_password_reset_request: CommerceRequestPasswordResetRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3334,8 +3334,8 @@ class AccountApi:
         """Request password reset
 
 
-        :param chat_post_auth_requestpasswordreset_request: (required)
-        :type chat_post_auth_requestpasswordreset_request: ChatPostAuthRequestpasswordresetRequest
+        :param commerce_request_password_reset_request: (required)
+        :type commerce_request_password_reset_request: CommerceRequestPasswordResetRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3359,7 +3359,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._commerce_request_password_reset_serialize(
-            chat_post_auth_requestpasswordreset_request=chat_post_auth_requestpasswordreset_request,
+            commerce_request_password_reset_request=commerce_request_password_reset_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3384,7 +3384,7 @@ class AccountApi:
     @validate_call
     def commerce_request_password_reset_with_http_info(
         self,
-        chat_post_auth_requestpasswordreset_request: ChatPostAuthRequestpasswordresetRequest,
+        commerce_request_password_reset_request: CommerceRequestPasswordResetRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3401,8 +3401,8 @@ class AccountApi:
         """Request password reset
 
 
-        :param chat_post_auth_requestpasswordreset_request: (required)
-        :type chat_post_auth_requestpasswordreset_request: ChatPostAuthRequestpasswordresetRequest
+        :param commerce_request_password_reset_request: (required)
+        :type commerce_request_password_reset_request: CommerceRequestPasswordResetRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3426,7 +3426,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._commerce_request_password_reset_serialize(
-            chat_post_auth_requestpasswordreset_request=chat_post_auth_requestpasswordreset_request,
+            commerce_request_password_reset_request=commerce_request_password_reset_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3451,7 +3451,7 @@ class AccountApi:
     @validate_call
     def commerce_request_password_reset_without_preload_content(
         self,
-        chat_post_auth_requestpasswordreset_request: ChatPostAuthRequestpasswordresetRequest,
+        commerce_request_password_reset_request: CommerceRequestPasswordResetRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3468,8 +3468,8 @@ class AccountApi:
         """Request password reset
 
 
-        :param chat_post_auth_requestpasswordreset_request: (required)
-        :type chat_post_auth_requestpasswordreset_request: ChatPostAuthRequestpasswordresetRequest
+        :param commerce_request_password_reset_request: (required)
+        :type commerce_request_password_reset_request: CommerceRequestPasswordResetRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3493,7 +3493,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._commerce_request_password_reset_serialize(
-            chat_post_auth_requestpasswordreset_request=chat_post_auth_requestpasswordreset_request,
+            commerce_request_password_reset_request=commerce_request_password_reset_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3513,7 +3513,7 @@ class AccountApi:
 
     def _commerce_request_password_reset_serialize(
         self,
-        chat_post_auth_requestpasswordreset_request,
+        commerce_request_password_reset_request,
         _request_auth,
         _content_type,
         _headers,
@@ -3539,8 +3539,8 @@ class AccountApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if chat_post_auth_requestpasswordreset_request is not None:
-            _body_params = chat_post_auth_requestpasswordreset_request
+        if commerce_request_password_reset_request is not None:
+            _body_params = commerce_request_password_reset_request
 
 
         # set the HTTP header `Accept`

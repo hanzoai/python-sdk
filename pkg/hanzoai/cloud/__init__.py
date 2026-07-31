@@ -20,92 +20,62 @@ __version__ = "1.0.0"
 # Define package exports
 __all__ = [
     "AIApi",
-    "APIKeysApi",
     "AccessTokensApi",
     "AccountApi",
     "AccountAPIApi",
-    "AccountsApi",
-    "ActionsApi",
     "ActivitiesApi",
     "ActivityAPIApi",
     "AdminApi",
-    "AdminAuthApi",
     "AffiliateApi",
     "AffiliatesApi",
     "AgentSessionsAPIApi",
-    "AgentsApi",
     "AgentsAPIApi",
-    "AgentsOpenAICompatibleApi",
-    "AgentsOpenResponsesApi",
     "AnalyticsApi",
-    "AnnotationQueuesApi",
     "AnswerApi",
     "ApplicationAPIApi",
     "ApplicationsApi",
     "ArticleAPIApi",
     "ArticlesApi",
-    "ArtifactsApi",
     "AssetsApi",
-    "AssistantsV1Api",
-    "AssistantsV2Api",
     "AuditApi",
     "AuthApi",
     "AuthenticationApi",
     "AuthorsApi",
-    "AvatarApi",
-    "BalanceApi",
-    "BannerApi",
     "BatchesApi",
     "BillingApi",
     "BindingsApi",
     "BotsApi",
-    "BranchesApi",
-    "BrokersApi",
     "BucketsApi",
     "CDNApi",
     "CartApi",
     "CatalogApi",
-    "CategoriesApi",
     "ChatApi",
     "ChatAPIApi",
     "ChatsApi",
     "CheckoutApi",
     "ClaudeCompatibleApi",
     "CloudApi",
-    "ClusterApi",
     "ClustersApi",
     "CollectApi",
     "CollectionsApi",
-    "CommentsApi",
     "CompaniesApi",
     "CompletionsApi",
-    "ConfigApi",
     "ConflictApi",
     "ConnectionAPIApi",
     "ConnectorsApi",
-    "ConsumerGroupsApi",
-    "ConsumersApi",
-    "ConsumptionApi",
     "ContactsApi",
     "ContainerAPIApi",
-    "ContainersApi",
-    "ConversationsApi",
     "CountersApi",
     "CustomersApi",
     "DNSApi",
     "DNSSECApi",
-    "DOKSApi",
     "DashboardsAgentsApi",
     "DashboardsVmApi",
     "DataApi",
-    "DatabasesApi",
-    "DatasetItemsApi",
-    "DatasetRunItemsApi",
     "DatasetsApi",
     "DeploymentAPIApi",
     "DeploymentsApi",
     "DeploysApi",
-    "DirectoriesApi",
     "DocTypesApi",
     "DocumentsApi",
     "DomainsApi",
@@ -113,9 +83,7 @@ __all__ = [
     "EdgeApi",
     "EmbeddingsApi",
     "EncryptionApi",
-    "EndpointsApi",
     "EnforcementApi",
-    "EnvironmentsApi",
     "EvaluatorsApi",
     "EventsApi",
     "ExecApi",
@@ -136,18 +104,13 @@ __all__ = [
     "HashApi",
     "HealthApi",
     "IdentityApi",
-    "IdentityResolutionApi",
     "ImageAPIApi",
-    "ImagesApi",
     "IndexersApi",
     "IndexesApi",
     "InfrastructureApi",
-    "IngestionApi",
     "IntelApi",
     "IssuesApi",
-    "JobsApi",
     "K8sStatusApi",
-    "KeyValueApi",
     "KeysApi",
     "LifecycleApi",
     "ListApi",
@@ -160,8 +123,6 @@ __all__ = [
     "MarketingApi",
     "MarketsApi",
     "MeApi",
-    "MediaApi",
-    "MemoriesApi",
     "MeshApi",
     "MessageAPIApi",
     "MessagesApi",
@@ -170,7 +131,6 @@ __all__ = [
     "ModelsApi",
     "ModulesApi",
     "MoneyApi",
-    "MonitoringApi",
     "MultiSearchApi",
     "NamespacesApi",
     "NetworkApi",
@@ -180,13 +140,9 @@ __all__ = [
     "NodesApi",
     "O11yApi",
     "OAuthApi",
-    "ObjectStoreApi",
     "ObjectsApi",
     "ObservabilityApi",
-    "ObservationsApi",
     "OpenAICompatibleApi",
-    "OpenAICompatibleAPIApi",
-    "OperationsApi",
     "OpportunitiesApi",
     "OraclesApi",
     "OrdersApi",
@@ -206,9 +162,7 @@ __all__ = [
     "PoliciesApi",
     "PolicyApi",
     "PreferencesApi",
-    "PresetsApi",
     "ProductsApi",
-    "ProfilesApi",
     "ProjectsApi",
     "PrometheusApi",
     "PromotionsApi",
@@ -216,10 +170,6 @@ __all__ = [
     "ProviderAPIApi",
     "ProvidersApi",
     "PubSubApi",
-    "PublishApi",
-    "QuotasApi",
-    "RateLimitApi",
-    "RayApi",
     "RealtimeApi",
     "RecordAPIApi",
     "RecordsApi",
@@ -227,8 +177,6 @@ __all__ = [
     "RemoteConnectionsApi",
     "ReportsApi",
     "ReposApi",
-    "RepositoriesApi",
-    "RequestReplyApi",
     "ResearchApi",
     "ResourcesApi",
     "RolesApi",
@@ -236,21 +184,16 @@ __all__ = [
     "RoutesApi",
     "RulesApi",
     "RunsApi",
-    "SCIMApi",
-    "SDKApi",
     "SSHKeysApi",
     "STTAPIApi",
-    "SanitizeApi",
     "ScalesApi",
     "ScansApi",
-    "ScoreConfigsApi",
     "ScoresApi",
     "ScrapeApi",
     "SearchApi",
     "SearchAPIApi",
     "SecretsApi",
     "SendApi",
-    "ServeApi",
     "ServiceApi",
     "SessionsApi",
     "SettingsApi",
@@ -262,7 +205,6 @@ __all__ = [
     "SlackApi",
     "SmartHTTPApi",
     "SnapshotsApi",
-    "SpeechApi",
     "SpendApi",
     "SpendCapsApi",
     "StatsApi",
@@ -272,30 +214,24 @@ __all__ = [
     "StoreAPIApi",
     "StoresApi",
     "StreamsApi",
-    "SubjectsApi",
-    "SubscribeApi",
     "SubscriptionsApi",
     "SummaryApi",
     "SwapApi",
     "SystemApi",
     "SystemAPIApi",
     "TTSAPIApi",
-    "TagsApi",
     "TaskAPIApi",
     "TasksApi",
     "TeamsApi",
     "TemplateAPIApi",
     "TemplatesApi",
     "TokensApi",
-    "TopicsApi",
-    "TracesApi",
     "TrainingContributionApi",
     "TransactionsApi",
     "TreeFilesApi",
     "UsageApi",
     "UsageAPIApi",
     "UsagesApi",
-    "UserApi",
     "UsersApi",
     "VPCsApi",
     "VectorApi",
@@ -312,64 +248,16 @@ __all__ = [
     "WorkflowAPIApi",
     "WorkflowsApi",
     "ZonesApi",
-    "AiProvidersApi",
-    "AlertsApi",
-    "AppConnectionsApi",
-    "ApplicationApi",
-    "AuditEventsApi",
-    "BackupApi",
-    "CertificateApi",
-    "ComposeApi",
-    "CustomDomainsApi",
     "DatastoreApi",
-    "DeployWorkerApi",
-    "DeploymentApi",
-    "DestinationApi",
     "DocdbApi",
-    "DockerApi",
-    "DomainApi",
-    "EnvironmentApi",
-    "FieldsApi",
-    "FlagsApi",
-    "FlowRunsApi",
-    "FoldersApi",
-    "GitProviderApi",
-    "GitReposApi",
-    "GithubApi",
-    "GlobalConnectionsApi",
     "IntegrationsApi",
     "KvApi",
-    "MariadbApi",
-    "MongoApi",
-    "MysqlApi",
-    "NotificationApi",
-    "OauthAppsApi",
-    "OrganizationApi",
     "PersonasApi",
     "PlatformApi",
-    "PostgresApi",
-    "ProjectApi",
-    "ProjectMembersApi",
-    "ProjectReleasesApi",
-    "ProjectRolesApi",
-    "RedisApi",
-    "RegistryApi",
-    "RollbackApi",
     "S3Api",
-    "SampleDataApi",
-    "ScheduleApi",
-    "ServerApi",
-    "SigningKeysApi",
     "SkillsApi",
-    "SolutionsApi",
     "SqlApi",
-    "SshKeyApi",
-    "StoreEntriesApi",
-    "TablesApi",
-    "TodosApi",
-    "TriggersApi",
     "UploadApi",
-    "UserInvitationsApi",
     "ApiResponse",
     "ApiClient",
     "Configuration",
@@ -491,6 +379,7 @@ __all__ = [
     "AgentsSessionView",
     "AgentsTreeNode",
     "AgentsUpdateAgentRequest",
+    "AiChatChoice",
     "AiChatCompletionRequest",
     "AiChatCompletionResponse",
     "AiChatMessage",
@@ -620,40 +509,6 @@ __all__ = [
     "AuthzValidationError",
     "AuthzValidationErrorErrorsInner",
     "AuthzWeb3AuthRequest",
-    "AutoAppConnection",
-    "AutoConnectGitRepoRequest",
-    "AutoCreateApiKeyRequest",
-    "AutoCreateFieldRequest",
-    "AutoCreateFlowRequest",
-    "AutoCreateRecordRequest",
-    "AutoCreateTableRequest",
-    "AutoCreateUserInvitationRequest",
-    "AutoError",
-    "AutoFlow",
-    "AutoFlowRun",
-    "AutoFlowVersion",
-    "AutoFolder",
-    "AutoGetPieceOptionsRequest",
-    "AutoListAppConnections200Response",
-    "AutoListFlowRuns200Response",
-    "AutoListFlows200Response",
-    "AutoPiece",
-    "AutoPlatform",
-    "AutoProject",
-    "AutoRetryFlowRequest",
-    "AutoSeekPage",
-    "AutoSignInRequest",
-    "AutoSignUpRequest",
-    "AutoStoreEntry",
-    "AutoTemplate",
-    "AutoTestTriggerRequest",
-    "AutoUpdateAppConnectionRequest",
-    "AutoUpdateFlowRequest",
-    "AutoUpdatePlatformRequest",
-    "AutoUpsertAiProviderRequest",
-    "AutoUpsertAppConnectionRequest",
-    "AutoUpsertStoreEntryRequest",
-    "AutoUser",
     "AutomationsCatalog",
     "AutomationsCreateFlowRequest",
     "AutomationsCreateVersionRequest",
@@ -732,101 +587,6 @@ __all__ = [
     "BotToggleSkillStar200Response",
     "BotUpdateProfileRequest",
     "BotUser",
-    "ChatAction",
-    "ChatActionMetadata",
-    "ChatAgent",
-    "ChatAgentApiKey",
-    "ChatAgentChatRequest",
-    "ChatAgentCreateParams",
-    "ChatAgentListResponse",
-    "ChatAuthResponse",
-    "ChatCategory",
-    "ChatChatAbortRequest",
-    "ChatChatCompletion",
-    "ChatChatCompletionChoicesInner",
-    "ChatChatCompletionUsage",
-    "ChatChatMessage",
-    "ChatConversation",
-    "ChatConversationListResponse",
-    "ChatConversationTag",
-    "ChatDeleteConvosRequest",
-    "ChatDeleteConvosRequestArg",
-    "ChatDeleteFilesRequest",
-    "ChatDeleteFilesRequestFilesInner",
-    "ChatFile",
-    "ChatFunctionTool",
-    "ChatFunctionToolFunction",
-    "ChatGetAdminVerify200Response",
-    "ChatGetAgentsChatActive200Response",
-    "ChatGetAgentsChatStatusByconversationid200Response",
-    "ChatGetAgentsToolsBytoolidAuth200Response",
-    "ChatGetAgentsV1Models200Response",
-    "ChatGetAuth2faEnable200Response",
-    "ChatGetConvosGenTitleByconversationid200Response",
-    "ChatGetMcpByservernameAuthValues200Response",
-    "ChatGetMcpConnectionStatus200Response",
-    "ChatGetMcpOauthStatusByflowid200Response",
-    "ChatGetMemories200Response",
-    "ChatGetMessages200Response",
-    "ChatGetShare200Response",
-    "ChatGetShareLinkByconversationid200Response",
-    "ChatMemory",
-    "ChatMessage",
-    "ChatModelObject",
-    "ChatPatchMemoriesBykeyRequest",
-    "ChatPatchMemoriesPreferencesRequest",
-    "ChatPostAdminLoginLocalRequest",
-    "ChatPostAdminOauthExchange200Response",
-    "ChatPostAdminOauthExchangeRequest",
-    "ChatPostAgentsActionsByagentIdRequest",
-    "ChatPostAgentsByidRevertRequest",
-    "ChatPostAgentsChatAbort200Response",
-    "ChatPostAgentsChatAbortRequest",
-    "ChatPostAgentsV1ChatCompletionsRequest",
-    "ChatPostAgentsV1ResponsesRequest",
-    "ChatPostAgentsV1ResponsesRequestInput",
-    "ChatPostAuth2faBackupRegenerate200Response",
-    "ChatPostAuth2faBackupRegenerateRequest",
-    "ChatPostAuth2faVerifyTempRequest",
-    "ChatPostAuthLoginRequest",
-    "ChatPostAuthRefreshRequest",
-    "ChatPostAuthRegisterRequest",
-    "ChatPostAuthRequestpasswordresetRequest",
-    "ChatPostAuthResetpasswordRequest",
-    "ChatPostConvosArchiveRequest",
-    "ChatPostConvosArchiveRequestArg",
-    "ChatPostConvosDuplicateRequest",
-    "ChatPostConvosFork200Response",
-    "ChatPostConvosForkRequest",
-    "ChatPostConvosUpdateRequest",
-    "ChatPostConvosUpdateRequestArg",
-    "ChatPostFilesImagesAvatar200Response",
-    "ChatPostFilesSpeechTtsRequest",
-    "ChatPostMcpByservernameReinitialize200Response",
-    "ChatPostMemories201Response",
-    "ChatPostMemoriesRequest",
-    "ChatPostMessagesArtifactBymessageid200Response",
-    "ChatPostMessagesArtifactBymessageidRequest",
-    "ChatPostMessagesBranchRequest",
-    "ChatPostPresetsDeleteRequest",
-    "ChatPostPromptsGroupsBygroupidPromptsRequest",
-    "ChatPostPromptsRequest",
-    "ChatPostPromptsRequestGroup",
-    "ChatPostShareByconversationidRequest",
-    "ChatPostUserPluginsRequest",
-    "ChatPostUserVerifyRequest",
-    "ChatPostUserVerifyResendRequest",
-    "ChatPreset",
-    "ChatPutKeysRequest",
-    "ChatPutMessagesByconversationidBymessageidFeedback200Response",
-    "ChatPutMessagesByconversationidBymessageidFeedbackRequest",
-    "ChatPutMessagesByconversationidBymessageidFeedbackRequestFeedback",
-    "ChatPutMessagesByconversationidBymessageidRequest",
-    "ChatPutTagsConvoByconversationidRequest",
-    "ChatResponseObject",
-    "ChatStartupConfig",
-    "ChatTool",
-    "ChatUser",
     "CloudAgentMcpTools",
     "CloudAgentSessionsControllerList200Response",
     "CloudAgentsActivity",
@@ -890,14 +650,12 @@ __all__ = [
     "CloudObjectVectorScore",
     "CloudObjectVideo",
     "CloudObjectWorkflow",
-    "CloudProductControllerChatDocsRequest",
-    "CloudProductControllerChatDocsRequestMessagesInner",
-    "CloudProductControllerIndexDocsRequest",
     "CloudProductControllerSearchDocsRequest",
     "CloudUtilSystemInfo",
     "CloudUtilVersionInfo",
     "CommerceAccessToken",
     "CommerceAccountExists200Response",
+    "CommerceAccountLoginRequest",
     "CommerceAccountWithdrawRequest",
     "CommerceAddress",
     "CommerceAffiliate",
@@ -946,6 +704,7 @@ __all__ = [
     "CommerceReferral",
     "CommerceReferrer",
     "CommerceRefundOrderRequest",
+    "CommerceRequestPasswordResetRequest",
     "CommerceReturn",
     "CommerceRevenueMetrics",
     "CommerceSaaSMetrics",
@@ -966,84 +725,6 @@ __all__ = [
     "CommerceWallet",
     "CommerceWalletAccount",
     "CommerceWalletPayRequest",
-    "ConsoleAnnotationQueue",
-    "ConsoleAnnotationQueueItem",
-    "ConsoleComment",
-    "ConsoleCreateAnnotationQueueRequest",
-    "ConsoleCreateComment200Response",
-    "ConsoleCreateCommentRequest",
-    "ConsoleCreateDatasetItemRequest",
-    "ConsoleCreateDatasetRequest",
-    "ConsoleCreateDatasetRunItemRequest",
-    "ConsoleCreateModelRequest",
-    "ConsoleCreateProjectApiKey200Response",
-    "ConsoleCreateProjectApiKeyRequest",
-    "ConsoleCreateProjectRequest",
-    "ConsoleCreatePromptRequest",
-    "ConsoleCreateScoreConfigRequest",
-    "ConsoleCreateScoreConfigRequestCategoriesInner",
-    "ConsoleCreateScoreRequest",
-    "ConsoleDataset",
-    "ConsoleDatasetItem",
-    "ConsoleDatasetRun",
-    "ConsoleDatasetRunItem",
-    "ConsoleDeleteDatasetItem200Response",
-    "ConsoleDeleteOrganizationMembership200Response",
-    "ConsoleDeleteOrganizationMembershipRequest",
-    "ConsoleDeleteProject202Response",
-    "ConsoleDeleteProjectApiKey200Response",
-    "ConsoleDeleteTracesRequest",
-    "ConsoleError",
-    "ConsoleGetDailyMetrics200Response",
-    "ConsoleGetDailyMetrics200ResponseDataInner",
-    "ConsoleGetDatasetRun200Response",
-    "ConsoleGetMediaUploadUrl200Response",
-    "ConsoleGetMediaUploadUrlRequest",
-    "ConsoleGetMetrics200Response",
-    "ConsoleGetProject200Response",
-    "ConsoleHealthResponse",
-    "ConsoleIngestionEvent",
-    "ConsoleIngestionResponse",
-    "ConsoleIngestionResponseErrorsInner",
-    "ConsoleIngestionResponseSuccessesInner",
-    "ConsoleListAnnotationQueueItems200Response",
-    "ConsoleListAnnotationQueues200Response",
-    "ConsoleListComments200Response",
-    "ConsoleListDatasetItems200Response",
-    "ConsoleListDatasetRuns200Response",
-    "ConsoleListDatasets200Response",
-    "ConsoleListModels200Response",
-    "ConsoleListObservations200Response",
-    "ConsoleListOrganizationApiKeys200Response",
-    "ConsoleListOrganizationApiKeys200ResponseApiKeysInner",
-    "ConsoleListOrganizationMemberships200Response",
-    "ConsoleListOrganizationProjects200Response",
-    "ConsoleListOrganizationProjects200ResponseProjectsInner",
-    "ConsoleListPrompts200Response",
-    "ConsoleListScoreConfigs200Response",
-    "ConsoleListScores200Response",
-    "ConsoleListSessions200Response",
-    "ConsoleListTraces200Response",
-    "ConsoleMediaRecord",
-    "ConsoleMembership",
-    "ConsoleModel",
-    "ConsoleObservation",
-    "ConsolePaginationMeta",
-    "ConsolePatchMediaRequest",
-    "ConsoleProject",
-    "ConsoleProjectOrganization",
-    "ConsolePrompt",
-    "ConsolePromptMeta",
-    "ConsoleScore",
-    "ConsoleScoreConfig",
-    "ConsoleSession",
-    "ConsoleSessionWithTraces",
-    "ConsoleTrace",
-    "ConsoleTraceWithFullDetails",
-    "ConsoleUpdateOrganizationMembershipRequest",
-    "ConsoleUpdateProjectRequest",
-    "ConsoleUpdateScoreConfigRequest",
-    "ConsoleUsage",
     "CrmCompany",
     "CrmCompanyInput",
     "CrmContact",
@@ -1055,64 +736,6 @@ __all__ = [
     "CrmOpportunityInput",
     "CrmStage",
     "CrmSummary",
-    "DbBranch",
-    "DbBranchCreate",
-    "DbConnectionUri",
-    "DbConnectionUriConnectionParameters",
-    "DbConsumptionPeriod",
-    "DbCreateBranch201Response",
-    "DbCreateBranchRequest",
-    "DbCreateDatabase201Response",
-    "DbCreateDatabaseRequest",
-    "DbCreateEndpoint201Response",
-    "DbCreateEndpointRequest",
-    "DbCreateProject201Response",
-    "DbCreateProjectRequest",
-    "DbCreateRole201Response",
-    "DbCreateRoleRequest",
-    "DbDatabase",
-    "DbDatabaseCreate",
-    "DbEndpoint",
-    "DbEndpointCreate",
-    "DbEndpointSettings",
-    "DbError",
-    "DbGetBranch200Response",
-    "DbGetConsumption200Response",
-    "DbGetProject200Response",
-    "DbListBranches200Response",
-    "DbListDatabases200Response",
-    "DbListEndpoints200Response",
-    "DbListOperations200Response",
-    "DbListProjects200Response",
-    "DbListProjects200ResponsePagination",
-    "DbListRoles200Response",
-    "DbOperation",
-    "DbProject",
-    "DbProjectCreate",
-    "DbRestoreBranch200Response",
-    "DbRestoreBranchRequest",
-    "DbRole",
-    "DbRoleCreate",
-    "DbUpdateDatabaseRequest",
-    "DbUpdateDatabaseRequestDatabase",
-    "DbUpdateEndpointRequest",
-    "DbUpdateEndpointRequestEndpoint",
-    "DbUpdateProjectRequest",
-    "DbUpdateProjectRequestProject",
-    "DidCreateTeamRequest",
-    "DidDirectory",
-    "DidError",
-    "DidGetProfileHistory200Response",
-    "DidGetTeamMembers200Response",
-    "DidIdentityChange",
-    "DidLinkIdentityRequest",
-    "DidLinkedIdentity",
-    "DidListLinkedIdentities200Response",
-    "DidListProfiles200Response",
-    "DidListTeams200Response",
-    "DidProfile",
-    "DidTeam",
-    "DidUpdateProfileRequest",
     "DnsDNSSECStatus",
     "DnsError",
     "DnsImportZone200Response",
@@ -1150,48 +773,6 @@ __all__ = [
     "EdgeSecret",
     "EdgeSecretCreate",
     "EdgeUpdateSecretRequest",
-    "EngineCluster",
-    "EngineClusterCreate",
-    "EngineClusterNode",
-    "EngineError",
-    "EngineGPUAllocation",
-    "EngineGPUAllocationAllocationsInner",
-    "EngineGPUDevice",
-    "EngineGPUType",
-    "EngineGetGPUAllocations200Response",
-    "EngineGetRayDashboard200Response",
-    "EngineJob",
-    "EngineJobCreate",
-    "EngineJobMetrics",
-    "EngineJobResources",
-    "EngineListClusterNodes200Response",
-    "EngineListClusters200Response",
-    "EngineListGPUTypes200Response",
-    "EngineListJobs200Response",
-    "EngineListPipelineRuns200Response",
-    "EngineListPipelines200Response",
-    "EngineListRayClusters200Response",
-    "EngineListServingEndpoints200Response",
-    "EnginePipeline",
-    "EnginePipelineCreate",
-    "EnginePipelineCreateParametersInner",
-    "EnginePipelineParametersInner",
-    "EnginePipelineRun",
-    "EnginePipelineRunArtifactsInner",
-    "EnginePipelineRunCreate",
-    "EngineRayCluster",
-    "EngineRayClusterCreate",
-    "EngineRayClusterCreateHead",
-    "EngineRayClusterCreateWorkersInner",
-    "EngineRayClusterHead",
-    "EngineRayClusterScale",
-    "EngineRayClusterScaleWorkersInner",
-    "EngineRayClusterWorkersInner",
-    "EngineServingEndpoint",
-    "EngineServingEndpointCreate",
-    "EngineServingMetrics",
-    "EngineUpdateClusterRequest",
-    "EngineUpdateServingEndpointRequest",
     "EvalsDataset",
     "EvalsDatasetCreate",
     "EvalsDatasetItem",
@@ -1210,48 +791,6 @@ __all__ = [
     "ExecExecResult",
     "ExecListSessionFiles200Response",
     "ExecUploadFile200Response",
-    "FlowAcceptUserInvitationRequest",
-    "FlowAddProjectMemberRequest",
-    "FlowAppConnection",
-    "FlowBulkCancelFlowRunsRequest",
-    "FlowConnectGitRepoRequest",
-    "FlowCountFlows200Response",
-    "FlowCreateCustomDomainRequest",
-    "FlowCreateSolutionRequest",
-    "FlowError",
-    "FlowField",
-    "FlowFlow",
-    "FlowFlowRun",
-    "FlowFlowVersion",
-    "FlowFolder",
-    "FlowListAppConnections200Response",
-    "FlowListFlowRuns200Response",
-    "FlowListFlows200Response",
-    "FlowListUsers200Response",
-    "FlowPiece",
-    "FlowPlatform",
-    "FlowProject",
-    "FlowPushEverythingGitRepoRequest",
-    "FlowPushFlowsGitRepoRequest",
-    "FlowPushGitRepoRequest",
-    "FlowPushTablesGitRepoRequest",
-    "FlowRecord",
-    "FlowReplaceAppConnectionsRequest",
-    "FlowRetryFlowRunRequest",
-    "FlowSaveSampleDataRequest",
-    "FlowSeekPage",
-    "FlowStoreEntry",
-    "FlowTable",
-    "FlowTemplate",
-    "FlowTodo",
-    "FlowUpdateAppConnectionRequest",
-    "FlowUpdatePlatformRequest",
-    "FlowUpdateRecordRequest",
-    "FlowUpdateTodoRequest",
-    "FlowUpsertAppConnectionRequest",
-    "FlowUpsertOAuthAppRequest",
-    "FlowUser",
-    "FlowUserInvitation",
     "FrameworkDocField",
     "FrameworkDocPerm",
     "FrameworkDocType",
@@ -1288,6 +827,7 @@ __all__ = [
     "GatewayChatCompletionRequest",
     "GatewayChatCompletionResponse",
     "GatewayChatCompletionResponseChoicesInner",
+    "GatewayChatCompletionResponseUsage",
     "GatewayChatMessage",
     "GatewayChatMessageContent",
     "GatewayCreateCompletionRequest",
@@ -1327,20 +867,6 @@ __all__ = [
     "GraphListIndexers200Response",
     "GraphListOracles200Response",
     "GraphOracle",
-    "GuardAuditEntry",
-    "GuardError",
-    "GuardGetAuditLog200Response",
-    "GuardRateLimitStatus",
-    "GuardSanitizeConfig",
-    "GuardSanitizeConfigContentFilter",
-    "GuardSanitizeConfigInjection",
-    "GuardSanitizeConfigPii",
-    "GuardSanitizeConfigRateLimit",
-    "GuardSanitizeRequest",
-    "GuardSanitizeResult",
-    "GuardSanitizeResultContentFilter",
-    "GuardSanitizeResultInjection",
-    "GuardSanitizeResultRedactionsInner",
     "IamControllersCheckPasswordRequest",
     "IamControllersEmailForm",
     "IamControllersLaravelResponse",
@@ -1438,7 +964,6 @@ __all__ = [
     "KbListConnectors200Response",
     "KbSearchRequest",
     "KbSyncConnector200Response",
-    "KmsError",
     "KmsGetV1KmsHealth200Response",
     "KmsGetV1KmsKeysId404Response",
     "KmsGetV1KmsSecrets200Response",
@@ -1448,8 +973,6 @@ __all__ = [
     "KmsPostV1KmsAuthLogin200Response",
     "KmsPostV1KmsAuthLoginRequest",
     "KmsPostV1KmsSecretsRequest",
-    "KmsSdkEnvelope",
-    "KmsSdkEnvelopeIdentity",
     "KvBatchOperation200Response",
     "KvBatchOperation200ResponseResultsInner",
     "KvBatchOperationRequest",
@@ -1510,89 +1033,6 @@ __all__ = [
     "MlRollbackModelRequest",
     "MlStartExperimentRunRequest",
     "MlStartPipelineRunRequest",
-    "MqAccount",
-    "MqAccountLimits",
-    "MqConnection",
-    "MqConsumer",
-    "MqConsumerConfig",
-    "MqError",
-    "MqGetKVHistory200Response",
-    "MqGetStreamMessages200Response",
-    "MqHealthCheck200Response",
-    "MqKVBucket",
-    "MqKVBucketConfig",
-    "MqKVEntry",
-    "MqListAccountConnections200Response",
-    "MqListAccounts200Response",
-    "MqListConsumers200Response",
-    "MqListKVBuckets200Response",
-    "MqListKVKeys200Response",
-    "MqListObjectStores200Response",
-    "MqListObjects200Response",
-    "MqListStreams200Response",
-    "MqListSubjects200Response",
-    "MqMessage",
-    "MqObjectInfo",
-    "MqObjectStoreConfig",
-    "MqObjectStoreInfo",
-    "MqPublishRequest",
-    "MqPublishResponse",
-    "MqPullMessagesRequest",
-    "MqPurgeStream200Response",
-    "MqPurgeStreamRequest",
-    "MqPutKVEntry200Response",
-    "MqPutKVEntryRequest",
-    "MqRequestReply",
-    "MqSequencePair",
-    "MqServerInfo",
-    "MqServerInfoCluster",
-    "MqServerInfoClusterReplicasInner",
-    "MqStream",
-    "MqStreamConfig",
-    "MqStreamMessage",
-    "MqStreamState",
-    "MqSubjectInfo",
-    "NexusActivity",
-    "NexusApplication",
-    "NexusArticle",
-    "NexusBlock",
-    "NexusChat",
-    "NexusConnection",
-    "NexusContainer",
-    "NexusFile",
-    "NexusFileInput",
-    "NexusForm",
-    "NexusFormItem",
-    "NexusGaugeVecInfo",
-    "NexusHistogramVecInfo",
-    "NexusImage",
-    "NexusLabel",
-    "NexusMachine",
-    "NexusMcpTools",
-    "NexusMessage",
-    "NexusNode",
-    "NexusPatch",
-    "NexusPod",
-    "NexusPrometheusInfo",
-    "NexusPrompt",
-    "NexusProvider",
-    "NexusRecord",
-    "NexusRemark",
-    "NexusRemoteApp",
-    "NexusResponse",
-    "NexusService",
-    "NexusStore",
-    "NexusSuggestion",
-    "NexusSystemInfo",
-    "NexusTask",
-    "NexusTemplate",
-    "NexusUsage",
-    "NexusUsageInfo",
-    "NexusVector",
-    "NexusVectorScore",
-    "NexusVersionInfo",
-    "NexusVideo",
-    "NexusWorkflow",
     "NotifyChannel",
     "NotifyError",
     "NotifyHealthResponse",
@@ -1639,164 +1079,16 @@ __all__ = [
     "ObserveSettingsView",
     "ObserveStatusResponse",
     "ObserveUsagePoint",
-    "PaasCluster",
-    "PaasContainer",
-    "PaasContainerNetworking",
-    "PaasContainerNetworkingIngress",
-    "PaasContainerRepo",
-    "PaasContainerStatus",
-    "PaasCreateContainerRequest",
-    "PaasCreateContainerRequestRepo",
-    "PaasCreateOrganizationRequest",
-    "PaasDOKSCluster",
-    "PaasDomain",
-    "PaasEnvironment",
-    "PaasEnvironmentVersion",
-    "PaasError",
-    "PaasFleetOverview",
-    "PaasFleetOverviewClustersInner",
-    "PaasGetDOKSOptions200Response",
-    "PaasGetDOKSOptions200ResponseRegionsInner",
-    "PaasGetDOKSOptions200ResponseSizesInner",
-    "PaasGetDOKSPricing200Response",
-    "PaasGetSetupStatus200Response",
-    "PaasListContainerPods200ResponseInner",
-    "PaasListTemplates200ResponseInner",
-    "PaasLogin200Response",
-    "PaasLoginRequest",
-    "PaasNodePool",
-    "PaasNodePoolNodesInner",
-    "PaasOrganization",
-    "PaasOrganizationDoks",
-    "PaasProject",
-    "PaasProjectTeamInner",
-    "PaasProvisionDOKSRequest",
-    "PaasProvisionDOKSRequestNodePool",
-    "PaasUpdateDOKSNodePoolRequest",
-    "PaasUpdateOrganizationRequest",
     "PlanPlansHealth200Response",
-    "PlatformAiSuggestRequest",
-    "PlatformAiSuggestRequestJson",
-    "PlatformApplicationCancelDeploymentRequest",
-    "PlatformApplicationCancelDeploymentRequestJson",
-    "PlatformApplicationCreateRequest",
-    "PlatformApplicationDeployRequest",
-    "PlatformApplicationDeployRequestJson",
-    "PlatformApplicationMoveRequest",
-    "PlatformApplicationMoveRequestJson",
-    "PlatformApplicationSaveBitbucketProviderRequest",
-    "PlatformApplicationSaveBitbucketProviderRequestJson",
-    "PlatformApplicationSaveBuildTypeRequest",
-    "PlatformApplicationSaveBuildTypeRequestJson",
-    "PlatformApplicationSaveDockerProviderRequest",
-    "PlatformApplicationSaveDockerProviderRequestJson",
-    "PlatformApplicationSaveEnvironmentRequest",
-    "PlatformApplicationSaveEnvironmentRequestJson",
-    "PlatformApplicationSaveGitProdiverRequest",
-    "PlatformApplicationSaveGitProdiverRequestJson",
-    "PlatformApplicationSaveGiteaProviderRequest",
-    "PlatformApplicationSaveGiteaProviderRequestJson",
-    "PlatformApplicationSaveGithubProviderRequest",
-    "PlatformApplicationSaveGithubProviderRequestJson",
-    "PlatformApplicationSaveGitlabProviderRequest",
-    "PlatformApplicationSaveGitlabProviderRequestJson",
-    "PlatformApplicationUpdateRequest",
-    "PlatformApplicationUpdateTraefikConfigRequest",
-    "PlatformApplicationUpdateTraefikConfigRequestJson",
-    "PlatformBackupCreateRequest",
-    "PlatformBackupCreateRequestJson",
-    "PlatformCancelDeploymentJob",
-    "PlatformCancelDeploymentJobApplication",
-    "PlatformCancelDeploymentJobCompose",
-    "PlatformComposeCancelDeploymentRequest",
-    "PlatformComposeCancelDeploymentRequestJson",
-    "PlatformComposeCreateRequest",
-    "PlatformComposeCreateRequestJson",
-    "PlatformComposeDeleteRequest",
-    "PlatformComposeDeleteRequestJson",
-    "PlatformComposeDeployRequest",
-    "PlatformComposeDeployRequestJson",
-    "PlatformComposeDeployTemplateRequest",
-    "PlatformComposeDeployTemplateRequestJson",
-    "PlatformComposeMoveRequest",
-    "PlatformComposeMoveRequestJson",
-    "PlatformComposeUpdateRequest",
-    "PlatformComposeUpdateRequestJson",
-    "PlatformCreateApplicationInput",
-    "PlatformCreateDatabaseInput",
-    "PlatformCreateDomainInput",
-    "PlatformCreateProjectInput",
-    "PlatformDeployJob",
-    "PlatformDeployJobApplication",
-    "PlatformDeployJobApplicationPreview",
-    "PlatformDeployJobCompose",
-    "PlatformDeployWorkerCancelDeployment200Response",
-    "PlatformDeployWorkerDeploy200Response",
-    "PlatformDeploymentKillProcessRequest",
-    "PlatformDeploymentKillProcessRequestJson",
-    "PlatformDockerRestartContainerRequest",
-    "PlatformDockerRestartContainerRequestJson",
-    "PlatformDomainCreateRequest",
-    "PlatformDomainDeleteRequest",
-    "PlatformDomainDeleteRequestJson",
-    "PlatformDomainGenerateDomainRequest",
-    "PlatformDomainGenerateDomainRequestJson",
-    "PlatformDomainUpdateRequest",
-    "PlatformDomainUpdateRequestJson",
-    "PlatformDomainValidateDomainRequest",
-    "PlatformDomainValidateDomainRequestJson",
-    "PlatformEnvironmentCreateRequest",
-    "PlatformEnvironmentCreateRequestJson",
-    "PlatformEnvironmentDuplicateRequest",
-    "PlatformEnvironmentDuplicateRequestJson",
-    "PlatformEnvironmentRemoveRequest",
-    "PlatformEnvironmentRemoveRequestJson",
-    "PlatformEnvironmentUpdateRequest",
-    "PlatformEnvironmentUpdateRequestJson",
-    "PlatformGitProviderWebhookPayload",
-    "PlatformMariadbCreateRequest",
-    "PlatformMetricsConfig",
-    "PlatformMetricsConfigContainers",
-    "PlatformMetricsConfigContainersServices",
-    "PlatformMetricsConfigServer",
-    "PlatformMetricsConfigServerThresholds",
-    "PlatformOrganizationCreateRequest",
-    "PlatformProjectCreateRequest",
-    "PlatformProjectDuplicateRequest",
-    "PlatformProjectDuplicateRequestJson",
-    "PlatformProjectDuplicateRequestJsonSelectedServicesInner",
-    "PlatformProjectRemoveRequest",
-    "PlatformProjectRemoveRequestJson",
-    "PlatformProjectUpdateRequest",
-    "PlatformScheduleCreateRequest",
-    "PlatformScheduleCreateRequestJson",
-    "PlatformServerCreateRequest",
-    "PlatformServerCreateRequestJson",
-    "PlatformServerRemoveRequest",
-    "PlatformServerRemoveRequestJson",
-    "PlatformServerSetupMonitoringRequest",
-    "PlatformServerSetupMonitoringRequestJson",
-    "PlatformServerUpdateRequest",
-    "PlatformServerUpdateRequestJson",
-    "PlatformSettingsCleanAllRequest",
-    "PlatformSettingsCleanAllRequestJson",
-    "PlatformSettingsReloadTraefikRequest",
-    "PlatformSettingsReloadTraefikRequestJson",
-    "PlatformSshKeyCreateRequest",
-    "PlatformSshKeyCreateRequestJson",
-    "PlatformSshKeyGenerateRequest",
-    "PlatformSshKeyGenerateRequestJson",
-    "PlatformSshKeyRemoveRequest",
-    "PlatformSshKeyRemoveRequestJson",
-    "PlatformTRPCResult",
-    "PlatformTRPCResultResult",
-    "PlatformTRPCResultResultData",
-    "PlatformUpdateApplicationInput",
-    "PlatformUpdateProjectInput",
-    "PlatformUserCreateApiKeyRequest",
-    "PlatformUserCreateApiKeyRequestJson",
-    "PlatformUserDeleteApiKeyRequest",
-    "PlatformUserDeleteApiKeyRequestJson",
+    "PlatformAppView",
+    "PlatformCreateAppReq",
+    "PlatformCreateAppReqImage",
+    "PlatformCreateAppReqRepo",
+    "PlatformEnvVarJSON",
+    "PlatformGitSource",
+    "PlatformImageView",
+    "PlatformProjectView",
+    "PlatformSetEnvReq",
     "PluginActionOut",
     "PluginDrift",
     "PluginError",
@@ -1858,7 +1150,6 @@ __all__ = [
     "ProjectsBuildSiteRequest",
     "ProjectsCompleteDeploymentRequest",
     "ProjectsCreateProjectRequest",
-    "ProjectsCreateProjectRequestRepo",
     "ProjectsDeploySiteRequest",
     "ProjectsDeployment",
     "ProjectsError",
@@ -1884,29 +1175,6 @@ __all__ = [
     "ProvisioningError",
     "ProvisioningGetResponse",
     "ProvisioningListItem",
-    "PubsubConnInfo",
-    "PubsubConsumerConfig",
-    "PubsubConsumerInfo",
-    "PubsubConsumerInfoDelivered",
-    "PubsubError",
-    "PubsubGetConnz200Response",
-    "PubsubJetStreamInfo",
-    "PubsubJetStreamInfoApi",
-    "PubsubKVBucketConfig",
-    "PubsubKVEntry",
-    "PubsubKvHistory200Response",
-    "PubsubKvPut200Response",
-    "PubsubListConsumers200Response",
-    "PubsubListObjects200Response",
-    "PubsubListStreams200Response",
-    "PubsubMessage",
-    "PubsubObjectMeta",
-    "PubsubPublishRequest",
-    "PubsubPublishResponse",
-    "PubsubServerVarz",
-    "PubsubStreamConfig",
-    "PubsubStreamInfo",
-    "PubsubStreamInfoState",
     "ReferralsAdminListData",
     "ReferralsAdminListEnvelope",
     "ReferralsAdminReferralView",
@@ -1920,28 +1188,6 @@ __all__ = [
     "ReferralsMyReferralsResponse",
     "ReferralsReferralStatus",
     "ReferralsStatusCounts",
-    "RegistryArtifact",
-    "RegistryError",
-    "RegistryProject",
-    "RegistryProjectCreate",
-    "RegistryProjectCreateMetadata",
-    "RegistryProjectMetadata",
-    "RegistryQuota",
-    "RegistryQuotaHard",
-    "RegistryQuotaRef",
-    "RegistryQuotaUsed",
-    "RegistryRepository",
-    "RegistryScanOverview",
-    "RegistryScanOverviewSummary",
-    "RegistryScanReport",
-    "RegistryScanReportVulnerabilitiesInner",
-    "RegistryTag",
-    "RegistryUpdateProjectRequest",
-    "RegistryUpdateProjectRequestMetadata",
-    "RegistryWebhook",
-    "RegistryWebhookCreate",
-    "RegistryWebhookCreateTargetsInner",
-    "RegistryWebhookTargetsInner",
     "ResearchArtifact",
     "ResearchAttempt",
     "ResearchError",
@@ -2051,30 +1297,6 @@ __all__ = [
     "SecuritySecurityListFindings200Response",
     "SecuritySecurityListRules200Response",
     "SecuritySecurityListScans200Response",
-    "StreamBrokerInfo",
-    "StreamBrokerInfoConfig",
-    "StreamConsumeMessages200Response",
-    "StreamConsumeRecord",
-    "StreamConsumerGroup",
-    "StreamConsumerGroupOffsetsInner",
-    "StreamCreateTopicRequest",
-    "StreamCreateTopicRequestConfig",
-    "StreamError",
-    "StreamGetBrokerConfig200Response",
-    "StreamGetGroupOffsets200Response",
-    "StreamHealthCheck200Response",
-    "StreamListBrokers200Response",
-    "StreamListConsumerGroups200Response",
-    "StreamListTopics200Response",
-    "StreamOffsetCommit",
-    "StreamProduceRequest",
-    "StreamProduceRequestRecordsInner",
-    "StreamProduceResponse",
-    "StreamProduceResponseOffsetsInner",
-    "StreamTopic",
-    "StreamTopicConfig",
-    "StreamTopicMetadata",
-    "StreamTopicMetadataPartitionsInner",
     "TemplatesListTemplates200Response",
     "TemplatesTemplate",
     "TrackerCreateIssueRequest",
@@ -2136,7 +1358,6 @@ __all__ = [
     "VisorClusterView",
     "VisorGpuView",
     "VisorLaunchRequest",
-    "VisorListAgentBindings200Response",
     "VisorListBots200Response",
     "VisorListClusters200Response",
     "VisorListGPUs200Response",
@@ -2166,92 +1387,62 @@ __all__ = [
 
 # import apis into sdk package
 from hanzoai.cloud.api.ai_api import AIApi as AIApi
-from hanzoai.cloud.api.api_keys_api import APIKeysApi as APIKeysApi
 from hanzoai.cloud.api.access_tokens_api import AccessTokensApi as AccessTokensApi
 from hanzoai.cloud.api.account_api import AccountApi as AccountApi
 from hanzoai.cloud.api.account_api_api import AccountAPIApi as AccountAPIApi
-from hanzoai.cloud.api.accounts_api import AccountsApi as AccountsApi
-from hanzoai.cloud.api.actions_api import ActionsApi as ActionsApi
 from hanzoai.cloud.api.activities_api import ActivitiesApi as ActivitiesApi
 from hanzoai.cloud.api.activity_api_api import ActivityAPIApi as ActivityAPIApi
 from hanzoai.cloud.api.admin_api import AdminApi as AdminApi
-from hanzoai.cloud.api.admin_auth_api import AdminAuthApi as AdminAuthApi
 from hanzoai.cloud.api.affiliate_api import AffiliateApi as AffiliateApi
 from hanzoai.cloud.api.affiliates_api import AffiliatesApi as AffiliatesApi
 from hanzoai.cloud.api.agent_sessions_api_api import AgentSessionsAPIApi as AgentSessionsAPIApi
-from hanzoai.cloud.api.agents_api import AgentsApi as AgentsApi
 from hanzoai.cloud.api.agents_api_api import AgentsAPIApi as AgentsAPIApi
-from hanzoai.cloud.api.agents_open_ai_compatible_api import AgentsOpenAICompatibleApi as AgentsOpenAICompatibleApi
-from hanzoai.cloud.api.agents_open_responses_api import AgentsOpenResponsesApi as AgentsOpenResponsesApi
 from hanzoai.cloud.api.analytics_api import AnalyticsApi as AnalyticsApi
-from hanzoai.cloud.api.annotation_queues_api import AnnotationQueuesApi as AnnotationQueuesApi
 from hanzoai.cloud.api.answer_api import AnswerApi as AnswerApi
 from hanzoai.cloud.api.application_api_api import ApplicationAPIApi as ApplicationAPIApi
 from hanzoai.cloud.api.applications_api import ApplicationsApi as ApplicationsApi
 from hanzoai.cloud.api.article_api_api import ArticleAPIApi as ArticleAPIApi
 from hanzoai.cloud.api.articles_api import ArticlesApi as ArticlesApi
-from hanzoai.cloud.api.artifacts_api import ArtifactsApi as ArtifactsApi
 from hanzoai.cloud.api.assets_api import AssetsApi as AssetsApi
-from hanzoai.cloud.api.assistants_v1_api import AssistantsV1Api as AssistantsV1Api
-from hanzoai.cloud.api.assistants_v2_api import AssistantsV2Api as AssistantsV2Api
 from hanzoai.cloud.api.audit_api import AuditApi as AuditApi
 from hanzoai.cloud.api.auth_api import AuthApi as AuthApi
 from hanzoai.cloud.api.authentication_api import AuthenticationApi as AuthenticationApi
 from hanzoai.cloud.api.authors_api import AuthorsApi as AuthorsApi
-from hanzoai.cloud.api.avatar_api import AvatarApi as AvatarApi
-from hanzoai.cloud.api.balance_api import BalanceApi as BalanceApi
-from hanzoai.cloud.api.banner_api import BannerApi as BannerApi
 from hanzoai.cloud.api.batches_api import BatchesApi as BatchesApi
 from hanzoai.cloud.api.billing_api import BillingApi as BillingApi
 from hanzoai.cloud.api.bindings_api import BindingsApi as BindingsApi
 from hanzoai.cloud.api.bots_api import BotsApi as BotsApi
-from hanzoai.cloud.api.branches_api import BranchesApi as BranchesApi
-from hanzoai.cloud.api.brokers_api import BrokersApi as BrokersApi
 from hanzoai.cloud.api.buckets_api import BucketsApi as BucketsApi
 from hanzoai.cloud.api.cdn_api import CDNApi as CDNApi
 from hanzoai.cloud.api.cart_api import CartApi as CartApi
 from hanzoai.cloud.api.catalog_api import CatalogApi as CatalogApi
-from hanzoai.cloud.api.categories_api import CategoriesApi as CategoriesApi
 from hanzoai.cloud.api.chat_api import ChatApi as ChatApi
 from hanzoai.cloud.api.chat_api_api import ChatAPIApi as ChatAPIApi
 from hanzoai.cloud.api.chats_api import ChatsApi as ChatsApi
 from hanzoai.cloud.api.checkout_api import CheckoutApi as CheckoutApi
 from hanzoai.cloud.api.claude_compatible_api import ClaudeCompatibleApi as ClaudeCompatibleApi
 from hanzoai.cloud.api.cloud_api import CloudApi as CloudApi
-from hanzoai.cloud.api.cluster_api import ClusterApi as ClusterApi
 from hanzoai.cloud.api.clusters_api import ClustersApi as ClustersApi
 from hanzoai.cloud.api.collect_api import CollectApi as CollectApi
 from hanzoai.cloud.api.collections_api import CollectionsApi as CollectionsApi
-from hanzoai.cloud.api.comments_api import CommentsApi as CommentsApi
 from hanzoai.cloud.api.companies_api import CompaniesApi as CompaniesApi
 from hanzoai.cloud.api.completions_api import CompletionsApi as CompletionsApi
-from hanzoai.cloud.api.config_api import ConfigApi as ConfigApi
 from hanzoai.cloud.api.conflict_api import ConflictApi as ConflictApi
 from hanzoai.cloud.api.connection_api_api import ConnectionAPIApi as ConnectionAPIApi
 from hanzoai.cloud.api.connectors_api import ConnectorsApi as ConnectorsApi
-from hanzoai.cloud.api.consumer_groups_api import ConsumerGroupsApi as ConsumerGroupsApi
-from hanzoai.cloud.api.consumers_api import ConsumersApi as ConsumersApi
-from hanzoai.cloud.api.consumption_api import ConsumptionApi as ConsumptionApi
 from hanzoai.cloud.api.contacts_api import ContactsApi as ContactsApi
 from hanzoai.cloud.api.container_api_api import ContainerAPIApi as ContainerAPIApi
-from hanzoai.cloud.api.containers_api import ContainersApi as ContainersApi
-from hanzoai.cloud.api.conversations_api import ConversationsApi as ConversationsApi
 from hanzoai.cloud.api.counters_api import CountersApi as CountersApi
 from hanzoai.cloud.api.customers_api import CustomersApi as CustomersApi
 from hanzoai.cloud.api.dns_api import DNSApi as DNSApi
 from hanzoai.cloud.api.dnssec_api import DNSSECApi as DNSSECApi
-from hanzoai.cloud.api.doks_api import DOKSApi as DOKSApi
 from hanzoai.cloud.api.dashboards_agents_api import DashboardsAgentsApi as DashboardsAgentsApi
 from hanzoai.cloud.api.dashboards_vm_api import DashboardsVmApi as DashboardsVmApi
 from hanzoai.cloud.api.data_api import DataApi as DataApi
-from hanzoai.cloud.api.databases_api import DatabasesApi as DatabasesApi
-from hanzoai.cloud.api.dataset_items_api import DatasetItemsApi as DatasetItemsApi
-from hanzoai.cloud.api.dataset_run_items_api import DatasetRunItemsApi as DatasetRunItemsApi
 from hanzoai.cloud.api.datasets_api import DatasetsApi as DatasetsApi
 from hanzoai.cloud.api.deployment_api_api import DeploymentAPIApi as DeploymentAPIApi
 from hanzoai.cloud.api.deployments_api import DeploymentsApi as DeploymentsApi
 from hanzoai.cloud.api.deploys_api import DeploysApi as DeploysApi
-from hanzoai.cloud.api.directories_api import DirectoriesApi as DirectoriesApi
 from hanzoai.cloud.api.doc_types_api import DocTypesApi as DocTypesApi
 from hanzoai.cloud.api.documents_api import DocumentsApi as DocumentsApi
 from hanzoai.cloud.api.domains_api import DomainsApi as DomainsApi
@@ -2259,9 +1450,7 @@ from hanzoai.cloud.api.dumps_api import DumpsApi as DumpsApi
 from hanzoai.cloud.api.edge_api import EdgeApi as EdgeApi
 from hanzoai.cloud.api.embeddings_api import EmbeddingsApi as EmbeddingsApi
 from hanzoai.cloud.api.encryption_api import EncryptionApi as EncryptionApi
-from hanzoai.cloud.api.endpoints_api import EndpointsApi as EndpointsApi
 from hanzoai.cloud.api.enforcement_api import EnforcementApi as EnforcementApi
-from hanzoai.cloud.api.environments_api import EnvironmentsApi as EnvironmentsApi
 from hanzoai.cloud.api.evaluators_api import EvaluatorsApi as EvaluatorsApi
 from hanzoai.cloud.api.events_api import EventsApi as EventsApi
 from hanzoai.cloud.api.exec_api import ExecApi as ExecApi
@@ -2282,18 +1471,13 @@ from hanzoai.cloud.api.graphs_api import GraphsApi as GraphsApi
 from hanzoai.cloud.api.hash_api import HashApi as HashApi
 from hanzoai.cloud.api.health_api import HealthApi as HealthApi
 from hanzoai.cloud.api.identity_api import IdentityApi as IdentityApi
-from hanzoai.cloud.api.identity_resolution_api import IdentityResolutionApi as IdentityResolutionApi
 from hanzoai.cloud.api.image_api_api import ImageAPIApi as ImageAPIApi
-from hanzoai.cloud.api.images_api import ImagesApi as ImagesApi
 from hanzoai.cloud.api.indexers_api import IndexersApi as IndexersApi
 from hanzoai.cloud.api.indexes_api import IndexesApi as IndexesApi
 from hanzoai.cloud.api.infrastructure_api import InfrastructureApi as InfrastructureApi
-from hanzoai.cloud.api.ingestion_api import IngestionApi as IngestionApi
 from hanzoai.cloud.api.intel_api import IntelApi as IntelApi
 from hanzoai.cloud.api.issues_api import IssuesApi as IssuesApi
-from hanzoai.cloud.api.jobs_api import JobsApi as JobsApi
 from hanzoai.cloud.api.k8s_status_api import K8sStatusApi as K8sStatusApi
-from hanzoai.cloud.api.key_value_api import KeyValueApi as KeyValueApi
 from hanzoai.cloud.api.keys_api import KeysApi as KeysApi
 from hanzoai.cloud.api.lifecycle_api import LifecycleApi as LifecycleApi
 from hanzoai.cloud.api.list_api import ListApi as ListApi
@@ -2306,8 +1490,6 @@ from hanzoai.cloud.api.machines_api import MachinesApi as MachinesApi
 from hanzoai.cloud.api.marketing_api import MarketingApi as MarketingApi
 from hanzoai.cloud.api.markets_api import MarketsApi as MarketsApi
 from hanzoai.cloud.api.me_api import MeApi as MeApi
-from hanzoai.cloud.api.media_api import MediaApi as MediaApi
-from hanzoai.cloud.api.memories_api import MemoriesApi as MemoriesApi
 from hanzoai.cloud.api.mesh_api import MeshApi as MeshApi
 from hanzoai.cloud.api.message_api_api import MessageAPIApi as MessageAPIApi
 from hanzoai.cloud.api.messages_api import MessagesApi as MessagesApi
@@ -2316,7 +1498,6 @@ from hanzoai.cloud.api.metrics_api import MetricsApi as MetricsApi
 from hanzoai.cloud.api.models_api import ModelsApi as ModelsApi
 from hanzoai.cloud.api.modules_api import ModulesApi as ModulesApi
 from hanzoai.cloud.api.money_api import MoneyApi as MoneyApi
-from hanzoai.cloud.api.monitoring_api import MonitoringApi as MonitoringApi
 from hanzoai.cloud.api.multi_search_api import MultiSearchApi as MultiSearchApi
 from hanzoai.cloud.api.namespaces_api import NamespacesApi as NamespacesApi
 from hanzoai.cloud.api.network_api import NetworkApi as NetworkApi
@@ -2326,13 +1507,9 @@ from hanzoai.cloud.api.node_api_api import NodeAPIApi as NodeAPIApi
 from hanzoai.cloud.api.nodes_api import NodesApi as NodesApi
 from hanzoai.cloud.api.o11y_api import O11yApi as O11yApi
 from hanzoai.cloud.api.o_auth_api import OAuthApi as OAuthApi
-from hanzoai.cloud.api.object_store_api import ObjectStoreApi as ObjectStoreApi
 from hanzoai.cloud.api.objects_api import ObjectsApi as ObjectsApi
 from hanzoai.cloud.api.observability_api import ObservabilityApi as ObservabilityApi
-from hanzoai.cloud.api.observations_api import ObservationsApi as ObservationsApi
 from hanzoai.cloud.api.open_ai_compatible_api import OpenAICompatibleApi as OpenAICompatibleApi
-from hanzoai.cloud.api.open_ai_compatible_api_api import OpenAICompatibleAPIApi as OpenAICompatibleAPIApi
-from hanzoai.cloud.api.operations_api import OperationsApi as OperationsApi
 from hanzoai.cloud.api.opportunities_api import OpportunitiesApi as OpportunitiesApi
 from hanzoai.cloud.api.oracles_api import OraclesApi as OraclesApi
 from hanzoai.cloud.api.orders_api import OrdersApi as OrdersApi
@@ -2352,9 +1529,7 @@ from hanzoai.cloud.api.points_api import PointsApi as PointsApi
 from hanzoai.cloud.api.policies_api import PoliciesApi as PoliciesApi
 from hanzoai.cloud.api.policy_api import PolicyApi as PolicyApi
 from hanzoai.cloud.api.preferences_api import PreferencesApi as PreferencesApi
-from hanzoai.cloud.api.presets_api import PresetsApi as PresetsApi
 from hanzoai.cloud.api.products_api import ProductsApi as ProductsApi
-from hanzoai.cloud.api.profiles_api import ProfilesApi as ProfilesApi
 from hanzoai.cloud.api.projects_api import ProjectsApi as ProjectsApi
 from hanzoai.cloud.api.prometheus_api import PrometheusApi as PrometheusApi
 from hanzoai.cloud.api.promotions_api import PromotionsApi as PromotionsApi
@@ -2362,10 +1537,6 @@ from hanzoai.cloud.api.prompts_api import PromptsApi as PromptsApi
 from hanzoai.cloud.api.provider_api_api import ProviderAPIApi as ProviderAPIApi
 from hanzoai.cloud.api.providers_api import ProvidersApi as ProvidersApi
 from hanzoai.cloud.api.pub_sub_api import PubSubApi as PubSubApi
-from hanzoai.cloud.api.publish_api import PublishApi as PublishApi
-from hanzoai.cloud.api.quotas_api import QuotasApi as QuotasApi
-from hanzoai.cloud.api.rate_limit_api import RateLimitApi as RateLimitApi
-from hanzoai.cloud.api.ray_api import RayApi as RayApi
 from hanzoai.cloud.api.realtime_api import RealtimeApi as RealtimeApi
 from hanzoai.cloud.api.record_api_api import RecordAPIApi as RecordAPIApi
 from hanzoai.cloud.api.records_api import RecordsApi as RecordsApi
@@ -2373,8 +1544,6 @@ from hanzoai.cloud.api.referrals_api import ReferralsApi as ReferralsApi
 from hanzoai.cloud.api.remote_connections_api import RemoteConnectionsApi as RemoteConnectionsApi
 from hanzoai.cloud.api.reports_api import ReportsApi as ReportsApi
 from hanzoai.cloud.api.repos_api import ReposApi as ReposApi
-from hanzoai.cloud.api.repositories_api import RepositoriesApi as RepositoriesApi
-from hanzoai.cloud.api.request_reply_api import RequestReplyApi as RequestReplyApi
 from hanzoai.cloud.api.research_api import ResearchApi as ResearchApi
 from hanzoai.cloud.api.resources_api import ResourcesApi as ResourcesApi
 from hanzoai.cloud.api.roles_api import RolesApi as RolesApi
@@ -2382,21 +1551,16 @@ from hanzoai.cloud.api.roles_permissions_api import RolesPermissionsApi as Roles
 from hanzoai.cloud.api.routes_api import RoutesApi as RoutesApi
 from hanzoai.cloud.api.rules_api import RulesApi as RulesApi
 from hanzoai.cloud.api.runs_api import RunsApi as RunsApi
-from hanzoai.cloud.api.scim_api import SCIMApi as SCIMApi
-from hanzoai.cloud.api.sdk_api import SDKApi as SDKApi
 from hanzoai.cloud.api.ssh_keys_api import SSHKeysApi as SSHKeysApi
 from hanzoai.cloud.api.sttapi_api import STTAPIApi as STTAPIApi
-from hanzoai.cloud.api.sanitize_api import SanitizeApi as SanitizeApi
 from hanzoai.cloud.api.scales_api import ScalesApi as ScalesApi
 from hanzoai.cloud.api.scans_api import ScansApi as ScansApi
-from hanzoai.cloud.api.score_configs_api import ScoreConfigsApi as ScoreConfigsApi
 from hanzoai.cloud.api.scores_api import ScoresApi as ScoresApi
 from hanzoai.cloud.api.scrape_api import ScrapeApi as ScrapeApi
 from hanzoai.cloud.api.search_api import SearchApi as SearchApi
 from hanzoai.cloud.api.search_api_api import SearchAPIApi as SearchAPIApi
 from hanzoai.cloud.api.secrets_api import SecretsApi as SecretsApi
 from hanzoai.cloud.api.send_api import SendApi as SendApi
-from hanzoai.cloud.api.serve_api import ServeApi as ServeApi
 from hanzoai.cloud.api.service_api import ServiceApi as ServiceApi
 from hanzoai.cloud.api.sessions_api import SessionsApi as SessionsApi
 from hanzoai.cloud.api.settings_api import SettingsApi as SettingsApi
@@ -2408,7 +1572,6 @@ from hanzoai.cloud.api.sites_api import SitesApi as SitesApi
 from hanzoai.cloud.api.slack_api import SlackApi as SlackApi
 from hanzoai.cloud.api.smart_http_api import SmartHTTPApi as SmartHTTPApi
 from hanzoai.cloud.api.snapshots_api import SnapshotsApi as SnapshotsApi
-from hanzoai.cloud.api.speech_api import SpeechApi as SpeechApi
 from hanzoai.cloud.api.spend_api import SpendApi as SpendApi
 from hanzoai.cloud.api.spend_caps_api import SpendCapsApi as SpendCapsApi
 from hanzoai.cloud.api.stats_api import StatsApi as StatsApi
@@ -2418,30 +1581,24 @@ from hanzoai.cloud.api.store_api import StoreApi as StoreApi
 from hanzoai.cloud.api.store_api_api import StoreAPIApi as StoreAPIApi
 from hanzoai.cloud.api.stores_api import StoresApi as StoresApi
 from hanzoai.cloud.api.streams_api import StreamsApi as StreamsApi
-from hanzoai.cloud.api.subjects_api import SubjectsApi as SubjectsApi
-from hanzoai.cloud.api.subscribe_api import SubscribeApi as SubscribeApi
 from hanzoai.cloud.api.subscriptions_api import SubscriptionsApi as SubscriptionsApi
 from hanzoai.cloud.api.summary_api import SummaryApi as SummaryApi
 from hanzoai.cloud.api.swap_api import SwapApi as SwapApi
 from hanzoai.cloud.api.system_api import SystemApi as SystemApi
 from hanzoai.cloud.api.system_api_api import SystemAPIApi as SystemAPIApi
 from hanzoai.cloud.api.ttsapi_api import TTSAPIApi as TTSAPIApi
-from hanzoai.cloud.api.tags_api import TagsApi as TagsApi
 from hanzoai.cloud.api.task_api_api import TaskAPIApi as TaskAPIApi
 from hanzoai.cloud.api.tasks_api import TasksApi as TasksApi
 from hanzoai.cloud.api.teams_api import TeamsApi as TeamsApi
 from hanzoai.cloud.api.template_api_api import TemplateAPIApi as TemplateAPIApi
 from hanzoai.cloud.api.templates_api import TemplatesApi as TemplatesApi
 from hanzoai.cloud.api.tokens_api import TokensApi as TokensApi
-from hanzoai.cloud.api.topics_api import TopicsApi as TopicsApi
-from hanzoai.cloud.api.traces_api import TracesApi as TracesApi
 from hanzoai.cloud.api.training_contribution_api import TrainingContributionApi as TrainingContributionApi
 from hanzoai.cloud.api.transactions_api import TransactionsApi as TransactionsApi
 from hanzoai.cloud.api.tree_files_api import TreeFilesApi as TreeFilesApi
 from hanzoai.cloud.api.usage_api import UsageApi as UsageApi
 from hanzoai.cloud.api.usage_api_api import UsageAPIApi as UsageAPIApi
 from hanzoai.cloud.api.usages_api import UsagesApi as UsagesApi
-from hanzoai.cloud.api.user_api import UserApi as UserApi
 from hanzoai.cloud.api.users_api import UsersApi as UsersApi
 from hanzoai.cloud.api.vpcs_api import VPCsApi as VPCsApi
 from hanzoai.cloud.api.vector_api import VectorApi as VectorApi
@@ -2458,64 +1615,16 @@ from hanzoai.cloud.api.websites_api import WebsitesApi as WebsitesApi
 from hanzoai.cloud.api.workflow_api_api import WorkflowAPIApi as WorkflowAPIApi
 from hanzoai.cloud.api.workflows_api import WorkflowsApi as WorkflowsApi
 from hanzoai.cloud.api.zones_api import ZonesApi as ZonesApi
-from hanzoai.cloud.api.ai_providers_api import AiProvidersApi as AiProvidersApi
-from hanzoai.cloud.api.alerts_api import AlertsApi as AlertsApi
-from hanzoai.cloud.api.app_connections_api import AppConnectionsApi as AppConnectionsApi
-from hanzoai.cloud.api.application_api import ApplicationApi as ApplicationApi
-from hanzoai.cloud.api.audit_events_api import AuditEventsApi as AuditEventsApi
-from hanzoai.cloud.api.backup_api import BackupApi as BackupApi
-from hanzoai.cloud.api.certificate_api import CertificateApi as CertificateApi
-from hanzoai.cloud.api.compose_api import ComposeApi as ComposeApi
-from hanzoai.cloud.api.custom_domains_api import CustomDomainsApi as CustomDomainsApi
 from hanzoai.cloud.api.datastore_api import DatastoreApi as DatastoreApi
-from hanzoai.cloud.api.deploy_worker_api import DeployWorkerApi as DeployWorkerApi
-from hanzoai.cloud.api.deployment_api import DeploymentApi as DeploymentApi
-from hanzoai.cloud.api.destination_api import DestinationApi as DestinationApi
 from hanzoai.cloud.api.docdb_api import DocdbApi as DocdbApi
-from hanzoai.cloud.api.docker_api import DockerApi as DockerApi
-from hanzoai.cloud.api.domain_api import DomainApi as DomainApi
-from hanzoai.cloud.api.environment_api import EnvironmentApi as EnvironmentApi
-from hanzoai.cloud.api.fields_api import FieldsApi as FieldsApi
-from hanzoai.cloud.api.flags_api import FlagsApi as FlagsApi
-from hanzoai.cloud.api.flow_runs_api import FlowRunsApi as FlowRunsApi
-from hanzoai.cloud.api.folders_api import FoldersApi as FoldersApi
-from hanzoai.cloud.api.git_provider_api import GitProviderApi as GitProviderApi
-from hanzoai.cloud.api.git_repos_api import GitReposApi as GitReposApi
-from hanzoai.cloud.api.github_api import GithubApi as GithubApi
-from hanzoai.cloud.api.global_connections_api import GlobalConnectionsApi as GlobalConnectionsApi
 from hanzoai.cloud.api.integrations_api import IntegrationsApi as IntegrationsApi
 from hanzoai.cloud.api.kv_api import KvApi as KvApi
-from hanzoai.cloud.api.mariadb_api import MariadbApi as MariadbApi
-from hanzoai.cloud.api.mongo_api import MongoApi as MongoApi
-from hanzoai.cloud.api.mysql_api import MysqlApi as MysqlApi
-from hanzoai.cloud.api.notification_api import NotificationApi as NotificationApi
-from hanzoai.cloud.api.oauth_apps_api import OauthAppsApi as OauthAppsApi
-from hanzoai.cloud.api.organization_api import OrganizationApi as OrganizationApi
 from hanzoai.cloud.api.personas_api import PersonasApi as PersonasApi
 from hanzoai.cloud.api.platform_api import PlatformApi as PlatformApi
-from hanzoai.cloud.api.postgres_api import PostgresApi as PostgresApi
-from hanzoai.cloud.api.project_api import ProjectApi as ProjectApi
-from hanzoai.cloud.api.project_members_api import ProjectMembersApi as ProjectMembersApi
-from hanzoai.cloud.api.project_releases_api import ProjectReleasesApi as ProjectReleasesApi
-from hanzoai.cloud.api.project_roles_api import ProjectRolesApi as ProjectRolesApi
-from hanzoai.cloud.api.redis_api import RedisApi as RedisApi
-from hanzoai.cloud.api.registry_api import RegistryApi as RegistryApi
-from hanzoai.cloud.api.rollback_api import RollbackApi as RollbackApi
 from hanzoai.cloud.api.s3_api import S3Api as S3Api
-from hanzoai.cloud.api.sample_data_api import SampleDataApi as SampleDataApi
-from hanzoai.cloud.api.schedule_api import ScheduleApi as ScheduleApi
-from hanzoai.cloud.api.server_api import ServerApi as ServerApi
-from hanzoai.cloud.api.signing_keys_api import SigningKeysApi as SigningKeysApi
 from hanzoai.cloud.api.skills_api import SkillsApi as SkillsApi
-from hanzoai.cloud.api.solutions_api import SolutionsApi as SolutionsApi
 from hanzoai.cloud.api.sql_api import SqlApi as SqlApi
-from hanzoai.cloud.api.ssh_key_api import SshKeyApi as SshKeyApi
-from hanzoai.cloud.api.store_entries_api import StoreEntriesApi as StoreEntriesApi
-from hanzoai.cloud.api.tables_api import TablesApi as TablesApi
-from hanzoai.cloud.api.todos_api import TodosApi as TodosApi
-from hanzoai.cloud.api.triggers_api import TriggersApi as TriggersApi
 from hanzoai.cloud.api.upload_api import UploadApi as UploadApi
-from hanzoai.cloud.api.user_invitations_api import UserInvitationsApi as UserInvitationsApi
 
 # import ApiClient
 from hanzoai.cloud.api_response import ApiResponse as ApiResponse
@@ -2641,6 +1750,7 @@ from hanzoai.cloud.models.agents_session_detail import AgentsSessionDetail as Ag
 from hanzoai.cloud.models.agents_session_view import AgentsSessionView as AgentsSessionView
 from hanzoai.cloud.models.agents_tree_node import AgentsTreeNode as AgentsTreeNode
 from hanzoai.cloud.models.agents_update_agent_request import AgentsUpdateAgentRequest as AgentsUpdateAgentRequest
+from hanzoai.cloud.models.ai_chat_choice import AiChatChoice as AiChatChoice
 from hanzoai.cloud.models.ai_chat_completion_request import AiChatCompletionRequest as AiChatCompletionRequest
 from hanzoai.cloud.models.ai_chat_completion_response import AiChatCompletionResponse as AiChatCompletionResponse
 from hanzoai.cloud.models.ai_chat_message import AiChatMessage as AiChatMessage
@@ -2770,40 +1880,6 @@ from hanzoai.cloud.models.authz_user_info import AuthzUserInfo as AuthzUserInfo
 from hanzoai.cloud.models.authz_validation_error import AuthzValidationError as AuthzValidationError
 from hanzoai.cloud.models.authz_validation_error_errors_inner import AuthzValidationErrorErrorsInner as AuthzValidationErrorErrorsInner
 from hanzoai.cloud.models.authz_web3_auth_request import AuthzWeb3AuthRequest as AuthzWeb3AuthRequest
-from hanzoai.cloud.models.auto_app_connection import AutoAppConnection as AutoAppConnection
-from hanzoai.cloud.models.auto_connect_git_repo_request import AutoConnectGitRepoRequest as AutoConnectGitRepoRequest
-from hanzoai.cloud.models.auto_create_api_key_request import AutoCreateApiKeyRequest as AutoCreateApiKeyRequest
-from hanzoai.cloud.models.auto_create_field_request import AutoCreateFieldRequest as AutoCreateFieldRequest
-from hanzoai.cloud.models.auto_create_flow_request import AutoCreateFlowRequest as AutoCreateFlowRequest
-from hanzoai.cloud.models.auto_create_record_request import AutoCreateRecordRequest as AutoCreateRecordRequest
-from hanzoai.cloud.models.auto_create_table_request import AutoCreateTableRequest as AutoCreateTableRequest
-from hanzoai.cloud.models.auto_create_user_invitation_request import AutoCreateUserInvitationRequest as AutoCreateUserInvitationRequest
-from hanzoai.cloud.models.auto_error import AutoError as AutoError
-from hanzoai.cloud.models.auto_flow import AutoFlow as AutoFlow
-from hanzoai.cloud.models.auto_flow_run import AutoFlowRun as AutoFlowRun
-from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion as AutoFlowVersion
-from hanzoai.cloud.models.auto_folder import AutoFolder as AutoFolder
-from hanzoai.cloud.models.auto_get_piece_options_request import AutoGetPieceOptionsRequest as AutoGetPieceOptionsRequest
-from hanzoai.cloud.models.auto_list_app_connections200_response import AutoListAppConnections200Response as AutoListAppConnections200Response
-from hanzoai.cloud.models.auto_list_flow_runs200_response import AutoListFlowRuns200Response as AutoListFlowRuns200Response
-from hanzoai.cloud.models.auto_list_flows200_response import AutoListFlows200Response as AutoListFlows200Response
-from hanzoai.cloud.models.auto_piece import AutoPiece as AutoPiece
-from hanzoai.cloud.models.auto_platform import AutoPlatform as AutoPlatform
-from hanzoai.cloud.models.auto_project import AutoProject as AutoProject
-from hanzoai.cloud.models.auto_retry_flow_request import AutoRetryFlowRequest as AutoRetryFlowRequest
-from hanzoai.cloud.models.auto_seek_page import AutoSeekPage as AutoSeekPage
-from hanzoai.cloud.models.auto_sign_in_request import AutoSignInRequest as AutoSignInRequest
-from hanzoai.cloud.models.auto_sign_up_request import AutoSignUpRequest as AutoSignUpRequest
-from hanzoai.cloud.models.auto_store_entry import AutoStoreEntry as AutoStoreEntry
-from hanzoai.cloud.models.auto_template import AutoTemplate as AutoTemplate
-from hanzoai.cloud.models.auto_test_trigger_request import AutoTestTriggerRequest as AutoTestTriggerRequest
-from hanzoai.cloud.models.auto_update_app_connection_request import AutoUpdateAppConnectionRequest as AutoUpdateAppConnectionRequest
-from hanzoai.cloud.models.auto_update_flow_request import AutoUpdateFlowRequest as AutoUpdateFlowRequest
-from hanzoai.cloud.models.auto_update_platform_request import AutoUpdatePlatformRequest as AutoUpdatePlatformRequest
-from hanzoai.cloud.models.auto_upsert_ai_provider_request import AutoUpsertAiProviderRequest as AutoUpsertAiProviderRequest
-from hanzoai.cloud.models.auto_upsert_app_connection_request import AutoUpsertAppConnectionRequest as AutoUpsertAppConnectionRequest
-from hanzoai.cloud.models.auto_upsert_store_entry_request import AutoUpsertStoreEntryRequest as AutoUpsertStoreEntryRequest
-from hanzoai.cloud.models.auto_user import AutoUser as AutoUser
 from hanzoai.cloud.models.automations_catalog import AutomationsCatalog as AutomationsCatalog
 from hanzoai.cloud.models.automations_create_flow_request import AutomationsCreateFlowRequest as AutomationsCreateFlowRequest
 from hanzoai.cloud.models.automations_create_version_request import AutomationsCreateVersionRequest as AutomationsCreateVersionRequest
@@ -2882,101 +1958,6 @@ from hanzoai.cloud.models.bot_skill_version import BotSkillVersion as BotSkillVe
 from hanzoai.cloud.models.bot_toggle_skill_star200_response import BotToggleSkillStar200Response as BotToggleSkillStar200Response
 from hanzoai.cloud.models.bot_update_profile_request import BotUpdateProfileRequest as BotUpdateProfileRequest
 from hanzoai.cloud.models.bot_user import BotUser as BotUser
-from hanzoai.cloud.models.chat_action import ChatAction as ChatAction
-from hanzoai.cloud.models.chat_action_metadata import ChatActionMetadata as ChatActionMetadata
-from hanzoai.cloud.models.chat_agent import ChatAgent as ChatAgent
-from hanzoai.cloud.models.chat_agent_api_key import ChatAgentApiKey as ChatAgentApiKey
-from hanzoai.cloud.models.chat_agent_chat_request import ChatAgentChatRequest as ChatAgentChatRequest
-from hanzoai.cloud.models.chat_agent_create_params import ChatAgentCreateParams as ChatAgentCreateParams
-from hanzoai.cloud.models.chat_agent_list_response import ChatAgentListResponse as ChatAgentListResponse
-from hanzoai.cloud.models.chat_auth_response import ChatAuthResponse as ChatAuthResponse
-from hanzoai.cloud.models.chat_category import ChatCategory as ChatCategory
-from hanzoai.cloud.models.chat_chat_abort_request import ChatChatAbortRequest as ChatChatAbortRequest
-from hanzoai.cloud.models.chat_chat_completion import ChatChatCompletion as ChatChatCompletion
-from hanzoai.cloud.models.chat_chat_completion_choices_inner import ChatChatCompletionChoicesInner as ChatChatCompletionChoicesInner
-from hanzoai.cloud.models.chat_chat_completion_usage import ChatChatCompletionUsage as ChatChatCompletionUsage
-from hanzoai.cloud.models.chat_chat_message import ChatChatMessage as ChatChatMessage
-from hanzoai.cloud.models.chat_conversation import ChatConversation as ChatConversation
-from hanzoai.cloud.models.chat_conversation_list_response import ChatConversationListResponse as ChatConversationListResponse
-from hanzoai.cloud.models.chat_conversation_tag import ChatConversationTag as ChatConversationTag
-from hanzoai.cloud.models.chat_delete_convos_request import ChatDeleteConvosRequest as ChatDeleteConvosRequest
-from hanzoai.cloud.models.chat_delete_convos_request_arg import ChatDeleteConvosRequestArg as ChatDeleteConvosRequestArg
-from hanzoai.cloud.models.chat_delete_files_request import ChatDeleteFilesRequest as ChatDeleteFilesRequest
-from hanzoai.cloud.models.chat_delete_files_request_files_inner import ChatDeleteFilesRequestFilesInner as ChatDeleteFilesRequestFilesInner
-from hanzoai.cloud.models.chat_file import ChatFile as ChatFile
-from hanzoai.cloud.models.chat_function_tool import ChatFunctionTool as ChatFunctionTool
-from hanzoai.cloud.models.chat_function_tool_function import ChatFunctionToolFunction as ChatFunctionToolFunction
-from hanzoai.cloud.models.chat_get_admin_verify200_response import ChatGetAdminVerify200Response as ChatGetAdminVerify200Response
-from hanzoai.cloud.models.chat_get_agents_chat_active200_response import ChatGetAgentsChatActive200Response as ChatGetAgentsChatActive200Response
-from hanzoai.cloud.models.chat_get_agents_chat_status_byconversationid200_response import ChatGetAgentsChatStatusByconversationid200Response as ChatGetAgentsChatStatusByconversationid200Response
-from hanzoai.cloud.models.chat_get_agents_tools_bytoolid_auth200_response import ChatGetAgentsToolsBytoolidAuth200Response as ChatGetAgentsToolsBytoolidAuth200Response
-from hanzoai.cloud.models.chat_get_agents_v1_models200_response import ChatGetAgentsV1Models200Response as ChatGetAgentsV1Models200Response
-from hanzoai.cloud.models.chat_get_auth2fa_enable200_response import ChatGetAuth2faEnable200Response as ChatGetAuth2faEnable200Response
-from hanzoai.cloud.models.chat_get_convos_gen_title_byconversationid200_response import ChatGetConvosGenTitleByconversationid200Response as ChatGetConvosGenTitleByconversationid200Response
-from hanzoai.cloud.models.chat_get_mcp_byservername_auth_values200_response import ChatGetMcpByservernameAuthValues200Response as ChatGetMcpByservernameAuthValues200Response
-from hanzoai.cloud.models.chat_get_mcp_connection_status200_response import ChatGetMcpConnectionStatus200Response as ChatGetMcpConnectionStatus200Response
-from hanzoai.cloud.models.chat_get_mcp_oauth_status_byflowid200_response import ChatGetMcpOauthStatusByflowid200Response as ChatGetMcpOauthStatusByflowid200Response
-from hanzoai.cloud.models.chat_get_memories200_response import ChatGetMemories200Response as ChatGetMemories200Response
-from hanzoai.cloud.models.chat_get_messages200_response import ChatGetMessages200Response as ChatGetMessages200Response
-from hanzoai.cloud.models.chat_get_share200_response import ChatGetShare200Response as ChatGetShare200Response
-from hanzoai.cloud.models.chat_get_share_link_byconversationid200_response import ChatGetShareLinkByconversationid200Response as ChatGetShareLinkByconversationid200Response
-from hanzoai.cloud.models.chat_memory import ChatMemory as ChatMemory
-from hanzoai.cloud.models.chat_message import ChatMessage as ChatMessage
-from hanzoai.cloud.models.chat_model_object import ChatModelObject as ChatModelObject
-from hanzoai.cloud.models.chat_patch_memories_bykey_request import ChatPatchMemoriesBykeyRequest as ChatPatchMemoriesBykeyRequest
-from hanzoai.cloud.models.chat_patch_memories_preferences_request import ChatPatchMemoriesPreferencesRequest as ChatPatchMemoriesPreferencesRequest
-from hanzoai.cloud.models.chat_post_admin_login_local_request import ChatPostAdminLoginLocalRequest as ChatPostAdminLoginLocalRequest
-from hanzoai.cloud.models.chat_post_admin_oauth_exchange200_response import ChatPostAdminOauthExchange200Response as ChatPostAdminOauthExchange200Response
-from hanzoai.cloud.models.chat_post_admin_oauth_exchange_request import ChatPostAdminOauthExchangeRequest as ChatPostAdminOauthExchangeRequest
-from hanzoai.cloud.models.chat_post_agents_actions_byagent_id_request import ChatPostAgentsActionsByagentIdRequest as ChatPostAgentsActionsByagentIdRequest
-from hanzoai.cloud.models.chat_post_agents_byid_revert_request import ChatPostAgentsByidRevertRequest as ChatPostAgentsByidRevertRequest
-from hanzoai.cloud.models.chat_post_agents_chat_abort200_response import ChatPostAgentsChatAbort200Response as ChatPostAgentsChatAbort200Response
-from hanzoai.cloud.models.chat_post_agents_chat_abort_request import ChatPostAgentsChatAbortRequest as ChatPostAgentsChatAbortRequest
-from hanzoai.cloud.models.chat_post_agents_v1_chat_completions_request import ChatPostAgentsV1ChatCompletionsRequest as ChatPostAgentsV1ChatCompletionsRequest
-from hanzoai.cloud.models.chat_post_agents_v1_responses_request import ChatPostAgentsV1ResponsesRequest as ChatPostAgentsV1ResponsesRequest
-from hanzoai.cloud.models.chat_post_agents_v1_responses_request_input import ChatPostAgentsV1ResponsesRequestInput as ChatPostAgentsV1ResponsesRequestInput
-from hanzoai.cloud.models.chat_post_auth2fa_backup_regenerate200_response import ChatPostAuth2faBackupRegenerate200Response as ChatPostAuth2faBackupRegenerate200Response
-from hanzoai.cloud.models.chat_post_auth2fa_backup_regenerate_request import ChatPostAuth2faBackupRegenerateRequest as ChatPostAuth2faBackupRegenerateRequest
-from hanzoai.cloud.models.chat_post_auth2fa_verify_temp_request import ChatPostAuth2faVerifyTempRequest as ChatPostAuth2faVerifyTempRequest
-from hanzoai.cloud.models.chat_post_auth_login_request import ChatPostAuthLoginRequest as ChatPostAuthLoginRequest
-from hanzoai.cloud.models.chat_post_auth_refresh_request import ChatPostAuthRefreshRequest as ChatPostAuthRefreshRequest
-from hanzoai.cloud.models.chat_post_auth_register_request import ChatPostAuthRegisterRequest as ChatPostAuthRegisterRequest
-from hanzoai.cloud.models.chat_post_auth_requestpasswordreset_request import ChatPostAuthRequestpasswordresetRequest as ChatPostAuthRequestpasswordresetRequest
-from hanzoai.cloud.models.chat_post_auth_resetpassword_request import ChatPostAuthResetpasswordRequest as ChatPostAuthResetpasswordRequest
-from hanzoai.cloud.models.chat_post_convos_archive_request import ChatPostConvosArchiveRequest as ChatPostConvosArchiveRequest
-from hanzoai.cloud.models.chat_post_convos_archive_request_arg import ChatPostConvosArchiveRequestArg as ChatPostConvosArchiveRequestArg
-from hanzoai.cloud.models.chat_post_convos_duplicate_request import ChatPostConvosDuplicateRequest as ChatPostConvosDuplicateRequest
-from hanzoai.cloud.models.chat_post_convos_fork200_response import ChatPostConvosFork200Response as ChatPostConvosFork200Response
-from hanzoai.cloud.models.chat_post_convos_fork_request import ChatPostConvosForkRequest as ChatPostConvosForkRequest
-from hanzoai.cloud.models.chat_post_convos_update_request import ChatPostConvosUpdateRequest as ChatPostConvosUpdateRequest
-from hanzoai.cloud.models.chat_post_convos_update_request_arg import ChatPostConvosUpdateRequestArg as ChatPostConvosUpdateRequestArg
-from hanzoai.cloud.models.chat_post_files_images_avatar200_response import ChatPostFilesImagesAvatar200Response as ChatPostFilesImagesAvatar200Response
-from hanzoai.cloud.models.chat_post_files_speech_tts_request import ChatPostFilesSpeechTtsRequest as ChatPostFilesSpeechTtsRequest
-from hanzoai.cloud.models.chat_post_mcp_byservername_reinitialize200_response import ChatPostMcpByservernameReinitialize200Response as ChatPostMcpByservernameReinitialize200Response
-from hanzoai.cloud.models.chat_post_memories201_response import ChatPostMemories201Response as ChatPostMemories201Response
-from hanzoai.cloud.models.chat_post_memories_request import ChatPostMemoriesRequest as ChatPostMemoriesRequest
-from hanzoai.cloud.models.chat_post_messages_artifact_bymessageid200_response import ChatPostMessagesArtifactBymessageid200Response as ChatPostMessagesArtifactBymessageid200Response
-from hanzoai.cloud.models.chat_post_messages_artifact_bymessageid_request import ChatPostMessagesArtifactBymessageidRequest as ChatPostMessagesArtifactBymessageidRequest
-from hanzoai.cloud.models.chat_post_messages_branch_request import ChatPostMessagesBranchRequest as ChatPostMessagesBranchRequest
-from hanzoai.cloud.models.chat_post_presets_delete_request import ChatPostPresetsDeleteRequest as ChatPostPresetsDeleteRequest
-from hanzoai.cloud.models.chat_post_prompts_groups_bygroupid_prompts_request import ChatPostPromptsGroupsBygroupidPromptsRequest as ChatPostPromptsGroupsBygroupidPromptsRequest
-from hanzoai.cloud.models.chat_post_prompts_request import ChatPostPromptsRequest as ChatPostPromptsRequest
-from hanzoai.cloud.models.chat_post_prompts_request_group import ChatPostPromptsRequestGroup as ChatPostPromptsRequestGroup
-from hanzoai.cloud.models.chat_post_share_byconversationid_request import ChatPostShareByconversationidRequest as ChatPostShareByconversationidRequest
-from hanzoai.cloud.models.chat_post_user_plugins_request import ChatPostUserPluginsRequest as ChatPostUserPluginsRequest
-from hanzoai.cloud.models.chat_post_user_verify_request import ChatPostUserVerifyRequest as ChatPostUserVerifyRequest
-from hanzoai.cloud.models.chat_post_user_verify_resend_request import ChatPostUserVerifyResendRequest as ChatPostUserVerifyResendRequest
-from hanzoai.cloud.models.chat_preset import ChatPreset as ChatPreset
-from hanzoai.cloud.models.chat_put_keys_request import ChatPutKeysRequest as ChatPutKeysRequest
-from hanzoai.cloud.models.chat_put_messages_byconversationid_bymessageid_feedback200_response import ChatPutMessagesByconversationidBymessageidFeedback200Response as ChatPutMessagesByconversationidBymessageidFeedback200Response
-from hanzoai.cloud.models.chat_put_messages_byconversationid_bymessageid_feedback_request import ChatPutMessagesByconversationidBymessageidFeedbackRequest as ChatPutMessagesByconversationidBymessageidFeedbackRequest
-from hanzoai.cloud.models.chat_put_messages_byconversationid_bymessageid_feedback_request_feedback import ChatPutMessagesByconversationidBymessageidFeedbackRequestFeedback as ChatPutMessagesByconversationidBymessageidFeedbackRequestFeedback
-from hanzoai.cloud.models.chat_put_messages_byconversationid_bymessageid_request import ChatPutMessagesByconversationidBymessageidRequest as ChatPutMessagesByconversationidBymessageidRequest
-from hanzoai.cloud.models.chat_put_tags_convo_byconversationid_request import ChatPutTagsConvoByconversationidRequest as ChatPutTagsConvoByconversationidRequest
-from hanzoai.cloud.models.chat_response_object import ChatResponseObject as ChatResponseObject
-from hanzoai.cloud.models.chat_startup_config import ChatStartupConfig as ChatStartupConfig
-from hanzoai.cloud.models.chat_tool import ChatTool as ChatTool
-from hanzoai.cloud.models.chat_user import ChatUser as ChatUser
 from hanzoai.cloud.models.cloud_agent_mcp_tools import CloudAgentMcpTools as CloudAgentMcpTools
 from hanzoai.cloud.models.cloud_agent_sessions_controller_list200_response import CloudAgentSessionsControllerList200Response as CloudAgentSessionsControllerList200Response
 from hanzoai.cloud.models.cloud_agents_activity import CloudAgentsActivity as CloudAgentsActivity
@@ -3040,14 +2021,12 @@ from hanzoai.cloud.models.cloud_object_vector import CloudObjectVector as CloudO
 from hanzoai.cloud.models.cloud_object_vector_score import CloudObjectVectorScore as CloudObjectVectorScore
 from hanzoai.cloud.models.cloud_object_video import CloudObjectVideo as CloudObjectVideo
 from hanzoai.cloud.models.cloud_object_workflow import CloudObjectWorkflow as CloudObjectWorkflow
-from hanzoai.cloud.models.cloud_product_controller_chat_docs_request import CloudProductControllerChatDocsRequest as CloudProductControllerChatDocsRequest
-from hanzoai.cloud.models.cloud_product_controller_chat_docs_request_messages_inner import CloudProductControllerChatDocsRequestMessagesInner as CloudProductControllerChatDocsRequestMessagesInner
-from hanzoai.cloud.models.cloud_product_controller_index_docs_request import CloudProductControllerIndexDocsRequest as CloudProductControllerIndexDocsRequest
 from hanzoai.cloud.models.cloud_product_controller_search_docs_request import CloudProductControllerSearchDocsRequest as CloudProductControllerSearchDocsRequest
 from hanzoai.cloud.models.cloud_util_system_info import CloudUtilSystemInfo as CloudUtilSystemInfo
 from hanzoai.cloud.models.cloud_util_version_info import CloudUtilVersionInfo as CloudUtilVersionInfo
 from hanzoai.cloud.models.commerce_access_token import CommerceAccessToken as CommerceAccessToken
 from hanzoai.cloud.models.commerce_account_exists200_response import CommerceAccountExists200Response as CommerceAccountExists200Response
+from hanzoai.cloud.models.commerce_account_login_request import CommerceAccountLoginRequest as CommerceAccountLoginRequest
 from hanzoai.cloud.models.commerce_account_withdraw_request import CommerceAccountWithdrawRequest as CommerceAccountWithdrawRequest
 from hanzoai.cloud.models.commerce_address import CommerceAddress as CommerceAddress
 from hanzoai.cloud.models.commerce_affiliate import CommerceAffiliate as CommerceAffiliate
@@ -3096,6 +2075,7 @@ from hanzoai.cloud.models.commerce_product_option import CommerceProductOption a
 from hanzoai.cloud.models.commerce_referral import CommerceReferral as CommerceReferral
 from hanzoai.cloud.models.commerce_referrer import CommerceReferrer as CommerceReferrer
 from hanzoai.cloud.models.commerce_refund_order_request import CommerceRefundOrderRequest as CommerceRefundOrderRequest
+from hanzoai.cloud.models.commerce_request_password_reset_request import CommerceRequestPasswordResetRequest as CommerceRequestPasswordResetRequest
 from hanzoai.cloud.models.commerce_return import CommerceReturn as CommerceReturn
 from hanzoai.cloud.models.commerce_revenue_metrics import CommerceRevenueMetrics as CommerceRevenueMetrics
 from hanzoai.cloud.models.commerce_saa_s_metrics import CommerceSaaSMetrics as CommerceSaaSMetrics
@@ -3116,84 +2096,6 @@ from hanzoai.cloud.models.commerce_variant import CommerceVariant as CommerceVar
 from hanzoai.cloud.models.commerce_wallet import CommerceWallet as CommerceWallet
 from hanzoai.cloud.models.commerce_wallet_account import CommerceWalletAccount as CommerceWalletAccount
 from hanzoai.cloud.models.commerce_wallet_pay_request import CommerceWalletPayRequest as CommerceWalletPayRequest
-from hanzoai.cloud.models.console_annotation_queue import ConsoleAnnotationQueue as ConsoleAnnotationQueue
-from hanzoai.cloud.models.console_annotation_queue_item import ConsoleAnnotationQueueItem as ConsoleAnnotationQueueItem
-from hanzoai.cloud.models.console_comment import ConsoleComment as ConsoleComment
-from hanzoai.cloud.models.console_create_annotation_queue_request import ConsoleCreateAnnotationQueueRequest as ConsoleCreateAnnotationQueueRequest
-from hanzoai.cloud.models.console_create_comment200_response import ConsoleCreateComment200Response as ConsoleCreateComment200Response
-from hanzoai.cloud.models.console_create_comment_request import ConsoleCreateCommentRequest as ConsoleCreateCommentRequest
-from hanzoai.cloud.models.console_create_dataset_item_request import ConsoleCreateDatasetItemRequest as ConsoleCreateDatasetItemRequest
-from hanzoai.cloud.models.console_create_dataset_request import ConsoleCreateDatasetRequest as ConsoleCreateDatasetRequest
-from hanzoai.cloud.models.console_create_dataset_run_item_request import ConsoleCreateDatasetRunItemRequest as ConsoleCreateDatasetRunItemRequest
-from hanzoai.cloud.models.console_create_model_request import ConsoleCreateModelRequest as ConsoleCreateModelRequest
-from hanzoai.cloud.models.console_create_project_api_key200_response import ConsoleCreateProjectApiKey200Response as ConsoleCreateProjectApiKey200Response
-from hanzoai.cloud.models.console_create_project_api_key_request import ConsoleCreateProjectApiKeyRequest as ConsoleCreateProjectApiKeyRequest
-from hanzoai.cloud.models.console_create_project_request import ConsoleCreateProjectRequest as ConsoleCreateProjectRequest
-from hanzoai.cloud.models.console_create_prompt_request import ConsoleCreatePromptRequest as ConsoleCreatePromptRequest
-from hanzoai.cloud.models.console_create_score_config_request import ConsoleCreateScoreConfigRequest as ConsoleCreateScoreConfigRequest
-from hanzoai.cloud.models.console_create_score_config_request_categories_inner import ConsoleCreateScoreConfigRequestCategoriesInner as ConsoleCreateScoreConfigRequestCategoriesInner
-from hanzoai.cloud.models.console_create_score_request import ConsoleCreateScoreRequest as ConsoleCreateScoreRequest
-from hanzoai.cloud.models.console_dataset import ConsoleDataset as ConsoleDataset
-from hanzoai.cloud.models.console_dataset_item import ConsoleDatasetItem as ConsoleDatasetItem
-from hanzoai.cloud.models.console_dataset_run import ConsoleDatasetRun as ConsoleDatasetRun
-from hanzoai.cloud.models.console_dataset_run_item import ConsoleDatasetRunItem as ConsoleDatasetRunItem
-from hanzoai.cloud.models.console_delete_dataset_item200_response import ConsoleDeleteDatasetItem200Response as ConsoleDeleteDatasetItem200Response
-from hanzoai.cloud.models.console_delete_organization_membership200_response import ConsoleDeleteOrganizationMembership200Response as ConsoleDeleteOrganizationMembership200Response
-from hanzoai.cloud.models.console_delete_organization_membership_request import ConsoleDeleteOrganizationMembershipRequest as ConsoleDeleteOrganizationMembershipRequest
-from hanzoai.cloud.models.console_delete_project202_response import ConsoleDeleteProject202Response as ConsoleDeleteProject202Response
-from hanzoai.cloud.models.console_delete_project_api_key200_response import ConsoleDeleteProjectApiKey200Response as ConsoleDeleteProjectApiKey200Response
-from hanzoai.cloud.models.console_delete_traces_request import ConsoleDeleteTracesRequest as ConsoleDeleteTracesRequest
-from hanzoai.cloud.models.console_error import ConsoleError as ConsoleError
-from hanzoai.cloud.models.console_get_daily_metrics200_response import ConsoleGetDailyMetrics200Response as ConsoleGetDailyMetrics200Response
-from hanzoai.cloud.models.console_get_daily_metrics200_response_data_inner import ConsoleGetDailyMetrics200ResponseDataInner as ConsoleGetDailyMetrics200ResponseDataInner
-from hanzoai.cloud.models.console_get_dataset_run200_response import ConsoleGetDatasetRun200Response as ConsoleGetDatasetRun200Response
-from hanzoai.cloud.models.console_get_media_upload_url200_response import ConsoleGetMediaUploadUrl200Response as ConsoleGetMediaUploadUrl200Response
-from hanzoai.cloud.models.console_get_media_upload_url_request import ConsoleGetMediaUploadUrlRequest as ConsoleGetMediaUploadUrlRequest
-from hanzoai.cloud.models.console_get_metrics200_response import ConsoleGetMetrics200Response as ConsoleGetMetrics200Response
-from hanzoai.cloud.models.console_get_project200_response import ConsoleGetProject200Response as ConsoleGetProject200Response
-from hanzoai.cloud.models.console_health_response import ConsoleHealthResponse as ConsoleHealthResponse
-from hanzoai.cloud.models.console_ingestion_event import ConsoleIngestionEvent as ConsoleIngestionEvent
-from hanzoai.cloud.models.console_ingestion_response import ConsoleIngestionResponse as ConsoleIngestionResponse
-from hanzoai.cloud.models.console_ingestion_response_errors_inner import ConsoleIngestionResponseErrorsInner as ConsoleIngestionResponseErrorsInner
-from hanzoai.cloud.models.console_ingestion_response_successes_inner import ConsoleIngestionResponseSuccessesInner as ConsoleIngestionResponseSuccessesInner
-from hanzoai.cloud.models.console_list_annotation_queue_items200_response import ConsoleListAnnotationQueueItems200Response as ConsoleListAnnotationQueueItems200Response
-from hanzoai.cloud.models.console_list_annotation_queues200_response import ConsoleListAnnotationQueues200Response as ConsoleListAnnotationQueues200Response
-from hanzoai.cloud.models.console_list_comments200_response import ConsoleListComments200Response as ConsoleListComments200Response
-from hanzoai.cloud.models.console_list_dataset_items200_response import ConsoleListDatasetItems200Response as ConsoleListDatasetItems200Response
-from hanzoai.cloud.models.console_list_dataset_runs200_response import ConsoleListDatasetRuns200Response as ConsoleListDatasetRuns200Response
-from hanzoai.cloud.models.console_list_datasets200_response import ConsoleListDatasets200Response as ConsoleListDatasets200Response
-from hanzoai.cloud.models.console_list_models200_response import ConsoleListModels200Response as ConsoleListModels200Response
-from hanzoai.cloud.models.console_list_observations200_response import ConsoleListObservations200Response as ConsoleListObservations200Response
-from hanzoai.cloud.models.console_list_organization_api_keys200_response import ConsoleListOrganizationApiKeys200Response as ConsoleListOrganizationApiKeys200Response
-from hanzoai.cloud.models.console_list_organization_api_keys200_response_api_keys_inner import ConsoleListOrganizationApiKeys200ResponseApiKeysInner as ConsoleListOrganizationApiKeys200ResponseApiKeysInner
-from hanzoai.cloud.models.console_list_organization_memberships200_response import ConsoleListOrganizationMemberships200Response as ConsoleListOrganizationMemberships200Response
-from hanzoai.cloud.models.console_list_organization_projects200_response import ConsoleListOrganizationProjects200Response as ConsoleListOrganizationProjects200Response
-from hanzoai.cloud.models.console_list_organization_projects200_response_projects_inner import ConsoleListOrganizationProjects200ResponseProjectsInner as ConsoleListOrganizationProjects200ResponseProjectsInner
-from hanzoai.cloud.models.console_list_prompts200_response import ConsoleListPrompts200Response as ConsoleListPrompts200Response
-from hanzoai.cloud.models.console_list_score_configs200_response import ConsoleListScoreConfigs200Response as ConsoleListScoreConfigs200Response
-from hanzoai.cloud.models.console_list_scores200_response import ConsoleListScores200Response as ConsoleListScores200Response
-from hanzoai.cloud.models.console_list_sessions200_response import ConsoleListSessions200Response as ConsoleListSessions200Response
-from hanzoai.cloud.models.console_list_traces200_response import ConsoleListTraces200Response as ConsoleListTraces200Response
-from hanzoai.cloud.models.console_media_record import ConsoleMediaRecord as ConsoleMediaRecord
-from hanzoai.cloud.models.console_membership import ConsoleMembership as ConsoleMembership
-from hanzoai.cloud.models.console_model import ConsoleModel as ConsoleModel
-from hanzoai.cloud.models.console_observation import ConsoleObservation as ConsoleObservation
-from hanzoai.cloud.models.console_pagination_meta import ConsolePaginationMeta as ConsolePaginationMeta
-from hanzoai.cloud.models.console_patch_media_request import ConsolePatchMediaRequest as ConsolePatchMediaRequest
-from hanzoai.cloud.models.console_project import ConsoleProject as ConsoleProject
-from hanzoai.cloud.models.console_project_organization import ConsoleProjectOrganization as ConsoleProjectOrganization
-from hanzoai.cloud.models.console_prompt import ConsolePrompt as ConsolePrompt
-from hanzoai.cloud.models.console_prompt_meta import ConsolePromptMeta as ConsolePromptMeta
-from hanzoai.cloud.models.console_score import ConsoleScore as ConsoleScore
-from hanzoai.cloud.models.console_score_config import ConsoleScoreConfig as ConsoleScoreConfig
-from hanzoai.cloud.models.console_session import ConsoleSession as ConsoleSession
-from hanzoai.cloud.models.console_session_with_traces import ConsoleSessionWithTraces as ConsoleSessionWithTraces
-from hanzoai.cloud.models.console_trace import ConsoleTrace as ConsoleTrace
-from hanzoai.cloud.models.console_trace_with_full_details import ConsoleTraceWithFullDetails as ConsoleTraceWithFullDetails
-from hanzoai.cloud.models.console_update_organization_membership_request import ConsoleUpdateOrganizationMembershipRequest as ConsoleUpdateOrganizationMembershipRequest
-from hanzoai.cloud.models.console_update_project_request import ConsoleUpdateProjectRequest as ConsoleUpdateProjectRequest
-from hanzoai.cloud.models.console_update_score_config_request import ConsoleUpdateScoreConfigRequest as ConsoleUpdateScoreConfigRequest
-from hanzoai.cloud.models.console_usage import ConsoleUsage as ConsoleUsage
 from hanzoai.cloud.models.crm_company import CrmCompany as CrmCompany
 from hanzoai.cloud.models.crm_company_input import CrmCompanyInput as CrmCompanyInput
 from hanzoai.cloud.models.crm_contact import CrmContact as CrmContact
@@ -3205,64 +2107,6 @@ from hanzoai.cloud.models.crm_opportunity import CrmOpportunity as CrmOpportunit
 from hanzoai.cloud.models.crm_opportunity_input import CrmOpportunityInput as CrmOpportunityInput
 from hanzoai.cloud.models.crm_stage import CrmStage as CrmStage
 from hanzoai.cloud.models.crm_summary import CrmSummary as CrmSummary
-from hanzoai.cloud.models.db_branch import DbBranch as DbBranch
-from hanzoai.cloud.models.db_branch_create import DbBranchCreate as DbBranchCreate
-from hanzoai.cloud.models.db_connection_uri import DbConnectionUri as DbConnectionUri
-from hanzoai.cloud.models.db_connection_uri_connection_parameters import DbConnectionUriConnectionParameters as DbConnectionUriConnectionParameters
-from hanzoai.cloud.models.db_consumption_period import DbConsumptionPeriod as DbConsumptionPeriod
-from hanzoai.cloud.models.db_create_branch201_response import DbCreateBranch201Response as DbCreateBranch201Response
-from hanzoai.cloud.models.db_create_branch_request import DbCreateBranchRequest as DbCreateBranchRequest
-from hanzoai.cloud.models.db_create_database201_response import DbCreateDatabase201Response as DbCreateDatabase201Response
-from hanzoai.cloud.models.db_create_database_request import DbCreateDatabaseRequest as DbCreateDatabaseRequest
-from hanzoai.cloud.models.db_create_endpoint201_response import DbCreateEndpoint201Response as DbCreateEndpoint201Response
-from hanzoai.cloud.models.db_create_endpoint_request import DbCreateEndpointRequest as DbCreateEndpointRequest
-from hanzoai.cloud.models.db_create_project201_response import DbCreateProject201Response as DbCreateProject201Response
-from hanzoai.cloud.models.db_create_project_request import DbCreateProjectRequest as DbCreateProjectRequest
-from hanzoai.cloud.models.db_create_role201_response import DbCreateRole201Response as DbCreateRole201Response
-from hanzoai.cloud.models.db_create_role_request import DbCreateRoleRequest as DbCreateRoleRequest
-from hanzoai.cloud.models.db_database import DbDatabase as DbDatabase
-from hanzoai.cloud.models.db_database_create import DbDatabaseCreate as DbDatabaseCreate
-from hanzoai.cloud.models.db_endpoint import DbEndpoint as DbEndpoint
-from hanzoai.cloud.models.db_endpoint_create import DbEndpointCreate as DbEndpointCreate
-from hanzoai.cloud.models.db_endpoint_settings import DbEndpointSettings as DbEndpointSettings
-from hanzoai.cloud.models.db_error import DbError as DbError
-from hanzoai.cloud.models.db_get_branch200_response import DbGetBranch200Response as DbGetBranch200Response
-from hanzoai.cloud.models.db_get_consumption200_response import DbGetConsumption200Response as DbGetConsumption200Response
-from hanzoai.cloud.models.db_get_project200_response import DbGetProject200Response as DbGetProject200Response
-from hanzoai.cloud.models.db_list_branches200_response import DbListBranches200Response as DbListBranches200Response
-from hanzoai.cloud.models.db_list_databases200_response import DbListDatabases200Response as DbListDatabases200Response
-from hanzoai.cloud.models.db_list_endpoints200_response import DbListEndpoints200Response as DbListEndpoints200Response
-from hanzoai.cloud.models.db_list_operations200_response import DbListOperations200Response as DbListOperations200Response
-from hanzoai.cloud.models.db_list_projects200_response import DbListProjects200Response as DbListProjects200Response
-from hanzoai.cloud.models.db_list_projects200_response_pagination import DbListProjects200ResponsePagination as DbListProjects200ResponsePagination
-from hanzoai.cloud.models.db_list_roles200_response import DbListRoles200Response as DbListRoles200Response
-from hanzoai.cloud.models.db_operation import DbOperation as DbOperation
-from hanzoai.cloud.models.db_project import DbProject as DbProject
-from hanzoai.cloud.models.db_project_create import DbProjectCreate as DbProjectCreate
-from hanzoai.cloud.models.db_restore_branch200_response import DbRestoreBranch200Response as DbRestoreBranch200Response
-from hanzoai.cloud.models.db_restore_branch_request import DbRestoreBranchRequest as DbRestoreBranchRequest
-from hanzoai.cloud.models.db_role import DbRole as DbRole
-from hanzoai.cloud.models.db_role_create import DbRoleCreate as DbRoleCreate
-from hanzoai.cloud.models.db_update_database_request import DbUpdateDatabaseRequest as DbUpdateDatabaseRequest
-from hanzoai.cloud.models.db_update_database_request_database import DbUpdateDatabaseRequestDatabase as DbUpdateDatabaseRequestDatabase
-from hanzoai.cloud.models.db_update_endpoint_request import DbUpdateEndpointRequest as DbUpdateEndpointRequest
-from hanzoai.cloud.models.db_update_endpoint_request_endpoint import DbUpdateEndpointRequestEndpoint as DbUpdateEndpointRequestEndpoint
-from hanzoai.cloud.models.db_update_project_request import DbUpdateProjectRequest as DbUpdateProjectRequest
-from hanzoai.cloud.models.db_update_project_request_project import DbUpdateProjectRequestProject as DbUpdateProjectRequestProject
-from hanzoai.cloud.models.did_create_team_request import DidCreateTeamRequest as DidCreateTeamRequest
-from hanzoai.cloud.models.did_directory import DidDirectory as DidDirectory
-from hanzoai.cloud.models.did_error import DidError as DidError
-from hanzoai.cloud.models.did_get_profile_history200_response import DidGetProfileHistory200Response as DidGetProfileHistory200Response
-from hanzoai.cloud.models.did_get_team_members200_response import DidGetTeamMembers200Response as DidGetTeamMembers200Response
-from hanzoai.cloud.models.did_identity_change import DidIdentityChange as DidIdentityChange
-from hanzoai.cloud.models.did_link_identity_request import DidLinkIdentityRequest as DidLinkIdentityRequest
-from hanzoai.cloud.models.did_linked_identity import DidLinkedIdentity as DidLinkedIdentity
-from hanzoai.cloud.models.did_list_linked_identities200_response import DidListLinkedIdentities200Response as DidListLinkedIdentities200Response
-from hanzoai.cloud.models.did_list_profiles200_response import DidListProfiles200Response as DidListProfiles200Response
-from hanzoai.cloud.models.did_list_teams200_response import DidListTeams200Response as DidListTeams200Response
-from hanzoai.cloud.models.did_profile import DidProfile as DidProfile
-from hanzoai.cloud.models.did_team import DidTeam as DidTeam
-from hanzoai.cloud.models.did_update_profile_request import DidUpdateProfileRequest as DidUpdateProfileRequest
 from hanzoai.cloud.models.dns_dnssec_status import DnsDNSSECStatus as DnsDNSSECStatus
 from hanzoai.cloud.models.dns_error import DnsError as DnsError
 from hanzoai.cloud.models.dns_import_zone200_response import DnsImportZone200Response as DnsImportZone200Response
@@ -3300,48 +2144,6 @@ from hanzoai.cloud.models.edge_rollback_function_request import EdgeRollbackFunc
 from hanzoai.cloud.models.edge_secret import EdgeSecret as EdgeSecret
 from hanzoai.cloud.models.edge_secret_create import EdgeSecretCreate as EdgeSecretCreate
 from hanzoai.cloud.models.edge_update_secret_request import EdgeUpdateSecretRequest as EdgeUpdateSecretRequest
-from hanzoai.cloud.models.engine_cluster import EngineCluster as EngineCluster
-from hanzoai.cloud.models.engine_cluster_create import EngineClusterCreate as EngineClusterCreate
-from hanzoai.cloud.models.engine_cluster_node import EngineClusterNode as EngineClusterNode
-from hanzoai.cloud.models.engine_error import EngineError as EngineError
-from hanzoai.cloud.models.engine_gpu_allocation import EngineGPUAllocation as EngineGPUAllocation
-from hanzoai.cloud.models.engine_gpu_allocation_allocations_inner import EngineGPUAllocationAllocationsInner as EngineGPUAllocationAllocationsInner
-from hanzoai.cloud.models.engine_gpu_device import EngineGPUDevice as EngineGPUDevice
-from hanzoai.cloud.models.engine_gpu_type import EngineGPUType as EngineGPUType
-from hanzoai.cloud.models.engine_get_gpu_allocations200_response import EngineGetGPUAllocations200Response as EngineGetGPUAllocations200Response
-from hanzoai.cloud.models.engine_get_ray_dashboard200_response import EngineGetRayDashboard200Response as EngineGetRayDashboard200Response
-from hanzoai.cloud.models.engine_job import EngineJob as EngineJob
-from hanzoai.cloud.models.engine_job_create import EngineJobCreate as EngineJobCreate
-from hanzoai.cloud.models.engine_job_metrics import EngineJobMetrics as EngineJobMetrics
-from hanzoai.cloud.models.engine_job_resources import EngineJobResources as EngineJobResources
-from hanzoai.cloud.models.engine_list_cluster_nodes200_response import EngineListClusterNodes200Response as EngineListClusterNodes200Response
-from hanzoai.cloud.models.engine_list_clusters200_response import EngineListClusters200Response as EngineListClusters200Response
-from hanzoai.cloud.models.engine_list_gpu_types200_response import EngineListGPUTypes200Response as EngineListGPUTypes200Response
-from hanzoai.cloud.models.engine_list_jobs200_response import EngineListJobs200Response as EngineListJobs200Response
-from hanzoai.cloud.models.engine_list_pipeline_runs200_response import EngineListPipelineRuns200Response as EngineListPipelineRuns200Response
-from hanzoai.cloud.models.engine_list_pipelines200_response import EngineListPipelines200Response as EngineListPipelines200Response
-from hanzoai.cloud.models.engine_list_ray_clusters200_response import EngineListRayClusters200Response as EngineListRayClusters200Response
-from hanzoai.cloud.models.engine_list_serving_endpoints200_response import EngineListServingEndpoints200Response as EngineListServingEndpoints200Response
-from hanzoai.cloud.models.engine_pipeline import EnginePipeline as EnginePipeline
-from hanzoai.cloud.models.engine_pipeline_create import EnginePipelineCreate as EnginePipelineCreate
-from hanzoai.cloud.models.engine_pipeline_create_parameters_inner import EnginePipelineCreateParametersInner as EnginePipelineCreateParametersInner
-from hanzoai.cloud.models.engine_pipeline_parameters_inner import EnginePipelineParametersInner as EnginePipelineParametersInner
-from hanzoai.cloud.models.engine_pipeline_run import EnginePipelineRun as EnginePipelineRun
-from hanzoai.cloud.models.engine_pipeline_run_artifacts_inner import EnginePipelineRunArtifactsInner as EnginePipelineRunArtifactsInner
-from hanzoai.cloud.models.engine_pipeline_run_create import EnginePipelineRunCreate as EnginePipelineRunCreate
-from hanzoai.cloud.models.engine_ray_cluster import EngineRayCluster as EngineRayCluster
-from hanzoai.cloud.models.engine_ray_cluster_create import EngineRayClusterCreate as EngineRayClusterCreate
-from hanzoai.cloud.models.engine_ray_cluster_create_head import EngineRayClusterCreateHead as EngineRayClusterCreateHead
-from hanzoai.cloud.models.engine_ray_cluster_create_workers_inner import EngineRayClusterCreateWorkersInner as EngineRayClusterCreateWorkersInner
-from hanzoai.cloud.models.engine_ray_cluster_head import EngineRayClusterHead as EngineRayClusterHead
-from hanzoai.cloud.models.engine_ray_cluster_scale import EngineRayClusterScale as EngineRayClusterScale
-from hanzoai.cloud.models.engine_ray_cluster_scale_workers_inner import EngineRayClusterScaleWorkersInner as EngineRayClusterScaleWorkersInner
-from hanzoai.cloud.models.engine_ray_cluster_workers_inner import EngineRayClusterWorkersInner as EngineRayClusterWorkersInner
-from hanzoai.cloud.models.engine_serving_endpoint import EngineServingEndpoint as EngineServingEndpoint
-from hanzoai.cloud.models.engine_serving_endpoint_create import EngineServingEndpointCreate as EngineServingEndpointCreate
-from hanzoai.cloud.models.engine_serving_metrics import EngineServingMetrics as EngineServingMetrics
-from hanzoai.cloud.models.engine_update_cluster_request import EngineUpdateClusterRequest as EngineUpdateClusterRequest
-from hanzoai.cloud.models.engine_update_serving_endpoint_request import EngineUpdateServingEndpointRequest as EngineUpdateServingEndpointRequest
 from hanzoai.cloud.models.evals_dataset import EvalsDataset as EvalsDataset
 from hanzoai.cloud.models.evals_dataset_create import EvalsDatasetCreate as EvalsDatasetCreate
 from hanzoai.cloud.models.evals_dataset_item import EvalsDatasetItem as EvalsDatasetItem
@@ -3360,48 +2162,6 @@ from hanzoai.cloud.models.exec_exec_request import ExecExecRequest as ExecExecRe
 from hanzoai.cloud.models.exec_exec_result import ExecExecResult as ExecExecResult
 from hanzoai.cloud.models.exec_list_session_files200_response import ExecListSessionFiles200Response as ExecListSessionFiles200Response
 from hanzoai.cloud.models.exec_upload_file200_response import ExecUploadFile200Response as ExecUploadFile200Response
-from hanzoai.cloud.models.flow_accept_user_invitation_request import FlowAcceptUserInvitationRequest as FlowAcceptUserInvitationRequest
-from hanzoai.cloud.models.flow_add_project_member_request import FlowAddProjectMemberRequest as FlowAddProjectMemberRequest
-from hanzoai.cloud.models.flow_app_connection import FlowAppConnection as FlowAppConnection
-from hanzoai.cloud.models.flow_bulk_cancel_flow_runs_request import FlowBulkCancelFlowRunsRequest as FlowBulkCancelFlowRunsRequest
-from hanzoai.cloud.models.flow_connect_git_repo_request import FlowConnectGitRepoRequest as FlowConnectGitRepoRequest
-from hanzoai.cloud.models.flow_count_flows200_response import FlowCountFlows200Response as FlowCountFlows200Response
-from hanzoai.cloud.models.flow_create_custom_domain_request import FlowCreateCustomDomainRequest as FlowCreateCustomDomainRequest
-from hanzoai.cloud.models.flow_create_solution_request import FlowCreateSolutionRequest as FlowCreateSolutionRequest
-from hanzoai.cloud.models.flow_error import FlowError as FlowError
-from hanzoai.cloud.models.flow_field import FlowField as FlowField
-from hanzoai.cloud.models.flow_flow import FlowFlow as FlowFlow
-from hanzoai.cloud.models.flow_flow_run import FlowFlowRun as FlowFlowRun
-from hanzoai.cloud.models.flow_flow_version import FlowFlowVersion as FlowFlowVersion
-from hanzoai.cloud.models.flow_folder import FlowFolder as FlowFolder
-from hanzoai.cloud.models.flow_list_app_connections200_response import FlowListAppConnections200Response as FlowListAppConnections200Response
-from hanzoai.cloud.models.flow_list_flow_runs200_response import FlowListFlowRuns200Response as FlowListFlowRuns200Response
-from hanzoai.cloud.models.flow_list_flows200_response import FlowListFlows200Response as FlowListFlows200Response
-from hanzoai.cloud.models.flow_list_users200_response import FlowListUsers200Response as FlowListUsers200Response
-from hanzoai.cloud.models.flow_piece import FlowPiece as FlowPiece
-from hanzoai.cloud.models.flow_platform import FlowPlatform as FlowPlatform
-from hanzoai.cloud.models.flow_project import FlowProject as FlowProject
-from hanzoai.cloud.models.flow_push_everything_git_repo_request import FlowPushEverythingGitRepoRequest as FlowPushEverythingGitRepoRequest
-from hanzoai.cloud.models.flow_push_flows_git_repo_request import FlowPushFlowsGitRepoRequest as FlowPushFlowsGitRepoRequest
-from hanzoai.cloud.models.flow_push_git_repo_request import FlowPushGitRepoRequest as FlowPushGitRepoRequest
-from hanzoai.cloud.models.flow_push_tables_git_repo_request import FlowPushTablesGitRepoRequest as FlowPushTablesGitRepoRequest
-from hanzoai.cloud.models.flow_record import FlowRecord as FlowRecord
-from hanzoai.cloud.models.flow_replace_app_connections_request import FlowReplaceAppConnectionsRequest as FlowReplaceAppConnectionsRequest
-from hanzoai.cloud.models.flow_retry_flow_run_request import FlowRetryFlowRunRequest as FlowRetryFlowRunRequest
-from hanzoai.cloud.models.flow_save_sample_data_request import FlowSaveSampleDataRequest as FlowSaveSampleDataRequest
-from hanzoai.cloud.models.flow_seek_page import FlowSeekPage as FlowSeekPage
-from hanzoai.cloud.models.flow_store_entry import FlowStoreEntry as FlowStoreEntry
-from hanzoai.cloud.models.flow_table import FlowTable as FlowTable
-from hanzoai.cloud.models.flow_template import FlowTemplate as FlowTemplate
-from hanzoai.cloud.models.flow_todo import FlowTodo as FlowTodo
-from hanzoai.cloud.models.flow_update_app_connection_request import FlowUpdateAppConnectionRequest as FlowUpdateAppConnectionRequest
-from hanzoai.cloud.models.flow_update_platform_request import FlowUpdatePlatformRequest as FlowUpdatePlatformRequest
-from hanzoai.cloud.models.flow_update_record_request import FlowUpdateRecordRequest as FlowUpdateRecordRequest
-from hanzoai.cloud.models.flow_update_todo_request import FlowUpdateTodoRequest as FlowUpdateTodoRequest
-from hanzoai.cloud.models.flow_upsert_app_connection_request import FlowUpsertAppConnectionRequest as FlowUpsertAppConnectionRequest
-from hanzoai.cloud.models.flow_upsert_o_auth_app_request import FlowUpsertOAuthAppRequest as FlowUpsertOAuthAppRequest
-from hanzoai.cloud.models.flow_user import FlowUser as FlowUser
-from hanzoai.cloud.models.flow_user_invitation import FlowUserInvitation as FlowUserInvitation
 from hanzoai.cloud.models.framework_doc_field import FrameworkDocField as FrameworkDocField
 from hanzoai.cloud.models.framework_doc_perm import FrameworkDocPerm as FrameworkDocPerm
 from hanzoai.cloud.models.framework_doc_type import FrameworkDocType as FrameworkDocType
@@ -3438,6 +2198,7 @@ from hanzoai.cloud.models.gateway_calculate_spend_request import GatewayCalculat
 from hanzoai.cloud.models.gateway_chat_completion_request import GatewayChatCompletionRequest as GatewayChatCompletionRequest
 from hanzoai.cloud.models.gateway_chat_completion_response import GatewayChatCompletionResponse as GatewayChatCompletionResponse
 from hanzoai.cloud.models.gateway_chat_completion_response_choices_inner import GatewayChatCompletionResponseChoicesInner as GatewayChatCompletionResponseChoicesInner
+from hanzoai.cloud.models.gateway_chat_completion_response_usage import GatewayChatCompletionResponseUsage as GatewayChatCompletionResponseUsage
 from hanzoai.cloud.models.gateway_chat_message import GatewayChatMessage as GatewayChatMessage
 from hanzoai.cloud.models.gateway_chat_message_content import GatewayChatMessageContent as GatewayChatMessageContent
 from hanzoai.cloud.models.gateway_create_completion_request import GatewayCreateCompletionRequest as GatewayCreateCompletionRequest
@@ -3477,20 +2238,6 @@ from hanzoai.cloud.models.graph_indexer import GraphIndexer as GraphIndexer
 from hanzoai.cloud.models.graph_list_indexers200_response import GraphListIndexers200Response as GraphListIndexers200Response
 from hanzoai.cloud.models.graph_list_oracles200_response import GraphListOracles200Response as GraphListOracles200Response
 from hanzoai.cloud.models.graph_oracle import GraphOracle as GraphOracle
-from hanzoai.cloud.models.guard_audit_entry import GuardAuditEntry as GuardAuditEntry
-from hanzoai.cloud.models.guard_error import GuardError as GuardError
-from hanzoai.cloud.models.guard_get_audit_log200_response import GuardGetAuditLog200Response as GuardGetAuditLog200Response
-from hanzoai.cloud.models.guard_rate_limit_status import GuardRateLimitStatus as GuardRateLimitStatus
-from hanzoai.cloud.models.guard_sanitize_config import GuardSanitizeConfig as GuardSanitizeConfig
-from hanzoai.cloud.models.guard_sanitize_config_content_filter import GuardSanitizeConfigContentFilter as GuardSanitizeConfigContentFilter
-from hanzoai.cloud.models.guard_sanitize_config_injection import GuardSanitizeConfigInjection as GuardSanitizeConfigInjection
-from hanzoai.cloud.models.guard_sanitize_config_pii import GuardSanitizeConfigPii as GuardSanitizeConfigPii
-from hanzoai.cloud.models.guard_sanitize_config_rate_limit import GuardSanitizeConfigRateLimit as GuardSanitizeConfigRateLimit
-from hanzoai.cloud.models.guard_sanitize_request import GuardSanitizeRequest as GuardSanitizeRequest
-from hanzoai.cloud.models.guard_sanitize_result import GuardSanitizeResult as GuardSanitizeResult
-from hanzoai.cloud.models.guard_sanitize_result_content_filter import GuardSanitizeResultContentFilter as GuardSanitizeResultContentFilter
-from hanzoai.cloud.models.guard_sanitize_result_injection import GuardSanitizeResultInjection as GuardSanitizeResultInjection
-from hanzoai.cloud.models.guard_sanitize_result_redactions_inner import GuardSanitizeResultRedactionsInner as GuardSanitizeResultRedactionsInner
 from hanzoai.cloud.models.iam_controllers_check_password_request import IamControllersCheckPasswordRequest as IamControllersCheckPasswordRequest
 from hanzoai.cloud.models.iam_controllers_email_form import IamControllersEmailForm as IamControllersEmailForm
 from hanzoai.cloud.models.iam_controllers_laravel_response import IamControllersLaravelResponse as IamControllersLaravelResponse
@@ -3588,7 +2335,6 @@ from hanzoai.cloud.models.kb_list_catalog200_response import KbListCatalog200Res
 from hanzoai.cloud.models.kb_list_connectors200_response import KbListConnectors200Response as KbListConnectors200Response
 from hanzoai.cloud.models.kb_search_request import KbSearchRequest as KbSearchRequest
 from hanzoai.cloud.models.kb_sync_connector200_response import KbSyncConnector200Response as KbSyncConnector200Response
-from hanzoai.cloud.models.kms_error import KmsError as KmsError
 from hanzoai.cloud.models.kms_get_v1_kms_health200_response import KmsGetV1KmsHealth200Response as KmsGetV1KmsHealth200Response
 from hanzoai.cloud.models.kms_get_v1_kms_keys_id404_response import KmsGetV1KmsKeysId404Response as KmsGetV1KmsKeysId404Response
 from hanzoai.cloud.models.kms_get_v1_kms_secrets200_response import KmsGetV1KmsSecrets200Response as KmsGetV1KmsSecrets200Response
@@ -3598,8 +2344,6 @@ from hanzoai.cloud.models.kms_get_v1_kms_secrets_rest200_response_secret import 
 from hanzoai.cloud.models.kms_post_v1_kms_auth_login200_response import KmsPostV1KmsAuthLogin200Response as KmsPostV1KmsAuthLogin200Response
 from hanzoai.cloud.models.kms_post_v1_kms_auth_login_request import KmsPostV1KmsAuthLoginRequest as KmsPostV1KmsAuthLoginRequest
 from hanzoai.cloud.models.kms_post_v1_kms_secrets_request import KmsPostV1KmsSecretsRequest as KmsPostV1KmsSecretsRequest
-from hanzoai.cloud.models.kms_sdk_envelope import KmsSdkEnvelope as KmsSdkEnvelope
-from hanzoai.cloud.models.kms_sdk_envelope_identity import KmsSdkEnvelopeIdentity as KmsSdkEnvelopeIdentity
 from hanzoai.cloud.models.kv_batch_operation200_response import KvBatchOperation200Response as KvBatchOperation200Response
 from hanzoai.cloud.models.kv_batch_operation200_response_results_inner import KvBatchOperation200ResponseResultsInner as KvBatchOperation200ResponseResultsInner
 from hanzoai.cloud.models.kv_batch_operation_request import KvBatchOperationRequest as KvBatchOperationRequest
@@ -3660,89 +2404,6 @@ from hanzoai.cloud.models.ml_register_model_request_artifacts import MlRegisterM
 from hanzoai.cloud.models.ml_rollback_model_request import MlRollbackModelRequest as MlRollbackModelRequest
 from hanzoai.cloud.models.ml_start_experiment_run_request import MlStartExperimentRunRequest as MlStartExperimentRunRequest
 from hanzoai.cloud.models.ml_start_pipeline_run_request import MlStartPipelineRunRequest as MlStartPipelineRunRequest
-from hanzoai.cloud.models.mq_account import MqAccount as MqAccount
-from hanzoai.cloud.models.mq_account_limits import MqAccountLimits as MqAccountLimits
-from hanzoai.cloud.models.mq_connection import MqConnection as MqConnection
-from hanzoai.cloud.models.mq_consumer import MqConsumer as MqConsumer
-from hanzoai.cloud.models.mq_consumer_config import MqConsumerConfig as MqConsumerConfig
-from hanzoai.cloud.models.mq_error import MqError as MqError
-from hanzoai.cloud.models.mq_get_kv_history200_response import MqGetKVHistory200Response as MqGetKVHistory200Response
-from hanzoai.cloud.models.mq_get_stream_messages200_response import MqGetStreamMessages200Response as MqGetStreamMessages200Response
-from hanzoai.cloud.models.mq_health_check200_response import MqHealthCheck200Response as MqHealthCheck200Response
-from hanzoai.cloud.models.mq_kv_bucket import MqKVBucket as MqKVBucket
-from hanzoai.cloud.models.mq_kv_bucket_config import MqKVBucketConfig as MqKVBucketConfig
-from hanzoai.cloud.models.mq_kv_entry import MqKVEntry as MqKVEntry
-from hanzoai.cloud.models.mq_list_account_connections200_response import MqListAccountConnections200Response as MqListAccountConnections200Response
-from hanzoai.cloud.models.mq_list_accounts200_response import MqListAccounts200Response as MqListAccounts200Response
-from hanzoai.cloud.models.mq_list_consumers200_response import MqListConsumers200Response as MqListConsumers200Response
-from hanzoai.cloud.models.mq_list_kv_buckets200_response import MqListKVBuckets200Response as MqListKVBuckets200Response
-from hanzoai.cloud.models.mq_list_kv_keys200_response import MqListKVKeys200Response as MqListKVKeys200Response
-from hanzoai.cloud.models.mq_list_object_stores200_response import MqListObjectStores200Response as MqListObjectStores200Response
-from hanzoai.cloud.models.mq_list_objects200_response import MqListObjects200Response as MqListObjects200Response
-from hanzoai.cloud.models.mq_list_streams200_response import MqListStreams200Response as MqListStreams200Response
-from hanzoai.cloud.models.mq_list_subjects200_response import MqListSubjects200Response as MqListSubjects200Response
-from hanzoai.cloud.models.mq_message import MqMessage as MqMessage
-from hanzoai.cloud.models.mq_object_info import MqObjectInfo as MqObjectInfo
-from hanzoai.cloud.models.mq_object_store_config import MqObjectStoreConfig as MqObjectStoreConfig
-from hanzoai.cloud.models.mq_object_store_info import MqObjectStoreInfo as MqObjectStoreInfo
-from hanzoai.cloud.models.mq_publish_request import MqPublishRequest as MqPublishRequest
-from hanzoai.cloud.models.mq_publish_response import MqPublishResponse as MqPublishResponse
-from hanzoai.cloud.models.mq_pull_messages_request import MqPullMessagesRequest as MqPullMessagesRequest
-from hanzoai.cloud.models.mq_purge_stream200_response import MqPurgeStream200Response as MqPurgeStream200Response
-from hanzoai.cloud.models.mq_purge_stream_request import MqPurgeStreamRequest as MqPurgeStreamRequest
-from hanzoai.cloud.models.mq_put_kv_entry200_response import MqPutKVEntry200Response as MqPutKVEntry200Response
-from hanzoai.cloud.models.mq_put_kv_entry_request import MqPutKVEntryRequest as MqPutKVEntryRequest
-from hanzoai.cloud.models.mq_request_reply import MqRequestReply as MqRequestReply
-from hanzoai.cloud.models.mq_sequence_pair import MqSequencePair as MqSequencePair
-from hanzoai.cloud.models.mq_server_info import MqServerInfo as MqServerInfo
-from hanzoai.cloud.models.mq_server_info_cluster import MqServerInfoCluster as MqServerInfoCluster
-from hanzoai.cloud.models.mq_server_info_cluster_replicas_inner import MqServerInfoClusterReplicasInner as MqServerInfoClusterReplicasInner
-from hanzoai.cloud.models.mq_stream import MqStream as MqStream
-from hanzoai.cloud.models.mq_stream_config import MqStreamConfig as MqStreamConfig
-from hanzoai.cloud.models.mq_stream_message import MqStreamMessage as MqStreamMessage
-from hanzoai.cloud.models.mq_stream_state import MqStreamState as MqStreamState
-from hanzoai.cloud.models.mq_subject_info import MqSubjectInfo as MqSubjectInfo
-from hanzoai.cloud.models.nexus_activity import NexusActivity as NexusActivity
-from hanzoai.cloud.models.nexus_application import NexusApplication as NexusApplication
-from hanzoai.cloud.models.nexus_article import NexusArticle as NexusArticle
-from hanzoai.cloud.models.nexus_block import NexusBlock as NexusBlock
-from hanzoai.cloud.models.nexus_chat import NexusChat as NexusChat
-from hanzoai.cloud.models.nexus_connection import NexusConnection as NexusConnection
-from hanzoai.cloud.models.nexus_container import NexusContainer as NexusContainer
-from hanzoai.cloud.models.nexus_file import NexusFile as NexusFile
-from hanzoai.cloud.models.nexus_file_input import NexusFileInput as NexusFileInput
-from hanzoai.cloud.models.nexus_form import NexusForm as NexusForm
-from hanzoai.cloud.models.nexus_form_item import NexusFormItem as NexusFormItem
-from hanzoai.cloud.models.nexus_gauge_vec_info import NexusGaugeVecInfo as NexusGaugeVecInfo
-from hanzoai.cloud.models.nexus_histogram_vec_info import NexusHistogramVecInfo as NexusHistogramVecInfo
-from hanzoai.cloud.models.nexus_image import NexusImage as NexusImage
-from hanzoai.cloud.models.nexus_label import NexusLabel as NexusLabel
-from hanzoai.cloud.models.nexus_machine import NexusMachine as NexusMachine
-from hanzoai.cloud.models.nexus_mcp_tools import NexusMcpTools as NexusMcpTools
-from hanzoai.cloud.models.nexus_message import NexusMessage as NexusMessage
-from hanzoai.cloud.models.nexus_node import NexusNode as NexusNode
-from hanzoai.cloud.models.nexus_patch import NexusPatch as NexusPatch
-from hanzoai.cloud.models.nexus_pod import NexusPod as NexusPod
-from hanzoai.cloud.models.nexus_prometheus_info import NexusPrometheusInfo as NexusPrometheusInfo
-from hanzoai.cloud.models.nexus_prompt import NexusPrompt as NexusPrompt
-from hanzoai.cloud.models.nexus_provider import NexusProvider as NexusProvider
-from hanzoai.cloud.models.nexus_record import NexusRecord as NexusRecord
-from hanzoai.cloud.models.nexus_remark import NexusRemark as NexusRemark
-from hanzoai.cloud.models.nexus_remote_app import NexusRemoteApp as NexusRemoteApp
-from hanzoai.cloud.models.nexus_response import NexusResponse as NexusResponse
-from hanzoai.cloud.models.nexus_service import NexusService as NexusService
-from hanzoai.cloud.models.nexus_store import NexusStore as NexusStore
-from hanzoai.cloud.models.nexus_suggestion import NexusSuggestion as NexusSuggestion
-from hanzoai.cloud.models.nexus_system_info import NexusSystemInfo as NexusSystemInfo
-from hanzoai.cloud.models.nexus_task import NexusTask as NexusTask
-from hanzoai.cloud.models.nexus_template import NexusTemplate as NexusTemplate
-from hanzoai.cloud.models.nexus_usage import NexusUsage as NexusUsage
-from hanzoai.cloud.models.nexus_usage_info import NexusUsageInfo as NexusUsageInfo
-from hanzoai.cloud.models.nexus_vector import NexusVector as NexusVector
-from hanzoai.cloud.models.nexus_vector_score import NexusVectorScore as NexusVectorScore
-from hanzoai.cloud.models.nexus_version_info import NexusVersionInfo as NexusVersionInfo
-from hanzoai.cloud.models.nexus_video import NexusVideo as NexusVideo
-from hanzoai.cloud.models.nexus_workflow import NexusWorkflow as NexusWorkflow
 from hanzoai.cloud.models.notify_channel import NotifyChannel as NotifyChannel
 from hanzoai.cloud.models.notify_error import NotifyError as NotifyError
 from hanzoai.cloud.models.notify_health_response import NotifyHealthResponse as NotifyHealthResponse
@@ -3789,164 +2450,16 @@ from hanzoai.cloud.models.observe_settings_request import ObserveSettingsRequest
 from hanzoai.cloud.models.observe_settings_view import ObserveSettingsView as ObserveSettingsView
 from hanzoai.cloud.models.observe_status_response import ObserveStatusResponse as ObserveStatusResponse
 from hanzoai.cloud.models.observe_usage_point import ObserveUsagePoint as ObserveUsagePoint
-from hanzoai.cloud.models.paas_cluster import PaasCluster as PaasCluster
-from hanzoai.cloud.models.paas_container import PaasContainer as PaasContainer
-from hanzoai.cloud.models.paas_container_networking import PaasContainerNetworking as PaasContainerNetworking
-from hanzoai.cloud.models.paas_container_networking_ingress import PaasContainerNetworkingIngress as PaasContainerNetworkingIngress
-from hanzoai.cloud.models.paas_container_repo import PaasContainerRepo as PaasContainerRepo
-from hanzoai.cloud.models.paas_container_status import PaasContainerStatus as PaasContainerStatus
-from hanzoai.cloud.models.paas_create_container_request import PaasCreateContainerRequest as PaasCreateContainerRequest
-from hanzoai.cloud.models.paas_create_container_request_repo import PaasCreateContainerRequestRepo as PaasCreateContainerRequestRepo
-from hanzoai.cloud.models.paas_create_organization_request import PaasCreateOrganizationRequest as PaasCreateOrganizationRequest
-from hanzoai.cloud.models.paas_doks_cluster import PaasDOKSCluster as PaasDOKSCluster
-from hanzoai.cloud.models.paas_domain import PaasDomain as PaasDomain
-from hanzoai.cloud.models.paas_environment import PaasEnvironment as PaasEnvironment
-from hanzoai.cloud.models.paas_environment_version import PaasEnvironmentVersion as PaasEnvironmentVersion
-from hanzoai.cloud.models.paas_error import PaasError as PaasError
-from hanzoai.cloud.models.paas_fleet_overview import PaasFleetOverview as PaasFleetOverview
-from hanzoai.cloud.models.paas_fleet_overview_clusters_inner import PaasFleetOverviewClustersInner as PaasFleetOverviewClustersInner
-from hanzoai.cloud.models.paas_get_doks_options200_response import PaasGetDOKSOptions200Response as PaasGetDOKSOptions200Response
-from hanzoai.cloud.models.paas_get_doks_options200_response_regions_inner import PaasGetDOKSOptions200ResponseRegionsInner as PaasGetDOKSOptions200ResponseRegionsInner
-from hanzoai.cloud.models.paas_get_doks_options200_response_sizes_inner import PaasGetDOKSOptions200ResponseSizesInner as PaasGetDOKSOptions200ResponseSizesInner
-from hanzoai.cloud.models.paas_get_doks_pricing200_response import PaasGetDOKSPricing200Response as PaasGetDOKSPricing200Response
-from hanzoai.cloud.models.paas_get_setup_status200_response import PaasGetSetupStatus200Response as PaasGetSetupStatus200Response
-from hanzoai.cloud.models.paas_list_container_pods200_response_inner import PaasListContainerPods200ResponseInner as PaasListContainerPods200ResponseInner
-from hanzoai.cloud.models.paas_list_templates200_response_inner import PaasListTemplates200ResponseInner as PaasListTemplates200ResponseInner
-from hanzoai.cloud.models.paas_login200_response import PaasLogin200Response as PaasLogin200Response
-from hanzoai.cloud.models.paas_login_request import PaasLoginRequest as PaasLoginRequest
-from hanzoai.cloud.models.paas_node_pool import PaasNodePool as PaasNodePool
-from hanzoai.cloud.models.paas_node_pool_nodes_inner import PaasNodePoolNodesInner as PaasNodePoolNodesInner
-from hanzoai.cloud.models.paas_organization import PaasOrganization as PaasOrganization
-from hanzoai.cloud.models.paas_organization_doks import PaasOrganizationDoks as PaasOrganizationDoks
-from hanzoai.cloud.models.paas_project import PaasProject as PaasProject
-from hanzoai.cloud.models.paas_project_team_inner import PaasProjectTeamInner as PaasProjectTeamInner
-from hanzoai.cloud.models.paas_provision_doks_request import PaasProvisionDOKSRequest as PaasProvisionDOKSRequest
-from hanzoai.cloud.models.paas_provision_doks_request_node_pool import PaasProvisionDOKSRequestNodePool as PaasProvisionDOKSRequestNodePool
-from hanzoai.cloud.models.paas_update_doks_node_pool_request import PaasUpdateDOKSNodePoolRequest as PaasUpdateDOKSNodePoolRequest
-from hanzoai.cloud.models.paas_update_organization_request import PaasUpdateOrganizationRequest as PaasUpdateOrganizationRequest
 from hanzoai.cloud.models.plan_plans_health200_response import PlanPlansHealth200Response as PlanPlansHealth200Response
-from hanzoai.cloud.models.platform_ai_suggest_request import PlatformAiSuggestRequest as PlatformAiSuggestRequest
-from hanzoai.cloud.models.platform_ai_suggest_request_json import PlatformAiSuggestRequestJson as PlatformAiSuggestRequestJson
-from hanzoai.cloud.models.platform_application_cancel_deployment_request import PlatformApplicationCancelDeploymentRequest as PlatformApplicationCancelDeploymentRequest
-from hanzoai.cloud.models.platform_application_cancel_deployment_request_json import PlatformApplicationCancelDeploymentRequestJson as PlatformApplicationCancelDeploymentRequestJson
-from hanzoai.cloud.models.platform_application_create_request import PlatformApplicationCreateRequest as PlatformApplicationCreateRequest
-from hanzoai.cloud.models.platform_application_deploy_request import PlatformApplicationDeployRequest as PlatformApplicationDeployRequest
-from hanzoai.cloud.models.platform_application_deploy_request_json import PlatformApplicationDeployRequestJson as PlatformApplicationDeployRequestJson
-from hanzoai.cloud.models.platform_application_move_request import PlatformApplicationMoveRequest as PlatformApplicationMoveRequest
-from hanzoai.cloud.models.platform_application_move_request_json import PlatformApplicationMoveRequestJson as PlatformApplicationMoveRequestJson
-from hanzoai.cloud.models.platform_application_save_bitbucket_provider_request import PlatformApplicationSaveBitbucketProviderRequest as PlatformApplicationSaveBitbucketProviderRequest
-from hanzoai.cloud.models.platform_application_save_bitbucket_provider_request_json import PlatformApplicationSaveBitbucketProviderRequestJson as PlatformApplicationSaveBitbucketProviderRequestJson
-from hanzoai.cloud.models.platform_application_save_build_type_request import PlatformApplicationSaveBuildTypeRequest as PlatformApplicationSaveBuildTypeRequest
-from hanzoai.cloud.models.platform_application_save_build_type_request_json import PlatformApplicationSaveBuildTypeRequestJson as PlatformApplicationSaveBuildTypeRequestJson
-from hanzoai.cloud.models.platform_application_save_docker_provider_request import PlatformApplicationSaveDockerProviderRequest as PlatformApplicationSaveDockerProviderRequest
-from hanzoai.cloud.models.platform_application_save_docker_provider_request_json import PlatformApplicationSaveDockerProviderRequestJson as PlatformApplicationSaveDockerProviderRequestJson
-from hanzoai.cloud.models.platform_application_save_environment_request import PlatformApplicationSaveEnvironmentRequest as PlatformApplicationSaveEnvironmentRequest
-from hanzoai.cloud.models.platform_application_save_environment_request_json import PlatformApplicationSaveEnvironmentRequestJson as PlatformApplicationSaveEnvironmentRequestJson
-from hanzoai.cloud.models.platform_application_save_git_prodiver_request import PlatformApplicationSaveGitProdiverRequest as PlatformApplicationSaveGitProdiverRequest
-from hanzoai.cloud.models.platform_application_save_git_prodiver_request_json import PlatformApplicationSaveGitProdiverRequestJson as PlatformApplicationSaveGitProdiverRequestJson
-from hanzoai.cloud.models.platform_application_save_gitea_provider_request import PlatformApplicationSaveGiteaProviderRequest as PlatformApplicationSaveGiteaProviderRequest
-from hanzoai.cloud.models.platform_application_save_gitea_provider_request_json import PlatformApplicationSaveGiteaProviderRequestJson as PlatformApplicationSaveGiteaProviderRequestJson
-from hanzoai.cloud.models.platform_application_save_github_provider_request import PlatformApplicationSaveGithubProviderRequest as PlatformApplicationSaveGithubProviderRequest
-from hanzoai.cloud.models.platform_application_save_github_provider_request_json import PlatformApplicationSaveGithubProviderRequestJson as PlatformApplicationSaveGithubProviderRequestJson
-from hanzoai.cloud.models.platform_application_save_gitlab_provider_request import PlatformApplicationSaveGitlabProviderRequest as PlatformApplicationSaveGitlabProviderRequest
-from hanzoai.cloud.models.platform_application_save_gitlab_provider_request_json import PlatformApplicationSaveGitlabProviderRequestJson as PlatformApplicationSaveGitlabProviderRequestJson
-from hanzoai.cloud.models.platform_application_update_request import PlatformApplicationUpdateRequest as PlatformApplicationUpdateRequest
-from hanzoai.cloud.models.platform_application_update_traefik_config_request import PlatformApplicationUpdateTraefikConfigRequest as PlatformApplicationUpdateTraefikConfigRequest
-from hanzoai.cloud.models.platform_application_update_traefik_config_request_json import PlatformApplicationUpdateTraefikConfigRequestJson as PlatformApplicationUpdateTraefikConfigRequestJson
-from hanzoai.cloud.models.platform_backup_create_request import PlatformBackupCreateRequest as PlatformBackupCreateRequest
-from hanzoai.cloud.models.platform_backup_create_request_json import PlatformBackupCreateRequestJson as PlatformBackupCreateRequestJson
-from hanzoai.cloud.models.platform_cancel_deployment_job import PlatformCancelDeploymentJob as PlatformCancelDeploymentJob
-from hanzoai.cloud.models.platform_cancel_deployment_job_application import PlatformCancelDeploymentJobApplication as PlatformCancelDeploymentJobApplication
-from hanzoai.cloud.models.platform_cancel_deployment_job_compose import PlatformCancelDeploymentJobCompose as PlatformCancelDeploymentJobCompose
-from hanzoai.cloud.models.platform_compose_cancel_deployment_request import PlatformComposeCancelDeploymentRequest as PlatformComposeCancelDeploymentRequest
-from hanzoai.cloud.models.platform_compose_cancel_deployment_request_json import PlatformComposeCancelDeploymentRequestJson as PlatformComposeCancelDeploymentRequestJson
-from hanzoai.cloud.models.platform_compose_create_request import PlatformComposeCreateRequest as PlatformComposeCreateRequest
-from hanzoai.cloud.models.platform_compose_create_request_json import PlatformComposeCreateRequestJson as PlatformComposeCreateRequestJson
-from hanzoai.cloud.models.platform_compose_delete_request import PlatformComposeDeleteRequest as PlatformComposeDeleteRequest
-from hanzoai.cloud.models.platform_compose_delete_request_json import PlatformComposeDeleteRequestJson as PlatformComposeDeleteRequestJson
-from hanzoai.cloud.models.platform_compose_deploy_request import PlatformComposeDeployRequest as PlatformComposeDeployRequest
-from hanzoai.cloud.models.platform_compose_deploy_request_json import PlatformComposeDeployRequestJson as PlatformComposeDeployRequestJson
-from hanzoai.cloud.models.platform_compose_deploy_template_request import PlatformComposeDeployTemplateRequest as PlatformComposeDeployTemplateRequest
-from hanzoai.cloud.models.platform_compose_deploy_template_request_json import PlatformComposeDeployTemplateRequestJson as PlatformComposeDeployTemplateRequestJson
-from hanzoai.cloud.models.platform_compose_move_request import PlatformComposeMoveRequest as PlatformComposeMoveRequest
-from hanzoai.cloud.models.platform_compose_move_request_json import PlatformComposeMoveRequestJson as PlatformComposeMoveRequestJson
-from hanzoai.cloud.models.platform_compose_update_request import PlatformComposeUpdateRequest as PlatformComposeUpdateRequest
-from hanzoai.cloud.models.platform_compose_update_request_json import PlatformComposeUpdateRequestJson as PlatformComposeUpdateRequestJson
-from hanzoai.cloud.models.platform_create_application_input import PlatformCreateApplicationInput as PlatformCreateApplicationInput
-from hanzoai.cloud.models.platform_create_database_input import PlatformCreateDatabaseInput as PlatformCreateDatabaseInput
-from hanzoai.cloud.models.platform_create_domain_input import PlatformCreateDomainInput as PlatformCreateDomainInput
-from hanzoai.cloud.models.platform_create_project_input import PlatformCreateProjectInput as PlatformCreateProjectInput
-from hanzoai.cloud.models.platform_deploy_job import PlatformDeployJob as PlatformDeployJob
-from hanzoai.cloud.models.platform_deploy_job_application import PlatformDeployJobApplication as PlatformDeployJobApplication
-from hanzoai.cloud.models.platform_deploy_job_application_preview import PlatformDeployJobApplicationPreview as PlatformDeployJobApplicationPreview
-from hanzoai.cloud.models.platform_deploy_job_compose import PlatformDeployJobCompose as PlatformDeployJobCompose
-from hanzoai.cloud.models.platform_deploy_worker_cancel_deployment200_response import PlatformDeployWorkerCancelDeployment200Response as PlatformDeployWorkerCancelDeployment200Response
-from hanzoai.cloud.models.platform_deploy_worker_deploy200_response import PlatformDeployWorkerDeploy200Response as PlatformDeployWorkerDeploy200Response
-from hanzoai.cloud.models.platform_deployment_kill_process_request import PlatformDeploymentKillProcessRequest as PlatformDeploymentKillProcessRequest
-from hanzoai.cloud.models.platform_deployment_kill_process_request_json import PlatformDeploymentKillProcessRequestJson as PlatformDeploymentKillProcessRequestJson
-from hanzoai.cloud.models.platform_docker_restart_container_request import PlatformDockerRestartContainerRequest as PlatformDockerRestartContainerRequest
-from hanzoai.cloud.models.platform_docker_restart_container_request_json import PlatformDockerRestartContainerRequestJson as PlatformDockerRestartContainerRequestJson
-from hanzoai.cloud.models.platform_domain_create_request import PlatformDomainCreateRequest as PlatformDomainCreateRequest
-from hanzoai.cloud.models.platform_domain_delete_request import PlatformDomainDeleteRequest as PlatformDomainDeleteRequest
-from hanzoai.cloud.models.platform_domain_delete_request_json import PlatformDomainDeleteRequestJson as PlatformDomainDeleteRequestJson
-from hanzoai.cloud.models.platform_domain_generate_domain_request import PlatformDomainGenerateDomainRequest as PlatformDomainGenerateDomainRequest
-from hanzoai.cloud.models.platform_domain_generate_domain_request_json import PlatformDomainGenerateDomainRequestJson as PlatformDomainGenerateDomainRequestJson
-from hanzoai.cloud.models.platform_domain_update_request import PlatformDomainUpdateRequest as PlatformDomainUpdateRequest
-from hanzoai.cloud.models.platform_domain_update_request_json import PlatformDomainUpdateRequestJson as PlatformDomainUpdateRequestJson
-from hanzoai.cloud.models.platform_domain_validate_domain_request import PlatformDomainValidateDomainRequest as PlatformDomainValidateDomainRequest
-from hanzoai.cloud.models.platform_domain_validate_domain_request_json import PlatformDomainValidateDomainRequestJson as PlatformDomainValidateDomainRequestJson
-from hanzoai.cloud.models.platform_environment_create_request import PlatformEnvironmentCreateRequest as PlatformEnvironmentCreateRequest
-from hanzoai.cloud.models.platform_environment_create_request_json import PlatformEnvironmentCreateRequestJson as PlatformEnvironmentCreateRequestJson
-from hanzoai.cloud.models.platform_environment_duplicate_request import PlatformEnvironmentDuplicateRequest as PlatformEnvironmentDuplicateRequest
-from hanzoai.cloud.models.platform_environment_duplicate_request_json import PlatformEnvironmentDuplicateRequestJson as PlatformEnvironmentDuplicateRequestJson
-from hanzoai.cloud.models.platform_environment_remove_request import PlatformEnvironmentRemoveRequest as PlatformEnvironmentRemoveRequest
-from hanzoai.cloud.models.platform_environment_remove_request_json import PlatformEnvironmentRemoveRequestJson as PlatformEnvironmentRemoveRequestJson
-from hanzoai.cloud.models.platform_environment_update_request import PlatformEnvironmentUpdateRequest as PlatformEnvironmentUpdateRequest
-from hanzoai.cloud.models.platform_environment_update_request_json import PlatformEnvironmentUpdateRequestJson as PlatformEnvironmentUpdateRequestJson
-from hanzoai.cloud.models.platform_git_provider_webhook_payload import PlatformGitProviderWebhookPayload as PlatformGitProviderWebhookPayload
-from hanzoai.cloud.models.platform_mariadb_create_request import PlatformMariadbCreateRequest as PlatformMariadbCreateRequest
-from hanzoai.cloud.models.platform_metrics_config import PlatformMetricsConfig as PlatformMetricsConfig
-from hanzoai.cloud.models.platform_metrics_config_containers import PlatformMetricsConfigContainers as PlatformMetricsConfigContainers
-from hanzoai.cloud.models.platform_metrics_config_containers_services import PlatformMetricsConfigContainersServices as PlatformMetricsConfigContainersServices
-from hanzoai.cloud.models.platform_metrics_config_server import PlatformMetricsConfigServer as PlatformMetricsConfigServer
-from hanzoai.cloud.models.platform_metrics_config_server_thresholds import PlatformMetricsConfigServerThresholds as PlatformMetricsConfigServerThresholds
-from hanzoai.cloud.models.platform_organization_create_request import PlatformOrganizationCreateRequest as PlatformOrganizationCreateRequest
-from hanzoai.cloud.models.platform_project_create_request import PlatformProjectCreateRequest as PlatformProjectCreateRequest
-from hanzoai.cloud.models.platform_project_duplicate_request import PlatformProjectDuplicateRequest as PlatformProjectDuplicateRequest
-from hanzoai.cloud.models.platform_project_duplicate_request_json import PlatformProjectDuplicateRequestJson as PlatformProjectDuplicateRequestJson
-from hanzoai.cloud.models.platform_project_duplicate_request_json_selected_services_inner import PlatformProjectDuplicateRequestJsonSelectedServicesInner as PlatformProjectDuplicateRequestJsonSelectedServicesInner
-from hanzoai.cloud.models.platform_project_remove_request import PlatformProjectRemoveRequest as PlatformProjectRemoveRequest
-from hanzoai.cloud.models.platform_project_remove_request_json import PlatformProjectRemoveRequestJson as PlatformProjectRemoveRequestJson
-from hanzoai.cloud.models.platform_project_update_request import PlatformProjectUpdateRequest as PlatformProjectUpdateRequest
-from hanzoai.cloud.models.platform_schedule_create_request import PlatformScheduleCreateRequest as PlatformScheduleCreateRequest
-from hanzoai.cloud.models.platform_schedule_create_request_json import PlatformScheduleCreateRequestJson as PlatformScheduleCreateRequestJson
-from hanzoai.cloud.models.platform_server_create_request import PlatformServerCreateRequest as PlatformServerCreateRequest
-from hanzoai.cloud.models.platform_server_create_request_json import PlatformServerCreateRequestJson as PlatformServerCreateRequestJson
-from hanzoai.cloud.models.platform_server_remove_request import PlatformServerRemoveRequest as PlatformServerRemoveRequest
-from hanzoai.cloud.models.platform_server_remove_request_json import PlatformServerRemoveRequestJson as PlatformServerRemoveRequestJson
-from hanzoai.cloud.models.platform_server_setup_monitoring_request import PlatformServerSetupMonitoringRequest as PlatformServerSetupMonitoringRequest
-from hanzoai.cloud.models.platform_server_setup_monitoring_request_json import PlatformServerSetupMonitoringRequestJson as PlatformServerSetupMonitoringRequestJson
-from hanzoai.cloud.models.platform_server_update_request import PlatformServerUpdateRequest as PlatformServerUpdateRequest
-from hanzoai.cloud.models.platform_server_update_request_json import PlatformServerUpdateRequestJson as PlatformServerUpdateRequestJson
-from hanzoai.cloud.models.platform_settings_clean_all_request import PlatformSettingsCleanAllRequest as PlatformSettingsCleanAllRequest
-from hanzoai.cloud.models.platform_settings_clean_all_request_json import PlatformSettingsCleanAllRequestJson as PlatformSettingsCleanAllRequestJson
-from hanzoai.cloud.models.platform_settings_reload_traefik_request import PlatformSettingsReloadTraefikRequest as PlatformSettingsReloadTraefikRequest
-from hanzoai.cloud.models.platform_settings_reload_traefik_request_json import PlatformSettingsReloadTraefikRequestJson as PlatformSettingsReloadTraefikRequestJson
-from hanzoai.cloud.models.platform_ssh_key_create_request import PlatformSshKeyCreateRequest as PlatformSshKeyCreateRequest
-from hanzoai.cloud.models.platform_ssh_key_create_request_json import PlatformSshKeyCreateRequestJson as PlatformSshKeyCreateRequestJson
-from hanzoai.cloud.models.platform_ssh_key_generate_request import PlatformSshKeyGenerateRequest as PlatformSshKeyGenerateRequest
-from hanzoai.cloud.models.platform_ssh_key_generate_request_json import PlatformSshKeyGenerateRequestJson as PlatformSshKeyGenerateRequestJson
-from hanzoai.cloud.models.platform_ssh_key_remove_request import PlatformSshKeyRemoveRequest as PlatformSshKeyRemoveRequest
-from hanzoai.cloud.models.platform_ssh_key_remove_request_json import PlatformSshKeyRemoveRequestJson as PlatformSshKeyRemoveRequestJson
-from hanzoai.cloud.models.platform_trpc_result import PlatformTRPCResult as PlatformTRPCResult
-from hanzoai.cloud.models.platform_trpc_result_result import PlatformTRPCResultResult as PlatformTRPCResultResult
-from hanzoai.cloud.models.platform_trpc_result_result_data import PlatformTRPCResultResultData as PlatformTRPCResultResultData
-from hanzoai.cloud.models.platform_update_application_input import PlatformUpdateApplicationInput as PlatformUpdateApplicationInput
-from hanzoai.cloud.models.platform_update_project_input import PlatformUpdateProjectInput as PlatformUpdateProjectInput
-from hanzoai.cloud.models.platform_user_create_api_key_request import PlatformUserCreateApiKeyRequest as PlatformUserCreateApiKeyRequest
-from hanzoai.cloud.models.platform_user_create_api_key_request_json import PlatformUserCreateApiKeyRequestJson as PlatformUserCreateApiKeyRequestJson
-from hanzoai.cloud.models.platform_user_delete_api_key_request import PlatformUserDeleteApiKeyRequest as PlatformUserDeleteApiKeyRequest
-from hanzoai.cloud.models.platform_user_delete_api_key_request_json import PlatformUserDeleteApiKeyRequestJson as PlatformUserDeleteApiKeyRequestJson
+from hanzoai.cloud.models.platform_app_view import PlatformAppView as PlatformAppView
+from hanzoai.cloud.models.platform_create_app_req import PlatformCreateAppReq as PlatformCreateAppReq
+from hanzoai.cloud.models.platform_create_app_req_image import PlatformCreateAppReqImage as PlatformCreateAppReqImage
+from hanzoai.cloud.models.platform_create_app_req_repo import PlatformCreateAppReqRepo as PlatformCreateAppReqRepo
+from hanzoai.cloud.models.platform_env_var_json import PlatformEnvVarJSON as PlatformEnvVarJSON
+from hanzoai.cloud.models.platform_git_source import PlatformGitSource as PlatformGitSource
+from hanzoai.cloud.models.platform_image_view import PlatformImageView as PlatformImageView
+from hanzoai.cloud.models.platform_project_view import PlatformProjectView as PlatformProjectView
+from hanzoai.cloud.models.platform_set_env_req import PlatformSetEnvReq as PlatformSetEnvReq
 from hanzoai.cloud.models.plugin_action_out import PluginActionOut as PluginActionOut
 from hanzoai.cloud.models.plugin_drift import PluginDrift as PluginDrift
 from hanzoai.cloud.models.plugin_error import PluginError as PluginError
@@ -4008,7 +2521,6 @@ from hanzoai.cloud.models.product_web3_auth_request import ProductWeb3AuthReques
 from hanzoai.cloud.models.projects_build_site_request import ProjectsBuildSiteRequest as ProjectsBuildSiteRequest
 from hanzoai.cloud.models.projects_complete_deployment_request import ProjectsCompleteDeploymentRequest as ProjectsCompleteDeploymentRequest
 from hanzoai.cloud.models.projects_create_project_request import ProjectsCreateProjectRequest as ProjectsCreateProjectRequest
-from hanzoai.cloud.models.projects_create_project_request_repo import ProjectsCreateProjectRequestRepo as ProjectsCreateProjectRequestRepo
 from hanzoai.cloud.models.projects_deploy_site_request import ProjectsDeploySiteRequest as ProjectsDeploySiteRequest
 from hanzoai.cloud.models.projects_deployment import ProjectsDeployment as ProjectsDeployment
 from hanzoai.cloud.models.projects_error import ProjectsError as ProjectsError
@@ -4034,29 +2546,6 @@ from hanzoai.cloud.models.provisioning_create_response import ProvisioningCreate
 from hanzoai.cloud.models.provisioning_error import ProvisioningError as ProvisioningError
 from hanzoai.cloud.models.provisioning_get_response import ProvisioningGetResponse as ProvisioningGetResponse
 from hanzoai.cloud.models.provisioning_list_item import ProvisioningListItem as ProvisioningListItem
-from hanzoai.cloud.models.pubsub_conn_info import PubsubConnInfo as PubsubConnInfo
-from hanzoai.cloud.models.pubsub_consumer_config import PubsubConsumerConfig as PubsubConsumerConfig
-from hanzoai.cloud.models.pubsub_consumer_info import PubsubConsumerInfo as PubsubConsumerInfo
-from hanzoai.cloud.models.pubsub_consumer_info_delivered import PubsubConsumerInfoDelivered as PubsubConsumerInfoDelivered
-from hanzoai.cloud.models.pubsub_error import PubsubError as PubsubError
-from hanzoai.cloud.models.pubsub_get_connz200_response import PubsubGetConnz200Response as PubsubGetConnz200Response
-from hanzoai.cloud.models.pubsub_jet_stream_info import PubsubJetStreamInfo as PubsubJetStreamInfo
-from hanzoai.cloud.models.pubsub_jet_stream_info_api import PubsubJetStreamInfoApi as PubsubJetStreamInfoApi
-from hanzoai.cloud.models.pubsub_kv_bucket_config import PubsubKVBucketConfig as PubsubKVBucketConfig
-from hanzoai.cloud.models.pubsub_kv_entry import PubsubKVEntry as PubsubKVEntry
-from hanzoai.cloud.models.pubsub_kv_history200_response import PubsubKvHistory200Response as PubsubKvHistory200Response
-from hanzoai.cloud.models.pubsub_kv_put200_response import PubsubKvPut200Response as PubsubKvPut200Response
-from hanzoai.cloud.models.pubsub_list_consumers200_response import PubsubListConsumers200Response as PubsubListConsumers200Response
-from hanzoai.cloud.models.pubsub_list_objects200_response import PubsubListObjects200Response as PubsubListObjects200Response
-from hanzoai.cloud.models.pubsub_list_streams200_response import PubsubListStreams200Response as PubsubListStreams200Response
-from hanzoai.cloud.models.pubsub_message import PubsubMessage as PubsubMessage
-from hanzoai.cloud.models.pubsub_object_meta import PubsubObjectMeta as PubsubObjectMeta
-from hanzoai.cloud.models.pubsub_publish_request import PubsubPublishRequest as PubsubPublishRequest
-from hanzoai.cloud.models.pubsub_publish_response import PubsubPublishResponse as PubsubPublishResponse
-from hanzoai.cloud.models.pubsub_server_varz import PubsubServerVarz as PubsubServerVarz
-from hanzoai.cloud.models.pubsub_stream_config import PubsubStreamConfig as PubsubStreamConfig
-from hanzoai.cloud.models.pubsub_stream_info import PubsubStreamInfo as PubsubStreamInfo
-from hanzoai.cloud.models.pubsub_stream_info_state import PubsubStreamInfoState as PubsubStreamInfoState
 from hanzoai.cloud.models.referrals_admin_list_data import ReferralsAdminListData as ReferralsAdminListData
 from hanzoai.cloud.models.referrals_admin_list_envelope import ReferralsAdminListEnvelope as ReferralsAdminListEnvelope
 from hanzoai.cloud.models.referrals_admin_referral_view import ReferralsAdminReferralView as ReferralsAdminReferralView
@@ -4070,28 +2559,6 @@ from hanzoai.cloud.models.referrals_my_referral_view import ReferralsMyReferralV
 from hanzoai.cloud.models.referrals_my_referrals_response import ReferralsMyReferralsResponse as ReferralsMyReferralsResponse
 from hanzoai.cloud.models.referrals_referral_status import ReferralsReferralStatus as ReferralsReferralStatus
 from hanzoai.cloud.models.referrals_status_counts import ReferralsStatusCounts as ReferralsStatusCounts
-from hanzoai.cloud.models.registry_artifact import RegistryArtifact as RegistryArtifact
-from hanzoai.cloud.models.registry_error import RegistryError as RegistryError
-from hanzoai.cloud.models.registry_project import RegistryProject as RegistryProject
-from hanzoai.cloud.models.registry_project_create import RegistryProjectCreate as RegistryProjectCreate
-from hanzoai.cloud.models.registry_project_create_metadata import RegistryProjectCreateMetadata as RegistryProjectCreateMetadata
-from hanzoai.cloud.models.registry_project_metadata import RegistryProjectMetadata as RegistryProjectMetadata
-from hanzoai.cloud.models.registry_quota import RegistryQuota as RegistryQuota
-from hanzoai.cloud.models.registry_quota_hard import RegistryQuotaHard as RegistryQuotaHard
-from hanzoai.cloud.models.registry_quota_ref import RegistryQuotaRef as RegistryQuotaRef
-from hanzoai.cloud.models.registry_quota_used import RegistryQuotaUsed as RegistryQuotaUsed
-from hanzoai.cloud.models.registry_repository import RegistryRepository as RegistryRepository
-from hanzoai.cloud.models.registry_scan_overview import RegistryScanOverview as RegistryScanOverview
-from hanzoai.cloud.models.registry_scan_overview_summary import RegistryScanOverviewSummary as RegistryScanOverviewSummary
-from hanzoai.cloud.models.registry_scan_report import RegistryScanReport as RegistryScanReport
-from hanzoai.cloud.models.registry_scan_report_vulnerabilities_inner import RegistryScanReportVulnerabilitiesInner as RegistryScanReportVulnerabilitiesInner
-from hanzoai.cloud.models.registry_tag import RegistryTag as RegistryTag
-from hanzoai.cloud.models.registry_update_project_request import RegistryUpdateProjectRequest as RegistryUpdateProjectRequest
-from hanzoai.cloud.models.registry_update_project_request_metadata import RegistryUpdateProjectRequestMetadata as RegistryUpdateProjectRequestMetadata
-from hanzoai.cloud.models.registry_webhook import RegistryWebhook as RegistryWebhook
-from hanzoai.cloud.models.registry_webhook_create import RegistryWebhookCreate as RegistryWebhookCreate
-from hanzoai.cloud.models.registry_webhook_create_targets_inner import RegistryWebhookCreateTargetsInner as RegistryWebhookCreateTargetsInner
-from hanzoai.cloud.models.registry_webhook_targets_inner import RegistryWebhookTargetsInner as RegistryWebhookTargetsInner
 from hanzoai.cloud.models.research_artifact import ResearchArtifact as ResearchArtifact
 from hanzoai.cloud.models.research_attempt import ResearchAttempt as ResearchAttempt
 from hanzoai.cloud.models.research_error import ResearchError as ResearchError
@@ -4201,30 +2668,6 @@ from hanzoai.cloud.models.security_security_health200_response import SecuritySe
 from hanzoai.cloud.models.security_security_list_findings200_response import SecuritySecurityListFindings200Response as SecuritySecurityListFindings200Response
 from hanzoai.cloud.models.security_security_list_rules200_response import SecuritySecurityListRules200Response as SecuritySecurityListRules200Response
 from hanzoai.cloud.models.security_security_list_scans200_response import SecuritySecurityListScans200Response as SecuritySecurityListScans200Response
-from hanzoai.cloud.models.stream_broker_info import StreamBrokerInfo as StreamBrokerInfo
-from hanzoai.cloud.models.stream_broker_info_config import StreamBrokerInfoConfig as StreamBrokerInfoConfig
-from hanzoai.cloud.models.stream_consume_messages200_response import StreamConsumeMessages200Response as StreamConsumeMessages200Response
-from hanzoai.cloud.models.stream_consume_record import StreamConsumeRecord as StreamConsumeRecord
-from hanzoai.cloud.models.stream_consumer_group import StreamConsumerGroup as StreamConsumerGroup
-from hanzoai.cloud.models.stream_consumer_group_offsets_inner import StreamConsumerGroupOffsetsInner as StreamConsumerGroupOffsetsInner
-from hanzoai.cloud.models.stream_create_topic_request import StreamCreateTopicRequest as StreamCreateTopicRequest
-from hanzoai.cloud.models.stream_create_topic_request_config import StreamCreateTopicRequestConfig as StreamCreateTopicRequestConfig
-from hanzoai.cloud.models.stream_error import StreamError as StreamError
-from hanzoai.cloud.models.stream_get_broker_config200_response import StreamGetBrokerConfig200Response as StreamGetBrokerConfig200Response
-from hanzoai.cloud.models.stream_get_group_offsets200_response import StreamGetGroupOffsets200Response as StreamGetGroupOffsets200Response
-from hanzoai.cloud.models.stream_health_check200_response import StreamHealthCheck200Response as StreamHealthCheck200Response
-from hanzoai.cloud.models.stream_list_brokers200_response import StreamListBrokers200Response as StreamListBrokers200Response
-from hanzoai.cloud.models.stream_list_consumer_groups200_response import StreamListConsumerGroups200Response as StreamListConsumerGroups200Response
-from hanzoai.cloud.models.stream_list_topics200_response import StreamListTopics200Response as StreamListTopics200Response
-from hanzoai.cloud.models.stream_offset_commit import StreamOffsetCommit as StreamOffsetCommit
-from hanzoai.cloud.models.stream_produce_request import StreamProduceRequest as StreamProduceRequest
-from hanzoai.cloud.models.stream_produce_request_records_inner import StreamProduceRequestRecordsInner as StreamProduceRequestRecordsInner
-from hanzoai.cloud.models.stream_produce_response import StreamProduceResponse as StreamProduceResponse
-from hanzoai.cloud.models.stream_produce_response_offsets_inner import StreamProduceResponseOffsetsInner as StreamProduceResponseOffsetsInner
-from hanzoai.cloud.models.stream_topic import StreamTopic as StreamTopic
-from hanzoai.cloud.models.stream_topic_config import StreamTopicConfig as StreamTopicConfig
-from hanzoai.cloud.models.stream_topic_metadata import StreamTopicMetadata as StreamTopicMetadata
-from hanzoai.cloud.models.stream_topic_metadata_partitions_inner import StreamTopicMetadataPartitionsInner as StreamTopicMetadataPartitionsInner
 from hanzoai.cloud.models.templates_list_templates200_response import TemplatesListTemplates200Response as TemplatesListTemplates200Response
 from hanzoai.cloud.models.templates_template import TemplatesTemplate as TemplatesTemplate
 from hanzoai.cloud.models.tracker_create_issue_request import TrackerCreateIssueRequest as TrackerCreateIssueRequest
@@ -4286,7 +2729,6 @@ from hanzoai.cloud.models.visor_bot_view import VisorBotView as VisorBotView
 from hanzoai.cloud.models.visor_cluster_view import VisorClusterView as VisorClusterView
 from hanzoai.cloud.models.visor_gpu_view import VisorGpuView as VisorGpuView
 from hanzoai.cloud.models.visor_launch_request import VisorLaunchRequest as VisorLaunchRequest
-from hanzoai.cloud.models.visor_list_agent_bindings200_response import VisorListAgentBindings200Response as VisorListAgentBindings200Response
 from hanzoai.cloud.models.visor_list_bots200_response import VisorListBots200Response as VisorListBots200Response
 from hanzoai.cloud.models.visor_list_clusters200_response import VisorListClusters200Response as VisorListClusters200Response
 from hanzoai.cloud.models.visor_list_gpus200_response import VisorListGPUs200Response as VisorListGPUs200Response

@@ -21,7 +21,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.projects_create_project_request_repo import ProjectsCreateProjectRequestRepo
+from hanzoai.cloud.models.platform_create_app_req_repo import PlatformCreateAppReqRepo
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -33,7 +33,7 @@ class ProjectsUpdateProjectRequest(BaseModel):
     description: Optional[StrictStr] = None
     framework: Optional[StrictStr] = None
     cache_control: Optional[Annotated[str, Field(strict=True, max_length=256)]] = Field(default=None, description="Per-project HTML/document Cache-Control policy; must not contain newlines.", alias="cacheControl")
-    repo: Optional[ProjectsCreateProjectRequestRepo] = None
+    repo: Optional[PlatformCreateAppReqRepo] = None
     __properties: ClassVar[List[str]] = ["name", "description", "framework", "cacheControl", "repo"]
 
     @field_validator('framework')
@@ -104,7 +104,7 @@ class ProjectsUpdateProjectRequest(BaseModel):
             "description": obj.get("description"),
             "framework": obj.get("framework"),
             "cacheControl": obj.get("cacheControl"),
-            "repo": ProjectsCreateProjectRequestRepo.from_dict(obj["repo"]) if obj.get("repo") is not None else None
+            "repo": PlatformCreateAppReqRepo.from_dict(obj["repo"]) if obj.get("repo") is not None else None
         })
         return _obj
 

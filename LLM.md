@@ -26,11 +26,15 @@ uv run pytest tests/ -v      # tests
 
 ## Codegen — this repo PULLS, it never pushes
 ```
-hanzoai/cloud    emits its own router spec    -> cloud/openapi.yaml (984 paths)
-hanzoai/openapi  merges 69 per-service specs  -> hanzo.yaml (1885 paths)  [the ONE SDK input]
+hanzoai/cloud    emits its own router spec    -> cloud/openapi.yaml
+hanzoai/openapi  merges 55 per-service specs  -> hanzo.yaml (1132 paths)  [the ONE SDK input]
 hanzoai/openapi  generate.py + sdks.yaml      -> projects hanzo.yaml into each SDK repo
 this repo        owns its test + PATCH bump + release
 ```
+Current `pkg/hanzoai/cloud/` is **1132 paths / 1519 operations / 779 schemas** →
+239 api modules + 1116 model modules. The path count dropped from 1885 because
+the spec deleted 18 products it authored and served nowhere, not because
+anything here was lost.
 `pkg/hanzoai/cloud/` is **generated — never hand-edit it.** `generate.py` does
 `rmtree(dst) + copytree(src)`, so anything written there dies on the next run. Regenerate
 only from hanzoai/openapi (`python3 generate.py python`) — never from here. The old
@@ -41,14 +45,55 @@ openapi `3300cda` dropped `{org}` from the KMS secrets routes (`/v1/kms/orgs/{or
 -> `/v1/kms/secrets`; the org is read from the token), which silently stranded 3.1.2 on a
 path the server no longer serves.
 
-**Upstream spec defect — open, fix in the per-service specs.** `hanzo.yaml` carries 23 tag
-groups that differ only by case (`AI`/`ai`, `Users`/`users`, `flows`/`Flows`, …).
-openapi-generator maps both spellings onto one module, so the second overwrites the first:
-**127 of the 411 operations in those groups are missing from the generated client.** Three
-groups (`AI`/`ai`, `API Keys`/`api-keys`, `MCP`/`mcp`) also yield divergent class names
-(`AiApi` vs `AIApi`), which made `import hanzoai.cloud` raise ImportError; those 9 dead
-lines are stripped and `tests/test_smoke.py` locks the import. One spelling per tag upstream
-fixes both symptoms and the fix survives regeneration — the local strip does not.
+**The case-variant tag defect is CLOSED.** `hanzo.yaml` used to carry 23 tag groups
+differing only by case (`AI`/`ai`, `Users`/`users`, …); openapi-generator mapped both
+spellings onto one module and 127 of the 411 operations in those groups never reached the
+client. Fixed upstream in the per-service specs, as that note predicted. Verified on the
+current spec: **239 distinct tags → 239 api modules, 1:1**, so nothing collapses, and
+`generate.py python --check` reports `[python] clean` with no local strip of any kind.
+
+**Two spec defects were found and fixed upstream while regenerating at 3.1.5.** Neither was
+patched here; both are in `hanzoai/openapi` main:
+- `fc0c17a` — 35 `/v1/platform` operations carried no `responses`. OAS 3.x requires it and
+  openapi-generator aborts the entire document, so `hanzo.yaml` was producing no client in
+  *any* language, not just Python.
+- `07783f5` — `ChatCompletionResponse.choices` was `items: {type: object}`, so
+  `choices[0].message.content` was `List[object]` and unusable without a cast. Now an
+  `ai_ChatChoice` schema.
+
+The rule holds in both directions: a generated tree is never hand-repaired, and a defect
+found by generating is fixed in the spec, where every other language gets the fix too.
+
+## Examples — the six canonical flows
+
+`examples/{hello,chat,money,store,agent,tools}`, one directory each, plus
+`examples/client.py` as the single place a base URL or an env var is resolved. The same six
+exist in every Hanzo SDK. Run one with `python -m examples.hello` from the repo root.
+
+Each flow's call sits behind `if __name__ == "__main__":` on purpose. That is what lets CI
+*import* all six to prove every `from hanzoai.cloud import X` still resolves, without an API
+key and without opening a socket — so a spec change that renames or drops an operation goes
+red in the gate instead of in a user's app.
+
+They are a gate, not decoration. The TypeScript twin of the `chat` flow is what surfaced the
+`choices` defect above: the generated tree imported and built perfectly, because building
+generated code only proves it is internally consistent. Only calling it proves the surface
+is usable.
+
+## CI
+
+Fleet convention, added at 3.1.5: root `hanzo.yml` (the `test:` gate) plus a 7-line
+`.github/workflows/cicd.yml` importing `hanzoai/ci`. The gate is two blocks — import every
+generated module (for generated code that IS the build step; there is no compiler to catch a
+bad `$ref`), then import the six flows. Both provision an interpreter with `uv` when the arc
+runner lacks one.
+
+Scope is deliberate: the cloud client and its flows, not all 65 packages. A red gate should
+mean "the client the spec just produced is broken", not "something, somewhere".
+
+**Publishing is not here.** `.hanzo/workflows/publish-pypi.yml` on our own runners stays the
+canonical path because it reads the PyPI token from KMS like every other publish credential
+in the fleet. `hanzo.yml` gates only; a second publish path would be one too many.
 
 ## Key entry points
 - `pkg/hanzoai/` — typed OpenAPI client (`ApiClient`, `Configuration`, `Ai*Api`). Two
