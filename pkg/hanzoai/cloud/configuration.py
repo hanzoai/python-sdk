@@ -120,9 +120,7 @@ AuthSettings = TypedDict(
         "oauth2": OAuth2AuthSetting,
         "oauth2": OAuth2AuthSetting,
         "apiKey": APIKeyAuthSetting,
-        "basicAuth": BasicAuthSetting,
         "serviceKey": APIKeyAuthSetting,
-        "ApiKeyAuth": APIKeyAuthSetting,
         "s3Auth": APIKeyAuthSetting,
     },
     total=False,
@@ -194,22 +192,6 @@ conf = hanzoai.cloud.Configuration(
 
     The following cookie will be added to the HTTP request:
        Cookie: JSESSIONID abc123
-
-    HTTP Basic Authentication Example.
-    Given the following security scheme in the OpenAPI specification:
-      components:
-        securitySchemes:
-          http_basic_auth:
-            type: http
-            scheme: basic
-
-    Configure API client with HTTP basic authentication:
-
-conf = hanzoai.cloud.Configuration(
-    username='the-user',
-    password='the-password',
-)
-
     """
 
     _default: ClassVar[Optional[Self]] = None
@@ -582,13 +564,6 @@ conf = hanzoai.cloud.Configuration(
                     'apiKey',
                 ),
             }
-        if self.username is not None and self.password is not None:
-            auth['basicAuth'] = {
-                'type': 'basic',
-                'in': 'header',
-                'key': 'Authorization',
-                'value': self.get_basic_auth_token()
-            }
         if 'serviceKey' in self.api_key:
             auth['serviceKey'] = {
                 'type': 'api_key',
@@ -596,15 +571,6 @@ conf = hanzoai.cloud.Configuration(
                 'key': 'X-API-Key',
                 'value': self.get_api_key_with_prefix(
                     'serviceKey',
-                ),
-            }
-        if 'ApiKeyAuth' in self.api_key:
-            auth['ApiKeyAuth'] = {
-                'type': 'api_key',
-                'in': 'header',
-                'key': 'X-API-Key',
-                'value': self.get_api_key_with_prefix(
-                    'ApiKeyAuth',
                 ),
             }
         if 's3Auth' in self.api_key:

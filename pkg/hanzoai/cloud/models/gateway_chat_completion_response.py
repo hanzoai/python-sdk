@@ -20,8 +20,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.chat_chat_completion_usage import ChatChatCompletionUsage
 from hanzoai.cloud.models.gateway_chat_completion_response_choices_inner import GatewayChatCompletionResponseChoicesInner
+from hanzoai.cloud.models.gateway_chat_completion_response_usage import GatewayChatCompletionResponseUsage
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -34,7 +34,7 @@ class GatewayChatCompletionResponse(BaseModel):
     created: Optional[StrictInt] = None
     model: Optional[StrictStr] = None
     choices: Optional[List[GatewayChatCompletionResponseChoicesInner]] = None
-    usage: Optional[ChatChatCompletionUsage] = None
+    usage: Optional[GatewayChatCompletionResponseUsage] = None
     __properties: ClassVar[List[str]] = ["id", "object", "created", "model", "choices", "usage"]
 
     @field_validator('object')
@@ -113,7 +113,7 @@ class GatewayChatCompletionResponse(BaseModel):
             "created": obj.get("created"),
             "model": obj.get("model"),
             "choices": [GatewayChatCompletionResponseChoicesInner.from_dict(_item) for _item in obj["choices"]] if obj.get("choices") is not None else None,
-            "usage": ChatChatCompletionUsage.from_dict(obj["usage"]) if obj.get("usage") is not None else None
+            "usage": GatewayChatCompletionResponseUsage.from_dict(obj["usage"]) if obj.get("usage") is not None else None
         })
         return _obj
 

@@ -1,0 +1,78 @@
+# Hanzo CI — the ONE way this repo is gated, read by hanzoai/ci.
+#
+# No `images:` and no `deploy:`: these are libraries. A consumer installs them
+# from PyPI at a tag, so what CI owes is a gate, not an artifact. Publishing
+# stays where it already is — .hanzo/workflows/publish-pypi.yml on our own
+# runners, which is the canonical path because it reads the PyPI token from KMS
+# like every other publish credential in the fleet. Adding a second publish here
+# would be one too many; this file only gates.
+#
+# Scope is the generated cloud client and the flows that exercise it. The other
+# 64 packages under pkg/ are hand-written and carry their own tests; pulling
+# them in here would make a red gate mean "something, somewhere" instead of
+# "the client the spec just produced is broken".
+
+test:
+  - name: cloud-client
+    # Import every generated module. For generated code this IS the build step:
+    # there is no compiler to catch a bad $ref, a name collision or a model that
+    # references a class the generator declined to emit — the import is what
+    # turns those into a failure instead of an AttributeError in a user's app
+    # six months later.
+    #
+    # The arc runner image promises no interpreter, so provision one with uv
+    # when it is missing. A gate that silently no-ops is worse than no gate.
+    run: |
+      set -e
+      if command -v uv >/dev/null 2>&1; then UV=uv; else
+        curl -fsSL https://astral.sh/uv/install.sh | sh
+        UV="$HOME/.local/bin/uv"
+      fi
+      PYTHONPATH=pkg "$UV" run --no-project --python 3.12 \
+        --with pydantic --with python-dateutil --with urllib3 --with typing-extensions \
+        python -c '
+      import pkgutil, importlib, sys
+      import hanzoai.cloud.api as A, hanzoai.cloud.models as M
+      bad = []
+      for pkg, label in ((A, "api"), (M, "models")):
+          n = 0
+          for m in pkgutil.iter_modules(pkg.__path__):
+              try:
+                  importlib.import_module(f"{pkg.__name__}.{m.name}"); n += 1
+              except Exception as e:
+                  bad.append(f"{pkg.__name__}.{m.name}: {e!r}")
+          print(f"{label}: {n} modules imported")
+      for b in bad[:20]: print("FAIL", b, file=sys.stderr)
+      sys.exit(1 if bad else 0)
+      '
+
+  - name: examples
+    # The six canonical flows, imported against the client that was just
+    # generated. Each `from hanzoai.cloud import X` is an assertion that the
+    # symbol still exists, so a spec change that renames or drops an operation
+    # goes red here rather than in a user's app.
+    #
+    # Importing is enough BECAUSE each flow guards its call behind
+    # `if __name__ == "__main__"` — the module body resolves every name without
+    # opening a socket, so the gate needs no API key and no network.
+    run: |
+      set -e
+      if command -v uv >/dev/null 2>&1; then UV=uv; else
+        curl -fsSL https://astral.sh/uv/install.sh | sh
+        UV="$HOME/.local/bin/uv"
+      fi
+      PYTHONPATH=pkg "$UV" run --no-project --python 3.12 \
+        --with pydantic --with python-dateutil --with urllib3 --with typing-extensions \
+        python -c '
+      import compileall, importlib, sys
+      ok = compileall.compile_dir("examples", quiet=1, maxlevels=3)
+      bad = []
+      for flow in ("hello", "chat", "money", "store", "agent", "tools"):
+          try:
+              importlib.import_module(f"examples.{flow}.__main__")
+              print(f"examples.{flow}: OK")
+          except Exception as e:
+              bad.append(f"examples.{flow}: {e!r}")
+      for b in bad: print("FAIL", b, file=sys.stderr)
+      sys.exit(1 if (bad or not ok) else 0)
+      '
