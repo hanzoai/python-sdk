@@ -1,35 +1,35 @@
-"""tools — list the MCP tools this key can reach.
+"""tools — list the tools this key can reach.
 
-``POST /v1/automations/mcp`` (operationId ``automations_mcp``) is the JSON-RPC
-2.0 MCP surface in hanzo.yaml, and the only one with typed request/response
-schemas — ``method`` is an enum the model validates, so ``tools/lst`` is a
-pydantic ValidationError here rather than a -32601 at runtime.
+``GET /v1/tools`` (operationId ``cloud_get_v1_tools``), the catalog behind the
+MCP surface: each entry is a tool name, its description and its input schema.
 
-JSON-RPC reports failure INSIDE a 200: a bad method comes back as
-``error={code, message}``, not an HTTP 4xx, so no exception is raised. Check
-``error`` before reading ``result``.
+A note on the MCP door, because it is easy to pick the wrong one. There is a
+live JSON-RPC endpoint at ``POST /v1/mcp`` that answers ``tools/list`` with the
+same catalog (730 tools at the time of writing) — but it is NOT in hanzo.yaml,
+so the generator emits no method for it and an example would have to bypass the
+SDK to call it, which defeats the point of an SDK example. Of the MCP routes
+that ARE declared, ``/v1/automations/mcp`` returns 405 at api.hanzo.ai. So this
+catalog read is the one that is both generated and served. When ``/v1/mcp`` is
+added to the spec, this flow should move to it.
 
     python -m examples.tools
 """
 
-from hanzoai.cloud import AutomationsMcpRequest, MCPApi
+from hanzoai.cloud import ToolsApi
 
 from examples.client import client, run
 
 
 def main() -> None:
     with client() as api:
-        response = MCPApi(api).automations_mcp(
-            AutomationsMcpRequest(jsonrpc="2.0", id=1, method="tools/list")
-        )
+        catalog = ToolsApi(api).cloud_get_v1_tools()
 
-    if response.error:
-        raise SystemExit(f"JSON-RPC {response.error.code}: {response.error.message}")
-
-    tools = (response.result or {}).get("tools", [])
+    tools = catalog.tools or []
     print(f"{len(tools)} tools")
-    for tool in tools:
-        print(f"  {tool.get('name')} — {tool.get('description') or '(no description)'}")
+    for tool in tools[:20]:
+        print(f"  {tool.name} — {tool.description or '(no description)'}")
+    if len(tools) > 20:
+        print(f"  … and {len(tools) - 20} more")
 
 
 if __name__ == "__main__":
