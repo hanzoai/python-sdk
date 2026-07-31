@@ -57,12 +57,12 @@ Hanzo SDK, so a reader who knows one language's set can navigate another's.
 
 | flow | what it does | routes |
 |---|---|---|
-| [`hello`](examples/hello) | identity — prove the key works | `GET /v1/ai/account` |
+| [`hello`](examples/hello) | identity — prove the key works | `GET /v1/bot/auth/me` |
 | [`chat`](examples/chat) | one completion | `POST /v1/chat/completions` |
 | [`money`](examples/money) | balance + usage | `GET /v1/billing/balance`, `GET /v1/billing/usage` |
-| [`store`](examples/store) | KV round-trip | `PUT`/`GET`/`DELETE /v1/kv/keys/{key}` |
-| [`agent`](examples/agent) | create + run + read | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}` |
-| [`tools`](examples/tools) | MCP `tools/list` | `POST /v1/automations/mcp` |
+| [`store`](examples/store) | KV round-trip | `POST /v1/kv`, `GET`/`DELETE /v1/kv/{name}` |
+| [`agent`](examples/agent) | create + run + read | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}/runs` |
+| [`tools`](examples/tools) | tool catalog | `GET /v1/tools` |
 
 Each reads `HANZO_API_KEY` from the environment and talks to
 `https://api.hanzo.ai` unless `HANZO_BASE_URL` says otherwise:
@@ -73,7 +73,7 @@ uv run python -m examples.hello
 ```
 
 They import from **`hanzoai.cloud`** — the client generated from the Hanzo
-OpenAPI surface (1519 operations, 779 schemas), which is where new work goes.
+OpenAPI surface (2452 operations, 1798 schemas), which is where new work goes.
 `examples/client.py` is the single place a base URL or an env var is resolved.
 CI imports all six on every push, which is what keeps them from rotting into
 pseudocode.
