@@ -1,19 +1,23 @@
-"""agent — define one, run it, read it back.
+"""agent — define one, run it, read the run back.
 
-    POST /v1/agents            cloud_AgentsController.Create
-    POST /v1/agents/{ref}/run  cloud_AgentsController.Run
-    GET  /v1/agents/{ref}      cloud_AgentsController.Get
+    POST /v1/agents            cloud_post_v1_agents
+    POST /v1/agents/{ref}/run  cloud_post_v1_agents_by_ref_run
+    GET  /v1/agents/{ref}/runs cloud_get_v1_agents_ref_runs
 
 ``ref`` is the agent's public id (``agent_...``) OR its org-unique name, which
 is why the run and the read below can both use the name we just created without
 waiting for an id to come back.
+
+The read-back is the RUN list rather than the agent record: an agent you just
+created tells you nothing you did not just send, while its runs are the part the
+server actually produced.
 
     python -m examples.agent
 """
 
 import time
 
-from hanzoai.cloud import AgentsAPIApi, CloudAgentsCreateAgentRequest, CloudAgentsRunRequest
+from hanzoai.cloud import AgentsApi, CloudCreateAgentIn
 
 from examples.client import MODEL, client, run
 
@@ -23,24 +27,26 @@ NAME = f"example-greeter-{time.time_ns()}"
 
 def main() -> None:
     with client() as api:
-        agents = AgentsAPIApi(api)
+        agents = AgentsApi(api)
 
-        created = agents.cloud_agents_controller_create(
-            CloudAgentsCreateAgentRequest(
+        created = agents.cloud_post_v1_agents(
+            CloudCreateAgentIn(
                 name=NAME,
                 model=MODEL,
                 description="Created by the hanzoai SDK agent example.",
                 instructions="You greet the user in one short sentence.",
             )
         )
-        print("created:", created)
+        print(f"created {created.name} ({created.id}) on {created.model}")
 
-        run_result = agents.cloud_agents_controller_run(
-            NAME, CloudAgentsRunRequest(input="Greet a new Hanzo user.")
-        )
-        print("run:", run_result)
+        agents.cloud_post_v1_agents_by_ref_run(NAME)
+        print("run started")
 
-        print("read back:", agents.cloud_agents_controller_get(NAME))
+        runs = agents.cloud_get_v1_agents_ref_runs(NAME, limit=5)
+        entries = runs.runs or []
+        print(f"{len(entries)} run(s):")
+        for entry in entries:
+            print(f"  {entry.to_str()}")
 
 
 if __name__ == "__main__":
