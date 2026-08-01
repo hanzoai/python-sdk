@@ -1,56 +1,44 @@
 # hanzo-node
 
-Cross-platform installer for the Hanzo AI node (Rust binary).
+A Python installer that downloads a `hanzo-node` binary from `hanzoai/node`
+release assets.
 
-## Installation
+## Read this first
+
+Two different things are called `hanzo-node`, and this package is not the one
+most people want.
+
+**The `hanzo-node` command** is a second name for the Hanzo CLI — a symlink to
+the same binary, which the Hanzo Cloud control binary resolves first when it
+delegates a verb it does not serve itself. You get it from the CLI installer, and
+because it is a symlink it can never drift out of step with `hanzo`:
 
 ```bash
-# Install via uv
-uv tool install hanzo-node
-
-# Or via pip
-pip install hanzo-node
+curl -fsSL https://hanzo.sh | sh
+hanzo-node --version     # same build as `hanzo --version`
 ```
+
+**This package** installs a separate Rust agent-node binary from the
+`hanzoai/node` repository. That repository is private, so its release assets
+return 404 to an unauthenticated download and `hanzo-node install` cannot
+complete unless you already have access. Nothing here is being removed, but if
+you landed on it looking for the `hanzo-node` command, use the installer above.
 
 ## Usage
 
 ```bash
-# Install the node binary
-hanzo-node install
+pip install hanzo-node        # or: uv tool install hanzo-node
 
-# Check status
+hanzo-node install            # fetch the binary for your platform
 hanzo-node status
-
-# Upgrade to latest
 hanzo-node upgrade
-
-# Run the node (passes args to binary)
-hanzo-node run --help
-
-# Uninstall
+hanzo-node run --help         # pass through to the binary
 hanzo-node uninstall
 ```
 
-## How It Works
-
-This Python package is a thin wrapper that:
-
-1. Detects your platform (macOS/Linux/Windows, x64/arm64)
-2. Downloads the appropriate Rust binary from GitHub releases
-3. Installs it to `~/.local/bin` (or `%LOCALAPPDATA%\hanzo\bin` on Windows)
-4. Provides a CLI to manage the installation
-
-The actual `hanzo-node` is written in Rust for performance. This package just handles cross-platform distribution.
-
-## Supported Platforms
-
-- macOS (Apple Silicon / Intel)
-- Linux (x64 / arm64)
-- Windows (x64)
-
-## Environment Variables
-
-- `HANZO_INSTALL_DIR` - Override the installation directory (default: `~/.local/bin`)
+It detects your platform (macOS/Linux/Windows, x64/arm64), downloads the matching
+asset, and installs it to `~/.local/bin` — or `%LOCALAPPDATA%\hanzo\bin` on
+Windows. `HANZO_INSTALL_DIR` overrides the destination.
 
 ## License
 

@@ -1,7 +1,7 @@
 [project]
 name = "hanzo-cli"
 version = "0.2.4"
-description = "Hanzo unified CLI — IAM, KMS, PaaS, S3, Deploy"
+description = "Python CLI for Hanzo IAM, KMS, PaaS and S3. Superseded by the native hanzo CLI — https://hanzo.sh"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.12"
@@ -36,8 +36,9 @@ dev = [
     "ruff>=0.5.0",
 ]
 
+# Named after the distribution, not `hanzo` — `hanzo` is the native Hanzo CLI.
 [project.scripts]
-hanzo = "hanzo_cli.cli:main"
+hanzo-cli = "hanzo_cli.cli:main"
 
 [project.urls]
 Homepage = "https://hanzo.ai"

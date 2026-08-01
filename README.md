@@ -17,14 +17,16 @@ compute, and a batteries-included CLI. If you build AI in Python, start here.
 ## Install
 
 ```bash
-pip install hanzo          # flagship: CLI + agents + MCP + client
+pip install hanzoai        # the typed cloud API client
+pip install hanzo          # orchestration helpers, agents, MCP
+pip install "hanzo[all]"   # everything, including optional extras
 ```
 
-Or install exactly what you need:
+The `hanzo` **command** is not a Python package — it is a native binary:
 
 ```bash
-pip install hanzoai        # just the typed cloud API client
-pip install "hanzo[all]"   # everything, including optional extras
+curl -fsSL https://hanzo.sh | sh
+hanzo auth login
 ```
 
 ## Quickstart
@@ -39,7 +41,7 @@ with ApiClient(config) as client:
     ai = AiOpenAICompatibleApi(client)
     resp = ai.ai_create_chat_completion(
         AiChatCompletionRequest(
-            model="zen-coder",
+            model="zen5-coder",
             messages=[AiChatMessage(role="user", content="Ship it.")],
         )
     )
@@ -72,8 +74,8 @@ export HANZO_API_KEY=hk-...
 uv run python -m examples.hello
 ```
 
-They import from **`hanzoai.cloud`** — the client generated from the Hanzo
-OpenAPI surface (2452 operations, 1798 schemas), which is where new work goes.
+They import from **`hanzoai.cloud`** — the client generated from
+`https://api.hanzo.ai/v1/openapi.json`, which is where new work goes.
 `examples/client.py` is the single place a base URL or an env var is resolved.
 CI imports all six on every push, which is what keeps them from rotting into
 pseudocode.
@@ -85,7 +87,7 @@ The workspace splits cleanly by concern. The headline packages:
 | Package | Purpose |
 |---------|---------|
 | `hanzoai` | Typed cloud API client (generated from the Hanzo OpenAPI surface). |
-| `hanzo` | The `hanzo` CLI + runtime that ties everything together. |
+| `hanzo` | Orchestration helpers and the older Python CLI (console script `hanzo-py`). |
 | `hanzo-mcp` | Model Context Protocol server — discovers tools via entry points. |
 | `hanzo-agents` / `hanzo-agent` | Agent framework — build and orchestrate agents and swarms. |
 | `hanzo-network` | Distributed AI compute and node orchestration. |
@@ -96,7 +98,7 @@ The workspace splits cleanly by concern. The headline packages:
 python-sdk/
 └── pkg/
     ├── hanzoai/          # typed cloud client (OpenAPI-generated)
-    ├── hanzo/            # CLI + runtime meta package
+    ├── hanzo/            # orchestration helpers + legacy Python CLI
     ├── hanzo-mcp/        # MCP server (entry-point tool discovery)
     ├── hanzo-agents/     # agent framework
     ├── hanzo-network/    # distributed compute
@@ -106,19 +108,21 @@ python-sdk/
 
 ## CLI
 
-`pip install hanzo` gives you the `hanzo` command:
+The Hanzo CLI is a native binary, not a Python package:
 
 ```bash
-hanzo chat            # chat with the Zen models
-hanzo node            # start / manage a local compute node
-hanzo mcp             # run the MCP server for your editor or agent
-hanzo agent           # build and run agents
-hanzo run             # run a workflow
-hanzo cloud           # manage cloud resources
-hanzo search          # AI-powered search
+curl -fsSL https://hanzo.sh | sh
+hanzo auth login
+hanzo models list
+hanzo "fix the failing test"
 ```
 
-Run `hanzo --help` for the full command tree.
+It carries one command group per Hanzo Cloud product, generated from the same
+contract this SDK is generated from. `hanzo --help` prints the tree.
+
+`pip install hanzo` still ships the older Python CLI as **`hanzo-py`**. It is
+named that way on purpose: two programs called `hanzo` on one PATH is how
+`hanzo login` came to mean different things to different people.
 
 ## Model Context Protocol (`hanzo-mcp`)
 
@@ -141,7 +145,7 @@ from hanzo_agents import Agent, Swarm
 
 agent = Agent(
     name="researcher",
-    model="zen-coder",
+    model="zen5-coder",
     instructions="You are a research assistant.",
 )
 
