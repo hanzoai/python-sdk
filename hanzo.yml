@@ -76,3 +76,16 @@ test:
       for b in bad: print("FAIL", b, file=sys.stderr)
       sys.exit(1 if (bad or not ok) else 0)
       '
+
+  - name: codegen-drift-check
+    # The client is generated, so the only thing that can rot is the committed
+    # copy — and the import test above cannot see that rot, because a client
+    # generated from last week's document imports perfectly. This regenerates
+    # from hanzoai/openapi and fails if what is in git is not what the document
+    # produces. Needs SPEC_TOKEN — hanzoai/openapi is private.
+    #
+    # It is the last of the seven clients to get one, and it was the only one
+    # with no in-repo way to regenerate at all: the driver lives in
+    # hanzoai/openapi, so without scripts/generate.sh this repo could not even
+    # ask the question.
+    run: ./scripts/generate.sh --check
