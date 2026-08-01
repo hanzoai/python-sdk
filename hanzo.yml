@@ -77,15 +77,19 @@ test:
       sys.exit(1 if (bad or not ok) else 0)
       '
 
-  - name: codegen-drift-check
-    # The client is generated, so the only thing that can rot is the committed
-    # copy — and the import test above cannot see that rot, because a client
-    # generated from last week's document imports perfectly. This regenerates
-    # from hanzoai/openapi and fails if what is in git is not what the document
-    # produces. Needs SPEC_TOKEN — hanzoai/openapi is private.
-    #
-    # It is the last of the seven clients to get one, and it was the only one
-    # with no in-repo way to regenerate at all: the driver lives in
-    # hanzoai/openapi, so without scripts/generate.sh this repo could not even
-    # ask the question.
-    run: ./scripts/generate.sh --check
+# THE CLIENT LANE — this repo is a PROJECTION of one API document at one version.
+#
+# hanzoai/cloud's release sends `repository_dispatch: spec-update` carrying
+# (version, sha, spec_sha256); hanzoai/ci fetches openapi.yaml AT THAT SHA,
+# REFUSES if the bytes hash to anything else, runs `generate:`, writes
+# `.spec-lock` beside the code, and — only after the `test:` block below has
+# passed over exactly those bytes — commits and cuts a patch.
+#
+# The document moved from hanzoai/openapi `hanzo.yaml` (hand-merged, 1742 paths,
+# fed by nothing, and NOTHING HAS EVER SENT the spec-update this repo listens
+# for) to hanzoai/cloud `openapi.yaml` — smaller (1058 paths), emitted from the
+# code by each app's own router, and gated on every cloud release. A smaller true
+# document beats a larger unverified one.
+client:
+  generate: ./scripts/generate.sh
+  version: "pyproject.toml:grep -m1 '^version' pyproject.toml | sed -E 's/.*\"(.*)\".*/\\1/'"

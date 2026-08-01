@@ -2,6 +2,9 @@ name: CI/CD
 on:
   push: { branches: [main], tags: ["v*"] }
   pull_request:
+  # ONE cloud release, every projection. hanzoai/ci's client: lane
+  # (hanzo.yml) is what this fires.
+  repository_dispatch: { types: [spec-update] }
   workflow_dispatch:
 jobs:
   cicd:
