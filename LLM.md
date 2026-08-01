@@ -12,10 +12,34 @@ OUT, never duplicate. Full spec: `~/work/hanzo/SDK-ARCHITECTURE.md`.
 
 ## Install / run
 ```bash
-pip install hanzo            # CLI + agents + MCP + client
+pip install hanzoai          # typed cloud client
+pip install hanzo            # agents + MCP + orchestration helpers
 uv sync --all-packages       # dev: whole workspace
 uv run pytest tests/ -v      # tests
 ```
+
+## Console-script law — only the native binary is called `hanzo`
+
+The `hanzo` command is the Rust CLI (`curl -fsSL https://hanzo.sh | sh`). No
+package in this workspace may declare a `hanzo` console script.
+
+Both `hanzo` and `hanzo-cli` used to, and `hanzo` depends on `hanzo-cli`, so
+`pip install hanzo` installed two distributions fighting over one name — whichever
+landed last won. Measured on a clean venv at 0.4.3: `hanzo --help` printed
+*hanzo-cli's* program (bot/deploy/iam/k8s/kms/login/logout/paas/s3/whoami), not
+the one `pkg/hanzo/README.md` documented. And if the native CLI was already on
+PATH, `hanzo login` meant one of three different things depending on install
+order — the real CLI reads a bare `hanzo login` as an AI task, since the verb
+there is `hanzo auth login`.
+
+Now: `hanzo` ships `hanzo-py`, `hanzo-cli` ships `hanzo-cli`. Script named after
+its distribution, one canonical `hanzo`.
+
+`hanzo-node` on PyPI is also **not** the `hanzo-node` command. That command is a
+symlink to the Hanzo CLI, installed by hanzo.sh. The PyPI package fetches a
+different Rust binary from `hanzoai/node` — a private repo, so its release assets
+404 for anyone outside the org. Both READMEs say so rather than implying one
+product.
 
 ## Brand rules (hard — enforce in all docs)
 - Never "LLM gateway"; never position against LiteLLM. Hanzo is a full AI SDK / AI

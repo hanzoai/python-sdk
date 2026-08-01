@@ -1,7 +1,7 @@
 [project]
 name = "hanzo-node"
-version = "0.1.0"
-description = "Hanzo Node - Cross-platform installer for the Hanzo AI node (Rust binary)"
+version = "0.1.1"
+description = "Legacy installer for a private hanzo-node build. `hanzo-node` now ships with the Hanzo CLI — https://hanzo.sh"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
 ]
@@ -33,7 +33,7 @@ hanzo-node = "hanzo_node.cli:main"
 [project.urls]
 Homepage = "https://hanzo.ai"
 Repository = "https://github.com/hanzoai/python-sdk"
-Documentation = "https://docs.hanzo.ai/node"
+Documentation = "https://hanzo.sh"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,7 +1,7 @@
 [project]
 name = "hanzo"
 version = "0.4.4"
-description = "Hanzo AI - Complete AI Infrastructure Platform with CLI, Router, MCP, and Agent Runtime"
+description = "Python orchestration tools for Hanzo AI. The `hanzo` command itself is now a native binary — https://hanzo.sh"
 authors = [
     {name = "Hanzo AI", email = "dev@hanzo.ai"},
 ]
@@ -30,8 +30,11 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 
+# The console script is `hanzo-py`, NOT `hanzo`. `hanzo` is the native Hanzo
+# CLI (curl -fsSL https://hanzo.sh | sh). Two programs on PATH under one name
+# is how `hanzo login` came to mean different things to different people.
 [project.scripts]
-hanzo = "hanzo.cli:main"
+hanzo-py = "hanzo.cli:main"
 
 [project.optional-dependencies]
 all = [
