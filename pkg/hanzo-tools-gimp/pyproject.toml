@@ -5,9 +5,9 @@ build-backend = "hatchling.build"
 [project]
 name = "hanzo-tools-gimp"
 version = "1.0.0"
-description = "Unified GIMP automation tool for Hanzo AI (HIP-0300) — clean-room BSD-3 client for the GIMP PDB bridge"
+description = "Unified GIMP automation tool for Hanzo AI (HIP-0300) — clean-room client for the GIMP PDB bridge"
 readme = "README.md"
-license = { text = "BSD-3-Clause" }
+license = { text = "Apache-2.0" }
 requires-python = ">=3.12"
 authors = [
     { name = "Hanzo AI", email = "dev@hanzo.ai" },
@@ -24,7 +24,7 @@ keywords = [
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "License :: OSI Approved :: BSD License",
+    "License :: OSI Approved :: Apache Software License",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
     "Topic :: Multimedia :: Graphics",
