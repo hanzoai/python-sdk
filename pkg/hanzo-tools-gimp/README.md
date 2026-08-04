@@ -3,7 +3,7 @@
 Unified **GIMP automation** tool for Hanzo AI (HIP-0300).
 
 Drives [GIMP](https://www.gimp.org/) 3.0 through the **Hanzo GIMP bridge** — a
-clean-room, **BSD-3** GIMP plug-in (see `hanzo/gimp-mcp`) that exposes GIMP's
+clean-room GIMP plug-in (see `hanzoai/gimp-mcp`) that exposes GIMP's
 Procedural Database (PDB) over a line-oriented JSON TCP socket. This package is
 the Python client for that bridge.
 
@@ -61,4 +61,5 @@ so anything GIMP can do is reachable.
 
 ## License
 
-**BSD-3-Clause**. Copyright (c) 2026 Hanzo AI.
+Apache-2.0 — see the repository root [LICENSE](../../LICENSE), consistent with
+the rest of `hanzoai/python-sdk`. Estate-wide licensing standard: HIP-0137 (`hanzoai/hips`). Copyright (c) 2026 Hanzo AI.
