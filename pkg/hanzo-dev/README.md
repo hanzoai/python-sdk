@@ -213,4 +213,5 @@ The REPL is part of the Hanzo Python SDK. See the main repository for contributi
 
 ## License
 
-BSD-3-Clause - see LICENSE file for details.
+Apache-2.0 — see the repository root [LICENSE](../../LICENSE), consistent with
+the rest of `hanzoai/python-sdk`. Estate-wide licensing standard: HIP-0137 (`hanzoai/hips`).
