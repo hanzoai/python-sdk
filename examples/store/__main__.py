@@ -1,8 +1,8 @@
 """store — a KV round-trip: provision a store, read it back, delete it.
 
-    POST   /v1/kv          cloud_post_v1_kv         provision
-    GET    /v1/kv/{name}   cloud_get_v1_kv_name     read back
-    DELETE /v1/kv/{name}   cloud_delete_v1_kv_name  tear down
+    POST   /v1/kv          post_v1_kv         provision
+    GET    /v1/kv/{name}   get_v1_kv_name     read back
+    DELETE /v1/kv/{name}   delete_v1_kv_name  tear down
 
 This is the PROVISIONING plane. The per-key data plane the spec also describes
 (``/v1/kv/keys/{key}``) is not mounted anywhere — GET 404s and PUT/DELETE 405 at
@@ -18,7 +18,7 @@ rather than leaving it billable for the next run to collide with.
 
 import time
 
-from hanzoai.cloud import CloudProvisionRequest, KvApi
+from hanzoai.cloud import ProvisionRequest, KvApi
 
 from examples.client import client, run
 
@@ -29,15 +29,15 @@ def main() -> None:
     with client() as api:
         kv = KvApi(api)
 
-        kv.cloud_post_v1_kv(CloudProvisionRequest(name=NAME))
+        kv.post_v1_kv(ProvisionRequest(name=NAME))
         print(f"provisioned {NAME}")
 
         try:
-            store = kv.cloud_get_v1_kv_name(NAME)
+            store = kv.get_v1_kv_name(NAME)
             print(f"read back: {store.name} · {store.kind} · status {store.status}")
             print(f"  host {store.host}:{store.port}")
         finally:
-            kv.cloud_delete_v1_kv_name(NAME)
+            kv.delete_v1_kv_name(NAME)
             print(f"deleted {NAME}")
 
 

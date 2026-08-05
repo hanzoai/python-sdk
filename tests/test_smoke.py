@@ -50,25 +50,37 @@ def test_version_is_single_sourced():
 def test_cloud_package_imports():
     """`hanzoai.cloud` is the generated client — it must import cleanly.
 
-    Guards the upstream tag-casing collision in hanzo.yaml: tags that differ only
-    by case (`AI`/`ai`, `API Keys`/`api-keys`, `MCP`/`mcp`) make openapi-generator
-    emit imports for classes it never wrote, so `import hanzoai.cloud` raised
-    ImportError. Regenerating over an unfixed spec brings it straight back.
+    This guarded a tag-casing collision in the retired hanzo.yaml lineage: tags
+    differing only by case (`AI`/`ai`, `API Keys`/`api-keys`, `MCP`/`mcp`) made
+    openapi-generator emit imports for classes it never wrote, so
+    `import hanzoai.cloud` raised ImportError. The client is a projection of
+    hanzoai/cloud's own emission now, which carries ONE spelling per tag, so the
+    class names lost their all-caps variants: `AIApi`/`APIKeysApi`/`MCPApi` are
+    `AiApi`/`KeysApi`/`McpApi`. The collision cannot recur while one document
+    with one spelling per tag is the only input; what this still pins is that
+    the top-level names resolve at all.
     """
     import hanzoai.cloud
 
-    for name in ("AIApi", "APIKeysApi", "MCPApi", "AdminApi"):
+    for name in ("AiApi", "KeysApi", "McpApi", "AdminApi"):
         assert hasattr(hanzoai.cloud, name), f"hanzoai.cloud.{name} missing"
 
 
 def test_admin_plugin_operator_surface():
-    """The /v1/admin/plugins operator surface must be reachable from the SDK."""
+    """The /v1/admin/plugins operator surface must be reachable from the SDK.
+
+    Four served routes: GET /v1/admin/plugins and POST
+    /v1/admin/plugins/{name}/{enable,disable,reload}. The `plugin_` prefix these
+    once carried came from the hand-merged master's `<svc>_` operationId
+    namespacing; cloud's emission names them `adminPlugins`,
+    `adminEnablePlugin`, `adminDisablePlugin`, `adminReloadPlugin`.
+    """
     from hanzoai.cloud.api.admin_api import AdminApi
 
     for op in (
-        "plugin_admin_plugins",
-        "plugin_admin_enable_plugin",
-        "plugin_admin_disable_plugin",
-        "plugin_admin_reload_plugin",
+        "admin_plugins",
+        "admin_enable_plugin",
+        "admin_disable_plugin",
+        "admin_reload_plugin",
     ):
         assert callable(getattr(AdminApi, op, None)), f"AdminApi.{op} missing"

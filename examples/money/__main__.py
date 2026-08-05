@@ -1,7 +1,7 @@
 """money — what is in the wallet, and what spent it.
 
-    GET /v1/billing/balance   cloud_get_v1_billing_balance
-    GET /v1/billing/usage     cloud_get_v1_billing_usage
+    GET /v1/billing/balance   get_v1_billing_balance
+    GET /v1/billing/usage     get_v1_billing_usage
 
 Neither call takes an org: both derive the tenant SERVER-side from the token's
 ``owner`` claim, so a key can only ever read its own money. There is no org
@@ -28,8 +28,8 @@ def main() -> None:
     with client() as api:
         billing = BillingApi(api)
         for label, call in (
-            ("balance", billing.cloud_get_v1_billing_balance_without_preload_content),
-            ("usage", billing.cloud_get_v1_billing_usage_without_preload_content),
+            ("balance", billing.get_v1_billing_balance_without_preload_content),
+            ("usage", billing.get_v1_billing_usage_without_preload_content),
         ):
             response = call()
             body = response.read()
