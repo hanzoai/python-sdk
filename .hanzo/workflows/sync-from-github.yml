@@ -48,11 +48,22 @@ jobs:
             # A push made with the workflow token does NOT trigger other workflows
             # (loop prevention), so synced commits would never build. Dispatch it
             # explicitly — a real fast-forward means real commits arrived.
+            #
+            # It dispatched `deploy.yml`, which this repo does not have and never
+            # had: these are libraries, they publish to PyPI and deploy nothing.
+            # The forge answered 404 every time, `|| echo ... (non-fatal)` ate it,
+            # and the job went green. So every commit synced from GitHub landed
+            # here having triggered NOTHING, and the gate this repo declares in
+            # hanzo.yml has no runs at all to show for it.
+            #
+            # Name the workflow that exists, and let a failed dispatch fail the
+            # job. A sync that lands commits but cannot start the gate is the
+            # exact false green this whole exercise is about.
             curl -fsS --max-time 20 -X POST \
               -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
               -H "Content-Type: application/json" \
-              "${{ github.server_url }}/v1/repos/${{ github.repository }}/actions/workflows/deploy.yml/dispatches" \
-              -d '{"ref":"main"}' || echo "build dispatch failed (non-fatal)"
+              "${{ github.server_url }}/v1/repos/${{ github.repository }}/actions/workflows/cicd.yml/dispatches" \
+              -d '{"ref":"main"}'
           else
             echo "DIVERGED: native $LOCAL is not an ancestor of GitHub $REMOTE." >&2
             echo "Resolve by hand; this job will not force-push either side." >&2
