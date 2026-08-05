@@ -211,7 +211,7 @@ docs(network): update API documentation
 ### Resources
 
 - [Documentation](https://docs.hanzo.ai)
-- [Discord Community](https://discord.gg/hanzo)
+- [Discord Community](https://discord.gg/CJCyAsm9Vr)
 - [GitHub Discussions](https://github.com/hanzoai/python-sdk/discussions)
 
 ### Contact
