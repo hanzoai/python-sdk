@@ -6,8 +6,9 @@ routing logic (cloud-first, local-fallback) is exercised deterministically.
 
 import asyncio
 import base64
+import json
 
-from hanzo_tools.core import CloudError
+from hanzo_tools.core import CloudError, HanzoCloud
 
 from hanzo_tools.net import FetchTool, VisionTool
 from hanzo_tools.net.fetch_tool import _crawl_metadata, _extract_markdown
@@ -152,6 +153,195 @@ def test_extract_markdown_shapes():
     assert _extract_markdown("bare string") == "bare string"
     assert _extract_markdown({"status": "error", "data": None}) == ""
     assert _crawl_metadata({"data": {"metadata": {"title": "T"}}}) == {"title": "T"}
+
+
+# ── research (SSE over /v1/ask) ──────────────────────────────────────────
+#
+# These fake the wire, not the client: a real HanzoCloud runs over a canned
+# transport, so the SSE parser itself is under test — including the terminal
+# [DONE] sentinel, which is the end of the stream and never an event.
+
+SOURCE = {
+    "url": "https://clojure.org",
+    "title": "Clojure",
+    "snippet": "a dynamic Lisp",
+    "engine": "bing",
+    "favicon": "https://clojure.org/favicon.ico",
+}
+CARD = {
+    "url": "https://clojure.org",
+    "title": "Clojure",
+    "favicon": "https://clojure.org/favicon.ico",
+}
+
+
+def sse(*events):
+    """Canned SSE lines: one frame per event, then the [DONE] sentinel."""
+    lines = []
+    for e in events:
+        lines += [f"data: {json.dumps(e)}", ""]
+    return lines + ["data: [DONE]", ""]
+
+
+ANSWER_STREAM = sse(
+    {"type": "status", "stage": "searching", "detail": "who created clojure"},
+    {"type": "sources", "sources": [SOURCE]},
+    {"type": "text", "delta": "Rich Hickey "},
+    {"type": "text", "delta": "created [Clojure](https://clojure.org)."},
+    {"type": "follow_ups", "questions": ["When was Clojure released?"]},
+    {
+        "type": "done",
+        "answer": "Rich Hickey created [Clojure](https://clojure.org).",
+        "sources": [SOURCE],
+    },
+)
+
+
+class FakeSSEResponse:
+    def __init__(self, lines, status=200, body=""):
+        self.lines = lines
+        self.status_code = status
+        self.text = body
+
+    async def aiter_lines(self):
+        for line in self.lines:
+            yield line
+
+    async def aread(self):
+        return self.text.encode()
+
+
+class FakeStreamClient:
+    """An httpx-shaped client whose stream() replays canned SSE lines."""
+
+    def __init__(self, response):
+        self.response = response
+        self.calls = []
+
+    def stream(self, method, path, **kw):
+        self.calls.append((method, path, kw))
+        response = self.response
+
+        class Open:
+            async def __aenter__(self):
+                return response
+
+            async def __aexit__(self, *exc):
+                return False
+
+        return Open()
+
+
+def cloud_over(lines, status=200, body=""):
+    """A real HanzoCloud whose transport replays `lines`."""
+    cloud = HanzoCloud(key="hk-test")
+    client = FakeStreamClient(FakeSSEResponse(lines, status=status, body=body))
+
+    async def fake_get_client():
+        return client
+
+    cloud._get_client = fake_get_client
+    return cloud, client
+
+
+def researcher(lines, **kw):
+    cloud, client = cloud_over(lines, **kw)
+    t = FetchTool()
+    t._cloud = cloud
+    return t, client
+
+
+def test_stream_yields_events_and_skips_done_sentinel():
+    cloud, _ = cloud_over(ANSWER_STREAM)
+
+    async def collect():
+        return [e async for e in cloud.stream("/v1/ask", {"q": "x"})]
+
+    events = _run(collect())
+    assert [e["type"] for e in events] == [
+        "status",
+        "sources",
+        "text",
+        "text",
+        "follow_ups",
+        "done",
+    ]
+    assert all(isinstance(e, dict) for e in events)  # [DONE] never surfaced
+
+
+def test_research_parses_frames_into_answer_and_sources():
+    t, client = researcher(ANSWER_STREAM)
+    env = _run(t.call(None, action="research", query="who created clojure"))
+    assert env["ok"] is True
+    data = env["data"]
+    assert data["answer"] == "Rich Hickey created [Clojure](https://clojure.org)."
+    assert data["sources"] == [CARD]
+    assert data["follow_ups"] == ["When was Clojure released?"]
+    assert data["mode"] == "research"
+
+    method, path, kw = client.calls[0]
+    assert (method, path) == ("POST", "/v1/ask")
+    assert kw["json"] == {"q": "who created clojure", "mode": "research"}
+    assert kw["headers"]["Accept"] == "text/event-stream"
+
+
+def test_research_normalizes_deep_to_research():
+    t, client = researcher(ANSWER_STREAM)
+    env = _run(t.call(None, action="research", query="q", mode="deep"))
+    assert env["ok"] is True and env["data"]["mode"] == "research"
+    assert client.calls[0][2]["json"]["mode"] == "research"
+
+
+def test_research_refuses_another_mode():
+    t, client = researcher(ANSWER_STREAM)
+    env = _run(t.call(None, action="research", query="q", mode="news"))
+    assert env["ok"] is False and env["error"]["code"] == "INVALID_PARAMS"
+    assert client.calls == []
+
+
+def test_research_answer_falls_back_to_text_deltas():
+    # A done frame with no answer (a degraded synthesis) still returns the text
+    # the stream already delivered.
+    t, _ = researcher(
+        sse(
+            {"type": "sources", "sources": [SOURCE]},
+            {"type": "text", "delta": "Rich Hickey "},
+            {"type": "text", "delta": "created Clojure."},
+            {"type": "done", "answer": "", "sources": []},
+        )
+    )
+    env = _run(t.call(None, action="research", query="q"))
+    assert env["ok"] is True
+    assert env["data"]["answer"] == "Rich Hickey created Clojure."
+    assert env["data"]["sources"] == [CARD]  # last sources frame is kept
+
+
+def test_research_error_frame_surfaces():
+    t, _ = researcher(sse({"type": "error", "message": "upstream down"}))
+    env = _run(t.call(None, action="research", query="q"))
+    assert env["ok"] is False
+    assert env["error"]["code"] == "INTERNAL_ERROR"
+    assert "upstream down" in env["error"]["message"]
+
+
+def test_research_http_error_surfaces():
+    t, _ = researcher([], status=503, body="upstream unavailable")
+    env = _run(t.call(None, action="research", query="q"))
+    assert env["ok"] is False and "503" in env["error"]["message"]
+
+
+def test_research_not_configured_fails_closed():
+    t = FetchTool()
+    t._cloud = FakeCloud(configured=False)
+    env = _run(t.call(None, action="research", query="q"))
+    assert env["ok"] is False and env["error"]["code"] == "INVALID_PARAMS"
+
+
+def test_research_requires_a_query():
+    t, client = researcher(ANSWER_STREAM)
+    env = _run(t.call(None, action="research", query="  "))
+    assert env["ok"] is False and env["error"]["code"] == "INVALID_PARAMS"
+    assert client.calls == []
 
 
 # ── vision ───────────────────────────────────────────────────────────────
