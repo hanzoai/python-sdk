@@ -128,7 +128,7 @@ in the fleet. `hanzo.yml` gates only; a second publish path would be one too man
 - `pkg/hanzo-tools-*/` — one concern each, exports a `TOOLS` list.
 - `pkg/hanzo-{agents,agent,network,memory}/` — agent/compute/memory libraries.
 - `pkg/hanzo-kms/` — KMS client. The server is **luxfi/kms** (`kms.hanzo.ai`,
-  `kms.lux.network`) and its whole surface is `/v1/kms/auth/login` plus
+  `kms.lux.cloud`) and its whole surface is `/v1/kms/auth/login` plus
   `/v1/kms/orgs/{org}/secrets[/{path}/{name}]`. `/api/*` is Infisical's and was
   never served — it looked like a decode error rather than a 404 only because old
   builds answered every unmatched path with the console SPA (200 text/html).
