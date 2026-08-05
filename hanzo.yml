@@ -15,10 +15,17 @@
 test:
   - name: cloud-client
     # Import every generated module. For generated code this IS the build step:
-    # there is no compiler to catch a bad $ref, a name collision or a model that
-    # references a class the generator declined to emit — the import is what
-    # turns those into a failure instead of an AttributeError in a user's app
-    # six months later.
+    # there is no compiler to catch a bad $ref or a model that references a class
+    # the generator declined to emit — the import is what turns those into a
+    # failure instead of an AttributeError in a user's app six months later.
+    #
+    # IT DOES NOT CATCH A NAME COLLISION, and this comment used to claim it did.
+    # A class body that declares the same field twice is valid Python: the second
+    # binding replaces the first and the module imports clean. 3.2.0 shipped to
+    # PyPI that way — O11yGettableAgentCheckIn declared `integration_config` and
+    # `removed_at` twice each, so the agent's value was read and dropped — and
+    # this gate was green the whole time. `duplicate-fields` below is what sees
+    # it, because it reads the syntax tree rather than the import.
     #
     # The arc runner image promises no interpreter, so provision one with uv
     # when it is missing. A gate that silently no-ops is worse than no gate.
@@ -44,6 +51,64 @@ test:
           print(f"{label}: {n} modules imported")
       for b in bad[:20]: print("FAIL", b, file=sys.stderr)
       sys.exit(1 if bad else 0)
+      '
+
+  - name: duplicate-fields
+    # Read the syntax tree, because the import above cannot see this.
+    #
+    # `x: int` twice in one class body is legal Python. The second annotated
+    # assignment rebinds the name, the first is gone, and nothing complains —
+    # not the interpreter, not pydantic, not the import gate. The model then
+    # advertises a field it does not have, and the value that arrives on the
+    # wire under the shadowed name is read and dropped in silence. That is a
+    # data-loss bug that presents as no bug at all.
+    #
+    # This is not hypothetical and it is not rare: it is what the generator does
+    # every time two distinct spec properties normalise to one Python
+    # identifier. hanzoai 3.2.0 is on PyPI with exactly that — two collisions in
+    # O11yGettableAgentCheckIn — and the gate above was green for it.
+    #
+    # Stdlib `ast` only, no deps: a scan that needs an install is a scan that
+    # can fail to run for reasons unrelated to the code it is reading.
+    run: |
+      set -e
+      if command -v uv >/dev/null 2>&1; then UV=uv; else
+        curl -fsSL https://astral.sh/uv/install.sh | sh
+        UV="$HOME/.local/bin/uv"
+      fi
+      "$UV" run --no-project --python 3.12 python -c '
+      import ast, pathlib, sys
+      root = pathlib.Path("pkg/hanzoai/cloud")
+      hits, n = [], 0
+      for p in sorted(root.rglob("*.py")):
+          n += 1
+          try:
+              tree = ast.parse(p.read_text(encoding="utf-8", errors="replace"))
+          except SyntaxError as e:
+              hits.append("%s: does not parse: %r" % (p, e))
+              continue
+          for node in ast.walk(tree):
+              if not isinstance(node, ast.ClassDef):
+                  continue
+              seen = {}
+              for s in node.body:
+                  # AnnAssign is `name: Type = ...`, how every field is declared
+                  if isinstance(s, ast.AnnAssign) and isinstance(s.target, ast.Name):
+                      if not s.target.id.startswith("__"):
+                          seen.setdefault(s.target.id, []).append(s.lineno)
+              for f, lines in sorted(seen.items()):
+                  if len(lines) > 1:
+                      hits.append("%s: %s.%s declared %d times, lines %s"
+                                  % (p, node.name, f, len(lines), lines))
+      print("duplicate-fields: scanned %d generated modules" % n)
+      # A zero here must mean "looked and found nothing", never "looked at
+      # nothing". If the tree moves, this fails loudly instead of passing empty.
+      if n == 0:
+          print("FAIL scanned no modules under", root, file=sys.stderr)
+          sys.exit(1)
+      for h in hits:
+          print("FAIL", h, file=sys.stderr)
+      sys.exit(1 if hits else 0)
       '
 
   - name: examples
