@@ -1,7 +1,7 @@
 """Hanzo KMS - Secret Management SDK for Python
 
 A pure Python SDK for the canonical luxfi/kms surface (kms.hanzo.ai,
-kms.lux.network). A secret is identified by (org, path, name, env).
+kms.lux.cloud). A secret is identified by (org, path, name, env).
 
 Usage:
     from hanzo_kms import KMSClient, ClientSettings
