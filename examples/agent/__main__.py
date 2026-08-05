@@ -1,8 +1,8 @@
 """agent — define one, run it, read the run back.
 
-    POST /v1/agents            cloud_post_v1_agents
-    POST /v1/agents/{ref}/run  cloud_post_v1_agents_by_ref_run
-    GET  /v1/agents/{ref}/runs cloud_get_v1_agents_ref_runs
+    POST /v1/agents            post_v1_agents
+    POST /v1/agents/{ref}/run  post_v1_agents_by_ref_run
+    GET  /v1/agents/{ref}/runs get_v1_agents_ref_runs
 
 ``ref`` is the agent's public id (``agent_...``) OR its org-unique name, which
 is why the run and the read below can both use the name we just created without
@@ -17,7 +17,7 @@ server actually produced.
 
 import time
 
-from hanzoai.cloud import AgentsApi, CloudCreateAgentIn
+from hanzoai.cloud import AgentsApi, CreateAgentIn
 
 from examples.client import MODEL, client, run
 
@@ -29,8 +29,8 @@ def main() -> None:
     with client() as api:
         agents = AgentsApi(api)
 
-        created = agents.cloud_post_v1_agents(
-            CloudCreateAgentIn(
+        created = agents.post_v1_agents(
+            CreateAgentIn(
                 name=NAME,
                 model=MODEL,
                 description="Created by the hanzoai SDK agent example.",
@@ -39,10 +39,10 @@ def main() -> None:
         )
         print(f"created {created.name} ({created.id}) on {created.model}")
 
-        agents.cloud_post_v1_agents_by_ref_run(NAME)
+        agents.post_v1_agents_by_ref_run(NAME)
         print("run started")
 
-        runs = agents.cloud_get_v1_agents_ref_runs(NAME, limit=5)
+        runs = agents.get_v1_agents_ref_runs(NAME, limit=5)
         entries = runs.runs or []
         print(f"{len(entries)} run(s):")
         for entry in entries:

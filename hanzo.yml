@@ -47,14 +47,33 @@ test:
       '
 
   - name: examples
-    # The six canonical flows, imported against the client that was just
-    # generated. Each `from hanzoai.cloud import X` is an assertion that the
-    # symbol still exists, so a spec change that renames or drops an operation
+    # The canonical flows, imported against the client that was just generated.
+    # Each `from hanzoai.cloud import X` is an assertion that the symbol still
+    # exists, so a spec change that renames or drops a MODEL or an API class
     # goes red here rather than in a user's app.
     #
     # Importing is enough BECAUSE each flow guards its call behind
     # `if __name__ == "__main__"` — the module body resolves every name without
     # opening a socket, so the gate needs no API key and no network.
+    #
+    # KNOWN CEILING, so nobody reads this gate for more than it says: an import
+    # resolves the names in the `from … import` line and NOTHING ELSE. A method
+    # name is looked up at call time, so a renamed OPERATION passes here and
+    # fails in a user's app. Measured: when the `<svc>_` prefix left every
+    # operationId, `money` and `tools` went on passing this gate while every
+    # call in them named a method that no longer existed. Four flows failed on
+    # their imports and two were silently broken — the gate saw four.
+    #
+    # `chat` is NOT in this list, and its absence is a measurement rather than a
+    # decision. cloud declares POST /v1/chat/completions with no `requestBody`
+    # and no `responses` at all, so the generated method takes no body and
+    # returns None: the one call a chat example exists to make cannot be
+    # expressed. Inventing the type here, or hand-rolling the HTTP inside a
+    # generated client, is the exact drift these SDKs exist to prevent, and
+    # hanzoai/js-sdk dropped its own chat flow at 2.0.7 for this same reason.
+    # Restoring it is one step and the test is one line: when
+    # paths['/v1/chat/completions'] in cloud's openapi.yaml carries a
+    # requestBody, add examples/chat back and put "chat" back in the tuple.
     run: |
       set -e
       if command -v uv >/dev/null 2>&1; then UV=uv; else
@@ -67,7 +86,7 @@ test:
       import compileall, importlib, sys
       ok = compileall.compile_dir("examples", quiet=1, maxlevels=3)
       bad = []
-      for flow in ("hello", "chat", "money", "store", "agent", "tools"):
+      for flow in ("hello", "money", "store", "agent", "tools"):
           try:
               importlib.import_module(f"examples.{flow}.__main__")
               print(f"examples.{flow}: OK")
