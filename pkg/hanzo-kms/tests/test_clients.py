@@ -216,7 +216,7 @@ def test_inject_env_lists_then_reads_each(monkeypatch: pytest.MonkeyPatch) -> No
 @pytest.mark.parametrize(
     ("env_var", "field", "value"),
     [
-        ("HANZO_KMS_URL", "site_url", "https://kms.lux.network"),
+        ("HANZO_KMS_URL", "site_url", "https://kms.lux.cloud"),
         ("HANZO_KMS_ORG", "org", "zoo"),
         ("HANZO_KMS_CLIENT_ID", "client_id", "an-id"),
         ("HANZO_KMS_CLIENT_SECRET", "client_secret", "a-secret"),
