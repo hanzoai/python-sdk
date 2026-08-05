@@ -50,15 +50,31 @@ product.
 
 ## Codegen — this repo PULLS, it never pushes
 ```
-hanzoai/cloud    emits its own router spec    -> cloud/openapi.yaml
-hanzoai/openapi  merges 55 per-service specs  -> hanzo.yaml (1132 paths)  [the ONE SDK input]
-hanzoai/openapi  generate.py + sdks.yaml      -> projects hanzo.yaml into each SDK repo
-this repo        owns its test + PATCH bump + release
+hanzoai/cloud    emits its own router spec    -> cloud/openapi.yaml  [the ONE SDK input]
+hanzoai/openapi  generate.py + sdks.yaml      -> the invocation, as data
+this repo        owns its test + bump + release, and pins what it projected
 ```
-Current `pkg/hanzoai/cloud/` is **1132 paths / 1519 operations / 779 schemas** →
-239 api modules + 1116 model modules. The path count dropped from 1885 because
-the spec deleted 18 products it authored and served nowhere, not because
-anything here was lost.
+The client is a projection of **cloud's document directly**, and `.spec-lock`
+names the commit and sha256 it was cut from. `generate.py` passes
+`--skip-validate-spec`, so the 1012 missing-`responses` errors that once made
+cloud's emission write zero files no longer stop it; `hanzo.yaml` is out of this
+SDK's path (it still feeds the doc site and the skills plane). Regenerate with
+the document by value:
+```bash
+cd ~/work/hanzo/openapi && uv run --with pyyaml python3 generate.py python \
+  --repo ~/work/hanzo/python-sdk --spec ~/work/hanzo/cloud/openapi.yaml
+```
+Current `pkg/hanzoai/cloud/` is **1700 paths / 2354 operations / 2186 schemas** →
+182 api modules + 2172 model modules.
+
+**Two renamings arrived with the lineage, and neither is a defect to undo.**
+IAM's types are namespace-qualified — `iam.Role`, `iam.Application`, 95 of them
+— because a bare `Role` had been two unrelated shapes under one name (IAM's
+14-property role, and a 2-property `{role, user}` row from another service).
+Both exist now and each says which it is. And the `<svc>_` operationId prefix is
+gone, so every method lost it: `cloud_get_v1_tools` → `get_v1_tools`,
+`AIApi`/`APIKeysApi`/`MCPApi` → `AiApi`/`KeysApi`/`McpApi`,
+`AdminApi.plugin_admin_plugins` → `admin_plugins`.
 `pkg/hanzoai/cloud/` is **generated — never hand-edit it.** `generate.py` does
 `rmtree(dst) + copytree(src)`, so anything written there dies on the next run. Regenerate
 only from hanzoai/openapi (`python3 generate.py python`) — never from here. The old
