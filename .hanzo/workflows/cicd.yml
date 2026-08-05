@@ -1,0 +1,27 @@
+# ~7-line canonical caller — all real config lives in /hanzo.yml.
+#
+# This repo declared a gate and had nowhere to run it. `.github/workflows/cicd.yml`
+# imports the same pipeline, but its default label `hanzo-build-linux-amd64` is
+# served on github.com by nothing: the ARC pool that last ran it there
+# (hanzo-build-linux-amd64-lfpvh-runner-vt7lh, hanzoai/finance, 133s) was retired,
+# and every caller since has queued for 86402s — 24h exactly, GitHub's queue
+# timeout — and reported "cancelled". A gate that cannot be scheduled is not a
+# gate, and a red X that says "cancelled" reads like an infrastructure hiccup
+# rather than what it is: the suite never ran, and has not run for weeks.
+#
+# The pool that DOES serve that label is the git-runner fleet on git.hanzo.ai
+# (universe:infra/k8s/git-runner/statefulset.yaml), which is reachable only from
+# this plane — the same plane sync-from-github.yml already mirrors every GitHub
+# commit onto within ten minutes. So the gate belongs here, beside the publish
+# it guards, and this file is the ~7 lines that ask for it.
+name: CI/CD
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+jobs:
+  cicd:
+    uses: hanzoai/ci/.hanzo/workflows/build.yml@v1
+    secrets: inherit
