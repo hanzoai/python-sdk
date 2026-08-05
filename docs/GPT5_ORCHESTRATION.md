@@ -286,5 +286,5 @@ hanzo dev --orchestrator gpt-4o \
 
 For issues or questions:
 - GitHub: https://github.com/hanzoai/python-sdk
-- Discord: https://discord.gg/hanzoai
+- Discord: https://discord.gg/CJCyAsm9Vr
 - Email: support@hanzo.ai
