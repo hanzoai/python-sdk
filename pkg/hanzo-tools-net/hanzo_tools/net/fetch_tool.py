@@ -2,6 +2,7 @@
 
 This module provides the 'fetch' tool for network operations:
 - search: Query → [URL, title, snippet]
+- research: Query → {answer with citations, sources, follow_ups}
 - fetch: URL → {text, mime, status}
 - download: URL → Path (with assets)
 - crawl: URL + depth → [Path] (recursive mirror)
@@ -23,9 +24,15 @@ from hanzo_tools.core import (
     BaseTool,
     CloudError,
     HanzoCloud,
+    InvalidParamsError,
     ToolError,
     content_hash,
 )
+
+# A research pass legitimately runs for minutes — it plans, searches, reads a few
+# dozen pages and writes — so its stream gets its own budget instead of the
+# client's request-shaped default.
+RESEARCH_TIMEOUT = 300.0
 
 
 def _extract_markdown(resp: Any) -> str:
@@ -60,6 +67,32 @@ def _extract_markdown(resp: Any) -> str:
                 return md
         return ""
     return from_obj(payload)
+
+
+def _research_mode(mode: str) -> str:
+    """The one pass this action opens.
+
+    ``deep`` is the older name for the same research pass, so it normalizes.
+    Anything else is a different door — plain web search is its own action — and
+    is refused rather than silently downgraded.
+    """
+    m = (mode or "research").strip().lower()
+    if m in ("research", "deep"):
+        return "research"
+    raise InvalidParamsError(
+        f"unknown research mode: {mode}", param="mode", expected="research"
+    )
+
+
+def _source(s: Any) -> dict:
+    """A citation's card: where it is, what it is, and its mark."""
+    if not isinstance(s, dict):
+        return {"url": str(s), "title": "", "favicon": ""}
+    return {
+        "url": s.get("url", ""),
+        "title": s.get("title", ""),
+        "favicon": s.get("favicon", ""),
+    }
 
 
 def _crawl_metadata(resp: Any) -> dict:
@@ -107,6 +140,8 @@ Actions:
 - search: Web search — cloud Bing meta-search (api.hanzo.ai) with a local
   DuckDuckGo fallback (Query → [URL, title, snippet])
 - web_read: Fetch a URL → clean markdown (cloud Crawl4AI, local fallback)
+- research: Search + read + synthesize behind one door — the cloud answer
+  engine (Query → {answer with citations, sources, follow_ups})
 - fetch: Retrieve URL content (URL → {text, mime, status})
 - download: Save page with assets (URL → Path)
 - crawl: Recursive site mirror (URL, depth → [Path])
@@ -306,6 +341,77 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
                 "markdown": text,
                 "source": "local",
                 "status": response.status_code,
+            }
+
+        @self.action("research", "Research a question → cited answer + sources")
+        async def research(
+            ctx: MCPContext,
+            query: str,
+            mode: str = "research",
+        ) -> dict:
+            """Research a question end to end and return a cited answer.
+
+            Search finds pages and web_read reads one; research is the whole
+            loop behind a single door — the cloud answer engine
+            (api.hanzo.ai /v1/ask) plans queries, searches, reads the best
+            pages and writes an answer that cites them. Its progress frames are
+            consumed here, so the caller gets the finished result without
+            orchestrating search + web_read itself.
+
+            Args:
+                query: The question to research
+                mode: research (default); "deep" names the same pass
+
+            Returns:
+                {answer, sources: [{url, title, favicon}], follow_ups, query, mode}
+
+            Effect: NONDETERMINISTIC_EFFECT
+            """
+            if not query or not query.strip():
+                raise InvalidParamsError("query is required", param="query")
+            mode = _research_mode(mode)
+            cloud = self._get_cloud()
+            if cloud is None:
+                raise ToolError(
+                    code="INVALID_PARAMS",
+                    message="Hanzo Cloud not configured: set HANZO_API_KEY "
+                    "or add .apiKey to ~/.hanzo/config.json",
+                )
+
+            answer = ""
+            deltas: list[str] = []
+            sources: list = []
+            follow_ups: list[str] = []
+            async for event in cloud.stream(
+                "/v1/ask", {"q": query, "mode": mode}, timeout=RESEARCH_TIMEOUT
+            ):
+                kind = event.get("type")
+                if kind == "text":
+                    deltas.append(event.get("delta") or "")
+                elif kind == "sources":
+                    sources = event.get("sources") or sources
+                elif kind == "follow_ups":
+                    follow_ups = event.get("questions") or []
+                elif kind == "done":
+                    answer = event.get("answer") or ""
+                    sources = event.get("sources") or sources
+                    break
+                elif kind == "error":
+                    raise ToolError(
+                        code="INTERNAL_ERROR",
+                        message=event.get("message") or "research stream failed",
+                        details={"query": query},
+                    )
+                # status frames are progress, not result
+
+            return {
+                # The done frame carries the finished text; the accumulated
+                # deltas are the same answer, and stand in if it arrives empty.
+                "answer": answer or "".join(deltas),
+                "sources": [_source(s) for s in sources],
+                "follow_ups": follow_ups,
+                "query": query,
+                "mode": mode,
             }
 
         @self.action("fetch", "Retrieve URL content")
