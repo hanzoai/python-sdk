@@ -1,9 +1,9 @@
 """One client for the live Hanzo Cloud backend (api.hanzo.ai).
 
 Every hanzo-tools package that reaches the cloud — code index/search, vector
-search, web search, vision — talks to it through this single seam. There is
-exactly one place that knows the base URL, the auth header, and how to turn a
-non-2xx into a typed error; tools compose it, never re-implement it.
+search, web search, research, vision — talks to it through this one client.
+There is exactly one place that knows the base URL, the auth header, and how to
+turn a non-2xx into a typed error; tools compose it, never re-implement it.
 
 Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` (hk- key) in
 ``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session. Base URL is
@@ -17,6 +17,7 @@ import json
 import subprocess
 from typing import Any, ClassVar
 from pathlib import Path
+from collections.abc import AsyncIterator
 
 DEFAULT_BASE = "https://api.hanzo.ai"
 
@@ -175,6 +176,51 @@ class HanzoCloud:
         """POST json_body to path, returning parsed JSON. Raises on failure."""
         return await self._request("POST", path, json=json_body or {})
 
+    async def stream(
+        self,
+        path: str,
+        json_body: dict[str, Any] | None = None,
+        timeout: float | None = None,
+    ) -> AsyncIterator[dict[str, Any]]:
+        """POST json_body to path and yield the events the server streams back.
+
+        Server-sent events are the cloud's other reply shape. The answer engine
+        (``/v1/ask``) writes ``data: {…}`` frames as it plans, searches, reads
+        and writes, so a caller follows the work instead of waiting minutes in
+        silence. It belongs beside get/post: the base URL, the auth header and
+        the error mapping stay in this one place.
+
+        Each frame's JSON object is yielded as a dict. The terminal ``[DONE]``
+        sentinel (the OpenAI convention the server mirrors) marks the end of the
+        stream, not an event, so it is skipped rather than handed to callers.
+        ``timeout`` overrides the client default for one call — a research pass
+        legitimately outlives a request-shaped budget.
+        """
+        client = await self._get_client()
+        headers = {**self._headers(), "Accept": "text/event-stream"}
+        try:
+            async with client.stream(
+                "POST",
+                path,
+                headers=headers,
+                json=json_body or {},
+                timeout=timeout if timeout is not None else self.timeout,
+            ) as resp:
+                if resp.status_code >= 400:
+                    await resp.aread()
+                    raise CloudError(
+                        f"POST {path} → {resp.status_code}: {_short_body(resp)}",
+                        status=resp.status_code,
+                    )
+                async for line in resp.aiter_lines():
+                    event = _sse_event(line)
+                    if event is not None:
+                        yield event
+        except CloudError:
+            raise
+        except Exception as e:  # transport/DNS/timeout — no HTTP status
+            raise CloudError(f"POST {path} stream failed: {e}") from e
+
     async def call(
         self,
         method: str,
@@ -185,7 +231,7 @@ class HanzoCloud:
         """Any-method call, for callers driving routes from the OpenAPI spec.
 
         The spec names methods this client has no bespoke helper for (PUT,
-        PATCH, DELETE), so it needs one generic seam rather than a helper per
+        PATCH, DELETE), so it needs one generic entry rather than a helper per
         verb — the auth header and error mapping stay in this one place.
         """
         kw: dict[str, Any] = {}
@@ -199,6 +245,26 @@ class HanzoCloud:
         if self._client is not None:
             await self._client.aclose()
             self._client = None
+
+
+def _sse_event(line: str) -> dict[str, Any] | None:
+    """The event carried by one SSE line, or None when it carries none.
+
+    Blank separators, keep-alive comments, ``event:``/``id:`` fields and the
+    terminal ``[DONE]`` sentinel are all "no event". A ``data:`` payload that is
+    not a JSON object is skipped too: one malformed frame must not end an answer
+    that is still arriving.
+    """
+    if not line.startswith("data:"):
+        return None
+    payload = line[len("data:") :].strip()
+    if not payload or payload == "[DONE]":
+        return None
+    try:
+        event = json.loads(payload)
+    except ValueError:
+        return None
+    return event if isinstance(event, dict) else None
 
 
 def _short_body(resp: Any, limit: int = 300) -> str:

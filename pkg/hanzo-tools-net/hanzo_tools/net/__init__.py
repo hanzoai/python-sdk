@@ -3,6 +3,7 @@
 Tools:
 - net: Unified network tool (HIP-0300)
   - search: Web search (Query → [URL, title, snippet])
+  - research: Cited answer over the live web (Query → {answer, sources})
   - fetch: Retrieve URL content (URL → {text, mime})
   - download: Save URL with assets (URL → Path)
   - crawl: Recursive site mirror (URL, depth → [Path])
