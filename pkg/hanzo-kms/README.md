@@ -138,7 +138,7 @@ Two things follow from it:
 ## Compatibility
 
 - Hanzo KMS — https://kms.hanzo.ai
-- Lux KMS — https://kms.lux.network
+- Lux KMS — https://kms.lux.cloud
 
 ## License
 
