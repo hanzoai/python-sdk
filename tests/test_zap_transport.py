@@ -2,11 +2,20 @@
 
 Covers two guarantees:
 
-1. Back-compat: `import hanzoai` succeeds and the locked public `__all__` still
-   contains the core names, while the new ZAP names are additive (NOT in `__all__`).
+1. The package imports and still exports its core names, while the ZAP names are
+   additive (NOT in `__all__`).
 2. Correctness: the transport translates a typed HTTP request into a
    `hanzo_zap.CloudClient.call(...)` — asserting the derived method, forwarded auth,
    and body — using a mock CloudClient, so no network and no `hanzo-zap` install.
+
+This file used to lock the STAINLESS surface — `Hanzo`, `AsyncHanzo`, `Client`,
+`Stream`, `HanzoError`, … — and import `Hanzo` at module scope. Every one of those
+18 names was deleted by 648e7354 ("retire Stainless"), which replaced
+`pkg/hanzoai` with openapi-generator output whose entry point is `ApiClient` +
+`Configuration`. The import therefore raised at COLLECTION, so pytest reported an
+error and ran none of the transport tests below — which is how the whole suite
+stayed red through the 3.1.x releases without anyone seeing it. The lock now names
+what the package actually exports.
 """
 
 from __future__ import annotations
@@ -16,29 +25,21 @@ import json
 import httpx
 
 import hanzoai
-from hanzoai import Hanzo, ZapTransport, AsyncZapTransport, zap_http_client
+from hanzoai import ZapTransport, AsyncZapTransport, zap_http_client
 from hanzoai.zap import method_from_path
 
-# The public surface that must never regress.
+# The public surface that must never regress: the generated client's entry point
+# and its error hierarchy.
 LOCKED_CORE_NAMES = {
-    "Hanzo",
-    "AsyncHanzo",
-    "Client",
-    "AsyncClient",
-    "Stream",
-    "AsyncStream",
-    "HanzoError",
-    "APIError",
-    "APIStatusError",
-    "AuthenticationError",
-    "NotFoundError",
-    "RateLimitError",
-    "agents",
-    "mcp",
-    "auth",
-    "session",
-    "config",
-    "protocols",
+    "ApiClient",
+    "Configuration",
+    "ApiResponse",
+    "OpenApiException",
+    "ApiException",
+    "ApiTypeError",
+    "ApiValueError",
+    "ApiKeyError",
+    "ApiAttributeError",
 }
 
 ZAP_ADDITIVE_NAMES = {
@@ -140,16 +141,26 @@ def test_sync_transport_maps_zap_error_status() -> None:
     assert mock.calls[0][0] == "models"
 
 
-def test_full_hanzo_client_routes_through_zap() -> None:
-    """End-to-end: the standard Hanzo client, unchanged, drives a resource call over ZAP."""
+def test_full_httpx_client_routes_through_zap() -> None:
+    """End-to-end through a real httpx.Client — the only seam ZAP actually has.
+
+    It used to drive `hanzoai.Hanzo(..., http_client=...)`. That class is gone and
+    nothing replaced the seam: the generated client's `rest.py` is urllib3, and no
+    type in `pkg/hanzoai` takes an `http_client`. So `hanzoai.zap` is reachable
+    only by a caller holding httpx directly, and that is what this asserts —
+    honestly, rather than through a class that does not exist.
+    """
     models_payload = {"object": "list", "data": [{"id": "zen-1"}, {"id": "zen-2"}]}
     mock = MockCloudClient(status=200, body=json.dumps(models_payload).encode("utf-8"))
 
-    http_client = httpx.Client(transport=ZapTransport(client=mock))
-    with Hanzo(api_key="sk-test", base_url="https://api.hanzo.ai", http_client=http_client) as client:
-        result = client.models.list()
+    with httpx.Client(transport=ZapTransport(client=mock)) as http_client:
+        response = http_client.get(
+            "https://api.hanzo.ai/v1/models",
+            headers={"Authorization": "Bearer sk-test"},
+        )
 
-    assert result == models_payload
+    assert response.status_code == 200
+    assert response.json() == models_payload
     method, auth, _ = mock.calls[0]
     assert method == "models"
     assert auth == "Bearer sk-test"
