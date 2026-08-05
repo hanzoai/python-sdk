@@ -219,5 +219,5 @@ HANZO_FALLBACK_MODEL=anthropic/claude-3-5-sonnet-20241022
 
 For help and support:
 - Documentation: https://docs.hanzo.ai
-- Discord: https://discord.gg/hanzoai
+- Discord: https://discord.gg/CJCyAsm9Vr
 - GitHub: https://github.com/hanzoai

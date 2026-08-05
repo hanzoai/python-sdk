@@ -800,7 +800,7 @@ hanzo-mcp --version --verbose
 
 1. **Check Documentation**: https://mcp.hanzo.ai
 2. **GitHub Issues**: https://github.com/hanzoai/mcp/issues
-3. **Discord Community**: https://discord.gg/hanzoai
+3. **Discord Community**: https://discord.gg/CJCyAsm9Vr
 4. **Email Support**: support@hanzo.ai
 
 ---
@@ -1037,7 +1037,7 @@ We welcome contributions! See [CONTRIBUTING.md](https://github.com/hanzoai/mcp/b
 
 - Documentation: https://mcp.hanzo.ai
 - GitHub: https://github.com/hanzoai/mcp
-- Discord: https://discord.gg/hanzoai
+- Discord: https://discord.gg/CJCyAsm9Vr
 - Email: support@hanzo.ai
 
 ---

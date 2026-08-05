@@ -317,7 +317,7 @@ All requests through the Router are automatically logged to the Cloud dashboard:
 
 - Explore more [examples](../examples/)
 - Read the [Agent SDK documentation](https://docs.hanzo.ai/agent-sdk)
-- Join our [Discord community](https://discord.gg/hanzoai) for support
+- Join our [Discord community](https://discord.gg/CJCyAsm9Vr) for support
 
 ## Support
 
