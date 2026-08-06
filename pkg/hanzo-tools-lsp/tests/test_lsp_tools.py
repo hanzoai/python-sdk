@@ -17,19 +17,19 @@ class TestImports:
         assert len(TOOLS) > 0
 
     def test_import_lsp_tool(self):
-        from hanzo_tools.lsp import LspTool
+        from hanzo_tools.lsp import LSPTool
 
-        assert LspTool.name == "lsp"
+        assert LSPTool.name == "lsp"
 
 
-class TestLspTool:
-    """Tests for LspTool."""
+class TestLSPTool:
+    """Tests for LSPTool."""
 
     @pytest.fixture
     def tool(self):
-        from hanzo_tools.lsp import LspTool
+        from hanzo_tools.lsp import LSPTool
 
-        return LspTool()
+        return LSPTool()
 
     def test_has_description(self, tool):
         assert tool.description
