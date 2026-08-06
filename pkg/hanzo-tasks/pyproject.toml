@@ -1,43 +1,63 @@
 [build-system]
-requires = ["setuptools>=61.0.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "hanzo-tasks"
-version = "0.1.0"
-description = "Hanzo Tasks SDK — Durable workflow execution for AI agents (powered by Temporal)"
+version = "0.2.0"
+description = "Hanzo Tasks SDK — durable activities on the native Hanzo Tasks engine"
 readme = "README.md"
 requires-python = ">=3.12"
 license = { text = "MIT" }
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
-keywords = ["hanzo", "temporal", "tasks", "workflow", "durable", "agents"]
+keywords = ["hanzo", "tasks", "workflow", "durable", "activities", "agents"]
 dependencies = [
-    "temporalio>=1.9.0",
+    "httpx>=0.25.0",
 ]
 
 [project.urls]
-Homepage = "https://github.com/hanzoai/python-sdk"
-Repository = "https://github.com/hanzoai/python-sdk/tree/main/pkg/hanzo-tasks"
+Homepage = "https://hanzo.ai"
 Documentation = "https://hanzo.ai/docs/tasks"
+Repository = "https://github.com/hanzoai/python-sdk"
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=7.0.0",
-    "pytest-asyncio>=0.26.0",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.5.0",
+    "mypy>=1.10.0",
 ]
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["hanzo_tasks*"]
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tasks"]
 
-[tool.setuptools.package-data]
-hanzo_tasks = ["py.typed"]
+# Named rather than excluded, so a stray directory beside the package — a local
+# virtualenv, a build tree — can never be swept into a release.
+[tool.hatch.build.targets.sdist]
+include = ["hanzo_tasks", "tests", "README.md", "pyproject.toml"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "C4", "UP"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
