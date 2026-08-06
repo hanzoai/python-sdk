@@ -227,9 +227,6 @@ from hanzoai.models.base_error import BaseError
 from hanzoai.models.base_record import BaseRecord
 from hanzoai.models.base_record_list import BaseRecordList
 from hanzoai.models.billing_balance import BillingBalance
-from hanzoai.models.billing_billing_gpu_charge402_response import BillingBillingGpuCharge402Response
-from hanzoai.models.billing_gpu_charge_request import BillingGpuChargeRequest
-from hanzoai.models.billing_gpu_eligibility import BillingGpuEligibility
 from hanzoai.models.billing_payment_method import BillingPaymentMethod
 from hanzoai.models.billing_payment_methods import BillingPaymentMethods
 from hanzoai.models.billing_usage_ledger import BillingUsageLedger

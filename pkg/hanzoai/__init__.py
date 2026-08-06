@@ -758,9 +758,6 @@ __all__ = [
     "BaseRecord",
     "BaseRecordList",
     "BillingBalance",
-    "BillingBillingGpuCharge402Response",
-    "BillingGpuChargeRequest",
-    "BillingGpuEligibility",
     "BillingPaymentMethod",
     "BillingPaymentMethods",
     "BillingUsageLedger",
@@ -2976,9 +2973,6 @@ from hanzoai.models.base_error import BaseError as BaseError
 from hanzoai.models.base_record import BaseRecord as BaseRecord
 from hanzoai.models.base_record_list import BaseRecordList as BaseRecordList
 from hanzoai.models.billing_balance import BillingBalance as BillingBalance
-from hanzoai.models.billing_billing_gpu_charge402_response import BillingBillingGpuCharge402Response as BillingBillingGpuCharge402Response
-from hanzoai.models.billing_gpu_charge_request import BillingGpuChargeRequest as BillingGpuChargeRequest
-from hanzoai.models.billing_gpu_eligibility import BillingGpuEligibility as BillingGpuEligibility
 from hanzoai.models.billing_payment_method import BillingPaymentMethod as BillingPaymentMethod
 from hanzoai.models.billing_payment_methods import BillingPaymentMethods as BillingPaymentMethods
 from hanzoai.models.billing_usage_ledger import BillingUsageLedger as BillingUsageLedger
