@@ -1,9 +1,15 @@
 """Language Server Protocol (LSP) tool for code intelligence.
 
-This tool provides on-demand LSP configuration and installation for various
-programming languages. It automatically installs language servers as needed
-and provides code intelligence features like go-to-definition, find references,
-rename symbol, and diagnostics.
+One tool, two planes, chosen by the data the caller already supplies:
+
+- no ``repo`` — a language server on the local tree, installed on demand and
+  kept alive per ``language:root``. Answers what a working tree knows,
+  including the edits it can apply back to disk.
+- with ``repo`` — the indexed corpus behind ``/v1/code/lsp`` on api.hanzo.ai,
+  which answers across a repo's dependencies without checking anything out.
+
+``file`` names the file either way; ``repo`` says which world that file lives
+in.
 """
 
 import os
@@ -19,7 +25,7 @@ from pathlib import Path
 from dataclasses import field, dataclass
 from urllib.parse import unquote, urlparse
 
-from hanzo_tools.core import BaseTool, MCPResourceDocument
+from hanzo_tools.core import BaseTool, CloudError, HanzoCloud, MCPResourceDocument
 
 # LSP server configurations
 LSP_SERVERS = {
@@ -167,6 +173,33 @@ LSP_SERVERS = {
 }
 
 
+# Actions a local language server answers.
+LOCAL_ACTIONS = [
+    "definition",
+    "references",
+    "rename",
+    "diagnostics",
+    "hover",
+    "completion",
+    "code_action",
+    "organize_imports",
+    "status",
+]
+
+# The /v1/code/lsp op each action asks for, and the `relation` a locate op
+# carries. "Where is X" is one question with four answers, so it is one op.
+CLOUD_OPS: Dict[str, tuple] = {
+    "hover": ("hover", None),
+    "definition": ("locate", "definition"),
+    "references": ("locate", "reference"),
+    "type": ("locate", "type"),
+    "implementation": ("locate", "implementation"),
+    "symbols": ("symbols", None),
+    "diagnostics": ("diagnostics", None),
+    "completion": ("complete", None),
+}
+
+
 # Global LSP server registry - singleton per language:root_uri
 _GLOBAL_SERVERS: Dict[str, "LSPServer"] = {}
 _GLOBAL_LOCK = asyncio.Lock()
@@ -213,8 +246,8 @@ class LSPTool(BaseTool):
     @property
     def description(self) -> str:
         return """Language Server Protocol tool for code intelligence.
-    
-    Actions:
+
+    Local — a language server on your tree, installed as needed:
     - definition: Go to definition of symbol at position
     - references: Find all references to symbol
     - rename: Rename symbol across codebase
@@ -224,13 +257,17 @@ class LSPTool(BaseTool):
     - code_action: Run LSP code actions
     - organize_imports: Organize imports for a file
     - status: Check LSP server status
-    
-    The tool automatically installs language servers as needed.
     Supported languages: Go, Python, TypeScript/JavaScript, Rust, Java, C/C++, Ruby, Lua
+
+    Cloud — pass `repo` (a git.hanzo.ai slug, optionally `rev`) to answer from
+    the indexed corpus instead, which reaches across the repo's dependencies:
+    definition, references, type, implementation, symbols, hover, completion,
+    diagnostics. `file` is then the path within the repo.
     """
 
     def __init__(self):
         super().__init__()
+        self._cloud: Optional[HanzoCloud] = None
         global _CLEANUP_REGISTERED
         if not _CLEANUP_REGISTERED:
             atexit.register(_cleanup_all_servers)
@@ -477,29 +514,41 @@ class LSPTool(BaseTool):
     async def run(
         self,
         action: str,
-        file: str,
+        file: Optional[str] = None,
         line: Optional[int] = None,
         character: Optional[int] = None,
         new_name: Optional[str] = None,
         apply_edits: bool = False,
+        repo: Optional[str] = None,
+        rev: Optional[str] = None,
         **kwargs,
     ) -> MCPResourceDocument:
-        """Execute LSP action."""
-        valid_actions = [
-            "definition",
-            "references",
-            "rename",
-            "diagnostics",
-            "hover",
-            "completion",
-            "code_action",
-            "organize_imports",
-            "status",
-        ]
-        if action not in valid_actions:
+        """Execute LSP action, locally or against the cloud index."""
+        if not file or not file.strip():
             return MCPResourceDocument(
                 data={
-                    "error": f"Invalid action. Must be one of: {', '.join(valid_actions)}"
+                    "error": "file is required: a local path, or the path within `repo`"
+                }
+            )
+
+        if action not in LOCAL_ACTIONS and action not in CLOUD_OPS:
+            known = LOCAL_ACTIONS + [a for a in CLOUD_OPS if a not in LOCAL_ACTIONS]
+            return MCPResourceDocument(
+                data={"error": f"Invalid action. Must be one of: {', '.join(known)}"}
+            )
+
+        if repo and repo.strip():
+            return MCPResourceDocument(
+                data=await self._cloud_action(
+                    action, repo.strip(), file, line, character, rev
+                )
+            )
+
+        if action not in LOCAL_ACTIONS:
+            return MCPResourceDocument(
+                data={
+                    "error": f"Action '{action}' is answered by the cloud index; pass `repo`",
+                    "local_actions": LOCAL_ACTIONS,
                 }
             )
 
@@ -559,6 +608,53 @@ class LSPTool(BaseTool):
         )
         return MCPResourceDocument(data=result)
 
+    async def _cloud_action(
+        self,
+        action: str,
+        repo: str,
+        file: str,
+        line: Optional[int],
+        character: Optional[int],
+        rev: Optional[str],
+    ) -> Dict[str, Any]:
+        """Ask the cloud index. The answer is whatever /v1/code/lsp returns."""
+        op, relation = CLOUD_OPS.get(action, (None, None))
+        if op is None:
+            return {
+                "action": action,
+                "repo": repo,
+                "error": f"Action '{action}' needs a working tree; call it without `repo`",
+                "cloud_actions": list(CLOUD_OPS),
+            }
+
+        if self._cloud is None:
+            self._cloud = HanzoCloud()
+        if not self._cloud.configured():
+            return {
+                "action": action,
+                "repo": repo,
+                "error": "no hk- key: set HANZO_API_KEY or ~/.hanzo/config.json .apiKey",
+            }
+
+        # The wire speaks LSP's own frame: 0-based line, 0-based UTF-16
+        # character. The tool's `line` is 1-based, so it is shifted here exactly
+        # as the local plane shifts it before a JSON-RPC request.
+        body: Dict[str, Any] = {
+            "repo": repo,
+            "path": file,
+            "line": (line - 1) if line else 0,
+            "character": character if character else 0,
+        }
+        if rev and rev.strip():
+            body["rev"] = rev.strip()
+        if relation:
+            body["relation"] = relation
+
+        try:
+            return await self._cloud.post(f"/v1/code/lsp/{op}", body)
+        except CloudError as e:
+            return {"action": action, "repo": repo, "error": str(e)}
+
     async def call(self, **kwargs) -> str:
         """Tool interface for MCP - converts result to JSON string."""
         result = await self.run(**kwargs)
@@ -577,6 +673,8 @@ class LSPTool(BaseTool):
             apply_edits: bool = False,
             only: Optional[List[str]] = None,
             range: Optional[Dict[str, Dict[str, int]]] = None,
+            repo: Optional[str] = None,
+            rev: Optional[str] = None,
         ) -> str:
             return await self.call(
                 action=action,
@@ -587,6 +685,8 @@ class LSPTool(BaseTool):
                 apply_edits=apply_edits,
                 only=only,
                 range=range,
+                repo=repo,
+                rev=rev,
             )
 
     def _path_to_uri(self, path: str) -> str:
