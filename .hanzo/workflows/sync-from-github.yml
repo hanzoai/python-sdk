@@ -64,8 +64,20 @@ jobs:
               -H "Content-Type: application/json" \
               "${{ github.server_url }}/v1/repos/${{ github.repository }}/actions/workflows/cicd.yml/dispatches" \
               -d '{"ref":"main"}'
+          elif git merge-base --is-ancestor "$REMOTE" "$LOCAL"; then
+            # Native is AHEAD of GitHub -- the normal state between a native push
+            # and the push-mirror carrying it over, and NOT brief: the mirror is
+            # sync_on_commit with an 8h floor, so one commit can sit here for
+            # hours. It used to fall into the `else` below, which asked only "is
+            # LOCAL an ancestor of REMOTE" and called every other answer a
+            # divergence -- up to 48 false DIVERGED failures per commit, ten
+            # minutes apart. A job that is always red cannot report the one thing
+            # it exists to report. Nothing to pull; never push from here, that is
+            # the push-mirror's single direction.
+            echo "native is ahead at $LOCAL; GitHub at $REMOTE will follow via the push-mirror"
+            exit 0
           else
-            echo "DIVERGED: native $LOCAL is not an ancestor of GitHub $REMOTE." >&2
+            echo "DIVERGED: native $LOCAL and GitHub $REMOTE share no ancestry line." >&2
             echo "Resolve by hand; this job will not force-push either side." >&2
             exit 1
           fi
