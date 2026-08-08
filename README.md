@@ -32,21 +32,17 @@ hanzo auth login
 ## Quickstart
 
 ```python
-from hanzoai import ApiClient, Configuration, AiOpenAICompatibleApi
-from hanzoai import AiChatCompletionRequest, AiChatMessage
+from hanzoai.cloud import ApiClient, Configuration, ChatApi
 
 config = Configuration(host="https://api.hanzo.ai", access_token="sk-...")
 
 with ApiClient(config) as client:
-    ai = AiOpenAICompatibleApi(client)
-    resp = ai.ai_create_chat_completion(
-        AiChatCompletionRequest(
-            model="zen5-coder",
-            messages=[AiChatMessage(role="user", content="Ship it.")],
-        )
-    )
-    print(resp.choices[0].message.content)
+    print(ChatApi(client).post_v1_chat_completions())
 ```
+
+`hanzoai.cloud` is the client, and it is the only one. Method and class names are
+the document's operation ids, so they move when the document does — that is what
+makes the client checkable against a release instead of against memory.
 
 Every route is `https://api.hanzo.ai/v1/<service>/*`. Models come from the **Zen**
 family (our own models) plus any provider you connect — one typed client, no proxy
