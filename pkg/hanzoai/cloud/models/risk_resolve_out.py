@@ -27,8 +27,8 @@ class RiskResolveOut(BaseModel):
     """
     RiskResolveOut
     """ # noqa: E501
-    horizon: Optional[StrictInt] = None
-    labels: Optional[List[RiskResolved]] = None
+    horizon: Optional[StrictInt] = Field(default=None, description="Horizon is the maturity horizon this answer was computed under, IN DAYS — the caller's, or 120 when it stated none. Each event's as-of is its own `at` plus this many days, and that as-of is what decides which assertions were visible to it; an event whose as-of falls after Now is not resolved at all and is counted in Unmatured instead.")
+    labels: Optional[List[RiskResolved]] = Field(default=None, description="Labels is one entry per named event that BOTH matured and had at least one assertion knowable by its own as-of, in the order the events were named. The three outcomes partition the ask: len(labels) + Unmatured + Unlabelled is the number of DISTINCT events named, an event named twice having been answered once.")
     now: Optional[StrictStr] = Field(default=None, description="Now and Horizon echo the observation this answer was computed under. A resolved label without them is a claim nobody can check.")
     unlabelled: Optional[StrictInt] = Field(default=None, description="Unlabelled is how many matured events had no assertion knowable by their own as-of. That is the ordinary state of most traffic and it is reported rather than answered as unproductive: manufacturing negatives is how a fraud model comes to describe the incumbent block list.")
     unmatured: Optional[StrictInt] = Field(default=None, description="Unmatured is how many named events had not aged past the horizon. They are not unlabelled — they are not yet ASKABLE, and a supervised training set must exclude them rather than treat them as negatives.")

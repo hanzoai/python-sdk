@@ -57,7 +57,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_jetstream_streams_stream(
+    def delete_v1_pubsub_jetstream_streams_by_stream(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -101,7 +101,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._delete_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -124,7 +124,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_jetstream_streams_stream_with_http_info(
+    def delete_v1_pubsub_jetstream_streams_by_stream_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -168,7 +168,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._delete_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -191,7 +191,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_jetstream_streams_stream_without_preload_content(
+    def delete_v1_pubsub_jetstream_streams_by_stream_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -235,7 +235,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._delete_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -253,7 +253,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _delete_v1_pubsub_jetstream_streams_stream_serialize(
+    def _delete_v1_pubsub_jetstream_streams_by_stream_serialize(
         self,
         stream,
         _request_auth,
@@ -310,7 +310,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_jetstream_streams_stream_consumers_name(
+    def delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -357,7 +357,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+        _param = self._delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -381,7 +381,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_jetstream_streams_stream_consumers_name_with_http_info(
+    def delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -428,7 +428,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+        _param = self._delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -452,7 +452,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_jetstream_streams_stream_consumers_name_without_preload_content(
+    def delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -499,7 +499,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+        _param = self._delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -518,7 +518,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _delete_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+    def _delete_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
         self,
         stream,
         name,
@@ -578,7 +578,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_kv_bucket(
+    def delete_v1_pubsub_kv_by_bucket(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name, from the path.")],
         _request_timeout: Union[
@@ -622,7 +622,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_kv_bucket_serialize(
+        _param = self._delete_v1_pubsub_kv_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -645,7 +645,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_kv_bucket_with_http_info(
+    def delete_v1_pubsub_kv_by_bucket_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name, from the path.")],
         _request_timeout: Union[
@@ -689,7 +689,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_kv_bucket_serialize(
+        _param = self._delete_v1_pubsub_kv_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -712,7 +712,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_kv_bucket_without_preload_content(
+    def delete_v1_pubsub_kv_by_bucket_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name, from the path.")],
         _request_timeout: Union[
@@ -756,7 +756,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_kv_bucket_serialize(
+        _param = self._delete_v1_pubsub_kv_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -774,7 +774,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _delete_v1_pubsub_kv_bucket_serialize(
+    def _delete_v1_pubsub_kv_by_bucket_serialize(
         self,
         bucket,
         _request_auth,
@@ -831,7 +831,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_kv_bucket_key(
+    def delete_v1_pubsub_kv_by_bucket_by_key(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -878,7 +878,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._delete_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -902,7 +902,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_kv_bucket_key_with_http_info(
+    def delete_v1_pubsub_kv_by_bucket_by_key_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -949,7 +949,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._delete_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -973,7 +973,7 @@ class PubsubApi:
 
 
     @validate_call
-    def delete_v1_pubsub_kv_bucket_key_without_preload_content(
+    def delete_v1_pubsub_kv_by_bucket_by_key_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -1020,7 +1020,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._delete_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -1039,7 +1039,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _delete_v1_pubsub_kv_bucket_key_serialize(
+    def _delete_v1_pubsub_kv_by_bucket_by_key_serialize(
         self,
         bucket,
         key,
@@ -1344,7 +1344,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream(
+    def get_v1_pubsub_jetstream_streams_by_stream(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -1388,7 +1388,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1411,7 +1411,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_with_http_info(
+    def get_v1_pubsub_jetstream_streams_by_stream_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -1455,7 +1455,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1478,7 +1478,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_without_preload_content(
+    def get_v1_pubsub_jetstream_streams_by_stream_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -1522,7 +1522,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1540,7 +1540,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _get_v1_pubsub_jetstream_streams_stream_serialize(
+    def _get_v1_pubsub_jetstream_streams_by_stream_serialize(
         self,
         stream,
         _request_auth,
@@ -1604,7 +1604,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_consumers(
+    def get_v1_pubsub_jetstream_streams_by_stream_consumers(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -1648,7 +1648,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1671,7 +1671,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_consumers_with_http_info(
+    def get_v1_pubsub_jetstream_streams_by_stream_consumers_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -1715,7 +1715,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1738,7 +1738,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_consumers_without_preload_content(
+    def get_v1_pubsub_jetstream_streams_by_stream_consumers_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream's name, from the path.")],
         _request_timeout: Union[
@@ -1782,7 +1782,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
             stream=stream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1800,7 +1800,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _get_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+    def _get_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
         self,
         stream,
         _request_auth,
@@ -1864,7 +1864,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_consumers_name(
+    def get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -1911,7 +1911,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -1935,7 +1935,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_consumers_name_with_http_info(
+    def get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -1982,7 +1982,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -2006,7 +2006,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_jetstream_streams_stream_consumers_name_without_preload_content(
+    def get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -2053,7 +2053,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+        _param = self._get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -2072,7 +2072,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _get_v1_pubsub_jetstream_streams_stream_consumers_name_serialize(
+    def _get_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_serialize(
         self,
         stream,
         name,
@@ -2139,7 +2139,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_kv_bucket_key(
+    def get_v1_pubsub_kv_by_bucket_by_key(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -2186,7 +2186,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._get_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -2210,7 +2210,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_kv_bucket_key_with_http_info(
+    def get_v1_pubsub_kv_by_bucket_by_key_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -2257,7 +2257,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._get_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -2281,7 +2281,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_kv_bucket_key_without_preload_content(
+    def get_v1_pubsub_kv_by_bucket_by_key_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -2328,7 +2328,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._get_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -2347,7 +2347,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _get_v1_pubsub_kv_bucket_key_serialize(
+    def _get_v1_pubsub_kv_by_bucket_by_key_serialize(
         self,
         bucket,
         key,
@@ -2414,7 +2414,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_kv_bucket_key_history(
+    def get_v1_pubsub_kv_by_bucket_by_key_history(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -2461,7 +2461,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_kv_bucket_key_history_serialize(
+        _param = self._get_v1_pubsub_kv_by_bucket_by_key_history_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -2485,7 +2485,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_kv_bucket_key_history_with_http_info(
+    def get_v1_pubsub_kv_by_bucket_by_key_history_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -2532,7 +2532,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_kv_bucket_key_history_serialize(
+        _param = self._get_v1_pubsub_kv_by_bucket_by_key_history_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -2556,7 +2556,7 @@ class PubsubApi:
 
 
     @validate_call
-    def get_v1_pubsub_kv_bucket_key_history_without_preload_content(
+    def get_v1_pubsub_kv_by_bucket_by_key_history_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -2603,7 +2603,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pubsub_kv_bucket_key_history_serialize(
+        _param = self._get_v1_pubsub_kv_by_bucket_by_key_history_serialize(
             bucket=bucket,
             key=key,
             _request_auth=_request_auth,
@@ -2622,7 +2622,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _get_v1_pubsub_kv_bucket_key_history_serialize(
+    def _get_v1_pubsub_kv_by_bucket_by_key_history_serialize(
         self,
         bucket,
         key,
@@ -2962,7 +2962,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_jetstream_streams_stream_consumers(
+    def post_v1_pubsub_jetstream_streams_by_stream_consumers(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream to consume, from the path.")],
         consumer_write: ConsumerWrite,
@@ -3009,7 +3009,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+        _param = self._post_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
             stream=stream,
             consumer_write=consumer_write,
             _request_auth=_request_auth,
@@ -3033,7 +3033,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_jetstream_streams_stream_consumers_with_http_info(
+    def post_v1_pubsub_jetstream_streams_by_stream_consumers_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream to consume, from the path.")],
         consumer_write: ConsumerWrite,
@@ -3080,7 +3080,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+        _param = self._post_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
             stream=stream,
             consumer_write=consumer_write,
             _request_auth=_request_auth,
@@ -3104,7 +3104,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_jetstream_streams_stream_consumers_without_preload_content(
+    def post_v1_pubsub_jetstream_streams_by_stream_consumers_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream to consume, from the path.")],
         consumer_write: ConsumerWrite,
@@ -3151,7 +3151,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+        _param = self._post_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
             stream=stream,
             consumer_write=consumer_write,
             _request_auth=_request_auth,
@@ -3170,7 +3170,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _post_v1_pubsub_jetstream_streams_stream_consumers_serialize(
+    def _post_v1_pubsub_jetstream_streams_by_stream_consumers_serialize(
         self,
         stream,
         consumer_write,
@@ -3250,7 +3250,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_jetstream_streams_stream_consumers_name_next(
+    def post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -3300,7 +3300,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_jetstream_streams_stream_consumers_name_next_serialize(
+        _param = self._post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next_serialize(
             stream=stream,
             name=name,
             fetch_query=fetch_query,
@@ -3325,7 +3325,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_jetstream_streams_stream_consumers_name_next_with_http_info(
+    def post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -3375,7 +3375,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_jetstream_streams_stream_consumers_name_next_serialize(
+        _param = self._post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next_serialize(
             stream=stream,
             name=name,
             fetch_query=fetch_query,
@@ -3400,7 +3400,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_jetstream_streams_stream_consumers_name_next_without_preload_content(
+    def post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer, from the path.")],
@@ -3450,7 +3450,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_jetstream_streams_stream_consumers_name_next_serialize(
+        _param = self._post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next_serialize(
             stream=stream,
             name=name,
             fetch_query=fetch_query,
@@ -3470,7 +3470,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _post_v1_pubsub_jetstream_streams_stream_consumers_name_next_serialize(
+    def _post_v1_pubsub_jetstream_streams_by_stream_consumers_by_name_next_serialize(
         self,
         stream,
         name,
@@ -3553,7 +3553,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_kv_bucket(
+    def post_v1_pubsub_kv_by_bucket(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash.")],
         bucket_write: BucketWrite,
@@ -3600,7 +3600,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_kv_bucket_serialize(
+        _param = self._post_v1_pubsub_kv_by_bucket_serialize(
             bucket=bucket,
             bucket_write=bucket_write,
             _request_auth=_request_auth,
@@ -3624,7 +3624,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_kv_bucket_with_http_info(
+    def post_v1_pubsub_kv_by_bucket_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash.")],
         bucket_write: BucketWrite,
@@ -3671,7 +3671,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_kv_bucket_serialize(
+        _param = self._post_v1_pubsub_kv_by_bucket_serialize(
             bucket=bucket,
             bucket_write=bucket_write,
             _request_auth=_request_auth,
@@ -3695,7 +3695,7 @@ class PubsubApi:
 
 
     @validate_call
-    def post_v1_pubsub_kv_bucket_without_preload_content(
+    def post_v1_pubsub_kv_by_bucket_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash.")],
         bucket_write: BucketWrite,
@@ -3742,7 +3742,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pubsub_kv_bucket_serialize(
+        _param = self._post_v1_pubsub_kv_by_bucket_serialize(
             bucket=bucket,
             bucket_write=bucket_write,
             _request_auth=_request_auth,
@@ -3761,7 +3761,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _post_v1_pubsub_kv_bucket_serialize(
+    def _post_v1_pubsub_kv_by_bucket_serialize(
         self,
         bucket,
         bucket_write,
@@ -4387,7 +4387,7 @@ class PubsubApi:
 
 
     @validate_call
-    def put_v1_pubsub_jetstream_streams_stream(
+    def put_v1_pubsub_jetstream_streams_by_stream(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream to update, from the path.")],
         stream_update: StreamUpdate,
@@ -4434,7 +4434,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._put_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             stream_update=stream_update,
             _request_auth=_request_auth,
@@ -4458,7 +4458,7 @@ class PubsubApi:
 
 
     @validate_call
-    def put_v1_pubsub_jetstream_streams_stream_with_http_info(
+    def put_v1_pubsub_jetstream_streams_by_stream_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream to update, from the path.")],
         stream_update: StreamUpdate,
@@ -4505,7 +4505,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._put_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             stream_update=stream_update,
             _request_auth=_request_auth,
@@ -4529,7 +4529,7 @@ class PubsubApi:
 
 
     @validate_call
-    def put_v1_pubsub_jetstream_streams_stream_without_preload_content(
+    def put_v1_pubsub_jetstream_streams_by_stream_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream to update, from the path.")],
         stream_update: StreamUpdate,
@@ -4576,7 +4576,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_pubsub_jetstream_streams_stream_serialize(
+        _param = self._put_v1_pubsub_jetstream_streams_by_stream_serialize(
             stream=stream,
             stream_update=stream_update,
             _request_auth=_request_auth,
@@ -4595,7 +4595,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _put_v1_pubsub_jetstream_streams_stream_serialize(
+    def _put_v1_pubsub_jetstream_streams_by_stream_serialize(
         self,
         stream,
         stream_update,
@@ -4675,7 +4675,7 @@ class PubsubApi:
 
 
     @validate_call
-    def put_v1_pubsub_kv_bucket_key(
+    def put_v1_pubsub_kv_by_bucket_by_key(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -4725,7 +4725,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._put_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             kv_write=kv_write,
@@ -4750,7 +4750,7 @@ class PubsubApi:
 
 
     @validate_call
-    def put_v1_pubsub_kv_bucket_key_with_http_info(
+    def put_v1_pubsub_kv_by_bucket_by_key_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -4800,7 +4800,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._put_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             kv_write=kv_write,
@@ -4825,7 +4825,7 @@ class PubsubApi:
 
 
     @validate_call
-    def put_v1_pubsub_kv_bucket_key_without_preload_content(
+    def put_v1_pubsub_kv_by_bucket_by_key_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
@@ -4875,7 +4875,7 @@ class PubsubApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_pubsub_kv_bucket_key_serialize(
+        _param = self._put_v1_pubsub_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
             kv_write=kv_write,
@@ -4895,7 +4895,7 @@ class PubsubApi:
         return response_data.response
 
 
-    def _put_v1_pubsub_kv_bucket_key_serialize(
+    def _put_v1_pubsub_kv_by_bucket_by_key_serialize(
         self,
         bucket,
         key,

@@ -323,7 +323,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_slug(
+    def get_v1_help_articles_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the article's public identifier, from the path. It IS the document name in the help center's store.")],
         _request_timeout: Union[
@@ -367,7 +367,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_slug_serialize(
+        _param = self._get_v1_help_articles_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -390,7 +390,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_slug_with_http_info(
+    def get_v1_help_articles_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the article's public identifier, from the path. It IS the document name in the help center's store.")],
         _request_timeout: Union[
@@ -434,7 +434,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_slug_serialize(
+        _param = self._get_v1_help_articles_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -457,7 +457,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_slug_without_preload_content(
+    def get_v1_help_articles_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the article's public identifier, from the path. It IS the document name in the help center's store.")],
         _request_timeout: Union[
@@ -501,7 +501,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_slug_serialize(
+        _param = self._get_v1_help_articles_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -519,7 +519,7 @@ class HelpApi:
         return response_data.response
 
 
-    def _get_v1_help_articles_slug_serialize(
+    def _get_v1_help_articles_by_slug_serialize(
         self,
         slug,
         _request_auth,

@@ -26,13 +26,13 @@ class Totals(BaseModel):
     """
     Totals
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    applied: Optional[StrictInt] = None
-    approved: Optional[StrictInt] = None
-    paid_cents: Optional[StrictInt] = Field(default=None, alias="paidCents")
-    pending_cents: Optional[StrictInt] = Field(default=None, alias="pendingCents")
-    suspended: Optional[StrictInt] = None
-    total: Optional[StrictInt] = None
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is lifetime commission accrued summed over those rows, in cents.", alias="accruedCents")
+    applied: Optional[StrictInt] = Field(default=None, description="Applied is how many of those rows are still awaiting approval — no code, no accrual yet.")
+    approved: Optional[StrictInt] = Field(default=None, description="Approved is how many are approved: the only rows whose code resolves for attribution and whose balance can still grow.")
+    paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is lifetime commission already paid out summed over those rows, in cents.", alias="paidCents")
+    pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is accrued minus paid summed over those rows, in cents — the outstanding liability across the page.", alias="pendingCents")
+    suspended: Optional[StrictInt] = Field(default=None, description="Suspended is how many were suspended. What they already accrued stays accrued and stays payable.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is how many affiliate rows this page covered, at every status. It is the page, not the table: a limit that truncates truncates this too.")
     __properties: ClassVar[List[str]] = ["accruedCents", "applied", "approved", "paidCents", "pendingCents", "suspended", "total"]
 
     model_config = ConfigDict(

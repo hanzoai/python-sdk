@@ -22,19 +22,14 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class IssuePatch(BaseModel):
+class Ran(BaseModel):
     """
-    IssuePatch
+    Ran
     """ # noqa: E501
-    assignee: Optional[StrictStr] = Field(default=None, description="Assignee is who owns the issue, at most 256 characters. Empty unassigns it.")
-    description: Optional[StrictStr] = Field(default=None, description="Description is the issue body, at most 32768 characters.")
-    key: Optional[StrictStr] = Field(default=None, description="Key is the issue's project, from the path.")
-    labels: Optional[List[StrictStr]] = Field(default=None, description="Labels REPLACES the issue's labels with exactly this set. Each label is at most 48 characters and may not contain a comma (the storage separator); empty entries are dropped.")
-    num: Optional[StrictInt] = Field(default=None, description="Num is the issue's number within that project, from the path.")
-    priority: Optional[StrictStr] = Field(default=None, description="Priority is none, urgent, high, medium or low. Empty resets it to none.")
-    status: Optional[StrictStr] = Field(default=None, description="Status moves the issue between board columns: backlog, todo, in_progress, done or canceled. Empty resets it to backlog.")
-    title: Optional[StrictStr] = Field(default=None, description="Title is the issue's one-line summary. Non-empty, at most 512 characters.")
-    __properties: ClassVar[List[str]] = ["assignee", "description", "key", "labels", "num", "priority", "status", "title"]
+    exit_code: Optional[StrictInt] = Field(default=None, alias="exitCode")
+    stderr: Optional[StrictStr] = None
+    stdout: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["exitCode", "stderr", "stdout"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +49,7 @@ class IssuePatch(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of IssuePatch from a JSON string"""
+        """Create an instance of Ran from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -79,7 +74,7 @@ class IssuePatch(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of IssuePatch from a dict"""
+        """Create an instance of Ran from a dict"""
         if obj is None:
             return None
 
@@ -87,14 +82,9 @@ class IssuePatch(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "assignee": obj.get("assignee"),
-            "description": obj.get("description"),
-            "key": obj.get("key"),
-            "labels": obj.get("labels"),
-            "num": obj.get("num"),
-            "priority": obj.get("priority"),
-            "status": obj.get("status"),
-            "title": obj.get("title")
+            "exitCode": obj.get("exitCode"),
+            "stderr": obj.get("stderr"),
+            "stdout": obj.get("stdout")
         })
         return _obj
 

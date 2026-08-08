@@ -51,7 +51,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_dataroom_dataroom_id(
+    def get_v1_dataroom_analytics_dataroom_by_dataroomid(
         self,
         dataroom_id: Annotated[StrictStr, Field(description="DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -95,7 +95,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_dataroom_dataroom_id_serialize(
+        _param = self._get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
             dataroom_id=dataroom_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -118,7 +118,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_dataroom_dataroom_id_with_http_info(
+    def get_v1_dataroom_analytics_dataroom_by_dataroomid_with_http_info(
         self,
         dataroom_id: Annotated[StrictStr, Field(description="DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -162,7 +162,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_dataroom_dataroom_id_serialize(
+        _param = self._get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
             dataroom_id=dataroom_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -185,7 +185,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_dataroom_dataroom_id_without_preload_content(
+    def get_v1_dataroom_analytics_dataroom_by_dataroomid_without_preload_content(
         self,
         dataroom_id: Annotated[StrictStr, Field(description="DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -229,7 +229,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_dataroom_dataroom_id_serialize(
+        _param = self._get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
             dataroom_id=dataroom_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -247,7 +247,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_analytics_dataroom_dataroom_id_serialize(
+    def _get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
         self,
         dataroom_id,
         _request_auth,
@@ -311,7 +311,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_link_link_id(
+    def get_v1_dataroom_analytics_link_by_linkid(
         self,
         link_id: Annotated[StrictStr, Field(description="LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -355,7 +355,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_link_link_id_serialize(
+        _param = self._get_v1_dataroom_analytics_link_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -378,7 +378,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_link_link_id_with_http_info(
+    def get_v1_dataroom_analytics_link_by_linkid_with_http_info(
         self,
         link_id: Annotated[StrictStr, Field(description="LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -422,7 +422,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_link_link_id_serialize(
+        _param = self._get_v1_dataroom_analytics_link_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -445,7 +445,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_link_link_id_without_preload_content(
+    def get_v1_dataroom_analytics_link_by_linkid_without_preload_content(
         self,
         link_id: Annotated[StrictStr, Field(description="LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -489,7 +489,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_link_link_id_serialize(
+        _param = self._get_v1_dataroom_analytics_link_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -507,7 +507,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_analytics_link_link_id_serialize(
+    def _get_v1_dataroom_analytics_link_by_linkid_serialize(
         self,
         link_id,
         _request_auth,
@@ -816,7 +816,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_id(
+    def get_v1_dataroom_datarooms_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -860,7 +860,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_id_serialize(
+        _param = self._get_v1_dataroom_datarooms_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -883,7 +883,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_id_with_http_info(
+    def get_v1_dataroom_datarooms_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -927,7 +927,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_id_serialize(
+        _param = self._get_v1_dataroom_datarooms_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -950,7 +950,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_id_without_preload_content(
+    def get_v1_dataroom_datarooms_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -994,7 +994,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_id_serialize(
+        _param = self._get_v1_dataroom_datarooms_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1012,7 +1012,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_datarooms_id_serialize(
+    def _get_v1_dataroom_datarooms_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1321,6 +1321,266 @@ class DataroomApi:
 
 
     @validate_call
+    def get_v1_dataroom_documents_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> DataroomDocumentOne:
+        """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
+
+        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
+
+        :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_dataroom_documents_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DataroomDocumentOne",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_dataroom_documents_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[DataroomDocumentOne]:
+        """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
+
+        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
+
+        :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_dataroom_documents_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DataroomDocumentOne",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_dataroom_documents_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
+
+        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
+
+        :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_dataroom_documents_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DataroomDocumentOne",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_dataroom_documents_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/dataroom/documents/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_v1_dataroom_documents_by_id_file(
         self,
         id: StrictStr,
@@ -1555,266 +1815,6 @@ class DataroomApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/dataroom/documents/{id}/file',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_v1_dataroom_documents_id(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DataroomDocumentOne:
-        """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
-
-        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
-
-        :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_dataroom_documents_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DataroomDocumentOne",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_v1_dataroom_documents_id_with_http_info(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DataroomDocumentOne]:
-        """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
-
-        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
-
-        :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_dataroom_documents_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DataroomDocumentOne",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_v1_dataroom_documents_id_without_preload_content(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.
-
-        Reads one of the caller org's documents — its name, opaque storage key, content type, page count, size and timestamps.  The lookup runs in the caller's own tenant store, so an id belonging to another org is not found exactly like one that never existed. Metadata only: the bytes are a separate read.
-
-        :param id: ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_dataroom_documents_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DataroomDocumentOne",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_v1_dataroom_documents_id_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/dataroom/documents/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -3099,7 +3099,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_id_documents(
+    def post_v1_dataroom_datarooms_by_id_documents(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         dataroom_add_document: DataroomAddDocument,
@@ -3146,7 +3146,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_id_documents_serialize(
+        _param = self._post_v1_dataroom_datarooms_by_id_documents_serialize(
             id=id,
             dataroom_add_document=dataroom_add_document,
             _request_auth=_request_auth,
@@ -3170,7 +3170,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_id_documents_with_http_info(
+    def post_v1_dataroom_datarooms_by_id_documents_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         dataroom_add_document: DataroomAddDocument,
@@ -3217,7 +3217,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_id_documents_serialize(
+        _param = self._post_v1_dataroom_datarooms_by_id_documents_serialize(
             id=id,
             dataroom_add_document=dataroom_add_document,
             _request_auth=_request_auth,
@@ -3241,7 +3241,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_id_documents_without_preload_content(
+    def post_v1_dataroom_datarooms_by_id_documents_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         dataroom_add_document: DataroomAddDocument,
@@ -3288,7 +3288,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_id_documents_serialize(
+        _param = self._post_v1_dataroom_datarooms_by_id_documents_serialize(
             id=id,
             dataroom_add_document=dataroom_add_document,
             _request_auth=_request_auth,
@@ -3307,7 +3307,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_datarooms_id_documents_serialize(
+    def _post_v1_dataroom_datarooms_by_id_documents_serialize(
         self,
         id,
         dataroom_add_document,

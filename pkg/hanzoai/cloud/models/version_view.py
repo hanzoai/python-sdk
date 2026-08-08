@@ -26,9 +26,9 @@ class VersionView(BaseModel):
     """
     VersionView
     """ # noqa: E501
-    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
-    type: Optional[StrictStr] = None
-    version: Optional[StrictInt] = None
+    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when this revision was appended, RFC 3339 UTC.", alias="createdAt")
+    type: Optional[StrictStr] = Field(default=None, description="Type is the kind this revision was written with, which may differ from the current one.")
+    version: Optional[StrictInt] = Field(default=None, description="Version is this revision's number, 1 for the first. Numbers are dense and never reused: deleting the prompt drops the whole history with it.")
     __properties: ClassVar[List[str]] = ["createdAt", "type", "version"]
 
     model_config = ConfigDict(

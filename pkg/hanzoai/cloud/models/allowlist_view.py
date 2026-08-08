@@ -26,12 +26,12 @@ class AllowlistView(BaseModel):
     """
     AllowlistView
     """ # noqa: E501
-    access_groups: Optional[Dict[str, Dict[str, List[StrictStr]]]] = Field(default=None, alias="accessGroups")
-    dm: Optional[List[StrictStr]] = None
-    dm_policy: Optional[StrictStr] = Field(default=None, alias="dmPolicy")
-    group: Optional[List[StrictStr]] = None
-    group_policy: Optional[StrictStr] = Field(default=None, alias="groupPolicy")
-    paired: Optional[List[StrictStr]] = None
+    access_groups: Optional[Dict[str, Dict[str, List[StrictStr]]]] = Field(default=None, description="AccessGroups is the org's named sender sets, as group name -> channel -> member entries, held once for the whole org. A DM or Group entry written `accessGroup:<name>` admits any sender listed under that name for THIS channel, or under the channel `*`, which is how one set covers all four transports. Replaced wholesale by the PUT.", alias="accessGroups")
+    dm: Optional[List[StrictStr]] = Field(default=None, description="DM is the CONFIG-managed DM allow entries — the list PUT /v1/channels/allowlist owns and replaces wholesale. An entry matches a sender either EXACTLY, as the transport-native id inbox messages carry, or as `accessGroup:<name>` resolved through AccessGroups. A bare `*` admits everyone, but only while DMPolicy is \"open\": it is gate syntax, not an identity, so under \"allowlist\" it matches nobody.")
+    dm_policy: Optional[StrictStr] = Field(default=None, description="DMPolicy decides every inbound DIRECT message, defaulting to \"pairing\" when the org has never set one. \"pairing\": a sender with no entry is sent a pairing code and the message is DROPPED — it never reaches the inbox — and they are admitted only once an admin approves. \"allowlist\": only DM admits, and Paired senders are suspended, since a pairing grant counts under \"pairing\" alone. \"open\" is not unconditional either — it still requires `*` or a matching entry in DM.", alias="dmPolicy")
+    group: Optional[List[StrictStr]] = Field(default=None, description="Group is the CONFIG-managed group allow entries, consulted only while GroupPolicy is \"allowlist\". Entries match the same two ways as DM, and here a bare `*` admits every sender in the room.")
+    group_policy: Optional[StrictStr] = Field(default=None, description="GroupPolicy decides every inbound GROUP or THREAD message — a thread is a group surface — defaulting to \"open\". \"open\" admits every sender in the room. \"allowlist\" admits only what Group lists, so an EMPTY Group blocks the channel's group rooms outright. \"disabled\" drops all of them.", alias="groupPolicy")
+    paired: Optional[List[StrictStr]] = Field(default=None, description="Paired is the senders admitted by PAIRING — the entries POST /v1/channels/pairing/approve minted, DM scope only. READ-ONLY on this endpoint: the PUT writes config entries and can never revoke one of these (listing a paired sender under DM instead promotes that entry to config, which the admin then owns). They admit only while DMPolicy is \"pairing\".")
     __properties: ClassVar[List[str]] = ["accessGroups", "dm", "dmPolicy", "group", "groupPolicy", "paired"]
 
     model_config = ConfigDict(

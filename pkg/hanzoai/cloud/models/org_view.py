@@ -26,12 +26,12 @@ class OrgView(BaseModel):
     """
     OrgView
     """ # noqa: E501
-    badge_markdown: Optional[StrictStr] = Field(default=None, alias="badgeMarkdown")
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    method: Optional[StrictStr] = None
-    owner_url: Optional[StrictStr] = Field(default=None, alias="ownerUrl")
-    verified: Optional[StrictBool] = None
-    verified_at: Optional[StrictInt] = Field(default=None, alias="verifiedAt")
+    badge_markdown: Optional[StrictStr] = Field(default=None, description="BadgeMarkdown is the ready-to-paste README snippet, DERIVED for each response from this deployment's badge host and never stored — here it deep-links the OWNER's template import rather than one repository's.", alias="badgeMarkdown")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds when the owner claim was first recorded — equal to verifiedAt on the first proof, then fixed while verifiedAt moves.", alias="createdAt")
+    method: Optional[StrictStr] = Field(default=None, description="Method is HOW the owner was proven, always against its \".github\" control repository: \"oauth\" — an IAM-linked forge token showed admin or push on it; or \"file\" — a hanzo.json on its default branch carried this author's verify code. The \"maintainer\" shortcut is a per-repository attribution and never appears here. Omitted on a row written before the method was recorded.")
+    owner_url: Optional[StrictStr] = Field(default=None, description="OwnerURL is the claim key in canonical form — lowercased \"host/owner\" with NO repository segment, host ∈ {github.com, gitlab.com}. It covers every repository under that owner, so code with no claim of its own still earns; a per-repository claim outranks it. UNIQUE across every author: first proven claim wins.", alias="ownerUrl")
+    verified: Optional[StrictBool] = Field(default=None, description="Verified reports that ownership of the WHOLE owner was proven — against that owner's \".github\" control repository, which is exactly as strong as a per-repository claim. Only a proven claim is written, so every row returned here is true.")
+    verified_at: Optional[StrictInt] = Field(default=None, description="VerifiedAt is unix seconds of the most recent successful proof of the owner; re-verifying refreshes it, and the method beside it, in place.", alias="verifiedAt")
     __properties: ClassVar[List[str]] = ["badgeMarkdown", "createdAt", "method", "ownerUrl", "verified", "verifiedAt"]
 
     model_config = ConfigDict(

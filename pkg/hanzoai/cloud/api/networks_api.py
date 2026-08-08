@@ -286,7 +286,7 @@ class NetworksApi:
 
 
     @validate_call
-    def get_v1_networks_id(
+    def get_v1_networks_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the network id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries.")],
         _request_timeout: Union[
@@ -330,7 +330,7 @@ class NetworksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_networks_id_serialize(
+        _param = self._get_v1_networks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -353,7 +353,7 @@ class NetworksApi:
 
 
     @validate_call
-    def get_v1_networks_id_with_http_info(
+    def get_v1_networks_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the network id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries.")],
         _request_timeout: Union[
@@ -397,7 +397,7 @@ class NetworksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_networks_id_serialize(
+        _param = self._get_v1_networks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -420,7 +420,7 @@ class NetworksApi:
 
 
     @validate_call
-    def get_v1_networks_id_without_preload_content(
+    def get_v1_networks_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the network id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries.")],
         _request_timeout: Union[
@@ -464,7 +464,7 @@ class NetworksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_networks_id_serialize(
+        _param = self._get_v1_networks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -482,7 +482,7 @@ class NetworksApi:
         return response_data.response
 
 
-    def _get_v1_networks_id_serialize(
+    def _get_v1_networks_by_id_serialize(
         self,
         id,
         _request_auth,

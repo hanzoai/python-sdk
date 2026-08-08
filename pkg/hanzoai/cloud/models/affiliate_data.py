@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.admin_affiliate_view import AdminAffiliateView
 from typing import Optional, Set
@@ -27,7 +27,7 @@ class AffiliateData(BaseModel):
     """
     AffiliateData
     """ # noqa: E501
-    affiliate: Optional[AdminAffiliateView] = None
+    affiliate: Optional[AdminAffiliateView] = Field(default=None, description="Affiliate is the row as it stands AFTER the action that returned it. Its referredCount is 0 here: these single-affiliate answers do not run the count.")
     __properties: ClassVar[List[str]] = ["affiliate"]
 
     model_config = ConfigDict(

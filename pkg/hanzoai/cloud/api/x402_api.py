@@ -39,7 +39,7 @@ class X402Api:
 
 
     @validate_call
-    def get_v1_x402_settlements_id(
+    def get_v1_x402_settlements_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the settlement id from the URL — the deterministic keccak(from|nonce) key an x402 receipt is issued under (the `id` field of a Receipt, and the `transaction` of the SettlementResponse on the PAYMENT-RESPONSE header a paid request answers with).")],
         _request_timeout: Union[
@@ -83,7 +83,7 @@ class X402Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_x402_settlements_id_serialize(
+        _param = self._get_v1_x402_settlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -106,7 +106,7 @@ class X402Api:
 
 
     @validate_call
-    def get_v1_x402_settlements_id_with_http_info(
+    def get_v1_x402_settlements_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the settlement id from the URL — the deterministic keccak(from|nonce) key an x402 receipt is issued under (the `id` field of a Receipt, and the `transaction` of the SettlementResponse on the PAYMENT-RESPONSE header a paid request answers with).")],
         _request_timeout: Union[
@@ -150,7 +150,7 @@ class X402Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_x402_settlements_id_serialize(
+        _param = self._get_v1_x402_settlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -173,7 +173,7 @@ class X402Api:
 
 
     @validate_call
-    def get_v1_x402_settlements_id_without_preload_content(
+    def get_v1_x402_settlements_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the settlement id from the URL — the deterministic keccak(from|nonce) key an x402 receipt is issued under (the `id` field of a Receipt, and the `transaction` of the SettlementResponse on the PAYMENT-RESPONSE header a paid request answers with).")],
         _request_timeout: Union[
@@ -217,7 +217,7 @@ class X402Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_x402_settlements_id_serialize(
+        _param = self._get_v1_x402_settlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -235,7 +235,7 @@ class X402Api:
         return response_data.response
 
 
-    def _get_v1_x402_settlements_id_serialize(
+    def _get_v1_x402_settlements_by_id_serialize(
         self,
         id,
         _request_auth,

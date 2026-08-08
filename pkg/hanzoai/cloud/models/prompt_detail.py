@@ -27,15 +27,15 @@ class PromptDetail(BaseModel):
     """
     PromptDetail
     """ # noqa: E501
-    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
-    labels: Optional[List[StrictStr]] = None
-    last_updated_at: Optional[StrictStr] = Field(default=None, alias="lastUpdatedAt")
-    name: Optional[StrictStr] = None
-    prompt: Optional[StrictStr] = None
-    tags: Optional[List[StrictStr]] = None
-    type: Optional[StrictStr] = None
-    version: Optional[StrictInt] = None
-    version_history: Optional[List[VersionView]] = Field(default=None, alias="versionHistory")
+    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when version 1 was written, RFC 3339 UTC. Appending a version does not move it.", alias="createdAt")
+    labels: Optional[List[StrictStr]] = Field(default=None, description="Labels is the current version's free-form taxonomy. `[]` when none, never null.")
+    last_updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is when the current version was appended, RFC 3339 UTC. Equal to createdAt for a prompt that has only ever had one version.", alias="lastUpdatedAt")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the prompt's org-unique handle and the URL segment it is addressed by.")
+    prompt: Optional[StrictStr] = Field(default=None, description="Prompt is the CURRENT version's template body — the only content this service returns. Earlier versions are listed in versionHistory by number and date, and their bodies are not served in bulk.")
+    tags: Optional[List[StrictStr]] = Field(default=None, description="Tags is the second free-form taxonomy, same rules as Labels.")
+    type: Optional[StrictStr] = Field(default=None, description="Type labels the current version's kind; \"text\" unless the creator said otherwise.")
+    version: Optional[StrictInt] = Field(default=None, description="Version is the current version number, starting at 1 and incremented by one on every create against an existing name.")
+    version_history: Optional[List[VersionView]] = Field(default=None, description="Versions is the history METADATA, newest first, capped at the last 100 — no bodies, so a long history cannot inflate this response. It always includes the current version as its first entry.", alias="versionHistory")
     __properties: ClassVar[List[str]] = ["createdAt", "labels", "lastUpdatedAt", "name", "prompt", "tags", "type", "version", "versionHistory"]
 
     model_config = ConfigDict(

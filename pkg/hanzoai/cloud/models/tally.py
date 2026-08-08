@@ -26,11 +26,11 @@ class Tally(BaseModel):
     """
     Tally
     """ # noqa: E501
-    accrued_lifetime_cents: Optional[StrictInt] = Field(default=None, alias="accruedLifetimeCents")
-    affiliates: Optional[StrictInt] = None
-    approved: Optional[StrictInt] = None
-    paid_lifetime_cents: Optional[StrictInt] = Field(default=None, alias="paidLifetimeCents")
-    pending_liability_cents: Optional[StrictInt] = Field(default=None, alias="pendingLiabilityCents")
+    accrued_lifetime_cents: Optional[StrictInt] = Field(default=None, description="AccruedLifetimeCents is all commission ever accrued, summed across every affiliate, in cents. It only grows; a payout does not reduce it.", alias="accruedLifetimeCents")
+    affiliates: Optional[StrictInt] = Field(default=None, description="Affiliates is how many affiliate rows the board read, at every status. The read is bounded at 1000 rows, so a larger fleet reports the bound.")
+    approved: Optional[StrictInt] = Field(default=None, description="Approved is how many of those rows are approved — the only ones whose code resolves for attribution and whose balance can grow.")
+    paid_lifetime_cents: Optional[StrictInt] = Field(default=None, description="PaidLifetimeCents is all commission ever paid out, in cents: credits grants plus record-only cash disbursements.", alias="paidLifetimeCents")
+    pending_liability_cents: Optional[StrictInt] = Field(default=None, description="PendingLiabilityCents is accrued minus paid across every affiliate, in cents. Read it as money OWED and not yet disbursed — a liability, not spend.", alias="pendingLiabilityCents")
     __properties: ClassVar[List[str]] = ["accruedLifetimeCents", "affiliates", "approved", "paidLifetimeCents", "pendingLiabilityCents"]
 
     model_config = ConfigDict(

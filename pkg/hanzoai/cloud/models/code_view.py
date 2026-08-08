@@ -26,13 +26,13 @@ class CodeView(BaseModel):
     """
     CodeView
     """ # noqa: E501
-    clicks: Optional[StrictInt] = None
-    code: Optional[StrictStr] = None
-    conversions: Optional[StrictInt] = None
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    label: Optional[StrictStr] = None
-    signups: Optional[StrictInt] = None
-    url: Optional[StrictStr] = None
+    clicks: Optional[StrictInt] = Field(default=None, description="Clicks is how many pings this code has taken. The one STORED counter here and pure vanity: no accrual or payout reads it, pings are coalesced in memory and flushed in batches, and a dropped tally is accepted rather than contending with the money write path. Do not reconcile it against anything.")
+    code: Optional[StrictStr] = Field(default=None, description="Code is the link's slug — 3–32 chars of a–z, 0–9 and hyphen — unique across the WHOLE directory, so any affiliate's code resolves an attribution.")
+    conversions: Optional[StrictInt] = Field(default=None, description="Conversions is how many of those signups have actually produced positive commission for the caller. Also derived, from the accrual rows, so it is ≤ signups and lags a referral until the first sweep after it spends.")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the link was minted, Unix seconds UTC.", alias="createdAt")
+    label: Optional[StrictStr] = Field(default=None, description="Label is the caller's own note for the link (\"twitter\", \"newsletter\"). Cosmetic: trimmed, stripped of control characters, capped at 48 bytes, and never part of the code. \"primary\" on the link mirrored at approval.")
+    signups: Optional[StrictInt] = Field(default=None, description="Signups is how many orgs were attributed with this code — DERIVED by counting attribution edges, never stored, so it cannot drift from the ledger.")
+    url: Optional[StrictStr] = Field(default=None, description="URL is the full shareable link, the brand host plus ?aff=<code>. The host is the deployment's own brand, so a Lux or Zoo install never mints a hanzo.ai link.")
     __properties: ClassVar[List[str]] = ["clicks", "code", "conversions", "createdAt", "label", "signups", "url"]
 
     model_config = ConfigDict(

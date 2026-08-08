@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.crawl_document import CrawlDocument
 from typing import Optional, Set
@@ -27,9 +27,9 @@ class CrawlResult(BaseModel):
     """
     CrawlResult
     """ # noqa: E501
-    data: Optional[CrawlDocument] = None
-    error: Optional[StrictStr] = None
-    success: Optional[StrictBool] = None
+    data: Optional[CrawlDocument] = Field(default=None, description="Data is the page, present exactly when Success.")
+    error: Optional[StrictStr] = Field(default=None, description="Error says what stopped the fetch: the host was refused, unreachable, or served something that is not a document.")
+    success: Optional[StrictBool] = Field(default=None, description="Success is whether the page was fetched and read. FALSE with an Error is a complete answer, not a fault — check this before reading Data.")
     __properties: ClassVar[List[str]] = ["data", "error", "success"]
 
     model_config = ConfigDict(

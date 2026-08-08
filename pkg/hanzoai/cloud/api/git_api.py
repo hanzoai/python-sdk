@@ -30,7 +30,10 @@ from hanzoai.cloud.models.mirror_list import MirrorList
 from hanzoai.cloud.models.mirror_req import MirrorReq
 from hanzoai.cloud.models.mirror_target_req import MirrorTargetReq
 from hanzoai.cloud.models.mirror_target_view import MirrorTargetView
+from hanzoai.cloud.models.open_req import OpenReq
 from hanzoai.cloud.models.patch_in import PatchIn
+from hanzoai.cloud.models.pull_list import PullList
+from hanzoai.cloud.models.pull_view import PullView
 from hanzoai.cloud.models.push_req import PushReq
 from hanzoai.cloud.models.push_resp import PushResp
 from hanzoai.cloud.models.readme_json import ReadmeJSON
@@ -64,7 +67,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_keys_id(
+    def delete_v1_git_keys_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
         _request_timeout: Union[
@@ -108,7 +111,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_keys_id_serialize(
+        _param = self._delete_v1_git_keys_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -131,7 +134,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_keys_id_with_http_info(
+    def delete_v1_git_keys_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
         _request_timeout: Union[
@@ -175,7 +178,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_keys_id_serialize(
+        _param = self._delete_v1_git_keys_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -198,7 +201,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_keys_id_without_preload_content(
+    def delete_v1_git_keys_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
         _request_timeout: Union[
@@ -242,7 +245,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_keys_id_serialize(
+        _param = self._delete_v1_git_keys_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -260,7 +263,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_keys_id_serialize(
+    def _delete_v1_git_keys_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -317,7 +320,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name(
+    def delete_v1_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -361,7 +364,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_serialize(
+        _param = self._delete_v1_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -384,7 +387,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_with_http_info(
+    def delete_v1_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -428,7 +431,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_serialize(
+        _param = self._delete_v1_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -451,7 +454,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_without_preload_content(
+    def delete_v1_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -495,7 +498,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_serialize(
+        _param = self._delete_v1_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -513,7 +516,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_repos_name_serialize(
+    def _delete_v1_git_repos_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -570,7 +573,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_mirrors_id(
+    def delete_v1_git_repos_by_name_mirrors_by_id(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -617,7 +620,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_mirrors_id_serialize(
+        _param = self._delete_v1_git_repos_by_name_mirrors_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -641,7 +644,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_mirrors_id_with_http_info(
+    def delete_v1_git_repos_by_name_mirrors_by_id_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -688,7 +691,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_mirrors_id_serialize(
+        _param = self._delete_v1_git_repos_by_name_mirrors_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -712,7 +715,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_mirrors_id_without_preload_content(
+    def delete_v1_git_repos_by_name_mirrors_by_id_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -759,7 +762,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_mirrors_id_serialize(
+        _param = self._delete_v1_git_repos_by_name_mirrors_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -778,7 +781,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_repos_name_mirrors_id_serialize(
+    def _delete_v1_git_repos_by_name_mirrors_by_id_serialize(
         self,
         name,
         id,
@@ -838,7 +841,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_subscriptions_id(
+    def delete_v1_git_repos_by_name_subscriptions_by_id(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -885,7 +888,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_subscriptions_id_serialize(
+        _param = self._delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -909,7 +912,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_subscriptions_id_with_http_info(
+    def delete_v1_git_repos_by_name_subscriptions_by_id_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -956,7 +959,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_subscriptions_id_serialize(
+        _param = self._delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -980,7 +983,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_name_subscriptions_id_without_preload_content(
+    def delete_v1_git_repos_by_name_subscriptions_by_id_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -1027,7 +1030,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_name_subscriptions_id_serialize(
+        _param = self._delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -1046,7 +1049,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_repos_name_subscriptions_id_serialize(
+    def _delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
         self,
         name,
         id,
@@ -2141,7 +2144,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name(
+    def get_v1_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2185,7 +2188,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_serialize(
+        _param = self._get_v1_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2208,7 +2211,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_with_http_info(
+    def get_v1_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2252,7 +2255,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_serialize(
+        _param = self._get_v1_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2275,7 +2278,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_without_preload_content(
+    def get_v1_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2319,7 +2322,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_serialize(
+        _param = self._get_v1_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2337,7 +2340,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_serialize(
+    def _get_v1_git_repos_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -2401,7 +2404,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_blob(
+    def get_v1_git_repos_by_name_blob(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -2451,7 +2454,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_blob_serialize(
+        _param = self._get_v1_git_repos_by_name_blob_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2476,7 +2479,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_blob_with_http_info(
+    def get_v1_git_repos_by_name_blob_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -2526,7 +2529,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_blob_serialize(
+        _param = self._get_v1_git_repos_by_name_blob_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2551,7 +2554,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_blob_without_preload_content(
+    def get_v1_git_repos_by_name_blob_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -2601,7 +2604,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_blob_serialize(
+        _param = self._get_v1_git_repos_by_name_blob_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2621,7 +2624,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_blob_serialize(
+    def _get_v1_git_repos_by_name_blob_serialize(
         self,
         name,
         ref,
@@ -2695,7 +2698,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_commits(
+    def get_v1_git_repos_by_name_commits(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch, tag or commit to walk back from; empty means HEAD.")] = None,
@@ -2748,7 +2751,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_commits_serialize(
+        _param = self._get_v1_git_repos_by_name_commits_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2774,7 +2777,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_commits_with_http_info(
+    def get_v1_git_repos_by_name_commits_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch, tag or commit to walk back from; empty means HEAD.")] = None,
@@ -2827,7 +2830,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_commits_serialize(
+        _param = self._get_v1_git_repos_by_name_commits_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2853,7 +2856,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_commits_without_preload_content(
+    def get_v1_git_repos_by_name_commits_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch, tag or commit to walk back from; empty means HEAD.")] = None,
@@ -2906,7 +2909,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_commits_serialize(
+        _param = self._get_v1_git_repos_by_name_commits_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2927,7 +2930,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_commits_serialize(
+    def _get_v1_git_repos_by_name_commits_serialize(
         self,
         name,
         ref,
@@ -3006,7 +3009,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_files(
+    def get_v1_git_repos_by_name_files(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3056,7 +3059,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_files_serialize(
+        _param = self._get_v1_git_repos_by_name_files_serialize(
             name=name,
             ref=ref,
             glob=glob,
@@ -3081,7 +3084,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_files_with_http_info(
+    def get_v1_git_repos_by_name_files_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3131,7 +3134,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_files_serialize(
+        _param = self._get_v1_git_repos_by_name_files_serialize(
             name=name,
             ref=ref,
             glob=glob,
@@ -3156,7 +3159,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_files_without_preload_content(
+    def get_v1_git_repos_by_name_files_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3206,7 +3209,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_files_serialize(
+        _param = self._get_v1_git_repos_by_name_files_serialize(
             name=name,
             ref=ref,
             glob=glob,
@@ -3226,7 +3229,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_files_serialize(
+    def _get_v1_git_repos_by_name_files_serialize(
         self,
         name,
         ref,
@@ -3300,7 +3303,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_mirrors(
+    def get_v1_git_repos_by_name_mirrors(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3344,7 +3347,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_mirrors_serialize(
+        _param = self._get_v1_git_repos_by_name_mirrors_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3367,7 +3370,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_mirrors_with_http_info(
+    def get_v1_git_repos_by_name_mirrors_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3411,7 +3414,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_mirrors_serialize(
+        _param = self._get_v1_git_repos_by_name_mirrors_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3434,7 +3437,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_mirrors_without_preload_content(
+    def get_v1_git_repos_by_name_mirrors_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3478,7 +3481,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_mirrors_serialize(
+        _param = self._get_v1_git_repos_by_name_mirrors_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3496,7 +3499,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_mirrors_serialize(
+    def _get_v1_git_repos_by_name_mirrors_serialize(
         self,
         name,
         _request_auth,
@@ -3560,7 +3563,559 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_readme(
+    def get_v1_git_repos_by_name_pulls(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        state: Annotated[Optional[StrictStr], Field(description="State narrows the list to \"open\" or \"merged\". Omit it for every proposal.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PullList:
+        """Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed.
+
+        Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed. Narrow it with ?state=open or ?state=merged; omit state for every proposal.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param state: State narrows the list to \"open\" or \"merged\". Omit it for every proposal.
+        :type state: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_git_repos_by_name_pulls_serialize(
+            name=name,
+            state=state,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_git_repos_by_name_pulls_with_http_info(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        state: Annotated[Optional[StrictStr], Field(description="State narrows the list to \"open\" or \"merged\". Omit it for every proposal.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PullList]:
+        """Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed.
+
+        Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed. Narrow it with ?state=open or ?state=merged; omit state for every proposal.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param state: State narrows the list to \"open\" or \"merged\". Omit it for every proposal.
+        :type state: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_git_repos_by_name_pulls_serialize(
+            name=name,
+            state=state,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_git_repos_by_name_pulls_without_preload_content(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        state: Annotated[Optional[StrictStr], Field(description="State narrows the list to \"open\" or \"merged\". Omit it for every proposal.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed.
+
+        Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed. Narrow it with ?state=open or ?state=merged; omit state for every proposal.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param state: State narrows the list to \"open\" or \"merged\". Omit it for every proposal.
+        :type state: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_git_repos_by_name_pulls_serialize(
+            name=name,
+            state=state,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_git_repos_by_name_pulls_serialize(
+        self,
+        name,
+        state,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if name is not None:
+            _path_params['name'] = name
+        # process the query parameters
+        if state is not None:
+            
+            _query_params.append(('state', state))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/git/repos/{name}/pulls',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_git_repos_by_name_pulls_by_number(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PullView:
+        """Returns one pull request by its per-repo number.
+
+        Returns one pull request by its per-repo number. A number belonging to another tenant's repo is not found, exactly as the repo itself is not.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param number: Number is the proposal's per-repo number, from the :number path segment. (required)
+        :type number: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_git_repos_by_name_pulls_by_number_serialize(
+            name=name,
+            number=number,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_git_repos_by_name_pulls_by_number_with_http_info(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PullView]:
+        """Returns one pull request by its per-repo number.
+
+        Returns one pull request by its per-repo number. A number belonging to another tenant's repo is not found, exactly as the repo itself is not.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param number: Number is the proposal's per-repo number, from the :number path segment. (required)
+        :type number: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_git_repos_by_name_pulls_by_number_serialize(
+            name=name,
+            number=number,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_git_repos_by_name_pulls_by_number_without_preload_content(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one pull request by its per-repo number.
+
+        Returns one pull request by its per-repo number. A number belonging to another tenant's repo is not found, exactly as the repo itself is not.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param number: Number is the proposal's per-repo number, from the :number path segment. (required)
+        :type number: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_git_repos_by_name_pulls_by_number_serialize(
+            name=name,
+            number=number,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_git_repos_by_name_pulls_by_number_serialize(
+        self,
+        name,
+        number,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if name is not None:
+            _path_params['name'] = name
+        if number is not None:
+            _path_params['number'] = number
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/git/repos/{name}/pulls/{number}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_git_repos_by_name_readme(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3607,7 +4162,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_readme_serialize(
+        _param = self._get_v1_git_repos_by_name_readme_serialize(
             name=name,
             ref=ref,
             _request_auth=_request_auth,
@@ -3631,7 +4186,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_readme_with_http_info(
+    def get_v1_git_repos_by_name_readme_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3678,7 +4233,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_readme_serialize(
+        _param = self._get_v1_git_repos_by_name_readme_serialize(
             name=name,
             ref=ref,
             _request_auth=_request_auth,
@@ -3702,7 +4257,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_readme_without_preload_content(
+    def get_v1_git_repos_by_name_readme_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3749,7 +4304,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_readme_serialize(
+        _param = self._get_v1_git_repos_by_name_readme_serialize(
             name=name,
             ref=ref,
             _request_auth=_request_auth,
@@ -3768,7 +4323,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_readme_serialize(
+    def _get_v1_git_repos_by_name_readme_serialize(
         self,
         name,
         ref,
@@ -3837,7 +4392,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_refs(
+    def get_v1_git_repos_by_name_refs(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3881,7 +4436,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_refs_serialize(
+        _param = self._get_v1_git_repos_by_name_refs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3904,7 +4459,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_refs_with_http_info(
+    def get_v1_git_repos_by_name_refs_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3948,7 +4503,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_refs_serialize(
+        _param = self._get_v1_git_repos_by_name_refs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3971,7 +4526,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_refs_without_preload_content(
+    def get_v1_git_repos_by_name_refs_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4015,7 +4570,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_refs_serialize(
+        _param = self._get_v1_git_repos_by_name_refs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4033,7 +4588,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_refs_serialize(
+    def _get_v1_git_repos_by_name_refs_serialize(
         self,
         name,
         _request_auth,
@@ -4097,7 +4652,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_subscriptions(
+    def get_v1_git_repos_by_name_subscriptions(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4141,7 +4696,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_subscriptions_serialize(
+        _param = self._get_v1_git_repos_by_name_subscriptions_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4164,7 +4719,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_subscriptions_with_http_info(
+    def get_v1_git_repos_by_name_subscriptions_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4208,7 +4763,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_subscriptions_serialize(
+        _param = self._get_v1_git_repos_by_name_subscriptions_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4231,7 +4786,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_subscriptions_without_preload_content(
+    def get_v1_git_repos_by_name_subscriptions_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4275,7 +4830,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_subscriptions_serialize(
+        _param = self._get_v1_git_repos_by_name_subscriptions_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4293,7 +4848,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_subscriptions_serialize(
+    def _get_v1_git_repos_by_name_subscriptions_serialize(
         self,
         name,
         _request_auth,
@@ -4357,7 +4912,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_tree(
+    def get_v1_git_repos_by_name_tree(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4407,7 +4962,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_tree_serialize(
+        _param = self._get_v1_git_repos_by_name_tree_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -4432,7 +4987,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_tree_with_http_info(
+    def get_v1_git_repos_by_name_tree_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4482,7 +5037,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_tree_serialize(
+        _param = self._get_v1_git_repos_by_name_tree_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -4507,7 +5062,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_name_tree_without_preload_content(
+    def get_v1_git_repos_by_name_tree_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4557,7 +5112,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_name_tree_serialize(
+        _param = self._get_v1_git_repos_by_name_tree_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -4577,7 +5132,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_name_tree_serialize(
+    def _get_v1_git_repos_by_name_tree_serialize(
         self,
         name,
         ref,
@@ -4896,7 +5451,7 @@ class GitApi:
 
 
     @validate_call
-    def patch_v1_git_repos_name(
+    def patch_v1_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
         patch_in: PatchIn,
@@ -4943,7 +5498,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_git_repos_name_serialize(
+        _param = self._patch_v1_git_repos_by_name_serialize(
             name=name,
             patch_in=patch_in,
             _request_auth=_request_auth,
@@ -4967,7 +5522,7 @@ class GitApi:
 
 
     @validate_call
-    def patch_v1_git_repos_name_with_http_info(
+    def patch_v1_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
         patch_in: PatchIn,
@@ -5014,7 +5569,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_git_repos_name_serialize(
+        _param = self._patch_v1_git_repos_by_name_serialize(
             name=name,
             patch_in=patch_in,
             _request_auth=_request_auth,
@@ -5038,7 +5593,7 @@ class GitApi:
 
 
     @validate_call
-    def patch_v1_git_repos_name_without_preload_content(
+    def patch_v1_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
         patch_in: PatchIn,
@@ -5085,7 +5640,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_git_repos_name_serialize(
+        _param = self._patch_v1_git_repos_by_name_serialize(
             name=name,
             patch_in=patch_in,
             _request_auth=_request_auth,
@@ -5104,7 +5659,7 @@ class GitApi:
         return response_data.response
 
 
-    def _patch_v1_git_repos_name_serialize(
+    def _patch_v1_git_repos_by_name_serialize(
         self,
         name,
         patch_in,
@@ -6964,7 +7519,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_gc(
+    def post_v1_git_repos_by_name_gc(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7008,7 +7563,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_gc_serialize(
+        _param = self._post_v1_git_repos_by_name_gc_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7031,7 +7586,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_gc_with_http_info(
+    def post_v1_git_repos_by_name_gc_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7075,7 +7630,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_gc_serialize(
+        _param = self._post_v1_git_repos_by_name_gc_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7098,7 +7653,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_gc_without_preload_content(
+    def post_v1_git_repos_by_name_gc_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7142,7 +7697,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_gc_serialize(
+        _param = self._post_v1_git_repos_by_name_gc_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7160,7 +7715,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_name_gc_serialize(
+    def _post_v1_git_repos_by_name_gc_serialize(
         self,
         name,
         _request_auth,
@@ -7224,7 +7779,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_mirror(
+    def post_v1_git_repos_by_name_mirror(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
         mirror_req: MirrorReq,
@@ -7271,7 +7826,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_mirror_serialize(
+        _param = self._post_v1_git_repos_by_name_mirror_serialize(
             name=name,
             mirror_req=mirror_req,
             _request_auth=_request_auth,
@@ -7295,7 +7850,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_mirror_with_http_info(
+    def post_v1_git_repos_by_name_mirror_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
         mirror_req: MirrorReq,
@@ -7342,7 +7897,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_mirror_serialize(
+        _param = self._post_v1_git_repos_by_name_mirror_serialize(
             name=name,
             mirror_req=mirror_req,
             _request_auth=_request_auth,
@@ -7366,7 +7921,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_mirror_without_preload_content(
+    def post_v1_git_repos_by_name_mirror_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
         mirror_req: MirrorReq,
@@ -7413,7 +7968,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_mirror_serialize(
+        _param = self._post_v1_git_repos_by_name_mirror_serialize(
             name=name,
             mirror_req=mirror_req,
             _request_auth=_request_auth,
@@ -7432,7 +7987,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_name_mirror_serialize(
+    def _post_v1_git_repos_by_name_mirror_serialize(
         self,
         name,
         mirror_req,
@@ -7512,7 +8067,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_mirrors(
+    def post_v1_git_repos_by_name_mirrors(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
         mirror_target_req: MirrorTargetReq,
@@ -7559,7 +8114,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_mirrors_serialize(
+        _param = self._post_v1_git_repos_by_name_mirrors_serialize(
             name=name,
             mirror_target_req=mirror_target_req,
             _request_auth=_request_auth,
@@ -7583,7 +8138,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_mirrors_with_http_info(
+    def post_v1_git_repos_by_name_mirrors_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
         mirror_target_req: MirrorTargetReq,
@@ -7630,7 +8185,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_mirrors_serialize(
+        _param = self._post_v1_git_repos_by_name_mirrors_serialize(
             name=name,
             mirror_target_req=mirror_target_req,
             _request_auth=_request_auth,
@@ -7654,7 +8209,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_mirrors_without_preload_content(
+    def post_v1_git_repos_by_name_mirrors_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
         mirror_target_req: MirrorTargetReq,
@@ -7701,7 +8256,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_mirrors_serialize(
+        _param = self._post_v1_git_repos_by_name_mirrors_serialize(
             name=name,
             mirror_target_req=mirror_target_req,
             _request_auth=_request_auth,
@@ -7720,7 +8275,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_name_mirrors_serialize(
+    def _post_v1_git_repos_by_name_mirrors_serialize(
         self,
         name,
         mirror_target_req,
@@ -7800,7 +8355,570 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_push(
+    def post_v1_git_repos_by_name_pulls(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
+        open_req: OpenReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PullView:
+        """Proposes a branch for merging and returns it with its number.
+
+        Proposes a branch for merging and returns it with its number. Answers 201. Both branches must already exist — a proposal naming a branch nobody pushed is a typo, not a plan — and base defaults to the repo's default branch.  Proposing the same head into the same base twice is a 409 while the first proposal is still open, so a retried agent run leaves ONE thing to review rather than a pile of identical ones. A repo outside the caller's scope is a 404, exactly as reading it is.
+
+        :param name: Name is the repo the proposal belongs to, from the :name path segment. (required)
+        :type name: str
+        :param open_req: (required)
+        :type open_req: OpenReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_git_repos_by_name_pulls_serialize(
+            name=name,
+            open_req=open_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_git_repos_by_name_pulls_with_http_info(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
+        open_req: OpenReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PullView]:
+        """Proposes a branch for merging and returns it with its number.
+
+        Proposes a branch for merging and returns it with its number. Answers 201. Both branches must already exist — a proposal naming a branch nobody pushed is a typo, not a plan — and base defaults to the repo's default branch.  Proposing the same head into the same base twice is a 409 while the first proposal is still open, so a retried agent run leaves ONE thing to review rather than a pile of identical ones. A repo outside the caller's scope is a 404, exactly as reading it is.
+
+        :param name: Name is the repo the proposal belongs to, from the :name path segment. (required)
+        :type name: str
+        :param open_req: (required)
+        :type open_req: OpenReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_git_repos_by_name_pulls_serialize(
+            name=name,
+            open_req=open_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_git_repos_by_name_pulls_without_preload_content(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
+        open_req: OpenReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Proposes a branch for merging and returns it with its number.
+
+        Proposes a branch for merging and returns it with its number. Answers 201. Both branches must already exist — a proposal naming a branch nobody pushed is a typo, not a plan — and base defaults to the repo's default branch.  Proposing the same head into the same base twice is a 409 while the first proposal is still open, so a retried agent run leaves ONE thing to review rather than a pile of identical ones. A repo outside the caller's scope is a 404, exactly as reading it is.
+
+        :param name: Name is the repo the proposal belongs to, from the :name path segment. (required)
+        :type name: str
+        :param open_req: (required)
+        :type open_req: OpenReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_git_repos_by_name_pulls_serialize(
+            name=name,
+            open_req=open_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_git_repos_by_name_pulls_serialize(
+        self,
+        name,
+        open_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if name is not None:
+            _path_params['name'] = name
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if open_req is not None:
+            _body_params = open_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/git/repos/{name}/pulls',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_git_repos_by_name_pulls_by_number_merge(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PullView:
+        """Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.
+
+        Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.  It merges only when base is already an ancestor of head — the case where head contains every commit base has, so moving the branch loses nothing and invents nothing. When base has moved on independently, this REFUSES with 409 and says so: a real three-way merge is not implemented here, and reporting one would claim a result these bytes do not produce. Rebase head onto base and merge again.  The move is judged by the same ref policy a `git push` of it would face, and fires the same build and notify reactions, so merging is not a way around either. Merging an already-merged proposal is a 409.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param number: Number is the proposal's per-repo number, from the :number path segment. (required)
+        :type number: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+            name=name,
+            number=number,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_git_repos_by_name_pulls_by_number_merge_with_http_info(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PullView]:
+        """Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.
+
+        Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.  It merges only when base is already an ancestor of head — the case where head contains every commit base has, so moving the branch loses nothing and invents nothing. When base has moved on independently, this REFUSES with 409 and says so: a real three-way merge is not implemented here, and reporting one would claim a result these bytes do not produce. Rebase head onto base and merge again.  The move is judged by the same ref policy a `git push` of it would face, and fires the same build and notify reactions, so merging is not a way around either. Merging an already-merged proposal is a 409.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param number: Number is the proposal's per-repo number, from the :number path segment. (required)
+        :type number: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+            name=name,
+            number=number,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_git_repos_by_name_pulls_by_number_merge_without_preload_content(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
+        number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.
+
+        Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.  It merges only when base is already an ancestor of head — the case where head contains every commit base has, so moving the branch loses nothing and invents nothing. When base has moved on independently, this REFUSES with 409 and says so: a real three-way merge is not implemented here, and reporting one would claim a result these bytes do not produce. Rebase head onto base and merge again.  The move is judged by the same ref policy a `git push` of it would face, and fires the same build and notify reactions, so merging is not a way around either. Merging an already-merged proposal is a 409.
+
+        :param name: Name is the repo, from the :name path segment. (required)
+        :type name: str
+        :param number: Number is the proposal's per-repo number, from the :number path segment. (required)
+        :type number: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+            name=name,
+            number=number,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PullView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+        self,
+        name,
+        number,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if name is not None:
+            _path_params['name'] = name
+        if number is not None:
+            _path_params['number'] = number
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/git/repos/{name}/pulls/{number}/merge',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_git_repos_by_name_push(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
         push_req: PushReq,
@@ -7847,7 +8965,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_push_serialize(
+        _param = self._post_v1_git_repos_by_name_push_serialize(
             name=name,
             push_req=push_req,
             _request_auth=_request_auth,
@@ -7871,7 +8989,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_push_with_http_info(
+    def post_v1_git_repos_by_name_push_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
         push_req: PushReq,
@@ -7918,7 +9036,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_push_serialize(
+        _param = self._post_v1_git_repos_by_name_push_serialize(
             name=name,
             push_req=push_req,
             _request_auth=_request_auth,
@@ -7942,7 +9060,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_push_without_preload_content(
+    def post_v1_git_repos_by_name_push_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
         push_req: PushReq,
@@ -7989,7 +9107,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_push_serialize(
+        _param = self._post_v1_git_repos_by_name_push_serialize(
             name=name,
             push_req=push_req,
             _request_auth=_request_auth,
@@ -8008,7 +9126,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_name_push_serialize(
+    def _post_v1_git_repos_by_name_push_serialize(
         self,
         name,
         push_req,
@@ -8088,7 +9206,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_subscriptions(
+    def post_v1_git_repos_by_name_subscriptions(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
         subscribe_req: SubscribeReq,
@@ -8135,7 +9253,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_subscriptions_serialize(
+        _param = self._post_v1_git_repos_by_name_subscriptions_serialize(
             name=name,
             subscribe_req=subscribe_req,
             _request_auth=_request_auth,
@@ -8159,7 +9277,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_subscriptions_with_http_info(
+    def post_v1_git_repos_by_name_subscriptions_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
         subscribe_req: SubscribeReq,
@@ -8206,7 +9324,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_subscriptions_serialize(
+        _param = self._post_v1_git_repos_by_name_subscriptions_serialize(
             name=name,
             subscribe_req=subscribe_req,
             _request_auth=_request_auth,
@@ -8230,7 +9348,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_name_subscriptions_without_preload_content(
+    def post_v1_git_repos_by_name_subscriptions_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
         subscribe_req: SubscribeReq,
@@ -8277,7 +9395,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_name_subscriptions_serialize(
+        _param = self._post_v1_git_repos_by_name_subscriptions_serialize(
             name=name,
             subscribe_req=subscribe_req,
             _request_auth=_request_auth,
@@ -8296,7 +9414,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_name_subscriptions_serialize(
+    def _post_v1_git_repos_by_name_subscriptions_serialize(
         self,
         name,
         subscribe_req,
@@ -8391,9 +9509,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Retired — forge pushes build via platform.hanzo.ai
+        """Is retired — forge pushes build via platform.hanzo.ai.
 
-        GONE (410). This was the canonical forge's push-to-deploy door, and it never dispatched a build in its life.  It handed each verified push to cloud.OnGitPush, a single-registrant seam whose only registrant lives in apps/platform. cloud runs each app as its own OS process, so in the git process that builder is nil forever — and this handler answered 204 either way. Delivered, signature valid, green on the forge's hook page, and nothing built.  Push-to-deploy now belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  The route is kept, and answers 410 naming that address, precisely so a misdirected delivery says what is wrong. Deleting it would 404, and a 404 here reads as 'the API is switched off' — the wrong conclusion this estate has already drawn twice.
+        Is retired — forge pushes build via platform.hanzo.ai.  GONE (410). This was the canonical forge's push-to-deploy door, and it never dispatched a build in its life.  It handed each verified push to cloud.OnGitPush, a single-registrant seam whose only registrant lives in apps/platform. cloud runs each app as its own OS process, so in the git process that builder is nil forever — and this handler answered 204 either way. Delivered, signature valid, green on the forge's hook page, and nothing built.  Push-to-deploy now belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  The route is kept, and answers 410 naming that address, precisely so a misdirected delivery says what is wrong. Deleting it would 404, and a 404 here reads as \"the API is switched off\" — the wrong conclusion this estate has already drawn twice. It reads no body: there is nothing here to authenticate and nothing to parse.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8453,9 +9571,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Retired — forge pushes build via platform.hanzo.ai
+        """Is retired — forge pushes build via platform.hanzo.ai.
 
-        GONE (410). This was the canonical forge's push-to-deploy door, and it never dispatched a build in its life.  It handed each verified push to cloud.OnGitPush, a single-registrant seam whose only registrant lives in apps/platform. cloud runs each app as its own OS process, so in the git process that builder is nil forever — and this handler answered 204 either way. Delivered, signature valid, green on the forge's hook page, and nothing built.  Push-to-deploy now belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  The route is kept, and answers 410 naming that address, precisely so a misdirected delivery says what is wrong. Deleting it would 404, and a 404 here reads as 'the API is switched off' — the wrong conclusion this estate has already drawn twice.
+        Is retired — forge pushes build via platform.hanzo.ai.  GONE (410). This was the canonical forge's push-to-deploy door, and it never dispatched a build in its life.  It handed each verified push to cloud.OnGitPush, a single-registrant seam whose only registrant lives in apps/platform. cloud runs each app as its own OS process, so in the git process that builder is nil forever — and this handler answered 204 either way. Delivered, signature valid, green on the forge's hook page, and nothing built.  Push-to-deploy now belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  The route is kept, and answers 410 naming that address, precisely so a misdirected delivery says what is wrong. Deleting it would 404, and a 404 here reads as \"the API is switched off\" — the wrong conclusion this estate has already drawn twice. It reads no body: there is nothing here to authenticate and nothing to parse.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8515,9 +9633,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Retired — forge pushes build via platform.hanzo.ai
+        """Is retired — forge pushes build via platform.hanzo.ai.
 
-        GONE (410). This was the canonical forge's push-to-deploy door, and it never dispatched a build in its life.  It handed each verified push to cloud.OnGitPush, a single-registrant seam whose only registrant lives in apps/platform. cloud runs each app as its own OS process, so in the git process that builder is nil forever — and this handler answered 204 either way. Delivered, signature valid, green on the forge's hook page, and nothing built.  Push-to-deploy now belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  The route is kept, and answers 410 naming that address, precisely so a misdirected delivery says what is wrong. Deleting it would 404, and a 404 here reads as 'the API is switched off' — the wrong conclusion this estate has already drawn twice.
+        Is retired — forge pushes build via platform.hanzo.ai.  GONE (410). This was the canonical forge's push-to-deploy door, and it never dispatched a build in its life.  It handed each verified push to cloud.OnGitPush, a single-registrant seam whose only registrant lives in apps/platform. cloud runs each app as its own OS process, so in the git process that builder is nil forever — and this handler answered 204 either way. Delivered, signature valid, green on the forge's hook page, and nothing built.  Push-to-deploy now belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  The route is kept, and answers 410 naming that address, precisely so a misdirected delivery says what is wrong. Deleting it would 404, and a 404 here reads as \"the API is switched off\" — the wrong conclusion this estate has already drawn twice. It reads no body: there is nothing here to authenticate and nothing to parse.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

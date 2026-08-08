@@ -26,9 +26,9 @@ class LevelSplit(BaseModel):
     """
     LevelSplit
     """ # noqa: E501
-    l1_cents: Optional[StrictInt] = Field(default=None, alias="l1Cents")
-    l2_cents: Optional[StrictInt] = Field(default=None, alias="l2Cents")
-    l3_cents: Optional[StrictInt] = Field(default=None, alias="l3Cents")
+    l1_cents: Optional[StrictInt] = Field(default=None, description="L1Cents is lifetime commission accrued to DIRECT referrers, in cents.", alias="l1Cents")
+    l2_cents: Optional[StrictInt] = Field(default=None, description="L2Cents is lifetime commission accrued one step above the direct referrer, in cents, at the platform-wide level-2 rate.", alias="l2Cents")
+    l3_cents: Optional[StrictInt] = Field(default=None, description="L3Cents is lifetime commission accrued two steps above, in cents. Nothing accrues past level 3, so l1+l2+l3 is the whole accrual.", alias="l3Cents")
     __properties: ClassVar[List[str]] = ["l1Cents", "l2Cents", "l3Cents"]
 
     model_config = ConfigDict(

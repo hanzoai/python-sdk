@@ -26,10 +26,11 @@ class Accruals(BaseModel):
     """
     Accruals
     """ # noqa: E501
-    accrued: Optional[StrictInt] = None
-    royalties_accrued: Optional[StrictInt] = Field(default=None, alias="royaltiesAccrued")
-    swept: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["accrued", "royaltiesAccrued", "swept"]
+    accrued: Optional[StrictInt] = Field(default=None, description="Accrued is how many NEW commission accruals this run created, counted across every upline level. The accrual is latched at most once per (affiliate, source org, period), so a re-run inside the same month reports 0 having changed nothing — 0 means \"already accrued\", not \"failed\".")
+    royalties_accrued: Optional[StrictInt] = Field(default=None, description="RoyaltiesAccrued is how many OSS-author royalty accruals the SAME spend read produced in the sibling authors program. One read drives both.", alias="royaltiesAccrued")
+    royalty_failures: Optional[StrictInt] = Field(default=None, description="RoyaltyFailures is reported, not swallowed: a sweep that could not reach the royalty store must not read as one that found nothing owed. The count was already computed and then dropped on the floor, which is the same silence the typed leg was added to end.", alias="royaltyFailures")
+    swept: Optional[StrictInt] = Field(default=None, description="Swept is how many source (referred) orgs the run visited, bounded at 500 per run. A source with no spend this period, or one whose spend could not be read, still counts as swept.")
+    __properties: ClassVar[List[str]] = ["accrued", "royaltiesAccrued", "royaltyFailures", "swept"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +85,7 @@ class Accruals(BaseModel):
         _obj = cls.model_validate({
             "accrued": obj.get("accrued"),
             "royaltiesAccrued": obj.get("royaltiesAccrued"),
+            "royaltyFailures": obj.get("royaltyFailures"),
             "swept": obj.get("swept")
         })
         return _obj

@@ -27,6 +27,7 @@ from hanzoai.cloud.api.bots_api import BotsApi
 from hanzoai.cloud.api.builds_api import BuildsApi
 from hanzoai.cloud.api.campaign_api import CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi
+from hanzoai.cloud.api.cart_api import CartApi
 from hanzoai.cloud.api.catalog_api import CatalogApi
 from hanzoai.cloud.api.channels_api import ChannelsApi
 from hanzoai.cloud.api.chat_api import ChatApi
@@ -34,6 +35,7 @@ from hanzoai.cloud.api.cloud_api import CloudApi
 from hanzoai.cloud.api.cloudflare_api import CloudflareApi
 from hanzoai.cloud.api.clusters_api import ClustersApi
 from hanzoai.cloud.api.code_api import CodeApi
+from hanzoai.cloud.api.coding_api import CodingApi
 from hanzoai.cloud.api.collections_api import CollectionsApi
 from hanzoai.cloud.api.commands_api import CommandsApi
 from hanzoai.cloud.api.commerce_api import CommerceApi
@@ -141,6 +143,7 @@ from hanzoai.cloud.api.rag_api import RagApi
 from hanzoai.cloud.api.referrals_api import ReferralsApi
 from hanzoai.cloud.api.registry_api import RegistryApi
 from hanzoai.cloud.api.releases_api import ReleasesApi
+from hanzoai.cloud.api.replay_api import ReplayApi
 from hanzoai.cloud.api.rerank_api import RerankApi
 from hanzoai.cloud.api.research_api import ResearchApi
 from hanzoai.cloud.api.responses_api import ResponsesApi
@@ -149,6 +152,7 @@ from hanzoai.cloud.api.router_api import RouterApi
 from hanzoai.cloud.api.run_api import RunApi
 from hanzoai.cloud.api.runner_api import RunnerApi
 from hanzoai.cloud.api.s3_api import S3Api
+from hanzoai.cloud.api.sandboxes_api import SandboxesApi
 from hanzoai.cloud.api.sbom_api import SbomApi
 from hanzoai.cloud.api.scrape_api import ScrapeApi
 from hanzoai.cloud.api.search_api import SearchApi
@@ -163,6 +167,7 @@ from hanzoai.cloud.api.sql_api import SqlApi
 from hanzoai.cloud.api.store_api import StoreApi
 from hanzoai.cloud.api.summary_api import SummaryApi
 from hanzoai.cloud.api.sync_api import SyncApi
+from hanzoai.cloud.api.tags_api import TagsApi
 from hanzoai.cloud.api.tasks_api import TasksApi
 from hanzoai.cloud.api.team_api import TeamApi
 from hanzoai.cloud.api.templates_api import TemplatesApi

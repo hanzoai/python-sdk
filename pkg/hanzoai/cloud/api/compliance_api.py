@@ -316,7 +316,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_id(
+    def get_v1_compliance_accreditation_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to read, from the path.")],
         _request_timeout: Union[
@@ -360,7 +360,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_id_serialize(
+        _param = self._get_v1_compliance_accreditation_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -383,7 +383,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_id_with_http_info(
+    def get_v1_compliance_accreditation_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to read, from the path.")],
         _request_timeout: Union[
@@ -427,7 +427,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_id_serialize(
+        _param = self._get_v1_compliance_accreditation_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -450,7 +450,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_id_without_preload_content(
+    def get_v1_compliance_accreditation_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to read, from the path.")],
         _request_timeout: Union[
@@ -494,7 +494,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_id_serialize(
+        _param = self._get_v1_compliance_accreditation_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -512,7 +512,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_accreditation_id_serialize(
+    def _get_v1_compliance_accreditation_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1852,7 +1852,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_id(
+    def get_v1_compliance_subjects_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the subject to read, from the path.")],
         _request_timeout: Union[
@@ -1896,7 +1896,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_id_serialize(
+        _param = self._get_v1_compliance_subjects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1919,7 +1919,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_id_with_http_info(
+    def get_v1_compliance_subjects_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the subject to read, from the path.")],
         _request_timeout: Union[
@@ -1963,7 +1963,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_id_serialize(
+        _param = self._get_v1_compliance_subjects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1986,7 +1986,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_id_without_preload_content(
+    def get_v1_compliance_subjects_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the subject to read, from the path.")],
         _request_timeout: Union[
@@ -2030,7 +2030,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_id_serialize(
+        _param = self._get_v1_compliance_subjects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2048,7 +2048,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_subjects_id_serialize(
+    def _get_v1_compliance_subjects_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2374,7 +2374,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_id(
+    def get_v1_compliance_verifications_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -2418,7 +2418,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_id_serialize(
+        _param = self._get_v1_compliance_verifications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2441,7 +2441,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_id_with_http_info(
+    def get_v1_compliance_verifications_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -2485,7 +2485,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_id_serialize(
+        _param = self._get_v1_compliance_verifications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2508,7 +2508,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_id_without_preload_content(
+    def get_v1_compliance_verifications_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -2552,7 +2552,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_id_serialize(
+        _param = self._get_v1_compliance_verifications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2570,7 +2570,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_verifications_id_serialize(
+    def _get_v1_compliance_verifications_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2907,7 +2907,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_id_decision(
+    def post_v1_compliance_accreditation_by_id_decision(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
         accreditation_decision: AccreditationDecision,
@@ -2954,7 +2954,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_id_decision_serialize(
+        _param = self._post_v1_compliance_accreditation_by_id_decision_serialize(
             id=id,
             accreditation_decision=accreditation_decision,
             _request_auth=_request_auth,
@@ -2978,7 +2978,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_id_decision_with_http_info(
+    def post_v1_compliance_accreditation_by_id_decision_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
         accreditation_decision: AccreditationDecision,
@@ -3025,7 +3025,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_id_decision_serialize(
+        _param = self._post_v1_compliance_accreditation_by_id_decision_serialize(
             id=id,
             accreditation_decision=accreditation_decision,
             _request_auth=_request_auth,
@@ -3049,7 +3049,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_id_decision_without_preload_content(
+    def post_v1_compliance_accreditation_by_id_decision_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
         accreditation_decision: AccreditationDecision,
@@ -3096,7 +3096,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_id_decision_serialize(
+        _param = self._post_v1_compliance_accreditation_by_id_decision_serialize(
             id=id,
             accreditation_decision=accreditation_decision,
             _request_auth=_request_auth,
@@ -3115,7 +3115,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_accreditation_id_decision_serialize(
+    def _post_v1_compliance_accreditation_by_id_decision_serialize(
         self,
         id,
         accreditation_decision,
@@ -3741,7 +3741,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_id_decision(
+    def post_v1_compliance_verifications_by_id_decision(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
         verification_decision: VerificationDecision,
@@ -3788,7 +3788,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_id_decision_serialize(
+        _param = self._post_v1_compliance_verifications_by_id_decision_serialize(
             id=id,
             verification_decision=verification_decision,
             _request_auth=_request_auth,
@@ -3812,7 +3812,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_id_decision_with_http_info(
+    def post_v1_compliance_verifications_by_id_decision_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
         verification_decision: VerificationDecision,
@@ -3859,7 +3859,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_id_decision_serialize(
+        _param = self._post_v1_compliance_verifications_by_id_decision_serialize(
             id=id,
             verification_decision=verification_decision,
             _request_auth=_request_auth,
@@ -3883,7 +3883,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_id_decision_without_preload_content(
+    def post_v1_compliance_verifications_by_id_decision_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
         verification_decision: VerificationDecision,
@@ -3930,7 +3930,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_id_decision_serialize(
+        _param = self._post_v1_compliance_verifications_by_id_decision_serialize(
             id=id,
             verification_decision=verification_decision,
             _request_auth=_request_auth,
@@ -3949,7 +3949,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_verifications_id_decision_serialize(
+    def _post_v1_compliance_verifications_by_id_decision_serialize(
         self,
         id,
         verification_decision,
@@ -4029,7 +4029,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_id_refresh(
+    def post_v1_compliance_verifications_by_id_refresh(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -4073,7 +4073,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_id_refresh_serialize(
+        _param = self._post_v1_compliance_verifications_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4096,7 +4096,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_id_refresh_with_http_info(
+    def post_v1_compliance_verifications_by_id_refresh_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -4140,7 +4140,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_id_refresh_serialize(
+        _param = self._post_v1_compliance_verifications_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4163,7 +4163,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_id_refresh_without_preload_content(
+    def post_v1_compliance_verifications_by_id_refresh_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -4207,7 +4207,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_id_refresh_serialize(
+        _param = self._post_v1_compliance_verifications_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4225,7 +4225,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_verifications_id_refresh_serialize(
+    def _post_v1_compliance_verifications_by_id_refresh_serialize(
         self,
         id,
         _request_auth,
@@ -4304,9 +4304,9 @@ class ComplianceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Provider push that settles a verification, authenticated by HMAC signature
+        """Is the provider push that settles a verification, authenticated by HMAC signature.
 
-        The external PUSH reconcile: a verification provider (or a Hanzo relay) signals that a check settled, and the reconciled check comes back. It authenticates by an HMAC SIGNATURE over the RAW body bytes rather than by a principal — an external caller has no validated org — and the org is then resolved FROM the record the signed provider reference matches, so a call can only ever touch the one tenant that owns that reference.  The body carries NO trusted decision. A valid signature cannot force a status: the reference only says WHICH check to re-read, and the status is then pulled from the wired provider, which stays the source of truth. With no real provider configured a check stays pending, and the only route to a passing status is the role-gated, attributed reviewer decision.  An unknown reference is a benign 200 `{\"ignored\": ...}` no-op, not an error, so a provider replaying stale events neither retry-storms nor learns whether a reference exists in some other tenant. Fails closed otherwise: 501 unless a webhook secret is configured, 401 on a signature that does not verify, 400 with no provider reference, 413 over 1 MiB, and 502 if the secret or the provider is unreachable.
+        Is the provider push that settles a verification, authenticated by HMAC signature.  It is the external PUSH reconcile: a verification provider (or a Hanzo relay) signals that a check settled, and the reconciled check comes back. It authenticates by an HMAC SIGNATURE over the RAW body bytes rather than by a principal — an external caller has no validated org — and the org is then resolved FROM the record the signed provider reference matches, so a call can only ever touch the one tenant that owns that reference.  The body carries NO trusted decision. A valid signature cannot force a status: the reference only says WHICH check to re-read, and the status is then pulled from the wired provider, which stays the source of truth. With no real provider configured a check stays pending, and the only route to a passing status is the role-gated, attributed reviewer decision.  An unknown reference is a benign 200 `{\"ignored\": ...}` no-op, not an error, so a provider replaying stale events neither retry-storms nor learns whether a reference exists in some other tenant. Fails closed otherwise: 501 unless a webhook secret is configured, 401 on a signature that does not verify, 400 with no provider reference, 413 over 1 MiB, and 502 if the secret or the provider is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4366,9 +4366,9 @@ class ComplianceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Provider push that settles a verification, authenticated by HMAC signature
+        """Is the provider push that settles a verification, authenticated by HMAC signature.
 
-        The external PUSH reconcile: a verification provider (or a Hanzo relay) signals that a check settled, and the reconciled check comes back. It authenticates by an HMAC SIGNATURE over the RAW body bytes rather than by a principal — an external caller has no validated org — and the org is then resolved FROM the record the signed provider reference matches, so a call can only ever touch the one tenant that owns that reference.  The body carries NO trusted decision. A valid signature cannot force a status: the reference only says WHICH check to re-read, and the status is then pulled from the wired provider, which stays the source of truth. With no real provider configured a check stays pending, and the only route to a passing status is the role-gated, attributed reviewer decision.  An unknown reference is a benign 200 `{\"ignored\": ...}` no-op, not an error, so a provider replaying stale events neither retry-storms nor learns whether a reference exists in some other tenant. Fails closed otherwise: 501 unless a webhook secret is configured, 401 on a signature that does not verify, 400 with no provider reference, 413 over 1 MiB, and 502 if the secret or the provider is unreachable.
+        Is the provider push that settles a verification, authenticated by HMAC signature.  It is the external PUSH reconcile: a verification provider (or a Hanzo relay) signals that a check settled, and the reconciled check comes back. It authenticates by an HMAC SIGNATURE over the RAW body bytes rather than by a principal — an external caller has no validated org — and the org is then resolved FROM the record the signed provider reference matches, so a call can only ever touch the one tenant that owns that reference.  The body carries NO trusted decision. A valid signature cannot force a status: the reference only says WHICH check to re-read, and the status is then pulled from the wired provider, which stays the source of truth. With no real provider configured a check stays pending, and the only route to a passing status is the role-gated, attributed reviewer decision.  An unknown reference is a benign 200 `{\"ignored\": ...}` no-op, not an error, so a provider replaying stale events neither retry-storms nor learns whether a reference exists in some other tenant. Fails closed otherwise: 501 unless a webhook secret is configured, 401 on a signature that does not verify, 400 with no provider reference, 413 over 1 MiB, and 502 if the secret or the provider is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4428,9 +4428,9 @@ class ComplianceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Provider push that settles a verification, authenticated by HMAC signature
+        """Is the provider push that settles a verification, authenticated by HMAC signature.
 
-        The external PUSH reconcile: a verification provider (or a Hanzo relay) signals that a check settled, and the reconciled check comes back. It authenticates by an HMAC SIGNATURE over the RAW body bytes rather than by a principal — an external caller has no validated org — and the org is then resolved FROM the record the signed provider reference matches, so a call can only ever touch the one tenant that owns that reference.  The body carries NO trusted decision. A valid signature cannot force a status: the reference only says WHICH check to re-read, and the status is then pulled from the wired provider, which stays the source of truth. With no real provider configured a check stays pending, and the only route to a passing status is the role-gated, attributed reviewer decision.  An unknown reference is a benign 200 `{\"ignored\": ...}` no-op, not an error, so a provider replaying stale events neither retry-storms nor learns whether a reference exists in some other tenant. Fails closed otherwise: 501 unless a webhook secret is configured, 401 on a signature that does not verify, 400 with no provider reference, 413 over 1 MiB, and 502 if the secret or the provider is unreachable.
+        Is the provider push that settles a verification, authenticated by HMAC signature.  It is the external PUSH reconcile: a verification provider (or a Hanzo relay) signals that a check settled, and the reconciled check comes back. It authenticates by an HMAC SIGNATURE over the RAW body bytes rather than by a principal — an external caller has no validated org — and the org is then resolved FROM the record the signed provider reference matches, so a call can only ever touch the one tenant that owns that reference.  The body carries NO trusted decision. A valid signature cannot force a status: the reference only says WHICH check to re-read, and the status is then pulled from the wired provider, which stays the source of truth. With no real provider configured a check stays pending, and the only route to a passing status is the role-gated, attributed reviewer decision.  An unknown reference is a benign 200 `{\"ignored\": ...}` no-op, not an error, so a provider replaying stale events neither retry-storms nor learns whether a reference exists in some other tenant. Fails closed otherwise: 501 unless a webhook secret is configured, 401 on a signature that does not verify, 400 with no provider reference, 413 over 1 MiB, and 502 if the secret or the provider is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

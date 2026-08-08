@@ -43,7 +43,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_delete_sync_id(
+    def delete_v1_sync_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_delete_sync_id_serialize(
+        _param = self._delete_v1_sync_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_delete_sync_id_with_http_info(
+    def delete_v1_sync_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_delete_sync_id_serialize(
+        _param = self._delete_v1_sync_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_delete_sync_id_without_preload_content(
+    def delete_v1_sync_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_delete_sync_id_serialize(
+        _param = self._delete_v1_sync_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class SyncApi:
         return response_data.response
 
 
-    def _v1_delete_sync_id_serialize(
+    def _delete_v1_sync_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -296,7 +296,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_get_sync(
+    def get_v1_sync(
         self,
         _request_timeout: Union[
             None,
@@ -337,7 +337,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_get_sync_serialize(
+        _param = self._get_v1_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -359,7 +359,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_get_sync_with_http_info(
+    def get_v1_sync_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -400,7 +400,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_get_sync_serialize(
+        _param = self._get_v1_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -422,7 +422,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_get_sync_without_preload_content(
+    def get_v1_sync_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -463,7 +463,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_get_sync_serialize(
+        _param = self._get_v1_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -480,7 +480,7 @@ class SyncApi:
         return response_data.response
 
 
-    def _v1_get_sync_serialize(
+    def _get_v1_sync_serialize(
         self,
         _request_auth,
         _content_type,
@@ -541,7 +541,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_get_sync_id(
+    def get_v1_sync_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -585,7 +585,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_get_sync_id_serialize(
+        _param = self._get_v1_sync_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -608,7 +608,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_get_sync_id_with_http_info(
+    def get_v1_sync_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -652,7 +652,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_get_sync_id_serialize(
+        _param = self._get_v1_sync_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -675,7 +675,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_get_sync_id_without_preload_content(
+    def get_v1_sync_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -719,7 +719,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_get_sync_id_serialize(
+        _param = self._get_v1_sync_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -737,7 +737,7 @@ class SyncApi:
         return response_data.response
 
 
-    def _v1_get_sync_id_serialize(
+    def _get_v1_sync_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -801,7 +801,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_patch_sync_id(
+    def patch_v1_sync_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to update, from the path.")],
         patch_sync_in: PatchSyncIn,
@@ -848,7 +848,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_patch_sync_id_serialize(
+        _param = self._patch_v1_sync_by_id_serialize(
             id=id,
             patch_sync_in=patch_sync_in,
             _request_auth=_request_auth,
@@ -872,7 +872,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_patch_sync_id_with_http_info(
+    def patch_v1_sync_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to update, from the path.")],
         patch_sync_in: PatchSyncIn,
@@ -919,7 +919,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_patch_sync_id_serialize(
+        _param = self._patch_v1_sync_by_id_serialize(
             id=id,
             patch_sync_in=patch_sync_in,
             _request_auth=_request_auth,
@@ -943,7 +943,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_patch_sync_id_without_preload_content(
+    def patch_v1_sync_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to update, from the path.")],
         patch_sync_in: PatchSyncIn,
@@ -990,7 +990,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_patch_sync_id_serialize(
+        _param = self._patch_v1_sync_by_id_serialize(
             id=id,
             patch_sync_in=patch_sync_in,
             _request_auth=_request_auth,
@@ -1009,7 +1009,7 @@ class SyncApi:
         return response_data.response
 
 
-    def _v1_patch_sync_id_serialize(
+    def _patch_v1_sync_by_id_serialize(
         self,
         id,
         patch_sync_in,
@@ -1089,7 +1089,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_post_sync(
+    def post_v1_sync(
         self,
         sync_req: SyncReq,
         _request_timeout: Union[
@@ -1133,7 +1133,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_post_sync_serialize(
+        _param = self._post_v1_sync_serialize(
             sync_req=sync_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1156,7 +1156,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_post_sync_with_http_info(
+    def post_v1_sync_with_http_info(
         self,
         sync_req: SyncReq,
         _request_timeout: Union[
@@ -1200,7 +1200,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_post_sync_serialize(
+        _param = self._post_v1_sync_serialize(
             sync_req=sync_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1223,7 +1223,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_post_sync_without_preload_content(
+    def post_v1_sync_without_preload_content(
         self,
         sync_req: SyncReq,
         _request_timeout: Union[
@@ -1267,7 +1267,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_post_sync_serialize(
+        _param = self._post_v1_sync_serialize(
             sync_req=sync_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1285,7 +1285,7 @@ class SyncApi:
         return response_data.response
 
 
-    def _v1_post_sync_serialize(
+    def _post_v1_sync_serialize(
         self,
         sync_req,
         _request_auth,
@@ -1362,7 +1362,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_post_sync_id_run(
+    def post_v1_sync_by_id_run(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -1406,7 +1406,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_post_sync_id_run_serialize(
+        _param = self._post_v1_sync_by_id_run_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1429,7 +1429,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_post_sync_id_run_with_http_info(
+    def post_v1_sync_by_id_run_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -1473,7 +1473,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_post_sync_id_run_serialize(
+        _param = self._post_v1_sync_by_id_run_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1496,7 +1496,7 @@ class SyncApi:
 
 
     @validate_call
-    def v1_post_sync_id_run_without_preload_content(
+    def post_v1_sync_by_id_run_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to act on, from the path.")],
         _request_timeout: Union[
@@ -1540,7 +1540,7 @@ class SyncApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._v1_post_sync_id_run_serialize(
+        _param = self._post_v1_sync_by_id_run_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1558,7 +1558,7 @@ class SyncApi:
         return response_data.response
 
 
-    def _v1_post_sync_id_run_serialize(
+    def _post_v1_sync_by_id_run_serialize(
         self,
         id,
         _request_auth,

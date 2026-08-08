@@ -26,16 +26,16 @@ class InboxView(BaseModel):
     """
     InboxView
     """ # noqa: E501
-    account: Optional[StrictStr] = None
-    channel: Optional[StrictStr] = None
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    id: Optional[StrictInt] = None
-    reply_to: Optional[StrictStr] = Field(default=None, alias="replyTo")
-    room_id: Optional[StrictStr] = Field(default=None, alias="roomId")
-    room_kind: Optional[StrictStr] = Field(default=None, alias="roomKind")
-    sender: Optional[StrictStr] = None
-    sender_user: Optional[StrictStr] = Field(default=None, alias="senderUser")
-    text: Optional[StrictStr] = None
+    account: Optional[StrictStr] = Field(default=None, description="Account is the lowercased external id of the org's connected account on that transport: the Discord guild id, the Slack team id, the Teams AAD tenant id, or the bound Telegram chat id. Informational only — the gate keys on (org, channel), never on the account.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel is the transport this message arrived on — discord, slack, teams or telegram — and the `:channel` segment to reply through.")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is Unix SECONDS, stamped by the ingest goroutine when the message was accepted — not the transport's own send time. Rows are dropped 30 days after it.", alias="createdAt")
+    id: Optional[StrictInt] = Field(default=None, description="ID is the store's row id, assigned on insert — SERVER-SET, and the cursor: pass a page's last id back as `since`. It rises with arrival order but is not contiguous, because one sequence is shared by every org in the store and a caller reads only its own rows.")
+    reply_to: Optional[StrictStr] = Field(default=None, description="ReplyTo is the transport's reply target for this message: Slack's thread_ts, or the Telegram message id it arrived as. Send it back as the body's `replyTo` to answer in the SAME thread. Empty means the transport reported none — a top-level Slack message, and every Discord and Teams message, since neither carries one — and a reply then lands at the top level of the room.", alias="replyTo")
+    room_id: Optional[StrictStr] = Field(default=None, description="RoomID is the conversation on the ORIGINATING transport, and the value to send back as `room.id`: a Discord channel snowflake, a Slack conversation id (D… IM, C… public channel, G… private or mpim), a Teams conversation id (19:…@thread.… for a channel or group chat, a:… for a personal chat), or a Telegram chat id in decimal (negative for a group, positive for a DM). It is stable for the life of the room, so every message from one conversation carries the same value.", alias="roomId")
+    room_kind: Optional[StrictStr] = Field(default=None, description="RoomKind is how ingest classified the room: \"dm\", \"group\" or \"thread\". It decides which policy gated the message — dmPolicy for \"dm\", groupPolicy for BOTH \"group\" and \"thread\". Only Slack ever reports \"thread\"; Telegram's reply-to id becomes ReplyTo instead, and Discord's ingress is guild-scoped so its rooms are always \"group\".", alias="roomKind")
+    sender: Optional[StrictStr] = Field(default=None, description="Sender is the TRANSPORT-NATIVE user id of whoever wrote the message — a Discord member.user.id, a Slack U… user id, a Teams aadObjectId (falling back to from.id), a Telegram from.id in decimal. Stable per person per transport, and the identity the gate keys on: an allow entry, an access-group member and a pairing approval all name exactly this value.")
+    sender_user: Optional[StrictStr] = Field(default=None, description="SenderUser is the HANZO account subject that chat identity is linked to, resolved at ingest through the org's user link. Best-effort and omitted when absent: a person who never linked their chat account — or a link store that could not be read — leaves it empty and is never blocked for it.", alias="senderUser")
+    text: Optional[StrictStr] = Field(default=None, description="Text is the body as the transport delivered it, with the bot mention already stripped by the ingress adapter (on Discord it is the /hanzo prompt argument, since that ingress is slash commands only), truncated to 8 KiB on store. Inbound attachments are not stored — this is the whole of what was said.")
     __properties: ClassVar[List[str]] = ["account", "channel", "createdAt", "id", "replyTo", "roomId", "roomKind", "sender", "senderUser", "text"]
 
     model_config = ConfigDict(

@@ -28,6 +28,7 @@ class RunnerBuildReq(BaseModel):
     RunnerBuildReq
     """ # noqa: E501
     arch: Optional[StrictStr] = Field(default=None, description="Arch is the target architecture for the artifact lane.")
+    args: Optional[Dict[str, StrictStr]] = Field(default=None, description="Args are --build-arg values. They are what lets several images off ONE Dockerfile mean different things — the sandbox classes are three entries differing only by STAGE. Validated at the k8s choke point, with VERSION and REVISION taking precedence: those are receipts the builder derives from the tag and the commit, and a caller that could overwrite them could make an image lie about which commit it is.")
     binaries: Optional[List[BinarySpec]] = Field(default=None, description="Binaries selects the ARTIFACT lane (artifact.go): build what the repo's hanzo.yml `binaries:` block declares — a Go binary, an npm tarball, a Rust binary — and publish it to hanzoai/s3 instead of pushing an image. It is the same recipe hanzoai/ci reads, sent verbatim, so `image` is meaningless here and must be absent.")
     branch: Optional[StrictStr] = Field(default=None, description="Branch is the branch to build when no SHA or Ref is given.")
     bucket: Optional[StrictStr] = Field(default=None, description="Bucket mirrors hanzo.yml's `bucket:` — where the artifact lane publishes.")
@@ -42,7 +43,7 @@ class RunnerBuildReq(BaseModel):
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository clone URL to build. Required on the image lane.")
     sha: Optional[StrictStr] = Field(default=None, description="SHA is the commit to pin; it wins over Ref and Branch.")
     tag: Optional[StrictStr] = Field(default=None, description="Tag is the publish path segment, so both front doors write ONE index at ONE URL. It defaults to the pinned ref, and must be named explicitly for a branch.")
-    __properties: ClassVar[List[str]] = ["arch", "binaries", "branch", "bucket", "context", "dockerTarget", "dockerfile", "image", "organizationId", "os", "ref", "release", "repo", "sha", "tag"]
+    __properties: ClassVar[List[str]] = ["arch", "args", "binaries", "branch", "bucket", "context", "dockerTarget", "dockerfile", "image", "organizationId", "os", "ref", "release", "repo", "sha", "tag"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -103,6 +104,7 @@ class RunnerBuildReq(BaseModel):
 
         _obj = cls.model_validate({
             "arch": obj.get("arch"),
+            "args": obj.get("args"),
             "binaries": [BinarySpec.from_dict(_item) for _item in obj["binaries"]] if obj.get("binaries") is not None else None,
             "branch": obj.get("branch"),
             "bucket": obj.get("bucket"),

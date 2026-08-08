@@ -40,7 +40,7 @@ class MlApi:
 
 
     @validate_call
-    def delete_v1_ml_models_name(
+    def delete_v1_ml_models_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ml_models_name_serialize(
+        _param = self._delete_v1_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -107,7 +107,7 @@ class MlApi:
 
 
     @validate_call
-    def delete_v1_ml_models_name_with_http_info(
+    def delete_v1_ml_models_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -151,7 +151,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ml_models_name_serialize(
+        _param = self._delete_v1_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -174,7 +174,7 @@ class MlApi:
 
 
     @validate_call
-    def delete_v1_ml_models_name_without_preload_content(
+    def delete_v1_ml_models_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -218,7 +218,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ml_models_name_serialize(
+        _param = self._delete_v1_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -236,7 +236,7 @@ class MlApi:
         return response_data.response
 
 
-    def _delete_v1_ml_models_name_serialize(
+    def _delete_v1_ml_models_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -773,7 +773,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_name(
+    def get_v1_ml_models_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -817,7 +817,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_name_serialize(
+        _param = self._get_v1_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -840,7 +840,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_name_with_http_info(
+    def get_v1_ml_models_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -884,7 +884,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_name_serialize(
+        _param = self._get_v1_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -907,7 +907,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_name_without_preload_content(
+    def get_v1_ml_models_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -951,7 +951,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_name_serialize(
+        _param = self._get_v1_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -969,7 +969,7 @@ class MlApi:
         return response_data.response
 
 
-    def _get_v1_ml_models_name_serialize(
+    def _get_v1_ml_models_by_name_serialize(
         self,
         name,
         _request_auth,

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.admin_affiliate_view import AdminAffiliateView
 from hanzoai.cloud.models.totals import Totals
@@ -28,8 +28,8 @@ class DirectoryData(BaseModel):
     """
     DirectoryData
     """ # noqa: E501
-    affiliates: Optional[List[AdminAffiliateView]] = None
-    summary: Optional[Totals] = None
+    affiliates: Optional[List[AdminAffiliateView]] = Field(default=None, description="Affiliates is one row per affiliate across the whole fleet, ORG EXPOSED, oldest first and bounded by the request's limit.")
+    summary: Optional[Totals] = Field(default=None, description="Summary tallies exactly the rows above — not the whole table — so a limit that truncates the page truncates the tally with it.")
     __properties: ClassVar[List[str]] = ["affiliates", "summary"]
 
     model_config = ConfigDict(

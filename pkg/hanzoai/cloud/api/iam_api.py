@@ -16,8 +16,10 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictInt, StrictStr
-from typing import Optional
+from pydantic import Field, StrictInt, StrictStr
+from typing import Any, Optional
+from typing_extensions import Annotated
+from hanzoai.cloud.models.iam_answer import IamAnswer
 from hanzoai.cloud.models.iam_application import IamApplication
 from hanzoai.cloud.models.iam_application_list_result import IamApplicationListResult
 from hanzoai.cloud.models.iam_application_ref import IamApplicationRef
@@ -27,6 +29,7 @@ from hanzoai.cloud.models.iam_cert import IamCert
 from hanzoai.cloud.models.iam_certs_delete_output import IamCertsDeleteOutput
 from hanzoai.cloud.models.iam_certs_list_output import IamCertsListOutput
 from hanzoai.cloud.models.iam_certs_ref import IamCertsRef
+from hanzoai.cloud.models.iam_config import IamConfig
 from hanzoai.cloud.models.iam_create_input import IamCreateInput
 from hanzoai.cloud.models.iam_create_organization_input import IamCreateOrganizationInput
 from hanzoai.cloud.models.iam_create_session_in import IamCreateSessionIn
@@ -58,6 +61,7 @@ from hanzoai.cloud.models.iam_permission import IamPermission
 from hanzoai.cloud.models.iam_permission_delete_response import IamPermissionDeleteResponse
 from hanzoai.cloud.models.iam_permission_list_response import IamPermissionListResponse
 from hanzoai.cloud.models.iam_permission_ref import IamPermissionRef
+from hanzoai.cloud.models.iam_person import IamPerson
 from hanzoai.cloud.models.iam_project import IamProject
 from hanzoai.cloud.models.iam_projects_delete_output import IamProjectsDeleteOutput
 from hanzoai.cloud.models.iam_projects_list_output import IamProjectsListOutput
@@ -66,6 +70,8 @@ from hanzoai.cloud.models.iam_provider import IamProvider
 from hanzoai.cloud.models.iam_provider_key import IamProviderKey
 from hanzoai.cloud.models.iam_provider_result import IamProviderResult
 from hanzoai.cloud.models.iam_ref import IamRef
+from hanzoai.cloud.models.iam_registration import IamRegistration
+from hanzoai.cloud.models.iam_reply import IamReply
 from hanzoai.cloud.models.iam_response import IamResponse
 from hanzoai.cloud.models.iam_role import IamRole
 from hanzoai.cloud.models.iam_roles_delete_output import IamRolesDeleteOutput
@@ -6056,6 +6062,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_auth_application(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id — the one field that selects which login screen this is.")] = None,
+        response_type: Annotated[Optional[StrictStr], Field(description="ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6068,11 +6076,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamAnswer:
         """Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.
 
         Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.  The client secret is masked. Read before anyone has signed in, so it carries only what is safe for a browser to see.
 
+        :param client_id: ClientId is the application's OAuth client id — the one field that selects which login screen this is.
+        :type client_id: str
+        :param response_type: ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.
+        :type response_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6096,6 +6108,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_auth_application_serialize(
+            client_id=client_id,
+            response_type=response_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6103,6 +6117,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6118,6 +6134,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_auth_application_with_http_info(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id — the one field that selects which login screen this is.")] = None,
+        response_type: Annotated[Optional[StrictStr], Field(description="ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6130,11 +6148,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamAnswer]:
         """Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.
 
         Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.  The client secret is masked. Read before anyone has signed in, so it carries only what is safe for a browser to see.
 
+        :param client_id: ClientId is the application's OAuth client id — the one field that selects which login screen this is.
+        :type client_id: str
+        :param response_type: ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.
+        :type response_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6158,6 +6180,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_auth_application_serialize(
+            client_id=client_id,
+            response_type=response_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6165,6 +6189,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6180,6 +6206,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_auth_application_without_preload_content(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id — the one field that selects which login screen this is.")] = None,
+        response_type: Annotated[Optional[StrictStr], Field(description="ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6197,6 +6225,10 @@ class IamApi:
 
         Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.  The client secret is masked. Read before anyone has signed in, so it carries only what is safe for a browser to see.
 
+        :param client_id: ClientId is the application's OAuth client id — the one field that selects which login screen this is.
+        :type client_id: str
+        :param response_type: ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.
+        :type response_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6220,6 +6252,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_auth_application_serialize(
+            client_id=client_id,
+            response_type=response_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6227,6 +6261,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6237,6 +6273,8 @@ class IamApi:
 
     def _get_v1_iam_auth_application_serialize(
         self,
+        client_id,
+        response_type,
         _request_auth,
         _content_type,
         _headers,
@@ -6259,11 +6297,26 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if client_id is not None:
+            
+            _query_params.append(('clientId', client_id))
+            
+        if response_type is not None:
+            
+            _query_params.append(('responseType', response_type))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6291,6 +6344,7 @@ class IamApi:
     @validate_call
     def get_v1_iam_auth_methods(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6303,11 +6357,13 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamAnswer:
         """Returns the sign-in methods one application actually has switched on, so a login screen can render the right buttons for it without you hard-coding a list that drifts the moment you add a provider.
 
         Returns the sign-in methods one application actually has switched on, so a login screen can render the right buttons for it without you hard-coding a list that drifts the moment you add a provider.  Public by design: it is read before anyone has signed in, and it exposes only which methods exist, never their credentials.
 
+        :param client_id: ClientId is the application's OAuth client id.
+        :type client_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6331,6 +6387,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_auth_methods_serialize(
+            client_id=client_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6338,6 +6395,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6353,6 +6412,7 @@ class IamApi:
     @validate_call
     def get_v1_iam_auth_methods_with_http_info(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6365,11 +6425,13 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamAnswer]:
         """Returns the sign-in methods one application actually has switched on, so a login screen can render the right buttons for it without you hard-coding a list that drifts the moment you add a provider.
 
         Returns the sign-in methods one application actually has switched on, so a login screen can render the right buttons for it without you hard-coding a list that drifts the moment you add a provider.  Public by design: it is read before anyone has signed in, and it exposes only which methods exist, never their credentials.
 
+        :param client_id: ClientId is the application's OAuth client id.
+        :type client_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6393,6 +6455,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_auth_methods_serialize(
+            client_id=client_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6400,6 +6463,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6415,6 +6480,7 @@ class IamApi:
     @validate_call
     def get_v1_iam_auth_methods_without_preload_content(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6432,6 +6498,8 @@ class IamApi:
 
         Returns the sign-in methods one application actually has switched on, so a login screen can render the right buttons for it without you hard-coding a list that drifts the moment you add a provider.  Public by design: it is read before anyone has signed in, and it exposes only which methods exist, never their credentials.
 
+        :param client_id: ClientId is the application's OAuth client id.
+        :type client_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6455,6 +6523,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_auth_methods_serialize(
+            client_id=client_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6462,6 +6531,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6472,6 +6543,7 @@ class IamApi:
 
     def _get_v1_iam_auth_methods_serialize(
         self,
+        client_id,
         _request_auth,
         _content_type,
         _headers,
@@ -6494,11 +6566,22 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if client_id is not None:
+            
+            _query_params.append(('clientId', client_id))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6803,7 +6886,7 @@ class IamApi:
     ) -> None:
         """Returns the calling person's own privacy and communication choices.
 
-        Returns the calling person's own privacy and communication choices. Somebody who has never set them gets the defaults rather than nothing, so a consent screen always has something to show.
+        Returns the calling person's own privacy and communication choices. Somebody who has never set them gets the defaults rather than nothing, so a consent screen always has something to show — insights on, and training UNANSWERED, which is the state that means the screen still has to ask.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6865,7 +6948,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Returns the calling person's own privacy and communication choices.
 
-        Returns the calling person's own privacy and communication choices. Somebody who has never set them gets the defaults rather than nothing, so a consent screen always has something to show.
+        Returns the calling person's own privacy and communication choices. Somebody who has never set them gets the defaults rather than nothing, so a consent screen always has something to show — insights on, and training UNANSWERED, which is the state that means the screen still has to ask.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6927,7 +7010,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Returns the calling person's own privacy and communication choices.
 
-        Returns the calling person's own privacy and communication choices. Somebody who has never set them gets the defaults rather than nothing, so a consent screen always has something to show.
+        Returns the calling person's own privacy and communication choices. Somebody who has never set them gets the defaults rather than nothing, so a consent screen always has something to show — insights on, and training UNANSWERED, which is the state that means the screen still has to ask.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7258,6 +7341,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_get_app_login(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id — the one field that selects which login screen this is.")] = None,
+        response_type: Annotated[Optional[StrictStr], Field(description="ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7270,11 +7355,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamAnswer:
         """Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.
 
         Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.  The client secret is masked. Read before anyone has signed in, so it carries only what is safe for a browser to see.
 
+        :param client_id: ClientId is the application's OAuth client id — the one field that selects which login screen this is.
+        :type client_id: str
+        :param response_type: ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.
+        :type response_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7298,6 +7387,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_get_app_login_serialize(
+            client_id=client_id,
+            response_type=response_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7305,6 +7396,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7320,6 +7413,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_get_app_login_with_http_info(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id — the one field that selects which login screen this is.")] = None,
+        response_type: Annotated[Optional[StrictStr], Field(description="ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7332,11 +7427,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamAnswer]:
         """Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.
 
         Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.  The client secret is masked. Read before anyone has signed in, so it carries only what is safe for a browser to see.
 
+        :param client_id: ClientId is the application's OAuth client id — the one field that selects which login screen this is.
+        :type client_id: str
+        :param response_type: ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.
+        :type response_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7360,6 +7459,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_get_app_login_serialize(
+            client_id=client_id,
+            response_type=response_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7367,6 +7468,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7382,6 +7485,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_get_app_login_without_preload_content(
         self,
+        client_id: Annotated[Optional[StrictStr], Field(description="ClientId is the application's OAuth client id — the one field that selects which login screen this is.")] = None,
+        response_type: Annotated[Optional[StrictStr], Field(description="ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7399,6 +7504,10 @@ class IamApi:
 
         Returns everything a login screen needs to draw itself for one application: its branding, and each sign-in method it offers with the provider details that method needs.  The client secret is masked. Read before anyone has signed in, so it carries only what is safe for a browser to see.
 
+        :param client_id: ClientId is the application's OAuth client id — the one field that selects which login screen this is.
+        :type client_id: str
+        :param response_type: ResponseType is the OAuth response type the screen will ask for. Only \"code\" is served; anything else is refused here rather than at the authorize leg, where the person has already typed a password.
+        :type response_type: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7422,6 +7531,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_get_app_login_serialize(
+            client_id=client_id,
+            response_type=response_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7429,6 +7540,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7439,6 +7552,8 @@ class IamApi:
 
     def _get_v1_iam_get_app_login_serialize(
         self,
+        client_id,
+        response_type,
         _request_auth,
         _content_type,
         _headers,
@@ -7461,11 +7576,26 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if client_id is not None:
+            
+            _query_params.append(('clientId', client_id))
+            
+        if response_type is not None:
+            
+            _query_params.append(('responseType', response_type))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -8903,6 +9033,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_get_memberships(
         self,
+        user: Annotated[Optional[StrictStr], Field(description="User is \"<homeOrg>/<username>\" — which organizations that identity may act in.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org is an organization — who may act in it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8915,11 +9047,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamAnswer:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
         Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
 
+        :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
+        :type user: str
+        :param org: Org is an organization — who may act in it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8943,6 +9079,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_get_memberships_serialize(
+            user=user,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8950,6 +9088,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8965,6 +9105,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_get_memberships_with_http_info(
         self,
+        user: Annotated[Optional[StrictStr], Field(description="User is \"<homeOrg>/<username>\" — which organizations that identity may act in.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org is an organization — who may act in it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8977,11 +9119,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamAnswer]:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
         Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
 
+        :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
+        :type user: str
+        :param org: Org is an organization — who may act in it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9005,6 +9151,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_get_memberships_serialize(
+            user=user,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9012,6 +9160,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9027,6 +9177,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_get_memberships_without_preload_content(
         self,
+        user: Annotated[Optional[StrictStr], Field(description="User is \"<homeOrg>/<username>\" — which organizations that identity may act in.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org is an organization — who may act in it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9044,6 +9196,10 @@ class IamApi:
 
         Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
 
+        :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
+        :type user: str
+        :param org: Org is an organization — who may act in it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9067,6 +9223,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_get_memberships_serialize(
+            user=user,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9074,6 +9232,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9084,6 +9244,8 @@ class IamApi:
 
     def _get_v1_iam_get_memberships_serialize(
         self,
+        user,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -9106,11 +9268,26 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if user is not None:
+            
+            _query_params.append(('user', user))
+            
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13231,6 +13408,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_memberships(
         self,
+        user: Annotated[Optional[StrictStr], Field(description="User is \"<homeOrg>/<username>\" — which organizations that identity may act in.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org is an organization — who may act in it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13243,11 +13422,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamAnswer:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
         Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
 
+        :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
+        :type user: str
+        :param org: Org is an organization — who may act in it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13271,6 +13454,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_memberships_serialize(
+            user=user,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13278,6 +13463,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13293,6 +13480,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_memberships_with_http_info(
         self,
+        user: Annotated[Optional[StrictStr], Field(description="User is \"<homeOrg>/<username>\" — which organizations that identity may act in.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org is an organization — who may act in it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13305,11 +13494,15 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamAnswer]:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
         Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
 
+        :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
+        :type user: str
+        :param org: Org is an organization — who may act in it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13333,6 +13526,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_memberships_serialize(
+            user=user,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13340,6 +13535,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13355,6 +13552,8 @@ class IamApi:
     @validate_call
     def get_v1_iam_memberships_without_preload_content(
         self,
+        user: Annotated[Optional[StrictStr], Field(description="User is \"<homeOrg>/<username>\" — which organizations that identity may act in.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org is an organization — who may act in it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13372,6 +13571,10 @@ class IamApi:
 
         Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via authz.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
 
+        :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
+        :type user: str
+        :param org: Org is an organization — who may act in it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13395,6 +13598,8 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_memberships_serialize(
+            user=user,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13402,6 +13607,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13412,6 +13619,8 @@ class IamApi:
 
     def _get_v1_iam_memberships_serialize(
         self,
+        user,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -13434,11 +13643,26 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if user is not None:
+            
+            _query_params.append(('user', user))
+            
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16188,7 +16412,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamListResponse:
         """Returns the kinds of record this directory provisions and the address of each, so your identity provider discovers them rather than having them configured by hand.
 
         Returns the kinds of record this directory provisions and the address of each, so your identity provider discovers them rather than having them configured by hand.
@@ -16223,6 +16447,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamListResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16250,7 +16475,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamListResponse]:
         """Returns the kinds of record this directory provisions and the address of each, so your identity provider discovers them rather than having them configured by hand.
 
         Returns the kinds of record this directory provisions and the address of each, so your identity provider discovers them rather than having them configured by hand.
@@ -16285,6 +16510,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamListResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16347,6 +16573,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamListResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16384,6 +16611,13 @@ class IamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16424,7 +16658,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> object:
         """Returns one provisionable record kind in full.
 
         Returns one provisionable record kind in full.
@@ -16462,6 +16696,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '404': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16490,7 +16726,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[object]:
         """Returns one provisionable record kind in full.
 
         Returns one provisionable record kind in full.
@@ -16528,6 +16764,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '404': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16594,6 +16832,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '404': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16634,6 +16874,13 @@ class IamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16673,7 +16920,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamListResponse:
         """Returns the attribute definitions this directory understands, so your identity provider knows which fields it may send and what they mean before it sends any.
 
         Returns the attribute definitions this directory understands, so your identity provider knows which fields it may send and what they mean before it sends any.
@@ -16708,6 +16955,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamListResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16735,7 +16983,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamListResponse]:
         """Returns the attribute definitions this directory understands, so your identity provider knows which fields it may send and what they mean before it sends any.
 
         Returns the attribute definitions this directory understands, so your identity provider knows which fields it may send and what they mean before it sends any.
@@ -16770,6 +17018,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamListResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16832,6 +17081,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamListResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16869,6 +17119,13 @@ class IamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16909,7 +17166,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> object:
         """Returns one attribute definition in full.
 
         Returns one attribute definition in full.
@@ -16947,6 +17204,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '404': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16975,7 +17234,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[object]:
         """Returns one attribute definition in full.
 
         Returns one attribute definition in full.
@@ -17013,6 +17272,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '404': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17079,6 +17340,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
+            '404': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17119,6 +17382,13 @@ class IamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -17158,7 +17428,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamConfig:
         """Tells your identity provider which parts of SCIM this directory supports, so it configures itself instead of you filling in a form.
 
         Tells your identity provider which parts of SCIM this directory supports, so it configures itself instead of you filling in a form.  Filtering and partial updates are supported. Bulk operations, sorting and entity tags are not — an IdP that reads this will not attempt them.
@@ -17193,6 +17463,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17220,7 +17491,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamConfig]:
         """Tells your identity provider which parts of SCIM this directory supports, so it configures itself instead of you filling in a form.
 
         Tells your identity provider which parts of SCIM this directory supports, so it configures itself instead of you filling in a form.  Filtering and partial updates are supported. Bulk operations, sorting and entity tags are not — an IdP that reads this will not attempt them.
@@ -17255,6 +17526,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17317,6 +17589,7 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17354,6 +17627,13 @@ class IamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -17881,6 +18161,9 @@ class IamApi:
     @validate_call
     def get_v1_iam_service_accounts(
         self,
+        organization: Annotated[Optional[StrictStr], Field(description="Organization is the organization whose service accounts to list. Required.")] = None,
+        p: Annotated[Optional[StrictInt], Field(description="P is the 1-indexed page to return. Paging takes both p and pageSize — leave either out, or send something that is not a number, and the whole list comes back.")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="Size is how many accounts a page holds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17893,11 +18176,17 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> IamAnswer:
         """Returns your organization's service accounts — what each is called and when it was created.
 
         Returns your organization's service accounts — what each is called and when it was created. Never their secrets: a key's secret half exists in a response exactly once, when it is minted. Paginated in memory over the already org-scoped slice — the set per org is small, so a dedicated count query is overkill (v1 service_account.go:296-307).
 
+        :param organization: Organization is the organization whose service accounts to list. Required.
+        :type organization: str
+        :param p: P is the 1-indexed page to return. Paging takes both p and pageSize — leave either out, or send something that is not a number, and the whole list comes back.
+        :type p: int
+        :param page_size: Size is how many accounts a page holds.
+        :type page_size: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17921,6 +18210,9 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_service_accounts_serialize(
+            organization=organization,
+            p=p,
+            page_size=page_size,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17928,6 +18220,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17943,6 +18237,9 @@ class IamApi:
     @validate_call
     def get_v1_iam_service_accounts_with_http_info(
         self,
+        organization: Annotated[Optional[StrictStr], Field(description="Organization is the organization whose service accounts to list. Required.")] = None,
+        p: Annotated[Optional[StrictInt], Field(description="P is the 1-indexed page to return. Paging takes both p and pageSize — leave either out, or send something that is not a number, and the whole list comes back.")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="Size is how many accounts a page holds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17955,11 +18252,17 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[IamAnswer]:
         """Returns your organization's service accounts — what each is called and when it was created.
 
         Returns your organization's service accounts — what each is called and when it was created. Never their secrets: a key's secret half exists in a response exactly once, when it is minted. Paginated in memory over the already org-scoped slice — the set per org is small, so a dedicated count query is overkill (v1 service_account.go:296-307).
 
+        :param organization: Organization is the organization whose service accounts to list. Required.
+        :type organization: str
+        :param p: P is the 1-indexed page to return. Paging takes both p and pageSize — leave either out, or send something that is not a number, and the whole list comes back.
+        :type p: int
+        :param page_size: Size is how many accounts a page holds.
+        :type page_size: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -17983,6 +18286,9 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_service_accounts_serialize(
+            organization=organization,
+            p=p,
+            page_size=page_size,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17990,6 +18296,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18005,6 +18313,9 @@ class IamApi:
     @validate_call
     def get_v1_iam_service_accounts_without_preload_content(
         self,
+        organization: Annotated[Optional[StrictStr], Field(description="Organization is the organization whose service accounts to list. Required.")] = None,
+        p: Annotated[Optional[StrictInt], Field(description="P is the 1-indexed page to return. Paging takes both p and pageSize — leave either out, or send something that is not a number, and the whole list comes back.")] = None,
+        page_size: Annotated[Optional[StrictInt], Field(description="Size is how many accounts a page holds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -18022,6 +18333,12 @@ class IamApi:
 
         Returns your organization's service accounts — what each is called and when it was created. Never their secrets: a key's secret half exists in a response exactly once, when it is minted. Paginated in memory over the already org-scoped slice — the set per org is small, so a dedicated count query is overkill (v1 service_account.go:296-307).
 
+        :param organization: Organization is the organization whose service accounts to list. Required.
+        :type organization: str
+        :param p: P is the 1-indexed page to return. Paging takes both p and pageSize — leave either out, or send something that is not a number, and the whole list comes back.
+        :type p: int
+        :param page_size: Size is how many accounts a page holds.
+        :type page_size: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -18045,6 +18362,9 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._get_v1_iam_service_accounts_serialize(
+            organization=organization,
+            p=p,
+            page_size=page_size,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18052,6 +18372,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18062,6 +18384,9 @@ class IamApi:
 
     def _get_v1_iam_service_accounts_serialize(
         self,
+        organization,
+        p,
+        page_size,
         _request_auth,
         _content_type,
         _headers,
@@ -18084,11 +18409,30 @@ class IamApi:
 
         # process the path parameters
         # process the query parameters
+        if organization is not None:
+            
+            _query_params.append(('organization', organization))
+            
+        if p is not None:
+            
+            _query_params.append(('p', p))
+            
+        if page_size is not None:
+            
+            _query_params.append(('pageSize', page_size))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -24182,241 +24526,6 @@ class IamApi:
 
 
     @validate_call
-    def post_v1_iam_admin_applications_upsert(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.
-
-        Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.  It says which of the two it did. Leave the client secret out and the existing one is kept — so re-running your deployment does not rotate a credential your running services are holding.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_admin_applications_upsert_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_v1_iam_admin_applications_upsert_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.
-
-        Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.  It says which of the two it did. Leave the client secret out and the existing one is kept — so re-running your deployment does not rotate a credential your running services are holding.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_admin_applications_upsert_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_v1_iam_admin_applications_upsert_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.
-
-        Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.  It says which of the two it did. Leave the client secret out and the existing one is kept — so re-running your deployment does not rotate a credential your running services are holding.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_admin_applications_upsert_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_v1_iam_admin_applications_upsert_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/iam/admin/applications/upsert',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def post_v1_iam_admin_provision(
         self,
         _request_timeout: Union[
@@ -24636,241 +24745,6 @@ class IamApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/iam/admin/provision',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_v1_iam_admin_users_upsert(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
-
-        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_admin_users_upsert_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_v1_iam_admin_users_upsert_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
-
-        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_admin_users_upsert_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_v1_iam_admin_users_upsert_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
-
-        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_admin_users_upsert_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_v1_iam_admin_users_upsert_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/iam/admin/users/upsert',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -28686,9 +28560,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Turns off the authenticator app for an account, so sign-in stops asking for a code.
+        """Turns a factor off, so sign-in stops asking for it.
 
-        Turns off the authenticator app for an account, so sign-in stops asking for a code. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the reset path when a phone is lost.
+        Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28748,9 +28622,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Turns off the authenticator app for an account, so sign-in stops asking for a code.
+        """Turns a factor off, so sign-in stops asking for it.
 
-        Turns off the authenticator app for an account, so sign-in stops asking for a code. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the reset path when a phone is lost.
+        Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28810,9 +28684,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Turns off the authenticator app for an account, so sign-in stops asking for a code.
+        """Turns a factor off, so sign-in stops asking for it.
 
-        Turns off the authenticator app for an account, so sign-in stops asking for a code. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the reset path when a phone is lost.
+        Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -33160,6 +33034,241 @@ class IamApi:
 
 
     @validate_call
+    def post_v1_iam_link(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Starts connecting another sign-in identity to the account you are already signed in as.
+
+        Starts connecting another sign-in identity to the account you are already signed in as. It answers with the provider's URL for the browser to follow; when the provider returns, that identity is attached and you come back to returnUri.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_iam_link_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_iam_link_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Starts connecting another sign-in identity to the account you are already signed in as.
+
+        Starts connecting another sign-in identity to the account you are already signed in as. It answers with the provider's URL for the browser to follow; when the provider returns, that identity is attached and you come back to returnUri.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_iam_link_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_iam_link_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Starts connecting another sign-in identity to the account you are already signed in as.
+
+        Starts connecting another sign-in identity to the account you are already signed in as. It answers with the provider's URL for the browser to follow; when the provider returns, that identity is attached and you come back to returnUri.  Your account is fixed here, from the credential you are already holding, and is carried server-side for the rest of the round-trip — so nothing that happens at the provider can point the link at somebody else.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_iam_link_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_iam_link_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/link',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_v1_iam_login(
         self,
         _request_timeout: Union[
@@ -33645,9 +33754,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Turns off the authenticator app for an account, so sign-in stops asking for a code.
+        """Turns a factor off, so sign-in stops asking for it.
 
-        Turns off the authenticator app for an account, so sign-in stops asking for a code. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the reset path when a phone is lost.
+        Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -33707,9 +33816,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Turns off the authenticator app for an account, so sign-in stops asking for a code.
+        """Turns a factor off, so sign-in stops asking for it.
 
-        Turns off the authenticator app for an account, so sign-in stops asking for a code. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the reset path when a phone is lost.
+        Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -33769,9 +33878,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Turns off the authenticator app for an account, so sign-in stops asking for a code.
+        """Turns a factor off, so sign-in stops asking for it.
 
-        Turns off the authenticator app for an account, so sign-in stops asking for a code. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the reset path when a phone is lost.
+        Turns a factor off, so sign-in stops asking for it. Naming no factor turns off ALL of them — the reset path. People may do this for themselves; doing it for somebody else takes an administrator, which is what makes it the way back in when a phone is lost.  The recovery codes go with the last factor: they are the way past a challenge, so keeping them alive for an account with nothing to challenge would leave a standing credential behind.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -33880,9 +33989,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Picks which second factor an account is asked for first when it has more than one enrolled.
+        """Picks which second factor an account is asked for first when it has more than one.
 
-        Picks which second factor an account is asked for first when it has more than one enrolled.
+        Picks which second factor an account is asked for first when it has more than one. Only a factor the account actually holds: storing an unheld one told the login gate \"MFA is on\" — factor.Enabled reads that column — while leaving it nothing to ask for, so the sign-in required the password alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -33942,9 +34051,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Picks which second factor an account is asked for first when it has more than one enrolled.
+        """Picks which second factor an account is asked for first when it has more than one.
 
-        Picks which second factor an account is asked for first when it has more than one enrolled.
+        Picks which second factor an account is asked for first when it has more than one. Only a factor the account actually holds: storing an unheld one told the login gate \"MFA is on\" — factor.Enabled reads that column — while leaving it nothing to ask for, so the sign-in required the password alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34004,9 +34113,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Picks which second factor an account is asked for first when it has more than one enrolled.
+        """Picks which second factor an account is asked for first when it has more than one.
 
-        Picks which second factor an account is asked for first when it has more than one enrolled.
+        Picks which second factor an account is asked for first when it has more than one. Only a factor the account actually holds: storing an unheld one told the login gate \"MFA is on\" — factor.Enabled reads that column — while leaving it nothing to ask for, so the sign-in required the password alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34115,9 +34224,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Finishes the enrolment: from here the account's sign-ins ask for a code from the authenticator app.
+        """Finishes the enrolment: from here the account's sign-ins ask for this factor.
 
-        Finishes the enrolment: from here the account's sign-ins ask for a code from the authenticator app. Repeating it re-enrols rather than failing.
+        Finishes the enrolment: from here the account's sign-ins ask for this factor. It requires the proof initiate handed out — a passcode from the authenticator, or the code that was sent — and verifies it BEFORE writing anything.  It used to write on the strength of a `secret` field alone. A client that skipped the verify step, scanned the QR into the wrong app, or was simply buggy switched on a factor no code would ever satisfy, and the account was then locked out with no self-service way back: the gate holds the sign-in before minting, so the person cannot obtain the bearer that disable requires.  The recovery codes are minted here and returned ONCE, on the first factor the account adds. Answering with them is the way back in when no factor can be produced, so they are the same value the row's digests were made from — by construction, not by a client echoing them back.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34177,9 +34286,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Finishes the enrolment: from here the account's sign-ins ask for a code from the authenticator app.
+        """Finishes the enrolment: from here the account's sign-ins ask for this factor.
 
-        Finishes the enrolment: from here the account's sign-ins ask for a code from the authenticator app. Repeating it re-enrols rather than failing.
+        Finishes the enrolment: from here the account's sign-ins ask for this factor. It requires the proof initiate handed out — a passcode from the authenticator, or the code that was sent — and verifies it BEFORE writing anything.  It used to write on the strength of a `secret` field alone. A client that skipped the verify step, scanned the QR into the wrong app, or was simply buggy switched on a factor no code would ever satisfy, and the account was then locked out with no self-service way back: the gate holds the sign-in before minting, so the person cannot obtain the bearer that disable requires.  The recovery codes are minted here and returned ONCE, on the first factor the account adds. Answering with them is the way back in when no factor can be produced, so they are the same value the row's digests were made from — by construction, not by a client echoing them back.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34239,9 +34348,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Finishes the enrolment: from here the account's sign-ins ask for a code from the authenticator app.
+        """Finishes the enrolment: from here the account's sign-ins ask for this factor.
 
-        Finishes the enrolment: from here the account's sign-ins ask for a code from the authenticator app. Repeating it re-enrols rather than failing.
+        Finishes the enrolment: from here the account's sign-ins ask for this factor. It requires the proof initiate handed out — a passcode from the authenticator, or the code that was sent — and verifies it BEFORE writing anything.  It used to write on the strength of a `secret` field alone. A client that skipped the verify step, scanned the QR into the wrong app, or was simply buggy switched on a factor no code would ever satisfy, and the account was then locked out with no self-service way back: the gate holds the sign-in before minting, so the person cannot obtain the bearer that disable requires.  The recovery codes are minted here and returned ONCE, on the first factor the account adds. Answering with them is the way back in when no factor can be produced, so they are the same value the row's digests were made from — by construction, not by a client echoing them back.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34350,9 +34459,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Starts enrolling an authenticator app: it returns a fresh secret, a URL to render as a QR code, and one recovery code to keep somewhere safe.
+        """Starts enrolling a factor and hands over whatever the person needs to prove they hold it: app a fresh secret and the otpauth:// URL to render as a QR code sms a code texted to the number on the account email a code mailed to the address on the account Nothing is switched on yet, so abandoning this step leaves the account exactly as it was.
 
-        Starts enrolling an authenticator app: it returns a fresh secret, a URL to render as a QR code, and one recovery code to keep somewhere safe.  Nothing is switched on yet. The enrolment counts only once it is confirmed with a code from the app, so abandoning this step leaves the account exactly as it was. Response: {status:\"ok\", data:{secret, url, recoveryCodes:[code]}}.
+        Starts enrolling a factor and hands over whatever the person needs to prove they hold it:   app   a fresh secret and the otpauth:// URL to render as a QR code  sms   a code texted to the number on the account  email a code mailed to the address on the account  Nothing is switched on yet, so abandoning this step leaves the account exactly as it was. Response: {status:\"ok\", data:{mfaType, secret, url}} — secret and url only for the authenticator.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34412,9 +34521,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Starts enrolling an authenticator app: it returns a fresh secret, a URL to render as a QR code, and one recovery code to keep somewhere safe.
+        """Starts enrolling a factor and hands over whatever the person needs to prove they hold it: app a fresh secret and the otpauth:// URL to render as a QR code sms a code texted to the number on the account email a code mailed to the address on the account Nothing is switched on yet, so abandoning this step leaves the account exactly as it was.
 
-        Starts enrolling an authenticator app: it returns a fresh secret, a URL to render as a QR code, and one recovery code to keep somewhere safe.  Nothing is switched on yet. The enrolment counts only once it is confirmed with a code from the app, so abandoning this step leaves the account exactly as it was. Response: {status:\"ok\", data:{secret, url, recoveryCodes:[code]}}.
+        Starts enrolling a factor and hands over whatever the person needs to prove they hold it:   app   a fresh secret and the otpauth:// URL to render as a QR code  sms   a code texted to the number on the account  email a code mailed to the address on the account  Nothing is switched on yet, so abandoning this step leaves the account exactly as it was. Response: {status:\"ok\", data:{mfaType, secret, url}} — secret and url only for the authenticator.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34474,9 +34583,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Starts enrolling an authenticator app: it returns a fresh secret, a URL to render as a QR code, and one recovery code to keep somewhere safe.
+        """Starts enrolling a factor and hands over whatever the person needs to prove they hold it: app a fresh secret and the otpauth:// URL to render as a QR code sms a code texted to the number on the account email a code mailed to the address on the account Nothing is switched on yet, so abandoning this step leaves the account exactly as it was.
 
-        Starts enrolling an authenticator app: it returns a fresh secret, a URL to render as a QR code, and one recovery code to keep somewhere safe.  Nothing is switched on yet. The enrolment counts only once it is confirmed with a code from the app, so abandoning this step leaves the account exactly as it was. Response: {status:\"ok\", data:{secret, url, recoveryCodes:[code]}}.
+        Starts enrolling a factor and hands over whatever the person needs to prove they hold it:   app   a fresh secret and the otpauth:// URL to render as a QR code  sms   a code texted to the number on the account  email a code mailed to the address on the account  Nothing is switched on yet, so abandoning this step leaves the account exactly as it was. Response: {status:\"ok\", data:{mfaType, secret, url}} — secret and url only for the authenticator.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -34554,241 +34663,6 @@ class IamApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/iam/mfa/setup/initiate',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_v1_iam_mfa_setup_verify(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Checks a six-digit code against an enrolment in progress, so somebody can confirm their authenticator app is set up correctly before it starts being required.
-
-        Checks a six-digit code against an enrolment in progress, so somebody can confirm their authenticator app is set up correctly before it starts being required. Clocks a step out either way are accepted. A valid code → {status:\"ok\"}; an invalid one → 200 {status:\"error\"} (the casibase convention: clients branch on status, not the HTTP code).
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_mfa_setup_verify_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_v1_iam_mfa_setup_verify_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Checks a six-digit code against an enrolment in progress, so somebody can confirm their authenticator app is set up correctly before it starts being required.
-
-        Checks a six-digit code against an enrolment in progress, so somebody can confirm their authenticator app is set up correctly before it starts being required. Clocks a step out either way are accepted. A valid code → {status:\"ok\"}; an invalid one → 200 {status:\"error\"} (the casibase convention: clients branch on status, not the HTTP code).
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_mfa_setup_verify_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_v1_iam_mfa_setup_verify_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Checks a six-digit code against an enrolment in progress, so somebody can confirm their authenticator app is set up correctly before it starts being required.
-
-        Checks a six-digit code against an enrolment in progress, so somebody can confirm their authenticator app is set up correctly before it starts being required. Clocks a step out either way are accepted. A valid code → {status:\"ok\"}; an invalid one → 200 {status:\"error\"} (the casibase convention: clients branch on status, not the HTTP code).
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_iam_mfa_setup_verify_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_v1_iam_mfa_setup_verify_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/iam/mfa/setup/verify',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -35525,9 +35399,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Name the application a pending device code is asking to sign in.
+        """Answers \"what am I approving?\" for a pending device code.
 
-        Answers \"what am I approving?\" for a pending user_code, so the approval page can name the application a human is about to authorize. Both fields come off the pending code's OWN application — never off the portal the browser happens to be on — so the screen cannot name one application while the code belongs to another.  Requires a signed-in session, resolved from the browser's session cookie exactly as the approval itself resolves it. Not signed in is not a refusal to explain: it carries the stable login-required code the approval page branches on to sign the human in first.  POST for a read, deliberately, for the same reason RFC 7662 introspection beside it is POST: the argument is a SECRET. A user_code in a request line is copied into ingress and proxy access logs, which a POST body is not.  Unknown, expired, already used and already approved all get ONE opaque refusal — the same one the approval attempt would get. The user_code carries only 40 bits, so an answer that distinguished those states would be an oracle for hunting live codes; gated and opaque, this reveals strictly less than the approval the same caller could already attempt.
+        Answers \"what am I approving?\" for a pending device code.  The approval page exists to tell a human WHICH application they are authorizing; a page that names the wrong one defeats the control it implements. It used to render the portal's own app name — a constant, `hanzo-console` for every code — so a device code minted by `hanzo-cli` was approved under a screen naming a different application entirely. The client is a property of the CODE, so it is read from the code's row here and nowhere else.  Requires a signed-in session, and answers with the same ONE opaque refusal approveDevice uses. That is deliberate: the user_code is only 40 bits and is the one secret in this flow, so an unauthenticated lookup — or one that distinguished unknown from expired from already-approved — would be an oracle for hunting live codes. Gated and opaque, it reveals strictly less than the approval the same caller could already attempt.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35587,9 +35461,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Name the application a pending device code is asking to sign in.
+        """Answers \"what am I approving?\" for a pending device code.
 
-        Answers \"what am I approving?\" for a pending user_code, so the approval page can name the application a human is about to authorize. Both fields come off the pending code's OWN application — never off the portal the browser happens to be on — so the screen cannot name one application while the code belongs to another.  Requires a signed-in session, resolved from the browser's session cookie exactly as the approval itself resolves it. Not signed in is not a refusal to explain: it carries the stable login-required code the approval page branches on to sign the human in first.  POST for a read, deliberately, for the same reason RFC 7662 introspection beside it is POST: the argument is a SECRET. A user_code in a request line is copied into ingress and proxy access logs, which a POST body is not.  Unknown, expired, already used and already approved all get ONE opaque refusal — the same one the approval attempt would get. The user_code carries only 40 bits, so an answer that distinguished those states would be an oracle for hunting live codes; gated and opaque, this reveals strictly less than the approval the same caller could already attempt.
+        Answers \"what am I approving?\" for a pending device code.  The approval page exists to tell a human WHICH application they are authorizing; a page that names the wrong one defeats the control it implements. It used to render the portal's own app name — a constant, `hanzo-console` for every code — so a device code minted by `hanzo-cli` was approved under a screen naming a different application entirely. The client is a property of the CODE, so it is read from the code's row here and nowhere else.  Requires a signed-in session, and answers with the same ONE opaque refusal approveDevice uses. That is deliberate: the user_code is only 40 bits and is the one secret in this flow, so an unauthenticated lookup — or one that distinguished unknown from expired from already-approved — would be an oracle for hunting live codes. Gated and opaque, it reveals strictly less than the approval the same caller could already attempt.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -35649,9 +35523,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Name the application a pending device code is asking to sign in.
+        """Answers \"what am I approving?\" for a pending device code.
 
-        Answers \"what am I approving?\" for a pending user_code, so the approval page can name the application a human is about to authorize. Both fields come off the pending code's OWN application — never off the portal the browser happens to be on — so the screen cannot name one application while the code belongs to another.  Requires a signed-in session, resolved from the browser's session cookie exactly as the approval itself resolves it. Not signed in is not a refusal to explain: it carries the stable login-required code the approval page branches on to sign the human in first.  POST for a read, deliberately, for the same reason RFC 7662 introspection beside it is POST: the argument is a SECRET. A user_code in a request line is copied into ingress and proxy access logs, which a POST body is not.  Unknown, expired, already used and already approved all get ONE opaque refusal — the same one the approval attempt would get. The user_code carries only 40 bits, so an answer that distinguished those states would be an oracle for hunting live codes; gated and opaque, this reveals strictly less than the approval the same caller could already attempt.
+        Answers \"what am I approving?\" for a pending device code.  The approval page exists to tell a human WHICH application they are authorizing; a page that names the wrong one defeats the control it implements. It used to render the portal's own app name — a constant, `hanzo-console` for every code — so a device code minted by `hanzo-cli` was approved under a screen naming a different application entirely. The client is a property of the CODE, so it is read from the code's row here and nowhere else.  Requires a signed-in session, and answers with the same ONE opaque refusal approveDevice uses. That is deliberate: the user_code is only 40 bits and is the one secret in this flow, so an unauthenticated lookup — or one that distinguished unknown from expired from already-approved — would be an oracle for hunting live codes. Gated and opaque, it reveals strictly less than the approval the same caller could already attempt.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -41348,9 +41222,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Validates the request, mints + persists an OTP, and reports success.
+        """Validates the request and asks otp to get a code to the person.
 
-        Validates the request, mints + persists an OTP, and reports success. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/ checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -41410,9 +41284,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Validates the request, mints + persists an OTP, and reports success.
+        """Validates the request and asks otp to get a code to the person.
 
-        Validates the request, mints + persists an OTP, and reports success. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/ checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -41472,9 +41346,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Validates the request, mints + persists an OTP, and reports success.
+        """Validates the request and asks otp to get a code to the person.
 
-        Validates the request, mints + persists an OTP, and reports success. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/ checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -42068,9 +41942,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Picks which second factor an account is asked for first when it has more than one enrolled.
+        """Picks which second factor an account is asked for first when it has more than one.
 
-        Picks which second factor an account is asked for first when it has more than one enrolled.
+        Picks which second factor an account is asked for first when it has more than one. Only a factor the account actually holds: storing an unheld one told the login gate \"MFA is on\" — factor.Enabled reads that column — while leaving it nothing to ask for, so the sign-in required the password alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -42130,9 +42004,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Picks which second factor an account is asked for first when it has more than one enrolled.
+        """Picks which second factor an account is asked for first when it has more than one.
 
-        Picks which second factor an account is asked for first when it has more than one enrolled.
+        Picks which second factor an account is asked for first when it has more than one. Only a factor the account actually holds: storing an unheld one told the login gate \"MFA is on\" — factor.Enabled reads that column — while leaving it nothing to ask for, so the sign-in required the password alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -42192,9 +42066,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Picks which second factor an account is asked for first when it has more than one enrolled.
+        """Picks which second factor an account is asked for first when it has more than one.
 
-        Picks which second factor an account is asked for first when it has more than one enrolled.
+        Picks which second factor an account is asked for first when it has more than one. Only a factor the account actually holds: storing an unheld one told the login gate \"MFA is on\" — factor.Enabled reads that column — while leaving it nothing to ask for, so the sign-in required the password alone.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -45662,9 +45536,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Validates the request, mints + persists an OTP, and reports success.
+        """Validates the request and asks otp to get a code to the person.
 
-        Validates the request, mints + persists an OTP, and reports success. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/ checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -45724,9 +45598,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Validates the request, mints + persists an OTP, and reports success.
+        """Validates the request and asks otp to get a code to the person.
 
-        Validates the request, mints + persists an OTP, and reports success. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/ checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -45786,9 +45660,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Validates the request, mints + persists an OTP, and reports success.
+        """Validates the request and asks otp to get a code to the person.
 
-        Validates the request, mints + persists an OTP, and reports success. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/ checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
+        Validates the request and asks otp to get a code to the person. The request fields are read via fiber's FormValue — the escape hatch zip exposes for form bodies (multipart or urlencoded) — since the typed JSON Bind does not apply here. v1 also accepts countryCode/method/checkUser/captchaType; iam ignores them (the captcha/forget/MFA flows those drive are not ported), and CAPTCHA verification is likewise not enforced — iam models no captcha provider — so the code is issued once the destination and application validate.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -47499,7 +47373,7 @@ class IamApi:
     ) -> None:
         """Records the calling person's privacy and communication choices.
 
-        Records the calling person's privacy and communication choices. Only their own — there is no way to set consent for somebody else.  It merges rather than replaces, so saving a consent screen never discards a preference some other screen set at the same moment.
+        Records the calling person's privacy and communication choices. Only their own — there is no way to set consent for somebody else.  Send only the answers you are changing. A question you leave out keeps the answer it already had, so a screen that saves one switch never revokes the other, and two screens saving at once do not undo each other.  An answer this version does not recognize is refused here rather than stored, so nothing is ever persisted for a later reader to have to interpret.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -47561,7 +47435,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Records the calling person's privacy and communication choices.
 
-        Records the calling person's privacy and communication choices. Only their own — there is no way to set consent for somebody else.  It merges rather than replaces, so saving a consent screen never discards a preference some other screen set at the same moment.
+        Records the calling person's privacy and communication choices. Only their own — there is no way to set consent for somebody else.  Send only the answers you are changing. A question you leave out keeps the answer it already had, so a screen that saves one switch never revokes the other, and two screens saving at once do not undo each other.  An answer this version does not recognize is refused here rather than stored, so nothing is ever persisted for a later reader to have to interpret.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -47623,7 +47497,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Records the calling person's privacy and communication choices.
 
-        Records the calling person's privacy and communication choices. Only their own — there is no way to set consent for somebody else.  It merges rather than replaces, so saving a consent screen never discards a preference some other screen set at the same moment.
+        Records the calling person's privacy and communication choices. Only their own — there is no way to set consent for somebody else.  Send only the answers you are changing. A question you leave out keeps the answer it already had, so a screen that saves one switch never revokes the other, and two screens saving at once do not undo each other.  An answer this version does not recognize is refused here rather than stored, so nothing is ever persisted for a later reader to have to interpret.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -47701,6 +47575,241 @@ class IamApi:
         return self.api_client.param_serialize(
             method='PUT',
             resource_path='/v1/iam/consent',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_v1_iam_password(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Replaces the calling person's password.
+
+        Replaces the calling person's password. Only their own — there is no shape of this request that writes somebody else's.  Prove who you are with the password you are replacing, or — when you cannot sign in at all — with a code sent to the address the account already holds. Exactly one of the two: a request carrying both proves nothing more than either, and answering it would mean deciding which one mattered.  A reset also clears the account lockout, in the SAME transaction as the digest. Replacing a credential retires the run of guesses against the old one, and without this a person who reset a forgotten password was still refused for up to fifteen more minutes — with the brand-new password they had just chosen.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_v1_iam_password_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_v1_iam_password_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Replaces the calling person's password.
+
+        Replaces the calling person's password. Only their own — there is no shape of this request that writes somebody else's.  Prove who you are with the password you are replacing, or — when you cannot sign in at all — with a code sent to the address the account already holds. Exactly one of the two: a request carrying both proves nothing more than either, and answering it would mean deciding which one mattered.  A reset also clears the account lockout, in the SAME transaction as the digest. Replacing a credential retires the run of guesses against the old one, and without this a person who reset a forgotten password was still refused for up to fifteen more minutes — with the brand-new password they had just chosen.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_v1_iam_password_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_v1_iam_password_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Replaces the calling person's password.
+
+        Replaces the calling person's password. Only their own — there is no shape of this request that writes somebody else's.  Prove who you are with the password you are replacing, or — when you cannot sign in at all — with a code sent to the address the account already holds. Exactly one of the two: a request carrying both proves nothing more than either, and answering it would mean deciding which one mattered.  A reset also clears the account lockout, in the SAME transaction as the digest. Replacing a credential retires the run of guesses against the old one, and without this a person who reset a forgotten password was still refused for up to fifteen more minutes — with the brand-new password they had just chosen.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_v1_iam_password_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_v1_iam_password_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/iam/password',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -49331,6 +49440,600 @@ class IamApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/iam/webauthn-credentials/update',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def upsert_application(
+        self,
+        iam_registration: IamRegistration,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IamReply:
+        """Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.
+
+        Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.  It says which of the two it did. Leave the client secret out and the existing one is kept — so re-running your deployment does not rotate a credential your running services are holding.
+
+        :param iam_registration: (required)
+        :type iam_registration: IamRegistration
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_application_serialize(
+            iam_registration=iam_registration,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamReply",
+            '400': "IamReply",
+            '401': "IamReply",
+            '500': "IamReply",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def upsert_application_with_http_info(
+        self,
+        iam_registration: IamRegistration,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IamReply]:
+        """Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.
+
+        Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.  It says which of the two it did. Leave the client secret out and the existing one is kept — so re-running your deployment does not rotate a credential your running services are holding.
+
+        :param iam_registration: (required)
+        :type iam_registration: IamRegistration
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_application_serialize(
+            iam_registration=iam_registration,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamReply",
+            '400': "IamReply",
+            '401': "IamReply",
+            '500': "IamReply",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def upsert_application_without_preload_content(
+        self,
+        iam_registration: IamRegistration,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.
+
+        Creates an application or updates it in place, so a deployment can declare the applications it needs and run the same declaration on every environment and on every redeploy.  It says which of the two it did. Leave the client secret out and the existing one is kept — so re-running your deployment does not rotate a credential your running services are holding.
+
+        :param iam_registration: (required)
+        :type iam_registration: IamRegistration
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_application_serialize(
+            iam_registration=iam_registration,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamReply",
+            '400': "IamReply",
+            '401': "IamReply",
+            '500': "IamReply",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _upsert_application_serialize(
+        self,
+        iam_registration,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['Authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if iam_registration is not None:
+            _body_params = iam_registration
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/admin/applications/upsert',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def upsert_user(
+        self,
+        iam_person: IamPerson,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IamReply:
+        """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
+
+        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
+
+        :param iam_person: (required)
+        :type iam_person: IamPerson
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_user_serialize(
+            iam_person=iam_person,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamReply",
+            '400': "IamReply",
+            '401': "IamReply",
+            '500': "IamReply",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def upsert_user_with_http_info(
+        self,
+        iam_person: IamPerson,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IamReply]:
+        """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
+
+        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
+
+        :param iam_person: (required)
+        :type iam_person: IamPerson
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_user_serialize(
+            iam_person=iam_person,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamReply",
+            '400': "IamReply",
+            '401': "IamReply",
+            '500': "IamReply",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def upsert_user_without_preload_content(
+        self,
+        iam_person: IamPerson,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
+
+        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out.
+
+        :param iam_person: (required)
+        :type iam_person: IamPerson
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._upsert_user_serialize(
+            iam_person=iam_person,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamReply",
+            '400': "IamReply",
+            '401': "IamReply",
+            '500': "IamReply",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _upsert_user_serialize(
+        self,
+        iam_person,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['Authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+        if iam_person is not None:
+            _body_params = iam_person
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/admin/users/upsert',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

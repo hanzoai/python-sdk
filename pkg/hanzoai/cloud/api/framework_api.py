@@ -25,7 +25,7 @@ from hanzoai.cloud.models.document_list import DocumentList
 from hanzoai.cloud.models.install import Install
 from hanzoai.cloud.models.module_list import ModuleList
 from hanzoai.cloud.models.module_state import ModuleState
-from hanzoai.cloud.models.role import Role
+from hanzoai.cloud.models.role_assignment import RoleAssignment
 from hanzoai.cloud.models.role_list import RoleList
 from hanzoai.cloud.models.summary_view import SummaryView
 
@@ -48,7 +48,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctype_name(
+    def delete_v1_framework_by_doctype_by_name(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -95,7 +95,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctype_name_serialize(
+        _param = self._delete_v1_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -119,7 +119,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctype_name_with_http_info(
+    def delete_v1_framework_by_doctype_by_name_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -166,7 +166,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctype_name_serialize(
+        _param = self._delete_v1_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -190,7 +190,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctype_name_without_preload_content(
+    def delete_v1_framework_by_doctype_by_name_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -237,7 +237,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctype_name_serialize(
+        _param = self._delete_v1_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -256,7 +256,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _delete_v1_framework_doctype_name_serialize(
+    def _delete_v1_framework_by_doctype_by_name_serialize(
         self,
         doctype,
         name,
@@ -316,7 +316,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctypes_name(
+    def delete_v1_framework_doctypes_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -360,7 +360,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctypes_name_serialize(
+        _param = self._delete_v1_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -383,7 +383,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctypes_name_with_http_info(
+    def delete_v1_framework_doctypes_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -427,7 +427,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctypes_name_serialize(
+        _param = self._delete_v1_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -450,7 +450,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctypes_name_without_preload_content(
+    def delete_v1_framework_doctypes_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -494,7 +494,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctypes_name_serialize(
+        _param = self._delete_v1_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -512,7 +512,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _delete_v1_framework_doctypes_name_serialize(
+    def _delete_v1_framework_doctypes_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -569,7 +569,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_roles_user_role(
+    def delete_v1_framework_roles_by_user_by_role(
         self,
         user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
         role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
@@ -616,7 +616,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_roles_user_role_serialize(
+        _param = self._delete_v1_framework_roles_by_user_by_role_serialize(
             user=user,
             role=role,
             _request_auth=_request_auth,
@@ -640,7 +640,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_roles_user_role_with_http_info(
+    def delete_v1_framework_roles_by_user_by_role_with_http_info(
         self,
         user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
         role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
@@ -687,7 +687,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_roles_user_role_serialize(
+        _param = self._delete_v1_framework_roles_by_user_by_role_serialize(
             user=user,
             role=role,
             _request_auth=_request_auth,
@@ -711,7 +711,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_roles_user_role_without_preload_content(
+    def delete_v1_framework_roles_by_user_by_role_without_preload_content(
         self,
         user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
         role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
@@ -758,7 +758,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_roles_user_role_serialize(
+        _param = self._delete_v1_framework_roles_by_user_by_role_serialize(
             user=user,
             role=role,
             _request_auth=_request_auth,
@@ -777,7 +777,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _delete_v1_framework_roles_user_role_serialize(
+    def _delete_v1_framework_roles_by_user_by_role_serialize(
         self,
         user,
         role,
@@ -837,7 +837,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctype(
+    def get_v1_framework_by_doctype(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
@@ -893,7 +893,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctype_serialize(
+        _param = self._get_v1_framework_by_doctype_serialize(
             doctype=doctype,
             filters=filters,
             fields=fields,
@@ -920,7 +920,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctype_with_http_info(
+    def get_v1_framework_by_doctype_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
@@ -976,7 +976,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctype_serialize(
+        _param = self._get_v1_framework_by_doctype_serialize(
             doctype=doctype,
             filters=filters,
             fields=fields,
@@ -1003,7 +1003,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctype_without_preload_content(
+    def get_v1_framework_by_doctype_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
@@ -1059,7 +1059,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctype_serialize(
+        _param = self._get_v1_framework_by_doctype_serialize(
             doctype=doctype,
             filters=filters,
             fields=fields,
@@ -1081,7 +1081,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_doctype_serialize(
+    def _get_v1_framework_by_doctype_serialize(
         self,
         doctype,
         filters,
@@ -1165,7 +1165,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctype_name(
+    def get_v1_framework_by_doctype_by_name(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -1212,7 +1212,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctype_name_serialize(
+        _param = self._get_v1_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -1236,7 +1236,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctype_name_with_http_info(
+    def get_v1_framework_by_doctype_by_name_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -1283,7 +1283,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctype_name_serialize(
+        _param = self._get_v1_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -1307,7 +1307,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctype_name_without_preload_content(
+    def get_v1_framework_by_doctype_by_name_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -1354,7 +1354,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctype_name_serialize(
+        _param = self._get_v1_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -1373,7 +1373,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_doctype_name_serialize(
+    def _get_v1_framework_by_doctype_by_name_serialize(
         self,
         doctype,
         name,
@@ -1685,7 +1685,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_name(
+    def get_v1_framework_doctypes_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -1729,7 +1729,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_name_serialize(
+        _param = self._get_v1_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1752,7 +1752,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_name_with_http_info(
+    def get_v1_framework_doctypes_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -1796,7 +1796,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_name_serialize(
+        _param = self._get_v1_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1819,7 +1819,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_name_without_preload_content(
+    def get_v1_framework_doctypes_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -1863,7 +1863,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_name_serialize(
+        _param = self._get_v1_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1881,7 +1881,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_doctypes_name_serialize(
+    def _get_v1_framework_doctypes_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -2190,7 +2190,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_module(
+    def get_v1_framework_modules_by_module(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -2234,7 +2234,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_module_serialize(
+        _param = self._get_v1_framework_modules_by_module_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2257,7 +2257,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_module_with_http_info(
+    def get_v1_framework_modules_by_module_with_http_info(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -2301,7 +2301,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_module_serialize(
+        _param = self._get_v1_framework_modules_by_module_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2324,7 +2324,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_module_without_preload_content(
+    def get_v1_framework_modules_by_module_without_preload_content(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -2368,7 +2368,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_module_serialize(
+        _param = self._get_v1_framework_modules_by_module_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2386,7 +2386,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_modules_module_serialize(
+    def _get_v1_framework_modules_by_module_serialize(
         self,
         module,
         _request_auth,
@@ -2956,9 +2956,9 @@ class FrameworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Create one document of a DocType, from that DocType's own fields.
+        """Creates one document of a DocType, from that DocType's own fields.
 
-        The body is the DOCUMENT'S field data: a flat JSON object whose properties are the fieldnames the DocType declares, not a fixed envelope. That is why this operation publishes no request schema — the shape is metadata the DocType defines at run time, and no Go struct both accepts it verbatim and describes it, so nothing is asserted rather than something false.  The engine validates and coerces every field against the DocType, runs the before_insert and before_save hooks (either may reject the write), stores the document, then runs the after hooks. It answers 201 with the stored document: the field data plus the managed envelope — `name`, `doctype`, `docstatus`, `createdAt`, `updatedAt`. A Password field comes back as a fixed redaction marker and is dropped when empty; its stored value is never returned by this or any other read on this surface.  `name` in the body is the REQUESTED DOCUMENT NAME, not a data field. A DocType with an autoname rule names the document itself and ignores it; a prompt-named DocType takes it. This collision is also why the two path segments cannot be folded into the body, and so why the route stays untyped.  Scoped to the org of the validated principal, and the engine's own permission calculus decides the rest: the caller needs create rights on this DocType through a role it holds, or a platform admin bit. A caller with no validated principal reaches the engine as the zero Caller and is refused before any store is opened — a forged org header alone buys nothing.  A DocType declared Single has exactly ONE document per org, so this writes that one instance instead of adding a row. The body is size-bounded by the engine, the same bound on every host.
+        Creates one document of a DocType, from that DocType's own fields.  The body is the DOCUMENT'S field data: a flat JSON object whose properties are the fieldnames the DocType declares, not a fixed envelope. That is why this operation publishes no request schema — the shape is metadata the DocType defines at run time, and no Go struct both accepts it verbatim and describes it, so nothing is asserted rather than something false.  The engine validates and coerces every field against the DocType, runs the before_insert and before_save hooks (either may reject the write), stores the document, then runs the after hooks. It answers 201 with the stored document: the field data plus the managed envelope — `name`, `doctype`, `docstatus`, `createdAt`, `updatedAt`. A Password field comes back as a fixed redaction marker and is dropped when empty; its stored value is never returned by this or any other read on this surface.  `name` in the body is the REQUESTED DOCUMENT NAME, not a data field. A DocType with an autoname rule names the document itself and ignores it; a prompt-named DocType takes it. This collision is also why the two path segments cannot be folded into the body, and so why the route stays untyped.  Scoped to the org of the validated principal, and the engine's own permission calculus decides the rest: the caller needs create rights on this DocType through a role it holds, or a platform admin bit. A caller with no validated principal reaches the engine as the zero Caller and is refused before any store is opened — a forged org header alone buys nothing.  A DocType declared Single has exactly ONE document per org, so this writes that one instance instead of adding a row. The body is size-bounded by the engine, the same bound on every host.
 
         :param doctype: (required)
         :type doctype: str
@@ -3022,9 +3022,9 @@ class FrameworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Create one document of a DocType, from that DocType's own fields.
+        """Creates one document of a DocType, from that DocType's own fields.
 
-        The body is the DOCUMENT'S field data: a flat JSON object whose properties are the fieldnames the DocType declares, not a fixed envelope. That is why this operation publishes no request schema — the shape is metadata the DocType defines at run time, and no Go struct both accepts it verbatim and describes it, so nothing is asserted rather than something false.  The engine validates and coerces every field against the DocType, runs the before_insert and before_save hooks (either may reject the write), stores the document, then runs the after hooks. It answers 201 with the stored document: the field data plus the managed envelope — `name`, `doctype`, `docstatus`, `createdAt`, `updatedAt`. A Password field comes back as a fixed redaction marker and is dropped when empty; its stored value is never returned by this or any other read on this surface.  `name` in the body is the REQUESTED DOCUMENT NAME, not a data field. A DocType with an autoname rule names the document itself and ignores it; a prompt-named DocType takes it. This collision is also why the two path segments cannot be folded into the body, and so why the route stays untyped.  Scoped to the org of the validated principal, and the engine's own permission calculus decides the rest: the caller needs create rights on this DocType through a role it holds, or a platform admin bit. A caller with no validated principal reaches the engine as the zero Caller and is refused before any store is opened — a forged org header alone buys nothing.  A DocType declared Single has exactly ONE document per org, so this writes that one instance instead of adding a row. The body is size-bounded by the engine, the same bound on every host.
+        Creates one document of a DocType, from that DocType's own fields.  The body is the DOCUMENT'S field data: a flat JSON object whose properties are the fieldnames the DocType declares, not a fixed envelope. That is why this operation publishes no request schema — the shape is metadata the DocType defines at run time, and no Go struct both accepts it verbatim and describes it, so nothing is asserted rather than something false.  The engine validates and coerces every field against the DocType, runs the before_insert and before_save hooks (either may reject the write), stores the document, then runs the after hooks. It answers 201 with the stored document: the field data plus the managed envelope — `name`, `doctype`, `docstatus`, `createdAt`, `updatedAt`. A Password field comes back as a fixed redaction marker and is dropped when empty; its stored value is never returned by this or any other read on this surface.  `name` in the body is the REQUESTED DOCUMENT NAME, not a data field. A DocType with an autoname rule names the document itself and ignores it; a prompt-named DocType takes it. This collision is also why the two path segments cannot be folded into the body, and so why the route stays untyped.  Scoped to the org of the validated principal, and the engine's own permission calculus decides the rest: the caller needs create rights on this DocType through a role it holds, or a platform admin bit. A caller with no validated principal reaches the engine as the zero Caller and is refused before any store is opened — a forged org header alone buys nothing.  A DocType declared Single has exactly ONE document per org, so this writes that one instance instead of adding a row. The body is size-bounded by the engine, the same bound on every host.
 
         :param doctype: (required)
         :type doctype: str
@@ -3088,9 +3088,9 @@ class FrameworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create one document of a DocType, from that DocType's own fields.
+        """Creates one document of a DocType, from that DocType's own fields.
 
-        The body is the DOCUMENT'S field data: a flat JSON object whose properties are the fieldnames the DocType declares, not a fixed envelope. That is why this operation publishes no request schema — the shape is metadata the DocType defines at run time, and no Go struct both accepts it verbatim and describes it, so nothing is asserted rather than something false.  The engine validates and coerces every field against the DocType, runs the before_insert and before_save hooks (either may reject the write), stores the document, then runs the after hooks. It answers 201 with the stored document: the field data plus the managed envelope — `name`, `doctype`, `docstatus`, `createdAt`, `updatedAt`. A Password field comes back as a fixed redaction marker and is dropped when empty; its stored value is never returned by this or any other read on this surface.  `name` in the body is the REQUESTED DOCUMENT NAME, not a data field. A DocType with an autoname rule names the document itself and ignores it; a prompt-named DocType takes it. This collision is also why the two path segments cannot be folded into the body, and so why the route stays untyped.  Scoped to the org of the validated principal, and the engine's own permission calculus decides the rest: the caller needs create rights on this DocType through a role it holds, or a platform admin bit. A caller with no validated principal reaches the engine as the zero Caller and is refused before any store is opened — a forged org header alone buys nothing.  A DocType declared Single has exactly ONE document per org, so this writes that one instance instead of adding a row. The body is size-bounded by the engine, the same bound on every host.
+        Creates one document of a DocType, from that DocType's own fields.  The body is the DOCUMENT'S field data: a flat JSON object whose properties are the fieldnames the DocType declares, not a fixed envelope. That is why this operation publishes no request schema — the shape is metadata the DocType defines at run time, and no Go struct both accepts it verbatim and describes it, so nothing is asserted rather than something false.  The engine validates and coerces every field against the DocType, runs the before_insert and before_save hooks (either may reject the write), stores the document, then runs the after hooks. It answers 201 with the stored document: the field data plus the managed envelope — `name`, `doctype`, `docstatus`, `createdAt`, `updatedAt`. A Password field comes back as a fixed redaction marker and is dropped when empty; its stored value is never returned by this or any other read on this surface.  `name` in the body is the REQUESTED DOCUMENT NAME, not a data field. A DocType with an autoname rule names the document itself and ignores it; a prompt-named DocType takes it. This collision is also why the two path segments cannot be folded into the body, and so why the route stays untyped.  Scoped to the org of the validated principal, and the engine's own permission calculus decides the rest: the caller needs create rights on this DocType through a role it holds, or a platform admin bit. A caller with no validated principal reaches the engine as the zero Caller and is refused before any store is opened — a forged org header alone buys nothing.  A DocType declared Single has exactly ONE document per org, so this writes that one instance instead of adding a row. The body is size-bounded by the engine, the same bound on every host.
 
         :param doctype: (required)
         :type doctype: str
@@ -3190,7 +3190,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctype_name_cancel(
+    def post_v1_framework_by_doctype_by_name_cancel(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3237,7 +3237,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctype_name_cancel_serialize(
+        _param = self._post_v1_framework_by_doctype_by_name_cancel_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3261,7 +3261,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctype_name_cancel_with_http_info(
+    def post_v1_framework_by_doctype_by_name_cancel_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3308,7 +3308,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctype_name_cancel_serialize(
+        _param = self._post_v1_framework_by_doctype_by_name_cancel_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3332,7 +3332,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctype_name_cancel_without_preload_content(
+    def post_v1_framework_by_doctype_by_name_cancel_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3379,7 +3379,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctype_name_cancel_serialize(
+        _param = self._post_v1_framework_by_doctype_by_name_cancel_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3398,7 +3398,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_doctype_name_cancel_serialize(
+    def _post_v1_framework_by_doctype_by_name_cancel_serialize(
         self,
         doctype,
         name,
@@ -3465,7 +3465,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctype_name_submit(
+    def post_v1_framework_by_doctype_by_name_submit(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3512,7 +3512,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctype_name_submit_serialize(
+        _param = self._post_v1_framework_by_doctype_by_name_submit_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3536,7 +3536,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctype_name_submit_with_http_info(
+    def post_v1_framework_by_doctype_by_name_submit_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3583,7 +3583,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctype_name_submit_serialize(
+        _param = self._post_v1_framework_by_doctype_by_name_submit_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3607,7 +3607,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctype_name_submit_without_preload_content(
+    def post_v1_framework_by_doctype_by_name_submit_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3654,7 +3654,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctype_name_submit_serialize(
+        _param = self._post_v1_framework_by_doctype_by_name_submit_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3673,7 +3673,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_doctype_name_submit_serialize(
+    def _post_v1_framework_by_doctype_by_name_submit_serialize(
         self,
         doctype,
         name,
@@ -4013,7 +4013,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_modules_module_install(
+    def post_v1_framework_modules_by_module_install(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -4057,7 +4057,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_modules_module_install_serialize(
+        _param = self._post_v1_framework_modules_by_module_install_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4080,7 +4080,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_modules_module_install_with_http_info(
+    def post_v1_framework_modules_by_module_install_with_http_info(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -4124,7 +4124,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_modules_module_install_serialize(
+        _param = self._post_v1_framework_modules_by_module_install_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4147,7 +4147,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_modules_module_install_without_preload_content(
+    def post_v1_framework_modules_by_module_install_without_preload_content(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -4191,7 +4191,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_modules_module_install_serialize(
+        _param = self._post_v1_framework_modules_by_module_install_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4209,7 +4209,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_modules_module_install_serialize(
+    def _post_v1_framework_modules_by_module_install_serialize(
         self,
         module,
         _request_auth,
@@ -4275,7 +4275,7 @@ class FrameworkApi:
     @validate_call
     def post_v1_framework_roles(
         self,
-        role: Role,
+        role_assignment: RoleAssignment,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4288,13 +4288,13 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Role:
+    ) -> RoleAssignment:
         """Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
 
         Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
 
-        :param role: (required)
-        :type role: Role
+        :param role_assignment: (required)
+        :type role_assignment: RoleAssignment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4318,7 +4318,7 @@ class FrameworkApi:
         """ # noqa: E501
 
         _param = self._post_v1_framework_roles_serialize(
-            role=role,
+            role_assignment=role_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4326,7 +4326,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Role",
+            '201': "RoleAssignment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4342,7 +4342,7 @@ class FrameworkApi:
     @validate_call
     def post_v1_framework_roles_with_http_info(
         self,
-        role: Role,
+        role_assignment: RoleAssignment,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4355,13 +4355,13 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Role]:
+    ) -> ApiResponse[RoleAssignment]:
         """Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
 
         Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
 
-        :param role: (required)
-        :type role: Role
+        :param role_assignment: (required)
+        :type role_assignment: RoleAssignment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4385,7 +4385,7 @@ class FrameworkApi:
         """ # noqa: E501
 
         _param = self._post_v1_framework_roles_serialize(
-            role=role,
+            role_assignment=role_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4393,7 +4393,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Role",
+            '201': "RoleAssignment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4409,7 +4409,7 @@ class FrameworkApi:
     @validate_call
     def post_v1_framework_roles_without_preload_content(
         self,
-        role: Role,
+        role_assignment: RoleAssignment,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4427,8 +4427,8 @@ class FrameworkApi:
 
         Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
 
-        :param role: (required)
-        :type role: Role
+        :param role_assignment: (required)
+        :type role_assignment: RoleAssignment
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4452,7 +4452,7 @@ class FrameworkApi:
         """ # noqa: E501
 
         _param = self._post_v1_framework_roles_serialize(
-            role=role,
+            role_assignment=role_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4460,7 +4460,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Role",
+            '201': "RoleAssignment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4471,7 +4471,7 @@ class FrameworkApi:
 
     def _post_v1_framework_roles_serialize(
         self,
-        role,
+        role_assignment,
         _request_auth,
         _content_type,
         _headers,
@@ -4497,8 +4497,8 @@ class FrameworkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if role is not None:
-            _body_params = role
+        if role_assignment is not None:
+            _body_params = role_assignment
 
 
         # set the HTTP header `Accept`
@@ -4563,9 +4563,9 @@ class FrameworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Replace a draft document's field data wholesale.
+        """Replaces a draft document's field data wholesale.
 
-        PUT semantics: the stored field data BECOMES the body, so a field the body omits is not left at its previous value. The body is the document's own field data — the same metadata-defined open object the create takes, and the same reason this operation publishes no request schema.  Only a DRAFT can be edited. A document that has been submitted or cancelled is immutable and the write is refused as a conflict, so the submit lifecycle cannot be bypassed by a plain update — cancel it first, and note that a cancelled document can be deleted but never re-submitted or re-edited. The engine validates the new data against the DocType, runs before_save (which may reject), writes, then runs the after hooks, and answers 200 with the stored document plus its managed envelope, Password fields redacted.  The document name in the path is percent-decoded before it is matched, so a name containing a space is addressed as it is stored. An unknown DocType or document is not found, and the same answer covers a document that exists in another tenant: the org comes from the validated principal and is part of the store key, so a caller cannot learn that another org's document exists. Write rights on the DocType are required, decided by the engine's permission calculus.  For a Single DocType the path name is ignored — there is one instance per org and this writes it.
+        Replaces a draft document's field data wholesale.  PUT semantics: the stored field data BECOMES the body, so a field the body omits is not left at its previous value. The body is the document's own field data — the same metadata-defined open object the create takes, and the same reason this operation publishes no request schema.  Only a DRAFT can be edited. A document that has been submitted or cancelled is immutable and the write is refused as a conflict, so the submit lifecycle cannot be bypassed by a plain update — cancel it first, and note that a cancelled document can be deleted but never re-submitted or re-edited. The engine validates the new data against the DocType, runs before_save (which may reject), writes, then runs the after hooks, and answers 200 with the stored document plus its managed envelope, Password fields redacted.  The document name in the path is percent-decoded before it is matched, so a name containing a space is addressed as it is stored. An unknown DocType or document is not found, and the same answer covers a document that exists in another tenant: the org comes from the validated principal and is part of the store key, so a caller cannot learn that another org's document exists. Write rights on the DocType are required, decided by the engine's permission calculus.  For a Single DocType the path name is ignored — there is one instance per org and this writes it.
 
         :param doctype: (required)
         :type doctype: str
@@ -4633,9 +4633,9 @@ class FrameworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Replace a draft document's field data wholesale.
+        """Replaces a draft document's field data wholesale.
 
-        PUT semantics: the stored field data BECOMES the body, so a field the body omits is not left at its previous value. The body is the document's own field data — the same metadata-defined open object the create takes, and the same reason this operation publishes no request schema.  Only a DRAFT can be edited. A document that has been submitted or cancelled is immutable and the write is refused as a conflict, so the submit lifecycle cannot be bypassed by a plain update — cancel it first, and note that a cancelled document can be deleted but never re-submitted or re-edited. The engine validates the new data against the DocType, runs before_save (which may reject), writes, then runs the after hooks, and answers 200 with the stored document plus its managed envelope, Password fields redacted.  The document name in the path is percent-decoded before it is matched, so a name containing a space is addressed as it is stored. An unknown DocType or document is not found, and the same answer covers a document that exists in another tenant: the org comes from the validated principal and is part of the store key, so a caller cannot learn that another org's document exists. Write rights on the DocType are required, decided by the engine's permission calculus.  For a Single DocType the path name is ignored — there is one instance per org and this writes it.
+        Replaces a draft document's field data wholesale.  PUT semantics: the stored field data BECOMES the body, so a field the body omits is not left at its previous value. The body is the document's own field data — the same metadata-defined open object the create takes, and the same reason this operation publishes no request schema.  Only a DRAFT can be edited. A document that has been submitted or cancelled is immutable and the write is refused as a conflict, so the submit lifecycle cannot be bypassed by a plain update — cancel it first, and note that a cancelled document can be deleted but never re-submitted or re-edited. The engine validates the new data against the DocType, runs before_save (which may reject), writes, then runs the after hooks, and answers 200 with the stored document plus its managed envelope, Password fields redacted.  The document name in the path is percent-decoded before it is matched, so a name containing a space is addressed as it is stored. An unknown DocType or document is not found, and the same answer covers a document that exists in another tenant: the org comes from the validated principal and is part of the store key, so a caller cannot learn that another org's document exists. Write rights on the DocType are required, decided by the engine's permission calculus.  For a Single DocType the path name is ignored — there is one instance per org and this writes it.
 
         :param doctype: (required)
         :type doctype: str
@@ -4703,9 +4703,9 @@ class FrameworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Replace a draft document's field data wholesale.
+        """Replaces a draft document's field data wholesale.
 
-        PUT semantics: the stored field data BECOMES the body, so a field the body omits is not left at its previous value. The body is the document's own field data — the same metadata-defined open object the create takes, and the same reason this operation publishes no request schema.  Only a DRAFT can be edited. A document that has been submitted or cancelled is immutable and the write is refused as a conflict, so the submit lifecycle cannot be bypassed by a plain update — cancel it first, and note that a cancelled document can be deleted but never re-submitted or re-edited. The engine validates the new data against the DocType, runs before_save (which may reject), writes, then runs the after hooks, and answers 200 with the stored document plus its managed envelope, Password fields redacted.  The document name in the path is percent-decoded before it is matched, so a name containing a space is addressed as it is stored. An unknown DocType or document is not found, and the same answer covers a document that exists in another tenant: the org comes from the validated principal and is part of the store key, so a caller cannot learn that another org's document exists. Write rights on the DocType are required, decided by the engine's permission calculus.  For a Single DocType the path name is ignored — there is one instance per org and this writes it.
+        Replaces a draft document's field data wholesale.  PUT semantics: the stored field data BECOMES the body, so a field the body omits is not left at its previous value. The body is the document's own field data — the same metadata-defined open object the create takes, and the same reason this operation publishes no request schema.  Only a DRAFT can be edited. A document that has been submitted or cancelled is immutable and the write is refused as a conflict, so the submit lifecycle cannot be bypassed by a plain update — cancel it first, and note that a cancelled document can be deleted but never re-submitted or re-edited. The engine validates the new data against the DocType, runs before_save (which may reject), writes, then runs the after hooks, and answers 200 with the stored document plus its managed envelope, Password fields redacted.  The document name in the path is percent-decoded before it is matched, so a name containing a space is addressed as it is stored. An unknown DocType or document is not found, and the same answer covers a document that exists in another tenant: the org comes from the validated principal and is part of the store key, so a caller cannot learn that another org's document exists. Write rights on the DocType are required, decided by the engine's permission calculus.  For a Single DocType the path name is ignored — there is one instance per org and this writes it.
 
         :param doctype: (required)
         :type doctype: str
@@ -4811,7 +4811,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_doctypes_name(
+    def put_v1_framework_doctypes_by_name(
         self,
         name: StrictStr,
         doc_type: DocType,
@@ -4858,7 +4858,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_doctypes_name_serialize(
+        _param = self._put_v1_framework_doctypes_by_name_serialize(
             name=name,
             doc_type=doc_type,
             _request_auth=_request_auth,
@@ -4882,7 +4882,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_doctypes_name_with_http_info(
+    def put_v1_framework_doctypes_by_name_with_http_info(
         self,
         name: StrictStr,
         doc_type: DocType,
@@ -4929,7 +4929,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_doctypes_name_serialize(
+        _param = self._put_v1_framework_doctypes_by_name_serialize(
             name=name,
             doc_type=doc_type,
             _request_auth=_request_auth,
@@ -4953,7 +4953,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_doctypes_name_without_preload_content(
+    def put_v1_framework_doctypes_by_name_without_preload_content(
         self,
         name: StrictStr,
         doc_type: DocType,
@@ -5000,7 +5000,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_doctypes_name_serialize(
+        _param = self._put_v1_framework_doctypes_by_name_serialize(
             name=name,
             doc_type=doc_type,
             _request_auth=_request_auth,
@@ -5019,7 +5019,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _put_v1_framework_doctypes_name_serialize(
+    def _put_v1_framework_doctypes_by_name_serialize(
         self,
         name,
         doc_type,

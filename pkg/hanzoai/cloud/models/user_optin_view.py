@@ -26,9 +26,9 @@ class UserOptinView(BaseModel):
     """
     UserOptinView
     """ # noqa: E501
-    can_set: Optional[StrictBool] = Field(default=None, description="false when the caller's identity can't be resolved", alias="canSet")
-    handle: Optional[StrictStr] = None
-    listed: Optional[StrictBool] = None
+    can_set: Optional[StrictBool] = Field(default=None, description="CanSet is false when the caller's ledger identity cannot be resolved (no user name on the principal). Writing the preference would fail, so hide the control.", alias="canSet")
+    handle: Optional[StrictStr] = Field(default=None, description="Handle is the display name on the caller's listed row. Empty when they never chose one; opting in without a handle sets it to their username, so a listed row is never blank.")
+    listed: Optional[StrictBool] = Field(default=None, description="Listed is true when the caller's board row is published under Handle to other viewers. False — the default for anyone who never opted in — anonymizes the row; the metric still counts, only the name is withheld.")
     __properties: ClassVar[List[str]] = ["canSet", "handle", "listed"]
 
     model_config = ConfigDict(

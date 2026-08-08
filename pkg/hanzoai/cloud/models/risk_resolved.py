@@ -28,17 +28,17 @@ class RiskResolved(BaseModel):
     RiskResolved
     """ # noqa: E501
     as_of: Optional[StrictStr] = Field(default=None, description="AsOf is the instant this answer was true at: the event time plus the horizon. Nothing seen after it was visible to this resolution.", alias="asOf")
-    at: Optional[StrictStr] = None
-    by: Optional[StrictStr] = None
-    confidence: Optional[Union[StrictFloat, StrictInt]] = None
+    at: Optional[StrictStr] = Field(default=None, description="At is the event's instant, RFC 3339, echoed. It is what the horizon is measured from, so At plus the horizon is AsOf.")
+    by: Optional[StrictStr] = Field(default=None, description="By is the identity that filed the WINNING assertion, `<home org>/<user>`, stamped server-side from the validated principal at the write and never taken from a body — an attribution the caller chose is not attribution. It is the winner's alone; every losing assertion keeps its own and is returned whole in Conflicts.")
+    confidence: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Confidence is the winning assertion's own confidence in [0,1], zero when its filer stated none. It is reported because it is a term of the rule that picked the winner, and it is the weakest term but one: it breaks a tie inside one rank and never lifts a weak source above a strong one.")
     conflicts: Optional[List[RiskLabelRecord]] = Field(default=None, description="Conflicts is every other visible assertion, strongest first, whole. They are kept and returned rather than dropped, so an adverse action can show that the plane knew of a contrary claim and say why it lost. They are horizon-filtered exactly like the winner: an assertion that was not knowable yet cannot even be named here, because naming it would leak its existence into a past decision.")
     contested: Optional[StrictBool] = Field(default=None, description="Contested is true when a visible assertion claimed a DIFFERENT disposition. Two sources agreeing is corroboration, not conflict.")
-    disposition: Optional[StrictStr] = None
-    evidence: Optional[StrictStr] = None
-    id: Optional[StrictStr] = None
-    kind: Optional[StrictStr] = None
-    source: Optional[StrictStr] = None
-    subject: Optional[StrictStr] = None
+    disposition: Optional[StrictStr] = Field(default=None, description="Disposition is the claim IN FORCE at AsOf: productive, unproductive, or the empty string for an explicit unjudged. It is the winning assertion's own claim, never a vote or an average — an average of two adjudications is a third claim nobody made. A matured event nobody judged is not answered here at all; it is counted in Unlabelled, because manufacturing a negative there is how a fraud model comes to describe the incumbent block list.")
+    evidence: Optional[StrictStr] = Field(default=None, description="Evidence is the winning assertion's pointer to the record behind it — the dispute, case or decision id it was filed with, opaque and verbatim. It travels with the answer so an adverse action can name what judged the subject without a second read.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the winning assertion's content digest, so this answer traces to the exact record it came from — and that record can be placed under litigation hold by naming this id.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is the judged entity's type, echoed from the event that was named. With Subject and At it is how a caller joins this answer back onto the training row or the decision it asked about.")
+    source: Optional[StrictStr] = Field(default=None, description="Source is who filed the winning assertion, and it is the PRIMARY term of the rule that picked it. Sources rank by adjudication weight — chargeoff, dispute, case, refund, review, sample, strongest first — and only inside one rank do the tie-breaks run, in order: the assertion that became KNOWABLE latest, then the higher confidence, then the lower id. The vocabulary op publishes that order from the same declaration the resolver reads, so a caller holding a contested answer can reproduce it.")
+    subject: Optional[StrictStr] = Field(default=None, description="Subject is the entity id, echoed from the event that was named — the tenant's own key, returned verbatim.")
     __properties: ClassVar[List[str]] = ["asOf", "at", "by", "confidence", "conflicts", "contested", "disposition", "evidence", "id", "kind", "source", "subject"]
 
     model_config = ConfigDict(

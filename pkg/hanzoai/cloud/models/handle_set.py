@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,7 +26,7 @@ class HandleSet(BaseModel):
     """
     HandleSet
     """ # noqa: E501
-    handle: Optional[StrictStr] = None
+    handle: Optional[StrictStr] = Field(default=None, description="Handle is the display name as STORED, echoed back after trimming. Empty means the caller opted out: it keeps its rank and still sees its own row, it is just no longer listed to anyone else.")
     __properties: ClassVar[List[str]] = ["handle"]
 
     model_config = ConfigDict(

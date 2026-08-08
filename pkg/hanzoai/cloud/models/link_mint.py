@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.code_view import CodeView
 from typing import Optional, Set
@@ -27,7 +27,7 @@ class LinkMint(BaseModel):
     """
     LinkMint
     """ # noqa: E501
-    link: Optional[CodeView] = None
+    link: Optional[CodeView] = Field(default=None, description="Link is the link just minted, with its full shareable URL. Its funnel counters all start at zero — nothing has clicked or signed up through it yet.")
     __properties: ClassVar[List[str]] = ["link"]
 
     model_config = ConfigDict(

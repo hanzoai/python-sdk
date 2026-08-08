@@ -26,12 +26,12 @@ class ReferrerRow(BaseModel):
     """
     ReferrerRow
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    code: Optional[StrictStr] = None
-    org: Optional[StrictStr] = None
-    pending_cents: Optional[StrictInt] = Field(default=None, alias="pendingCents")
-    referred_count: Optional[StrictInt] = Field(default=None, alias="referredCount")
-    status: Optional[StrictStr] = None
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is lifetime commission accrued, in cents. The board is sorted by this, descending.", alias="accruedCents")
+    code: Optional[StrictStr] = Field(default=None, description="Code is that affiliate's minted referral code; empty if it is not approved.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the partner's own org slug. Named only here, on the SuperAdmin board — the partner-facing leaderboard shows an opt-in handle and never an org.")
+    pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is accrued minus paid, in cents — what is still owed to this affiliate. Never negative.", alias="pendingCents")
+    referred_count: Optional[StrictInt] = Field(default=None, description="ReferredCount is how many orgs this affiliate is the DIRECT referrer of — its level-1 downline, not the whole three-level chain.", alias="referredCount")
+    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\", \"approved\" or \"suspended\".")
     __properties: ClassVar[List[str]] = ["accruedCents", "code", "org", "pendingCents", "referredCount", "status"]
 
     model_config = ConfigDict(

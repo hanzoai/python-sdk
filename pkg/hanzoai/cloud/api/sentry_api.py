@@ -304,7 +304,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_projects_id(
+    def delete_v1_sentry_projects_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -348,7 +348,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_projects_id_serialize(
+        _param = self._delete_v1_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -371,7 +371,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_projects_id_with_http_info(
+    def delete_v1_sentry_projects_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -415,7 +415,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_projects_id_serialize(
+        _param = self._delete_v1_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -438,7 +438,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_projects_id_without_preload_content(
+    def delete_v1_sentry_projects_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -482,7 +482,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_projects_id_serialize(
+        _param = self._delete_v1_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -500,7 +500,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _delete_v1_sentry_projects_id_serialize(
+    def _delete_v1_sentry_projects_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -807,7 +807,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_events_id(
+    def get_v1_sentry_events_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the event id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the event belongs to, by its id. Required.")],
@@ -854,7 +854,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_events_id_serialize(
+        _param = self._get_v1_sentry_events_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -878,7 +878,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_events_id_with_http_info(
+    def get_v1_sentry_events_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the event id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the event belongs to, by its id. Required.")],
@@ -925,7 +925,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_events_id_serialize(
+        _param = self._get_v1_sentry_events_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -949,7 +949,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_events_id_without_preload_content(
+    def get_v1_sentry_events_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the event id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the event belongs to, by its id. Required.")],
@@ -996,7 +996,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_events_id_serialize(
+        _param = self._get_v1_sentry_events_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -1015,7 +1015,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_events_id_serialize(
+    def _get_v1_sentry_events_by_id_serialize(
         self,
         id,
         project,
@@ -1499,7 +1499,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_id(
+    def get_v1_sentry_issues_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -1543,7 +1543,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_id_serialize(
+        _param = self._get_v1_sentry_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1566,7 +1566,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_id_with_http_info(
+    def get_v1_sentry_issues_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -1610,7 +1610,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_id_serialize(
+        _param = self._get_v1_sentry_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1633,7 +1633,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_id_without_preload_content(
+    def get_v1_sentry_issues_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -1677,7 +1677,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_id_serialize(
+        _param = self._get_v1_sentry_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1695,7 +1695,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_issues_id_serialize(
+    def _get_v1_sentry_issues_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1759,7 +1759,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_id_events(
+    def get_v1_sentry_issues_by_id_events(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         project: Annotated[StrictStr, Field(description="Project is the project whose occurrences to read, by its id. Required.")],
@@ -1809,7 +1809,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_id_events_serialize(
+        _param = self._get_v1_sentry_issues_by_id_events_serialize(
             id=id,
             project=project,
             limit=limit,
@@ -1834,7 +1834,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_id_events_with_http_info(
+    def get_v1_sentry_issues_by_id_events_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         project: Annotated[StrictStr, Field(description="Project is the project whose occurrences to read, by its id. Required.")],
@@ -1884,7 +1884,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_id_events_serialize(
+        _param = self._get_v1_sentry_issues_by_id_events_serialize(
             id=id,
             project=project,
             limit=limit,
@@ -1909,7 +1909,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_id_events_without_preload_content(
+    def get_v1_sentry_issues_by_id_events_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         project: Annotated[StrictStr, Field(description="Project is the project whose occurrences to read, by its id. Required.")],
@@ -1959,7 +1959,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_id_events_serialize(
+        _param = self._get_v1_sentry_issues_by_id_events_serialize(
             id=id,
             project=project,
             limit=limit,
@@ -1979,7 +1979,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_issues_id_events_serialize(
+    def _get_v1_sentry_issues_by_id_events_serialize(
         self,
         id,
         project,
@@ -2611,7 +2611,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_id(
+    def get_v1_sentry_projects_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -2655,7 +2655,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_id_serialize(
+        _param = self._get_v1_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2678,7 +2678,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_id_with_http_info(
+    def get_v1_sentry_projects_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -2722,7 +2722,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_id_serialize(
+        _param = self._get_v1_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2745,7 +2745,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_id_without_preload_content(
+    def get_v1_sentry_projects_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -2789,7 +2789,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_id_serialize(
+        _param = self._get_v1_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2807,7 +2807,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_projects_id_serialize(
+    def _get_v1_sentry_projects_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -3463,7 +3463,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_id(
+    def get_v1_sentry_traces_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the trace id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the trace's errors belong to. Required.")],
@@ -3510,7 +3510,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_id_serialize(
+        _param = self._get_v1_sentry_traces_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -3534,7 +3534,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_id_with_http_info(
+    def get_v1_sentry_traces_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the trace id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the trace's errors belong to. Required.")],
@@ -3581,7 +3581,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_id_serialize(
+        _param = self._get_v1_sentry_traces_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -3605,7 +3605,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_id_without_preload_content(
+    def get_v1_sentry_traces_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the trace id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the trace's errors belong to. Required.")],
@@ -3652,7 +3652,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_id_serialize(
+        _param = self._get_v1_sentry_traces_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -3671,7 +3671,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_traces_id_serialize(
+    def _get_v1_sentry_traces_by_id_serialize(
         self,
         id,
         project,
@@ -3724,256 +3724,6 @@ class SentryApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/sentry/traces/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def options_v1_sentry_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Not served by the Sentry face
-
-        Published because this address accepts every method, but the Sentry face routes nothing here: the request reaches the runtime as an unrouted path and no issue, event or trace is touched.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_sentry_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def options_v1_sentry_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Not served by the Sentry face
-
-        Published because this address accepts every method, but the Sentry face routes nothing here: the request reaches the runtime as an unrouted path and no issue, event or trace is touched.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_sentry_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def options_v1_sentry_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Not served by the Sentry face
-
-        Published because this address accepts every method, but the Sentry face routes nothing here: the request reaches the runtime as an unrouted path and no issue, event or trace is touched.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_sentry_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _options_v1_sentry_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='OPTIONS',
-            resource_path='/v1/sentry/{wildcard1}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -5536,7 +5286,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_id_keys_rotate(
+    def post_v1_sentry_projects_by_id_keys_rotate(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -5580,7 +5330,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_id_keys_rotate_serialize(
+        _param = self._post_v1_sentry_projects_by_id_keys_rotate_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5603,7 +5353,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_id_keys_rotate_with_http_info(
+    def post_v1_sentry_projects_by_id_keys_rotate_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -5647,7 +5397,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_id_keys_rotate_serialize(
+        _param = self._post_v1_sentry_projects_by_id_keys_rotate_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5670,7 +5420,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_id_keys_rotate_without_preload_content(
+    def post_v1_sentry_projects_by_id_keys_rotate_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -5714,7 +5464,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_id_keys_rotate_serialize(
+        _param = self._post_v1_sentry_projects_by_id_keys_rotate_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5732,7 +5482,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_projects_id_keys_rotate_serialize(
+    def _post_v1_sentry_projects_by_id_keys_rotate_serialize(
         self,
         id,
         _request_auth,
@@ -6046,7 +5796,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_issues_id(
+    def put_v1_sentry_issues_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_sentry_update_issue_in: O11yO11ySentryUpdateIssueIn,
@@ -6093,7 +5843,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_issues_id_serialize(
+        _param = self._put_v1_sentry_issues_by_id_serialize(
             id=id,
             o11y_o11y_sentry_update_issue_in=o11y_o11y_sentry_update_issue_in,
             _request_auth=_request_auth,
@@ -6117,7 +5867,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_issues_id_with_http_info(
+    def put_v1_sentry_issues_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_sentry_update_issue_in: O11yO11ySentryUpdateIssueIn,
@@ -6164,7 +5914,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_issues_id_serialize(
+        _param = self._put_v1_sentry_issues_by_id_serialize(
             id=id,
             o11y_o11y_sentry_update_issue_in=o11y_o11y_sentry_update_issue_in,
             _request_auth=_request_auth,
@@ -6188,7 +5938,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_issues_id_without_preload_content(
+    def put_v1_sentry_issues_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_sentry_update_issue_in: O11yO11ySentryUpdateIssueIn,
@@ -6235,7 +5985,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_issues_id_serialize(
+        _param = self._put_v1_sentry_issues_by_id_serialize(
             id=id,
             o11y_o11y_sentry_update_issue_in=o11y_o11y_sentry_update_issue_in,
             _request_auth=_request_auth,
@@ -6254,7 +6004,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _put_v1_sentry_issues_id_serialize(
+    def _put_v1_sentry_issues_by_id_serialize(
         self,
         id,
         o11y_o11y_sentry_update_issue_in,
@@ -6318,256 +6068,6 @@ class SentryApi:
         return self.api_client.param_serialize(
             method='PUT',
             resource_path='/v1/sentry/issues/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def trace_v1_sentry_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Not served by the Sentry face
-
-        Published because this address accepts every method, but the Sentry face routes nothing here: the request reaches the runtime as an unrouted path and no issue, event or trace is touched.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_sentry_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def trace_v1_sentry_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Not served by the Sentry face
-
-        Published because this address accepts every method, but the Sentry face routes nothing here: the request reaches the runtime as an unrouted path and no issue, event or trace is touched.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_sentry_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def trace_v1_sentry_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Not served by the Sentry face
-
-        Published because this address accepts every method, but the Sentry face routes nothing here: the request reaches the runtime as an unrouted path and no issue, event or trace is touched.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_sentry_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _trace_v1_sentry_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='TRACE',
-            resource_path='/v1/sentry/{wildcard1}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
