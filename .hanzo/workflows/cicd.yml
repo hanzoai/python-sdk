@@ -20,15 +20,21 @@ on:
     branches: [main]
     tags: ['v*']
   pull_request:
-  # THE PROJECTION ASKS FOR THE RELEASE. hanzoai/ci's client lane, given no
-  # payload, reads hanzoai/cloud's newest tag off git.hanzo.ai and regenerates
-  # this tree onto it. That replaces a fan-out cloud pushed at nine repos and
-  # which never once reached a first step — github.com has no runner for the
-  # label these callers ask for, and the forge, which does, cannot receive a
-  # repository_dispatch at all. Asking needs no credential spanning six owners,
-  # and a release stays green whether or not this repo is well.
-  schedule:
-    - cron: '19 7 * * *'
+  # THE RELEASE POKES THE PROJECTION, and workflow_dispatch is how, because it
+  # is the dispatch verb this forge HAS. Two shapes were tried and neither could
+  # work: cloud posted `repository_dispatch: spec-update` at api.github.com,
+  # where these callers ask for a label github.com has no runner for, so twelve
+  # accepted events ran nothing; then this file grew a nightly `schedule:`,
+  # which does move the projection but decides WHEN by a clock rather than by a
+  # release, so a client is a day stale on average and nothing anywhere records
+  # which release it is a projection of.
+  #
+  # Measured instead of assumed: POST /v1/repos/<o>/<r>/actions/workflows/
+  # cicd.yml/dispatches on git.hanzo.ai answers 204, a git-runner picks the run
+  # up in seconds, and it reaches its first step. So the release dispatches this
+  # directly, on the side that has the runners, and the lane's no-payload path
+  # takes cloud's NEWEST TAG — which exists only after that commit built, smoked
+  # and rolled out. One trigger, fired by the thing that changed.
   workflow_dispatch:
 jobs:
   cicd:
