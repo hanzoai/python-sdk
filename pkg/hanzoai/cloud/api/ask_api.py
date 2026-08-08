@@ -18,6 +18,8 @@ from typing_extensions import Annotated
 
 from typing import Optional
 from hanzoai.cloud.models.ask_request import AskRequest
+from hanzoai.cloud.models.report import Report
+from hanzoai.cloud.models.web_question import WebQuestion
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -54,9 +56,9 @@ class AskApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Ask a grounded question about your own org
+        """Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.
 
-        Answers a natural-language question about the CALLER'S OWN org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger) and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
+        Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
 
         :param ask_request:
         :type ask_request: AskRequest
@@ -120,9 +122,9 @@ class AskApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Ask a grounded question about your own org
+        """Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.
 
-        Answers a natural-language question about the CALLER'S OWN org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger) and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
+        Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
 
         :param ask_request:
         :type ask_request: AskRequest
@@ -186,9 +188,9 @@ class AskApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Ask a grounded question about your own org
+        """Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.
 
-        Answers a natural-language question about the CALLER'S OWN org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger) and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
+        Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
 
         :param ask_request:
         :type ask_request: AskRequest
@@ -285,6 +287,279 @@ class AskApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/ask',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def research_web(
+        self,
+        web_question: WebQuestion,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> Report:
+        """Research a question on the live web and answer it with sources cited
+
+        Researches a question on the live web and answers it with its sources cited.  This is the DEEP one. It plans the question into topics, runs several web searches, FETCHES AND READS the pages it finds, ranks them, and writes a grounded answer with inline markdown citations. Use it for anything that needs evidence, comparison or current fact — \"what changed in X\", \"compare A and B\", \"is this claim true\". For a plain list of links, use search_web instead; for one page you already have the URL of, use read_page.  `mode` buys depth: `search` is a single fast pass, `news` biases to recency, `research` plans and iterates, `deep` surveys widest. `sources` narrows the evidence to `web`, `news`, `academic`, `github`, `reddit` or `x` — each becomes a site-scoped search, which is how this reaches X/Twitter posts.  EVERY CITATION IS A PAGE THIS CALL FETCHED. That is a property of the text and not an instruction to the model: each source is fenced with a per-request nonce so a crawled page cannot print itself a source number, and every markdown link in the answer is checked against the gathered set before it is returned. So a link in `answer` always appears in `sources`, and a page that was not read cannot be cited.  It is BOUNDED and it degrades rather than failing: a mode's rounds, wall clock and token ceiling all cap it, and a search that finds little or a page that will not load yields a thinner answer, never an error. A validated principal is required, and the answer is billed once to that principal's org.
+
+        :param web_question: (required)
+        :type web_question: WebQuestion
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._research_web_serialize(
+            web_question=web_question,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Report",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def research_web_with_http_info(
+        self,
+        web_question: WebQuestion,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[Report]:
+        """Research a question on the live web and answer it with sources cited
+
+        Researches a question on the live web and answers it with its sources cited.  This is the DEEP one. It plans the question into topics, runs several web searches, FETCHES AND READS the pages it finds, ranks them, and writes a grounded answer with inline markdown citations. Use it for anything that needs evidence, comparison or current fact — \"what changed in X\", \"compare A and B\", \"is this claim true\". For a plain list of links, use search_web instead; for one page you already have the URL of, use read_page.  `mode` buys depth: `search` is a single fast pass, `news` biases to recency, `research` plans and iterates, `deep` surveys widest. `sources` narrows the evidence to `web`, `news`, `academic`, `github`, `reddit` or `x` — each becomes a site-scoped search, which is how this reaches X/Twitter posts.  EVERY CITATION IS A PAGE THIS CALL FETCHED. That is a property of the text and not an instruction to the model: each source is fenced with a per-request nonce so a crawled page cannot print itself a source number, and every markdown link in the answer is checked against the gathered set before it is returned. So a link in `answer` always appears in `sources`, and a page that was not read cannot be cited.  It is BOUNDED and it degrades rather than failing: a mode's rounds, wall clock and token ceiling all cap it, and a search that finds little or a page that will not load yields a thinner answer, never an error. A validated principal is required, and the answer is billed once to that principal's org.
+
+        :param web_question: (required)
+        :type web_question: WebQuestion
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._research_web_serialize(
+            web_question=web_question,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Report",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def research_web_without_preload_content(
+        self,
+        web_question: WebQuestion,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Research a question on the live web and answer it with sources cited
+
+        Researches a question on the live web and answers it with its sources cited.  This is the DEEP one. It plans the question into topics, runs several web searches, FETCHES AND READS the pages it finds, ranks them, and writes a grounded answer with inline markdown citations. Use it for anything that needs evidence, comparison or current fact — \"what changed in X\", \"compare A and B\", \"is this claim true\". For a plain list of links, use search_web instead; for one page you already have the URL of, use read_page.  `mode` buys depth: `search` is a single fast pass, `news` biases to recency, `research` plans and iterates, `deep` surveys widest. `sources` narrows the evidence to `web`, `news`, `academic`, `github`, `reddit` or `x` — each becomes a site-scoped search, which is how this reaches X/Twitter posts.  EVERY CITATION IS A PAGE THIS CALL FETCHED. That is a property of the text and not an instruction to the model: each source is fenced with a per-request nonce so a crawled page cannot print itself a source number, and every markdown link in the answer is checked against the gathered set before it is returned. So a link in `answer` always appears in `sources`, and a page that was not read cannot be cited.  It is BOUNDED and it degrades rather than failing: a mode's rounds, wall clock and token ceiling all cap it, and a search that finds little or a page that will not load yields a thinner answer, never an error. A validated principal is required, and the answer is billed once to that principal's org.
+
+        :param web_question: (required)
+        :type web_question: WebQuestion
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._research_web_serialize(
+            web_question=web_question,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Report",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _research_web_serialize(
+        self,
+        web_question,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if web_question is not None:
+            _body_params = web_question
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/ask/web',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

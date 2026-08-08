@@ -26,12 +26,12 @@ class Remittance(BaseModel):
     """
     Remittance
     """ # noqa: E501
-    amount_cents: Optional[StrictInt] = Field(default=None, alias="amountCents")
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    id: Optional[StrictStr] = None
-    method: Optional[StrictStr] = None
-    reference: Optional[StrictStr] = None
-    txn: Optional[StrictStr] = None
+    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is the amount disbursed, in cents. It was reserved against pending commission atomically when recorded, so it never exceeds what was owed.", alias="amountCents")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the payout was recorded, Unix seconds UTC — when the balance moved, not necessarily when the cash landed.", alias="createdAt")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the payout row's server-minted handle, \"apo_\"-prefixed.")
+    method: Optional[StrictStr] = Field(default=None, description="Method is how it was settled. \"credits\" issued a commerce grant into the affiliate org's own wallet; any other value (wire, paypal, check, …) is a RECORD of cash a human moved out of band.")
+    reference: Optional[StrictStr] = Field(default=None, description="Reference is the operator's settlement note — a bank id, a ledger ref. Free text, absent when none was given.")
+    txn: Optional[StrictStr] = Field(default=None, description="Txn is the commerce ledger transaction id, set ONLY where a \"credits\" payout actually issued the grant. Absent for cash methods, which write no ledger row.")
     __properties: ClassVar[List[str]] = ["amountCents", "createdAt", "id", "method", "reference", "txn"]
 
     model_config = ConfigDict(

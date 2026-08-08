@@ -19,7 +19,6 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.application import Application
 from hanzoai.cloud.models.application_list import ApplicationList
 from hanzoai.cloud.models.company import Company
 from hanzoai.cloud.models.company_list import CompanyList
@@ -32,6 +31,7 @@ from hanzoai.cloud.models.opp_list import OppList
 from hanzoai.cloud.models.opp_req import OppReq
 from hanzoai.cloud.models.opportunity import Opportunity
 from hanzoai.cloud.models.patch_application_in import PatchApplicationIn
+from hanzoai.cloud.models.program_application import ProgramApplication
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,7 +52,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_companies_id(
+    def delete_v1_crm_companies_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -96,7 +96,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_companies_id_serialize(
+        _param = self._delete_v1_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -119,7 +119,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_companies_id_with_http_info(
+    def delete_v1_crm_companies_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -163,7 +163,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_companies_id_serialize(
+        _param = self._delete_v1_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -186,7 +186,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_companies_id_without_preload_content(
+    def delete_v1_crm_companies_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -230,7 +230,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_companies_id_serialize(
+        _param = self._delete_v1_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -248,7 +248,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _delete_v1_crm_companies_id_serialize(
+    def _delete_v1_crm_companies_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -305,7 +305,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_contacts_id(
+    def delete_v1_crm_contacts_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -349,7 +349,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_contacts_id_serialize(
+        _param = self._delete_v1_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -372,7 +372,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_contacts_id_with_http_info(
+    def delete_v1_crm_contacts_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -416,7 +416,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_contacts_id_serialize(
+        _param = self._delete_v1_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -439,7 +439,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_contacts_id_without_preload_content(
+    def delete_v1_crm_contacts_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -483,7 +483,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_contacts_id_serialize(
+        _param = self._delete_v1_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -501,7 +501,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _delete_v1_crm_contacts_id_serialize(
+    def _delete_v1_crm_contacts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -558,7 +558,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_opportunities_id(
+    def delete_v1_crm_opportunities_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -602,7 +602,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_opportunities_id_serialize(
+        _param = self._delete_v1_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -625,7 +625,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_opportunities_id_with_http_info(
+    def delete_v1_crm_opportunities_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -669,7 +669,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_opportunities_id_serialize(
+        _param = self._delete_v1_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -692,7 +692,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_opportunities_id_without_preload_content(
+    def delete_v1_crm_opportunities_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -736,7 +736,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_opportunities_id_serialize(
+        _param = self._delete_v1_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -754,7 +754,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _delete_v1_crm_opportunities_id_serialize(
+    def _delete_v1_crm_opportunities_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1090,7 +1090,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_id(
+    def get_v1_crm_applications_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1105,7 +1105,7 @@ class CrmApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Application:
+    ) -> ProgramApplication:
         """Returns one Startup Program application with its AI screen and stage history.
 
         Returns one Startup Program application with its AI screen and stage history. An id belonging to another org reads as not found.
@@ -1134,7 +1134,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_id_serialize(
+        _param = self._get_v1_crm_applications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1143,7 +1143,7 @@ class CrmApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
+            '200': "ProgramApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1157,7 +1157,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_id_with_http_info(
+    def get_v1_crm_applications_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1172,7 +1172,7 @@ class CrmApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Application]:
+    ) -> ApiResponse[ProgramApplication]:
         """Returns one Startup Program application with its AI screen and stage history.
 
         Returns one Startup Program application with its AI screen and stage history. An id belonging to another org reads as not found.
@@ -1201,7 +1201,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_id_serialize(
+        _param = self._get_v1_crm_applications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1210,7 +1210,7 @@ class CrmApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
+            '200': "ProgramApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1224,7 +1224,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_id_without_preload_content(
+    def get_v1_crm_applications_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1268,7 +1268,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_id_serialize(
+        _param = self._get_v1_crm_applications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1277,7 +1277,7 @@ class CrmApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
+            '200': "ProgramApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1286,7 +1286,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_applications_id_serialize(
+    def _get_v1_crm_applications_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1612,7 +1612,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_id(
+    def get_v1_crm_companies_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1656,7 +1656,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_id_serialize(
+        _param = self._get_v1_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1679,7 +1679,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_id_with_http_info(
+    def get_v1_crm_companies_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1723,7 +1723,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_id_serialize(
+        _param = self._get_v1_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1746,7 +1746,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_id_without_preload_content(
+    def get_v1_crm_companies_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1790,7 +1790,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_id_serialize(
+        _param = self._get_v1_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1808,7 +1808,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_companies_id_serialize(
+    def _get_v1_crm_companies_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2151,7 +2151,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_id(
+    def get_v1_crm_contacts_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2195,7 +2195,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_id_serialize(
+        _param = self._get_v1_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2218,7 +2218,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_id_with_http_info(
+    def get_v1_crm_contacts_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2262,7 +2262,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_id_serialize(
+        _param = self._get_v1_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2285,7 +2285,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_id_without_preload_content(
+    def get_v1_crm_contacts_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2329,7 +2329,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_id_serialize(
+        _param = self._get_v1_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2347,7 +2347,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_contacts_id_serialize(
+    def _get_v1_crm_contacts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2690,7 +2690,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_id(
+    def get_v1_crm_opportunities_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2734,7 +2734,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_id_serialize(
+        _param = self._get_v1_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2757,7 +2757,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_id_with_http_info(
+    def get_v1_crm_opportunities_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2801,7 +2801,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_id_serialize(
+        _param = self._get_v1_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2824,7 +2824,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_id_without_preload_content(
+    def get_v1_crm_opportunities_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2868,7 +2868,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_id_serialize(
+        _param = self._get_v1_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2886,7 +2886,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_opportunities_id_serialize(
+    def _get_v1_crm_opportunities_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -3195,7 +3195,7 @@ class CrmApi:
 
 
     @validate_call
-    def patch_v1_crm_applications_id(
+    def patch_v1_crm_applications_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the application to move, from the path.")],
         patch_application_in: PatchApplicationIn,
@@ -3211,7 +3211,7 @@ class CrmApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Application:
+    ) -> ProgramApplication:
         """Moves one Startup Program application through the pipeline.
 
         Moves one Startup Program application through the pipeline. The move is recorded on the application's timeline, attributed to the calling staff user: it may advance exactly one stage, go back to any earlier stage, reject from any non-rejected stage, or reopen a rejected application to `applied`; anything else is refused. Rejecting requires a reason. A note with no stage change is still recorded.
@@ -3242,7 +3242,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_crm_applications_id_serialize(
+        _param = self._patch_v1_crm_applications_by_id_serialize(
             id=id,
             patch_application_in=patch_application_in,
             _request_auth=_request_auth,
@@ -3252,7 +3252,7 @@ class CrmApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
+            '200': "ProgramApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3266,7 +3266,7 @@ class CrmApi:
 
 
     @validate_call
-    def patch_v1_crm_applications_id_with_http_info(
+    def patch_v1_crm_applications_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the application to move, from the path.")],
         patch_application_in: PatchApplicationIn,
@@ -3282,7 +3282,7 @@ class CrmApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Application]:
+    ) -> ApiResponse[ProgramApplication]:
         """Moves one Startup Program application through the pipeline.
 
         Moves one Startup Program application through the pipeline. The move is recorded on the application's timeline, attributed to the calling staff user: it may advance exactly one stage, go back to any earlier stage, reject from any non-rejected stage, or reopen a rejected application to `applied`; anything else is refused. Rejecting requires a reason. A note with no stage change is still recorded.
@@ -3313,7 +3313,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_crm_applications_id_serialize(
+        _param = self._patch_v1_crm_applications_by_id_serialize(
             id=id,
             patch_application_in=patch_application_in,
             _request_auth=_request_auth,
@@ -3323,7 +3323,7 @@ class CrmApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
+            '200': "ProgramApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3337,7 +3337,7 @@ class CrmApi:
 
 
     @validate_call
-    def patch_v1_crm_applications_id_without_preload_content(
+    def patch_v1_crm_applications_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the application to move, from the path.")],
         patch_application_in: PatchApplicationIn,
@@ -3384,7 +3384,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_crm_applications_id_serialize(
+        _param = self._patch_v1_crm_applications_by_id_serialize(
             id=id,
             patch_application_in=patch_application_in,
             _request_auth=_request_auth,
@@ -3394,7 +3394,7 @@ class CrmApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
+            '200': "ProgramApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3403,7 +3403,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _patch_v1_crm_applications_id_serialize(
+    def _patch_v1_crm_applications_by_id_serialize(
         self,
         id,
         patch_application_in,
@@ -3498,9 +3498,9 @@ class CrmApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Apply to the Startup Program from the public form
+        """Files an application to the Startup Program from the public form, and answers the id and pipeline stage it landed at.
 
-        Files an application to the Startup Program and answers the id and pipeline stage it landed at.  This is the ONE unauthenticated route in crm. It takes no principal and never reads a caller org: the application is filed against the DEPLOYMENT's own program org — the brand, hanzo unless white-labelled — so there is no tenant to name and none to leak. Reading the application back is staff-only and lives elsewhere.  company, contactName and a parseable email are required; everything else is optional context. Re-submitting the same (email, company) REFRESHES the existing application instead of filing a second one, so an impatient applicant cannot duplicate their own lead — that is a 200 where a first submission is a 201. A filled `hp` honeypot field is answered exactly like a success and stored nowhere, so a bot cannot tell a drop from an accept.  Filing is not screening: the application lands at stage `applied` with its AI screen still pending, and the screen runs afterwards on its own clock. A company and contact are also projected into the program org's ordinary CRM lists, best-effort — that projection failing does not fail the application. Bodies over 64 KiB are refused, and submissions are rate-limited.
+        Files an application to the Startup Program from the public form, and answers the id and pipeline stage it landed at.  This is the ONE unauthenticated route in crm. It takes no principal and never reads a caller org: the application is filed against the DEPLOYMENT's own program org — the brand, hanzo unless white-labelled — so there is no tenant to name and none to leak. Reading the application back is staff-only and lives elsewhere.  company, contactName and a parseable email are required; everything else is optional context. Re-submitting the same (email, company) REFRESHES the existing application instead of filing a second one, so an impatient applicant cannot duplicate their own lead — that is a 200 where a first submission is a 201. A filled `hp` honeypot field is answered exactly like a success and stored nowhere, so a bot cannot tell a drop from an accept.  Filing is not screening: the application lands at stage `applied` with its AI screen still pending, and the screen runs afterwards on its own clock. A company and contact are also projected into the program org's ordinary CRM lists, best-effort — that projection failing does not fail the application. Bodies over 64 KiB are refused, and submissions are rate-limited.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3560,9 +3560,9 @@ class CrmApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Apply to the Startup Program from the public form
+        """Files an application to the Startup Program from the public form, and answers the id and pipeline stage it landed at.
 
-        Files an application to the Startup Program and answers the id and pipeline stage it landed at.  This is the ONE unauthenticated route in crm. It takes no principal and never reads a caller org: the application is filed against the DEPLOYMENT's own program org — the brand, hanzo unless white-labelled — so there is no tenant to name and none to leak. Reading the application back is staff-only and lives elsewhere.  company, contactName and a parseable email are required; everything else is optional context. Re-submitting the same (email, company) REFRESHES the existing application instead of filing a second one, so an impatient applicant cannot duplicate their own lead — that is a 200 where a first submission is a 201. A filled `hp` honeypot field is answered exactly like a success and stored nowhere, so a bot cannot tell a drop from an accept.  Filing is not screening: the application lands at stage `applied` with its AI screen still pending, and the screen runs afterwards on its own clock. A company and contact are also projected into the program org's ordinary CRM lists, best-effort — that projection failing does not fail the application. Bodies over 64 KiB are refused, and submissions are rate-limited.
+        Files an application to the Startup Program from the public form, and answers the id and pipeline stage it landed at.  This is the ONE unauthenticated route in crm. It takes no principal and never reads a caller org: the application is filed against the DEPLOYMENT's own program org — the brand, hanzo unless white-labelled — so there is no tenant to name and none to leak. Reading the application back is staff-only and lives elsewhere.  company, contactName and a parseable email are required; everything else is optional context. Re-submitting the same (email, company) REFRESHES the existing application instead of filing a second one, so an impatient applicant cannot duplicate their own lead — that is a 200 where a first submission is a 201. A filled `hp` honeypot field is answered exactly like a success and stored nowhere, so a bot cannot tell a drop from an accept.  Filing is not screening: the application lands at stage `applied` with its AI screen still pending, and the screen runs afterwards on its own clock. A company and contact are also projected into the program org's ordinary CRM lists, best-effort — that projection failing does not fail the application. Bodies over 64 KiB are refused, and submissions are rate-limited.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3622,9 +3622,9 @@ class CrmApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Apply to the Startup Program from the public form
+        """Files an application to the Startup Program from the public form, and answers the id and pipeline stage it landed at.
 
-        Files an application to the Startup Program and answers the id and pipeline stage it landed at.  This is the ONE unauthenticated route in crm. It takes no principal and never reads a caller org: the application is filed against the DEPLOYMENT's own program org — the brand, hanzo unless white-labelled — so there is no tenant to name and none to leak. Reading the application back is staff-only and lives elsewhere.  company, contactName and a parseable email are required; everything else is optional context. Re-submitting the same (email, company) REFRESHES the existing application instead of filing a second one, so an impatient applicant cannot duplicate their own lead — that is a 200 where a first submission is a 201. A filled `hp` honeypot field is answered exactly like a success and stored nowhere, so a bot cannot tell a drop from an accept.  Filing is not screening: the application lands at stage `applied` with its AI screen still pending, and the screen runs afterwards on its own clock. A company and contact are also projected into the program org's ordinary CRM lists, best-effort — that projection failing does not fail the application. Bodies over 64 KiB are refused, and submissions are rate-limited.
+        Files an application to the Startup Program from the public form, and answers the id and pipeline stage it landed at.  This is the ONE unauthenticated route in crm. It takes no principal and never reads a caller org: the application is filed against the DEPLOYMENT's own program org — the brand, hanzo unless white-labelled — so there is no tenant to name and none to leak. Reading the application back is staff-only and lives elsewhere.  company, contactName and a parseable email are required; everything else is optional context. Re-submitting the same (email, company) REFRESHES the existing application instead of filing a second one, so an impatient applicant cannot duplicate their own lead — that is a 200 where a first submission is a 201. A filled `hp` honeypot field is answered exactly like a success and stored nowhere, so a bot cannot tell a drop from an accept.  Filing is not screening: the application lands at stage `applied` with its AI screen still pending, and the screen runs afterwards on its own clock. A company and contact are also projected into the program org's ordinary CRM lists, best-effort — that projection failing does not fail the application. Bodies over 64 KiB are refused, and submissions are rate-limited.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4537,7 +4537,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_companies_id(
+    def put_v1_crm_companies_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID names the company to update and comes from the path. A create ignores it: the server mints the id.")],
         company_req: CompanyReq,
@@ -4584,7 +4584,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_companies_id_serialize(
+        _param = self._put_v1_crm_companies_by_id_serialize(
             id=id,
             company_req=company_req,
             _request_auth=_request_auth,
@@ -4608,7 +4608,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_companies_id_with_http_info(
+    def put_v1_crm_companies_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID names the company to update and comes from the path. A create ignores it: the server mints the id.")],
         company_req: CompanyReq,
@@ -4655,7 +4655,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_companies_id_serialize(
+        _param = self._put_v1_crm_companies_by_id_serialize(
             id=id,
             company_req=company_req,
             _request_auth=_request_auth,
@@ -4679,7 +4679,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_companies_id_without_preload_content(
+    def put_v1_crm_companies_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID names the company to update and comes from the path. A create ignores it: the server mints the id.")],
         company_req: CompanyReq,
@@ -4726,7 +4726,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_companies_id_serialize(
+        _param = self._put_v1_crm_companies_by_id_serialize(
             id=id,
             company_req=company_req,
             _request_auth=_request_auth,
@@ -4745,7 +4745,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _put_v1_crm_companies_id_serialize(
+    def _put_v1_crm_companies_by_id_serialize(
         self,
         id,
         company_req,
@@ -4825,7 +4825,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_contacts_id(
+    def put_v1_crm_contacts_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID names the contact to update and comes from the path. A create ignores it: the server mints the id.")],
         contact_req: ContactReq,
@@ -4872,7 +4872,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_contacts_id_serialize(
+        _param = self._put_v1_crm_contacts_by_id_serialize(
             id=id,
             contact_req=contact_req,
             _request_auth=_request_auth,
@@ -4896,7 +4896,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_contacts_id_with_http_info(
+    def put_v1_crm_contacts_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID names the contact to update and comes from the path. A create ignores it: the server mints the id.")],
         contact_req: ContactReq,
@@ -4943,7 +4943,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_contacts_id_serialize(
+        _param = self._put_v1_crm_contacts_by_id_serialize(
             id=id,
             contact_req=contact_req,
             _request_auth=_request_auth,
@@ -4967,7 +4967,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_contacts_id_without_preload_content(
+    def put_v1_crm_contacts_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID names the contact to update and comes from the path. A create ignores it: the server mints the id.")],
         contact_req: ContactReq,
@@ -5014,7 +5014,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_contacts_id_serialize(
+        _param = self._put_v1_crm_contacts_by_id_serialize(
             id=id,
             contact_req=contact_req,
             _request_auth=_request_auth,
@@ -5033,7 +5033,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _put_v1_crm_contacts_id_serialize(
+    def _put_v1_crm_contacts_by_id_serialize(
         self,
         id,
         contact_req,
@@ -5113,7 +5113,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_opportunities_id(
+    def put_v1_crm_opportunities_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID names the opportunity to update and comes from the path. A create ignores it: the server mints the id.")],
         opp_req: OppReq,
@@ -5160,7 +5160,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_opportunities_id_serialize(
+        _param = self._put_v1_crm_opportunities_by_id_serialize(
             id=id,
             opp_req=opp_req,
             _request_auth=_request_auth,
@@ -5184,7 +5184,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_opportunities_id_with_http_info(
+    def put_v1_crm_opportunities_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID names the opportunity to update and comes from the path. A create ignores it: the server mints the id.")],
         opp_req: OppReq,
@@ -5231,7 +5231,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_opportunities_id_serialize(
+        _param = self._put_v1_crm_opportunities_by_id_serialize(
             id=id,
             opp_req=opp_req,
             _request_auth=_request_auth,
@@ -5255,7 +5255,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_opportunities_id_without_preload_content(
+    def put_v1_crm_opportunities_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID names the opportunity to update and comes from the path. A create ignores it: the server mints the id.")],
         opp_req: OppReq,
@@ -5302,7 +5302,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_opportunities_id_serialize(
+        _param = self._put_v1_crm_opportunities_by_id_serialize(
             id=id,
             opp_req=opp_req,
             _request_auth=_request_auth,
@@ -5321,7 +5321,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _put_v1_crm_opportunities_id_serialize(
+    def _put_v1_crm_opportunities_by_id_serialize(
         self,
         id,
         opp_req,

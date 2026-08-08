@@ -43,7 +43,7 @@ class CloudApi:
 
 
     @validate_call
-    def delete_v1_cloud_provider_accounts_label(
+    def delete_v1_cloud_by_provider_accounts_by_label(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found.")],
         label: Annotated[StrictStr, Field(description="Label is the org-chosen name of the account within that provider. Empty means \"default\"; anything outside 1–64 of [A-Za-z0-9._-] is refused.")],
@@ -90,7 +90,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloud_provider_accounts_label_serialize(
+        _param = self._delete_v1_cloud_by_provider_accounts_by_label_serialize(
             provider=provider,
             label=label,
             _request_auth=_request_auth,
@@ -114,7 +114,7 @@ class CloudApi:
 
 
     @validate_call
-    def delete_v1_cloud_provider_accounts_label_with_http_info(
+    def delete_v1_cloud_by_provider_accounts_by_label_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found.")],
         label: Annotated[StrictStr, Field(description="Label is the org-chosen name of the account within that provider. Empty means \"default\"; anything outside 1–64 of [A-Za-z0-9._-] is refused.")],
@@ -161,7 +161,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloud_provider_accounts_label_serialize(
+        _param = self._delete_v1_cloud_by_provider_accounts_by_label_serialize(
             provider=provider,
             label=label,
             _request_auth=_request_auth,
@@ -185,7 +185,7 @@ class CloudApi:
 
 
     @validate_call
-    def delete_v1_cloud_provider_accounts_label_without_preload_content(
+    def delete_v1_cloud_by_provider_accounts_by_label_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found.")],
         label: Annotated[StrictStr, Field(description="Label is the org-chosen name of the account within that provider. Empty means \"default\"; anything outside 1–64 of [A-Za-z0-9._-] is refused.")],
@@ -232,7 +232,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloud_provider_accounts_label_serialize(
+        _param = self._delete_v1_cloud_by_provider_accounts_by_label_serialize(
             provider=provider,
             label=label,
             _request_auth=_request_auth,
@@ -251,7 +251,7 @@ class CloudApi:
         return response_data.response
 
 
-    def _delete_v1_cloud_provider_accounts_label_serialize(
+    def _delete_v1_cloud_by_provider_accounts_by_label_serialize(
         self,
         provider,
         label,
@@ -808,7 +808,7 @@ class CloudApi:
 
 
     @validate_call
-    def post_v1_cloud_provider_accounts(
+    def post_v1_cloud_by_provider_accounts(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud being linked, from the path: digitalocean, aws, gcp or azure.")],
         venue_link_request: VenueLinkRequest,
@@ -855,7 +855,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloud_provider_accounts_serialize(
+        _param = self._post_v1_cloud_by_provider_accounts_serialize(
             provider=provider,
             venue_link_request=venue_link_request,
             _request_auth=_request_auth,
@@ -879,7 +879,7 @@ class CloudApi:
 
 
     @validate_call
-    def post_v1_cloud_provider_accounts_with_http_info(
+    def post_v1_cloud_by_provider_accounts_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud being linked, from the path: digitalocean, aws, gcp or azure.")],
         venue_link_request: VenueLinkRequest,
@@ -926,7 +926,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloud_provider_accounts_serialize(
+        _param = self._post_v1_cloud_by_provider_accounts_serialize(
             provider=provider,
             venue_link_request=venue_link_request,
             _request_auth=_request_auth,
@@ -950,7 +950,7 @@ class CloudApi:
 
 
     @validate_call
-    def post_v1_cloud_provider_accounts_without_preload_content(
+    def post_v1_cloud_by_provider_accounts_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud being linked, from the path: digitalocean, aws, gcp or azure.")],
         venue_link_request: VenueLinkRequest,
@@ -997,7 +997,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloud_provider_accounts_serialize(
+        _param = self._post_v1_cloud_by_provider_accounts_serialize(
             provider=provider,
             venue_link_request=venue_link_request,
             _request_auth=_request_auth,
@@ -1016,7 +1016,7 @@ class CloudApi:
         return response_data.response
 
 
-    def _post_v1_cloud_provider_accounts_serialize(
+    def _post_v1_cloud_by_provider_accounts_serialize(
         self,
         provider,
         venue_link_request,
@@ -1096,7 +1096,7 @@ class CloudApi:
 
 
     @validate_call
-    def post_v1_cloud_provider_accounts_label_sync(
+    def post_v1_cloud_by_provider_accounts_by_label_sync(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found.")],
         label: Annotated[StrictStr, Field(description="Label is the org-chosen name of the account within that provider. Empty means \"default\"; anything outside 1–64 of [A-Za-z0-9._-] is refused.")],
@@ -1143,7 +1143,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloud_provider_accounts_label_sync_serialize(
+        _param = self._post_v1_cloud_by_provider_accounts_by_label_sync_serialize(
             provider=provider,
             label=label,
             _request_auth=_request_auth,
@@ -1167,7 +1167,7 @@ class CloudApi:
 
 
     @validate_call
-    def post_v1_cloud_provider_accounts_label_sync_with_http_info(
+    def post_v1_cloud_by_provider_accounts_by_label_sync_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found.")],
         label: Annotated[StrictStr, Field(description="Label is the org-chosen name of the account within that provider. Empty means \"default\"; anything outside 1–64 of [A-Za-z0-9._-] is refused.")],
@@ -1214,7 +1214,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloud_provider_accounts_label_sync_serialize(
+        _param = self._post_v1_cloud_by_provider_accounts_by_label_sync_serialize(
             provider=provider,
             label=label,
             _request_auth=_request_auth,
@@ -1238,7 +1238,7 @@ class CloudApi:
 
 
     @validate_call
-    def post_v1_cloud_provider_accounts_label_sync_without_preload_content(
+    def post_v1_cloud_by_provider_accounts_by_label_sync_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the cloud the account belongs to: digitalocean, aws, gcp or azure. An unknown provider is not found.")],
         label: Annotated[StrictStr, Field(description="Label is the org-chosen name of the account within that provider. Empty means \"default\"; anything outside 1–64 of [A-Za-z0-9._-] is refused.")],
@@ -1285,7 +1285,7 @@ class CloudApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloud_provider_accounts_label_sync_serialize(
+        _param = self._post_v1_cloud_by_provider_accounts_by_label_sync_serialize(
             provider=provider,
             label=label,
             _request_auth=_request_auth,
@@ -1304,7 +1304,7 @@ class CloudApi:
         return response_data.response
 
 
-    def _post_v1_cloud_provider_accounts_label_sync_serialize(
+    def _post_v1_cloud_by_provider_accounts_by_label_sync_serialize(
         self,
         provider,
         label,

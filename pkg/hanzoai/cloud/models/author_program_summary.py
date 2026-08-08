@@ -26,13 +26,13 @@ class AuthorProgramSummary(BaseModel):
     """
     AuthorProgramSummary
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    approved: Optional[StrictInt] = None
-    connected: Optional[StrictInt] = None
-    paid_cents: Optional[StrictInt] = Field(default=None, alias="paidCents")
-    pending_cents: Optional[StrictInt] = Field(default=None, alias="pendingCents")
-    suspended: Optional[StrictInt] = None
-    total: Optional[StrictInt] = None
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is the page's lifetime royalty accrued, in integer USD cents.", alias="accruedCents")
+    approved: Optional[StrictInt] = Field(default=None, description="Approved is how many are admitted and accruing.")
+    connected: Optional[StrictInt] = Field(default=None, description="Connected is how many of those are enrolled but not yet admitted to earning.")
+    paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is what has been RECORDED as paid across the page, in integer USD cents. Recorded, not settled: the money leaves in a human's hands.", alias="paidCents")
+    pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is what the platform still owes across the page, in integer USD cents — the sum of each author's own accrued − paid, each floored at zero.", alias="pendingCents")
+    suspended: Optional[StrictInt] = Field(default=None, description="Suspended is how many have been stopped from accruing further. An author holds exactly one status, so the three buckets never overlap and connected + approved + suspended = total.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is how many author records this response actually carried. The roll-up is folded over the SAME page as authors — newest first, bounded by limit (default 500, ceiling 1000) — so on a program larger than the page it summarizes that page, not the fleet.")
     __properties: ClassVar[List[str]] = ["accruedCents", "approved", "connected", "paidCents", "pendingCents", "suspended", "total"]
 
     model_config = ConfigDict(

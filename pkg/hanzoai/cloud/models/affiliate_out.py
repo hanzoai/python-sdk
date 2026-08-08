@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.affiliate_data import AffiliateData
 from typing import Optional, Set
@@ -27,7 +27,7 @@ class AffiliateOut(BaseModel):
     """
     AffiliateOut
     """ # noqa: E501
-    data: Optional[AffiliateData] = None
+    data: Optional[AffiliateData] = Field(default=None, description="Data carries the affiliate row the action just wrote.")
     msg: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["data", "msg", "status"]

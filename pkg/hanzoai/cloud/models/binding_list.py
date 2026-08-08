@@ -27,7 +27,7 @@ class BindingList(BaseModel):
     """
     BindingList
     """ # noqa: E501
-    agent_bindings: Optional[List[AgentBinding]] = Field(default=None, description="AgentBindings is one row per bound machine, emitted verbatim as vm reports it so vm stays the single source of truth for the binding shape.", alias="agentBindings")
+    agent_bindings: Optional[List[AgentBinding]] = Field(default=None, description="AgentBindings is one row per bound machine, emitted verbatim as vm reports it.", alias="agentBindings")
     __properties: ClassVar[List[str]] = ["agentBindings"]
 
     model_config = ConfigDict(

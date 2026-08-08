@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.referral_board import ReferralBoard
 from typing import Optional, Set
@@ -27,7 +27,7 @@ class ReferralsOut(BaseModel):
     """
     ReferralsOut
     """ # noqa: E501
-    data: Optional[ReferralBoard] = None
+    data: Optional[ReferralBoard] = Field(default=None, description="Data is the referral board: leaders, funnel, tally and per-level liability.")
     msg: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["data", "msg", "status"]

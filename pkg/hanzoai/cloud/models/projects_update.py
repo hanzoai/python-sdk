@@ -36,9 +36,10 @@ class ProjectsUpdate(BaseModel):
     name: Optional[StrictStr] = None
     repo: Optional[ProjectsCreateRepo] = None
     slug: Optional[StrictStr] = Field(default=None, description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")
+    tags: Optional[Dict[str, StrictStr]] = Field(default=None, description="Tags sets the site's browser tag config: platform slug → non-secret pixel id (e.g. {\"ga4\":\"G-…\",\"meta\":\"…\"}). track.js injects these first-party and the server CAPI reads them, per site. Absent LEAVES them; a present object REPLACES the set (send {} to clear). The ids are public — they ship in the page — so this is not the SECRET path (a CAPI token is sealed via POST /v1/destinations).")
     upstream: Optional[StrictStr] = Field(default=None, description="Upstream/License credit the third-party work this app was published from — settable after the fact, because the demos that need crediting most are the ones already live. Pointers so \"\" clears a credit and absent leaves it.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility flips an existing project between \"public\" and \"private\". Same ONE rule as at create: public is free, private needs a paid plan.")
-    __properties: ClassVar[List[str]] = ["cacheControl", "description", "framework", "hidden", "hiddenReason", "license", "name", "repo", "slug", "upstream", "visibility"]
+    __properties: ClassVar[List[str]] = ["cacheControl", "description", "framework", "hidden", "hiddenReason", "license", "name", "repo", "slug", "tags", "upstream", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -103,6 +104,7 @@ class ProjectsUpdate(BaseModel):
             "name": obj.get("name"),
             "repo": ProjectsCreateRepo.from_dict(obj["repo"]) if obj.get("repo") is not None else None,
             "slug": obj.get("slug"),
+            "tags": obj.get("tags"),
             "upstream": obj.get("upstream"),
             "visibility": obj.get("visibility")
         })

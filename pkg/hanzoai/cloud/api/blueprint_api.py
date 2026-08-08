@@ -543,9 +543,9 @@ class BlueprintApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """A blueprint's bill of images and what running it costs
+        """Answers a blueprint's bill of images and what running it costs.
 
-        Answers a blueprint's SBOM — the container images its compose stack runs, each with the CPU/memory footprint that was applied to it — together with the compute cost that footprint prices out to on the active rate card.  ONE address, TWO shapes at 200: `?template=<id>` returns that blueprint's Estimate alone (404 on an id no embedded blueprint carries), and no `template` returns `{data:[Estimate]}` for every blueprint — the batch the console's template gallery reads in one round-trip.  The blueprints are reference content embedded in the binary and validated at mount, so this read is the same for every caller and is scoped to no tenant. The per-hour figure it returns is the one the deploy path meters the deploying org on and the 20% author royalty is taken from; GET /v1/blueprint/health echoes the rate card it was priced from.
+        Answers a blueprint's bill of images and what running it costs.  It returns the container images the blueprint's compose stack runs, each with the CPU/memory footprint that was applied to it, together with the compute cost that footprint prices out to on the active rate card.  ONE address, TWO shapes at 200: `?template=<id>` returns that blueprint's Estimate alone (404 on an id no embedded blueprint carries), and no `template` returns `{data:[Estimate]}` for every blueprint — the batch the console's template gallery reads in one round-trip.  The blueprints are reference content embedded in the binary and validated at mount, so this read is the same for every caller and is scoped to no tenant. The per-hour figure it returns is the one the deploy path meters the deploying org on and the 20% author royalty is taken from; GET /v1/blueprint/health echoes the rate card it was priced from.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -605,9 +605,9 @@ class BlueprintApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """A blueprint's bill of images and what running it costs
+        """Answers a blueprint's bill of images and what running it costs.
 
-        Answers a blueprint's SBOM — the container images its compose stack runs, each with the CPU/memory footprint that was applied to it — together with the compute cost that footprint prices out to on the active rate card.  ONE address, TWO shapes at 200: `?template=<id>` returns that blueprint's Estimate alone (404 on an id no embedded blueprint carries), and no `template` returns `{data:[Estimate]}` for every blueprint — the batch the console's template gallery reads in one round-trip.  The blueprints are reference content embedded in the binary and validated at mount, so this read is the same for every caller and is scoped to no tenant. The per-hour figure it returns is the one the deploy path meters the deploying org on and the 20% author royalty is taken from; GET /v1/blueprint/health echoes the rate card it was priced from.
+        Answers a blueprint's bill of images and what running it costs.  It returns the container images the blueprint's compose stack runs, each with the CPU/memory footprint that was applied to it, together with the compute cost that footprint prices out to on the active rate card.  ONE address, TWO shapes at 200: `?template=<id>` returns that blueprint's Estimate alone (404 on an id no embedded blueprint carries), and no `template` returns `{data:[Estimate]}` for every blueprint — the batch the console's template gallery reads in one round-trip.  The blueprints are reference content embedded in the binary and validated at mount, so this read is the same for every caller and is scoped to no tenant. The per-hour figure it returns is the one the deploy path meters the deploying org on and the 20% author royalty is taken from; GET /v1/blueprint/health echoes the rate card it was priced from.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -667,9 +667,9 @@ class BlueprintApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """A blueprint's bill of images and what running it costs
+        """Answers a blueprint's bill of images and what running it costs.
 
-        Answers a blueprint's SBOM — the container images its compose stack runs, each with the CPU/memory footprint that was applied to it — together with the compute cost that footprint prices out to on the active rate card.  ONE address, TWO shapes at 200: `?template=<id>` returns that blueprint's Estimate alone (404 on an id no embedded blueprint carries), and no `template` returns `{data:[Estimate]}` for every blueprint — the batch the console's template gallery reads in one round-trip.  The blueprints are reference content embedded in the binary and validated at mount, so this read is the same for every caller and is scoped to no tenant. The per-hour figure it returns is the one the deploy path meters the deploying org on and the 20% author royalty is taken from; GET /v1/blueprint/health echoes the rate card it was priced from.
+        Answers a blueprint's bill of images and what running it costs.  It returns the container images the blueprint's compose stack runs, each with the CPU/memory footprint that was applied to it, together with the compute cost that footprint prices out to on the active rate card.  ONE address, TWO shapes at 200: `?template=<id>` returns that blueprint's Estimate alone (404 on an id no embedded blueprint carries), and no `template` returns `{data:[Estimate]}` for every blueprint — the batch the console's template gallery reads in one round-trip.  The blueprints are reference content embedded in the binary and validated at mount, so this read is the same for every caller and is scoped to no tenant. The per-hour figure it returns is the one the deploy path meters the deploying org on and the 20% author royalty is taken from; GET /v1/blueprint/health echoes the rate card it was priced from.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

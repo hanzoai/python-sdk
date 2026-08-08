@@ -902,7 +902,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_id(
+    def get_v1_tools_catalog_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\".")],
         _request_timeout: Union[
@@ -946,7 +946,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_id_serialize(
+        _param = self._get_v1_tools_catalog_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -969,7 +969,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_id_with_http_info(
+    def get_v1_tools_catalog_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\".")],
         _request_timeout: Union[
@@ -1013,7 +1013,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_id_serialize(
+        _param = self._get_v1_tools_catalog_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1036,7 +1036,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_id_without_preload_content(
+    def get_v1_tools_catalog_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\".")],
         _request_timeout: Union[
@@ -1080,7 +1080,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_id_serialize(
+        _param = self._get_v1_tools_catalog_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1098,7 +1098,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _get_v1_tools_catalog_id_serialize(
+    def _get_v1_tools_catalog_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1162,7 +1162,7 @@ class ToolsApi:
 
 
     @validate_call
-    def patch_v1_tools_catalog_id(
+    def patch_v1_tools_catalog_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
         curate_req: CurateReq,
@@ -1209,7 +1209,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tools_catalog_id_serialize(
+        _param = self._patch_v1_tools_catalog_by_id_serialize(
             id=id,
             curate_req=curate_req,
             _request_auth=_request_auth,
@@ -1233,7 +1233,7 @@ class ToolsApi:
 
 
     @validate_call
-    def patch_v1_tools_catalog_id_with_http_info(
+    def patch_v1_tools_catalog_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
         curate_req: CurateReq,
@@ -1280,7 +1280,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tools_catalog_id_serialize(
+        _param = self._patch_v1_tools_catalog_by_id_serialize(
             id=id,
             curate_req=curate_req,
             _request_auth=_request_auth,
@@ -1304,7 +1304,7 @@ class ToolsApi:
 
 
     @validate_call
-    def patch_v1_tools_catalog_id_without_preload_content(
+    def patch_v1_tools_catalog_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
         curate_req: CurateReq,
@@ -1351,7 +1351,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tools_catalog_id_serialize(
+        _param = self._patch_v1_tools_catalog_by_id_serialize(
             id=id,
             curate_req=curate_req,
             _request_auth=_request_auth,
@@ -1370,7 +1370,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _patch_v1_tools_catalog_id_serialize(
+    def _patch_v1_tools_catalog_by_id_serialize(
         self,
         id,
         curate_req,

@@ -31,7 +31,7 @@ class AffiliateEarnings(BaseModel):
     accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is lifetime commission accrued, in cents.", alias="accruedCents")
     by_period: Optional[List[PeriodEarningView]] = Field(default=None, description="ByPeriod is the per-period ledger: the margin earned against and the commission taken from it.", alias="byPeriod")
     by_referred_org: Optional[List[OrgEarningView]] = Field(default=None, description="ByReferredOrg is each referral's aggregate contribution — the affiliate's OWN share, never the referred org's spend.", alias="byReferredOrg")
-    is_affiliate: Optional[StrictBool] = Field(default=None, alias="isAffiliate")
+    is_affiliate: Optional[StrictBool] = Field(default=None, description="IsAffiliate says whether the caller org has an affiliate record. On false it is the ONLY field present — there is no ledger to report, and the zeros you might expect are absent rather than reported as earnings of nothing.", alias="isAffiliate")
     margin_bps: Optional[StrictInt] = Field(default=None, description="MarginBps is the platform gross-margin fraction commission is a rate OF.", alias="marginBps")
     paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is lifetime commission already paid out, in cents.", alias="paidCents")
     pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is accrued minus paid — what the platform still owes.", alias="pendingCents")

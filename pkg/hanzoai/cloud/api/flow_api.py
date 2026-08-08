@@ -43,7 +43,7 @@ class FlowApi:
 
 
     @validate_call
-    def delete_v1_flow_workflows_workflow(
+    def delete_v1_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flow_workflows_workflow_serialize(
+        _param = self._delete_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class FlowApi:
 
 
     @validate_call
-    def delete_v1_flow_workflows_workflow_with_http_info(
+    def delete_v1_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flow_workflows_workflow_serialize(
+        _param = self._delete_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class FlowApi:
 
 
     @validate_call
-    def delete_v1_flow_workflows_workflow_without_preload_content(
+    def delete_v1_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flow_workflows_workflow_serialize(
+        _param = self._delete_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _delete_v1_flow_workflows_workflow_serialize(
+    def _delete_v1_flow_workflows_by_workflow_serialize(
         self,
         workflow,
         _request_auth,
@@ -1089,7 +1089,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_workflow(
+    def get_v1_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -1133,7 +1133,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_workflow_serialize(
+        _param = self._get_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1156,7 +1156,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_workflow_with_http_info(
+    def get_v1_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -1200,7 +1200,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_workflow_serialize(
+        _param = self._get_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1223,7 +1223,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_workflow_without_preload_content(
+    def get_v1_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -1267,7 +1267,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_workflow_serialize(
+        _param = self._get_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1285,7 +1285,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _get_v1_flow_workflows_workflow_serialize(
+    def _get_v1_flow_workflows_by_workflow_serialize(
         self,
         workflow,
         _request_auth,
@@ -1349,7 +1349,7 @@ class FlowApi:
 
 
     @validate_call
-    def patch_v1_flow_workflows_workflow(
+    def patch_v1_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         flow_update: FlowUpdate,
@@ -1396,7 +1396,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_flow_workflows_workflow_serialize(
+        _param = self._patch_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             flow_update=flow_update,
             _request_auth=_request_auth,
@@ -1420,7 +1420,7 @@ class FlowApi:
 
 
     @validate_call
-    def patch_v1_flow_workflows_workflow_with_http_info(
+    def patch_v1_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         flow_update: FlowUpdate,
@@ -1467,7 +1467,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_flow_workflows_workflow_serialize(
+        _param = self._patch_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             flow_update=flow_update,
             _request_auth=_request_auth,
@@ -1491,7 +1491,7 @@ class FlowApi:
 
 
     @validate_call
-    def patch_v1_flow_workflows_workflow_without_preload_content(
+    def patch_v1_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         flow_update: FlowUpdate,
@@ -1538,7 +1538,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_flow_workflows_workflow_serialize(
+        _param = self._patch_v1_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             flow_update=flow_update,
             _request_auth=_request_auth,
@@ -1557,7 +1557,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _patch_v1_flow_workflows_workflow_serialize(
+    def _patch_v1_flow_workflows_by_workflow_serialize(
         self,
         workflow,
         flow_update,

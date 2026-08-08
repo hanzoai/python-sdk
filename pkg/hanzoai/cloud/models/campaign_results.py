@@ -28,25 +28,25 @@ class CampaignResults(BaseModel):
     CampaignResults
     """ # noqa: E501
     ab_test: Optional[Any] = Field(default=None, alias="abTest")
-    available: Optional[StrictBool] = None
-    cac: Optional[Union[StrictFloat, StrictInt]] = None
-    campaign_id: Optional[StrictStr] = Field(default=None, alias="campaignId")
-    channels: Optional[List[ChannelMetric]] = None
-    clicks: Optional[StrictInt] = None
-    conversions: Optional[StrictInt] = None
-    ctr: Optional[Union[StrictFloat, StrictInt]] = None
-    cvr: Optional[Union[StrictFloat, StrictInt]] = None
-    end: Optional[StrictStr] = None
-    impressions: Optional[StrictInt] = None
-    name: Optional[StrictStr] = None
-    range: Optional[StrictStr] = None
-    revenue: Optional[Union[StrictFloat, StrictInt]] = None
-    roas: Optional[Union[StrictFloat, StrictInt]] = None
-    source: Optional[StrictStr] = None
-    spend_cents: Optional[StrictInt] = Field(default=None, alias="spendCents")
-    start: Optional[StrictStr] = None
-    status: Optional[StrictStr] = None
-    visitors: Optional[StrictInt] = None
+    available: Optional[StrictBool] = Field(default=None, description="Available is false when the analytics warehouse is not connected or the query failed: the funnel below is then zero because nothing could be read, not because nothing happened. Spend and Channels are still real — they come from the connectors, not the warehouse.")
+    cac: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CAC is customer acquisition cost: spend DOLLARS per conversion, rounded to cents. 0 when nothing converted — that is \"not yet computable\", not \"free\".")
+    campaign_id: Optional[StrictStr] = Field(default=None, description="CampaignID is the campaign these results are for, echoed from the request.", alias="campaignId")
+    channels: Optional[List[ChannelMetric]] = Field(default=None, description="Channels is the per-channel spend breakdown that SpendCents sums, one row per channel on the campaign including the ones that never launched.")
+    clicks: Optional[StrictInt] = Field(default=None, description="Clicks is the campaign's click events over the window.")
+    conversions: Optional[StrictInt] = Field(default=None, description="Conversions is the terminal funnel events attributed to the campaign — orders completed, signups completed, explicit conversion events.")
+    ctr: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CTR is clicks per impression, a fraction rounded to 4 places (0.0123 = 1.23%), not a percentage. 0 when there were no impressions to divide by.")
+    cvr: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CVR is conversions per click, a fraction rounded to 4 places. 0 when there were no clicks.")
+    end: Optional[StrictStr] = Field(default=None, description="End is the window's end, RFC3339 UTC — the read's own clock unless an explicit pair was given. The window is a LOOKBACK, not the campaign's own lifetime.")
+    impressions: Optional[StrictInt] = Field(default=None, description="Impressions is how many times the campaign's creatives were shown, counted from its utm_campaign-tagged impression events.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the campaign's display name at read time, so a result can be labelled without a second fetch.")
+    range: Optional[StrictStr] = Field(default=None, description="Range is the window actually used: 24h, 7d, 30d, 90d, or \"custom\" when an explicit start/end pair was honored. An unparseable or absent range reads 30d, so this is the value to trust, not the one that was sent.")
+    revenue: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Revenue is the summed revenue attribute of the campaign's events, in whole CURRENCY UNITS (dollars) — the one money value here that is not in cents.")
+    roas: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="ROAS is return on ad spend: revenue per spend DOLLAR, rounded to 2 places (2.5 = $2.50 back per $1). 0 when nothing was spent.")
+    source: Optional[StrictStr] = Field(default=None, description="Source names the analytics table the funnel was read from, so an operator can see exactly what was counted. Set even when Available is false.")
+    spend_cents: Optional[StrictInt] = Field(default=None, description="SpendCents is the campaign's total spend in CENTS: the sum of what each live channel's provider reports. A channel whose spend could not be read contributes 0 and says so on its own row.", alias="spendCents")
+    start: Optional[StrictStr] = Field(default=None, description="Start is the window's inclusive start, RFC3339 UTC.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is the campaign's lifecycle state at read time — draft, live, paused, completed or failed. A draft has never run, so its funnel is legitimately zero.")
+    visitors: Optional[StrictInt] = Field(default=None, description="Visitors is how many distinct people the campaign reached, counted by event identity across ALL its events in the window — not a subset of Impressions, so it can exceed them for a campaign whose provider reports clicks but not views.")
     __properties: ClassVar[List[str]] = ["abTest", "available", "cac", "campaignId", "channels", "clicks", "conversions", "ctr", "cvr", "end", "impressions", "name", "range", "revenue", "roas", "source", "spendCents", "start", "status", "visitors"]
 
     model_config = ConfigDict(

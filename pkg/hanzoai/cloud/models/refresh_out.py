@@ -27,7 +27,7 @@ class RefreshOut(BaseModel):
     """
     RefreshOut
     """ # noqa: E501
-    connector: Optional[ConnView] = Field(default=None, description="Connector is the connector with its new expiry.")
+    connector: Optional[ConnView] = Field(default=None, description="Connection is the connector with its new expiry.")
     refreshed: Optional[StrictBool] = Field(default=None, description="Refreshed is always true — a failed rotation is an HTTP error.")
     __properties: ClassVar[List[str]] = ["connector", "refreshed"]
 

@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.iam_key import IamKey
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +26,12 @@ class IamListResponse(BaseModel):
     """
     IamListResponse
     """ # noqa: E501
-    keys: Optional[List[IamKey]] = None
-    __properties: ClassVar[List[str]] = ["keys"]
+    resources: Optional[List[Dict[str, Any]]] = Field(default=None, alias="Resources")
+    items_per_page: Optional[StrictInt] = Field(default=None, alias="itemsPerPage")
+    schemas: Optional[List[StrictStr]] = None
+    start_index: Optional[StrictInt] = Field(default=None, alias="startIndex")
+    total_results: Optional[StrictInt] = Field(default=None, alias="totalResults")
+    __properties: ClassVar[List[str]] = ["Resources", "itemsPerPage", "schemas", "startIndex", "totalResults"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,13 +72,6 @@ class IamListResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
-        _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
         return _dict
 
     @classmethod
@@ -88,7 +84,11 @@ class IamListResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [IamKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "Resources": obj.get("Resources"),
+            "itemsPerPage": obj.get("itemsPerPage"),
+            "schemas": obj.get("schemas"),
+            "startIndex": obj.get("startIndex"),
+            "totalResults": obj.get("totalResults")
         })
         return _obj
 

@@ -44,7 +44,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def delete_v1_marketplace_listings_id(
+    def delete_v1_marketplace_listings_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketplace_listings_id_serialize(
+        _param = self._delete_v1_marketplace_listings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def delete_v1_marketplace_listings_id_with_http_info(
+    def delete_v1_marketplace_listings_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketplace_listings_id_serialize(
+        _param = self._delete_v1_marketplace_listings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def delete_v1_marketplace_listings_id_without_preload_content(
+    def delete_v1_marketplace_listings_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketplace_listings_id_serialize(
+        _param = self._delete_v1_marketplace_listings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _delete_v1_marketplace_listings_id_serialize(
+    def _delete_v1_marketplace_listings_by_id_serialize(
         self,
         id,
         _request_auth,

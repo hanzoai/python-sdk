@@ -48,10 +48,11 @@ class ProjectsProject(BaseModel):
     slug: Optional[StrictStr] = None
     space: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
+    tags: Optional[Dict[str, StrictStr]] = Field(default=None, description="Tags is the site's browser tag config: platform slug → non-secret pixel id (GA measurement, Meta pixel, …) — what track.js injects and the server CAPI reads, per site. Omitted when none are set. The API SECRET is never here (KMS).")
     updated_at: Optional[StrictInt] = Field(default=None, alias="updatedAt")
     upstream: Optional[StrictStr] = Field(default=None, description="Upstream/License credit the third-party work this project was published from, and the terms it carries. Omitted when nothing is declared: an absent credit means \"nobody has said\", not \"there is nothing to say\".")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above.")
-    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "status", "updatedAt", "upstream", "visibility"]
+    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "status", "tags", "updatedAt", "upstream", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -128,6 +129,7 @@ class ProjectsProject(BaseModel):
             "slug": obj.get("slug"),
             "space": obj.get("space"),
             "status": obj.get("status"),
+            "tags": obj.get("tags"),
             "updatedAt": obj.get("updatedAt"),
             "upstream": obj.get("upstream"),
             "visibility": obj.get("visibility")

@@ -26,8 +26,8 @@ class OrgEarningView(BaseModel):
     """
     OrgEarningView
     """ # noqa: E501
-    commission_cents: Optional[StrictInt] = Field(default=None, alias="commissionCents")
-    referred_org: Optional[StrictStr] = Field(default=None, alias="referredOrg")
+    commission_cents: Optional[StrictInt] = Field(default=None, description="CommissionCents is what the caller earned from that org across ALL periods, in cents. Deliberately the caller's own share and nothing else: that org's spend and the margin on it are not restated here.", alias="commissionCents")
+    referred_org: Optional[StrictStr] = Field(default=None, description="ReferredOrg is the org slug this contribution came from — one the caller referred, directly or up to three levels down.", alias="referredOrg")
     __properties: ClassVar[List[str]] = ["commissionCents", "referredOrg"]
 
     model_config = ConfigDict(

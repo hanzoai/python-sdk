@@ -43,7 +43,7 @@ class KvApi:
 
 
     @validate_call
-    def delete_v1_kv_name(
+    def delete_v1_kv_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class KvApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kv_name_serialize(
+        _param = self._delete_v1_kv_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class KvApi:
 
 
     @validate_call
-    def delete_v1_kv_name_with_http_info(
+    def delete_v1_kv_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class KvApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kv_name_serialize(
+        _param = self._delete_v1_kv_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class KvApi:
 
 
     @validate_call
-    def delete_v1_kv_name_without_preload_content(
+    def delete_v1_kv_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class KvApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kv_name_serialize(
+        _param = self._delete_v1_kv_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class KvApi:
         return response_data.response
 
 
-    def _delete_v1_kv_name_serialize(
+    def _delete_v1_kv_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -541,7 +541,7 @@ class KvApi:
 
 
     @validate_call
-    def get_v1_kv_name(
+    def get_v1_kv_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -585,7 +585,7 @@ class KvApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kv_name_serialize(
+        _param = self._get_v1_kv_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -608,7 +608,7 @@ class KvApi:
 
 
     @validate_call
-    def get_v1_kv_name_with_http_info(
+    def get_v1_kv_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -652,7 +652,7 @@ class KvApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kv_name_serialize(
+        _param = self._get_v1_kv_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -675,7 +675,7 @@ class KvApi:
 
 
     @validate_call
-    def get_v1_kv_name_without_preload_content(
+    def get_v1_kv_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -719,7 +719,7 @@ class KvApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kv_name_serialize(
+        _param = self._get_v1_kv_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -737,7 +737,7 @@ class KvApi:
         return response_data.response
 
 
-    def _get_v1_kv_name_serialize(
+    def _get_v1_kv_by_name_serialize(
         self,
         name,
         _request_auth,

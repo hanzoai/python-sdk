@@ -28,17 +28,17 @@ class LeaderboardView(BaseModel):
     """
     LeaderboardView
     """ # noqa: E501
-    available: Optional[StrictBool] = None
-    end: Optional[StrictStr] = None
-    metric: Optional[StrictStr] = Field(default=None, description="tokens|requests|cost")
-    period: Optional[StrictStr] = Field(default=None, description="day|week|month|all|custom")
-    rows: Optional[List[LeaderboardRow]] = None
-    scope: Optional[StrictStr] = Field(default=None, description="personal|org|global")
-    var_self: Optional[SelfRank] = Field(default=None, alias="self")
-    source: Optional[StrictStr] = None
-    start: Optional[StrictStr] = Field(default=None, description="\"\" for all")
-    subject: Optional[StrictStr] = Field(default=None, description="user|org")
-    total: Optional[StrictInt] = Field(default=None, description="ranked subjects in the window")
+    available: Optional[StrictBool] = Field(default=None, description="Available is false when the usage warehouse is not connected or its rollup is not ready. Rows is then empty because nothing could be read — not because nobody used anything. Show that difference; never render an unavailable board as a real one.")
+    end: Optional[StrictStr] = Field(default=None, description="End is the EXCLUSIVE upper bound of the window, \"2006-01-02\" — the day after the last one counted. A board through today reports tomorrow's date here.")
+    metric: Optional[StrictStr] = Field(default=None, description="Metric echoes the value ranked: tokens|requests|cost.")
+    period: Optional[StrictStr] = Field(default=None, description="Period is the window's canonical label: day|week|month|all. The server resolves aliases (7d, 30d, today, …) to these, so this may differ from what was sent.")
+    rows: Optional[List[LeaderboardRow]] = Field(default=None, description="Rows are the ranked subjects, best first, at most the requested limit of them. Always a list, never null: an empty one means nothing was read, not an error.")
+    scope: Optional[StrictStr] = Field(default=None, description="Scope echoes the board that was served: personal|org|global.")
+    var_self: Optional[SelfRank] = Field(default=None, description="Self is the caller's own standing, reported even when they fall outside Rows. Absent when the caller's ledger identity cannot be resolved, or when the query behind it failed — never faked to keep the shape tidy.", alias="self")
+    source: Optional[StrictStr] = Field(default=None, description="Source names the table these numbers were aggregated from (the derived daily rollup, hanzo.usage_rollup_daily), so an operator can tell exactly what was read.")
+    start: Optional[StrictStr] = Field(default=None, description="Start is the first day counted, \"2006-01-02\" inclusive. Empty for period=all, which has no lower bound at all.")
+    subject: Optional[StrictStr] = Field(default=None, description="Subject is what the rows stand for — \"user\" on a personal or org board, \"org\" on the global one. It tells a client whether Handle names a person or a company.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is how many subjects were ranked in the window — the org's active users, or the active/opted-in orgs on the global board. It is the universe the ranks are out of, so it is normally larger than len(rows).")
     __properties: ClassVar[List[str]] = ["available", "end", "metric", "period", "rows", "scope", "self", "source", "start", "subject", "total"]
 
     model_config = ConfigDict(

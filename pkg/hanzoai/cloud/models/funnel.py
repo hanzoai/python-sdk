@@ -26,9 +26,9 @@ class Funnel(BaseModel):
     """
     Funnel
     """ # noqa: E501
-    converted_orgs: Optional[StrictInt] = Field(default=None, alias="convertedOrgs")
-    rate_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="ratePct")
-    referred_orgs: Optional[StrictInt] = Field(default=None, alias="referredOrgs")
+    converted_orgs: Optional[StrictInt] = Field(default=None, description="ConvertedOrgs is how many distinct referred orgs have produced positive commission at least once — a referral that actually spent.", alias="convertedOrgs")
+    rate_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="RatePct is convertedOrgs over referredOrgs as a PERCENTAGE, 0–100, and the one non-integer figure on this board. It is 0 when nothing has been referred yet, not undefined.", alias="ratePct")
+    referred_orgs: Optional[StrictInt] = Field(default=None, description="ReferredOrgs is how many attribution edges exist fleet-wide — one per referred org, first-touch, so it is also the count of distinct referred orgs.", alias="referredOrgs")
     __properties: ClassVar[List[str]] = ["convertedOrgs", "ratePct", "referredOrgs"]
 
     model_config = ConfigDict(

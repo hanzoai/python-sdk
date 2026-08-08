@@ -30,10 +30,10 @@ class ReferralBoard(BaseModel):
     """
     ReferralBoard
     """ # noqa: E501
-    accrual_by_level: Optional[LevelSplit] = Field(default=None, alias="accrualByLevel")
-    conversion: Optional[Funnel] = None
-    summary: Optional[Tally] = None
-    top_referrers: Optional[List[ReferrerRow]] = Field(default=None, alias="topReferrers")
+    accrual_by_level: Optional[LevelSplit] = Field(default=None, description="AccrualByLevel splits the lifetime accrual across the three upline levels — how much of the liability comes from direct referrals versus the chain above.", alias="accrualByLevel")
+    conversion: Optional[Funnel] = Field(default=None, description="Conversion is the funnel: referred orgs against those that actually earned.")
+    summary: Optional[Tally] = Field(default=None, description="Summary is the fleet tally — population by status, and lifetime accrued, paid and still-owed commission.")
+    top_referrers: Optional[List[ReferrerRow]] = Field(default=None, description="TopReferrers is the 25 affiliates with the most lifetime accrued commission, descending, orgs named.", alias="topReferrers")
     __properties: ClassVar[List[str]] = ["accrualByLevel", "conversion", "summary", "topReferrers"]
 
     model_config = ConfigDict(

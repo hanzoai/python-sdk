@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.role import Role
+from hanzoai.cloud.models.role_assignment import RoleAssignment
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class RoleList(BaseModel):
     """
     RoleList
     """ # noqa: E501
-    data: Optional[List[Role]] = Field(default=None, description="Data is every (user, role) assignment in the caller's org.")
+    data: Optional[List[RoleAssignment]] = Field(default=None, description="Data is every (user, role) assignment in the caller's org.")
     __properties: ClassVar[List[str]] = ["data"]
 
     model_config = ConfigDict(
@@ -88,7 +88,7 @@ class RoleList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [Role.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "data": [RoleAssignment.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
         })
         return _obj
 

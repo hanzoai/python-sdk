@@ -14499,7 +14499,7 @@ class O11yApi:
 
 
     @validate_call
-    def delete_v1_o11y_explorer_views_view_id(
+    def delete_v1_o11y_explorer_views_by_viewid(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the view's id.")],
         _request_timeout: Union[
@@ -14543,7 +14543,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._delete_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14566,7 +14566,7 @@ class O11yApi:
 
 
     @validate_call
-    def delete_v1_o11y_explorer_views_view_id_with_http_info(
+    def delete_v1_o11y_explorer_views_by_viewid_with_http_info(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the view's id.")],
         _request_timeout: Union[
@@ -14610,7 +14610,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._delete_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14633,7 +14633,7 @@ class O11yApi:
 
 
     @validate_call
-    def delete_v1_o11y_explorer_views_view_id_without_preload_content(
+    def delete_v1_o11y_explorer_views_by_viewid_without_preload_content(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the view's id.")],
         _request_timeout: Union[
@@ -14677,7 +14677,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._delete_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14695,7 +14695,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _delete_v1_o11y_explorer_views_view_id_serialize(
+    def _delete_v1_o11y_explorer_views_by_viewid_serialize(
         self,
         view_id,
         _request_auth,
@@ -14759,7 +14759,7 @@ class O11yApi:
 
 
     @validate_call
-    def delete_v1_o11y_reviews_id(
+    def delete_v1_o11y_reviews_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to act on, from the path.")],
         _request_timeout: Union[
@@ -14803,7 +14803,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_o11y_reviews_id_serialize(
+        _param = self._delete_v1_o11y_reviews_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14826,7 +14826,7 @@ class O11yApi:
 
 
     @validate_call
-    def delete_v1_o11y_reviews_id_with_http_info(
+    def delete_v1_o11y_reviews_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to act on, from the path.")],
         _request_timeout: Union[
@@ -14870,7 +14870,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_o11y_reviews_id_serialize(
+        _param = self._delete_v1_o11y_reviews_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14893,7 +14893,7 @@ class O11yApi:
 
 
     @validate_call
-    def delete_v1_o11y_reviews_id_without_preload_content(
+    def delete_v1_o11y_reviews_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to act on, from the path.")],
         _request_timeout: Union[
@@ -14937,7 +14937,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_o11y_reviews_id_serialize(
+        _param = self._delete_v1_o11y_reviews_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14955,7 +14955,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _delete_v1_o11y_reviews_id_serialize(
+    def _delete_v1_o11y_reviews_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -40082,7 +40082,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_error_from_error_id(
+    def get_v1_o11y_errorfromerrorid(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -40132,7 +40132,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_error_from_error_id_serialize(
+        _param = self._get_v1_o11y_errorfromerrorid_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -40157,7 +40157,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_error_from_error_id_with_http_info(
+    def get_v1_o11y_errorfromerrorid_with_http_info(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -40207,7 +40207,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_error_from_error_id_serialize(
+        _param = self._get_v1_o11y_errorfromerrorid_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -40232,7 +40232,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_error_from_error_id_without_preload_content(
+    def get_v1_o11y_errorfromerrorid_without_preload_content(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -40282,7 +40282,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_error_from_error_id_serialize(
+        _param = self._get_v1_o11y_errorfromerrorid_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -40302,7 +40302,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_error_from_error_id_serialize(
+    def _get_v1_o11y_errorfromerrorid_serialize(
         self,
         timestamp,
         group_id,
@@ -40378,7 +40378,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_error_from_group_id(
+    def get_v1_o11y_errorfromgroupid(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -40428,7 +40428,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_error_from_group_id_serialize(
+        _param = self._get_v1_o11y_errorfromgroupid_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -40453,7 +40453,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_error_from_group_id_with_http_info(
+    def get_v1_o11y_errorfromgroupid_with_http_info(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -40503,7 +40503,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_error_from_group_id_serialize(
+        _param = self._get_v1_o11y_errorfromgroupid_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -40528,7 +40528,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_error_from_group_id_without_preload_content(
+    def get_v1_o11y_errorfromgroupid_without_preload_content(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -40578,7 +40578,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_error_from_group_id_serialize(
+        _param = self._get_v1_o11y_errorfromgroupid_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -40598,7 +40598,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_error_from_group_id_serialize(
+    def _get_v1_o11y_errorfromgroupid_serialize(
         self,
         timestamp,
         group_id,
@@ -41055,7 +41055,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_errortracking_issues_id(
+    def get_v1_o11y_errortracking_issues_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -41099,7 +41099,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_errortracking_issues_id_serialize(
+        _param = self._get_v1_o11y_errortracking_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41122,7 +41122,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_errortracking_issues_id_with_http_info(
+    def get_v1_o11y_errortracking_issues_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -41166,7 +41166,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_errortracking_issues_id_serialize(
+        _param = self._get_v1_o11y_errortracking_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41189,7 +41189,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_errortracking_issues_id_without_preload_content(
+    def get_v1_o11y_errortracking_issues_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -41233,7 +41233,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_errortracking_issues_id_serialize(
+        _param = self._get_v1_o11y_errortracking_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41251,7 +41251,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_errortracking_issues_id_serialize(
+    def _get_v1_o11y_errortracking_issues_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -41611,7 +41611,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_explorer_views_view_id(
+    def get_v1_o11y_explorer_views_by_viewid(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the view's id.")],
         _request_timeout: Union[
@@ -41655,7 +41655,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._get_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41678,7 +41678,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_explorer_views_view_id_with_http_info(
+    def get_v1_o11y_explorer_views_by_viewid_with_http_info(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the view's id.")],
         _request_timeout: Union[
@@ -41722,7 +41722,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._get_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41745,7 +41745,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_explorer_views_view_id_without_preload_content(
+    def get_v1_o11y_explorer_views_by_viewid_without_preload_content(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the view's id.")],
         _request_timeout: Union[
@@ -41789,7 +41789,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._get_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41807,7 +41807,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_explorer_views_view_id_serialize(
+    def _get_v1_o11y_explorer_views_by_viewid_serialize(
         self,
         view_id,
         _request_auth,
@@ -47761,7 +47761,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_logs_pipelines_version(
+    def get_v1_o11y_logs_pipelines_by_version(
         self,
         version: Annotated[StrictStr, Field(description="Version is the config version to read — a positive number, or \"latest\".")],
         _request_timeout: Union[
@@ -47805,7 +47805,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_logs_pipelines_version_serialize(
+        _param = self._get_v1_o11y_logs_pipelines_by_version_serialize(
             version=version,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47828,7 +47828,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_logs_pipelines_version_with_http_info(
+    def get_v1_o11y_logs_pipelines_by_version_with_http_info(
         self,
         version: Annotated[StrictStr, Field(description="Version is the config version to read — a positive number, or \"latest\".")],
         _request_timeout: Union[
@@ -47872,7 +47872,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_logs_pipelines_version_serialize(
+        _param = self._get_v1_o11y_logs_pipelines_by_version_serialize(
             version=version,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47895,7 +47895,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_logs_pipelines_version_without_preload_content(
+    def get_v1_o11y_logs_pipelines_by_version_without_preload_content(
         self,
         version: Annotated[StrictStr, Field(description="Version is the config version to read — a positive number, or \"latest\".")],
         _request_timeout: Union[
@@ -47939,7 +47939,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_logs_pipelines_version_serialize(
+        _param = self._get_v1_o11y_logs_pipelines_by_version_serialize(
             version=version,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47957,7 +47957,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_logs_pipelines_version_serialize(
+    def _get_v1_o11y_logs_pipelines_by_version_serialize(
         self,
         version,
         _request_auth,
@@ -49273,7 +49273,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_next_prev_error_ids(
+    def get_v1_o11y_nextpreverrorids(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -49323,7 +49323,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_next_prev_error_ids_serialize(
+        _param = self._get_v1_o11y_nextpreverrorids_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -49348,7 +49348,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_next_prev_error_ids_with_http_info(
+    def get_v1_o11y_nextpreverrorids_with_http_info(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -49398,7 +49398,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_next_prev_error_ids_serialize(
+        _param = self._get_v1_o11y_nextpreverrorids_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -49423,7 +49423,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_next_prev_error_ids_without_preload_content(
+    def get_v1_o11y_nextpreverrorids_without_preload_content(
         self,
         timestamp: Annotated[StrictStr, Field(description="Timestamp is the instance's time as a nanosecond epoch spelled as a string. Required.")],
         group_id: Annotated[StrictStr, Field(description="GroupID is the exception group the instance belongs to. Required.")],
@@ -49473,7 +49473,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_next_prev_error_ids_serialize(
+        _param = self._get_v1_o11y_nextpreverrorids_serialize(
             timestamp=timestamp,
             group_id=group_id,
             error_id=error_id,
@@ -49493,7 +49493,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_next_prev_error_ids_serialize(
+    def _get_v1_o11y_nextpreverrorids_serialize(
         self,
         timestamp,
         group_id,
@@ -54186,7 +54186,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_reviews_id(
+    def get_v1_o11y_reviews_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to act on, from the path.")],
         _request_timeout: Union[
@@ -54230,7 +54230,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_reviews_id_serialize(
+        _param = self._get_v1_o11y_reviews_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -54253,7 +54253,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_reviews_id_with_http_info(
+    def get_v1_o11y_reviews_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to act on, from the path.")],
         _request_timeout: Union[
@@ -54297,7 +54297,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_reviews_id_serialize(
+        _param = self._get_v1_o11y_reviews_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -54320,7 +54320,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_reviews_id_without_preload_content(
+    def get_v1_o11y_reviews_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to act on, from the path.")],
         _request_timeout: Union[
@@ -54364,7 +54364,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_reviews_id_serialize(
+        _param = self._get_v1_o11y_reviews_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -54382,7 +54382,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_reviews_id_serialize(
+    def _get_v1_o11y_reviews_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -54446,7 +54446,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_reviews_id_items(
+    def get_v1_o11y_reviews_by_id_items(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue whose items to list, from the path.")],
         status: Annotated[Optional[StrictStr], Field(description="Status filters to PENDING or COMPLETED items. Absent returns both.")] = None,
@@ -54499,7 +54499,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_reviews_id_items_serialize(
+        _param = self._get_v1_o11y_reviews_by_id_items_serialize(
             id=id,
             status=status,
             page=page,
@@ -54525,7 +54525,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_reviews_id_items_with_http_info(
+    def get_v1_o11y_reviews_by_id_items_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue whose items to list, from the path.")],
         status: Annotated[Optional[StrictStr], Field(description="Status filters to PENDING or COMPLETED items. Absent returns both.")] = None,
@@ -54578,7 +54578,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_reviews_id_items_serialize(
+        _param = self._get_v1_o11y_reviews_by_id_items_serialize(
             id=id,
             status=status,
             page=page,
@@ -54604,7 +54604,7 @@ class O11yApi:
 
 
     @validate_call
-    def get_v1_o11y_reviews_id_items_without_preload_content(
+    def get_v1_o11y_reviews_by_id_items_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue whose items to list, from the path.")],
         status: Annotated[Optional[StrictStr], Field(description="Status filters to PENDING or COMPLETED items. Absent returns both.")] = None,
@@ -54657,7 +54657,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_o11y_reviews_id_items_serialize(
+        _param = self._get_v1_o11y_reviews_by_id_items_serialize(
             id=id,
             status=status,
             page=page,
@@ -54678,7 +54678,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _get_v1_o11y_reviews_id_items_serialize(
+    def _get_v1_o11y_reviews_by_id_items_serialize(
         self,
         id,
         status,
@@ -55017,9 +55017,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """List the caller org's LLM sessions
+        """Lists the caller org's LLM sessions.
 
-        Answers the caller org's LLM-observability sessions — traces grouped by session id on the gen_ai span plane — paged by limit and offset, in the runtime's own envelope, passed through unchanged.  An org-less caller is refused HERE, at the cloud boundary, before the request reaches the runtime, and the org the runtime then scopes on is that SAME validated tenant. The two cannot disagree: the tenant is minted from the principal's own claim at ingress and a client copy never survives it.  There is deliberately no session-detail route to pair with this. The runtime serves the list only; detail is composed client-side from this list plus the traces filtered by session, so a caller looking for one is looking for something that was never served rather than something that broke.
+        Lists the caller org's LLM sessions.  It answers the caller org's LLM-observability sessions — traces grouped by session id on the gen_ai span plane — paged by limit and offset, in the runtime's own envelope, passed through unchanged.  An org-less caller is refused HERE, at the cloud boundary, before the request reaches the runtime, and the org the runtime then scopes on is that SAME validated tenant. The two cannot disagree: the tenant is minted from the principal's own claim at ingress and a client copy never survives it.  There is deliberately no session-detail route to pair with this. The runtime serves the list only; detail is composed client-side from this list plus the traces filtered by session, so a caller looking for one is looking for something that was never served rather than something that broke.  Why an explicit cloud route rather than only the order-70 wildcard: this pins the public flat path to the runtime's internal /api/sessions route SERVER-SIDE AND enforces the tenant gate at the cloud boundary — an org-less caller gets a clean 403 here before the request reaches the runtime, and the org the runtime binds (gen_ai.hanzo.org_id from X-Org-Id) is the SAME validated tenant this handler refuses to proceed without. Registered by mountScope (order 69), so it precedes the wildcard.  This used to cite query.go's composite-query pin as the precedent for the move. That file is GONE — it pinned POST /v1/o11y/query_range to the v3 engine, and when it went the module's v5 querier took the address, whose composite accepts only {queries:[…]}. The console still sent the v3 {queryType,panelType,builderQueries} envelope and every Logs page 400'd on \"unknown field \\\"queryType\\\" in composite query\". Citing a deleted pin as the discipline to follow is how the next route inherits the same break, so the reference is removed rather than reworded: this route stands on its OWN pin, three lines below, which is still here.  The list query (?limit=&offset=) rides through unchanged; the runtime returns the llmobstypes.GettableSessions {items,offset,limit} under the {status,data} envelope the console's O11yApi.sessions already unwraps.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -55079,9 +55079,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """List the caller org's LLM sessions
+        """Lists the caller org's LLM sessions.
 
-        Answers the caller org's LLM-observability sessions — traces grouped by session id on the gen_ai span plane — paged by limit and offset, in the runtime's own envelope, passed through unchanged.  An org-less caller is refused HERE, at the cloud boundary, before the request reaches the runtime, and the org the runtime then scopes on is that SAME validated tenant. The two cannot disagree: the tenant is minted from the principal's own claim at ingress and a client copy never survives it.  There is deliberately no session-detail route to pair with this. The runtime serves the list only; detail is composed client-side from this list plus the traces filtered by session, so a caller looking for one is looking for something that was never served rather than something that broke.
+        Lists the caller org's LLM sessions.  It answers the caller org's LLM-observability sessions — traces grouped by session id on the gen_ai span plane — paged by limit and offset, in the runtime's own envelope, passed through unchanged.  An org-less caller is refused HERE, at the cloud boundary, before the request reaches the runtime, and the org the runtime then scopes on is that SAME validated tenant. The two cannot disagree: the tenant is minted from the principal's own claim at ingress and a client copy never survives it.  There is deliberately no session-detail route to pair with this. The runtime serves the list only; detail is composed client-side from this list plus the traces filtered by session, so a caller looking for one is looking for something that was never served rather than something that broke.  Why an explicit cloud route rather than only the order-70 wildcard: this pins the public flat path to the runtime's internal /api/sessions route SERVER-SIDE AND enforces the tenant gate at the cloud boundary — an org-less caller gets a clean 403 here before the request reaches the runtime, and the org the runtime binds (gen_ai.hanzo.org_id from X-Org-Id) is the SAME validated tenant this handler refuses to proceed without. Registered by mountScope (order 69), so it precedes the wildcard.  This used to cite query.go's composite-query pin as the precedent for the move. That file is GONE — it pinned POST /v1/o11y/query_range to the v3 engine, and when it went the module's v5 querier took the address, whose composite accepts only {queries:[…]}. The console still sent the v3 {queryType,panelType,builderQueries} envelope and every Logs page 400'd on \"unknown field \\\"queryType\\\" in composite query\". Citing a deleted pin as the discipline to follow is how the next route inherits the same break, so the reference is removed rather than reworded: this route stands on its OWN pin, three lines below, which is still here.  The list query (?limit=&offset=) rides through unchanged; the runtime returns the llmobstypes.GettableSessions {items,offset,limit} under the {status,data} envelope the console's O11yApi.sessions already unwraps.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -55141,9 +55141,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List the caller org's LLM sessions
+        """Lists the caller org's LLM sessions.
 
-        Answers the caller org's LLM-observability sessions — traces grouped by session id on the gen_ai span plane — paged by limit and offset, in the runtime's own envelope, passed through unchanged.  An org-less caller is refused HERE, at the cloud boundary, before the request reaches the runtime, and the org the runtime then scopes on is that SAME validated tenant. The two cannot disagree: the tenant is minted from the principal's own claim at ingress and a client copy never survives it.  There is deliberately no session-detail route to pair with this. The runtime serves the list only; detail is composed client-side from this list plus the traces filtered by session, so a caller looking for one is looking for something that was never served rather than something that broke.
+        Lists the caller org's LLM sessions.  It answers the caller org's LLM-observability sessions — traces grouped by session id on the gen_ai span plane — paged by limit and offset, in the runtime's own envelope, passed through unchanged.  An org-less caller is refused HERE, at the cloud boundary, before the request reaches the runtime, and the org the runtime then scopes on is that SAME validated tenant. The two cannot disagree: the tenant is minted from the principal's own claim at ingress and a client copy never survives it.  There is deliberately no session-detail route to pair with this. The runtime serves the list only; detail is composed client-side from this list plus the traces filtered by session, so a caller looking for one is looking for something that was never served rather than something that broke.  Why an explicit cloud route rather than only the order-70 wildcard: this pins the public flat path to the runtime's internal /api/sessions route SERVER-SIDE AND enforces the tenant gate at the cloud boundary — an org-less caller gets a clean 403 here before the request reaches the runtime, and the org the runtime binds (gen_ai.hanzo.org_id from X-Org-Id) is the SAME validated tenant this handler refuses to proceed without. Registered by mountScope (order 69), so it precedes the wildcard.  This used to cite query.go's composite-query pin as the precedent for the move. That file is GONE — it pinned POST /v1/o11y/query_range to the v3 engine, and when it went the module's v5 querier took the address, whose composite accepts only {queries:[…]}. The console still sent the v3 {queryType,panelType,builderQueries} envelope and every Logs page 400'd on \"unknown field \\\"queryType\\\" in composite query\". Citing a deleted pin as the discipline to follow is how the next route inherits the same break, so the reference is removed rather than reworded: this route stands on its OWN pin, three lines below, which is still here.  The list query (?limit=&offset=) rides through unchanged; the runtime returns the llmobstypes.GettableSessions {items,offset,limit} under the {status,data} envelope the console's O11yApi.sessions already unwraps.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -68245,7 +68245,7 @@ class O11yApi:
 
 
     @validate_call
-    def patch_v1_o11y_reviews_id(
+    def patch_v1_o11y_reviews_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to update, from the path.")],
         o11y_update_queue_in: O11yUpdateQueueIn,
@@ -68292,7 +68292,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_o11y_reviews_id_serialize(
+        _param = self._patch_v1_o11y_reviews_by_id_serialize(
             id=id,
             o11y_update_queue_in=o11y_update_queue_in,
             _request_auth=_request_auth,
@@ -68316,7 +68316,7 @@ class O11yApi:
 
 
     @validate_call
-    def patch_v1_o11y_reviews_id_with_http_info(
+    def patch_v1_o11y_reviews_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to update, from the path.")],
         o11y_update_queue_in: O11yUpdateQueueIn,
@@ -68363,7 +68363,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_o11y_reviews_id_serialize(
+        _param = self._patch_v1_o11y_reviews_by_id_serialize(
             id=id,
             o11y_update_queue_in=o11y_update_queue_in,
             _request_auth=_request_auth,
@@ -68387,7 +68387,7 @@ class O11yApi:
 
 
     @validate_call
-    def patch_v1_o11y_reviews_id_without_preload_content(
+    def patch_v1_o11y_reviews_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to update, from the path.")],
         o11y_update_queue_in: O11yUpdateQueueIn,
@@ -68434,7 +68434,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_o11y_reviews_id_serialize(
+        _param = self._patch_v1_o11y_reviews_by_id_serialize(
             id=id,
             o11y_update_queue_in=o11y_update_queue_in,
             _request_auth=_request_auth,
@@ -68453,7 +68453,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _patch_v1_o11y_reviews_id_serialize(
+    def _patch_v1_o11y_reviews_by_id_serialize(
         self,
         id,
         o11y_update_queue_in,
@@ -68533,7 +68533,7 @@ class O11yApi:
 
 
     @validate_call
-    def patch_v1_o11y_reviews_id_items_item_id(
+    def patch_v1_o11y_reviews_by_id_items_by_itemid(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue the item belongs to, from the path.")],
         item_id: Annotated[StrictStr, Field(description="ItemID is the item to update, from the path.")],
@@ -68583,7 +68583,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_o11y_reviews_id_items_item_id_serialize(
+        _param = self._patch_v1_o11y_reviews_by_id_items_by_itemid_serialize(
             id=id,
             item_id=item_id,
             o11y_update_item_in=o11y_update_item_in,
@@ -68608,7 +68608,7 @@ class O11yApi:
 
 
     @validate_call
-    def patch_v1_o11y_reviews_id_items_item_id_with_http_info(
+    def patch_v1_o11y_reviews_by_id_items_by_itemid_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue the item belongs to, from the path.")],
         item_id: Annotated[StrictStr, Field(description="ItemID is the item to update, from the path.")],
@@ -68658,7 +68658,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_o11y_reviews_id_items_item_id_serialize(
+        _param = self._patch_v1_o11y_reviews_by_id_items_by_itemid_serialize(
             id=id,
             item_id=item_id,
             o11y_update_item_in=o11y_update_item_in,
@@ -68683,7 +68683,7 @@ class O11yApi:
 
 
     @validate_call
-    def patch_v1_o11y_reviews_id_items_item_id_without_preload_content(
+    def patch_v1_o11y_reviews_by_id_items_by_itemid_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue the item belongs to, from the path.")],
         item_id: Annotated[StrictStr, Field(description="ItemID is the item to update, from the path.")],
@@ -68733,7 +68733,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_o11y_reviews_id_items_item_id_serialize(
+        _param = self._patch_v1_o11y_reviews_by_id_items_by_itemid_serialize(
             id=id,
             item_id=item_id,
             o11y_update_item_in=o11y_update_item_in,
@@ -68753,7 +68753,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _patch_v1_o11y_reviews_id_items_item_id_serialize(
+    def _patch_v1_o11y_reviews_by_id_items_by_itemid_serialize(
         self,
         id,
         item_id,
@@ -70620,7 +70620,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_count_errors(
+    def post_v1_o11y_counterrors(
         self,
         o11y_o11y_errors_count_in: O11yO11yErrorsCountIn,
         _request_timeout: Union[
@@ -70664,7 +70664,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_count_errors_serialize(
+        _param = self._post_v1_o11y_counterrors_serialize(
             o11y_o11y_errors_count_in=o11y_o11y_errors_count_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -70687,7 +70687,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_count_errors_with_http_info(
+    def post_v1_o11y_counterrors_with_http_info(
         self,
         o11y_o11y_errors_count_in: O11yO11yErrorsCountIn,
         _request_timeout: Union[
@@ -70731,7 +70731,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_count_errors_serialize(
+        _param = self._post_v1_o11y_counterrors_serialize(
             o11y_o11y_errors_count_in=o11y_o11y_errors_count_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -70754,7 +70754,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_count_errors_without_preload_content(
+    def post_v1_o11y_counterrors_without_preload_content(
         self,
         o11y_o11y_errors_count_in: O11yO11yErrorsCountIn,
         _request_timeout: Union[
@@ -70798,7 +70798,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_count_errors_serialize(
+        _param = self._post_v1_o11y_counterrors_serialize(
             o11y_o11y_errors_count_in=o11y_o11y_errors_count_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -70816,7 +70816,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _post_v1_o11y_count_errors_serialize(
+    def _post_v1_o11y_counterrors_serialize(
         self,
         o11y_o11y_errors_count_in,
         _request_auth,
@@ -71712,7 +71712,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_errortracking_issues_id(
+    def post_v1_o11y_errortracking_issues_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_error_update_issue_in: O11yO11yErrorUpdateIssueIn,
@@ -71759,7 +71759,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_errortracking_issues_id_serialize(
+        _param = self._post_v1_o11y_errortracking_issues_by_id_serialize(
             id=id,
             o11y_o11y_error_update_issue_in=o11y_o11y_error_update_issue_in,
             _request_auth=_request_auth,
@@ -71783,7 +71783,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_errortracking_issues_id_with_http_info(
+    def post_v1_o11y_errortracking_issues_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_error_update_issue_in: O11yO11yErrorUpdateIssueIn,
@@ -71830,7 +71830,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_errortracking_issues_id_serialize(
+        _param = self._post_v1_o11y_errortracking_issues_by_id_serialize(
             id=id,
             o11y_o11y_error_update_issue_in=o11y_o11y_error_update_issue_in,
             _request_auth=_request_auth,
@@ -71854,7 +71854,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_errortracking_issues_id_without_preload_content(
+    def post_v1_o11y_errortracking_issues_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_error_update_issue_in: O11yO11yErrorUpdateIssueIn,
@@ -71901,7 +71901,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_errortracking_issues_id_serialize(
+        _param = self._post_v1_o11y_errortracking_issues_by_id_serialize(
             id=id,
             o11y_o11y_error_update_issue_in=o11y_o11y_error_update_issue_in,
             _request_auth=_request_auth,
@@ -71920,7 +71920,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _post_v1_o11y_errortracking_issues_id_serialize(
+    def _post_v1_o11y_errortracking_issues_by_id_serialize(
         self,
         id,
         o11y_o11y_error_update_issue_in,
@@ -76057,7 +76057,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_list_errors(
+    def post_v1_o11y_listerrors(
         self,
         o11y_o11y_errors_list_in: O11yO11yErrorsListIn,
         _request_timeout: Union[
@@ -76101,7 +76101,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_list_errors_serialize(
+        _param = self._post_v1_o11y_listerrors_serialize(
             o11y_o11y_errors_list_in=o11y_o11y_errors_list_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -76124,7 +76124,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_list_errors_with_http_info(
+    def post_v1_o11y_listerrors_with_http_info(
         self,
         o11y_o11y_errors_list_in: O11yO11yErrorsListIn,
         _request_timeout: Union[
@@ -76168,7 +76168,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_list_errors_serialize(
+        _param = self._post_v1_o11y_listerrors_serialize(
             o11y_o11y_errors_list_in=o11y_o11y_errors_list_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -76191,7 +76191,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_list_errors_without_preload_content(
+    def post_v1_o11y_listerrors_without_preload_content(
         self,
         o11y_o11y_errors_list_in: O11yO11yErrorsListIn,
         _request_timeout: Union[
@@ -76235,7 +76235,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_list_errors_serialize(
+        _param = self._post_v1_o11y_listerrors_serialize(
             o11y_o11y_errors_list_in=o11y_o11y_errors_list_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -76253,7 +76253,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _post_v1_o11y_list_errors_serialize(
+    def _post_v1_o11y_listerrors_serialize(
         self,
         o11y_o11y_errors_list_in,
         _request_auth,
@@ -84248,7 +84248,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_reviews_id_items(
+    def post_v1_o11y_reviews_by_id_items(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to add to, from the path.")],
         o11y_add_items_in: O11yAddItemsIn,
@@ -84295,7 +84295,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_reviews_id_items_serialize(
+        _param = self._post_v1_o11y_reviews_by_id_items_serialize(
             id=id,
             o11y_add_items_in=o11y_add_items_in,
             _request_auth=_request_auth,
@@ -84319,7 +84319,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_reviews_id_items_with_http_info(
+    def post_v1_o11y_reviews_by_id_items_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to add to, from the path.")],
         o11y_add_items_in: O11yAddItemsIn,
@@ -84366,7 +84366,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_reviews_id_items_serialize(
+        _param = self._post_v1_o11y_reviews_by_id_items_serialize(
             id=id,
             o11y_add_items_in=o11y_add_items_in,
             _request_auth=_request_auth,
@@ -84390,7 +84390,7 @@ class O11yApi:
 
 
     @validate_call
-    def post_v1_o11y_reviews_id_items_without_preload_content(
+    def post_v1_o11y_reviews_by_id_items_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the annotation queue to add to, from the path.")],
         o11y_add_items_in: O11yAddItemsIn,
@@ -84437,7 +84437,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_o11y_reviews_id_items_serialize(
+        _param = self._post_v1_o11y_reviews_by_id_items_serialize(
             id=id,
             o11y_add_items_in=o11y_add_items_in,
             _request_auth=_request_auth,
@@ -84456,7 +84456,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _post_v1_o11y_reviews_id_items_serialize(
+    def _post_v1_o11y_reviews_by_id_items_serialize(
         self,
         id,
         o11y_add_items_in,
@@ -88617,7 +88617,7 @@ class O11yApi:
 
 
     @validate_call
-    def put_v1_o11y_explorer_views_view_id(
+    def put_v1_o11y_explorer_views_by_viewid(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the id of the view to replace, taken from the URL.")],
         o11y_o11y_saved_view_update_in: O11yO11ySavedViewUpdateIn,
@@ -88664,7 +88664,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._put_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             o11y_o11y_saved_view_update_in=o11y_o11y_saved_view_update_in,
             _request_auth=_request_auth,
@@ -88688,7 +88688,7 @@ class O11yApi:
 
 
     @validate_call
-    def put_v1_o11y_explorer_views_view_id_with_http_info(
+    def put_v1_o11y_explorer_views_by_viewid_with_http_info(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the id of the view to replace, taken from the URL.")],
         o11y_o11y_saved_view_update_in: O11yO11ySavedViewUpdateIn,
@@ -88735,7 +88735,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._put_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             o11y_o11y_saved_view_update_in=o11y_o11y_saved_view_update_in,
             _request_auth=_request_auth,
@@ -88759,7 +88759,7 @@ class O11yApi:
 
 
     @validate_call
-    def put_v1_o11y_explorer_views_view_id_without_preload_content(
+    def put_v1_o11y_explorer_views_by_viewid_without_preload_content(
         self,
         view_id: Annotated[StrictStr, Field(description="ViewID is the id of the view to replace, taken from the URL.")],
         o11y_o11y_saved_view_update_in: O11yO11ySavedViewUpdateIn,
@@ -88806,7 +88806,7 @@ class O11yApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_o11y_explorer_views_view_id_serialize(
+        _param = self._put_v1_o11y_explorer_views_by_viewid_serialize(
             view_id=view_id,
             o11y_o11y_saved_view_update_in=o11y_o11y_saved_view_update_in,
             _request_auth=_request_auth,
@@ -88825,7 +88825,7 @@ class O11yApi:
         return response_data.response
 
 
-    def _put_v1_o11y_explorer_views_view_id_serialize(
+    def _put_v1_o11y_explorer_views_by_viewid_serialize(
         self,
         view_id,
         o11y_o11y_saved_view_update_in,

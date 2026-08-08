@@ -44,7 +44,7 @@ class PluginsApi:
 
 
     @validate_call
-    def delete_v1_plugins_authored_id(
+    def delete_v1_plugins_authored_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plugin to remove, from the path.")],
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plugins_authored_id_serialize(
+        _param = self._delete_v1_plugins_authored_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class PluginsApi:
 
 
     @validate_call
-    def delete_v1_plugins_authored_id_with_http_info(
+    def delete_v1_plugins_authored_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plugin to remove, from the path.")],
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plugins_authored_id_serialize(
+        _param = self._delete_v1_plugins_authored_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class PluginsApi:
 
 
     @validate_call
-    def delete_v1_plugins_authored_id_without_preload_content(
+    def delete_v1_plugins_authored_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plugin to remove, from the path.")],
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plugins_authored_id_serialize(
+        _param = self._delete_v1_plugins_authored_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class PluginsApi:
         return response_data.response
 
 
-    def _delete_v1_plugins_authored_id_serialize(
+    def _delete_v1_plugins_authored_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -827,9 +827,9 @@ class PluginsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BuildOut:
-        """Build a plugin for your org from TypeScript, or from an API spec a model writes it from
+        """Builds a plugin for the caller's org from TypeScript, or from an API spec a model writes it from.
 
-        Builds one plugin for the caller's org and answers 201 with the bundle's size, whether a model wrote the source, and the plugin as stored. Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error, the source that failed, and whether the model wrote it — a body outside the declared success shape.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that contains something shaped like a key is REFUSED rather than silently scrubbed, so a caller who pasted one finds out instead of shipping it — register it as a connector instead.  Requires a validated principal; 403 without one. The plugin is stored under that principal's org and is what `/v1/plugins/authored` lists — never `/v1/plugins`, which is this deployment's mounted-subsystem inventory. Source over 512 KiB or a spec over 256 KiB is refused. Posting a `spec` to a deployment with no AI client configured is 503, and a generation that fails upstream is 502.
+        Builds a plugin for the caller's org from TypeScript, or from an API spec a model writes it from.  It answers 201 with the bundle's size, whether a model wrote the source, and the plugin as stored. Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error, the source that failed, and whether the model wrote it — a body outside the declared success shape.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that contains something shaped like a key is REFUSED rather than silently scrubbed, so a caller who pasted one finds out instead of shipping it — register it as a connector instead.  Requires a validated principal; 403 without one. The plugin is stored under that principal's org and is what `/v1/plugins/authored` lists — never `/v1/plugins`, which is this deployment's mounted-subsystem inventory. Source over 512 KiB or a spec over 256 KiB is refused. Posting a `spec` to a deployment with no AI client configured is 503, and a generation that fails upstream is 502.
 
         :param build_request:
         :type build_request: BuildRequest
@@ -894,9 +894,9 @@ class PluginsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BuildOut]:
-        """Build a plugin for your org from TypeScript, or from an API spec a model writes it from
+        """Builds a plugin for the caller's org from TypeScript, or from an API spec a model writes it from.
 
-        Builds one plugin for the caller's org and answers 201 with the bundle's size, whether a model wrote the source, and the plugin as stored. Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error, the source that failed, and whether the model wrote it — a body outside the declared success shape.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that contains something shaped like a key is REFUSED rather than silently scrubbed, so a caller who pasted one finds out instead of shipping it — register it as a connector instead.  Requires a validated principal; 403 without one. The plugin is stored under that principal's org and is what `/v1/plugins/authored` lists — never `/v1/plugins`, which is this deployment's mounted-subsystem inventory. Source over 512 KiB or a spec over 256 KiB is refused. Posting a `spec` to a deployment with no AI client configured is 503, and a generation that fails upstream is 502.
+        Builds a plugin for the caller's org from TypeScript, or from an API spec a model writes it from.  It answers 201 with the bundle's size, whether a model wrote the source, and the plugin as stored. Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error, the source that failed, and whether the model wrote it — a body outside the declared success shape.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that contains something shaped like a key is REFUSED rather than silently scrubbed, so a caller who pasted one finds out instead of shipping it — register it as a connector instead.  Requires a validated principal; 403 without one. The plugin is stored under that principal's org and is what `/v1/plugins/authored` lists — never `/v1/plugins`, which is this deployment's mounted-subsystem inventory. Source over 512 KiB or a spec over 256 KiB is refused. Posting a `spec` to a deployment with no AI client configured is 503, and a generation that fails upstream is 502.
 
         :param build_request:
         :type build_request: BuildRequest
@@ -961,9 +961,9 @@ class PluginsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Build a plugin for your org from TypeScript, or from an API spec a model writes it from
+        """Builds a plugin for the caller's org from TypeScript, or from an API spec a model writes it from.
 
-        Builds one plugin for the caller's org and answers 201 with the bundle's size, whether a model wrote the source, and the plugin as stored. Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error, the source that failed, and whether the model wrote it — a body outside the declared success shape.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that contains something shaped like a key is REFUSED rather than silently scrubbed, so a caller who pasted one finds out instead of shipping it — register it as a connector instead.  Requires a validated principal; 403 without one. The plugin is stored under that principal's org and is what `/v1/plugins/authored` lists — never `/v1/plugins`, which is this deployment's mounted-subsystem inventory. Source over 512 KiB or a spec over 256 KiB is refused. Posting a `spec` to a deployment with no AI client configured is 503, and a generation that fails upstream is 502.
+        Builds a plugin for the caller's org from TypeScript, or from an API spec a model writes it from.  It answers 201 with the bundle's size, whether a model wrote the source, and the plugin as stored. Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error, the source that failed, and whether the model wrote it — a body outside the declared success shape.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that contains something shaped like a key is REFUSED rather than silently scrubbed, so a caller who pasted one finds out instead of shipping it — register it as a connector instead.  Requires a validated principal; 403 without one. The plugin is stored under that principal's org and is what `/v1/plugins/authored` lists — never `/v1/plugins`, which is this deployment's mounted-subsystem inventory. Source over 512 KiB or a spec over 256 KiB is refused. Posting a `spec` to a deployment with no AI client configured is 503, and a generation that fails upstream is 502.
 
         :param build_request:
         :type build_request: BuildRequest

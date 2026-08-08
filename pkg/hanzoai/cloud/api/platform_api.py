@@ -66,7 +66,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_project_apps_app(
+    def delete_v1_platform_projects_by_project_apps_by_app(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -113,7 +113,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_project_apps_app_serialize(
+        _param = self._delete_v1_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -137,7 +137,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_project_apps_app_with_http_info(
+    def delete_v1_platform_projects_by_project_apps_by_app_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -184,7 +184,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_project_apps_app_serialize(
+        _param = self._delete_v1_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -208,7 +208,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_project_apps_app_without_preload_content(
+    def delete_v1_platform_projects_by_project_apps_by_app_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -255,7 +255,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_project_apps_app_serialize(
+        _param = self._delete_v1_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -274,7 +274,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_projects_project_apps_app_serialize(
+    def _delete_v1_platform_projects_by_project_apps_by_app_serialize(
         self,
         project,
         app,
@@ -334,7 +334,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_project_apps_app_domains_host(
+    def delete_v1_platform_projects_by_project_apps_by_app_domains_by_host(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -384,7 +384,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_project_apps_app_domains_host_serialize(
+        _param = self._delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
             project=project,
             app=app,
             host=host,
@@ -409,7 +409,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_project_apps_app_domains_host_with_http_info(
+    def delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -459,7 +459,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_project_apps_app_domains_host_serialize(
+        _param = self._delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
             project=project,
             app=app,
             host=host,
@@ -484,7 +484,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_project_apps_app_domains_host_without_preload_content(
+    def delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -534,7 +534,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_project_apps_app_domains_host_serialize(
+        _param = self._delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
             project=project,
             app=app,
             host=host,
@@ -554,7 +554,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_projects_project_apps_app_domains_host_serialize(
+    def _delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
         self,
         project,
         app,
@@ -617,7 +617,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_slug(
+    def delete_v1_platform_sites_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -661,7 +661,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_slug_serialize(
+        _param = self._delete_v1_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -684,7 +684,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_slug_with_http_info(
+    def delete_v1_platform_sites_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -728,7 +728,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_slug_serialize(
+        _param = self._delete_v1_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -751,7 +751,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_slug_without_preload_content(
+    def delete_v1_platform_sites_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -795,7 +795,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_slug_serialize(
+        _param = self._delete_v1_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -813,7 +813,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_sites_slug_serialize(
+    def _delete_v1_platform_sites_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -870,7 +870,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_slug_domains_host(
+    def delete_v1_platform_sites_by_slug_domains_by_host(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -917,7 +917,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_slug_domains_host_serialize(
+        _param = self._delete_v1_platform_sites_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -941,7 +941,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_slug_domains_host_with_http_info(
+    def delete_v1_platform_sites_by_slug_domains_by_host_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -988,7 +988,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_slug_domains_host_serialize(
+        _param = self._delete_v1_platform_sites_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -1012,7 +1012,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_slug_domains_host_without_preload_content(
+    def delete_v1_platform_sites_by_slug_domains_by_host_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -1059,7 +1059,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_slug_domains_host_serialize(
+        _param = self._delete_v1_platform_sites_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -1078,7 +1078,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_sites_slug_domains_host_serialize(
+    def _delete_v1_platform_sites_by_slug_domains_by_host_serialize(
         self,
         slug,
         host,
@@ -1122,6 +1122,1211 @@ class PlatformApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/platform/sites/{slug}/domains/{host}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_platform_apps(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """What this organization has declared, and what CD did with it
+
+        Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_platform_apps_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """What this organization has declared, and what CD did with it
+
+        Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_platform_apps_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """What this organization has declared, and what CD did with it
+
+        Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_platform_apps_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/platform/apps',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_platform_apps_by_app(
+        self,
+        app: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """One declaration
+
+        The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+
+        :param app: (required)
+        :type app: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_by_app_serialize(
+            app=app,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_platform_apps_by_app_with_http_info(
+        self,
+        app: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """One declaration
+
+        The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+
+        :param app: (required)
+        :type app: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_by_app_serialize(
+            app=app,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_platform_apps_by_app_without_preload_content(
+        self,
+        app: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """One declaration
+
+        The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+
+        :param app: (required)
+        :type app: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_by_app_serialize(
+            app=app,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_platform_apps_by_app_serialize(
+        self,
+        app,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if app is not None:
+            _path_params['app'] = app
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/platform/apps/{app}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_platform_apps_by_app_cd(
+        self,
+        app: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """One app's reconciliation
+
+        The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+
+        :param app: (required)
+        :type app: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_by_app_cd_serialize(
+            app=app,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_platform_apps_by_app_cd_with_http_info(
+        self,
+        app: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """One app's reconciliation
+
+        The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+
+        :param app: (required)
+        :type app: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_by_app_cd_serialize(
+            app=app,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_platform_apps_by_app_cd_without_preload_content(
+        self,
+        app: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """One app's reconciliation
+
+        The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+
+        :param app: (required)
+        :type app: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_apps_by_app_cd_serialize(
+            app=app,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_platform_apps_by_app_cd_serialize(
+        self,
+        app,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if app is not None:
+            _path_params['app'] = app
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/platform/apps/{app}/cd',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_platform_cd(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """The delivery plane
+
+        Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_cd_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_platform_cd_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """The delivery plane
+
+        Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_cd_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_platform_cd_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """The delivery plane
+
+        Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_cd_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_platform_cd_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/platform/cd',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_platform_ci(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Continuous integration (not wired)
+
+        Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_ci_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_platform_ci_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Continuous integration (not wired)
+
+        Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_ci_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_platform_ci_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Continuous integration (not wired)
+
+        Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_platform_ci_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_platform_ci_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/platform/ci',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1451,7 +2656,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_app(
+    def get_v1_platform_fleet_by_app(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         env: Annotated[Optional[StrictStr], Field(description="Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION.")] = None,
@@ -1498,7 +2703,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_app_serialize(
+        _param = self._get_v1_platform_fleet_by_app_serialize(
             app=app,
             env=env,
             _request_auth=_request_auth,
@@ -1522,7 +2727,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_app_with_http_info(
+    def get_v1_platform_fleet_by_app_with_http_info(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         env: Annotated[Optional[StrictStr], Field(description="Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION.")] = None,
@@ -1569,7 +2774,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_app_serialize(
+        _param = self._get_v1_platform_fleet_by_app_serialize(
             app=app,
             env=env,
             _request_auth=_request_auth,
@@ -1593,7 +2798,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_app_without_preload_content(
+    def get_v1_platform_fleet_by_app_without_preload_content(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         env: Annotated[Optional[StrictStr], Field(description="Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION.")] = None,
@@ -1640,7 +2845,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_app_serialize(
+        _param = self._get_v1_platform_fleet_by_app_serialize(
             app=app,
             env=env,
             _request_auth=_request_auth,
@@ -1659,7 +2864,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_fleet_app_serialize(
+    def _get_v1_platform_fleet_by_app_serialize(
         self,
         app,
         env,
@@ -2221,7 +3426,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project(
+    def get_v1_platform_projects_by_project(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -2265,7 +3470,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_serialize(
+        _param = self._get_v1_platform_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2288,7 +3493,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_with_http_info(
+    def get_v1_platform_projects_by_project_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -2332,7 +3537,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_serialize(
+        _param = self._get_v1_platform_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2355,7 +3560,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_without_preload_content(
+    def get_v1_platform_projects_by_project_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -2399,7 +3604,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_serialize(
+        _param = self._get_v1_platform_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2417,7 +3622,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_serialize(
+    def _get_v1_platform_projects_by_project_serialize(
         self,
         project,
         _request_auth,
@@ -2481,7 +3686,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps(
+    def get_v1_platform_projects_by_project_apps(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -2525,7 +3730,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2548,7 +3753,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_with_http_info(
+    def get_v1_platform_projects_by_project_apps_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -2592,7 +3797,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2615,7 +3820,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_without_preload_content(
+    def get_v1_platform_projects_by_project_apps_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -2659,7 +3864,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2677,7 +3882,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_apps_serialize(
+    def _get_v1_platform_projects_by_project_apps_serialize(
         self,
         project,
         _request_auth,
@@ -2741,7 +3946,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app(
+    def get_v1_platform_projects_by_project_apps_by_app(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -2788,7 +3993,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -2812,7 +4017,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_with_http_info(
+    def get_v1_platform_projects_by_project_apps_by_app_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -2859,7 +4064,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -2883,7 +4088,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_without_preload_content(
+    def get_v1_platform_projects_by_project_apps_by_app_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -2930,7 +4135,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -2949,7 +4154,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_apps_app_serialize(
+    def _get_v1_platform_projects_by_project_apps_by_app_serialize(
         self,
         project,
         app,
@@ -3016,7 +4221,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3063,7 +4268,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -3087,7 +4292,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_with_http_info(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3134,7 +4339,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -3158,7 +4363,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_without_preload_content(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3205,7 +4410,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -3224,7 +4429,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_apps_app_deployments_serialize(
+    def _get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
         self,
         project,
         app,
@@ -3291,7 +4496,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_id(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3341,7 +4546,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_id_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
             project=project,
             app=app,
             id=id,
@@ -3366,7 +4571,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_id_with_http_info(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3416,7 +4621,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_id_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
             project=project,
             app=app,
             id=id,
@@ -3441,7 +4646,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_id_without_preload_content(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3491,7 +4696,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_id_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
             project=project,
             app=app,
             id=id,
@@ -3511,7 +4716,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_apps_app_deployments_id_serialize(
+    def _get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
         self,
         project,
         app,
@@ -3581,7 +4786,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_id_logs(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3631,7 +4836,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_id_logs_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
             project=project,
             app=app,
             id=id,
@@ -3656,7 +4861,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_id_logs_with_http_info(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3706,7 +4911,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_id_logs_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
             project=project,
             app=app,
             id=id,
@@ -3731,7 +4936,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_deployments_id_logs_without_preload_content(
+    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3781,7 +4986,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_deployments_id_logs_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
             project=project,
             app=app,
             id=id,
@@ -3801,7 +5006,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_apps_app_deployments_id_logs_serialize(
+    def _get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
         self,
         project,
         app,
@@ -3871,7 +5076,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_domains(
+    def get_v1_platform_projects_by_project_apps_by_app_domains(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3918,7 +5123,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_domains_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -3942,7 +5147,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_domains_with_http_info(
+    def get_v1_platform_projects_by_project_apps_by_app_domains_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3989,7 +5194,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_domains_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4013,7 +5218,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_project_apps_app_domains_without_preload_content(
+    def get_v1_platform_projects_by_project_apps_by_app_domains_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4060,7 +5265,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_project_apps_app_domains_serialize(
+        _param = self._get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4079,7 +5284,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_project_apps_app_domains_serialize(
+    def _get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
         self,
         project,
         app,
@@ -4391,7 +5596,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug(
+    def get_v1_platform_sites_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -4435,7 +5640,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_serialize(
+        _param = self._get_v1_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4458,7 +5663,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_with_http_info(
+    def get_v1_platform_sites_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -4502,7 +5707,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_serialize(
+        _param = self._get_v1_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4525,7 +5730,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_without_preload_content(
+    def get_v1_platform_sites_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -4569,7 +5774,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_serialize(
+        _param = self._get_v1_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4587,7 +5792,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_slug_serialize(
+    def _get_v1_platform_sites_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -4651,7 +5856,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_deployments(
+    def get_v1_platform_sites_by_slug_deployments(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -4695,7 +5900,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_deployments_serialize(
+        _param = self._get_v1_platform_sites_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4718,7 +5923,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_deployments_with_http_info(
+    def get_v1_platform_sites_by_slug_deployments_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -4762,7 +5967,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_deployments_serialize(
+        _param = self._get_v1_platform_sites_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4785,7 +5990,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_deployments_without_preload_content(
+    def get_v1_platform_sites_by_slug_deployments_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -4829,7 +6034,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_deployments_serialize(
+        _param = self._get_v1_platform_sites_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4847,7 +6052,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_slug_deployments_serialize(
+    def _get_v1_platform_sites_by_slug_deployments_serialize(
         self,
         slug,
         _request_auth,
@@ -4911,7 +6116,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_deployments_id(
+    def get_v1_platform_sites_by_slug_deployments_by_id(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -4958,7 +6163,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_deployments_id_serialize(
+        _param = self._get_v1_platform_sites_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -4982,7 +6187,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_deployments_id_with_http_info(
+    def get_v1_platform_sites_by_slug_deployments_by_id_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -5029,7 +6234,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_deployments_id_serialize(
+        _param = self._get_v1_platform_sites_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -5053,7 +6258,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_deployments_id_without_preload_content(
+    def get_v1_platform_sites_by_slug_deployments_by_id_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -5100,7 +6305,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_deployments_id_serialize(
+        _param = self._get_v1_platform_sites_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -5119,7 +6324,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_slug_deployments_id_serialize(
+    def _get_v1_platform_sites_by_slug_deployments_by_id_serialize(
         self,
         slug,
         id,
@@ -5186,7 +6391,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_domains(
+    def get_v1_platform_sites_by_slug_domains(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5230,7 +6435,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_domains_serialize(
+        _param = self._get_v1_platform_sites_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5253,7 +6458,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_domains_with_http_info(
+    def get_v1_platform_sites_by_slug_domains_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5297,7 +6502,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_domains_serialize(
+        _param = self._get_v1_platform_sites_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5320,7 +6525,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_domains_without_preload_content(
+    def get_v1_platform_sites_by_slug_domains_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5364,7 +6569,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_domains_serialize(
+        _param = self._get_v1_platform_sites_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5382,7 +6587,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_slug_domains_serialize(
+    def _get_v1_platform_sites_by_slug_domains_serialize(
         self,
         slug,
         _request_auth,
@@ -5446,7 +6651,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_releases(
+    def get_v1_platform_sites_by_slug_releases(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5490,7 +6695,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_releases_serialize(
+        _param = self._get_v1_platform_sites_by_slug_releases_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5513,7 +6718,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_releases_with_http_info(
+    def get_v1_platform_sites_by_slug_releases_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5557,7 +6762,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_releases_serialize(
+        _param = self._get_v1_platform_sites_by_slug_releases_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5580,7 +6785,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_slug_releases_without_preload_content(
+    def get_v1_platform_sites_by_slug_releases_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5624,7 +6829,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_slug_releases_serialize(
+        _param = self._get_v1_platform_sites_by_slug_releases_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5642,7 +6847,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_slug_releases_serialize(
+    def _get_v1_platform_sites_by_slug_releases_serialize(
         self,
         slug,
         _request_auth,
@@ -5706,7 +6911,7 @@ class PlatformApi:
 
 
     @validate_call
-    def patch_v1_platform_sites_slug(
+    def patch_v1_platform_sites_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -5753,7 +6958,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_platform_sites_slug_serialize(
+        _param = self._patch_v1_platform_sites_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -5777,7 +6982,7 @@ class PlatformApi:
 
 
     @validate_call
-    def patch_v1_platform_sites_slug_with_http_info(
+    def patch_v1_platform_sites_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -5824,7 +7029,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_platform_sites_slug_serialize(
+        _param = self._patch_v1_platform_sites_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -5848,7 +7053,7 @@ class PlatformApi:
 
 
     @validate_call
-    def patch_v1_platform_sites_slug_without_preload_content(
+    def patch_v1_platform_sites_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -5895,7 +7100,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_platform_sites_slug_serialize(
+        _param = self._patch_v1_platform_sites_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -5914,7 +7119,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _patch_v1_platform_sites_slug_serialize(
+    def _patch_v1_platform_sites_by_slug_serialize(
         self,
         slug,
         projects_update,
@@ -5994,7 +7199,242 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_fleet_app_deploy(
+    def post_v1_platform_apps(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Deploy an app through cd.hanzo.ai
+
+        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_platform_apps_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_platform_apps_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Deploy an app through cd.hanzo.ai
+
+        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_platform_apps_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_platform_apps_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Deploy an app through cd.hanzo.ai
+
+        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_platform_apps_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_platform_apps_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/platform/apps',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_platform_fleet_by_app_deploy(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         restart_ref: RestartRef,
@@ -6041,7 +7481,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_fleet_app_deploy_serialize(
+        _param = self._post_v1_platform_fleet_by_app_deploy_serialize(
             app=app,
             restart_ref=restart_ref,
             _request_auth=_request_auth,
@@ -6065,7 +7505,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_fleet_app_deploy_with_http_info(
+    def post_v1_platform_fleet_by_app_deploy_with_http_info(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         restart_ref: RestartRef,
@@ -6112,7 +7552,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_fleet_app_deploy_serialize(
+        _param = self._post_v1_platform_fleet_by_app_deploy_serialize(
             app=app,
             restart_ref=restart_ref,
             _request_auth=_request_auth,
@@ -6136,7 +7576,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_fleet_app_deploy_without_preload_content(
+    def post_v1_platform_fleet_by_app_deploy_without_preload_content(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         restart_ref: RestartRef,
@@ -6183,7 +7623,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_fleet_app_deploy_serialize(
+        _param = self._post_v1_platform_fleet_by_app_deploy_serialize(
             app=app,
             restart_ref=restart_ref,
             _request_auth=_request_auth,
@@ -6202,7 +7642,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_fleet_app_deploy_serialize(
+    def _post_v1_platform_fleet_by_app_deploy_serialize(
         self,
         app,
         restart_ref,
@@ -6282,7 +7722,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps(
+    def post_v1_platform_projects_by_project_apps(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
         create_app_req: CreateAppReq,
@@ -6329,7 +7769,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_serialize(
             project=project,
             create_app_req=create_app_req,
             _request_auth=_request_auth,
@@ -6353,7 +7793,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_with_http_info(
+    def post_v1_platform_projects_by_project_apps_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
         create_app_req: CreateAppReq,
@@ -6400,7 +7840,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_serialize(
             project=project,
             create_app_req=create_app_req,
             _request_auth=_request_auth,
@@ -6424,7 +7864,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
         create_app_req: CreateAppReq,
@@ -6471,7 +7911,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_serialize(
             project=project,
             create_app_req=create_app_req,
             _request_auth=_request_auth,
@@ -6490,7 +7930,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_serialize(
+    def _post_v1_platform_projects_by_project_apps_serialize(
         self,
         project,
         create_app_req,
@@ -6570,7 +8010,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_deploy(
+    def post_v1_platform_projects_by_project_apps_by_app_deploy(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -6620,7 +8060,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_deploy_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
             deploy_req=deploy_req,
@@ -6645,7 +8085,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_deploy_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_deploy_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -6695,7 +8135,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_deploy_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
             deploy_req=deploy_req,
@@ -6720,7 +8160,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_deploy_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_deploy_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -6770,7 +8210,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_deploy_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
             deploy_req=deploy_req,
@@ -6790,7 +8230,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_deploy_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
         self,
         project,
         app,
@@ -6873,7 +8313,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_domains(
+    def post_v1_platform_projects_by_project_apps_by_app_domains(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -6923,7 +8363,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_domains_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             add_domain_req=add_domain_req,
@@ -6949,7 +8389,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_domains_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_domains_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -6999,7 +8439,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_domains_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             add_domain_req=add_domain_req,
@@ -7025,7 +8465,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_domains_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_domains_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7075,7 +8515,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_domains_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             add_domain_req=add_domain_req,
@@ -7096,7 +8536,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_domains_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
         self,
         project,
         app,
@@ -7179,7 +8619,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_domains_host_verify(
+    def post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7229,7 +8669,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_domains_host_verify_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
             project=project,
             app=app,
             host=host,
@@ -7254,7 +8694,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_domains_host_verify_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7304,7 +8744,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_domains_host_verify_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
             project=project,
             app=app,
             host=host,
@@ -7329,7 +8769,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_domains_host_verify_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7379,7 +8819,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_domains_host_verify_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
             project=project,
             app=app,
             host=host,
@@ -7399,7 +8839,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_domains_host_verify_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
         self,
         project,
         app,
@@ -7469,7 +8909,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_preview(
+    def post_v1_platform_projects_by_project_apps_by_app_preview(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
@@ -7519,7 +8959,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_preview_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
             preview_req=preview_req,
@@ -7544,7 +8984,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_preview_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_preview_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
@@ -7594,7 +9034,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_preview_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
             preview_req=preview_req,
@@ -7619,7 +9059,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_preview_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_preview_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
@@ -7669,7 +9109,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_preview_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
             preview_req=preview_req,
@@ -7689,7 +9129,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_preview_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
         self,
         project,
         app,
@@ -7772,7 +9212,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_promote(
+    def post_v1_platform_projects_by_project_apps_by_app_promote(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7822,7 +9262,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_promote_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
             promote_req=promote_req,
@@ -7847,7 +9287,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_promote_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_promote_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7897,7 +9337,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_promote_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
             promote_req=promote_req,
@@ -7922,7 +9362,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_promote_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_promote_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -7972,7 +9412,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_promote_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
             promote_req=promote_req,
@@ -7992,7 +9432,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_promote_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
         self,
         project,
         app,
@@ -8075,7 +9515,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_rollback(
+    def post_v1_platform_projects_by_project_apps_by_app_rollback(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8125,7 +9565,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_rollback_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
             rollback_req=rollback_req,
@@ -8150,7 +9590,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_rollback_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_rollback_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8200,7 +9640,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_rollback_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
             rollback_req=rollback_req,
@@ -8225,7 +9665,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_rollback_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_rollback_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8275,7 +9715,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_rollback_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
             rollback_req=rollback_req,
@@ -8295,7 +9735,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_rollback_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
         self,
         project,
         app,
@@ -8378,7 +9818,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_start(
+    def post_v1_platform_projects_by_project_apps_by_app_start(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8425,7 +9865,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_start_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_start_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -8449,7 +9889,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_start_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_start_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8496,7 +9936,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_start_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_start_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -8520,7 +9960,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_start_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_start_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8567,7 +10007,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_start_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_start_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -8586,7 +10026,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_start_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_start_serialize(
         self,
         project,
         app,
@@ -8653,7 +10093,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_stop(
+    def post_v1_platform_projects_by_project_apps_by_app_stop(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8700,7 +10140,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_stop_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -8724,7 +10164,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_stop_with_http_info(
+    def post_v1_platform_projects_by_project_apps_by_app_stop_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8771,7 +10211,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_stop_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -8795,7 +10235,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_project_apps_app_stop_without_preload_content(
+    def post_v1_platform_projects_by_project_apps_by_app_stop_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8842,7 +10282,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_project_apps_app_stop_serialize(
+        _param = self._post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -8861,7 +10301,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_project_apps_app_stop_serialize(
+    def _post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
         self,
         project,
         app,
@@ -9451,7 +10891,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_domains(
+    def post_v1_platform_sites_by_slug_domains(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -9498,7 +10938,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_domains_serialize(
+        _param = self._post_v1_platform_sites_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -9522,7 +10962,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_domains_with_http_info(
+    def post_v1_platform_sites_by_slug_domains_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -9569,7 +11009,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_domains_serialize(
+        _param = self._post_v1_platform_sites_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -9593,7 +11033,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_domains_without_preload_content(
+    def post_v1_platform_sites_by_slug_domains_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -9640,7 +11080,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_domains_serialize(
+        _param = self._post_v1_platform_sites_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -9659,7 +11099,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_slug_domains_serialize(
+    def _post_v1_platform_sites_by_slug_domains_serialize(
         self,
         slug,
         projects_domains_bind,
@@ -9739,7 +11179,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_domains_host_verify(
+    def post_v1_platform_sites_by_slug_domains_by_host_verify(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -9786,7 +11226,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_domains_host_verify_serialize(
+        _param = self._post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -9810,7 +11250,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_domains_host_verify_with_http_info(
+    def post_v1_platform_sites_by_slug_domains_by_host_verify_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -9857,7 +11297,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_domains_host_verify_serialize(
+        _param = self._post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -9881,7 +11321,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_domains_host_verify_without_preload_content(
+    def post_v1_platform_sites_by_slug_domains_by_host_verify_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -9928,7 +11368,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_domains_host_verify_serialize(
+        _param = self._post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -9947,7 +11387,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_slug_domains_host_verify_serialize(
+    def _post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
         self,
         slug,
         host,
@@ -10014,7 +11454,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_publish(
+    def post_v1_platform_sites_by_slug_publish(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -10061,7 +11501,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_publish_serialize(
+        _param = self._post_v1_platform_sites_by_slug_publish_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -10085,7 +11525,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_publish_with_http_info(
+    def post_v1_platform_sites_by_slug_publish_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -10132,7 +11572,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_publish_serialize(
+        _param = self._post_v1_platform_sites_by_slug_publish_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -10156,7 +11596,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_publish_without_preload_content(
+    def post_v1_platform_sites_by_slug_publish_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -10203,7 +11643,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_publish_serialize(
+        _param = self._post_v1_platform_sites_by_slug_publish_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -10222,7 +11662,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_slug_publish_serialize(
+    def _post_v1_platform_sites_by_slug_publish_serialize(
         self,
         slug,
         projects_publish,
@@ -10302,7 +11742,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_purge(
+    def post_v1_platform_sites_by_slug_purge(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -10346,7 +11786,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_purge_serialize(
+        _param = self._post_v1_platform_sites_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10369,7 +11809,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_purge_with_http_info(
+    def post_v1_platform_sites_by_slug_purge_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -10413,7 +11853,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_purge_serialize(
+        _param = self._post_v1_platform_sites_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10436,7 +11876,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_purge_without_preload_content(
+    def post_v1_platform_sites_by_slug_purge_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -10480,7 +11920,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_purge_serialize(
+        _param = self._post_v1_platform_sites_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10498,7 +11938,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_slug_purge_serialize(
+    def _post_v1_platform_sites_by_slug_purge_serialize(
         self,
         slug,
         _request_auth,
@@ -10562,7 +12002,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_releases(
+    def post_v1_platform_sites_by_slug_releases(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -10609,7 +12049,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_releases_serialize(
+        _param = self._post_v1_platform_sites_by_slug_releases_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -10633,7 +12073,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_releases_with_http_info(
+    def post_v1_platform_sites_by_slug_releases_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -10680,7 +12120,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_releases_serialize(
+        _param = self._post_v1_platform_sites_by_slug_releases_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -10704,7 +12144,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_releases_without_preload_content(
+    def post_v1_platform_sites_by_slug_releases_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -10751,7 +12191,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_releases_serialize(
+        _param = self._post_v1_platform_sites_by_slug_releases_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -10770,7 +12210,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_slug_releases_serialize(
+    def _post_v1_platform_sites_by_slug_releases_serialize(
         self,
         slug,
         projects_publish,
@@ -10850,7 +12290,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_releases_release_activate(
+    def post_v1_platform_sites_by_slug_releases_by_release_activate(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the release belongs to, from the path.")],
         release: Annotated[StrictStr, Field(description="Release is the content-addressed release id (\"rel_\" + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix.")],
@@ -10897,7 +12337,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_releases_release_activate_serialize(
+        _param = self._post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
             slug=slug,
             release=release,
             _request_auth=_request_auth,
@@ -10921,7 +12361,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_releases_release_activate_with_http_info(
+    def post_v1_platform_sites_by_slug_releases_by_release_activate_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the release belongs to, from the path.")],
         release: Annotated[StrictStr, Field(description="Release is the content-addressed release id (\"rel_\" + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix.")],
@@ -10968,7 +12408,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_releases_release_activate_serialize(
+        _param = self._post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
             slug=slug,
             release=release,
             _request_auth=_request_auth,
@@ -10992,7 +12432,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_slug_releases_release_activate_without_preload_content(
+    def post_v1_platform_sites_by_slug_releases_by_release_activate_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the release belongs to, from the path.")],
         release: Annotated[StrictStr, Field(description="Release is the content-addressed release id (\"rel_\" + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix.")],
@@ -11039,7 +12479,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_slug_releases_release_activate_serialize(
+        _param = self._post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
             slug=slug,
             release=release,
             _request_auth=_request_auth,
@@ -11058,7 +12498,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_slug_releases_release_activate_serialize(
+    def _post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
         self,
         slug,
         release,
@@ -11125,7 +12565,7 @@ class PlatformApi:
 
 
     @validate_call
-    def put_v1_platform_projects_project_apps_app_env(
+    def put_v1_platform_projects_by_project_apps_by_app_env(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -11175,7 +12615,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_platform_projects_project_apps_app_env_serialize(
+        _param = self._put_v1_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
             set_env_req=set_env_req,
@@ -11200,7 +12640,7 @@ class PlatformApi:
 
 
     @validate_call
-    def put_v1_platform_projects_project_apps_app_env_with_http_info(
+    def put_v1_platform_projects_by_project_apps_by_app_env_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -11250,7 +12690,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_platform_projects_project_apps_app_env_serialize(
+        _param = self._put_v1_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
             set_env_req=set_env_req,
@@ -11275,7 +12715,7 @@ class PlatformApi:
 
 
     @validate_call
-    def put_v1_platform_projects_project_apps_app_env_without_preload_content(
+    def put_v1_platform_projects_by_project_apps_by_app_env_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -11325,7 +12765,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_platform_projects_project_apps_app_env_serialize(
+        _param = self._put_v1_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
             set_env_req=set_env_req,
@@ -11345,7 +12785,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _put_v1_platform_projects_project_apps_app_env_serialize(
+    def _put_v1_platform_projects_by_project_apps_by_app_env_serialize(
         self,
         project,
         app,

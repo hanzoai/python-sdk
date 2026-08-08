@@ -26,9 +26,9 @@ class PeriodEarningView(BaseModel):
     """
     PeriodEarningView
     """ # noqa: E501
-    commission_cents: Optional[StrictInt] = Field(default=None, alias="commissionCents")
-    margin_cents: Optional[StrictInt] = Field(default=None, alias="marginCents")
-    period: Optional[StrictStr] = None
+    commission_cents: Optional[StrictInt] = Field(default=None, description="CommissionCents is what the caller earned that period, in cents: the sum over each referred org and upline level of margin × that level's rate. Always ≤ marginCents, by construction.", alias="commissionCents")
+    margin_cents: Optional[StrictInt] = Field(default=None, description="MarginCents is the margin Hanzo earned in that period on the spend of every org the caller referred, in cents — the base commission is a rate OF. It is the aggregate base, never any one customer's bill.", alias="marginCents")
+    period: Optional[StrictStr] = Field(default=None, description="Period is the accrual bucket: the UTC year-month, \"YYYY-MM\". Commission is latched at most once per referred org per period, so one row is one month.")
     __properties: ClassVar[List[str]] = ["commissionCents", "marginCents", "period"]
 
     model_config = ConfigDict(

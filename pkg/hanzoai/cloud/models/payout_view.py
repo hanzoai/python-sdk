@@ -26,13 +26,13 @@ class PayoutView(BaseModel):
     """
     PayoutView
     """ # noqa: E501
-    amount_cents: Optional[StrictInt] = Field(default=None, alias="amountCents")
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    id: Optional[StrictStr] = None
-    method: Optional[StrictStr] = None
-    reference: Optional[StrictStr] = None
+    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is the amount RESERVED against pending royalty, in integer USD cents, always positive. The reservation is atomic and can never exceed accrued − paid, so this is owed money moved out of pending — not money moved.", alias="amountCents")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds when the payout was RECORDED — the moment the amount left pending, not the moment a human moved the money.", alias="createdAt")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the payout row's server-minted handle, \"apo_\"-prefixed. A caller never supplies it; it is what an operator quotes when reconciling a settlement.")
+    method: Optional[StrictStr] = Field(default=None, description="Method is how the operator says this settles, lowercased as recorded. \"credits\" is the one method that means the author's own wallet; anything else — wire, paypal, check — is a cash disbursement a human performs. Recording it pays nobody either way.")
+    reference: Optional[StrictStr] = Field(default=None, description="Reference is the operator's external handle for the settlement: a wire confirmation, a PayPal transaction id. Absent when none was given.")
     settlement: Optional[StrictStr] = Field(default=None, description="Settlement discloses treasury-vs-wallet-vs-cash on every payout, to the author and to the admin mirror alike — the disclosure that keeps a first-party settlement legible as internal accounting.")
-    txn: Optional[StrictStr] = None
+    txn: Optional[StrictStr] = Field(default=None, description="Txn is the commerce ledger transaction id of a SETTLED credits payout, and it is absent on every payout this service records. Recording moves no money, and authors asks the money plane exactly one question — what has this org spent? — with no write to answer it with, so there is no receipt to carry. It fills in only when a settlement stamps its transaction back onto the row.")
     __properties: ClassVar[List[str]] = ["amountCents", "createdAt", "id", "method", "reference", "settlement", "txn"]
 
     model_config = ConfigDict(

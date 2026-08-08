@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.release import Release
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,20 +27,11 @@ class Artifact(BaseModel):
     """
     Artifact
     """ # noqa: E501
-    content: Optional[StrictStr] = Field(default=None, description="base64 bytes on write; the server hashes + stores them (never returned)")
-    git_branch: Optional[StrictStr] = None
-    git_dirty: Optional[StrictBool] = None
-    git_sha: Optional[StrictStr] = None
-    kind: Optional[StrictStr] = None
-    lib_versions: Optional[Any] = None
-    project: Optional[StrictStr] = None
-    ref: Optional[StrictStr] = Field(default=None, description="server-derived content address (sha256:<hash>)")
-    retention_class: Optional[StrictStr] = None
-    run_id: Optional[StrictStr] = None
-    sha256: Optional[StrictStr] = Field(default=None, description="SERVER-derived on write; the identity")
-    ts: Optional[StrictInt] = None
-    visibility: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["content", "git_branch", "git_dirty", "git_sha", "kind", "lib_versions", "project", "ref", "retention_class", "run_id", "sha256", "ts", "visibility"]
+    cosign_cert: Optional[StrictStr] = None
+    cosign_signature: Optional[StrictStr] = None
+    download_url: Optional[StrictStr] = Field(default=None, description="DownloadURL is a short-lived signed URL to the artifact bytes. The scaffold returns the ArtifactRef as-is; production issues a signed URL.")
+    release: Optional[Release] = None
+    __properties: ClassVar[List[str]] = ["cosign_cert", "cosign_signature", "download_url", "release"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,11 +72,9 @@ class Artifact(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if lib_versions (nullable) is None
-        # and model_fields_set contains the field
-        if self.lib_versions is None and "lib_versions" in self.model_fields_set:
-            _dict['lib_versions'] = None
-
+        # override the default output from pydantic by calling `to_dict()` of release
+        if self.release:
+            _dict['release'] = self.release.to_dict()
         return _dict
 
     @classmethod
@@ -97,19 +87,10 @@ class Artifact(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "content": obj.get("content"),
-            "git_branch": obj.get("git_branch"),
-            "git_dirty": obj.get("git_dirty"),
-            "git_sha": obj.get("git_sha"),
-            "kind": obj.get("kind"),
-            "lib_versions": obj.get("lib_versions"),
-            "project": obj.get("project"),
-            "ref": obj.get("ref"),
-            "retention_class": obj.get("retention_class"),
-            "run_id": obj.get("run_id"),
-            "sha256": obj.get("sha256"),
-            "ts": obj.get("ts"),
-            "visibility": obj.get("visibility")
+            "cosign_cert": obj.get("cosign_cert"),
+            "cosign_signature": obj.get("cosign_signature"),
+            "download_url": obj.get("download_url"),
+            "release": Release.from_dict(obj["release"]) if obj.get("release") is not None else None
         })
         return _obj
 

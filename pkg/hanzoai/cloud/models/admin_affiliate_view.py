@@ -26,19 +26,19 @@ class AdminAffiliateView(BaseModel):
     """
     AdminAffiliateView
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    approved_at: Optional[StrictInt] = Field(default=None, alias="approvedAt")
-    code: Optional[StrictStr] = None
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    id: Optional[StrictStr] = None
-    org: Optional[StrictStr] = None
-    paid_cents: Optional[StrictInt] = Field(default=None, alias="paidCents")
-    pending_cents: Optional[StrictInt] = Field(default=None, alias="pendingCents")
-    rate_bps: Optional[StrictInt] = Field(default=None, alias="rateBps")
-    referred_count: Optional[StrictInt] = Field(default=None, alias="referredCount")
-    requested_code: Optional[StrictStr] = Field(default=None, alias="requestedCode")
-    status: Optional[StrictStr] = None
-    suspended_at: Optional[StrictInt] = Field(default=None, alias="suspendedAt")
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is lifetime commission accrued, in cents. It only grows — a payout moves paidCents, never this.", alias="accruedCents")
+    approved_at: Optional[StrictInt] = Field(default=None, description="ApprovedAt is when staff approved, Unix seconds UTC. 0 means never approved.", alias="approvedAt")
+    code: Optional[StrictStr] = Field(default=None, description="Code is the minted referral code, the slug the ?aff link carries. Empty until approval mints it. Codes are one global namespace across all affiliates.")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the org applied, Unix seconds UTC.", alias="createdAt")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed — the id the approve, suspend, rate and payout routes address.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the partner's own org slug. It appears ONLY on this cross-tenant admin view; no partner-facing read ever names another org.")
+    paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is lifetime commission already paid out, in cents — credits grants and record-only cash disbursements alike.", alias="paidCents")
+    pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is accrued minus paid, in cents: what is still owed, and the hard ceiling the next payout is reserved against. Never negative.", alias="pendingCents")
+    rate_bps: Optional[StrictInt] = Field(default=None, description="RateBps is this affiliate's DIRECT (level 1) commission rate in basis points OF Hanzo's margin (2000 = 20% of margin, never of the customer's bill). Levels 2 and 3 are platform-wide switches and are not carried per affiliate.", alias="rateBps")
+    referred_count: Optional[StrictInt] = Field(default=None, description="ReferredCount is how many orgs this affiliate is the DIRECT referrer of, counted from the attribution edges. It is 0 on the single-affiliate answers (approve, suspend, rate, payout), which do not run the count.", alias="referredCount")
+    requested_code: Optional[StrictStr] = Field(default=None, description="RequestedCode is the vanity code the applicant asked for. A request, not an allocation: approval mints a different slug if this one was taken. Absent when none was asked for.", alias="requestedCode")
+    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\", \"approved\" or \"suspended\". Only \"approved\" resolves for attribution and accrues; \"suspended\" stops future earning and claws nothing back.")
+    suspended_at: Optional[StrictInt] = Field(default=None, description="SuspendedAt is when staff suspended, Unix seconds UTC. 0 means never suspended; it is not cleared by a later re-approval.", alias="suspendedAt")
     __properties: ClassVar[List[str]] = ["accruedCents", "approvedAt", "code", "createdAt", "id", "org", "paidCents", "pendingCents", "rateBps", "referredCount", "requestedCode", "status", "suspendedAt"]
 
     model_config = ConfigDict(

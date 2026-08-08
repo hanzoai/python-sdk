@@ -28,7 +28,7 @@ class CredentialOut(BaseModel):
     CredentialOut
     """ # noqa: E501
     connected: Optional[StrictBool] = Field(default=None, description="Connected is always true — a failed verification is a 400 and stores nothing.")
-    connector: Optional[ConnView] = Field(default=None, description="Connector is the connector as it now stands.")
+    connector: Optional[ConnView] = Field(default=None, description="Connection is the connector as it now stands.")
     __properties: ClassVar[List[str]] = ["connected", "connector"]
 
     model_config = ConfigDict(

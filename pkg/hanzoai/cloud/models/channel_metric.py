@@ -26,12 +26,12 @@ class ChannelMetric(BaseModel):
     """
     ChannelMetric
     """ # noqa: E501
-    external_id: Optional[StrictStr] = Field(default=None, alias="externalId")
-    kind: Optional[StrictStr] = None
-    platform: Optional[StrictStr] = None
-    spend_cents: Optional[StrictInt] = Field(default=None, alias="spendCents")
-    spend_error: Optional[StrictStr] = Field(default=None, description="honest: connector spend read failed", alias="spendError")
-    status: Optional[StrictStr] = None
+    external_id: Optional[StrictStr] = Field(default=None, description="ExternalID is the provider-side id of the execution the spend belongs to. Absent until the channel has launched.", alias="externalId")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is which channel this row is: paid, organic or email. It is also the row's identity — a campaign carries at most one channel per kind.")
+    platform: Optional[StrictStr] = Field(default=None, description="Platform is the provider the spend was read from: meta, google, x, instagram, or the email provider.")
+    spend_cents: Optional[StrictInt] = Field(default=None, description="SpendCents is what the provider itself reports this channel spent, in CENTS. 0 when the channel never launched, when no executor is wired for it, or when the read failed — SpendError tells the last case apart from a genuine zero.", alias="spendCents")
+    spend_error: Optional[StrictStr] = Field(default=None, description="SpendError is why this channel's spend could not be read (connector not connected, provider error), as one secret-free line. Present only on failure; the campaign total then simply omits this channel rather than failing.", alias="spendError")
+    status: Optional[StrictStr] = Field(default=None, description="Status is the channel's launch state on the campaign — pending, live, paused, failed or unavailable. Only a live channel is asked for its spend at all.")
     __properties: ClassVar[List[str]] = ["externalId", "kind", "platform", "spendCents", "spendError", "status"]
 
     model_config = ConfigDict(

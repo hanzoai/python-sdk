@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class CrawlDocument(BaseModel):
     """
     CrawlDocument
     """ # noqa: E501
-    markdown: Optional[StrictStr] = None
-    metadata: Optional[Dict[str, Any]] = None
-    title: Optional[StrictStr] = None
-    url: Optional[StrictStr] = None
+    markdown: Optional[StrictStr] = Field(default=None, description="Markdown is the page's content, extracted and rendered to markdown. This is the field to read.")
+    metadata: Optional[Any] = None
+    title: Optional[StrictStr] = Field(default=None, description="Title is the document's title, when it carried one.")
+    url: Optional[StrictStr] = Field(default=None, description="URL is the address actually read, after redirects.")
     __properties: ClassVar[List[str]] = ["markdown", "metadata", "title", "url"]
 
     model_config = ConfigDict(
@@ -71,6 +71,11 @@ class CrawlDocument(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if metadata (nullable) is None
+        # and model_fields_set contains the field
+        if self.metadata is None and "metadata" in self.model_fields_set:
+            _dict['metadata'] = None
+
         return _dict
 
     @classmethod

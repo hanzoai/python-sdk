@@ -26,9 +26,9 @@ class LevelView(BaseModel):
     """
     LevelView
     """ # noqa: E501
-    downline_count: Optional[StrictInt] = Field(default=None, alias="downlineCount")
-    level: Optional[StrictInt] = None
-    rate_bps: Optional[StrictInt] = Field(default=None, alias="rateBps")
+    downline_count: Optional[StrictInt] = Field(default=None, description="DownlineCount is how many orgs sit exactly this many hops below the caller. It is 0 in the schedule quoted to a caller that has not applied, which has no downline to count.", alias="downlineCount")
+    level: Optional[StrictInt] = Field(default=None, description="Level is the upline distance from the org whose spend is being shared: 1 is the direct referrer, 2 and 3 the referrers above it. Nothing accrues past 3.")
+    rate_bps: Optional[StrictInt] = Field(default=None, description="RateBps is the commission paid at this level, in basis points OF Hanzo's margin (2000 = 20% of margin, never of the customer's bill). Level 1 is the affiliate's own negotiated rate; 2 and 3 are platform switches read live, so this is the schedule actually in force, not one compiled in.", alias="rateBps")
     __properties: ClassVar[List[str]] = ["downlineCount", "level", "rateBps"]
 
     model_config = ConfigDict(

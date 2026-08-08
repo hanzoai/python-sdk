@@ -21,6 +21,8 @@ from typing import Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.board_page import BoardPage
 from hanzoai.cloud.models.channel_list import ChannelList
+from hanzoai.cloud.models.generate_input import GenerateInput
+from hanzoai.cloud.models.generate_result import GenerateResult
 from hanzoai.cloud.models.publish_input import PublishInput
 from hanzoai.cloud.models.publish_result import PublishResult
 from hanzoai.cloud.models.state_graph import StateGraph
@@ -849,7 +851,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_doctype_name_transition(
+    def post_v1_content_by_doctype_by_name_transition(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
@@ -899,7 +901,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_doctype_name_transition_serialize(
+        _param = self._post_v1_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
             transition_in=transition_in,
@@ -924,7 +926,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_doctype_name_transition_with_http_info(
+    def post_v1_content_by_doctype_by_name_transition_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
@@ -974,7 +976,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_doctype_name_transition_serialize(
+        _param = self._post_v1_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
             transition_in=transition_in,
@@ -999,7 +1001,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_doctype_name_transition_without_preload_content(
+    def post_v1_content_by_doctype_by_name_transition_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
@@ -1049,7 +1051,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_doctype_name_transition_serialize(
+        _param = self._post_v1_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
             transition_in=transition_in,
@@ -1069,7 +1071,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _post_v1_content_doctype_name_transition_serialize(
+    def _post_v1_content_by_doctype_by_name_transition_serialize(
         self,
         doctype,
         name,
@@ -1154,6 +1156,7 @@ class ContentApi:
     @validate_call
     def post_v1_content_generate(
         self,
+        generate_input: GenerateInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1166,11 +1169,13 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GenerateResult:
         """Draft a piece of marketing content and file it in the CMS as a draft.
 
-        Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
+        Draft a piece of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
 
+        :param generate_input: (required)
+        :type generate_input: GenerateInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1194,6 +1199,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_v1_content_generate_serialize(
+            generate_input=generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1201,6 +1207,8 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "GenerateResult",
+            '402': "GenerateResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1216,6 +1224,7 @@ class ContentApi:
     @validate_call
     def post_v1_content_generate_with_http_info(
         self,
+        generate_input: GenerateInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1228,11 +1237,13 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GenerateResult]:
         """Draft a piece of marketing content and file it in the CMS as a draft.
 
-        Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
+        Draft a piece of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
 
+        :param generate_input: (required)
+        :type generate_input: GenerateInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1256,6 +1267,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_v1_content_generate_serialize(
+            generate_input=generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1263,6 +1275,8 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "GenerateResult",
+            '402': "GenerateResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1278,6 +1292,7 @@ class ContentApi:
     @validate_call
     def post_v1_content_generate_without_preload_content(
         self,
+        generate_input: GenerateInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1293,8 +1308,10 @@ class ContentApi:
     ) -> RESTResponseType:
         """Draft a piece of marketing content and file it in the CMS as a draft.
 
-        Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
+        Draft a piece of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
 
+        :param generate_input: (required)
+        :type generate_input: GenerateInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1318,6 +1335,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_v1_content_generate_serialize(
+            generate_input=generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1325,6 +1343,8 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "GenerateResult",
+            '402': "GenerateResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1335,6 +1355,7 @@ class ContentApi:
 
     def _post_v1_content_generate_serialize(
         self,
+        generate_input,
         _request_auth,
         _content_type,
         _headers,
@@ -1360,9 +1381,31 @@ class ContentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if generate_input is not None:
+            _body_params = generate_input
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

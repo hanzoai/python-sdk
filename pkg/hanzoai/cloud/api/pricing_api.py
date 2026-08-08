@@ -3723,7 +3723,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_model_name(
+    def get_v1_pricing_model_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the model's name or its slugged id (\"zen4\", \"acme/some-model-1\"), matched case-insensitively. It comes from the path: the URL is the addressing authority.")],
         _request_timeout: Union[
@@ -3767,7 +3767,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_model_name_serialize(
+        _param = self._get_v1_pricing_model_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3790,7 +3790,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_model_name_with_http_info(
+    def get_v1_pricing_model_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the model's name or its slugged id (\"zen4\", \"acme/some-model-1\"), matched case-insensitively. It comes from the path: the URL is the addressing authority.")],
         _request_timeout: Union[
@@ -3834,7 +3834,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_model_name_serialize(
+        _param = self._get_v1_pricing_model_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3857,7 +3857,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_model_name_without_preload_content(
+    def get_v1_pricing_model_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the model's name or its slugged id (\"zen4\", \"acme/some-model-1\"), matched case-insensitively. It comes from the path: the URL is the addressing authority.")],
         _request_timeout: Union[
@@ -3901,7 +3901,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_model_name_serialize(
+        _param = self._get_v1_pricing_model_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3919,7 +3919,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_model_name_serialize(
+    def _get_v1_pricing_model_by_name_serialize(
         self,
         name,
         _request_auth,

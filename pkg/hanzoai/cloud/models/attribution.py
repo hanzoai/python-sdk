@@ -26,10 +26,10 @@ class Attribution(BaseModel):
     """
     Attribution
     """ # noqa: E501
-    code: Optional[StrictStr] = None
-    created: Optional[StrictBool] = None
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    id: Optional[StrictStr] = None
+    code: Optional[StrictStr] = Field(default=None, description="Code is the affiliate code the edge was recorded under, normalized to lower case. On a re-post it is the code of the STANDING edge, which may differ from the one just sent — first touch wins.")
+    created: Optional[StrictBool] = Field(default=None, description="Created says whether THIS call made the edge. false means the caller org was already attributed and nothing moved. The HTTP status says the same: 201 when true, 200 when false.")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the edge was FIRST recorded, Unix seconds UTC. On a re-post it is the original time, not now.", alias="createdAt")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the attribution edge's server-minted handle, \"afr_\"-prefixed.")
     __properties: ClassVar[List[str]] = ["code", "created", "createdAt", "id"]
 
     model_config = ConfigDict(

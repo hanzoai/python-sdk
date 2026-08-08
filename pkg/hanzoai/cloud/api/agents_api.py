@@ -65,7 +65,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_ref(
+    def delete_v1_agents_by_ref(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -109,7 +109,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_ref_serialize(
+        _param = self._delete_v1_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -132,7 +132,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_ref_with_http_info(
+    def delete_v1_agents_by_ref_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -176,7 +176,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_ref_serialize(
+        _param = self._delete_v1_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -199,7 +199,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_ref_without_preload_content(
+    def delete_v1_agents_by_ref_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -243,7 +243,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_ref_serialize(
+        _param = self._delete_v1_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -261,7 +261,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _delete_v1_agents_ref_serialize(
+    def _delete_v1_agents_by_ref_serialize(
         self,
         ref,
         _request_auth,
@@ -318,7 +318,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_targets_id(
+    def delete_v1_agents_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -362,7 +362,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_targets_id_serialize(
+        _param = self._delete_v1_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -385,7 +385,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_targets_id_with_http_info(
+    def delete_v1_agents_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -429,7 +429,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_targets_id_serialize(
+        _param = self._delete_v1_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -452,7 +452,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_targets_id_without_preload_content(
+    def delete_v1_agents_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -496,7 +496,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_targets_id_serialize(
+        _param = self._delete_v1_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -514,7 +514,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _delete_v1_agents_targets_id_serialize(
+    def _delete_v1_agents_targets_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1330,7 +1330,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_org_project(
+    def get_v1_agents_builds_by_org_by_project(
         self,
         org: Annotated[StrictStr, Field(description="Org is the org that published the build, from the path.")],
         project: Annotated[StrictStr, Field(description="Project is the product's slug, from the path.")],
@@ -1377,7 +1377,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_org_project_serialize(
+        _param = self._get_v1_agents_builds_by_org_by_project_serialize(
             org=org,
             project=project,
             _request_auth=_request_auth,
@@ -1401,7 +1401,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_org_project_with_http_info(
+    def get_v1_agents_builds_by_org_by_project_with_http_info(
         self,
         org: Annotated[StrictStr, Field(description="Org is the org that published the build, from the path.")],
         project: Annotated[StrictStr, Field(description="Project is the product's slug, from the path.")],
@@ -1448,7 +1448,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_org_project_serialize(
+        _param = self._get_v1_agents_builds_by_org_by_project_serialize(
             org=org,
             project=project,
             _request_auth=_request_auth,
@@ -1472,7 +1472,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_org_project_without_preload_content(
+    def get_v1_agents_builds_by_org_by_project_without_preload_content(
         self,
         org: Annotated[StrictStr, Field(description="Org is the org that published the build, from the path.")],
         project: Annotated[StrictStr, Field(description="Project is the product's slug, from the path.")],
@@ -1519,7 +1519,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_org_project_serialize(
+        _param = self._get_v1_agents_builds_by_org_by_project_serialize(
             org=org,
             project=project,
             _request_auth=_request_auth,
@@ -1538,7 +1538,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_builds_org_project_serialize(
+    def _get_v1_agents_builds_by_org_by_project_serialize(
         self,
         org,
         project,
@@ -1589,6 +1589,543 @@ class AgentsApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/agents/builds/{org}/{project}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_agents_by_ref(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentDetail:
+        """Returns one agent with its system prompt and its 20 most recent runs.
+
+        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
+
+        :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
+        :type ref: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_agents_by_ref_serialize(
+            ref=ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentDetail",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_agents_by_ref_with_http_info(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentDetail]:
+        """Returns one agent with its system prompt and its 20 most recent runs.
+
+        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
+
+        :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
+        :type ref: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_agents_by_ref_serialize(
+            ref=ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentDetail",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_agents_by_ref_without_preload_content(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one agent with its system prompt and its 20 most recent runs.
+
+        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
+
+        :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
+        :type ref: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_agents_by_ref_serialize(
+            ref=ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentDetail",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_agents_by_ref_serialize(
+        self,
+        ref,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if ref is not None:
+            _path_params['ref'] = ref
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agents/{ref}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_agents_by_ref_runs(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RunList:
+        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+
+        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+
+        :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
+        :type ref: str
+        :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_agents_by_ref_runs_serialize(
+            ref=ref,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "RunList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_agents_by_ref_runs_with_http_info(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RunList]:
+        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+
+        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+
+        :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
+        :type ref: str
+        :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_agents_by_ref_runs_serialize(
+            ref=ref,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "RunList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_agents_by_ref_runs_without_preload_content(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+
+        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+
+        :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
+        :type ref: str
+        :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_agents_by_ref_runs_serialize(
+            ref=ref,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "RunList",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_agents_by_ref_runs_serialize(
+        self,
+        ref,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if ref is not None:
+            _path_params['ref'] = ref
+        # process the query parameters
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agents/{ref}/runs',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1867,270 +2404,10 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_ref(
+    def get_v1_agents_runs(
         self,
-        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentDetail:
-        """Returns one agent with its system prompt and its 20 most recent runs.
-
-        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
-
-        :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
-        :type ref: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_agents_ref_serialize(
-            ref=ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentDetail",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_v1_agents_ref_with_http_info(
-        self,
-        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentDetail]:
-        """Returns one agent with its system prompt and its 20 most recent runs.
-
-        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
-
-        :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
-        :type ref: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_agents_ref_serialize(
-            ref=ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentDetail",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_v1_agents_ref_without_preload_content(
-        self,
-        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns one agent with its system prompt and its 20 most recent runs.
-
-        Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
-
-        :param ref: Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent. (required)
-        :type ref: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_agents_ref_serialize(
-            ref=ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentDetail",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_v1_agents_ref_serialize(
-        self,
-        ref,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if ref is not None:
-            _path_params['ref'] = ref
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/agents/{ref}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_v1_agents_ref_runs(
-        self,
-        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2144,14 +2421,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RunList:
-        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+        """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
 
-        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+        Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
 
-        :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
-        :type ref: str
         :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
         :type limit: int
+        :param status: Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.
+        :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2174,9 +2451,9 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_ref_runs_serialize(
-            ref=ref,
+        _param = self._get_v1_agents_runs_serialize(
             limit=limit,
+            status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2198,10 +2475,10 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_ref_runs_with_http_info(
+    def get_v1_agents_runs_with_http_info(
         self,
-        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2215,14 +2492,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[RunList]:
-        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+        """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
 
-        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+        Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
 
-        :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
-        :type ref: str
         :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
         :type limit: int
+        :param status: Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.
+        :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2245,9 +2522,9 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_ref_runs_serialize(
-            ref=ref,
+        _param = self._get_v1_agents_runs_serialize(
             limit=limit,
+            status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2269,10 +2546,10 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_ref_runs_without_preload_content(
+    def get_v1_agents_runs_without_preload_content(
         self,
-        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2286,14 +2563,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
+        """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
 
-        Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
+        Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
 
-        :param ref: Ref is the agent's public id or its org-unique name, from the path. (required)
-        :type ref: str
         :param limit: Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.
         :type limit: int
+        :param status: Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.
+        :type status: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2316,9 +2593,9 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_ref_runs_serialize(
-            ref=ref,
+        _param = self._get_v1_agents_runs_serialize(
             limit=limit,
+            status=status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2335,10 +2612,10 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_ref_runs_serialize(
+    def _get_v1_agents_runs_serialize(
         self,
-        ref,
         limit,
+        status,
         _request_auth,
         _content_type,
         _headers,
@@ -2360,12 +2637,14 @@ class AgentsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if ref is not None:
-            _path_params['ref'] = ref
         # process the query parameters
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
             
         # process the header parameters
         # process the form parameters
@@ -2387,7 +2666,7 @@ class AgentsApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/agents/{ref}/runs',
+            resource_path='/v1/agents/runs',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2734,7 +3013,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id(
+    def get_v1_agents_sessions_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -2778,7 +3057,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_serialize(
+        _param = self._get_v1_agents_sessions_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2801,7 +3080,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_with_http_info(
+    def get_v1_agents_sessions_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -2845,7 +3124,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_serialize(
+        _param = self._get_v1_agents_sessions_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2868,7 +3147,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_without_preload_content(
+    def get_v1_agents_sessions_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -2912,7 +3191,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_serialize(
+        _param = self._get_v1_agents_sessions_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2930,7 +3209,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_id_serialize(
+    def _get_v1_agents_sessions_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2994,7 +3273,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_control(
+    def get_v1_agents_sessions_by_id_control(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session whose commands are being drained, from the path.")],
         after: Annotated[Optional[StrictInt], Field(description="After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning.")] = None,
@@ -3041,7 +3320,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_control_serialize(
+        _param = self._get_v1_agents_sessions_by_id_control_serialize(
             id=id,
             after=after,
             _request_auth=_request_auth,
@@ -3065,7 +3344,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_control_with_http_info(
+    def get_v1_agents_sessions_by_id_control_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session whose commands are being drained, from the path.")],
         after: Annotated[Optional[StrictInt], Field(description="After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning.")] = None,
@@ -3112,7 +3391,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_control_serialize(
+        _param = self._get_v1_agents_sessions_by_id_control_serialize(
             id=id,
             after=after,
             _request_auth=_request_auth,
@@ -3136,7 +3415,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_control_without_preload_content(
+    def get_v1_agents_sessions_by_id_control_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session whose commands are being drained, from the path.")],
         after: Annotated[Optional[StrictInt], Field(description="After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning.")] = None,
@@ -3183,7 +3462,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_control_serialize(
+        _param = self._get_v1_agents_sessions_by_id_control_serialize(
             id=id,
             after=after,
             _request_auth=_request_auth,
@@ -3202,7 +3481,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_id_control_serialize(
+    def _get_v1_agents_sessions_by_id_control_serialize(
         self,
         id,
         after,
@@ -3271,7 +3550,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_tree(
+    def get_v1_agents_sessions_by_id_tree(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3315,7 +3594,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_tree_serialize(
+        _param = self._get_v1_agents_sessions_by_id_tree_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3338,7 +3617,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_tree_with_http_info(
+    def get_v1_agents_sessions_by_id_tree_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3382,7 +3661,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_tree_serialize(
+        _param = self._get_v1_agents_sessions_by_id_tree_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3405,7 +3684,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_id_tree_without_preload_content(
+    def get_v1_agents_sessions_by_id_tree_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3449,7 +3728,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_id_tree_serialize(
+        _param = self._get_v1_agents_sessions_by_id_tree_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3467,7 +3746,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_id_tree_serialize(
+    def _get_v1_agents_sessions_by_id_tree_serialize(
         self,
         id,
         _request_auth,
@@ -4011,7 +4290,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_id(
+    def get_v1_agents_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -4055,7 +4334,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_id_serialize(
+        _param = self._get_v1_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4078,7 +4357,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_id_with_http_info(
+    def get_v1_agents_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -4122,7 +4401,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_id_serialize(
+        _param = self._get_v1_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4145,7 +4424,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_id_without_preload_content(
+    def get_v1_agents_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -4189,7 +4468,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_id_serialize(
+        _param = self._get_v1_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4207,7 +4486,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_targets_id_serialize(
+    def _get_v1_agents_targets_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -4271,7 +4550,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_ref(
+    def patch_v1_agents_by_ref(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
         update_agent_in: UpdateAgentIn,
@@ -4318,7 +4597,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_ref_serialize(
+        _param = self._patch_v1_agents_by_ref_serialize(
             ref=ref,
             update_agent_in=update_agent_in,
             _request_auth=_request_auth,
@@ -4342,7 +4621,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_ref_with_http_info(
+    def patch_v1_agents_by_ref_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
         update_agent_in: UpdateAgentIn,
@@ -4389,7 +4668,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_ref_serialize(
+        _param = self._patch_v1_agents_by_ref_serialize(
             ref=ref,
             update_agent_in=update_agent_in,
             _request_auth=_request_auth,
@@ -4413,7 +4692,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_ref_without_preload_content(
+    def patch_v1_agents_by_ref_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
         update_agent_in: UpdateAgentIn,
@@ -4460,7 +4739,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_ref_serialize(
+        _param = self._patch_v1_agents_by_ref_serialize(
             ref=ref,
             update_agent_in=update_agent_in,
             _request_auth=_request_auth,
@@ -4479,7 +4758,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _patch_v1_agents_ref_serialize(
+    def _patch_v1_agents_by_ref_serialize(
         self,
         ref,
         update_agent_in,
@@ -4559,7 +4838,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_sessions_id(
+    def patch_v1_agents_sessions_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
         patch_session_in: PatchSessionIn,
@@ -4606,7 +4885,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_sessions_id_serialize(
+        _param = self._patch_v1_agents_sessions_by_id_serialize(
             id=id,
             patch_session_in=patch_session_in,
             _request_auth=_request_auth,
@@ -4630,7 +4909,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_sessions_id_with_http_info(
+    def patch_v1_agents_sessions_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
         patch_session_in: PatchSessionIn,
@@ -4677,7 +4956,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_sessions_id_serialize(
+        _param = self._patch_v1_agents_sessions_by_id_serialize(
             id=id,
             patch_session_in=patch_session_in,
             _request_auth=_request_auth,
@@ -4701,7 +4980,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_sessions_id_without_preload_content(
+    def patch_v1_agents_sessions_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
         patch_session_in: PatchSessionIn,
@@ -4748,7 +5027,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_sessions_id_serialize(
+        _param = self._patch_v1_agents_sessions_by_id_serialize(
             id=id,
             patch_session_in=patch_session_in,
             _request_auth=_request_auth,
@@ -4767,7 +5046,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _patch_v1_agents_sessions_id_serialize(
+    def _patch_v1_agents_sessions_by_id_serialize(
         self,
         id,
         patch_session_in,
@@ -4847,7 +5126,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_targets_id(
+    def patch_v1_agents_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
         patch_target_in: PatchTargetIn,
@@ -4894,7 +5173,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_targets_id_serialize(
+        _param = self._patch_v1_agents_targets_by_id_serialize(
             id=id,
             patch_target_in=patch_target_in,
             _request_auth=_request_auth,
@@ -4918,7 +5197,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_targets_id_with_http_info(
+    def patch_v1_agents_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
         patch_target_in: PatchTargetIn,
@@ -4965,7 +5244,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_targets_id_serialize(
+        _param = self._patch_v1_agents_targets_by_id_serialize(
             id=id,
             patch_target_in=patch_target_in,
             _request_auth=_request_auth,
@@ -4989,7 +5268,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_targets_id_without_preload_content(
+    def patch_v1_agents_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
         patch_target_in: PatchTargetIn,
@@ -5036,7 +5315,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_targets_id_serialize(
+        _param = self._patch_v1_agents_targets_by_id_serialize(
             id=id,
             patch_target_in=patch_target_in,
             _request_auth=_request_auth,
@@ -5055,7 +5334,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _patch_v1_agents_targets_id_serialize(
+    def _patch_v1_agents_targets_by_id_serialize(
         self,
         id,
         patch_target_in,
@@ -5424,9 +5703,9 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Run one of your org's agents and get the recorded run back.
+        """Runs one of the caller org's agents and gets the recorded run back.
 
-        Composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
+        Runs one of the caller org's agents and gets the recorded run back.  It composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
 
         :param ref: (required)
         :type ref: str
@@ -5490,9 +5769,9 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Run one of your org's agents and get the recorded run back.
+        """Runs one of the caller org's agents and gets the recorded run back.
 
-        Composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
+        Runs one of the caller org's agents and gets the recorded run back.  It composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
 
         :param ref: (required)
         :type ref: str
@@ -5556,9 +5835,9 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Run one of your org's agents and get the recorded run back.
+        """Runs one of the caller org's agents and gets the recorded run back.
 
-        Composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
+        Runs one of the caller org's agents and gets the recorded run back.  It composes the agent's stored instructions with the caller's `input`, executes one real chat completion through the same in-process AI client the rest of the console uses, and answers with the run that was recorded: its id, status, model, output, duration and error. Every run this returns reflects an execution that actually happened — a model failure is recorded and reported, never hidden and never fabricated. A transient upstream failure (429, 5xx, empty choices) is retried up to three times with jittered backoff, and a configured failover model is tried before the run is called an error.  `ref` is the agent's public `agent_…` id or its org-unique name; either resolves the same agent, and it must belong to the caller's org, so an agent in another tenant is a 404 exactly like one that does not exist. A validated principal is required and the check is made twice on purpose: this route MOVES MONEY, so the debit's principal requirement is asserted where the money moves rather than inherited from the tenant lookup.  The org's balance is authorized BEFORE any inference, so an unfunded tenant gets 402 and no free compute, and a billing plane that cannot answer gets 503 rather than a free run. The flat per-run fee is an operator knob; setting it to zero makes runs free and removes the balance gate with them. Only a SUCCESSFUL run is billed, attributed to the model actually used — a failover run bills the model it fell over to, not the one it started on. A deployment with no inference wired answers 503 before any of this.  THE RULE A READER GETS WRONG: a failed run is a 502 whose body is the RUN, not an error envelope. The execution happened, the run was persisted to this agent's history, and its `error` field is the product — so a client that treats every non-2xx as an opaque failure throws away the only account of what went wrong. Each run also opens a root session in the live session registry, best-effort: a bookkeeping failure there never fails the run, because the run and its billing already happened.
 
         :param ref: (required)
         :type ref: str
@@ -7454,7 +7733,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_claim(
+    def post_v1_agents_targets_by_id_claim(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7498,7 +7777,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_claim_serialize(
+        _param = self._post_v1_agents_targets_by_id_claim_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7521,7 +7800,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_claim_with_http_info(
+    def post_v1_agents_targets_by_id_claim_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7565,7 +7844,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_claim_serialize(
+        _param = self._post_v1_agents_targets_by_id_claim_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7588,7 +7867,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_claim_without_preload_content(
+    def post_v1_agents_targets_by_id_claim_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7632,7 +7911,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_claim_serialize(
+        _param = self._post_v1_agents_targets_by_id_claim_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7650,7 +7929,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_id_claim_serialize(
+    def _post_v1_agents_targets_by_id_claim_serialize(
         self,
         id,
         _request_auth,
@@ -7714,7 +7993,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_key(
+    def post_v1_agents_targets_by_id_key(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7758,7 +8037,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_key_serialize(
+        _param = self._post_v1_agents_targets_by_id_key_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7781,7 +8060,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_key_with_http_info(
+    def post_v1_agents_targets_by_id_key_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7825,7 +8104,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_key_serialize(
+        _param = self._post_v1_agents_targets_by_id_key_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7848,7 +8127,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_key_without_preload_content(
+    def post_v1_agents_targets_by_id_key_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7892,7 +8171,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_key_serialize(
+        _param = self._post_v1_agents_targets_by_id_key_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7910,7 +8189,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_id_key_serialize(
+    def _post_v1_agents_targets_by_id_key_serialize(
         self,
         id,
         _request_auth,
@@ -7974,7 +8253,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_runs_run_id_report(
+    def post_v1_agents_targets_by_id_runs_by_runid_report(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
@@ -8024,7 +8303,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_runs_run_id_report_serialize(
+        _param = self._post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
             report_run_in=report_run_in,
@@ -8049,7 +8328,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_runs_run_id_report_with_http_info(
+    def post_v1_agents_targets_by_id_runs_by_runid_report_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
@@ -8099,7 +8378,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_runs_run_id_report_serialize(
+        _param = self._post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
             report_run_in=report_run_in,
@@ -8124,7 +8403,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_id_runs_run_id_report_without_preload_content(
+    def post_v1_agents_targets_by_id_runs_by_runid_report_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
@@ -8174,7 +8453,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_id_runs_run_id_report_serialize(
+        _param = self._post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
             report_run_in=report_run_in,
@@ -8194,7 +8473,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_id_runs_run_id_report_serialize(
+    def _post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
         self,
         id,
         run_id,

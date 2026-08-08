@@ -16,7 +16,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from typing import Optional
 from hanzoai.cloud.models.crawl_request import CrawlRequest
 from hanzoai.cloud.models.crawl_result import CrawlResult
 
@@ -39,9 +38,9 @@ class CrawlApi:
 
 
     @validate_call
-    def post_v1_crawl(
+    def read_page(
         self,
-        crawl_request: Optional[CrawlRequest] = None,
+        crawl_request: CrawlRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57,9 +56,9 @@ class CrawlApi:
     ) -> CrawlResult:
         """Fetch one URL and read it back as markdown
 
-        Fetches a single URL from inside the cluster and answers with the page's title, its content rendered to markdown, and whatever metadata the document carried.  A page that could not be fetched is a NORMAL outcome, not a fault: an unreachable host, a refused address or a non-document content type all answer 200 with `success:false` and the reason in `error`. Non-2xx is reserved for a caller problem — 401 for a bad key, 400 for a missing url, 503 when the surface is unconfigured — so error handling can trust the status.  Admission is either a validated principal or the shared service key, presented as X-API-Key or a Bearer; neither is refused, and an unset key fails closed rather than opening the fetcher to the private network. Crawled pages are archived under the scope of the VERIFIED principal, never a scope named in the body; a service caller has no org and its pages land in the shared corpus. One URL per call, and the request body is bounded at 1 MiB.
+        Reads one URL and answers with the page as markdown.  It fetches a single URL from inside the cluster and answers with the address it actually landed on, the document's title, its content rendered to MARKDOWN, and whatever the page said about itself. One URL per call: batching would make the answer a partial-failure envelope every caller then has to unpack.  A PAGE THAT COULD NOT BE FETCHED IS A NORMAL ANSWER, not a fault. An unreachable host, a refused address and a content type that is not a document all answer 200 with `success:false` and the reason in `error`, because the caller sent a well-formed ask and gets a well-formed answer. Non-2xx is reserved for a caller problem — 400 with the same body when there is no url, 401 for a bad key, 503 when the surface is unconfigured — so error handling can trust the status. Check `success` before reading `data`.  Admission is either a validated principal or the shared service key, presented as X-API-Key or a Bearer; neither is refused, and an unset key fails closed rather than opening the fetcher to the private network. Pages are archived under the scope of the VERIFIED principal and NEVER a scope named in the body, so a URL already read under that scope is answered from the archive without touching the network; a service caller has no org and its pages land in the shared corpus.  The URL is caller-supplied and dialled from INSIDE the cluster, which makes this a request-forgery primitive by construction. Only http and https are accepted, and every address actually dialled must be public unicast — loopback, link-local, private and multicast are refused. The check lives in the DIALER rather than on the hostname, because resolving a name to validate it and then letting the transport resolve it again is a gap DNS rebinding walks straight through; redirects re-enter the same dialer.
 
-        :param crawl_request:
+        :param crawl_request: (required)
         :type crawl_request: CrawlRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -83,7 +82,7 @@ class CrawlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crawl_serialize(
+        _param = self._read_page_serialize(
             crawl_request=crawl_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -92,7 +91,8 @@ class CrawlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "CrawlResult",
+            '200': "CrawlResult",
+            '400': "CrawlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106,9 +106,9 @@ class CrawlApi:
 
 
     @validate_call
-    def post_v1_crawl_with_http_info(
+    def read_page_with_http_info(
         self,
-        crawl_request: Optional[CrawlRequest] = None,
+        crawl_request: CrawlRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -124,9 +124,9 @@ class CrawlApi:
     ) -> ApiResponse[CrawlResult]:
         """Fetch one URL and read it back as markdown
 
-        Fetches a single URL from inside the cluster and answers with the page's title, its content rendered to markdown, and whatever metadata the document carried.  A page that could not be fetched is a NORMAL outcome, not a fault: an unreachable host, a refused address or a non-document content type all answer 200 with `success:false` and the reason in `error`. Non-2xx is reserved for a caller problem — 401 for a bad key, 400 for a missing url, 503 when the surface is unconfigured — so error handling can trust the status.  Admission is either a validated principal or the shared service key, presented as X-API-Key or a Bearer; neither is refused, and an unset key fails closed rather than opening the fetcher to the private network. Crawled pages are archived under the scope of the VERIFIED principal, never a scope named in the body; a service caller has no org and its pages land in the shared corpus. One URL per call, and the request body is bounded at 1 MiB.
+        Reads one URL and answers with the page as markdown.  It fetches a single URL from inside the cluster and answers with the address it actually landed on, the document's title, its content rendered to MARKDOWN, and whatever the page said about itself. One URL per call: batching would make the answer a partial-failure envelope every caller then has to unpack.  A PAGE THAT COULD NOT BE FETCHED IS A NORMAL ANSWER, not a fault. An unreachable host, a refused address and a content type that is not a document all answer 200 with `success:false` and the reason in `error`, because the caller sent a well-formed ask and gets a well-formed answer. Non-2xx is reserved for a caller problem — 400 with the same body when there is no url, 401 for a bad key, 503 when the surface is unconfigured — so error handling can trust the status. Check `success` before reading `data`.  Admission is either a validated principal or the shared service key, presented as X-API-Key or a Bearer; neither is refused, and an unset key fails closed rather than opening the fetcher to the private network. Pages are archived under the scope of the VERIFIED principal and NEVER a scope named in the body, so a URL already read under that scope is answered from the archive without touching the network; a service caller has no org and its pages land in the shared corpus.  The URL is caller-supplied and dialled from INSIDE the cluster, which makes this a request-forgery primitive by construction. Only http and https are accepted, and every address actually dialled must be public unicast — loopback, link-local, private and multicast are refused. The check lives in the DIALER rather than on the hostname, because resolving a name to validate it and then letting the transport resolve it again is a gap DNS rebinding walks straight through; redirects re-enter the same dialer.
 
-        :param crawl_request:
+        :param crawl_request: (required)
         :type crawl_request: CrawlRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -150,7 +150,7 @@ class CrawlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crawl_serialize(
+        _param = self._read_page_serialize(
             crawl_request=crawl_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -159,7 +159,8 @@ class CrawlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "CrawlResult",
+            '200': "CrawlResult",
+            '400': "CrawlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -173,9 +174,9 @@ class CrawlApi:
 
 
     @validate_call
-    def post_v1_crawl_without_preload_content(
+    def read_page_without_preload_content(
         self,
-        crawl_request: Optional[CrawlRequest] = None,
+        crawl_request: CrawlRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -191,9 +192,9 @@ class CrawlApi:
     ) -> RESTResponseType:
         """Fetch one URL and read it back as markdown
 
-        Fetches a single URL from inside the cluster and answers with the page's title, its content rendered to markdown, and whatever metadata the document carried.  A page that could not be fetched is a NORMAL outcome, not a fault: an unreachable host, a refused address or a non-document content type all answer 200 with `success:false` and the reason in `error`. Non-2xx is reserved for a caller problem — 401 for a bad key, 400 for a missing url, 503 when the surface is unconfigured — so error handling can trust the status.  Admission is either a validated principal or the shared service key, presented as X-API-Key or a Bearer; neither is refused, and an unset key fails closed rather than opening the fetcher to the private network. Crawled pages are archived under the scope of the VERIFIED principal, never a scope named in the body; a service caller has no org and its pages land in the shared corpus. One URL per call, and the request body is bounded at 1 MiB.
+        Reads one URL and answers with the page as markdown.  It fetches a single URL from inside the cluster and answers with the address it actually landed on, the document's title, its content rendered to MARKDOWN, and whatever the page said about itself. One URL per call: batching would make the answer a partial-failure envelope every caller then has to unpack.  A PAGE THAT COULD NOT BE FETCHED IS A NORMAL ANSWER, not a fault. An unreachable host, a refused address and a content type that is not a document all answer 200 with `success:false` and the reason in `error`, because the caller sent a well-formed ask and gets a well-formed answer. Non-2xx is reserved for a caller problem — 400 with the same body when there is no url, 401 for a bad key, 503 when the surface is unconfigured — so error handling can trust the status. Check `success` before reading `data`.  Admission is either a validated principal or the shared service key, presented as X-API-Key or a Bearer; neither is refused, and an unset key fails closed rather than opening the fetcher to the private network. Pages are archived under the scope of the VERIFIED principal and NEVER a scope named in the body, so a URL already read under that scope is answered from the archive without touching the network; a service caller has no org and its pages land in the shared corpus.  The URL is caller-supplied and dialled from INSIDE the cluster, which makes this a request-forgery primitive by construction. Only http and https are accepted, and every address actually dialled must be public unicast — loopback, link-local, private and multicast are refused. The check lives in the DIALER rather than on the hostname, because resolving a name to validate it and then letting the transport resolve it again is a gap DNS rebinding walks straight through; redirects re-enter the same dialer.
 
-        :param crawl_request:
+        :param crawl_request: (required)
         :type crawl_request: CrawlRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -217,7 +218,7 @@ class CrawlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crawl_serialize(
+        _param = self._read_page_serialize(
             crawl_request=crawl_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -226,7 +227,8 @@ class CrawlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "CrawlResult",
+            '200': "CrawlResult",
+            '400': "CrawlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -235,7 +237,7 @@ class CrawlApi:
         return response_data.response
 
 
-    def _post_v1_crawl_serialize(
+    def _read_page_serialize(
         self,
         crawl_request,
         _request_auth,

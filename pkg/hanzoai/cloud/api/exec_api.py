@@ -16,7 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from hanzoai.cloud.models.code_result import CodeResult
+from hanzoai.cloud.models.code_run import CodeRun
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -37,1948 +38,9 @@ class ExecApi:
 
 
     @validate_call
-    def delete_v1_exec(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_v1_exec_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_v1_exec_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_v1_exec_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def delete_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/exec/{wildcard1}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_v1_exec(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_v1_exec_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_v1_exec_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_v1_exec_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/exec/{wildcard1}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def options_v1_exec(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def options_v1_exec_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def options_v1_exec_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _options_v1_exec_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='OPTIONS',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def options_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def options_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def options_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._options_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _options_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='OPTIONS',
-            resource_path='/v1/exec/{wildcard1}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def patch_v1_exec(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def patch_v1_exec_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def patch_v1_exec_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _patch_v1_exec_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='PATCH',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def patch_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def patch_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def patch_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _patch_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='PATCH',
-            resource_path='/v1/exec/{wildcard1}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def post_v1_exec(
         self,
+        code_run: CodeRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1991,11 +53,13 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> CodeResult:
         """Run a code snippet in a sandboxed interpreter
 
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
+        Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/download/{session}/{name}.  The tenant is the caller's, never the body's, at every door. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying neither a validated principal nor exec's own admission marker, so those doors fail closed without a second gate to keep in step.
 
+        :param code_run: (required)
+        :type code_run: CodeRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2019,6 +83,7 @@ class ExecApi:
         """ # noqa: E501
 
         _param = self._post_v1_exec_serialize(
+            code_run=code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2026,6 +91,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CodeResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2041,6 +107,7 @@ class ExecApi:
     @validate_call
     def post_v1_exec_with_http_info(
         self,
+        code_run: CodeRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2053,11 +120,13 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[CodeResult]:
         """Run a code snippet in a sandboxed interpreter
 
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
+        Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/download/{session}/{name}.  The tenant is the caller's, never the body's, at every door. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying neither a validated principal nor exec's own admission marker, so those doors fail closed without a second gate to keep in step.
 
+        :param code_run: (required)
+        :type code_run: CodeRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2081,6 +150,7 @@ class ExecApi:
         """ # noqa: E501
 
         _param = self._post_v1_exec_serialize(
+            code_run=code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2088,6 +158,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CodeResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2103,6 +174,7 @@ class ExecApi:
     @validate_call
     def post_v1_exec_without_preload_content(
         self,
+        code_run: CodeRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2118,8 +190,10 @@ class ExecApi:
     ) -> RESTResponseType:
         """Run a code snippet in a sandboxed interpreter
 
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
+        Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/download/{session}/{name}.  The tenant is the caller's, never the body's, at every door. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying neither a validated principal nor exec's own admission marker, so those doors fail closed without a second gate to keep in step.
 
+        :param code_run: (required)
+        :type code_run: CodeRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2143,6 +217,7 @@ class ExecApi:
         """ # noqa: E501
 
         _param = self._post_v1_exec_serialize(
+            code_run=code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2150,6 +225,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CodeResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2160,6 +236,264 @@ class ExecApi:
 
     def _post_v1_exec_serialize(
         self,
+        code_run,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if code_run is not None:
+            _body_params = code_run
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/exec',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_exec_programmatic(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Programmatic tool calling (not served here)
+
+        Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_exec_programmatic_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_exec_programmatic_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Programmatic tool calling (not served here)
+
+        Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_exec_programmatic_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_exec_programmatic_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Programmatic tool calling (not served here)
+
+        Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_exec_programmatic_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_exec_programmatic_serialize(
+        self,
         _request_auth,
         _content_type,
         _headers,
@@ -2195,1227 +529,7 @@ class ExecApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/exec/{wildcard1}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def put_v1_exec(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._put_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def put_v1_exec_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._put_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def put_v1_exec_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._put_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _put_v1_exec_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def put_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._put_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def put_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._put_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def put_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._put_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _put_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/exec/{wildcard1}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def trace_v1_exec(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def trace_v1_exec_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def trace_v1_exec_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run a code snippet in a sandboxed interpreter
-
-        The code-interpreter entry point: a snippet with its language, plus any files already uploaded to the session, runs in an isolated executor and comes back as the session id, stdout, stderr and the files the run produced. This is what a chat agent's code tool calls.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_exec_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _trace_v1_exec_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='TRACE',
-            resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def trace_v1_exec_by_wildcard1(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def trace_v1_exec_by_wildcard1_with_http_info(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def trace_v1_exec_by_wildcard1_without_preload_content(
-        self,
-        wildcard1: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """The interpreter's own execution subpaths
-
-        Whatever the executor serves below /exec, addressed verbatim — /exec/programmatic is the one this repo names, and the rest of that tree is the executor's to define. It is deliberately ONE greedy route: enumerating the executor's subpaths here would 404 every one left out of the list, so cloud carries the whole tree rather than a guess at it.  NOTHING RUNS HERE. cloud forwards the request to the sandboxed executor byte for byte and forwards its answer back the same way — the status, the Content-Type and every field are the executor's, including fields this repo has never named and including its own 4xx. There is no os/exec anywhere in this process: the sandbox is the isolation boundary, and cloud adds only the credential check and the single public address.  AUTH is a shared SERVICE key on X-API-Key, compared in constant time — not a user JWT. The chat server calls this server-side on a user's behalf, so this surface carries no org scope and no per-user identity; separation between callers is the executor's session, not this edge's. A wrong key is 401, and a deployment with no key configured is 503 rather than open.  One registration owns this address for every method, so which methods actually answer is the executor's decision, not this edge's.
-
-        :param wildcard1: (required)
-        :type wildcard1: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._trace_v1_exec_by_wildcard1_serialize(
-            wildcard1=wildcard1,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _trace_v1_exec_by_wildcard1_serialize(
-        self,
-        wildcard1,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if wildcard1 is not None:
-            _path_params['wildcard1'] = wildcard1
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='TRACE',
-            resource_path='/v1/exec/{wildcard1}',
+            resource_path='/v1/exec/programmatic',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

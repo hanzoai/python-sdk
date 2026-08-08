@@ -46,7 +46,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_id(
+    def delete_v1_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -90,7 +90,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_id_serialize(
+        _param = self._delete_v1_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -113,7 +113,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_id_with_http_info(
+    def delete_v1_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -157,7 +157,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_id_serialize(
+        _param = self._delete_v1_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -180,7 +180,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_id_without_preload_content(
+    def delete_v1_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -224,7 +224,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_id_serialize(
+        _param = self._delete_v1_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -242,7 +242,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _delete_v1_campaign_id_serialize(
+    def _delete_v1_campaign_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -299,7 +299,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_id_channels_kind(
+    def delete_v1_campaign_by_id_channels_by_kind(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign, from the path.")],
         kind: Annotated[StrictStr, Field(description="Kind is the channel to remove: paid, organic or email.")],
@@ -346,7 +346,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_id_channels_kind_serialize(
+        _param = self._delete_v1_campaign_by_id_channels_by_kind_serialize(
             id=id,
             kind=kind,
             _request_auth=_request_auth,
@@ -370,7 +370,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_id_channels_kind_with_http_info(
+    def delete_v1_campaign_by_id_channels_by_kind_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign, from the path.")],
         kind: Annotated[StrictStr, Field(description="Kind is the channel to remove: paid, organic or email.")],
@@ -417,7 +417,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_id_channels_kind_serialize(
+        _param = self._delete_v1_campaign_by_id_channels_by_kind_serialize(
             id=id,
             kind=kind,
             _request_auth=_request_auth,
@@ -441,7 +441,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_id_channels_kind_without_preload_content(
+    def delete_v1_campaign_by_id_channels_by_kind_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign, from the path.")],
         kind: Annotated[StrictStr, Field(description="Kind is the channel to remove: paid, organic or email.")],
@@ -488,7 +488,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_id_channels_kind_serialize(
+        _param = self._delete_v1_campaign_by_id_channels_by_kind_serialize(
             id=id,
             kind=kind,
             _request_auth=_request_auth,
@@ -507,7 +507,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _delete_v1_campaign_id_channels_kind_serialize(
+    def _delete_v1_campaign_by_id_channels_by_kind_serialize(
         self,
         id,
         kind,
@@ -853,7 +853,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_id(
+    def get_v1_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -897,7 +897,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_id_serialize(
+        _param = self._get_v1_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -920,7 +920,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_id_with_http_info(
+    def get_v1_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -964,7 +964,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_id_serialize(
+        _param = self._get_v1_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -987,7 +987,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_id_without_preload_content(
+    def get_v1_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -1031,7 +1031,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_id_serialize(
+        _param = self._get_v1_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1049,7 +1049,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _get_v1_campaign_id_serialize(
+    def _get_v1_campaign_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1113,7 +1113,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_id_metrics(
+    def get_v1_campaign_by_id_metrics(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to report on, from the path.")],
         range: Annotated[Optional[StrictStr], Field(description="Range is the lookback window: 24h, 7d, 30d or 90d. Anything else, including empty, reads as 30d.")] = None,
@@ -1166,7 +1166,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_id_metrics_serialize(
+        _param = self._get_v1_campaign_by_id_metrics_serialize(
             id=id,
             range=range,
             start=start,
@@ -1192,7 +1192,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_id_metrics_with_http_info(
+    def get_v1_campaign_by_id_metrics_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to report on, from the path.")],
         range: Annotated[Optional[StrictStr], Field(description="Range is the lookback window: 24h, 7d, 30d or 90d. Anything else, including empty, reads as 30d.")] = None,
@@ -1245,7 +1245,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_id_metrics_serialize(
+        _param = self._get_v1_campaign_by_id_metrics_serialize(
             id=id,
             range=range,
             start=start,
@@ -1271,7 +1271,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_id_metrics_without_preload_content(
+    def get_v1_campaign_by_id_metrics_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to report on, from the path.")],
         range: Annotated[Optional[StrictStr], Field(description="Range is the lookback window: 24h, 7d, 30d or 90d. Anything else, including empty, reads as 30d.")] = None,
@@ -1324,7 +1324,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_id_metrics_serialize(
+        _param = self._get_v1_campaign_by_id_metrics_serialize(
             id=id,
             range=range,
             start=start,
@@ -1345,7 +1345,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _get_v1_campaign_id_metrics_serialize(
+    def _get_v1_campaign_by_id_metrics_serialize(
         self,
         id,
         range,
@@ -1942,6 +1942,294 @@ class CampaignApi:
 
 
     @validate_call
+    def post_v1_campaign_by_id_channels(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
+        channel_add: ChannelAdd,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> CampaignRecord:
+        """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
+
+        Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
+
+        :param id: ID is the campaign to add the channel to, from the path. (required)
+        :type id: str
+        :param channel_add: (required)
+        :type channel_add: ChannelAdd
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_campaign_by_id_channels_serialize(
+            id=id,
+            channel_add=channel_add,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CampaignRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_campaign_by_id_channels_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
+        channel_add: ChannelAdd,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[CampaignRecord]:
+        """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
+
+        Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
+
+        :param id: ID is the campaign to add the channel to, from the path. (required)
+        :type id: str
+        :param channel_add: (required)
+        :type channel_add: ChannelAdd
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_campaign_by_id_channels_serialize(
+            id=id,
+            channel_add=channel_add,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CampaignRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_campaign_by_id_channels_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
+        channel_add: ChannelAdd,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
+
+        Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
+
+        :param id: ID is the campaign to add the channel to, from the path. (required)
+        :type id: str
+        :param channel_add: (required)
+        :type channel_add: ChannelAdd
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_campaign_by_id_channels_serialize(
+            id=id,
+            channel_add=channel_add,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CampaignRecord",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_campaign_by_id_channels_serialize(
+        self,
+        id,
+        channel_add,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if channel_add is not None:
+            _body_params = channel_add
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/campaign/{id}/channels',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_v1_campaign_by_id_launch(
         self,
         id: StrictStr,
@@ -1958,9 +2246,9 @@ class CampaignApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Launch a campaign across every channel it declares
+        """Launches a campaign across every channel it declares.
 
-        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment seam and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
+        Launches a campaign across every channel it declares.  It pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment seam and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
 
         :param id: (required)
         :type id: str
@@ -2024,9 +2312,9 @@ class CampaignApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Launch a campaign across every channel it declares
+        """Launches a campaign across every channel it declares.
 
-        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment seam and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
+        Launches a campaign across every channel it declares.  It pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment seam and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
 
         :param id: (required)
         :type id: str
@@ -2090,9 +2378,9 @@ class CampaignApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Launch a campaign across every channel it declares
+        """Launches a campaign across every channel it declares.
 
-        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment seam and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
+        Launches a campaign across every channel it declares.  It pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment seam and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
 
         :param id: (required)
         :type id: str
@@ -2208,9 +2496,9 @@ class CampaignApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Pause every live channel on a campaign at its provider
+        """Pauses every live channel on a campaign at its provider.
 
-        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
+        Pauses every live channel on a campaign at its provider.  It pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
 
         :param id: (required)
         :type id: str
@@ -2274,9 +2562,9 @@ class CampaignApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Pause every live channel on a campaign at its provider
+        """Pauses every live channel on a campaign at its provider.
 
-        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
+        Pauses every live channel on a campaign at its provider.  It pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
 
         :param id: (required)
         :type id: str
@@ -2340,9 +2628,9 @@ class CampaignApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Pause every live channel on a campaign at its provider
+        """Pauses every live channel on a campaign at its provider.
 
-        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
+        Pauses every live channel on a campaign at its provider.  It pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
 
         :param id: (required)
         :type id: str
@@ -2442,295 +2730,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_id_channels(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
-        channel_add: ChannelAdd,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignRecord:
-        """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
-
-        Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
-
-        :param id: ID is the campaign to add the channel to, from the path. (required)
-        :type id: str
-        :param channel_add: (required)
-        :type channel_add: ChannelAdd
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_campaign_id_channels_serialize(
-            id=id,
-            channel_add=channel_add,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_v1_campaign_id_channels_with_http_info(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
-        channel_add: ChannelAdd,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignRecord]:
-        """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
-
-        Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
-
-        :param id: ID is the campaign to add the channel to, from the path. (required)
-        :type id: str
-        :param channel_add: (required)
-        :type channel_add: ChannelAdd
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_campaign_id_channels_serialize(
-            id=id,
-            channel_add=channel_add,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_v1_campaign_id_channels_without_preload_content(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
-        channel_add: ChannelAdd,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
-
-        Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
-
-        :param id: ID is the campaign to add the channel to, from the path. (required)
-        :type id: str
-        :param channel_add: (required)
-        :type channel_add: ChannelAdd
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_v1_campaign_id_channels_serialize(
-            id=id,
-            channel_add=channel_add,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_v1_campaign_id_channels_serialize(
-        self,
-        id,
-        channel_add,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if channel_add is not None:
-            _body_params = channel_add
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/campaign/{id}/channels',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def put_v1_campaign_id(
+    def put_v1_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
         campaign_update: CampaignUpdate,
@@ -2777,7 +2777,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_campaign_id_serialize(
+        _param = self._put_v1_campaign_by_id_serialize(
             id=id,
             campaign_update=campaign_update,
             _request_auth=_request_auth,
@@ -2801,7 +2801,7 @@ class CampaignApi:
 
 
     @validate_call
-    def put_v1_campaign_id_with_http_info(
+    def put_v1_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
         campaign_update: CampaignUpdate,
@@ -2848,7 +2848,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_campaign_id_serialize(
+        _param = self._put_v1_campaign_by_id_serialize(
             id=id,
             campaign_update=campaign_update,
             _request_auth=_request_auth,
@@ -2872,7 +2872,7 @@ class CampaignApi:
 
 
     @validate_call
-    def put_v1_campaign_id_without_preload_content(
+    def put_v1_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
         campaign_update: CampaignUpdate,
@@ -2919,7 +2919,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_campaign_id_serialize(
+        _param = self._put_v1_campaign_by_id_serialize(
             id=id,
             campaign_update=campaign_update,
             _request_auth=_request_auth,
@@ -2938,7 +2938,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _put_v1_campaign_id_serialize(
+    def _put_v1_campaign_by_id_serialize(
         self,
         id,
         campaign_update,
