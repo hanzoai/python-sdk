@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,9 @@ class Health(BaseModel):
     """
     Health
     """ # noqa: E501
-    status: Optional[StrictStr] = Field(default=None, description="Status is ok when the message plane answers, degraded otherwise.")
-    uptime: Optional[StrictStr] = Field(default=None, description="Uptime is how long this surface has been mounted.")
-    version: Optional[StrictStr] = Field(default=None, description="Version is the connected broker's server version; empty while degraded.")
-    __properties: ClassVar[List[str]] = ["status", "uptime", "version"]
+    ok: Optional[StrictBool] = Field(default=None, description="OK is true whenever this route answers at all: reaching the handler IS the proof that the routes are registered and dispatching.")
+    subsystem: Optional[StrictStr] = Field(default=None, description="Subsystem names what answered, so a health response read out of context still says which surface it came from.")
+    __properties: ClassVar[List[str]] = ["ok", "subsystem"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,9 +81,8 @@ class Health(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "status": obj.get("status"),
-            "uptime": obj.get("uptime"),
-            "version": obj.get("version")
+            "ok": obj.get("ok"),
+            "subsystem": obj.get("subsystem")
         })
         return _obj
 

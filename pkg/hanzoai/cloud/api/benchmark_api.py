@@ -16,6 +16,17 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from pydantic import Field, StrictStr
+from typing import Optional
+from typing_extensions import Annotated
+from hanzoai.cloud.models.admission import Admission
+from hanzoai.cloud.models.benchmark_catalog import BenchmarkCatalog
+from hanzoai.cloud.models.leaderboard import Leaderboard
+from hanzoai.cloud.models.pairing import Pairing
+from hanzoai.cloud.models.preset import Preset
+from hanzoai.cloud.models.preset_accepted import PresetAccepted
+from hanzoai.cloud.models.preset_list import PresetList
+from hanzoai.cloud.models.suite import Suite
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -50,10 +61,10 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The canonical public benchmarks this arena runs
+    ) -> BenchmarkCatalog:
+        """Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.
 
-        Lists the top-14 set every major provider reports — the id, title, axis, item count and upstream source of each — with `native` marking the ones the standardized harness runs today; the rest are registered and adapter-pending. These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from `?benchmark=`. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
+        Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.  These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from ?benchmark=. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -85,6 +96,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BenchmarkCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -112,10 +124,10 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The canonical public benchmarks this arena runs
+    ) -> ApiResponse[BenchmarkCatalog]:
+        """Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.
 
-        Lists the top-14 set every major provider reports — the id, title, axis, item count and upstream source of each — with `native` marking the ones the standardized harness runs today; the rest are registered and adapter-pending. These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from `?benchmark=`. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
+        Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.  These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from ?benchmark=. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -147,6 +159,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BenchmarkCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -175,9 +188,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The canonical public benchmarks this arena runs
+        """Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.
 
-        Lists the top-14 set every major provider reports — the id, title, axis, item count and upstream source of each — with `native` marking the ones the standardized harness runs today; the rest are registered and adapter-pending. These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from `?benchmark=`. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
+        Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.  These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from ?benchmark=. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -209,6 +222,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BenchmarkCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -246,6 +260,13 @@ class BenchmarkApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -273,6 +294,9 @@ class BenchmarkApi:
     @validate_call
     def get_v1_benchmark_compare(
         self,
+        a: Annotated[StrictStr, Field(description="A is the first model id. It is required.")],
+        b: Annotated[StrictStr, Field(description="B is the second model id. It is required.")],
+        benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to compare on, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -285,11 +309,17 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The only sound head-to-head: two models on the items they BOTH answered
+    ) -> Pairing:
+        """Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.
 
-        Scores model `?a=` against model `?b=` on one benchmark, paired over the items both arms actually completed. It answers the common-item count, each arm's correct count, the rescues each way (items one got right and the other did not), the net, and a two-sided exact McNemar p over the discordant pairs.  Pairing is what makes it valid. Reading two leaderboard rows against each other compares one model's coverage with another's, so an arm that only ran the easy subset looks better than it is; this endpoint refuses that by construction — items only one arm attempted are dropped before anything is counted. A p of 1 with zero discordant pairs means the arms never disagreed, not that they are identical. Both `a` and `b` are required (400 without them); the benchmark defaults to GPQA-Diamond.
+        Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.  Pairing is what prevents the subset artifact — comparing one model's easy subset against another's full run — so n_common, not either arm's own coverage, is the number to read this by.  Both a and b are required. The benchmark defaults to gpqa_diamond.
 
+        :param a: A is the first model id. It is required. (required)
+        :type a: str
+        :param b: B is the second model id. It is required. (required)
+        :type b: str
+        :param benchmark: Benchmark is the catalog id to compare on, defaulting to gpqa_diamond.
+        :type benchmark: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -313,6 +343,9 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._get_v1_benchmark_compare_serialize(
+            a=a,
+            b=b,
+            benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -320,6 +353,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pairing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -335,6 +369,9 @@ class BenchmarkApi:
     @validate_call
     def get_v1_benchmark_compare_with_http_info(
         self,
+        a: Annotated[StrictStr, Field(description="A is the first model id. It is required.")],
+        b: Annotated[StrictStr, Field(description="B is the second model id. It is required.")],
+        benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to compare on, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -347,11 +384,17 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The only sound head-to-head: two models on the items they BOTH answered
+    ) -> ApiResponse[Pairing]:
+        """Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.
 
-        Scores model `?a=` against model `?b=` on one benchmark, paired over the items both arms actually completed. It answers the common-item count, each arm's correct count, the rescues each way (items one got right and the other did not), the net, and a two-sided exact McNemar p over the discordant pairs.  Pairing is what makes it valid. Reading two leaderboard rows against each other compares one model's coverage with another's, so an arm that only ran the easy subset looks better than it is; this endpoint refuses that by construction — items only one arm attempted are dropped before anything is counted. A p of 1 with zero discordant pairs means the arms never disagreed, not that they are identical. Both `a` and `b` are required (400 without them); the benchmark defaults to GPQA-Diamond.
+        Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.  Pairing is what prevents the subset artifact — comparing one model's easy subset against another's full run — so n_common, not either arm's own coverage, is the number to read this by.  Both a and b are required. The benchmark defaults to gpqa_diamond.
 
+        :param a: A is the first model id. It is required. (required)
+        :type a: str
+        :param b: B is the second model id. It is required. (required)
+        :type b: str
+        :param benchmark: Benchmark is the catalog id to compare on, defaulting to gpqa_diamond.
+        :type benchmark: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -375,6 +418,9 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._get_v1_benchmark_compare_serialize(
+            a=a,
+            b=b,
+            benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -382,6 +428,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pairing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -397,6 +444,9 @@ class BenchmarkApi:
     @validate_call
     def get_v1_benchmark_compare_without_preload_content(
         self,
+        a: Annotated[StrictStr, Field(description="A is the first model id. It is required.")],
+        b: Annotated[StrictStr, Field(description="B is the second model id. It is required.")],
+        benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to compare on, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -410,10 +460,16 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The only sound head-to-head: two models on the items they BOTH answered
+        """Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.
 
-        Scores model `?a=` against model `?b=` on one benchmark, paired over the items both arms actually completed. It answers the common-item count, each arm's correct count, the rescues each way (items one got right and the other did not), the net, and a two-sided exact McNemar p over the discordant pairs.  Pairing is what makes it valid. Reading two leaderboard rows against each other compares one model's coverage with another's, so an arm that only ran the easy subset looks better than it is; this endpoint refuses that by construction — items only one arm attempted are dropped before anything is counted. A p of 1 with zero discordant pairs means the arms never disagreed, not that they are identical. Both `a` and `b` are required (400 without them); the benchmark defaults to GPQA-Diamond.
+        Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.  Pairing is what prevents the subset artifact — comparing one model's easy subset against another's full run — so n_common, not either arm's own coverage, is the number to read this by.  Both a and b are required. The benchmark defaults to gpqa_diamond.
 
+        :param a: A is the first model id. It is required. (required)
+        :type a: str
+        :param b: B is the second model id. It is required. (required)
+        :type b: str
+        :param benchmark: Benchmark is the catalog id to compare on, defaulting to gpqa_diamond.
+        :type benchmark: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -437,6 +493,9 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._get_v1_benchmark_compare_serialize(
+            a=a,
+            b=b,
+            benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -444,6 +503,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Pairing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -454,6 +514,9 @@ class BenchmarkApi:
 
     def _get_v1_benchmark_compare_serialize(
         self,
+        a,
+        b,
+        benchmark,
         _request_auth,
         _content_type,
         _headers,
@@ -476,11 +539,30 @@ class BenchmarkApi:
 
         # process the path parameters
         # process the query parameters
+        if benchmark is not None:
+            
+            _query_params.append(('benchmark', benchmark))
+            
+        if a is not None:
+            
+            _query_params.append(('a', a))
+            
+        if b is not None:
+            
+            _query_params.append(('b', b))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -508,6 +590,7 @@ class BenchmarkApi:
     @validate_call
     def get_v1_benchmark_leaderboard(
         self,
+        benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to read, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -520,11 +603,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Per-model scores for one benchmark: what we measured beside what the vendor claims
+    ) -> Leaderboard:
+        """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
-        Answers one row per model for the benchmark named by `?benchmark=` (GPQA-Diamond when omitted), carrying `measured` — the accuracy our own harness got — beside `published`, the provider's own claim, and `gap`, the claim minus the measurement. The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows `published` null, a model with only a claim shows `measured` null, and `gap` exists only where both do. Each row also carries `n`, the number of items actually attempted — coverage differs between models, so two `measured` values at different `n` are not comparable and the compare endpoint is what settles that properly. Rows are ordered by measured accuracy, unmeasured last. Scores are deployment-wide evidence, not per-tenant.
+        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
 
+        :param benchmark: Benchmark is the catalog id to read, defaulting to gpqa_diamond.
+        :type benchmark: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -548,6 +633,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._get_v1_benchmark_leaderboard_serialize(
+            benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -555,6 +641,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Leaderboard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -570,6 +657,7 @@ class BenchmarkApi:
     @validate_call
     def get_v1_benchmark_leaderboard_with_http_info(
         self,
+        benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to read, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -582,11 +670,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Per-model scores for one benchmark: what we measured beside what the vendor claims
+    ) -> ApiResponse[Leaderboard]:
+        """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
-        Answers one row per model for the benchmark named by `?benchmark=` (GPQA-Diamond when omitted), carrying `measured` — the accuracy our own harness got — beside `published`, the provider's own claim, and `gap`, the claim minus the measurement. The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows `published` null, a model with only a claim shows `measured` null, and `gap` exists only where both do. Each row also carries `n`, the number of items actually attempted — coverage differs between models, so two `measured` values at different `n` are not comparable and the compare endpoint is what settles that properly. Rows are ordered by measured accuracy, unmeasured last. Scores are deployment-wide evidence, not per-tenant.
+        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
 
+        :param benchmark: Benchmark is the catalog id to read, defaulting to gpqa_diamond.
+        :type benchmark: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -610,6 +700,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._get_v1_benchmark_leaderboard_serialize(
+            benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -617,6 +708,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Leaderboard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -632,6 +724,7 @@ class BenchmarkApi:
     @validate_call
     def get_v1_benchmark_leaderboard_without_preload_content(
         self,
+        benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to read, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -645,10 +738,12 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Per-model scores for one benchmark: what we measured beside what the vendor claims
+        """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
-        Answers one row per model for the benchmark named by `?benchmark=` (GPQA-Diamond when omitted), carrying `measured` — the accuracy our own harness got — beside `published`, the provider's own claim, and `gap`, the claim minus the measurement. The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows `published` null, a model with only a claim shows `measured` null, and `gap` exists only where both do. Each row also carries `n`, the number of items actually attempted — coverage differs between models, so two `measured` values at different `n` are not comparable and the compare endpoint is what settles that properly. Rows are ordered by measured accuracy, unmeasured last. Scores are deployment-wide evidence, not per-tenant.
+        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
 
+        :param benchmark: Benchmark is the catalog id to read, defaulting to gpqa_diamond.
+        :type benchmark: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -672,6 +767,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._get_v1_benchmark_leaderboard_serialize(
+            benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -679,6 +775,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Leaderboard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -689,6 +786,7 @@ class BenchmarkApi:
 
     def _get_v1_benchmark_leaderboard_serialize(
         self,
+        benchmark,
         _request_auth,
         _content_type,
         _headers,
@@ -711,11 +809,22 @@ class BenchmarkApi:
 
         # process the path parameters
         # process the query parameters
+        if benchmark is not None:
+            
+            _query_params.append(('benchmark', benchmark))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -755,10 +864,10 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The router blends available to compose from
+    ) -> PresetList:
+        """Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.
 
-        Lists preset router blends — a named set of model `arms`, the `rank` they escalate through and the `panel` width that bounds fan-out — each served by the model layer as `enso-<name>`. Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
+        Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.  Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -790,6 +899,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -817,10 +927,10 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The router blends available to compose from
+    ) -> ApiResponse[PresetList]:
+        """Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.
 
-        Lists preset router blends — a named set of model `arms`, the `rank` they escalate through and the `panel` width that bounds fan-out — each served by the model layer as `enso-<name>`. Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
+        Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.  Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -852,6 +962,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -880,9 +991,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The router blends available to compose from
+        """Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.
 
-        Lists preset router blends — a named set of model `arms`, the `rank` they escalate through and the `panel` width that bounds fan-out — each served by the model layer as `enso-<name>`. Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
+        Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.  Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -914,6 +1025,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -951,6 +1063,13 @@ class BenchmarkApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -978,6 +1097,7 @@ class BenchmarkApi:
     @validate_call
     def post_v1_benchmark_presets(
         self,
+        preset: Preset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -990,11 +1110,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Compose a router blend from the arms that win your tasks
+    ) -> PresetAccepted:
+        """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
-        Validates a blend — `name`, its `arms`, the `rank` they escalate through and the `panel` fan-out width — and answers 202 with the preset and the `enso-<name>` it would be served as. It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted `rank` becomes the arms in declared order and a `panel` below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
+        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
+        :param preset: (required)
+        :type preset: Preset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1018,6 +1140,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_v1_benchmark_presets_serialize(
+            preset=preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1025,6 +1148,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "PresetAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1040,6 +1164,7 @@ class BenchmarkApi:
     @validate_call
     def post_v1_benchmark_presets_with_http_info(
         self,
+        preset: Preset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1052,11 +1177,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Compose a router blend from the arms that win your tasks
+    ) -> ApiResponse[PresetAccepted]:
+        """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
-        Validates a blend — `name`, its `arms`, the `rank` they escalate through and the `panel` fan-out width — and answers 202 with the preset and the `enso-<name>` it would be served as. It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted `rank` becomes the arms in declared order and a `panel` below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
+        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
+        :param preset: (required)
+        :type preset: Preset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1080,6 +1207,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_v1_benchmark_presets_serialize(
+            preset=preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1087,6 +1215,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "PresetAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1102,6 +1231,7 @@ class BenchmarkApi:
     @validate_call
     def post_v1_benchmark_presets_without_preload_content(
         self,
+        preset: Preset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1115,10 +1245,12 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Compose a router blend from the arms that win your tasks
+        """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
-        Validates a blend — `name`, its `arms`, the `rank` they escalate through and the `panel` fan-out width — and answers 202 with the preset and the `enso-<name>` it would be served as. It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted `rank` becomes the arms in declared order and a `panel` below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
+        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
+        :param preset: (required)
+        :type preset: Preset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1142,6 +1274,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_v1_benchmark_presets_serialize(
+            preset=preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1149,6 +1282,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "PresetAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1159,6 +1293,7 @@ class BenchmarkApi:
 
     def _post_v1_benchmark_presets_serialize(
         self,
+        preset,
         _request_auth,
         _content_type,
         _headers,
@@ -1184,9 +1319,31 @@ class BenchmarkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if preset is not None:
+            _body_params = preset
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -1213,6 +1370,7 @@ class BenchmarkApi:
     @validate_call
     def post_v1_benchmark_runs(
         self,
+        suite: Suite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1225,11 +1383,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Queue a benchmark run against a catalog model or your own endpoint
+    ) -> Admission:
+        """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
-        Admits a request to run one or more catalog benchmarks against `model` — a catalog model id — or against `endpoint`, an endpoint of your own on the chat-completions wire, and answers 202 with what was queued. It ADMITS AND QUEUES ONLY: nothing is executed on this call and no scores come back with it. Results land in the leaderboard as the worker completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free. Validation is up front and total — a request with neither `model` nor `endpoint` is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
+        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
+        :param suite: (required)
+        :type suite: Suite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1253,6 +1413,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_v1_benchmark_runs_serialize(
+            suite=suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1260,6 +1421,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "Admission",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1275,6 +1437,7 @@ class BenchmarkApi:
     @validate_call
     def post_v1_benchmark_runs_with_http_info(
         self,
+        suite: Suite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1287,11 +1450,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Queue a benchmark run against a catalog model or your own endpoint
+    ) -> ApiResponse[Admission]:
+        """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
-        Admits a request to run one or more catalog benchmarks against `model` — a catalog model id — or against `endpoint`, an endpoint of your own on the chat-completions wire, and answers 202 with what was queued. It ADMITS AND QUEUES ONLY: nothing is executed on this call and no scores come back with it. Results land in the leaderboard as the worker completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free. Validation is up front and total — a request with neither `model` nor `endpoint` is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
+        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
+        :param suite: (required)
+        :type suite: Suite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1315,6 +1480,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_v1_benchmark_runs_serialize(
+            suite=suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1322,6 +1488,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "Admission",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1337,6 +1504,7 @@ class BenchmarkApi:
     @validate_call
     def post_v1_benchmark_runs_without_preload_content(
         self,
+        suite: Suite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1350,10 +1518,12 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Queue a benchmark run against a catalog model or your own endpoint
+        """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
-        Admits a request to run one or more catalog benchmarks against `model` — a catalog model id — or against `endpoint`, an endpoint of your own on the chat-completions wire, and answers 202 with what was queued. It ADMITS AND QUEUES ONLY: nothing is executed on this call and no scores come back with it. Results land in the leaderboard as the worker completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free. Validation is up front and total — a request with neither `model` nor `endpoint` is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
+        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
+        :param suite: (required)
+        :type suite: Suite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1377,6 +1547,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_v1_benchmark_runs_serialize(
+            suite=suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1384,6 +1555,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "Admission",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1394,6 +1566,7 @@ class BenchmarkApi:
 
     def _post_v1_benchmark_runs_serialize(
         self,
+        suite,
         _request_auth,
         _content_type,
         _headers,
@@ -1419,9 +1592,31 @@ class BenchmarkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if suite is not None:
+            _body_params = suite
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
