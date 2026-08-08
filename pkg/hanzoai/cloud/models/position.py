@@ -17,19 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ProjectPatch(BaseModel):
+class Position(BaseModel):
     """
-    ProjectPatch
+    Position
     """ # noqa: E501
-    description: Optional[StrictStr] = Field(default=None, description="Description is the board's free-form blurb, at most 32768 characters.")
-    key: Optional[StrictStr] = Field(default=None, description="Key is the project to update, from the path.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the project's display name. Non-empty, at most 256 characters.")
-    __properties: ClassVar[List[str]] = ["description", "key", "name"]
+    character: Optional[StrictInt] = None
+    line: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["character", "line"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class ProjectPatch(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ProjectPatch from a JSON string"""
+        """Create an instance of Position from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +73,7 @@ class ProjectPatch(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ProjectPatch from a dict"""
+        """Create an instance of Position from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +81,8 @@ class ProjectPatch(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "description": obj.get("description"),
-            "key": obj.get("key"),
-            "name": obj.get("name")
+            "character": obj.get("character"),
+            "line": obj.get("line")
         })
         return _obj
 

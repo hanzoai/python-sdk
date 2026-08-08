@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.accruals import Accruals
 from typing import Optional, Set
@@ -27,7 +27,7 @@ class AccrualsOut(BaseModel):
     """
     AccrualsOut
     """ # noqa: E501
-    data: Optional[Accruals] = None
+    data: Optional[Accruals] = Field(default=None, description="Data is what the run did: sources visited, new accruals, royalties alongside.")
     msg: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["data", "msg", "status"]

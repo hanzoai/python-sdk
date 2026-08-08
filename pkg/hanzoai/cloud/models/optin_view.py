@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.org_optin_view import OrgOptinView
 from hanzoai.cloud.models.user_optin_view import UserOptinView
@@ -28,8 +28,8 @@ class OptinView(BaseModel):
     """
     OptinView
     """ # noqa: E501
-    org: Optional[OrgOptinView] = None
-    user: Optional[UserOptinView] = None
+    org: Optional[OrgOptinView] = Field(default=None, description="Org is the caller's org's listing preference on the cross-org board, and whether this caller is allowed to change it. It is read for every caller — a member sees where their org stands even though only an admin may edit it.")
+    user: Optional[UserOptinView] = Field(default=None, description="User is the caller's OWN listing preference, and whether they may change it.")
     __properties: ClassVar[List[str]] = ["org", "user"]
 
     model_config = ConfigDict(

@@ -16,12 +16,13 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictInt, StrictStr
+from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.issue_patch import IssuePatch
+from hanzoai.cloud.models.issue_edit import IssueEdit
 from hanzoai.cloud.models.issue_view import IssueView
-from hanzoai.cloud.models.project_patch import ProjectPatch
+from hanzoai.cloud.models.milestone_view import MilestoneView
+from hanzoai.cloud.models.new_issue import NewIssue
 from hanzoai.cloud.models.tracker_project import TrackerProject
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -43,9 +44,9 @@ class TrackerApi:
 
 
     @validate_call
-    def delete_v1_tracker_projects_key(
+    def delete_v1_tracker_projects_by_key(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively.")],
+        key: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -59,11 +60,11 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Removes one tracker project of the caller's org AND every issue filed under it, and answers 204 with no body.
+        """Refuses — a board is a repository on the forge.
 
-        Removes one tracker project of the caller's org AND every issue filed under it, and answers 204 with no body. 404 when the org has no project under that key.  The cascade is the point: an issue has no meaning without the board whose key names it, so deleting the board deletes them together rather than leaving orphans addressable by an identifier that no longer resolves.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
-        :param key: Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively. (required)
+        :param key: (required)
         :type key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -87,7 +88,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tracker_projects_key_serialize(
+        _param = self._delete_v1_tracker_projects_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -96,7 +97,6 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -110,9 +110,9 @@ class TrackerApi:
 
 
     @validate_call
-    def delete_v1_tracker_projects_key_with_http_info(
+    def delete_v1_tracker_projects_by_key_with_http_info(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively.")],
+        key: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -126,11 +126,11 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Removes one tracker project of the caller's org AND every issue filed under it, and answers 204 with no body.
+        """Refuses — a board is a repository on the forge.
 
-        Removes one tracker project of the caller's org AND every issue filed under it, and answers 204 with no body. 404 when the org has no project under that key.  The cascade is the point: an issue has no meaning without the board whose key names it, so deleting the board deletes them together rather than leaving orphans addressable by an identifier that no longer resolves.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
-        :param key: Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively. (required)
+        :param key: (required)
         :type key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -154,7 +154,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tracker_projects_key_serialize(
+        _param = self._delete_v1_tracker_projects_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -163,7 +163,6 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -177,9 +176,9 @@ class TrackerApi:
 
 
     @validate_call
-    def delete_v1_tracker_projects_key_without_preload_content(
+    def delete_v1_tracker_projects_by_key_without_preload_content(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively.")],
+        key: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -193,11 +192,11 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Removes one tracker project of the caller's org AND every issue filed under it, and answers 204 with no body.
+        """Refuses — a board is a repository on the forge.
 
-        Removes one tracker project of the caller's org AND every issue filed under it, and answers 204 with no body. 404 when the org has no project under that key.  The cascade is the point: an issue has no meaning without the board whose key names it, so deleting the board deletes them together rather than leaving orphans addressable by an identifier that no longer resolves.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
-        :param key: Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively. (required)
+        :param key: (required)
         :type key: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -221,7 +220,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tracker_projects_key_serialize(
+        _param = self._delete_v1_tracker_projects_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +229,6 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -239,7 +237,7 @@ class TrackerApi:
         return response_data.response
 
 
-    def _delete_v1_tracker_projects_key_serialize(
+    def _delete_v1_tracker_projects_by_key_serialize(
         self,
         key,
         _request_auth,
@@ -296,10 +294,8 @@ class TrackerApi:
 
 
     @validate_call
-    def delete_v1_tracker_projects_key_issues_num(
+    def get_v1_tracker_milestones(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -312,15 +308,11 @@ class TrackerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Removes one issue from a tracker project and answers 204 with no body.
+    ) -> List[MilestoneView]:
+        """Returns every milestone across your org's repositories, each stamped with the repository it belongs to.
 
-        Removes one issue from a tracker project and answers 204 with no body. 404 when the project or the issue does not exist in the caller's org.  The issue's number is NOT reused: the next issue on the board takes the next number, so a deleted identifier stays retired rather than silently pointing at different work.
+        Returns every milestone across your org's repositories, each stamped with the repository it belongs to.  The forge scopes milestones to a repository and publishes no org-level list, so this is a server-side fan-out over the repositories you can see. It runs here rather than in the browser because a client-side fan-out would need the forge reachable from the page and a credential held there.
 
-        :param key: Key is the issue's project, from the path. (required)
-        :type key: str
-        :param num: Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400. (required)
-        :type num: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -343,9 +335,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tracker_projects_key_issues_num_serialize(
-            key=key,
-            num=num,
+        _param = self._get_v1_tracker_milestones_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -353,7 +343,7 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
+            '200': "List[MilestoneView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -367,10 +357,8 @@ class TrackerApi:
 
 
     @validate_call
-    def delete_v1_tracker_projects_key_issues_num_with_http_info(
+    def get_v1_tracker_milestones_with_http_info(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -383,15 +371,11 @@ class TrackerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Removes one issue from a tracker project and answers 204 with no body.
+    ) -> ApiResponse[List[MilestoneView]]:
+        """Returns every milestone across your org's repositories, each stamped with the repository it belongs to.
 
-        Removes one issue from a tracker project and answers 204 with no body. 404 when the project or the issue does not exist in the caller's org.  The issue's number is NOT reused: the next issue on the board takes the next number, so a deleted identifier stays retired rather than silently pointing at different work.
+        Returns every milestone across your org's repositories, each stamped with the repository it belongs to.  The forge scopes milestones to a repository and publishes no org-level list, so this is a server-side fan-out over the repositories you can see. It runs here rather than in the browser because a client-side fan-out would need the forge reachable from the page and a credential held there.
 
-        :param key: Key is the issue's project, from the path. (required)
-        :type key: str
-        :param num: Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400. (required)
-        :type num: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -414,9 +398,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tracker_projects_key_issues_num_serialize(
-            key=key,
-            num=num,
+        _param = self._get_v1_tracker_milestones_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,7 +406,7 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
+            '200': "List[MilestoneView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -438,10 +420,8 @@ class TrackerApi:
 
 
     @validate_call
-    def delete_v1_tracker_projects_key_issues_num_without_preload_content(
+    def get_v1_tracker_milestones_without_preload_content(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -455,14 +435,10 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Removes one issue from a tracker project and answers 204 with no body.
+        """Returns every milestone across your org's repositories, each stamped with the repository it belongs to.
 
-        Removes one issue from a tracker project and answers 204 with no body. 404 when the project or the issue does not exist in the caller's org.  The issue's number is NOT reused: the next issue on the board takes the next number, so a deleted identifier stays retired rather than silently pointing at different work.
+        Returns every milestone across your org's repositories, each stamped with the repository it belongs to.  The forge scopes milestones to a repository and publishes no org-level list, so this is a server-side fan-out over the repositories you can see. It runs here rather than in the browser because a client-side fan-out would need the forge reachable from the page and a credential held there.
 
-        :param key: Key is the issue's project, from the path. (required)
-        :type key: str
-        :param num: Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400. (required)
-        :type num: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -485,9 +461,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tracker_projects_key_issues_num_serialize(
-            key=key,
-            num=num,
+        _param = self._get_v1_tracker_milestones_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -495,7 +469,7 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
+            '200': "List[MilestoneView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -504,10 +478,8 @@ class TrackerApi:
         return response_data.response
 
 
-    def _delete_v1_tracker_projects_key_issues_num_serialize(
+    def _get_v1_tracker_milestones_serialize(
         self,
-        key,
-        num,
         _request_auth,
         _content_type,
         _headers,
@@ -529,16 +501,19 @@ class TrackerApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if key is not None:
-            _path_params['key'] = key
-        if num is not None:
-            _path_params['num'] = num
         # process the query parameters
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -546,8 +521,8 @@ class TrackerApi:
         ]
 
         return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/tracker/projects/{key}/issues/{num}',
+            method='GET',
+            resource_path='/v1/tracker/milestones',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -579,9 +554,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[TrackerProject]:
-        """Returns every tracker project in the caller's org, newest first.
+        """Returns the boards of your org — one per repository on the deployment's forge that you can see.
 
-        Returns every tracker project in the caller's org, newest first.  A project is the board: it owns a KEY (the uppercase handle that prefixes every issue identifier, \"ENG-14\") and the issues filed under it. The listing is org-scoped server-side — the org is the validated bearer claim, never a client-supplied header — so one org can never see another's boards.
+        Returns the boards of your org — one per repository on the deployment's forge that you can see. The key is the repository name, and it is what addresses the board's issues.  Archived repositories are omitted: they are not live work. The set is the FORGE's answer for your own account, so two people in one org can legitimately see different boards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -642,9 +617,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[TrackerProject]]:
-        """Returns every tracker project in the caller's org, newest first.
+        """Returns the boards of your org — one per repository on the deployment's forge that you can see.
 
-        Returns every tracker project in the caller's org, newest first.  A project is the board: it owns a KEY (the uppercase handle that prefixes every issue identifier, \"ENG-14\") and the issues filed under it. The listing is org-scoped server-side — the org is the validated bearer claim, never a client-supplied header — so one org can never see another's boards.
+        Returns the boards of your org — one per repository on the deployment's forge that you can see. The key is the repository name, and it is what addresses the board's issues.  Archived repositories are omitted: they are not live work. The set is the FORGE's answer for your own account, so two people in one org can legitimately see different boards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -705,9 +680,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns every tracker project in the caller's org, newest first.
+        """Returns the boards of your org — one per repository on the deployment's forge that you can see.
 
-        Returns every tracker project in the caller's org, newest first.  A project is the board: it owns a KEY (the uppercase handle that prefixes every issue identifier, \"ENG-14\") and the issues filed under it. The listing is org-scoped server-side — the org is the validated bearer claim, never a client-supplied header — so one org can never see another's boards.
+        Returns the boards of your org — one per repository on the deployment's forge that you can see. The key is the repository name, and it is what addresses the board's issues.  Archived repositories are omitted: they are not live work. The set is the FORGE's answer for your own account, so two people in one org can legitimately see different boards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -809,7 +784,7 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key(
+    def get_v1_tracker_projects_by_key(
         self,
         key: Annotated[StrictStr, Field(description="Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively.")],
         _request_timeout: Union[
@@ -825,9 +800,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> TrackerProject:
-        """Returns one tracker project of the caller's org by its key — its name, description and timestamps.
+        """Returns one board of your org by its key — the repository name.
 
-        Returns one tracker project of the caller's org by its key — its name, description and timestamps. 404 when the org has no project under that key.
+        Returns one board of your org by its key — the repository name. 404 when your org has no repository under that key, or when your own forge account cannot see it.
 
         :param key: Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively. (required)
         :type key: str
@@ -853,7 +828,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_serialize(
+        _param = self._get_v1_tracker_projects_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -876,7 +851,7 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_with_http_info(
+    def get_v1_tracker_projects_by_key_with_http_info(
         self,
         key: Annotated[StrictStr, Field(description="Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively.")],
         _request_timeout: Union[
@@ -892,9 +867,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[TrackerProject]:
-        """Returns one tracker project of the caller's org by its key — its name, description and timestamps.
+        """Returns one board of your org by its key — the repository name.
 
-        Returns one tracker project of the caller's org by its key — its name, description and timestamps. 404 when the org has no project under that key.
+        Returns one board of your org by its key — the repository name. 404 when your org has no repository under that key, or when your own forge account cannot see it.
 
         :param key: Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively. (required)
         :type key: str
@@ -920,7 +895,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_serialize(
+        _param = self._get_v1_tracker_projects_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -943,7 +918,7 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_without_preload_content(
+    def get_v1_tracker_projects_by_key_without_preload_content(
         self,
         key: Annotated[StrictStr, Field(description="Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively.")],
         _request_timeout: Union[
@@ -959,9 +934,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one tracker project of the caller's org by its key — its name, description and timestamps.
+        """Returns one board of your org by its key — the repository name.
 
-        Returns one tracker project of the caller's org by its key — its name, description and timestamps. 404 when the org has no project under that key.
+        Returns one board of your org by its key — the repository name. 404 when your org has no repository under that key, or when your own forge account cannot see it.
 
         :param key: Key is the project's org-unique handle: 2-8 uppercase alphanumerics starting with a letter (\"ENG\", \"OPS2\"). Matched case-insensitively. (required)
         :type key: str
@@ -987,7 +962,7 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_serialize(
+        _param = self._get_v1_tracker_projects_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1005,7 +980,7 @@ class TrackerApi:
         return response_data.response
 
 
-    def _get_v1_tracker_projects_key_serialize(
+    def _get_v1_tracker_projects_by_key_serialize(
         self,
         key,
         _request_auth,
@@ -1069,13 +1044,14 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_issues(
+    def get_v1_tracker_projects_by_key_issues(
         self,
         key: Annotated[StrictStr, Field(description="Key is the project whose issues to list, from the path.")],
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only issues in that board column: backlog, todo, in_progress, done or canceled. An unknown value is refused with 400.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps only work items of that shape: issue, pr or epic. An unknown value is refused with 400.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps only issues bound to that git repository.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps only issues opened from that surface: team, git, crm, helpdesk, cms or agent. An unknown value is refused with 400.")] = None,
+        scheduled: Annotated[Optional[StrictBool], Field(description="Scheduled keeps only issues that carry a date — a start, a due date or both. This is the timeline's slice of the board: pass scheduled=true to get exactly the rows a gantt has somewhere to draw, instead of fetching every issue and discarding the undated ones client-side.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1089,9 +1065,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[IssueView]:
-        """Returns the issues of one tracker project, optionally filtered by status, kind, repo and source.
+        """Returns one board's issues — the work items of that repository on the forge, with their column, priority, assignee and labels.
 
-        Returns the issues of one tracker project, optionally filtered by status, kind, repo and source.  This is the ONE place a surface takes its slice of the shared issue table: hanzo.team passes no filter or a status, a git repository's Issues tab passes kind=issue&repo=<r> and its Pull Requests tab kind=pr&repo=<r>. A filter value outside its closed set is refused with 400 rather than silently returning an empty board.
+        Returns one board's issues — the work items of that repository on the forge, with their column, priority, assignee and labels.  The column is a LABEL on the forge, so the board and the forge web UI are the same object seen twice: relabelling in either moves the card in both. A closed issue reads as done whatever its labels say.
 
         :param key: Key is the project whose issues to list, from the path. (required)
         :type key: str
@@ -1103,6 +1079,8 @@ class TrackerApi:
         :type repo: str
         :param source: Source keeps only issues opened from that surface: team, git, crm, helpdesk, cms or agent. An unknown value is refused with 400.
         :type source: str
+        :param scheduled: Scheduled keeps only issues that carry a date — a start, a due date or both. This is the timeline's slice of the board: pass scheduled=true to get exactly the rows a gantt has somewhere to draw, instead of fetching every issue and discarding the undated ones client-side.
+        :type scheduled: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1125,12 +1103,13 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_issues_serialize(
+        _param = self._get_v1_tracker_projects_by_key_issues_serialize(
             key=key,
             status=status,
             kind=kind,
             repo=repo,
             source=source,
+            scheduled=scheduled,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1152,13 +1131,14 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_issues_with_http_info(
+    def get_v1_tracker_projects_by_key_issues_with_http_info(
         self,
         key: Annotated[StrictStr, Field(description="Key is the project whose issues to list, from the path.")],
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only issues in that board column: backlog, todo, in_progress, done or canceled. An unknown value is refused with 400.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps only work items of that shape: issue, pr or epic. An unknown value is refused with 400.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps only issues bound to that git repository.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps only issues opened from that surface: team, git, crm, helpdesk, cms or agent. An unknown value is refused with 400.")] = None,
+        scheduled: Annotated[Optional[StrictBool], Field(description="Scheduled keeps only issues that carry a date — a start, a due date or both. This is the timeline's slice of the board: pass scheduled=true to get exactly the rows a gantt has somewhere to draw, instead of fetching every issue and discarding the undated ones client-side.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1172,9 +1152,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[IssueView]]:
-        """Returns the issues of one tracker project, optionally filtered by status, kind, repo and source.
+        """Returns one board's issues — the work items of that repository on the forge, with their column, priority, assignee and labels.
 
-        Returns the issues of one tracker project, optionally filtered by status, kind, repo and source.  This is the ONE place a surface takes its slice of the shared issue table: hanzo.team passes no filter or a status, a git repository's Issues tab passes kind=issue&repo=<r> and its Pull Requests tab kind=pr&repo=<r>. A filter value outside its closed set is refused with 400 rather than silently returning an empty board.
+        Returns one board's issues — the work items of that repository on the forge, with their column, priority, assignee and labels.  The column is a LABEL on the forge, so the board and the forge web UI are the same object seen twice: relabelling in either moves the card in both. A closed issue reads as done whatever its labels say.
 
         :param key: Key is the project whose issues to list, from the path. (required)
         :type key: str
@@ -1186,6 +1166,8 @@ class TrackerApi:
         :type repo: str
         :param source: Source keeps only issues opened from that surface: team, git, crm, helpdesk, cms or agent. An unknown value is refused with 400.
         :type source: str
+        :param scheduled: Scheduled keeps only issues that carry a date — a start, a due date or both. This is the timeline's slice of the board: pass scheduled=true to get exactly the rows a gantt has somewhere to draw, instead of fetching every issue and discarding the undated ones client-side.
+        :type scheduled: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1208,12 +1190,13 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_issues_serialize(
+        _param = self._get_v1_tracker_projects_by_key_issues_serialize(
             key=key,
             status=status,
             kind=kind,
             repo=repo,
             source=source,
+            scheduled=scheduled,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1235,13 +1218,14 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_issues_without_preload_content(
+    def get_v1_tracker_projects_by_key_issues_without_preload_content(
         self,
         key: Annotated[StrictStr, Field(description="Key is the project whose issues to list, from the path.")],
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only issues in that board column: backlog, todo, in_progress, done or canceled. An unknown value is refused with 400.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps only work items of that shape: issue, pr or epic. An unknown value is refused with 400.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps only issues bound to that git repository.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps only issues opened from that surface: team, git, crm, helpdesk, cms or agent. An unknown value is refused with 400.")] = None,
+        scheduled: Annotated[Optional[StrictBool], Field(description="Scheduled keeps only issues that carry a date — a start, a due date or both. This is the timeline's slice of the board: pass scheduled=true to get exactly the rows a gantt has somewhere to draw, instead of fetching every issue and discarding the undated ones client-side.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1255,9 +1239,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the issues of one tracker project, optionally filtered by status, kind, repo and source.
+        """Returns one board's issues — the work items of that repository on the forge, with their column, priority, assignee and labels.
 
-        Returns the issues of one tracker project, optionally filtered by status, kind, repo and source.  This is the ONE place a surface takes its slice of the shared issue table: hanzo.team passes no filter or a status, a git repository's Issues tab passes kind=issue&repo=<r> and its Pull Requests tab kind=pr&repo=<r>. A filter value outside its closed set is refused with 400 rather than silently returning an empty board.
+        Returns one board's issues — the work items of that repository on the forge, with their column, priority, assignee and labels.  The column is a LABEL on the forge, so the board and the forge web UI are the same object seen twice: relabelling in either moves the card in both. A closed issue reads as done whatever its labels say.
 
         :param key: Key is the project whose issues to list, from the path. (required)
         :type key: str
@@ -1269,6 +1253,8 @@ class TrackerApi:
         :type repo: str
         :param source: Source keeps only issues opened from that surface: team, git, crm, helpdesk, cms or agent. An unknown value is refused with 400.
         :type source: str
+        :param scheduled: Scheduled keeps only issues that carry a date — a start, a due date or both. This is the timeline's slice of the board: pass scheduled=true to get exactly the rows a gantt has somewhere to draw, instead of fetching every issue and discarding the undated ones client-side.
+        :type scheduled: bool
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1291,12 +1277,13 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_issues_serialize(
+        _param = self._get_v1_tracker_projects_by_key_issues_serialize(
             key=key,
             status=status,
             kind=kind,
             repo=repo,
             source=source,
+            scheduled=scheduled,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1313,13 +1300,14 @@ class TrackerApi:
         return response_data.response
 
 
-    def _get_v1_tracker_projects_key_issues_serialize(
+    def _get_v1_tracker_projects_by_key_issues_serialize(
         self,
         key,
         status,
         kind,
         repo,
         source,
+        scheduled,
         _request_auth,
         _content_type,
         _headers,
@@ -1360,6 +1348,10 @@ class TrackerApi:
             
             _query_params.append(('source', source))
             
+        if scheduled is not None:
+            
+            _query_params.append(('scheduled', scheduled))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -1397,10 +1389,9 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_issues_num(
+    def patch_v1_tracker_projects_by_key(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400.")],
+        key: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1413,15 +1404,13 @@ class TrackerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IssueView:
-        """Returns one issue of one tracker project by its per-project number — title, description, status, priority, assignee, labels, kind, source and its git bindings.
+    ) -> None:
+        """Refuses — a board is a repository on the forge.
 
-        Returns one issue of one tracker project by its per-project number — title, description, status, priority, assignee, labels, kind, source and its git bindings. 404 when the project or the issue does not exist in the caller's org.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
-        :param key: Key is the issue's project, from the path. (required)
+        :param key: (required)
         :type key: str
-        :param num: Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400. (required)
-        :type num: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1444,9 +1433,8 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_issues_num_serialize(
+        _param = self._patch_v1_tracker_projects_by_key_serialize(
             key=key,
-            num=num,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1454,7 +1442,6 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1468,10 +1455,9 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_issues_num_with_http_info(
+    def patch_v1_tracker_projects_by_key_with_http_info(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400.")],
+        key: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1484,15 +1470,13 @@ class TrackerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IssueView]:
-        """Returns one issue of one tracker project by its per-project number — title, description, status, priority, assignee, labels, kind, source and its git bindings.
+    ) -> ApiResponse[None]:
+        """Refuses — a board is a repository on the forge.
 
-        Returns one issue of one tracker project by its per-project number — title, description, status, priority, assignee, labels, kind, source and its git bindings. 404 when the project or the issue does not exist in the caller's org.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
-        :param key: Key is the issue's project, from the path. (required)
+        :param key: (required)
         :type key: str
-        :param num: Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400. (required)
-        :type num: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1515,9 +1499,8 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_issues_num_serialize(
+        _param = self._patch_v1_tracker_projects_by_key_serialize(
             key=key,
-            num=num,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1525,7 +1508,6 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1539,10 +1521,9 @@ class TrackerApi:
 
 
     @validate_call
-    def get_v1_tracker_projects_key_issues_num_without_preload_content(
+    def patch_v1_tracker_projects_by_key_without_preload_content(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400.")],
+        key: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1556,14 +1537,12 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one issue of one tracker project by its per-project number — title, description, status, priority, assignee, labels, kind, source and its git bindings.
+        """Refuses — a board is a repository on the forge.
 
-        Returns one issue of one tracker project by its per-project number — title, description, status, priority, assignee, labels, kind, source and its git bindings. 404 when the project or the issue does not exist in the caller's org.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
-        :param key: Key is the issue's project, from the path. (required)
+        :param key: (required)
         :type key: str
-        :param num: Num is the issue's number within that project — the digits of KEY-14. Positive; anything else is refused with 400. (required)
-        :type num: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1586,9 +1565,8 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tracker_projects_key_issues_num_serialize(
+        _param = self._patch_v1_tracker_projects_by_key_serialize(
             key=key,
-            num=num,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1596,7 +1574,6 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1605,285 +1582,9 @@ class TrackerApi:
         return response_data.response
 
 
-    def _get_v1_tracker_projects_key_issues_num_serialize(
+    def _patch_v1_tracker_projects_by_key_serialize(
         self,
         key,
-        num,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if key is not None:
-            _path_params['key'] = key
-        if num is not None:
-            _path_params['num'] = num
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/tracker/projects/{key}/issues/{num}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def patch_v1_tracker_projects_key(
-        self,
-        key: Annotated[StrictStr, Field(description="Key is the project to update, from the path.")],
-        project_patch: ProjectPatch,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TrackerProject:
-        """Renames a tracker project or rewrites its description, and returns the updated project.
-
-        Renames a tracker project or rewrites its description, and returns the updated project. Both fields are optional: one the caller omits keeps its stored value.  The project KEY is never editable — it prefixes every issue identifier already filed under the board, so changing it would rewrite the human handle of every issue in it.
-
-        :param key: Key is the project to update, from the path. (required)
-        :type key: str
-        :param project_patch: (required)
-        :type project_patch: ProjectPatch
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_tracker_projects_key_serialize(
-            key=key,
-            project_patch=project_patch,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrackerProject",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def patch_v1_tracker_projects_key_with_http_info(
-        self,
-        key: Annotated[StrictStr, Field(description="Key is the project to update, from the path.")],
-        project_patch: ProjectPatch,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TrackerProject]:
-        """Renames a tracker project or rewrites its description, and returns the updated project.
-
-        Renames a tracker project or rewrites its description, and returns the updated project. Both fields are optional: one the caller omits keeps its stored value.  The project KEY is never editable — it prefixes every issue identifier already filed under the board, so changing it would rewrite the human handle of every issue in it.
-
-        :param key: Key is the project to update, from the path. (required)
-        :type key: str
-        :param project_patch: (required)
-        :type project_patch: ProjectPatch
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_tracker_projects_key_serialize(
-            key=key,
-            project_patch=project_patch,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrackerProject",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def patch_v1_tracker_projects_key_without_preload_content(
-        self,
-        key: Annotated[StrictStr, Field(description="Key is the project to update, from the path.")],
-        project_patch: ProjectPatch,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Renames a tracker project or rewrites its description, and returns the updated project.
-
-        Renames a tracker project or rewrites its description, and returns the updated project. Both fields are optional: one the caller omits keeps its stored value.  The project KEY is never editable — it prefixes every issue identifier already filed under the board, so changing it would rewrite the human handle of every issue in it.
-
-        :param key: Key is the project to update, from the path. (required)
-        :type key: str
-        :param project_patch: (required)
-        :type project_patch: ProjectPatch
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._patch_v1_tracker_projects_key_serialize(
-            key=key,
-            project_patch=project_patch,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrackerProject",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _patch_v1_tracker_projects_key_serialize(
-        self,
-        key,
-        project_patch,
         _request_auth,
         _content_type,
         _headers,
@@ -1911,31 +1612,9 @@ class TrackerApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if project_patch is not None:
-            _body_params = project_patch
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -1960,11 +1639,11 @@ class TrackerApi:
 
 
     @validate_call
-    def patch_v1_tracker_projects_key_issues_num(
+    def patch_v1_tracker_projects_by_key_issues_by_num(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project, from the path.")],
-        issue_patch: IssuePatch,
+        key: Annotated[StrictStr, Field(description="Key is the board — the repository name, from the path.")],
+        num: Annotated[StrictInt, Field(description="Num is the issue number on that repository, from the path.")],
+        issue_edit: IssueEdit,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1978,16 +1657,16 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> IssueView:
-        """Edits one issue in place and returns it — retitle it, rewrite its body, move it between board columns, reprioritize, reassign, or replace its labels.
+        """Edits a work item — rename it, rewrite it, move it to another column, or re-prioritise it.
 
-        Edits one issue in place and returns it — retitle it, rewrite its body, move it between board columns, reprioritize, reassign, or replace its labels. Every field is optional: one the caller omits keeps its stored value, and `labels` REPLACES the set rather than adding to it.  The issue's kind, source and git bindings are not editable here: they record where the work item came FROM, which is a fact about its origin rather than its current state.
+        Edits a work item — rename it, rewrite it, move it to another column, or re-prioritise it. Absent fields are left alone.  MOVING A CARD IS A RELABEL. The column lives in the forge's label set, so the move replaces that set rather than writing a status column here that a forge-side change could contradict. Moving to `done` also CLOSES the issue on the forge, because a done card and an open issue are a contradiction.
 
-        :param key: Key is the issue's project, from the path. (required)
+        :param key: Key is the board — the repository name, from the path. (required)
         :type key: str
-        :param num: Num is the issue's number within that project, from the path. (required)
+        :param num: Num is the issue number on that repository, from the path. (required)
         :type num: int
-        :param issue_patch: (required)
-        :type issue_patch: IssuePatch
+        :param issue_edit: (required)
+        :type issue_edit: IssueEdit
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2010,10 +1689,10 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tracker_projects_key_issues_num_serialize(
+        _param = self._patch_v1_tracker_projects_by_key_issues_by_num_serialize(
             key=key,
             num=num,
-            issue_patch=issue_patch,
+            issue_edit=issue_edit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2035,11 +1714,11 @@ class TrackerApi:
 
 
     @validate_call
-    def patch_v1_tracker_projects_key_issues_num_with_http_info(
+    def patch_v1_tracker_projects_by_key_issues_by_num_with_http_info(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project, from the path.")],
-        issue_patch: IssuePatch,
+        key: Annotated[StrictStr, Field(description="Key is the board — the repository name, from the path.")],
+        num: Annotated[StrictInt, Field(description="Num is the issue number on that repository, from the path.")],
+        issue_edit: IssueEdit,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2053,16 +1732,16 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[IssueView]:
-        """Edits one issue in place and returns it — retitle it, rewrite its body, move it between board columns, reprioritize, reassign, or replace its labels.
+        """Edits a work item — rename it, rewrite it, move it to another column, or re-prioritise it.
 
-        Edits one issue in place and returns it — retitle it, rewrite its body, move it between board columns, reprioritize, reassign, or replace its labels. Every field is optional: one the caller omits keeps its stored value, and `labels` REPLACES the set rather than adding to it.  The issue's kind, source and git bindings are not editable here: they record where the work item came FROM, which is a fact about its origin rather than its current state.
+        Edits a work item — rename it, rewrite it, move it to another column, or re-prioritise it. Absent fields are left alone.  MOVING A CARD IS A RELABEL. The column lives in the forge's label set, so the move replaces that set rather than writing a status column here that a forge-side change could contradict. Moving to `done` also CLOSES the issue on the forge, because a done card and an open issue are a contradiction.
 
-        :param key: Key is the issue's project, from the path. (required)
+        :param key: Key is the board — the repository name, from the path. (required)
         :type key: str
-        :param num: Num is the issue's number within that project, from the path. (required)
+        :param num: Num is the issue number on that repository, from the path. (required)
         :type num: int
-        :param issue_patch: (required)
-        :type issue_patch: IssuePatch
+        :param issue_edit: (required)
+        :type issue_edit: IssueEdit
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2085,10 +1764,10 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tracker_projects_key_issues_num_serialize(
+        _param = self._patch_v1_tracker_projects_by_key_issues_by_num_serialize(
             key=key,
             num=num,
-            issue_patch=issue_patch,
+            issue_edit=issue_edit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2110,11 +1789,11 @@ class TrackerApi:
 
 
     @validate_call
-    def patch_v1_tracker_projects_key_issues_num_without_preload_content(
+    def patch_v1_tracker_projects_by_key_issues_by_num_without_preload_content(
         self,
-        key: Annotated[StrictStr, Field(description="Key is the issue's project, from the path.")],
-        num: Annotated[StrictInt, Field(description="Num is the issue's number within that project, from the path.")],
-        issue_patch: IssuePatch,
+        key: Annotated[StrictStr, Field(description="Key is the board — the repository name, from the path.")],
+        num: Annotated[StrictInt, Field(description="Num is the issue number on that repository, from the path.")],
+        issue_edit: IssueEdit,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2128,16 +1807,16 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Edits one issue in place and returns it — retitle it, rewrite its body, move it between board columns, reprioritize, reassign, or replace its labels.
+        """Edits a work item — rename it, rewrite it, move it to another column, or re-prioritise it.
 
-        Edits one issue in place and returns it — retitle it, rewrite its body, move it between board columns, reprioritize, reassign, or replace its labels. Every field is optional: one the caller omits keeps its stored value, and `labels` REPLACES the set rather than adding to it.  The issue's kind, source and git bindings are not editable here: they record where the work item came FROM, which is a fact about its origin rather than its current state.
+        Edits a work item — rename it, rewrite it, move it to another column, or re-prioritise it. Absent fields are left alone.  MOVING A CARD IS A RELABEL. The column lives in the forge's label set, so the move replaces that set rather than writing a status column here that a forge-side change could contradict. Moving to `done` also CLOSES the issue on the forge, because a done card and an open issue are a contradiction.
 
-        :param key: Key is the issue's project, from the path. (required)
+        :param key: Key is the board — the repository name, from the path. (required)
         :type key: str
-        :param num: Num is the issue's number within that project, from the path. (required)
+        :param num: Num is the issue number on that repository, from the path. (required)
         :type num: int
-        :param issue_patch: (required)
-        :type issue_patch: IssuePatch
+        :param issue_edit: (required)
+        :type issue_edit: IssueEdit
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2160,10 +1839,10 @@ class TrackerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tracker_projects_key_issues_num_serialize(
+        _param = self._patch_v1_tracker_projects_by_key_issues_by_num_serialize(
             key=key,
             num=num,
-            issue_patch=issue_patch,
+            issue_edit=issue_edit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2180,11 +1859,11 @@ class TrackerApi:
         return response_data.response
 
 
-    def _patch_v1_tracker_projects_key_issues_num_serialize(
+    def _patch_v1_tracker_projects_by_key_issues_by_num_serialize(
         self,
         key,
         num,
-        issue_patch,
+        issue_edit,
         _request_auth,
         _content_type,
         _headers,
@@ -2214,8 +1893,8 @@ class TrackerApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if issue_patch is not None:
-            _body_params = issue_patch
+        if issue_edit is not None:
+            _body_params = issue_edit
 
 
         # set the HTTP header `Accept`
@@ -2278,9 +1957,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Open a tracker board in your org
+        """Refuses — a board is a repository on the forge.
 
-        Creates a board and returns it, including the KEY that will prefix every issue identifier filed under it — the same key GET, PATCH and DELETE address the board by, and the ENG in ENG-14.  `name` is required. `key` is optional and is UPPERCASED: omit it and one is derived from the name — its first four letters and digits, or PRJ when that yields nothing usable. A key that is not 2-8 characters starting with a letter is 400.  THE KEY IS UNIQUE PER ORG AND A COLLISION IS REFUSED, NOT MERGED: a second board on a key already taken is 409, and the derived key is not made unique for you, so two similarly named boards collide and the second caller must name a key. Re-POSTing is therefore not idempotent — it fails rather than returning the existing board.  The org is the validated bearer's own, never a client header, and the board is stored under the caller's selected IAM PROJECT: the same key in two IAM projects is two unrelated boards. 403 without a validated org.  Free by default. The create runs the shared per-org balance gate at a fee of zero unless a deployment prices it, and a priced deployment out of balance refuses with the nested {\"error\":{\"code\",\"message\"}} body at 402/503 rather than a flat error.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2340,9 +2019,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Open a tracker board in your org
+        """Refuses — a board is a repository on the forge.
 
-        Creates a board and returns it, including the KEY that will prefix every issue identifier filed under it — the same key GET, PATCH and DELETE address the board by, and the ENG in ENG-14.  `name` is required. `key` is optional and is UPPERCASED: omit it and one is derived from the name — its first four letters and digits, or PRJ when that yields nothing usable. A key that is not 2-8 characters starting with a letter is 400.  THE KEY IS UNIQUE PER ORG AND A COLLISION IS REFUSED, NOT MERGED: a second board on a key already taken is 409, and the derived key is not made unique for you, so two similarly named boards collide and the second caller must name a key. Re-POSTing is therefore not idempotent — it fails rather than returning the existing board.  The org is the validated bearer's own, never a client header, and the board is stored under the caller's selected IAM PROJECT: the same key in two IAM projects is two unrelated boards. 403 without a validated org.  Free by default. The create runs the shared per-org balance gate at a fee of zero unless a deployment prices it, and a priced deployment out of balance refuses with the nested {\"error\":{\"code\",\"message\"}} body at 402/503 rather than a flat error.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2402,9 +2081,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Open a tracker board in your org
+        """Refuses — a board is a repository on the forge.
 
-        Creates a board and returns it, including the KEY that will prefix every issue identifier filed under it — the same key GET, PATCH and DELETE address the board by, and the ENG in ENG-14.  `name` is required. `key` is optional and is UPPERCASED: omit it and one is derived from the name — its first four letters and digits, or PRJ when that yields nothing usable. A key that is not 2-8 characters starting with a letter is 400.  THE KEY IS UNIQUE PER ORG AND A COLLISION IS REFUSED, NOT MERGED: a second board on a key already taken is 409, and the derived key is not made unique for you, so two similarly named boards collide and the second caller must name a key. Re-POSTing is therefore not idempotent — it fails rather than returning the existing board.  The org is the validated bearer's own, never a client header, and the board is stored under the caller's selected IAM PROJECT: the same key in two IAM projects is two unrelated boards. 403 without a validated org.  Free by default. The create runs the shared per-org balance gate at a fee of zero unless a deployment prices it, and a priced deployment out of balance refuses with the nested {\"error\":{\"code\",\"message\"}} body at 402/503 rather than a flat error.
+        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2500,7 +2179,8 @@ class TrackerApi:
     @validate_call
     def post_v1_tracker_projects_by_key_issues(
         self,
-        key: StrictStr,
+        key: Annotated[StrictStr, Field(description="Key is the board — the repository name, from the path.")],
+        new_issue: NewIssue,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2513,13 +2193,15 @@ class TrackerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """File an issue on a tracker board
+    ) -> IssueView:
+        """Opens a work item on the board — an issue on that repository on the deployment's forge, filed as YOU.
 
-        Files a work item on one board and returns it, carrying the `identifier` — KEY-<number> — it will be known by everywhere else.  THE NUMBER IS THE SERVER'S TO ASSIGN and is not accepted from the caller: it is the board's highest plus one, taken inside the insert's own transaction, and it counts PER BOARD — ENG-1 and OPS-1 are different issues.  `title` is required; everything else is optional and defaults. `kind` (issue, pr, epic) says what the item IS, `source` (team, git, crm, helpdesk, cms, agent) says which surface OPENED it, and the two are orthogonal — an issue escalated from support is kind=issue&source=helpdesk. `status` defaults to backlog, `priority` to none. A value outside one of these closed sets is 400, never silently defaulted. `labels` may not contain a comma, the storage separator.  `repo` and `extRef` RECORD an external binding; they do not create one. Filing here writes to your tracker and reaches no external system — nothing is pushed to GitHub. The GitHub integration runs the other way, mirroring upstream issues INTO this tracker.  404 when the caller's org has no board under that key. The org is the validated bearer's own and the board is resolved within the caller's selected IAM project; 403 without a validated org. Free by default, on the same balance gate as the board create — an epic, a pull request and an issue are priced identically, since the fee is per work item rather than per kind.
+        Opens a work item on the board — an issue on that repository on the deployment's forge, filed as YOU.  The column and priority are written as LABELS, which is what makes the card and the forge issue the same object: someone relabelling in the forge web UI has moved your card.
 
-        :param key: (required)
+        :param key: Key is the board — the repository name, from the path. (required)
         :type key: str
+        :param new_issue: (required)
+        :type new_issue: NewIssue
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2544,6 +2226,7 @@ class TrackerApi:
 
         _param = self._post_v1_tracker_projects_by_key_issues_serialize(
             key=key,
+            new_issue=new_issue,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2551,6 +2234,7 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2566,7 +2250,8 @@ class TrackerApi:
     @validate_call
     def post_v1_tracker_projects_by_key_issues_with_http_info(
         self,
-        key: StrictStr,
+        key: Annotated[StrictStr, Field(description="Key is the board — the repository name, from the path.")],
+        new_issue: NewIssue,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2579,13 +2264,15 @@ class TrackerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """File an issue on a tracker board
+    ) -> ApiResponse[IssueView]:
+        """Opens a work item on the board — an issue on that repository on the deployment's forge, filed as YOU.
 
-        Files a work item on one board and returns it, carrying the `identifier` — KEY-<number> — it will be known by everywhere else.  THE NUMBER IS THE SERVER'S TO ASSIGN and is not accepted from the caller: it is the board's highest plus one, taken inside the insert's own transaction, and it counts PER BOARD — ENG-1 and OPS-1 are different issues.  `title` is required; everything else is optional and defaults. `kind` (issue, pr, epic) says what the item IS, `source` (team, git, crm, helpdesk, cms, agent) says which surface OPENED it, and the two are orthogonal — an issue escalated from support is kind=issue&source=helpdesk. `status` defaults to backlog, `priority` to none. A value outside one of these closed sets is 400, never silently defaulted. `labels` may not contain a comma, the storage separator.  `repo` and `extRef` RECORD an external binding; they do not create one. Filing here writes to your tracker and reaches no external system — nothing is pushed to GitHub. The GitHub integration runs the other way, mirroring upstream issues INTO this tracker.  404 when the caller's org has no board under that key. The org is the validated bearer's own and the board is resolved within the caller's selected IAM project; 403 without a validated org. Free by default, on the same balance gate as the board create — an epic, a pull request and an issue are priced identically, since the fee is per work item rather than per kind.
+        Opens a work item on the board — an issue on that repository on the deployment's forge, filed as YOU.  The column and priority are written as LABELS, which is what makes the card and the forge issue the same object: someone relabelling in the forge web UI has moved your card.
 
-        :param key: (required)
+        :param key: Key is the board — the repository name, from the path. (required)
         :type key: str
+        :param new_issue: (required)
+        :type new_issue: NewIssue
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2610,6 +2297,7 @@ class TrackerApi:
 
         _param = self._post_v1_tracker_projects_by_key_issues_serialize(
             key=key,
+            new_issue=new_issue,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2617,6 +2305,7 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2632,7 +2321,8 @@ class TrackerApi:
     @validate_call
     def post_v1_tracker_projects_by_key_issues_without_preload_content(
         self,
-        key: StrictStr,
+        key: Annotated[StrictStr, Field(description="Key is the board — the repository name, from the path.")],
+        new_issue: NewIssue,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2646,12 +2336,14 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """File an issue on a tracker board
+        """Opens a work item on the board — an issue on that repository on the deployment's forge, filed as YOU.
 
-        Files a work item on one board and returns it, carrying the `identifier` — KEY-<number> — it will be known by everywhere else.  THE NUMBER IS THE SERVER'S TO ASSIGN and is not accepted from the caller: it is the board's highest plus one, taken inside the insert's own transaction, and it counts PER BOARD — ENG-1 and OPS-1 are different issues.  `title` is required; everything else is optional and defaults. `kind` (issue, pr, epic) says what the item IS, `source` (team, git, crm, helpdesk, cms, agent) says which surface OPENED it, and the two are orthogonal — an issue escalated from support is kind=issue&source=helpdesk. `status` defaults to backlog, `priority` to none. A value outside one of these closed sets is 400, never silently defaulted. `labels` may not contain a comma, the storage separator.  `repo` and `extRef` RECORD an external binding; they do not create one. Filing here writes to your tracker and reaches no external system — nothing is pushed to GitHub. The GitHub integration runs the other way, mirroring upstream issues INTO this tracker.  404 when the caller's org has no board under that key. The org is the validated bearer's own and the board is resolved within the caller's selected IAM project; 403 without a validated org. Free by default, on the same balance gate as the board create — an epic, a pull request and an issue are priced identically, since the fee is per work item rather than per kind.
+        Opens a work item on the board — an issue on that repository on the deployment's forge, filed as YOU.  The column and priority are written as LABELS, which is what makes the card and the forge issue the same object: someone relabelling in the forge web UI has moved your card.
 
-        :param key: (required)
+        :param key: Key is the board — the repository name, from the path. (required)
         :type key: str
+        :param new_issue: (required)
+        :type new_issue: NewIssue
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2676,6 +2368,7 @@ class TrackerApi:
 
         _param = self._post_v1_tracker_projects_by_key_issues_serialize(
             key=key,
+            new_issue=new_issue,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2683,6 +2376,7 @@ class TrackerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2694,6 +2388,7 @@ class TrackerApi:
     def _post_v1_tracker_projects_by_key_issues_serialize(
         self,
         key,
+        new_issue,
         _request_auth,
         _content_type,
         _headers,
@@ -2721,9 +2416,31 @@ class TrackerApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if new_issue is not None:
+            _body_params = new_issue
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

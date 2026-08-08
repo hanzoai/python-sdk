@@ -26,12 +26,12 @@ class Application(BaseModel):
     """
     Application
     """ # noqa: E501
-    code: Optional[StrictStr] = None
-    created: Optional[StrictBool] = None
-    id: Optional[StrictStr] = None
-    rate_bps: Optional[StrictInt] = Field(default=None, alias="rateBps")
-    requested_code: Optional[StrictStr] = Field(default=None, alias="requestedCode")
-    status: Optional[StrictStr] = None
+    code: Optional[StrictStr] = Field(default=None, description="Code is the minted referral code. Empty on a first apply — applying does not mint a code, approval does; a re-apply echoes whatever the row already holds.")
+    created: Optional[StrictBool] = Field(default=None, description="Created says whether THIS call made the row. false means the org had already applied and nothing changed — no second row, no reset of an existing approval. The HTTP status states the same fact: 201 when true, 200 when false.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed — the id staff approve, suspend, re-rate and pay against.")
+    rate_bps: Optional[StrictInt] = Field(default=None, description="RateBps is the direct (level 1) commission rate the row carries, in basis points OF Hanzo's margin (2000 = 20% of margin, never of the customer's bill).", alias="rateBps")
+    requested_code: Optional[StrictStr] = Field(default=None, description="RequestedCode echoes the vanity code asked for, normalized to lower case. It is a request only: approval mints a different slug if this one is taken.", alias="requestedCode")
+    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\" for a row this call created. A re-apply echoes the existing row's status, which may already be \"approved\" or \"suspended\".")
     __properties: ClassVar[List[str]] = ["code", "created", "id", "rateBps", "requestedCode", "status"]
 
     model_config = ConfigDict(

@@ -27,10 +27,10 @@ class AffiliateLinks(BaseModel):
     """
     AffiliateLinks
     """ # noqa: E501
-    is_affiliate: Optional[StrictBool] = Field(default=None, alias="isAffiliate")
+    is_affiliate: Optional[StrictBool] = Field(default=None, description="IsAffiliate says whether the caller org has an affiliate record. On false only maxLinks comes back — there are no links, and there is no link to mint until the org applies and is approved.", alias="isAffiliate")
     links: Optional[List[CodeView]] = Field(default=None, description="Links is the caller's share links, each with its URL and funnel.")
     max_links: Optional[StrictInt] = Field(default=None, description="MaxLinks is how many share links one affiliate may hold.", alias="maxLinks")
-    status: Optional[StrictStr] = None
+    status: Optional[StrictStr] = Field(default=None, description="Status is the caller's affiliate status: \"applied\", \"approved\" or \"suspended\"; absent for a non-affiliate. Minting a link requires \"approved\", because a link that cannot accrue quietly loses the referral.")
     __properties: ClassVar[List[str]] = ["isAffiliate", "links", "maxLinks", "status"]
 
     model_config = ConfigDict(

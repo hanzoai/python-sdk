@@ -26,6 +26,9 @@ class AgentRunView(BaseModel):
     """
     AgentRunView
     """ # noqa: E501
+    actor: Optional[StrictStr] = None
+    agent: Optional[StrictStr] = Field(default=None, description="What an operator needs to answer \"what ran, for whom, and what did it do\" — and, through traceId, to leave this record for the waterfall of the very same run rather than a search that hopefully lands near it.  Agent is on the row because the org-wide feed lists runs across agents, and a run that cannot name its agent is an orphan in exactly the view built to make sense of many of them. Every field is omitempty: a run recorded before these columns existed reports absence rather than a zero it never measured.")
+    completion_tokens: Optional[StrictInt] = Field(default=None, alias="completionTokens")
     created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
     duration_ms: Optional[StrictInt] = Field(default=None, alias="durationMs")
     error: Optional[StrictStr] = None
@@ -33,8 +36,11 @@ class AgentRunView(BaseModel):
     input: Optional[StrictStr] = None
     model: Optional[StrictStr] = None
     output: Optional[StrictStr] = None
+    prompt_tokens: Optional[StrictInt] = Field(default=None, alias="promptTokens")
     status: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["createdAt", "durationMs", "error", "id", "input", "model", "output", "status"]
+    tool_calls: Optional[StrictInt] = Field(default=None, alias="toolCalls")
+    trace_id: Optional[StrictStr] = Field(default=None, alias="traceId")
+    __properties: ClassVar[List[str]] = ["actor", "agent", "completionTokens", "createdAt", "durationMs", "error", "id", "input", "model", "output", "promptTokens", "status", "toolCalls", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +93,9 @@ class AgentRunView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "actor": obj.get("actor"),
+            "agent": obj.get("agent"),
+            "completionTokens": obj.get("completionTokens"),
             "createdAt": obj.get("createdAt"),
             "durationMs": obj.get("durationMs"),
             "error": obj.get("error"),
@@ -94,7 +103,10 @@ class AgentRunView(BaseModel):
             "input": obj.get("input"),
             "model": obj.get("model"),
             "output": obj.get("output"),
-            "status": obj.get("status")
+            "promptTokens": obj.get("promptTokens"),
+            "status": obj.get("status"),
+            "toolCalls": obj.get("toolCalls"),
+            "traceId": obj.get("traceId")
         })
         return _obj
 

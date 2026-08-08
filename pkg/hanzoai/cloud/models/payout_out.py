@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.settlement import Settlement
 from typing import Optional, Set
@@ -27,7 +27,7 @@ class PayoutOut(BaseModel):
     """
     PayoutOut
     """ # noqa: E501
-    data: Optional[Settlement] = None
+    data: Optional[Settlement] = Field(default=None, description="Data is the recorded payout and the balances it left behind.")
     msg: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["data", "msg", "status"]

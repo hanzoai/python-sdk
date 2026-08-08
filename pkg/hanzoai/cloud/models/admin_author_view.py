@@ -26,20 +26,20 @@ class AdminAuthorView(BaseModel):
     """
     AdminAuthorView
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    approved_at: Optional[StrictInt] = Field(default=None, alias="approvedAt")
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    deploy_count: Optional[StrictInt] = Field(default=None, alias="deployCount")
-    github_login: Optional[StrictStr] = Field(default=None, alias="githubLogin")
-    id: Optional[StrictStr] = None
-    org: Optional[StrictStr] = None
-    paid_cents: Optional[StrictInt] = Field(default=None, alias="paidCents")
-    pending_cents: Optional[StrictInt] = Field(default=None, alias="pendingCents")
-    repo_count: Optional[StrictInt] = Field(default=None, alias="repoCount")
-    share_bps: Optional[StrictInt] = Field(default=None, alias="shareBps")
-    status: Optional[StrictStr] = None
-    suspended_at: Optional[StrictInt] = Field(default=None, alias="suspendedAt")
-    verified: Optional[StrictBool] = None
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is lifetime royalty accrued, in integer USD cents: the sum of every latched accrual (spend × shareBps / 10000). It only ever rises — a payout is recorded against paidCents and never reduces this.", alias="accruedCents")
+    approved_at: Optional[StrictInt] = Field(default=None, description="ApprovedAt is unix seconds of the first approval, and 0 means never approved — which is also \"has never been able to accrue\". Re-approving to renegotiate the share leaves it at the original date.", alias="approvedAt")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is unix seconds at the FIRST connect. Re-connecting re-links the login and leaves this alone, so it dates the enrolment, not the latest link.", alias="createdAt")
+    deploy_count: Optional[StrictInt] = Field(default=None, description="DeployCount is how many attribution edges point at this author — one per (repository, project, deploying org), so re-deploying the same project adds none. It includes self-deploys, which are recorded for provenance and excluded from accrual, so it measures reach, not the earning set.", alias="deployCount")
+    github_login: Optional[StrictStr] = Field(default=None, description="GithubLogin is the linked forge account, lowercased. It comes from IAM's linked account when the connect had one — which is also what sets verified — and otherwise from the login the caller declared. The treasury author carries \"<brand>-maintainers\".", alias="githubLogin")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the author record's server-minted handle, \"aut_\"-prefixed. It is the id the approve, suspend, payout and admin-basis routes address.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the tenant org that owns this author record — UNIQUE, one author per org. It is exposed HERE and nowhere else (Author.Org is json:\"-\" on the tenant surface), and it is the org excluded from this author's own accrual: deploying your own repo earns you nothing.")
+    paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is lifetime royalty RECORDED as paid, in integer USD cents. It rises the moment a payout reserves against pending — recording, not settling; a human moves the money out of band — and falls back only when a payout is voided.", alias="paidCents")
+    pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is what a payout may still draw against — accrued − paid, floored at zero. It is derived for each response, never stored, and it is the exact figure the atomic payout guard refuses to exceed.", alias="pendingCents")
+    repo_count: Optional[StrictInt] = Field(default=None, description="RepoCount is how many of this author's repository claims are VERIFIED, counted for this response in one GROUP BY over the whole table rather than a query per row. The single-author replies from approve, suspend and payout report 0: they carry the mutated row, not a re-listing.", alias="repoCount")
+    share_bps: Optional[StrictInt] = Field(default=None, description="ShareBps is the royalty rate accrual applies, in basis points of a deploying org's metered spend for the period: 2000 (the platform default) is 20%, 10000 would be the entire spend. The platform keeps 10000 − shareBps. Changing it never rewrites history — each ledger row keeps the rate it was written with.", alias="shareBps")
+    status: Optional[StrictStr] = Field(default=None, description="Status is connected, approved or suspended. Only an approved author accrues; a connected one may verify repos and collect deploy edges but earns nothing until a reviewer admits it.")
+    suspended_at: Optional[StrictInt] = Field(default=None, description="SuspendedAt is unix seconds of the most recent suspension. 0 means the author is not suspended: either never was, or was and has since been approved again, which clears this back to 0.", alias="suspendedAt")
+    verified: Optional[StrictBool] = Field(default=None, description="Verified is IDENTITY proof of the login, NOT proof of any repository: true when the connect took the login from IAM's linked forge account (and for the seeded treasury author), false when the caller merely declared it. A false here still earns — repository ownership is proven separately, per claim.")
     __properties: ClassVar[List[str]] = ["accruedCents", "approvedAt", "createdAt", "deployCount", "githubLogin", "id", "org", "paidCents", "pendingCents", "repoCount", "shareBps", "status", "suspendedAt", "verified"]
 
     model_config = ConfigDict(

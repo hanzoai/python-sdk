@@ -44,7 +44,7 @@ class AdsApi:
 
 
     @validate_call
-    def delete_v1_ads_campaigns_id(
+    def delete_v1_ads_campaigns_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ads_campaigns_id_serialize(
+        _param = self._delete_v1_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class AdsApi:
 
 
     @validate_call
-    def delete_v1_ads_campaigns_id_with_http_info(
+    def delete_v1_ads_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ads_campaigns_id_serialize(
+        _param = self._delete_v1_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class AdsApi:
 
 
     @validate_call
-    def delete_v1_ads_campaigns_id_without_preload_content(
+    def delete_v1_ads_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ads_campaigns_id_serialize(
+        _param = self._delete_v1_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _delete_v1_ads_campaigns_id_serialize(
+    def _delete_v1_ads_campaigns_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -576,7 +576,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_id(
+    def get_v1_ads_campaigns_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -620,7 +620,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_id_serialize(
+        _param = self._get_v1_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -643,7 +643,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_id_with_http_info(
+    def get_v1_ads_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -687,7 +687,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_id_serialize(
+        _param = self._get_v1_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -710,7 +710,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_id_without_preload_content(
+    def get_v1_ads_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -754,7 +754,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_id_serialize(
+        _param = self._get_v1_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -772,7 +772,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _get_v1_ads_campaigns_id_serialize(
+    def _get_v1_ads_campaigns_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1370,9 +1370,9 @@ class AdsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Run one of your stored campaigns on its ad network
+        """Runs one of the caller's stored campaigns on its ad network.
 
-        Creates the campaign on its platform under the CALLER ORG'S own connected ad account, records the provider campaign id, flips the stored campaign to active and answers the updated record. No ad-network token is held here: it is resolved from KMS through the org's connector at launch time, BEFORE any provider call, so an org that has not connected that platform gets 424 and no spend can ever start on a connection the org did not make. Meta is executed for real; a campaign on a platform whose provider is not wired yet answers 501 even when the connector is connected, and an edge failure at the platform is 502. The optional {account} body overrides the target ad account for this launch and is TOLERANT — a malformed or non-JSON body is ignored and the campaign launches on its stored account rather than being refused. A campaign id another org owns reads as not found.
+        Runs one of the caller's stored campaigns on its ad network.  It creates the campaign on its platform under the CALLER ORG'S own connected ad account, records the provider campaign id, flips the stored campaign to active and answers the updated record. No ad-network token is held here: it is resolved from KMS through the org's connector at launch time, BEFORE any provider call, so an org that has not connected that platform gets 424 and no spend can ever start on a connection the org did not make.  Meta is executed for real; a campaign on a platform whose provider is not wired yet answers 501 even when the connector is connected, and an edge failure at the platform is 502. The optional {account} body overrides the target ad account for this launch and is TOLERANT — a malformed or non-JSON body is ignored and the campaign launches on its stored account rather than being refused. A campaign id another org owns reads as not found.
 
         :param id: (required)
         :type id: str
@@ -1436,9 +1436,9 @@ class AdsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Run one of your stored campaigns on its ad network
+        """Runs one of the caller's stored campaigns on its ad network.
 
-        Creates the campaign on its platform under the CALLER ORG'S own connected ad account, records the provider campaign id, flips the stored campaign to active and answers the updated record. No ad-network token is held here: it is resolved from KMS through the org's connector at launch time, BEFORE any provider call, so an org that has not connected that platform gets 424 and no spend can ever start on a connection the org did not make. Meta is executed for real; a campaign on a platform whose provider is not wired yet answers 501 even when the connector is connected, and an edge failure at the platform is 502. The optional {account} body overrides the target ad account for this launch and is TOLERANT — a malformed or non-JSON body is ignored and the campaign launches on its stored account rather than being refused. A campaign id another org owns reads as not found.
+        Runs one of the caller's stored campaigns on its ad network.  It creates the campaign on its platform under the CALLER ORG'S own connected ad account, records the provider campaign id, flips the stored campaign to active and answers the updated record. No ad-network token is held here: it is resolved from KMS through the org's connector at launch time, BEFORE any provider call, so an org that has not connected that platform gets 424 and no spend can ever start on a connection the org did not make.  Meta is executed for real; a campaign on a platform whose provider is not wired yet answers 501 even when the connector is connected, and an edge failure at the platform is 502. The optional {account} body overrides the target ad account for this launch and is TOLERANT — a malformed or non-JSON body is ignored and the campaign launches on its stored account rather than being refused. A campaign id another org owns reads as not found.
 
         :param id: (required)
         :type id: str
@@ -1502,9 +1502,9 @@ class AdsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Run one of your stored campaigns on its ad network
+        """Runs one of the caller's stored campaigns on its ad network.
 
-        Creates the campaign on its platform under the CALLER ORG'S own connected ad account, records the provider campaign id, flips the stored campaign to active and answers the updated record. No ad-network token is held here: it is resolved from KMS through the org's connector at launch time, BEFORE any provider call, so an org that has not connected that platform gets 424 and no spend can ever start on a connection the org did not make. Meta is executed for real; a campaign on a platform whose provider is not wired yet answers 501 even when the connector is connected, and an edge failure at the platform is 502. The optional {account} body overrides the target ad account for this launch and is TOLERANT — a malformed or non-JSON body is ignored and the campaign launches on its stored account rather than being refused. A campaign id another org owns reads as not found.
+        Runs one of the caller's stored campaigns on its ad network.  It creates the campaign on its platform under the CALLER ORG'S own connected ad account, records the provider campaign id, flips the stored campaign to active and answers the updated record. No ad-network token is held here: it is resolved from KMS through the org's connector at launch time, BEFORE any provider call, so an org that has not connected that platform gets 424 and no spend can ever start on a connection the org did not make.  Meta is executed for real; a campaign on a platform whose provider is not wired yet answers 501 even when the connector is connected, and an edge failure at the platform is 502. The optional {account} body overrides the target ad account for this launch and is TOLERANT — a malformed or non-JSON body is ignored and the campaign launches on its stored account rather than being refused. A campaign id another org owns reads as not found.
 
         :param id: (required)
         :type id: str
@@ -1604,7 +1604,7 @@ class AdsApi:
 
 
     @validate_call
-    def put_v1_ads_campaigns_id(
+    def put_v1_ads_campaigns_by_id(
         self,
         id: StrictStr,
         update_campaign_in: UpdateCampaignIn,
@@ -1651,7 +1651,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ads_campaigns_id_serialize(
+        _param = self._put_v1_ads_campaigns_by_id_serialize(
             id=id,
             update_campaign_in=update_campaign_in,
             _request_auth=_request_auth,
@@ -1675,7 +1675,7 @@ class AdsApi:
 
 
     @validate_call
-    def put_v1_ads_campaigns_id_with_http_info(
+    def put_v1_ads_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
         update_campaign_in: UpdateCampaignIn,
@@ -1722,7 +1722,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ads_campaigns_id_serialize(
+        _param = self._put_v1_ads_campaigns_by_id_serialize(
             id=id,
             update_campaign_in=update_campaign_in,
             _request_auth=_request_auth,
@@ -1746,7 +1746,7 @@ class AdsApi:
 
 
     @validate_call
-    def put_v1_ads_campaigns_id_without_preload_content(
+    def put_v1_ads_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
         update_campaign_in: UpdateCampaignIn,
@@ -1793,7 +1793,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ads_campaigns_id_serialize(
+        _param = self._put_v1_ads_campaigns_by_id_serialize(
             id=id,
             update_campaign_in=update_campaign_in,
             _request_auth=_request_auth,
@@ -1812,7 +1812,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _put_v1_ads_campaigns_id_serialize(
+    def _put_v1_ads_campaigns_by_id_serialize(
         self,
         id,
         update_campaign_in,

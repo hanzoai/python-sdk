@@ -27,7 +27,7 @@ class DevicePollOut(BaseModel):
     """
     DevicePollOut
     """ # noqa: E501
-    connector: Optional[ConnView] = Field(default=None, description="Connector is the connected connector. Present only on \"connected\".")
+    connector: Optional[ConnView] = Field(default=None, description="Connection is the connected connector. Present only on \"connected\".")
     interval: Optional[StrictInt] = Field(default=None, description="Interval is the seconds to wait before the next poll. Present only while pending, and it may rise when the provider asks the client to slow down.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the flow's state. \"pending\" means poll again after Interval.")
     __properties: ClassVar[List[str]] = ["connector", "interval", "status"]

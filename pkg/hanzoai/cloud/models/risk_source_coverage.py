@@ -27,8 +27,8 @@ class RiskSourceCoverage(BaseModel):
     RiskSourceCoverage
     """ # noqa: E501
     facts: Optional[StrictInt] = Field(default=None, description="Facts is how many assertions this source filed; Won is how many judged events it was the assertion in force for. A source with many facts and few wins is one that is being outranked, which is worth knowing before concluding it is wired correctly.")
-    source: Optional[StrictStr] = None
-    won: Optional[StrictInt] = None
+    source: Optional[StrictStr] = Field(default=None, description="Source is the asserter these two counts are for — chargeoff, dispute, case, refund, review or sample. There is one entry per source that either filed in the window or won in it, in precedence order, strongest first. A source no longer in the vocabulary still has rows and is reported after the known ones rather than dropped out of a total that is supposed to add up.")
+    won: Optional[StrictInt] = Field(default=None, description="Won is how many JUDGED events this source's assertion was the one IN FORCE for, at that event's own as-of — it beat every other visible claim under the precedence rule. Summed over the sources it is Judged. Read against Facts it is the ratio that matters: many filed and few won is a source being outranked, not a source that is broken, and one source winning nearly everything is a plane that looks labelled because one noisy filer dominates it.")
     __properties: ClassVar[List[str]] = ["facts", "source", "won"]
 
     model_config = ConfigDict(

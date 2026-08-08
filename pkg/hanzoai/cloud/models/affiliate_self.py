@@ -28,22 +28,22 @@ class AffiliateSelf(BaseModel):
     """
     AffiliateSelf
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    code: Optional[StrictStr] = None
-    default_rate_bps: Optional[StrictInt] = Field(default=None, alias="defaultRateBps")
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is lifetime commission accrued, in cents. It only grows — a payout is recorded against paidCents and never reduces this.", alias="accruedCents")
+    code: Optional[StrictStr] = Field(default=None, description="Code is the minted referral code, the slug the ?aff link carries. Absent until staff approve; codes live in ONE global namespace across all affiliates.")
+    default_rate_bps: Optional[StrictInt] = Field(default=None, description="DefaultRateBps is the direct rate a new affiliate starts at, in basis points of margin (2000 = 20%). Answered ONLY to a caller that has not applied, as the quote beside `schedule`.", alias="defaultRateBps")
     downline_total: Optional[StrictInt] = Field(default=None, description="DownlineTotal counts every org in the caller's downline across the levels.", alias="downlineTotal")
-    handle: Optional[StrictStr] = None
-    id: Optional[StrictStr] = None
-    is_affiliate: Optional[StrictBool] = Field(default=None, alias="isAffiliate")
+    handle: Optional[StrictStr] = Field(default=None, description="Handle is the opt-in public leaderboard name. Empty means opted out: the caller keeps its rank and still sees its own row, it is just not listed.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed. Absent until the org applies.")
+    is_affiliate: Optional[StrictBool] = Field(default=None, description="IsAffiliate says whether the caller org has an affiliate record. On false the answer carries the rate SCHEDULE and the default rate instead of a downline, so the console can show what the caller would earn.", alias="isAffiliate")
     levels: Optional[List[LevelView]] = Field(default=None, description="Levels is the caller's downline per upline level, with the rate paid there.")
-    link: Optional[StrictStr] = None
-    margin_bps: Optional[StrictInt] = Field(default=None, alias="marginBps")
-    paid_cents: Optional[StrictInt] = Field(default=None, alias="paidCents")
-    payouts: Optional[List[Remittance]] = None
-    pending_cents: Optional[StrictInt] = Field(default=None, alias="pendingCents")
-    rate_bps: Optional[StrictInt] = Field(default=None, alias="rateBps")
+    link: Optional[StrictStr] = Field(default=None, description="Link is the shareable ?aff URL built from the code. Empty until a code is minted, since there is nothing to share before approval.")
+    margin_bps: Optional[StrictInt] = Field(default=None, description="MarginBps is the platform gross-margin fraction, in basis points, that every rate here is a rate OF. Read live per request, so it is the value in force now, not the one that applied to commission already accrued.", alias="marginBps")
+    paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is lifetime commission already paid out, in cents — credits grants and record-only cash disbursements alike.", alias="paidCents")
+    payouts: Optional[List[Remittance]] = Field(default=None, description="Payouts is the payout history, newest first, bounded to the last 100 rows.")
+    pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is accrued minus paid, in cents — what the platform still owes and the ceiling on the next payout. Never negative.", alias="pendingCents")
+    rate_bps: Optional[StrictInt] = Field(default=None, description="RateBps is the caller's OWN direct (level 1) commission rate, in basis points of margin. Levels 2 and 3 are platform-wide and appear in `levels`.", alias="rateBps")
     schedule: Optional[List[LevelView]] = Field(default=None, description="Schedule is the rate schedule quoted to a caller that has not applied.")
-    status: Optional[StrictStr] = None
+    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\", \"approved\" or \"suspended\"; absent for a caller that never applied. Only \"approved\" mints links and accrues.")
     __properties: ClassVar[List[str]] = ["accruedCents", "code", "defaultRateBps", "downlineTotal", "handle", "id", "isAffiliate", "levels", "link", "marginBps", "paidCents", "payouts", "pendingCents", "rateBps", "schedule", "status"]
 
     model_config = ConfigDict(

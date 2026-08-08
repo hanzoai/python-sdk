@@ -26,10 +26,10 @@ class ActivityPoint(BaseModel):
     """
     ActivityPoint
     """ # noqa: E501
-    cost_cents: Optional[StrictInt] = Field(default=None, alias="costCents")
-    day: Optional[StrictStr] = Field(default=None, description="\"2006-01-02\"")
-    requests: Optional[StrictInt] = None
-    tokens: Optional[StrictInt] = None
+    cost_cents: Optional[StrictInt] = Field(default=None, description="CostCents is the day's spend in whole US cents. A series is only ever returned for a subject the caller is authorized to see, so this is never withheld: 0 means no spend that day.", alias="costCents")
+    day: Optional[StrictStr] = Field(default=None, description="Day is the UTC calendar day this point covers, \"2006-01-02\".")
+    requests: Optional[StrictInt] = Field(default=None, description="Requests is the subject's request count on this day. 0 is a real, quiet day: the series is gap-filled, so every day in the range is present whether or not anything happened.")
+    tokens: Optional[StrictInt] = Field(default=None, description="Tokens is prompt+completion tokens on this day — normally the heatmap's intensity, scaled against ActivityTotals.MaxTokens.")
     __properties: ClassVar[List[str]] = ["costCents", "day", "requests", "tokens"]
 
     model_config = ConfigDict(

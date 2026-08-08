@@ -26,9 +26,9 @@ class OrgOptinView(BaseModel):
     """
     OrgOptinView
     """ # noqa: E501
-    can_manage: Optional[StrictBool] = Field(default=None, description="may the caller edit the org opt-in", alias="canManage")
-    display: Optional[StrictStr] = None
-    listed: Optional[StrictBool] = None
+    can_manage: Optional[StrictBool] = Field(default=None, description="CanManage is true only for an admin of this org (or a platform SuperAdmin) — the callers whose write of the org preference will be accepted.", alias="canManage")
+    display: Optional[StrictStr] = Field(default=None, description="Display is the name shown for the org on that board. Empty when none was chosen; opting in without one defaults it to the org id.")
+    listed: Optional[StrictBool] = Field(default=None, description="Listed is true when the org has opted onto the cross-org global board. False — the default — keeps the org off it entirely; the org's own members still see their own board. Listing consents to publishing usage VOLUME, never spend.")
     __properties: ClassVar[List[str]] = ["canManage", "display", "listed"]
 
     model_config = ConfigDict(

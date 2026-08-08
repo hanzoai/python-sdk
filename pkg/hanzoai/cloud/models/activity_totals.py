@@ -26,12 +26,12 @@ class ActivityTotals(BaseModel):
     """
     ActivityTotals
     """ # noqa: E501
-    active_days: Optional[StrictInt] = Field(default=None, description="days with any usage", alias="activeDays")
-    cost_cents: Optional[StrictInt] = Field(default=None, alias="costCents")
-    max_requests: Optional[StrictInt] = Field(default=None, alias="maxRequests")
-    max_tokens: Optional[StrictInt] = Field(default=None, description="busiest day's tokens (heatmap intensity ceiling)", alias="maxTokens")
-    requests: Optional[StrictInt] = None
-    tokens: Optional[StrictInt] = None
+    active_days: Optional[StrictInt] = Field(default=None, description="ActiveDays counts the days with any usage at all — the streak/consistency number. Compare it against len(days) for the share of days the subject showed up.", alias="activeDays")
+    cost_cents: Optional[StrictInt] = Field(default=None, description="CostCents is the window's spend in whole US cents, the sum of Days[].CostCents.", alias="costCents")
+    max_requests: Optional[StrictInt] = Field(default=None, description="MaxRequests is the same ceiling for a request-based heatmap — the busiest single day's request count, 0 for an idle window.", alias="maxRequests")
+    max_tokens: Optional[StrictInt] = Field(default=None, description="MaxTokens is the busiest single day's token count: the ceiling to normalize a token heatmap against, so the darkest cell is that day. 0 for an idle window, which a client must not divide by.", alias="maxTokens")
+    requests: Optional[StrictInt] = Field(default=None, description="Requests is the sum of Days[].Requests over the whole window.")
+    tokens: Optional[StrictInt] = Field(default=None, description="Tokens is the sum of Days[].Tokens over the whole window.")
     __properties: ClassVar[List[str]] = ["activeDays", "costCents", "maxRequests", "maxTokens", "requests", "tokens"]
 
     model_config = ConfigDict(

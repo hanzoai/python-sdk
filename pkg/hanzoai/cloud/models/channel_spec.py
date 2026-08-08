@@ -26,12 +26,12 @@ class ChannelSpec(BaseModel):
     """
     ChannelSpec
     """ # noqa: E501
-    account: Optional[StrictStr] = Field(default=None, description="provider account ref (ad-account/page/list id)")
-    detail: Optional[StrictStr] = Field(default=None, description="honest last-outcome detail (never a secret)")
-    external_id: Optional[StrictStr] = Field(default=None, alias="externalId")
-    kind: Optional[StrictStr] = Field(default=None, description="paid | organic | email")
-    platform: Optional[StrictStr] = Field(default=None, description="meta | google | x | instagram | (email provider)")
-    status: Optional[StrictStr] = Field(default=None, description="pending | live | paused | failed | unavailable")
+    account: Optional[StrictStr] = Field(default=None, description="Account is the provider account this channel runs under: an ad-account, a page or a mailing-list id. An executor may replace it at launch with the account it actually used.")
+    detail: Optional[StrictStr] = Field(default=None, description="Detail is the last outcome in one secret-free line — the failure reason, or what the executor reported. Absent when there is nothing to explain.")
+    external_id: Optional[StrictStr] = Field(default=None, description="ExternalID is the provider-side id of the running execution, recorded by the orchestrator at launch and handed back verbatim to read spend or to pause. Server-owned and absent until this channel has launched; anything a caller sends for it is dropped.", alias="externalId")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is the channel and the identity a campaign holds at most one of: paid, organic or email. It picks the executor the launch fans out to.")
+    platform: Optional[StrictStr] = Field(default=None, description="Platform is the provider within the kind — meta, google, x, instagram, or the email provider.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is this channel's own launch outcome, not the campaign's: pending (added, never launched), live, paused, failed (Detail says why) or unavailable (no executor wired on this deployment). Server-owned — a caller can never assert it.")
     __properties: ClassVar[List[str]] = ["account", "detail", "externalId", "kind", "platform", "status"]
 
     model_config = ConfigDict(

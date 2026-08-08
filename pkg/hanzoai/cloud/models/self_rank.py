@@ -26,15 +26,15 @@ class SelfRank(BaseModel):
     """
     SelfRank
     """ # noqa: E501
-    cost_cents: Optional[StrictInt] = Field(default=None, alias="costCents")
-    handle: Optional[StrictStr] = None
-    listed: Optional[StrictBool] = Field(default=None, description="is the caller publicly listed (opted in)")
-    metric: Optional[StrictInt] = None
-    of_total: Optional[StrictInt] = Field(default=None, alias="ofTotal")
-    rank: Optional[StrictInt] = None
-    ranked: Optional[StrictBool] = None
-    requests: Optional[StrictInt] = None
-    tokens: Optional[StrictInt] = None
+    cost_cents: Optional[StrictInt] = Field(default=None, description="CostCents is the caller's own spend in whole US cents. Always populated — your own spend is never withheld from you — so here 0 really does mean zero.", alias="costCents")
+    handle: Optional[StrictStr] = Field(default=None, description="Handle is how the caller appears on this board: their chosen handle, falling back to their username, on a user board; their org id on the global board. Present even when unlisted — this is the caller looking at themselves.")
+    listed: Optional[StrictBool] = Field(default=None, description="Listed says whether the caller is publicly visible on this board: opted in on a user board, org opted in (or the viewer is a platform admin) on the global one. False is the prompt to offer the opt-in, and explains an unranked global self.")
+    metric: Optional[StrictInt] = Field(default=None, description="Metric is whichever of the three values above the board was ranked by, so a client can compare the caller against the rows without re-reading the request. Metric <= 0 is exactly the case that leaves Ranked false.")
+    of_total: Optional[StrictInt] = Field(default=None, description="OfTotal is the size of the universe Rank is out of — \"rank N of OfTotal\". On a user board that is the org's users with any usage in the window; on the global board it is every active org for a platform admin, and the count of opted-in orgs for everyone else.", alias="ofTotal")
+    rank: Optional[StrictInt] = Field(default=None, description="Rank is the caller's 1-based standing, computed as (subjects whose windowed metric strictly exceeds the caller's) + 1. It is exact against the whole ranked universe, not just the returned page, so it can far exceed len(rows). Read it only when Ranked.")
+    ranked: Optional[StrictBool] = Field(default=None, description="Ranked is false when the caller holds no position: they had no usage in the window, or (on the global board) their org has not opted into public listing and so is not ranked against a set it never joined. Rank is then 0 and means nothing.")
+    requests: Optional[StrictInt] = Field(default=None, description="Requests is the caller's own request count in the window, 0 if they were idle.")
+    tokens: Optional[StrictInt] = Field(default=None, description="Tokens is the caller's own prompt+completion tokens in the window.")
     __properties: ClassVar[List[str]] = ["costCents", "handle", "listed", "metric", "ofTotal", "rank", "ranked", "requests", "tokens"]
 
     model_config = ConfigDict(

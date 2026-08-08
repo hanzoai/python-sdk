@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.application import Application
+from hanzoai.cloud.models.program_application import ProgramApplication
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class ApplicationList(BaseModel):
     """
     ApplicationList
     """ # noqa: E501
-    data: Optional[List[Application]] = Field(default=None, description="Data is the page of applications, newest first.")
+    data: Optional[List[ProgramApplication]] = Field(default=None, description="Data is the page of applications, newest first.")
     __properties: ClassVar[List[str]] = ["data"]
 
     model_config = ConfigDict(
@@ -88,7 +88,7 @@ class ApplicationList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [Application.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "data": [ProgramApplication.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
         })
         return _obj
 

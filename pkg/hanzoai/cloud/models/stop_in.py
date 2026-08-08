@@ -22,13 +22,12 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Role(BaseModel):
+class StopIn(BaseModel):
     """
-    Role
+    StopIn
     """ # noqa: E501
-    role: Optional[StrictStr] = None
-    user: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["role", "user"]
+    id: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["id"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +47,7 @@ class Role(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Role from a JSON string"""
+        """Create an instance of StopIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +72,7 @@ class Role(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Role from a dict"""
+        """Create an instance of StopIn from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +80,7 @@ class Role(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "role": obj.get("role"),
-            "user": obj.get("user")
+            "id": obj.get("id")
         })
         return _obj
 

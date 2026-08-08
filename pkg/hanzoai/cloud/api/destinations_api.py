@@ -43,7 +43,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def delete_v1_destinations_platform(
+    def delete_v1_destinations_by_platform(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_destinations_platform_serialize(
+        _param = self._delete_v1_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def delete_v1_destinations_platform_with_http_info(
+    def delete_v1_destinations_by_platform_with_http_info(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_destinations_platform_serialize(
+        _param = self._delete_v1_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def delete_v1_destinations_platform_without_preload_content(
+    def delete_v1_destinations_by_platform_without_preload_content(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_destinations_platform_serialize(
+        _param = self._delete_v1_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _delete_v1_destinations_platform_serialize(
+    def _delete_v1_destinations_by_platform_serialize(
         self,
         platform,
         _request_auth,
@@ -548,7 +548,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_platform(
+    def get_v1_destinations_by_platform(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -592,7 +592,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_platform_serialize(
+        _param = self._get_v1_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -615,7 +615,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_platform_with_http_info(
+    def get_v1_destinations_by_platform_with_http_info(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -659,7 +659,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_platform_serialize(
+        _param = self._get_v1_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -682,7 +682,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_platform_without_preload_content(
+    def get_v1_destinations_by_platform_without_preload_content(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -726,7 +726,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_platform_serialize(
+        _param = self._get_v1_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -744,7 +744,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _get_v1_destinations_platform_serialize(
+    def _get_v1_destinations_by_platform_serialize(
         self,
         platform,
         _request_auth,
@@ -825,9 +825,9 @@ class DestinationsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> DestinationStatus:
-        """Connect one conversion destination for your org, or update the one you have
+        """Connects one conversion destination for the caller's org, or updates the one already there.
 
-        Stores the addressed platform's non-secret ids (its measurement, pixel or dataset ids) and seals its API credential into KMS under a path scoped to the caller's own org, then answers the same status card the read routes do — with live telling you whether the credential actually resolves right now. The body's property NAMES are the platform's own: each field the platform declares, plus each secret under its camelCase name, so the accepted keys differ per platform and a missing REQUIRED field is refused. Connecting is an ORG ADMIN action — a validated member without the admin bit gets 403 — and it fails closed with 503 when the KMS master key is unavailable rather than persisting a destination whose secret was never sealed. The secret itself never appears in the response, in the store, or in a log line; only its NAME is ever published. Set enabled to false to keep the connection but stop the analytics fan-out to it.
+        Connects one conversion destination for the caller's org, or updates the one already there.  It stores the addressed platform's non-secret ids (its measurement, pixel or dataset ids) and seals its API credential into KMS under a path scoped to the caller's own org, then answers the same status card the read routes do — with live telling you whether the credential actually resolves right now. The body's property NAMES are the platform's own: each field the platform declares, plus each secret under its camelCase name, so the accepted keys differ per platform and a missing REQUIRED field is refused.  Connecting is an ORG ADMIN action — a validated member without the admin bit gets 403 — and it fails closed with 503 when the KMS master key is unavailable rather than persisting a destination whose secret was never sealed. The secret itself never appears in the response, in the store, or in a log line; only its NAME is ever published. Set enabled to false to keep the connection but stop the analytics fan-out to it.
 
         :param platform: (required)
         :type platform: str
@@ -896,9 +896,9 @@ class DestinationsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[DestinationStatus]:
-        """Connect one conversion destination for your org, or update the one you have
+        """Connects one conversion destination for the caller's org, or updates the one already there.
 
-        Stores the addressed platform's non-secret ids (its measurement, pixel or dataset ids) and seals its API credential into KMS under a path scoped to the caller's own org, then answers the same status card the read routes do — with live telling you whether the credential actually resolves right now. The body's property NAMES are the platform's own: each field the platform declares, plus each secret under its camelCase name, so the accepted keys differ per platform and a missing REQUIRED field is refused. Connecting is an ORG ADMIN action — a validated member without the admin bit gets 403 — and it fails closed with 503 when the KMS master key is unavailable rather than persisting a destination whose secret was never sealed. The secret itself never appears in the response, in the store, or in a log line; only its NAME is ever published. Set enabled to false to keep the connection but stop the analytics fan-out to it.
+        Connects one conversion destination for the caller's org, or updates the one already there.  It stores the addressed platform's non-secret ids (its measurement, pixel or dataset ids) and seals its API credential into KMS under a path scoped to the caller's own org, then answers the same status card the read routes do — with live telling you whether the credential actually resolves right now. The body's property NAMES are the platform's own: each field the platform declares, plus each secret under its camelCase name, so the accepted keys differ per platform and a missing REQUIRED field is refused.  Connecting is an ORG ADMIN action — a validated member without the admin bit gets 403 — and it fails closed with 503 when the KMS master key is unavailable rather than persisting a destination whose secret was never sealed. The secret itself never appears in the response, in the store, or in a log line; only its NAME is ever published. Set enabled to false to keep the connection but stop the analytics fan-out to it.
 
         :param platform: (required)
         :type platform: str
@@ -967,9 +967,9 @@ class DestinationsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Connect one conversion destination for your org, or update the one you have
+        """Connects one conversion destination for the caller's org, or updates the one already there.
 
-        Stores the addressed platform's non-secret ids (its measurement, pixel or dataset ids) and seals its API credential into KMS under a path scoped to the caller's own org, then answers the same status card the read routes do — with live telling you whether the credential actually resolves right now. The body's property NAMES are the platform's own: each field the platform declares, plus each secret under its camelCase name, so the accepted keys differ per platform and a missing REQUIRED field is refused. Connecting is an ORG ADMIN action — a validated member without the admin bit gets 403 — and it fails closed with 503 when the KMS master key is unavailable rather than persisting a destination whose secret was never sealed. The secret itself never appears in the response, in the store, or in a log line; only its NAME is ever published. Set enabled to false to keep the connection but stop the analytics fan-out to it.
+        Connects one conversion destination for the caller's org, or updates the one already there.  It stores the addressed platform's non-secret ids (its measurement, pixel or dataset ids) and seals its API credential into KMS under a path scoped to the caller's own org, then answers the same status card the read routes do — with live telling you whether the credential actually resolves right now. The body's property NAMES are the platform's own: each field the platform declares, plus each secret under its camelCase name, so the accepted keys differ per platform and a missing REQUIRED field is refused.  Connecting is an ORG ADMIN action — a validated member without the admin bit gets 403 — and it fails closed with 503 when the KMS master key is unavailable rather than persisting a destination whose secret was never sealed. The secret itself never appears in the response, in the store, or in a log line; only its NAME is ever published. Set enabled to false to keep the connection but stop the analytics fan-out to it.
 
         :param platform: (required)
         :type platform: str
@@ -1096,7 +1096,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_platform_test(
+    def post_v1_destinations_by_platform_test(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -1140,7 +1140,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_platform_test_serialize(
+        _param = self._post_v1_destinations_by_platform_test_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1163,7 +1163,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_platform_test_with_http_info(
+    def post_v1_destinations_by_platform_test_with_http_info(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -1207,7 +1207,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_platform_test_serialize(
+        _param = self._post_v1_destinations_by_platform_test_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1230,7 +1230,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_platform_test_without_preload_content(
+    def post_v1_destinations_by_platform_test_without_preload_content(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -1274,7 +1274,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_platform_test_serialize(
+        _param = self._post_v1_destinations_by_platform_test_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1292,7 +1292,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _post_v1_destinations_platform_test_serialize(
+    def _post_v1_destinations_by_platform_test_serialize(
         self,
         platform,
         _request_auth,

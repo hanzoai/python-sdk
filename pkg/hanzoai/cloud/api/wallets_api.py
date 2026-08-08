@@ -590,7 +590,7 @@ class WalletsApi:
 
 
     @validate_call
-    def get_v1_wallets_id(
+    def get_v1_wallets_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -634,7 +634,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_wallets_id_serialize(
+        _param = self._get_v1_wallets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -657,7 +657,7 @@ class WalletsApi:
 
 
     @validate_call
-    def get_v1_wallets_id_with_http_info(
+    def get_v1_wallets_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -701,7 +701,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_wallets_id_serialize(
+        _param = self._get_v1_wallets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -724,7 +724,7 @@ class WalletsApi:
 
 
     @validate_call
-    def get_v1_wallets_id_without_preload_content(
+    def get_v1_wallets_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -768,7 +768,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_wallets_id_serialize(
+        _param = self._get_v1_wallets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -786,7 +786,7 @@ class WalletsApi:
         return response_data.response
 
 
-    def _get_v1_wallets_id_serialize(
+    def _get_v1_wallets_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1396,7 +1396,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_keys(
+    def post_v1_wallets_by_id_keys(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1440,7 +1440,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_keys_serialize(
+        _param = self._post_v1_wallets_by_id_keys_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1463,7 +1463,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_keys_with_http_info(
+    def post_v1_wallets_by_id_keys_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1507,7 +1507,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_keys_serialize(
+        _param = self._post_v1_wallets_by_id_keys_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1530,7 +1530,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_keys_without_preload_content(
+    def post_v1_wallets_by_id_keys_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1574,7 +1574,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_keys_serialize(
+        _param = self._post_v1_wallets_by_id_keys_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1592,7 +1592,7 @@ class WalletsApi:
         return response_data.response
 
 
-    def _post_v1_wallets_id_keys_serialize(
+    def _post_v1_wallets_by_id_keys_serialize(
         self,
         id,
         _request_auth,
@@ -1656,7 +1656,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_sign(
+    def post_v1_wallets_by_id_sign(
         self,
         id: StrictStr,
         sign_in: SignIn,
@@ -1703,7 +1703,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_sign_serialize(
+        _param = self._post_v1_wallets_by_id_sign_serialize(
             id=id,
             sign_in=sign_in,
             _request_auth=_request_auth,
@@ -1727,7 +1727,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_sign_with_http_info(
+    def post_v1_wallets_by_id_sign_with_http_info(
         self,
         id: StrictStr,
         sign_in: SignIn,
@@ -1774,7 +1774,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_sign_serialize(
+        _param = self._post_v1_wallets_by_id_sign_serialize(
             id=id,
             sign_in=sign_in,
             _request_auth=_request_auth,
@@ -1798,7 +1798,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_sign_without_preload_content(
+    def post_v1_wallets_by_id_sign_without_preload_content(
         self,
         id: StrictStr,
         sign_in: SignIn,
@@ -1845,7 +1845,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_sign_serialize(
+        _param = self._post_v1_wallets_by_id_sign_serialize(
             id=id,
             sign_in=sign_in,
             _request_auth=_request_auth,
@@ -1864,7 +1864,7 @@ class WalletsApi:
         return response_data.response
 
 
-    def _post_v1_wallets_id_sign_serialize(
+    def _post_v1_wallets_by_id_sign_serialize(
         self,
         id,
         sign_in,
@@ -1944,7 +1944,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_transactions(
+    def post_v1_wallets_by_id_transactions(
         self,
         id: StrictStr,
         safe_tx_in: SafeTxIn,
@@ -1991,7 +1991,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_transactions_serialize(
+        _param = self._post_v1_wallets_by_id_transactions_serialize(
             id=id,
             safe_tx_in=safe_tx_in,
             _request_auth=_request_auth,
@@ -2015,7 +2015,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_transactions_with_http_info(
+    def post_v1_wallets_by_id_transactions_with_http_info(
         self,
         id: StrictStr,
         safe_tx_in: SafeTxIn,
@@ -2062,7 +2062,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_transactions_serialize(
+        _param = self._post_v1_wallets_by_id_transactions_serialize(
             id=id,
             safe_tx_in=safe_tx_in,
             _request_auth=_request_auth,
@@ -2086,7 +2086,7 @@ class WalletsApi:
 
 
     @validate_call
-    def post_v1_wallets_id_transactions_without_preload_content(
+    def post_v1_wallets_by_id_transactions_without_preload_content(
         self,
         id: StrictStr,
         safe_tx_in: SafeTxIn,
@@ -2133,7 +2133,7 @@ class WalletsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_wallets_id_transactions_serialize(
+        _param = self._post_v1_wallets_by_id_transactions_serialize(
             id=id,
             safe_tx_in=safe_tx_in,
             _request_auth=_request_auth,
@@ -2152,7 +2152,7 @@ class WalletsApi:
         return response_data.response
 
 
-    def _post_v1_wallets_id_transactions_serialize(
+    def _post_v1_wallets_by_id_transactions_serialize(
         self,
         id,
         safe_tx_in,

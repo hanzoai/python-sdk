@@ -26,12 +26,12 @@ class MetricRow(BaseModel):
     """
     MetricRow
     """ # noqa: E501
-    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
-    current_version: Optional[StrictInt] = Field(default=None, alias="currentVersion")
-    last_updated_at: Optional[StrictStr] = Field(default=None, alias="lastUpdatedAt")
-    name: Optional[StrictStr] = None
-    type: Optional[StrictStr] = None
-    versions: Optional[StrictInt] = None
+    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when version 1 was written, RFC 3339 UTC.", alias="createdAt")
+    current_version: Optional[StrictInt] = Field(default=None, description="CurrentVer is the version number served as current. It always equals `versions`: numbering is dense from 1, and deleting a prompt takes its whole history with it rather than leaving a gap.", alias="currentVersion")
+    last_updated_at: Optional[StrictStr] = Field(default=None, description="LastUpdatedAt is when the newest version was appended, RFC 3339 UTC — the age of the template you would get today.", alias="lastUpdatedAt")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the prompt this row is about — its org-unique handle.")
+    type: Optional[StrictStr] = Field(default=None, description="Type is the current version's kind.")
+    versions: Optional[StrictInt] = Field(default=None, description="Versions is how many revisions the prompt has, COUNTED in the store and uncapped — so it can exceed the 100 entries a list row or a detail response carries. Note the type: here `versions` is a number, while on a list row it is the list of version numbers.")
     __properties: ClassVar[List[str]] = ["createdAt", "currentVersion", "lastUpdatedAt", "name", "type", "versions"]
 
     model_config = ConfigDict(

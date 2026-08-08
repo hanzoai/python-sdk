@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,7 +26,7 @@ class ClickCount(BaseModel):
     """
     ClickCount
     """ # noqa: E501
-    counted: Optional[StrictBool] = None
+    counted: Optional[StrictBool] = Field(default=None, description="Counted says the in-memory buffer took the ping. It does NOT say the code exists — this is deliberately not a code-existence oracle, and an unknown code simply no-ops at flush time. false means the buffer was full and the ping was dropped, which is harmless: clicks are vanity and move no money.")
     __properties: ClassVar[List[str]] = ["counted"]
 
     model_config = ConfigDict(

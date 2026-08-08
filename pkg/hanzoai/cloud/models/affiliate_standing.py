@@ -31,8 +31,8 @@ class AffiliateStanding(BaseModel):
     code: Optional[StrictStr] = Field(default=None, description="Code is the minted referral code; empty until staff approve.")
     default_rate_bps: Optional[StrictInt] = Field(default=None, description="DefaultRateBps is the direct rate a new affiliate would get, answered only to a caller that has not applied.", alias="defaultRateBps")
     handle: Optional[StrictStr] = Field(default=None, description="Handle is the opt-in public leaderboard name; empty means opted out.")
-    id: Optional[StrictStr] = None
-    is_affiliate: Optional[StrictBool] = Field(default=None, alias="isAffiliate")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed — what staff approve, suspend, re-rate and pay against. Absent until the org applies.")
+    is_affiliate: Optional[StrictBool] = Field(default=None, description="IsAffiliate says whether the caller org has an affiliate record at all. It is the ONE field an org that never applied gets besides defaultRateBps: on false, read nothing else here — every other field is absent, not zero.", alias="isAffiliate")
     link: Optional[StrictStr] = Field(default=None, description="Link is the shareable ?aff URL; empty until a code is minted.")
     margin_bps: Optional[StrictInt] = Field(default=None, description="MarginBps is the platform gross-margin fraction commission is a rate OF.", alias="marginBps")
     paid_cents: Optional[StrictInt] = Field(default=None, description="PaidCents is lifetime commission already paid out, in cents.", alias="paidCents")
@@ -40,8 +40,8 @@ class AffiliateStanding(BaseModel):
     pending_cents: Optional[StrictInt] = Field(default=None, description="PendingCents is accrued minus paid — what the platform still owes.", alias="pendingCents")
     rate_bps: Optional[StrictInt] = Field(default=None, description="RateBps is the affiliate's own direct commission rate, in basis points.", alias="rateBps")
     referred_count: Optional[StrictInt] = Field(default=None, description="ReferredCount is how many orgs this affiliate has referred.", alias="referredCount")
-    requested_code: Optional[StrictStr] = Field(default=None, alias="requestedCode")
-    status: Optional[StrictStr] = None
+    requested_code: Optional[StrictStr] = Field(default=None, description="RequestedCode is the vanity code asked for at apply time — a request, not an allocation. Approval mints `code`, which may be a different slug if this one was already taken.", alias="requestedCode")
+    status: Optional[StrictStr] = Field(default=None, description="Status is \"applied\", \"approved\" or \"suspended\". Only an approved affiliate has a code that resolves for attribution and accrues commission; suspended keeps what it already earned but stops earning more.")
     __properties: ClassVar[List[str]] = ["accruedCents", "code", "defaultRateBps", "handle", "id", "isAffiliate", "link", "marginBps", "paidCents", "payouts", "pendingCents", "rateBps", "referredCount", "requestedCode", "status"]
 
     model_config = ConfigDict(

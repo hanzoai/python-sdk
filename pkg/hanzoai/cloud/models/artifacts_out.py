@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.artifact import Artifact
+from hanzoai.cloud.models.research_artifact import ResearchArtifact
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class ArtifactsOut(BaseModel):
     """
     ArtifactsOut
     """ # noqa: E501
-    data: Optional[List[Artifact]] = Field(default=None, description="Data are the artifacts, newest first. Content bytes are never returned here.")
+    data: Optional[List[ResearchArtifact]] = Field(default=None, description="Data are the artifacts, newest first. Content bytes are never returned here.")
     total: Optional[StrictInt] = Field(default=None, description="Total is len(data).")
     __properties: ClassVar[List[str]] = ["data", "total"]
 
@@ -89,7 +89,7 @@ class ArtifactsOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [Artifact.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "data": [ResearchArtifact.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
             "total": obj.get("total")
         })
         return _obj

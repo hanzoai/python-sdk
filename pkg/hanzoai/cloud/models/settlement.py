@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.admin_affiliate_view import AdminAffiliateView
 from hanzoai.cloud.models.remittance import Remittance
@@ -28,8 +28,8 @@ class Settlement(BaseModel):
     """
     Settlement
     """ # noqa: E501
-    affiliate: Optional[AdminAffiliateView] = None
-    payout: Optional[Remittance] = None
+    affiliate: Optional[AdminAffiliateView] = Field(default=None, description="Affiliate is the row re-read AFTER the payout, so its paidCents and pendingCents already account for the row beside it.")
+    payout: Optional[Remittance] = Field(default=None, description="Payout is the payout row just recorded.")
     __properties: ClassVar[List[str]] = ["affiliate", "payout"]
 
     model_config = ConfigDict(

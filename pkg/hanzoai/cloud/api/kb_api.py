@@ -47,7 +47,7 @@ class KbApi:
 
 
     @validate_call
-    def delete_v1_kb_connectors_provider(
+    def delete_v1_kb_connectors_by_provider(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -91,7 +91,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kb_connectors_provider_serialize(
+        _param = self._delete_v1_kb_connectors_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -114,7 +114,7 @@ class KbApi:
 
 
     @validate_call
-    def delete_v1_kb_connectors_provider_with_http_info(
+    def delete_v1_kb_connectors_by_provider_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -158,7 +158,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kb_connectors_provider_serialize(
+        _param = self._delete_v1_kb_connectors_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -181,7 +181,7 @@ class KbApi:
 
 
     @validate_call
-    def delete_v1_kb_connectors_provider_without_preload_content(
+    def delete_v1_kb_connectors_by_provider_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -225,7 +225,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kb_connectors_provider_serialize(
+        _param = self._delete_v1_kb_connectors_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -243,7 +243,7 @@ class KbApi:
         return response_data.response
 
 
-    def _delete_v1_kb_connectors_provider_serialize(
+    def _delete_v1_kb_connectors_by_provider_serialize(
         self,
         provider,
         _request_auth,
@@ -552,6 +552,577 @@ class KbApi:
 
 
     @validate_call
+    def get_v1_kb_connectors_by_provider_callback(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
+        code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State is the org-bound value this server signed at connect time.")] = None,
+        error: Annotated[Optional[StrictStr], Field(description="Error is the provider's denial reason when the user refused consent.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ConnectionOut:
+        """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
+
+        CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
+
+        :param provider: Provider is the connector completing its flow, from the path. (required)
+        :type provider: str
+        :param code: Code is the provider's authorization code, exchanged for a token.
+        :type code: str
+        :param state: State is the org-bound value this server signed at connect time.
+        :type state: str
+        :param error: Error is the provider's denial reason when the user refused consent.
+        :type error: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_kb_connectors_by_provider_callback_serialize(
+            provider=provider,
+            code=code,
+            state=state,
+            error=error,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ConnectionOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_kb_connectors_by_provider_callback_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
+        code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State is the org-bound value this server signed at connect time.")] = None,
+        error: Annotated[Optional[StrictStr], Field(description="Error is the provider's denial reason when the user refused consent.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ConnectionOut]:
+        """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
+
+        CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
+
+        :param provider: Provider is the connector completing its flow, from the path. (required)
+        :type provider: str
+        :param code: Code is the provider's authorization code, exchanged for a token.
+        :type code: str
+        :param state: State is the org-bound value this server signed at connect time.
+        :type state: str
+        :param error: Error is the provider's denial reason when the user refused consent.
+        :type error: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_kb_connectors_by_provider_callback_serialize(
+            provider=provider,
+            code=code,
+            state=state,
+            error=error,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ConnectionOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_kb_connectors_by_provider_callback_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
+        code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
+        state: Annotated[Optional[StrictStr], Field(description="State is the org-bound value this server signed at connect time.")] = None,
+        error: Annotated[Optional[StrictStr], Field(description="Error is the provider's denial reason when the user refused consent.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
+
+        CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
+
+        :param provider: Provider is the connector completing its flow, from the path. (required)
+        :type provider: str
+        :param code: Code is the provider's authorization code, exchanged for a token.
+        :type code: str
+        :param state: State is the org-bound value this server signed at connect time.
+        :type state: str
+        :param error: Error is the provider's denial reason when the user refused consent.
+        :type error: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_kb_connectors_by_provider_callback_serialize(
+            provider=provider,
+            code=code,
+            state=state,
+            error=error,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ConnectionOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_kb_connectors_by_provider_callback_serialize(
+        self,
+        provider,
+        code,
+        state,
+        error,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        if code is not None:
+            
+            _query_params.append(('code', code))
+            
+        if state is not None:
+            
+            _query_params.append(('state', state))
+            
+        if error is not None:
+            
+            _query_params.append(('error', error))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/kb/connectors/{provider}/callback',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_kb_connectors_by_provider_connect(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> KbAuthorizeOut:
+        """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
+
+        StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
+
+        :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_kb_connectors_by_provider_connect_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KbAuthorizeOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_kb_connectors_by_provider_connect_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[KbAuthorizeOut]:
+        """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
+
+        StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
+
+        :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_kb_connectors_by_provider_connect_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KbAuthorizeOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_kb_connectors_by_provider_connect_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
+
+        StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
+
+        :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_kb_connectors_by_provider_connect_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "KbAuthorizeOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_kb_connectors_by_provider_connect_serialize(
+        self,
+        provider,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/kb/connectors/{provider}/connect',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_v1_kb_connectors_catalog(
         self,
         _request_timeout: Union[
@@ -781,577 +1352,6 @@ class KbApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/kb/connectors/catalog',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_v1_kb_connectors_provider_callback(
-        self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
-        code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
-        state: Annotated[Optional[StrictStr], Field(description="State is the org-bound value this server signed at connect time.")] = None,
-        error: Annotated[Optional[StrictStr], Field(description="Error is the provider's denial reason when the user refused consent.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ConnectionOut:
-        """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
-
-        CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
-
-        :param provider: Provider is the connector completing its flow, from the path. (required)
-        :type provider: str
-        :param code: Code is the provider's authorization code, exchanged for a token.
-        :type code: str
-        :param state: State is the org-bound value this server signed at connect time.
-        :type state: str
-        :param error: Error is the provider's denial reason when the user refused consent.
-        :type error: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_kb_connectors_provider_callback_serialize(
-            provider=provider,
-            code=code,
-            state=state,
-            error=error,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_v1_kb_connectors_provider_callback_with_http_info(
-        self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
-        code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
-        state: Annotated[Optional[StrictStr], Field(description="State is the org-bound value this server signed at connect time.")] = None,
-        error: Annotated[Optional[StrictStr], Field(description="Error is the provider's denial reason when the user refused consent.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ConnectionOut]:
-        """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
-
-        CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
-
-        :param provider: Provider is the connector completing its flow, from the path. (required)
-        :type provider: str
-        :param code: Code is the provider's authorization code, exchanged for a token.
-        :type code: str
-        :param state: State is the org-bound value this server signed at connect time.
-        :type state: str
-        :param error: Error is the provider's denial reason when the user refused consent.
-        :type error: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_kb_connectors_provider_callback_serialize(
-            provider=provider,
-            code=code,
-            state=state,
-            error=error,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_v1_kb_connectors_provider_callback_without_preload_content(
-        self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
-        code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
-        state: Annotated[Optional[StrictStr], Field(description="State is the org-bound value this server signed at connect time.")] = None,
-        error: Annotated[Optional[StrictStr], Field(description="Error is the provider's denial reason when the user refused consent.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
-
-        CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
-
-        :param provider: Provider is the connector completing its flow, from the path. (required)
-        :type provider: str
-        :param code: Code is the provider's authorization code, exchanged for a token.
-        :type code: str
-        :param state: State is the org-bound value this server signed at connect time.
-        :type state: str
-        :param error: Error is the provider's denial reason when the user refused consent.
-        :type error: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_kb_connectors_provider_callback_serialize(
-            provider=provider,
-            code=code,
-            state=state,
-            error=error,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_v1_kb_connectors_provider_callback_serialize(
-        self,
-        provider,
-        code,
-        state,
-        error,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
-        # process the query parameters
-        if code is not None:
-            
-            _query_params.append(('code', code))
-            
-        if state is not None:
-            
-            _query_params.append(('state', state))
-            
-        if error is not None:
-            
-            _query_params.append(('error', error))
-            
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/kb/connectors/{provider}/callback',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_v1_kb_connectors_provider_connect(
-        self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KbAuthorizeOut:
-        """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
-
-        StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
-
-        :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
-        :type provider: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_kb_connectors_provider_connect_serialize(
-            provider=provider,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbAuthorizeOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_v1_kb_connectors_provider_connect_with_http_info(
-        self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KbAuthorizeOut]:
-        """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
-
-        StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
-
-        :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
-        :type provider: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_kb_connectors_provider_connect_serialize(
-            provider=provider,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbAuthorizeOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_v1_kb_connectors_provider_connect_without_preload_content(
-        self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
-
-        StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
-
-        :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
-        :type provider: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_v1_kb_connectors_provider_connect_serialize(
-            provider=provider,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbAuthorizeOut",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_v1_kb_connectors_provider_connect_serialize(
-        self,
-        provider,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/kb/connectors/{provider}/connect',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1630,7 +1630,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_connectors_provider_sync(
+    def post_v1_kb_connectors_by_provider_sync(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1674,7 +1674,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_connectors_provider_sync_serialize(
+        _param = self._post_v1_kb_connectors_by_provider_sync_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1697,7 +1697,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_connectors_provider_sync_with_http_info(
+    def post_v1_kb_connectors_by_provider_sync_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1741,7 +1741,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_connectors_provider_sync_serialize(
+        _param = self._post_v1_kb_connectors_by_provider_sync_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1764,7 +1764,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_connectors_provider_sync_without_preload_content(
+    def post_v1_kb_connectors_by_provider_sync_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1808,7 +1808,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_connectors_provider_sync_serialize(
+        _param = self._post_v1_kb_connectors_by_provider_sync_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1826,7 +1826,7 @@ class KbApi:
         return response_data.response
 
 
-    def _post_v1_kb_connectors_provider_sync_serialize(
+    def _post_v1_kb_connectors_by_provider_sync_serialize(
         self,
         provider,
         _request_auth,
@@ -1905,9 +1905,9 @@ class KbApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Import an Obsidian, Notion, Roam or Evernote export into the org's knowledge base
+        """Imports an Obsidian, Notion, Roam or Evernote export into the org's knowledge base.
 
-        Ingests an uploaded export as a tree of kb-page documents with its link structure intact. `?format=` picks the normalizer — obsidian, notion, roam or evernote — and the export arrives as a multipart `file` part, or as the raw request body when there is no multipart part: an Obsidian or Notion vault zip, a Roam JSON (raw or inside the zip Roam downloads), or an Evernote .enex.  The pages are filed through the SAME ingest path a connector sync uses, so the kb-page hook indexes each one for retrieval AND extracts its `[[wikilinks]]` into kb-link edges — the imported vault is searchable and its graph is navigable without a second pass. Parents are filed before their children, and each page takes a slug unique within the org (suffixed -2, -3, … on collision), so a re-import adds pages rather than overwriting the ones already there.  Scoped to the caller's validated org; `?project=` narrows every imported page to one project. No validated principal is 403, and an org that has not installed the kb module is refused with the install call to make first. The bounds are 64 MB per upload, 5000 pages and 8 MB per archive entry: pages past the five-thousandth are dropped and a larger entry is truncated at its bound, and a page the store rejects is skipped — so the answer's `imported` count is what was actually filed, not what was sent.
+        Imports an Obsidian, Notion, Roam or Evernote export into the org's knowledge base.  It ingests an uploaded export as a tree of kb-page documents with its link structure intact. `?format=` picks the normalizer — obsidian, notion, roam or evernote — and the export arrives as a multipart `file` part, or as the raw request body when there is no multipart part: an Obsidian or Notion vault zip, a Roam JSON (raw or inside the zip Roam downloads), or an Evernote .enex.  The pages are filed through the SAME ingest path a connector sync uses, so the kb-page hook indexes each one for retrieval AND extracts its `[[wikilinks]]` into kb-link edges — the imported vault is searchable and its graph is navigable without a second pass. Parents are filed before their children, and each page takes a slug unique within the org (suffixed -2, -3, … on collision), so a re-import adds pages rather than overwriting the ones already there.  Scoped to the caller's validated org; `?project=` narrows every imported page to one project. No validated principal is 403, and an org that has not installed the kb module is refused with the install call to make first. The bounds are 64 MB per upload, 5000 pages and 8 MB per archive entry: pages past the five-thousandth are dropped and a larger entry is truncated at its bound, and a page the store rejects is skipped — so the answer's `imported` count is what was actually filed, not what was sent.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1967,9 +1967,9 @@ class KbApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Import an Obsidian, Notion, Roam or Evernote export into the org's knowledge base
+        """Imports an Obsidian, Notion, Roam or Evernote export into the org's knowledge base.
 
-        Ingests an uploaded export as a tree of kb-page documents with its link structure intact. `?format=` picks the normalizer — obsidian, notion, roam or evernote — and the export arrives as a multipart `file` part, or as the raw request body when there is no multipart part: an Obsidian or Notion vault zip, a Roam JSON (raw or inside the zip Roam downloads), or an Evernote .enex.  The pages are filed through the SAME ingest path a connector sync uses, so the kb-page hook indexes each one for retrieval AND extracts its `[[wikilinks]]` into kb-link edges — the imported vault is searchable and its graph is navigable without a second pass. Parents are filed before their children, and each page takes a slug unique within the org (suffixed -2, -3, … on collision), so a re-import adds pages rather than overwriting the ones already there.  Scoped to the caller's validated org; `?project=` narrows every imported page to one project. No validated principal is 403, and an org that has not installed the kb module is refused with the install call to make first. The bounds are 64 MB per upload, 5000 pages and 8 MB per archive entry: pages past the five-thousandth are dropped and a larger entry is truncated at its bound, and a page the store rejects is skipped — so the answer's `imported` count is what was actually filed, not what was sent.
+        Imports an Obsidian, Notion, Roam or Evernote export into the org's knowledge base.  It ingests an uploaded export as a tree of kb-page documents with its link structure intact. `?format=` picks the normalizer — obsidian, notion, roam or evernote — and the export arrives as a multipart `file` part, or as the raw request body when there is no multipart part: an Obsidian or Notion vault zip, a Roam JSON (raw or inside the zip Roam downloads), or an Evernote .enex.  The pages are filed through the SAME ingest path a connector sync uses, so the kb-page hook indexes each one for retrieval AND extracts its `[[wikilinks]]` into kb-link edges — the imported vault is searchable and its graph is navigable without a second pass. Parents are filed before their children, and each page takes a slug unique within the org (suffixed -2, -3, … on collision), so a re-import adds pages rather than overwriting the ones already there.  Scoped to the caller's validated org; `?project=` narrows every imported page to one project. No validated principal is 403, and an org that has not installed the kb module is refused with the install call to make first. The bounds are 64 MB per upload, 5000 pages and 8 MB per archive entry: pages past the five-thousandth are dropped and a larger entry is truncated at its bound, and a page the store rejects is skipped — so the answer's `imported` count is what was actually filed, not what was sent.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2029,9 +2029,9 @@ class KbApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Import an Obsidian, Notion, Roam or Evernote export into the org's knowledge base
+        """Imports an Obsidian, Notion, Roam or Evernote export into the org's knowledge base.
 
-        Ingests an uploaded export as a tree of kb-page documents with its link structure intact. `?format=` picks the normalizer — obsidian, notion, roam or evernote — and the export arrives as a multipart `file` part, or as the raw request body when there is no multipart part: an Obsidian or Notion vault zip, a Roam JSON (raw or inside the zip Roam downloads), or an Evernote .enex.  The pages are filed through the SAME ingest path a connector sync uses, so the kb-page hook indexes each one for retrieval AND extracts its `[[wikilinks]]` into kb-link edges — the imported vault is searchable and its graph is navigable without a second pass. Parents are filed before their children, and each page takes a slug unique within the org (suffixed -2, -3, … on collision), so a re-import adds pages rather than overwriting the ones already there.  Scoped to the caller's validated org; `?project=` narrows every imported page to one project. No validated principal is 403, and an org that has not installed the kb module is refused with the install call to make first. The bounds are 64 MB per upload, 5000 pages and 8 MB per archive entry: pages past the five-thousandth are dropped and a larger entry is truncated at its bound, and a page the store rejects is skipped — so the answer's `imported` count is what was actually filed, not what was sent.
+        Imports an Obsidian, Notion, Roam or Evernote export into the org's knowledge base.  It ingests an uploaded export as a tree of kb-page documents with its link structure intact. `?format=` picks the normalizer — obsidian, notion, roam or evernote — and the export arrives as a multipart `file` part, or as the raw request body when there is no multipart part: an Obsidian or Notion vault zip, a Roam JSON (raw or inside the zip Roam downloads), or an Evernote .enex.  The pages are filed through the SAME ingest path a connector sync uses, so the kb-page hook indexes each one for retrieval AND extracts its `[[wikilinks]]` into kb-link edges — the imported vault is searchable and its graph is navigable without a second pass. Parents are filed before their children, and each page takes a slug unique within the org (suffixed -2, -3, … on collision), so a re-import adds pages rather than overwriting the ones already there.  Scoped to the caller's validated org; `?project=` narrows every imported page to one project. No validated principal is 403, and an org that has not installed the kb module is refused with the install call to make first. The bounds are 64 MB per upload, 5000 pages and 8 MB per archive entry: pages past the five-thousandth are dropped and a larger entry is truncated at its bound, and a page the store rejects is skipped — so the answer's `imported` count is what was actually filed, not what was sent.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

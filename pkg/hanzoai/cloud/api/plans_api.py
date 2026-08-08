@@ -1278,7 +1278,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entitlements_id(
+    def get_v1_plans_entitlements_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -1322,7 +1322,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entitlements_id_serialize(
+        _param = self._get_v1_plans_entitlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1345,7 +1345,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entitlements_id_with_http_info(
+    def get_v1_plans_entitlements_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -1389,7 +1389,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entitlements_id_serialize(
+        _param = self._get_v1_plans_entitlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1412,7 +1412,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entitlements_id_without_preload_content(
+    def get_v1_plans_entitlements_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -1456,7 +1456,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entitlements_id_serialize(
+        _param = self._get_v1_plans_entitlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1474,7 +1474,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_entitlements_id_serialize(
+    def _get_v1_plans_entitlements_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2753,7 +2753,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_resolve_id(
+    def get_v1_plans_resolve_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -2797,7 +2797,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_resolve_id_serialize(
+        _param = self._get_v1_plans_resolve_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2820,7 +2820,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_resolve_id_with_http_info(
+    def get_v1_plans_resolve_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -2864,7 +2864,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_resolve_id_serialize(
+        _param = self._get_v1_plans_resolve_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2887,7 +2887,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_resolve_id_without_preload_content(
+    def get_v1_plans_resolve_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -2931,7 +2931,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_resolve_id_serialize(
+        _param = self._get_v1_plans_resolve_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2949,7 +2949,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_resolve_id_serialize(
+    def _get_v1_plans_resolve_by_id_serialize(
         self,
         id,
         _request_auth,

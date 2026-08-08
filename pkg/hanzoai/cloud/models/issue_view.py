@@ -29,6 +29,7 @@ class IssueView(BaseModel):
     assignee: Optional[StrictStr] = None
     created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
     description: Optional[StrictStr] = None
+    due_at: Optional[StrictInt] = Field(default=None, description="unix seconds; absent = no due date", alias="dueAt")
     ext_ref: Optional[StrictStr] = Field(default=None, description="external anchor", alias="extRef")
     id: Optional[StrictStr] = None
     identifier: Optional[StrictStr] = Field(default=None, description="KEY-<number>, the human handle")
@@ -39,10 +40,11 @@ class IssueView(BaseModel):
     project_key: Optional[StrictStr] = Field(default=None, alias="projectKey")
     repo: Optional[StrictStr] = Field(default=None, description="git repo binding")
     source: Optional[StrictStr] = Field(default=None, description="team | git | crm | helpdesk | cms | agent")
+    start_at: Optional[StrictInt] = Field(default=None, description="unix seconds; absent = unscheduled", alias="startAt")
     status: Optional[StrictStr] = None
     title: Optional[StrictStr] = None
     updated_at: Optional[StrictInt] = Field(default=None, alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["assignee", "createdAt", "description", "extRef", "id", "identifier", "kind", "labels", "number", "priority", "projectKey", "repo", "source", "status", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["assignee", "createdAt", "description", "dueAt", "extRef", "id", "identifier", "kind", "labels", "number", "priority", "projectKey", "repo", "source", "startAt", "status", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -98,6 +100,7 @@ class IssueView(BaseModel):
             "assignee": obj.get("assignee"),
             "createdAt": obj.get("createdAt"),
             "description": obj.get("description"),
+            "dueAt": obj.get("dueAt"),
             "extRef": obj.get("extRef"),
             "id": obj.get("id"),
             "identifier": obj.get("identifier"),
@@ -108,6 +111,7 @@ class IssueView(BaseModel):
             "projectKey": obj.get("projectKey"),
             "repo": obj.get("repo"),
             "source": obj.get("source"),
+            "startAt": obj.get("startAt"),
             "status": obj.get("status"),
             "title": obj.get("title"),
             "updatedAt": obj.get("updatedAt")

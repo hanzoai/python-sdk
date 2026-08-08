@@ -26,11 +26,11 @@ class LeaderboardRow(BaseModel):
     """
     LeaderboardRow
     """ # noqa: E501
-    accrued_cents: Optional[StrictInt] = Field(default=None, alias="accruedCents")
-    handle: Optional[StrictStr] = None
-    is_you: Optional[StrictBool] = Field(default=None, alias="isYou")
-    rank: Optional[StrictInt] = None
-    referred_count: Optional[StrictInt] = Field(default=None, alias="referredCount")
+    accrued_cents: Optional[StrictInt] = Field(default=None, description="AccruedCents is that affiliate's lifetime commission accrued, in cents, and what the board is ordered by. An aggregate: no per-customer figure is exposed.", alias="accruedCents")
+    handle: Optional[StrictStr] = Field(default=None, description="Handle is the affiliate's self-chosen display name — the only identity the board ever carries. The org behind it is never disclosed.")
+    is_you: Optional[StrictBool] = Field(default=None, description="IsYou marks the caller's own row, so a client can highlight it without matching on a handle. Absent on every other row.", alias="isYou")
+    rank: Optional[StrictInt] = Field(default=None, description="Rank is the position in the GLOBAL approved set ordered by lifetime accrued commission, 1-based. Affiliates that set no handle still occupy their rank and are simply not listed, so the visible ranks have gaps and the board is not a complete roster. On the caller's own row the rank is computed over the whole set, so it is exact well outside the top page.")
+    referred_count: Optional[StrictInt] = Field(default=None, description="ReferredCount is how many orgs that affiliate directly referred — a count only, never which orgs.", alias="referredCount")
     __properties: ClassVar[List[str]] = ["accruedCents", "handle", "isYou", "rank", "referredCount"]
 
     model_config = ConfigDict(

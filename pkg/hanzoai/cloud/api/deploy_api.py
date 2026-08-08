@@ -544,7 +544,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name(
+    def get_v1_deploy_applications_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -588,7 +588,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_serialize(
+        _param = self._get_v1_deploy_applications_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -611,7 +611,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_with_http_info(
+    def get_v1_deploy_applications_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -655,7 +655,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_serialize(
+        _param = self._get_v1_deploy_applications_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -678,7 +678,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_without_preload_content(
+    def get_v1_deploy_applications_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -722,7 +722,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_serialize(
+        _param = self._get_v1_deploy_applications_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -740,7 +740,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_name_serialize(
+    def _get_v1_deploy_applications_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -804,7 +804,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_resource_tree(
+    def get_v1_deploy_applications_by_name_resource_tree(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -848,7 +848,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_resource_tree_serialize(
+        _param = self._get_v1_deploy_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -871,7 +871,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_resource_tree_with_http_info(
+    def get_v1_deploy_applications_by_name_resource_tree_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -915,7 +915,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_resource_tree_serialize(
+        _param = self._get_v1_deploy_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -938,7 +938,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_resource_tree_without_preload_content(
+    def get_v1_deploy_applications_by_name_resource_tree_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -982,7 +982,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_resource_tree_serialize(
+        _param = self._get_v1_deploy_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1000,7 +1000,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_name_resource_tree_serialize(
+    def _get_v1_deploy_applications_by_name_resource_tree_serialize(
         self,
         name,
         _request_auth,
@@ -1064,7 +1064,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_revisions_revision_metadata(
+    def get_v1_deploy_applications_by_name_revisions_by_revision_metadata(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label.")],
         revision: Annotated[StrictStr, Field(description="Revision is the revision to describe, from the path. The empty revision and \"HEAD\" both mean \"whatever this application currently declares\".")],
@@ -1111,7 +1111,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_revisions_revision_metadata_serialize(
+        _param = self._get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
             name=name,
             revision=revision,
             _request_auth=_request_auth,
@@ -1135,7 +1135,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_revisions_revision_metadata_with_http_info(
+    def get_v1_deploy_applications_by_name_revisions_by_revision_metadata_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label.")],
         revision: Annotated[StrictStr, Field(description="Revision is the revision to describe, from the path. The empty revision and \"HEAD\" both mean \"whatever this application currently declares\".")],
@@ -1182,7 +1182,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_revisions_revision_metadata_serialize(
+        _param = self._get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
             name=name,
             revision=revision,
             _request_auth=_request_auth,
@@ -1206,7 +1206,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_revisions_revision_metadata_without_preload_content(
+    def get_v1_deploy_applications_by_name_revisions_by_revision_metadata_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label.")],
         revision: Annotated[StrictStr, Field(description="Revision is the revision to describe, from the path. The empty revision and \"HEAD\" both mean \"whatever this application currently declares\".")],
@@ -1253,7 +1253,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_revisions_revision_metadata_serialize(
+        _param = self._get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
             name=name,
             revision=revision,
             _request_auth=_request_auth,
@@ -1272,7 +1272,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_name_revisions_revision_metadata_serialize(
+    def _get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
         self,
         name,
         revision,
@@ -1339,7 +1339,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_syncwindows(
+    def get_v1_deploy_applications_by_name_syncwindows(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -1383,7 +1383,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_syncwindows_serialize(
+        _param = self._get_v1_deploy_applications_by_name_syncwindows_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1406,7 +1406,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_syncwindows_with_http_info(
+    def get_v1_deploy_applications_by_name_syncwindows_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -1450,7 +1450,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_syncwindows_serialize(
+        _param = self._get_v1_deploy_applications_by_name_syncwindows_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1473,7 +1473,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_name_syncwindows_without_preload_content(
+    def get_v1_deploy_applications_by_name_syncwindows_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -1517,7 +1517,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_name_syncwindows_serialize(
+        _param = self._get_v1_deploy_applications_by_name_syncwindows_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1535,7 +1535,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_name_syncwindows_serialize(
+    def _get_v1_deploy_applications_by_name_syncwindows_serialize(
         self,
         name,
         _request_auth,
