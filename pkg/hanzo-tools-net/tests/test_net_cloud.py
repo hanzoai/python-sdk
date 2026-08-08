@@ -234,7 +234,7 @@ class FakeStreamClient:
 
 def cloud_over(lines, status=200, body=""):
     """A real HanzoCloud whose transport replays `lines`."""
-    cloud = HanzoCloud(key="hk-test")
+    cloud = HanzoCloud(key="sk-test")
     client = FakeStreamClient(FakeSSEResponse(lines, status=status, body=body))
 
     async def fake_get_client():
