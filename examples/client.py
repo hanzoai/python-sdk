@@ -32,7 +32,7 @@ def api_key() -> str:
     """
     key = os.environ.get("HANZO_API_KEY")
     if not key:
-        raise SystemExit("HANZO_API_KEY is not set — export an IAM JWT or an hk- cloud key")
+        raise SystemExit("HANZO_API_KEY is not set — export an IAM JWT or a pk-/sk- cloud key")
     return key
 
 
