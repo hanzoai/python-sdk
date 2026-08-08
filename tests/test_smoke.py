@@ -1,27 +1,28 @@
 """Smoke tests for the generated `hanzoai` client.
 
-The client is generated from hanzoai/openapi `hanzo.yaml` (openapi-generator,
-urllib3). These assert the package imports and the unified api.hanzo.ai/v1
-product surface is present — not network behaviour.
+The client is `hanzoai.cloud`, generated from hanzoai/cloud's openapi.yaml at the
+ref .spec-lock names. These assert the package imports and that the unified
+api.hanzo.ai/v1 product surface is present — not network behaviour.
 """
 import hanzoai
+import hanzoai.cloud
 
 
 def test_client_constructs():
-    cfg = hanzoai.Configuration(host="https://api.hanzo.ai")
+    cfg = hanzoai.cloud.Configuration(host="https://api.hanzo.ai")
     cfg.access_token = "hk-test"
-    client = hanzoai.ApiClient(cfg)
+    client = hanzoai.cloud.ApiClient(cfg)
     assert client is not None
     assert cfg.host == "https://api.hanzo.ai"
 
 
 def test_product_apis_present():
-    from hanzoai.api.tracker_projects_api import TrackerProjectsApi
-    from hanzoai.api.chat_agents_api import ChatAgentsApi
-    from hanzoai.api.crm_opportunities_api import CrmOpportunitiesApi
+    from hanzoai.cloud.api.tracker_api import TrackerApi
+    from hanzoai.cloud.api.chat_api import ChatApi
+    from hanzoai.cloud.api.crm_api import CrmApi
 
-    client = hanzoai.ApiClient(hanzoai.Configuration(host="https://api.hanzo.ai"))
-    for cls in (TrackerProjectsApi, ChatAgentsApi, CrmOpportunitiesApi):
+    client = hanzoai.cloud.ApiClient(hanzoai.cloud.Configuration(host="https://api.hanzo.ai"))
+    for cls in (TrackerApi, ChatApi, CrmApi):
         assert cls(client) is not None
 
 
@@ -29,11 +30,29 @@ def test_full_surface_breadth():
     import glob
     import os
 
-    api_dir = os.path.dirname(hanzoai.api.__file__)
+    api_dir = os.path.dirname(hanzoai.cloud.api.__file__)
     modules = glob.glob(os.path.join(api_dir, "*_api.py"))
-    # The full unified surface is hundreds of API groups, not the ~40 of the
-    # legacy LLM-gateway-only client.
-    assert len(modules) > 300, f"only {len(modules)} api modules — surface too small"
+    # One API group per product in the document, not the ~40 of the LLM-gateway
+    # client this replaced.
+    assert len(modules) > 150, f"only {len(modules)} api modules — surface too small"
+
+
+def test_one_client_only():
+    """There is exactly one generated client in this distribution.
+
+    `hanzoai.api` / `hanzoai.models` was a second one, re-exported flat from the
+    package root: 1,695 routes, of which 1,452 no longer exist in the document.
+    A caller reaching for the obvious flat name got a client that 404s. This
+    refuses its return — under that name or any other name beside `cloud`.
+    """
+    import pkgutil
+
+    generated = {
+        m.name
+        for m in pkgutil.iter_modules(hanzoai.__path__)
+        if m.ispkg and m.name in {"cloud", "api", "models"}
+    }
+    assert generated == {"cloud"}, f"more than one generated client: {sorted(generated)}"
 
 
 def test_version_is_single_sourced():
