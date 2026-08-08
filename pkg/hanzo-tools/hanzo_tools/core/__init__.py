@@ -30,6 +30,7 @@ from hanzo_tools.core.unified import (
 )
 from hanzo_tools.core.id_tool import IdTool, id_tool
 from hanzo_tools.core.cloud import (
+    NO_KEY,
     HanzoCloud,
     CloudError,
     cloud_api_key,
@@ -61,6 +62,7 @@ __all__ = [
     "IdTool",
     "id_tool",
     # Cloud client (api.hanzo.ai)
+    "NO_KEY",
     "HanzoCloud",
     "CloudError",
     "cloud_api_key",

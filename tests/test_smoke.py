@@ -10,7 +10,7 @@ import hanzoai.cloud
 
 def test_client_constructs():
     cfg = hanzoai.cloud.Configuration(host="https://api.hanzo.ai")
-    cfg.access_token = "hk-test"
+    cfg.access_token = "sk-test"
     client = hanzoai.cloud.ApiClient(cfg)
     assert client is not None
     assert cfg.host == "https://api.hanzo.ai"
