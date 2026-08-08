@@ -29,7 +29,10 @@ from hanzoai import ZapTransport, AsyncZapTransport, zap_http_client
 from hanzoai.zap import method_from_path
 
 # The public surface that must never regress: the generated client's entry point
-# and its error hierarchy.
+# and its error hierarchy. They live on `hanzoai.cloud`, which is the client —
+# the package root re-exported a SECOND client's copies of these same nine names
+# flat, so `hanzoai.ApiClient` and `hanzoai.cloud.ApiClient` were different
+# classes talking to different documents under one spelling.
 LOCKED_CORE_NAMES = {
     "ApiClient",
     "Configuration",
@@ -79,8 +82,18 @@ def test_import_hanzoai_succeeds() -> None:
 
 
 def test_all_contains_locked_core_names() -> None:
-    missing = LOCKED_CORE_NAMES - set(hanzoai.__all__)
-    assert not missing, f"locked names dropped from __all__: {missing}"
+    import hanzoai.cloud
+
+    missing = LOCKED_CORE_NAMES - set(hanzoai.cloud.__all__)
+    assert not missing, f"locked names dropped from hanzoai.cloud.__all__: {missing}"
+
+
+def test_core_names_are_not_also_flat_on_the_root() -> None:
+    """One spelling, one class. These nine names existed on BOTH `hanzoai` and
+    `hanzoai.cloud` as distinct classes bound to distinct documents, so which one
+    a caller got depended on which import they happened to write."""
+    also_flat = {n for n in LOCKED_CORE_NAMES if hasattr(hanzoai, n)}
+    assert not also_flat, f"root re-exports a second client's {sorted(also_flat)}"
 
 
 def test_zap_names_are_additive_not_in_all() -> None:
