@@ -7432,9 +7432,9 @@ class CommerceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """The public org configuration a checkout page boots from
+        """The public configuration for the org that owns this hostname: its branding, its checkout options and the return URLs it will accept.
 
-        Answers the branding, identity issuer and client id, identity-verification config, enabled payment providers, return-URL allowlist and public payment application config for the org the request HOST resolves to. It is genuinely public and unauthenticated — a checkout page calls it before anyone has signed in — and it carries the same public payment config the authenticated config read does, so the card iframe can never initialize against a different application than the one that will be charged. The org comes from the hostname and from nothing a caller can pass, so asking about someone else's is not expressible. Only ENABLED providers are listed and no credential path is ever projected. An unresolvable host answers a constant 404 that does not echo the host, so the endpoint cannot be used to enumerate orgs; a successful answer is cacheable for a minute.
+        The public configuration for the org that owns this hostname: its branding, its checkout options and the return URLs it will accept. Unauthenticated and cached briefly, because a storefront asks for it before anyone has signed in. An unknown host is a plain 404 that does not echo the host back, so it cannot be used to discover which orgs exist.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7494,9 +7494,9 @@ class CommerceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """The public org configuration a checkout page boots from
+        """The public configuration for the org that owns this hostname: its branding, its checkout options and the return URLs it will accept.
 
-        Answers the branding, identity issuer and client id, identity-verification config, enabled payment providers, return-URL allowlist and public payment application config for the org the request HOST resolves to. It is genuinely public and unauthenticated — a checkout page calls it before anyone has signed in — and it carries the same public payment config the authenticated config read does, so the card iframe can never initialize against a different application than the one that will be charged. The org comes from the hostname and from nothing a caller can pass, so asking about someone else's is not expressible. Only ENABLED providers are listed and no credential path is ever projected. An unresolvable host answers a constant 404 that does not echo the host, so the endpoint cannot be used to enumerate orgs; a successful answer is cacheable for a minute.
+        The public configuration for the org that owns this hostname: its branding, its checkout options and the return URLs it will accept. Unauthenticated and cached briefly, because a storefront asks for it before anyone has signed in. An unknown host is a plain 404 that does not echo the host back, so it cannot be used to discover which orgs exist.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7556,9 +7556,9 @@ class CommerceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The public org configuration a checkout page boots from
+        """The public configuration for the org that owns this hostname: its branding, its checkout options and the return URLs it will accept.
 
-        Answers the branding, identity issuer and client id, identity-verification config, enabled payment providers, return-URL allowlist and public payment application config for the org the request HOST resolves to. It is genuinely public and unauthenticated — a checkout page calls it before anyone has signed in — and it carries the same public payment config the authenticated config read does, so the card iframe can never initialize against a different application than the one that will be charged. The org comes from the hostname and from nothing a caller can pass, so asking about someone else's is not expressible. Only ENABLED providers are listed and no credential path is ever projected. An unresolvable host answers a constant 404 that does not echo the host, so the endpoint cannot be used to enumerate orgs; a successful answer is cacheable for a minute.
+        The public configuration for the org that owns this hostname: its branding, its checkout options and the return URLs it will accept. Unauthenticated and cached briefly, because a storefront asks for it before anyone has signed in. An unknown host is a plain 404 that does not echo the host back, so it cannot be used to discover which orgs exist.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

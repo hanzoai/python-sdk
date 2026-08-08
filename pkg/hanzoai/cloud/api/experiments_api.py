@@ -16,7 +16,17 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import Field, StrictStr
+from typing import Optional
+from typing_extensions import Annotated
+from hanzoai.cloud.models.analysis import Analysis
+from hanzoai.cloud.models.analyze_query import AnalyzeQuery
+from hanzoai.cloud.models.assignment import Assignment
+from hanzoai.cloud.models.create_body import CreateBody
+from hanzoai.cloud.models.decide_body import DecideBody
+from hanzoai.cloud.models.experiment_list import ExperimentList
+from hanzoai.cloud.models.health import Health
+from hanzoai.cloud.models.trial import Trial
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -51,10 +61,10 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Every experiment in the caller's org, with its variants, status and decision.
+    ) -> ExperimentList:
+        """Is every experiment in the caller's org, with its variants, status and decision, ordered by project then id.
 
-        Returns {data, total} ordered by project then id. Scoped to the org resolved from the validated principal — a distinct org is a distinct physical store, so no query here can reach another tenant's rows — and further narrowed to the caller's project scope when the credential carries one. A principal with NO project scope sees the org's experiments across all of its projects, which is the answer a reader most often expects to be filtered and is not.  Requires a validated principal; refuses without one rather than answering an empty list.
+        Is every experiment in the caller's org, with its variants, status and decision, ordered by project then id.  Scoped to the org resolved from the validated principal — a distinct org is a distinct physical store, so no query here can reach another tenant's rows — and further narrowed to the caller's project scope when the credential carries one. A principal with NO project scope sees the org's experiments across all of its projects, which is the answer a reader most often expects to be filtered and is not.  Requires a validated principal; refuses without one rather than answering an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -86,6 +96,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ExperimentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -113,10 +124,10 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Every experiment in the caller's org, with its variants, status and decision.
+    ) -> ApiResponse[ExperimentList]:
+        """Is every experiment in the caller's org, with its variants, status and decision, ordered by project then id.
 
-        Returns {data, total} ordered by project then id. Scoped to the org resolved from the validated principal — a distinct org is a distinct physical store, so no query here can reach another tenant's rows — and further narrowed to the caller's project scope when the credential carries one. A principal with NO project scope sees the org's experiments across all of its projects, which is the answer a reader most often expects to be filtered and is not.  Requires a validated principal; refuses without one rather than answering an empty list.
+        Is every experiment in the caller's org, with its variants, status and decision, ordered by project then id.  Scoped to the org resolved from the validated principal — a distinct org is a distinct physical store, so no query here can reach another tenant's rows — and further narrowed to the caller's project scope when the credential carries one. A principal with NO project scope sees the org's experiments across all of its projects, which is the answer a reader most often expects to be filtered and is not.  Requires a validated principal; refuses without one rather than answering an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -148,6 +159,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ExperimentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -176,9 +188,9 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Every experiment in the caller's org, with its variants, status and decision.
+        """Is every experiment in the caller's org, with its variants, status and decision, ordered by project then id.
 
-        Returns {data, total} ordered by project then id. Scoped to the org resolved from the validated principal — a distinct org is a distinct physical store, so no query here can reach another tenant's rows — and further narrowed to the caller's project scope when the credential carries one. A principal with NO project scope sees the org's experiments across all of its projects, which is the answer a reader most often expects to be filtered and is not.  Requires a validated principal; refuses without one rather than answering an empty list.
+        Is every experiment in the caller's org, with its variants, status and decision, ordered by project then id.  Scoped to the org resolved from the validated principal — a distinct org is a distinct physical store, so no query here can reach another tenant's rows — and further narrowed to the caller's project scope when the credential carries one. A principal with NO project scope sees the org's experiments across all of its projects, which is the answer a reader most often expects to be filtered and is not.  Requires a validated principal; refuses without one rather than answering an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -210,6 +222,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ExperimentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -247,6 +260,13 @@ class ExperimentsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -274,7 +294,7 @@ class ExperimentsApi:
     @validate_call
     def get_v1_experiments_by_id(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -287,12 +307,12 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """One experiment's definition and lifecycle: variants, weights, control arm, status and winner.
+    ) -> Trial:
+        """Is one experiment's definition and lifecycle: variants, weights, control arm, status and winner.
 
-        Reads the registry row only — the definition and the decision, never live measurements. Assignment lives in the flags plane and outcomes in analytics; this is the value that names both.  Scoped to the caller's org and project from the validated principal, so another tenant's experiment of the same id is simply not found. An id that is not a legal slug is answered the same way, without a store read — the shape check and the existence check are one answer, so neither leaks the other.
+        Is one experiment's definition and lifecycle: variants, weights, control arm, status and winner.  It reads the registry row only — the definition and the decision, never live measurements. Assignment lives in the flags plane and outcomes in analytics; this is the value that names both.  Scoped to the caller's org and project from the validated principal, so another tenant's experiment of the same id is simply not found. An id that is not a legal slug is answered the same way, without a store read — the shape check and the existence check are one answer, so neither leaks the other.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -325,6 +345,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -340,7 +361,7 @@ class ExperimentsApi:
     @validate_call
     def get_v1_experiments_by_id_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -353,12 +374,12 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """One experiment's definition and lifecycle: variants, weights, control arm, status and winner.
+    ) -> ApiResponse[Trial]:
+        """Is one experiment's definition and lifecycle: variants, weights, control arm, status and winner.
 
-        Reads the registry row only — the definition and the decision, never live measurements. Assignment lives in the flags plane and outcomes in analytics; this is the value that names both.  Scoped to the caller's org and project from the validated principal, so another tenant's experiment of the same id is simply not found. An id that is not a legal slug is answered the same way, without a store read — the shape check and the existence check are one answer, so neither leaks the other.
+        Is one experiment's definition and lifecycle: variants, weights, control arm, status and winner.  It reads the registry row only — the definition and the decision, never live measurements. Assignment lives in the flags plane and outcomes in analytics; this is the value that names both.  Scoped to the caller's org and project from the validated principal, so another tenant's experiment of the same id is simply not found. An id that is not a legal slug is answered the same way, without a store read — the shape check and the existence check are one answer, so neither leaks the other.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -391,6 +412,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -406,7 +428,7 @@ class ExperimentsApi:
     @validate_call
     def get_v1_experiments_by_id_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -420,11 +442,11 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """One experiment's definition and lifecycle: variants, weights, control arm, status and winner.
+        """Is one experiment's definition and lifecycle: variants, weights, control arm, status and winner.
 
-        Reads the registry row only — the definition and the decision, never live measurements. Assignment lives in the flags plane and outcomes in analytics; this is the value that names both.  Scoped to the caller's org and project from the validated principal, so another tenant's experiment of the same id is simply not found. An id that is not a legal slug is answered the same way, without a store read — the shape check and the existence check are one answer, so neither leaks the other.
+        Is one experiment's definition and lifecycle: variants, weights, control arm, status and winner.  It reads the registry row only — the definition and the decision, never live measurements. Assignment lives in the flags plane and outcomes in analytics; this is the value that names both.  Scoped to the caller's org and project from the validated principal, so another tenant's experiment of the same id is simply not found. An id that is not a legal slug is answered the same way, without a store read — the shape check and the existence check are one answer, so neither leaks the other.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -457,6 +479,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -497,6 +520,13 @@ class ExperimentsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -524,7 +554,9 @@ class ExperimentsApi:
     @validate_call
     def get_v1_experiments_by_id_assign(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
+        subject: Annotated[StrictStr, Field(description="Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind.")],
+        props: Annotated[Optional[StrictStr], Field(description="Props is a JSON object of person properties for targeting. A value that is not valid JSON is dropped rather than refused, so a malformed one changes the bucketing without saying so.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -537,13 +569,17 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The variant one subject is bucketed into, and the payload that variant carries.
+    ) -> Assignment:
+        """Is the variant one subject is bucketed into, and the payload that variant carries.
 
-        Evaluates the experiment's assignment flag for the `subject` in the query and answers {experiment, subject, variant, on, payload}. The bucketing is a deterministic hash of the subject, so the same subject gets the same arm on every call for as long as the flag definition is unchanged — and this is a pure READ: it records nothing. In particular it does NOT record an exposure. The caller's SDK must emit the experiment's exposure event itself, or the analysis has an empty denominator and every arm measures zero.  `subject` is required. `props` may carry a JSON object of person properties for targeting; a `props` value that is not valid JSON is dropped silently rather than refused, so a malformed one changes the bucketing without saying so.  An empty `variant` with `on` false is not an error — it means the flag returned nothing for this subject, so the subject is not enrolled. A flags engine that is unavailable refuses rather than defaulting to an arm. Requires a validated principal, and the experiment must exist in the caller's org and project.
+        Is the variant one subject is bucketed into, and the payload that variant carries.  The bucketing is a deterministic hash of the subject, so the same subject gets the same arm on every call for as long as the flag definition is unchanged — and this is a pure READ: it records nothing. In particular it does NOT record an exposure. The caller's SDK must emit the experiment's exposure event itself, or the analysis has an empty denominator and every arm measures zero.  An empty variant with on false is not an error — it means the flag returned nothing for this subject, so the subject is not enrolled. A flags engine that is unavailable refuses rather than defaulting to an arm. Requires a validated principal, and the experiment must exist in the caller's org and project.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
+        :param subject: Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind. (required)
+        :type subject: str
+        :param props: Props is a JSON object of person properties for targeting. A value that is not valid JSON is dropped rather than refused, so a malformed one changes the bucketing without saying so.
+        :type props: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -568,6 +604,8 @@ class ExperimentsApi:
 
         _param = self._get_v1_experiments_by_id_assign_serialize(
             id=id,
+            subject=subject,
+            props=props,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -575,6 +613,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Assignment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -590,7 +629,9 @@ class ExperimentsApi:
     @validate_call
     def get_v1_experiments_by_id_assign_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
+        subject: Annotated[StrictStr, Field(description="Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind.")],
+        props: Annotated[Optional[StrictStr], Field(description="Props is a JSON object of person properties for targeting. A value that is not valid JSON is dropped rather than refused, so a malformed one changes the bucketing without saying so.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -603,13 +644,17 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The variant one subject is bucketed into, and the payload that variant carries.
+    ) -> ApiResponse[Assignment]:
+        """Is the variant one subject is bucketed into, and the payload that variant carries.
 
-        Evaluates the experiment's assignment flag for the `subject` in the query and answers {experiment, subject, variant, on, payload}. The bucketing is a deterministic hash of the subject, so the same subject gets the same arm on every call for as long as the flag definition is unchanged — and this is a pure READ: it records nothing. In particular it does NOT record an exposure. The caller's SDK must emit the experiment's exposure event itself, or the analysis has an empty denominator and every arm measures zero.  `subject` is required. `props` may carry a JSON object of person properties for targeting; a `props` value that is not valid JSON is dropped silently rather than refused, so a malformed one changes the bucketing without saying so.  An empty `variant` with `on` false is not an error — it means the flag returned nothing for this subject, so the subject is not enrolled. A flags engine that is unavailable refuses rather than defaulting to an arm. Requires a validated principal, and the experiment must exist in the caller's org and project.
+        Is the variant one subject is bucketed into, and the payload that variant carries.  The bucketing is a deterministic hash of the subject, so the same subject gets the same arm on every call for as long as the flag definition is unchanged — and this is a pure READ: it records nothing. In particular it does NOT record an exposure. The caller's SDK must emit the experiment's exposure event itself, or the analysis has an empty denominator and every arm measures zero.  An empty variant with on false is not an error — it means the flag returned nothing for this subject, so the subject is not enrolled. A flags engine that is unavailable refuses rather than defaulting to an arm. Requires a validated principal, and the experiment must exist in the caller's org and project.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
+        :param subject: Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind. (required)
+        :type subject: str
+        :param props: Props is a JSON object of person properties for targeting. A value that is not valid JSON is dropped rather than refused, so a malformed one changes the bucketing without saying so.
+        :type props: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -634,6 +679,8 @@ class ExperimentsApi:
 
         _param = self._get_v1_experiments_by_id_assign_serialize(
             id=id,
+            subject=subject,
+            props=props,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -641,6 +688,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Assignment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -656,7 +704,9 @@ class ExperimentsApi:
     @validate_call
     def get_v1_experiments_by_id_assign_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
+        subject: Annotated[StrictStr, Field(description="Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind.")],
+        props: Annotated[Optional[StrictStr], Field(description="Props is a JSON object of person properties for targeting. A value that is not valid JSON is dropped rather than refused, so a malformed one changes the bucketing without saying so.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -670,12 +720,16 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The variant one subject is bucketed into, and the payload that variant carries.
+        """Is the variant one subject is bucketed into, and the payload that variant carries.
 
-        Evaluates the experiment's assignment flag for the `subject` in the query and answers {experiment, subject, variant, on, payload}. The bucketing is a deterministic hash of the subject, so the same subject gets the same arm on every call for as long as the flag definition is unchanged — and this is a pure READ: it records nothing. In particular it does NOT record an exposure. The caller's SDK must emit the experiment's exposure event itself, or the analysis has an empty denominator and every arm measures zero.  `subject` is required. `props` may carry a JSON object of person properties for targeting; a `props` value that is not valid JSON is dropped silently rather than refused, so a malformed one changes the bucketing without saying so.  An empty `variant` with `on` false is not an error — it means the flag returned nothing for this subject, so the subject is not enrolled. A flags engine that is unavailable refuses rather than defaulting to an arm. Requires a validated principal, and the experiment must exist in the caller's org and project.
+        Is the variant one subject is bucketed into, and the payload that variant carries.  The bucketing is a deterministic hash of the subject, so the same subject gets the same arm on every call for as long as the flag definition is unchanged — and this is a pure READ: it records nothing. In particular it does NOT record an exposure. The caller's SDK must emit the experiment's exposure event itself, or the analysis has an empty denominator and every arm measures zero.  An empty variant with on false is not an error — it means the flag returned nothing for this subject, so the subject is not enrolled. A flags engine that is unavailable refuses rather than defaulting to an arm. Requires a validated principal, and the experiment must exist in the caller's org and project.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
+        :param subject: Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind. (required)
+        :type subject: str
+        :param props: Props is a JSON object of person properties for targeting. A value that is not valid JSON is dropped rather than refused, so a malformed one changes the bucketing without saying so.
+        :type props: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -700,6 +754,8 @@ class ExperimentsApi:
 
         _param = self._get_v1_experiments_by_id_assign_serialize(
             id=id,
+            subject=subject,
+            props=props,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -707,6 +763,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Assignment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -718,6 +775,8 @@ class ExperimentsApi:
     def _get_v1_experiments_by_id_assign_serialize(
         self,
         id,
+        subject,
+        props,
         _request_auth,
         _content_type,
         _headers,
@@ -742,11 +801,26 @@ class ExperimentsApi:
         if id is not None:
             _path_params['id'] = id
         # process the query parameters
+        if subject is not None:
+            
+            _query_params.append(('subject', subject))
+            
+        if props is not None:
+            
+            _query_params.append(('props', props))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -786,10 +860,10 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Whether the experiments subsystem is mounted and serving in this process.
+    ) -> Health:
+        """Is whether the experiments subsystem is mounted and serving in this process.
 
-        Answers {\"ok\":true,\"subsystem\":\"experiments\"} unconditionally. It proves exactly one thing — that this binary registered the experiments routes and is dispatching them — and deliberately no more: it reads no principal, opens no per-org registry, and touches neither the flags engine nor the analytics plane, so a 200 here says nothing about whether a given tenant's store will open or whether an analysis can run. It is the only route on this surface that needs no org.  The static path is registered ahead of the /:id read, so it always wins the first-match scan. `health` is a legal experiment id, which means an experiment created under that id can never be fetched by id — pick another.
+        Is whether the experiments subsystem is mounted and serving in this process.  It answers unconditionally. It proves exactly one thing — that this binary registered the experiments routes and is dispatching them — and deliberately no more: it reads no principal, opens no per-org registry, and touches neither the flags engine nor the analytics plane, so a 200 here says nothing about whether a given tenant's store will open or whether an analysis can run. It is the only route on this surface that needs no org.  The static path is registered ahead of the /:id read, so it always wins the first-match scan. \"health\" is a legal experiment id, which means an experiment created under that id can never be fetched by id — pick another.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -821,6 +895,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Health",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -848,10 +923,10 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Whether the experiments subsystem is mounted and serving in this process.
+    ) -> ApiResponse[Health]:
+        """Is whether the experiments subsystem is mounted and serving in this process.
 
-        Answers {\"ok\":true,\"subsystem\":\"experiments\"} unconditionally. It proves exactly one thing — that this binary registered the experiments routes and is dispatching them — and deliberately no more: it reads no principal, opens no per-org registry, and touches neither the flags engine nor the analytics plane, so a 200 here says nothing about whether a given tenant's store will open or whether an analysis can run. It is the only route on this surface that needs no org.  The static path is registered ahead of the /:id read, so it always wins the first-match scan. `health` is a legal experiment id, which means an experiment created under that id can never be fetched by id — pick another.
+        Is whether the experiments subsystem is mounted and serving in this process.  It answers unconditionally. It proves exactly one thing — that this binary registered the experiments routes and is dispatching them — and deliberately no more: it reads no principal, opens no per-org registry, and touches neither the flags engine nor the analytics plane, so a 200 here says nothing about whether a given tenant's store will open or whether an analysis can run. It is the only route on this surface that needs no org.  The static path is registered ahead of the /:id read, so it always wins the first-match scan. \"health\" is a legal experiment id, which means an experiment created under that id can never be fetched by id — pick another.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -883,6 +958,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Health",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -911,9 +987,9 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Whether the experiments subsystem is mounted and serving in this process.
+        """Is whether the experiments subsystem is mounted and serving in this process.
 
-        Answers {\"ok\":true,\"subsystem\":\"experiments\"} unconditionally. It proves exactly one thing — that this binary registered the experiments routes and is dispatching them — and deliberately no more: it reads no principal, opens no per-org registry, and touches neither the flags engine nor the analytics plane, so a 200 here says nothing about whether a given tenant's store will open or whether an analysis can run. It is the only route on this surface that needs no org.  The static path is registered ahead of the /:id read, so it always wins the first-match scan. `health` is a legal experiment id, which means an experiment created under that id can never be fetched by id — pick another.
+        Is whether the experiments subsystem is mounted and serving in this process.  It answers unconditionally. It proves exactly one thing — that this binary registered the experiments routes and is dispatching them — and deliberately no more: it reads no principal, opens no per-org registry, and touches neither the flags engine nor the analytics plane, so a 200 here says nothing about whether a given tenant's store will open or whether an analysis can run. It is the only route on this surface that needs no org.  The static path is registered ahead of the /:id read, so it always wins the first-match scan. \"health\" is a legal experiment id, which means an experiment created under that id can never be fetched by id — pick another.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -945,6 +1021,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Health",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -982,6 +1059,13 @@ class ExperimentsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1009,6 +1093,7 @@ class ExperimentsApi:
     @validate_call
     def post_v1_experiments(
         self,
+        create_body: CreateBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1021,11 +1106,13 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Create a controlled experiment and put its assignment flag live.
+    ) -> Trial:
+        """Registers a controlled experiment AND puts its assignment flag live, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared.
 
-        Registers the experiment AND writes its multivariate assignment flag, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared. There is no separate start call; creating IS starting.  The body names the experiment (`id`, a slug that is claimed once), what it measures (`metricEvent`, required; `exposureEvent` defaults to the SDK's `$feature_flag_called` marker), the unit it assigns (`subjectKind`: user, org, session or audience — user by default), and at least two `variants`. A variant carries an opaque `payload` this primitive never interprets: a feature config, an ad-creative id, a subject line, a model id. Weights that are all zero become an even split; otherwise they must sum to 100. At most one variant may be flagged `control`; with none, the first arm is the baseline. `flagKey` defaults to `exp_<id>`.  Requires a validated principal, and refuses without one. The org and project are taken from that principal and the creator is stamped from the credential — none of the three is a body field, so an experiment cannot be filed against another tenant. An id already used in this project is a conflict, never a silent overwrite: re-creating would stomp the assignment flag of a run in progress.  It fails closed on the flag write. An experiment whose assignment flag does not exist would assign nobody, so if that write fails nothing is registered.
+        Registers a controlled experiment AND puts its assignment flag live, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared. There is no separate start call; creating IS starting.  A variant carries an opaque payload this primitive never interprets: a feature config, an ad-creative id, a subject line, a model id.  Requires a validated principal, and refuses without one. The org and project are taken from that principal and the creator is stamped from the credential — none of the three is a body field, so an experiment cannot be filed against another tenant. An id already used in this project is a conflict, never a silent overwrite: re-creating would stomp the assignment flag of a run in progress.  It fails closed on the flag write. An experiment whose assignment flag does not exist would assign nobody, so if that write fails nothing is registered.
 
+        :param create_body: (required)
+        :type create_body: CreateBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1049,6 +1136,7 @@ class ExperimentsApi:
         """ # noqa: E501
 
         _param = self._post_v1_experiments_serialize(
+            create_body=create_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1056,6 +1144,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1071,6 +1160,7 @@ class ExperimentsApi:
     @validate_call
     def post_v1_experiments_with_http_info(
         self,
+        create_body: CreateBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1083,11 +1173,13 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Create a controlled experiment and put its assignment flag live.
+    ) -> ApiResponse[Trial]:
+        """Registers a controlled experiment AND puts its assignment flag live, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared.
 
-        Registers the experiment AND writes its multivariate assignment flag, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared. There is no separate start call; creating IS starting.  The body names the experiment (`id`, a slug that is claimed once), what it measures (`metricEvent`, required; `exposureEvent` defaults to the SDK's `$feature_flag_called` marker), the unit it assigns (`subjectKind`: user, org, session or audience — user by default), and at least two `variants`. A variant carries an opaque `payload` this primitive never interprets: a feature config, an ad-creative id, a subject line, a model id. Weights that are all zero become an even split; otherwise they must sum to 100. At most one variant may be flagged `control`; with none, the first arm is the baseline. `flagKey` defaults to `exp_<id>`.  Requires a validated principal, and refuses without one. The org and project are taken from that principal and the creator is stamped from the credential — none of the three is a body field, so an experiment cannot be filed against another tenant. An id already used in this project is a conflict, never a silent overwrite: re-creating would stomp the assignment flag of a run in progress.  It fails closed on the flag write. An experiment whose assignment flag does not exist would assign nobody, so if that write fails nothing is registered.
+        Registers a controlled experiment AND puts its assignment flag live, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared. There is no separate start call; creating IS starting.  A variant carries an opaque payload this primitive never interprets: a feature config, an ad-creative id, a subject line, a model id.  Requires a validated principal, and refuses without one. The org and project are taken from that principal and the creator is stamped from the credential — none of the three is a body field, so an experiment cannot be filed against another tenant. An id already used in this project is a conflict, never a silent overwrite: re-creating would stomp the assignment flag of a run in progress.  It fails closed on the flag write. An experiment whose assignment flag does not exist would assign nobody, so if that write fails nothing is registered.
 
+        :param create_body: (required)
+        :type create_body: CreateBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1111,6 +1203,7 @@ class ExperimentsApi:
         """ # noqa: E501
 
         _param = self._post_v1_experiments_serialize(
+            create_body=create_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1118,6 +1211,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1133,6 +1227,7 @@ class ExperimentsApi:
     @validate_call
     def post_v1_experiments_without_preload_content(
         self,
+        create_body: CreateBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1146,10 +1241,12 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create a controlled experiment and put its assignment flag live.
+        """Registers a controlled experiment AND puts its assignment flag live, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared.
 
-        Registers the experiment AND writes its multivariate assignment flag, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared. There is no separate start call; creating IS starting.  The body names the experiment (`id`, a slug that is claimed once), what it measures (`metricEvent`, required; `exposureEvent` defaults to the SDK's `$feature_flag_called` marker), the unit it assigns (`subjectKind`: user, org, session or audience — user by default), and at least two `variants`. A variant carries an opaque `payload` this primitive never interprets: a feature config, an ad-creative id, a subject line, a model id. Weights that are all zero become an even split; otherwise they must sum to 100. At most one variant may be flagged `control`; with none, the first arm is the baseline. `flagKey` defaults to `exp_<id>`.  Requires a validated principal, and refuses without one. The org and project are taken from that principal and the creator is stamped from the credential — none of the three is a body field, so an experiment cannot be filed against another tenant. An id already used in this project is a conflict, never a silent overwrite: re-creating would stomp the assignment flag of a run in progress.  It fails closed on the flag write. An experiment whose assignment flag does not exist would assign nobody, so if that write fails nothing is registered.
+        Registers a controlled experiment AND puts its assignment flag live, in that order, so the arms start bucketing subjects the moment this returns 201 — the flag is created active at 100% rollout, with each variant weighted as declared. There is no separate start call; creating IS starting.  A variant carries an opaque payload this primitive never interprets: a feature config, an ad-creative id, a subject line, a model id.  Requires a validated principal, and refuses without one. The org and project are taken from that principal and the creator is stamped from the credential — none of the three is a body field, so an experiment cannot be filed against another tenant. An id already used in this project is a conflict, never a silent overwrite: re-creating would stomp the assignment flag of a run in progress.  It fails closed on the flag write. An experiment whose assignment flag does not exist would assign nobody, so if that write fails nothing is registered.
 
+        :param create_body: (required)
+        :type create_body: CreateBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1173,6 +1270,7 @@ class ExperimentsApi:
         """ # noqa: E501
 
         _param = self._post_v1_experiments_serialize(
+            create_body=create_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1180,6 +1278,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1190,6 +1289,7 @@ class ExperimentsApi:
 
     def _post_v1_experiments_serialize(
         self,
+        create_body,
         _request_auth,
         _content_type,
         _headers,
@@ -1215,9 +1315,31 @@ class ExperimentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if create_body is not None:
+            _body_params = create_body
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -1244,7 +1366,8 @@ class ExperimentsApi:
     @validate_call
     def post_v1_experiments_by_id_analyze(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
+        analyze_query: AnalyzeQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1257,13 +1380,15 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Per-variant conversion, lift and statistical significance against the control arm.
+    ) -> Analysis:
+        """Is per-variant conversion, lift and statistical significance against the control arm.
 
-        Reads per-subject outcomes from the analytics plane over a window, folds them into per-variant samples, and returns each arm's exposed count, conversions, rate, lift versus control, two-proportion z, two-tailed p-value and whether it clears alpha. Arms with no data still appear with zero exposed, so the read is complete over the experiment's declared arms; the control arm sorts first. The pooled-variance estimator is used and the p-value is exact; a degenerate comparison (an empty arm, no variance) answers z 0 and p 1 — not significant, never an error.  The window is `start`/`end` in RFC3339 if given, otherwise the last `days` (1 to 365, 30 by default) up to now. `alpha` overrides the 0.05 two-tailed threshold when it lies strictly between 0 and 1; anything else leaves the default in place.  Only EXPOSED subjects are counted, and each is joined to its arm by re-evaluating the assignment flag AT ANALYSIS TIME — not from what was in force during the window. That is the one rule to get right: analyzing an experiment after its winner has been promoted re-buckets every subject into the promoted arm, collapsing the control to zero exposed and making the result meaningless. Read the analysis before deciding. A subject the flag cannot place is dropped rather than allowed to poison the fold.  `winner` in the response is ADVISORY — the significant, control-beating arm with the highest rate, or empty when inconclusive. It promotes nothing; the decision is a separate, explicit act.  Every plane read is scoped to the caller's org. Per-variant samples are also written to the research evidence plane as immutable `ab` rows, best-effort: the analysis is still returned if that write fails, because the samples are recomputable, and the failure is logged rather than swallowed.
+        Is per-variant conversion, lift and statistical significance against the control arm.  It reads per-subject outcomes from the analytics plane over a window, folds them into per-variant samples, and returns each arm's exposed count, conversions, rate, lift versus control, two-proportion z, two-tailed p-value and whether it clears alpha. Arms with no data still appear with zero exposed, so the read is complete over the experiment's declared arms; the control arm sorts first. The pooled-variance estimator is used and the p-value is exact; a degenerate comparison (an empty arm, no variance) answers z 0 and p 1 — not significant, never an error.  Only EXPOSED subjects are counted, and each is joined to its arm by re-evaluating the assignment flag AT ANALYSIS TIME — not from what was in force during the window. That is the one rule to get right: analyzing an experiment after its winner has been promoted re-buckets every subject into the promoted arm, collapsing the control to zero exposed and making the result meaningless. Read the analysis before deciding. A subject the flag cannot place is dropped rather than allowed to poison the fold.  The winner in the response is ADVISORY — the significant, control-beating arm with the highest rate, or empty when inconclusive. It promotes nothing; the decision is a separate, explicit act.  Every plane read is scoped to the caller's org. Per-variant samples are also written to the research evidence plane as immutable ab rows, best-effort: the analysis is still returned if that write fails, because the samples are recomputable, and the failure is logged rather than swallowed.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
+        :param analyze_query: (required)
+        :type analyze_query: AnalyzeQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1288,6 +1413,7 @@ class ExperimentsApi:
 
         _param = self._post_v1_experiments_by_id_analyze_serialize(
             id=id,
+            analyze_query=analyze_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1295,6 +1421,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Analysis",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1310,7 +1437,8 @@ class ExperimentsApi:
     @validate_call
     def post_v1_experiments_by_id_analyze_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
+        analyze_query: AnalyzeQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1323,13 +1451,15 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Per-variant conversion, lift and statistical significance against the control arm.
+    ) -> ApiResponse[Analysis]:
+        """Is per-variant conversion, lift and statistical significance against the control arm.
 
-        Reads per-subject outcomes from the analytics plane over a window, folds them into per-variant samples, and returns each arm's exposed count, conversions, rate, lift versus control, two-proportion z, two-tailed p-value and whether it clears alpha. Arms with no data still appear with zero exposed, so the read is complete over the experiment's declared arms; the control arm sorts first. The pooled-variance estimator is used and the p-value is exact; a degenerate comparison (an empty arm, no variance) answers z 0 and p 1 — not significant, never an error.  The window is `start`/`end` in RFC3339 if given, otherwise the last `days` (1 to 365, 30 by default) up to now. `alpha` overrides the 0.05 two-tailed threshold when it lies strictly between 0 and 1; anything else leaves the default in place.  Only EXPOSED subjects are counted, and each is joined to its arm by re-evaluating the assignment flag AT ANALYSIS TIME — not from what was in force during the window. That is the one rule to get right: analyzing an experiment after its winner has been promoted re-buckets every subject into the promoted arm, collapsing the control to zero exposed and making the result meaningless. Read the analysis before deciding. A subject the flag cannot place is dropped rather than allowed to poison the fold.  `winner` in the response is ADVISORY — the significant, control-beating arm with the highest rate, or empty when inconclusive. It promotes nothing; the decision is a separate, explicit act.  Every plane read is scoped to the caller's org. Per-variant samples are also written to the research evidence plane as immutable `ab` rows, best-effort: the analysis is still returned if that write fails, because the samples are recomputable, and the failure is logged rather than swallowed.
+        Is per-variant conversion, lift and statistical significance against the control arm.  It reads per-subject outcomes from the analytics plane over a window, folds them into per-variant samples, and returns each arm's exposed count, conversions, rate, lift versus control, two-proportion z, two-tailed p-value and whether it clears alpha. Arms with no data still appear with zero exposed, so the read is complete over the experiment's declared arms; the control arm sorts first. The pooled-variance estimator is used and the p-value is exact; a degenerate comparison (an empty arm, no variance) answers z 0 and p 1 — not significant, never an error.  Only EXPOSED subjects are counted, and each is joined to its arm by re-evaluating the assignment flag AT ANALYSIS TIME — not from what was in force during the window. That is the one rule to get right: analyzing an experiment after its winner has been promoted re-buckets every subject into the promoted arm, collapsing the control to zero exposed and making the result meaningless. Read the analysis before deciding. A subject the flag cannot place is dropped rather than allowed to poison the fold.  The winner in the response is ADVISORY — the significant, control-beating arm with the highest rate, or empty when inconclusive. It promotes nothing; the decision is a separate, explicit act.  Every plane read is scoped to the caller's org. Per-variant samples are also written to the research evidence plane as immutable ab rows, best-effort: the analysis is still returned if that write fails, because the samples are recomputable, and the failure is logged rather than swallowed.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
+        :param analyze_query: (required)
+        :type analyze_query: AnalyzeQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1354,6 +1484,7 @@ class ExperimentsApi:
 
         _param = self._post_v1_experiments_by_id_analyze_serialize(
             id=id,
+            analyze_query=analyze_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1361,6 +1492,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Analysis",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1376,7 +1508,8 @@ class ExperimentsApi:
     @validate_call
     def post_v1_experiments_by_id_analyze_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
+        analyze_query: AnalyzeQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1390,12 +1523,14 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Per-variant conversion, lift and statistical significance against the control arm.
+        """Is per-variant conversion, lift and statistical significance against the control arm.
 
-        Reads per-subject outcomes from the analytics plane over a window, folds them into per-variant samples, and returns each arm's exposed count, conversions, rate, lift versus control, two-proportion z, two-tailed p-value and whether it clears alpha. Arms with no data still appear with zero exposed, so the read is complete over the experiment's declared arms; the control arm sorts first. The pooled-variance estimator is used and the p-value is exact; a degenerate comparison (an empty arm, no variance) answers z 0 and p 1 — not significant, never an error.  The window is `start`/`end` in RFC3339 if given, otherwise the last `days` (1 to 365, 30 by default) up to now. `alpha` overrides the 0.05 two-tailed threshold when it lies strictly between 0 and 1; anything else leaves the default in place.  Only EXPOSED subjects are counted, and each is joined to its arm by re-evaluating the assignment flag AT ANALYSIS TIME — not from what was in force during the window. That is the one rule to get right: analyzing an experiment after its winner has been promoted re-buckets every subject into the promoted arm, collapsing the control to zero exposed and making the result meaningless. Read the analysis before deciding. A subject the flag cannot place is dropped rather than allowed to poison the fold.  `winner` in the response is ADVISORY — the significant, control-beating arm with the highest rate, or empty when inconclusive. It promotes nothing; the decision is a separate, explicit act.  Every plane read is scoped to the caller's org. Per-variant samples are also written to the research evidence plane as immutable `ab` rows, best-effort: the analysis is still returned if that write fails, because the samples are recomputable, and the failure is logged rather than swallowed.
+        Is per-variant conversion, lift and statistical significance against the control arm.  It reads per-subject outcomes from the analytics plane over a window, folds them into per-variant samples, and returns each arm's exposed count, conversions, rate, lift versus control, two-proportion z, two-tailed p-value and whether it clears alpha. Arms with no data still appear with zero exposed, so the read is complete over the experiment's declared arms; the control arm sorts first. The pooled-variance estimator is used and the p-value is exact; a degenerate comparison (an empty arm, no variance) answers z 0 and p 1 — not significant, never an error.  Only EXPOSED subjects are counted, and each is joined to its arm by re-evaluating the assignment flag AT ANALYSIS TIME — not from what was in force during the window. That is the one rule to get right: analyzing an experiment after its winner has been promoted re-buckets every subject into the promoted arm, collapsing the control to zero exposed and making the result meaningless. Read the analysis before deciding. A subject the flag cannot place is dropped rather than allowed to poison the fold.  The winner in the response is ADVISORY — the significant, control-beating arm with the highest rate, or empty when inconclusive. It promotes nothing; the decision is a separate, explicit act.  Every plane read is scoped to the caller's org. Per-variant samples are also written to the research evidence plane as immutable ab rows, best-effort: the analysis is still returned if that write fails, because the samples are recomputable, and the failure is logged rather than swallowed.
 
-        :param id: (required)
+        :param id: ID is the experiment the URL names. (required)
         :type id: str
+        :param analyze_query: (required)
+        :type analyze_query: AnalyzeQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1420,6 +1555,7 @@ class ExperimentsApi:
 
         _param = self._post_v1_experiments_by_id_analyze_serialize(
             id=id,
+            analyze_query=analyze_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1427,6 +1563,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Analysis",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1438,6 +1575,7 @@ class ExperimentsApi:
     def _post_v1_experiments_by_id_analyze_serialize(
         self,
         id,
+        analyze_query,
         _request_auth,
         _content_type,
         _headers,
@@ -1465,9 +1603,31 @@ class ExperimentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if analyze_query is not None:
+            _body_params = analyze_query
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -1495,6 +1655,7 @@ class ExperimentsApi:
     def post_v1_experiments_by_id_decide(
         self,
         id: StrictStr,
+        decide_body: DecideBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1507,13 +1668,15 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Promote one variant to the whole rollout and record who decided.
+    ) -> Trial:
+        """Promotes one variant to the whole rollout and records who decided.
 
-        Rewrites the assignment flag so the named `winner` serves 100% of the rollout and every other arm 0%, preserving the flag's targeting groups and payloads, then stamps the experiment decided with the winner, the deciding credential and the time. This is a production behaviour change that takes effect immediately for every subject the flag evaluates.  Requires an ORG ADMIN of the caller's own org — a stricter gate than the rest of this surface, matching the flags write plane, because promoting is a flag write. The admin check runs AFTER the experiment is found, so a caller from another tenant is answered not-found rather than forbidden and learns nothing about what exists.  `winner` is required and must name one of the experiment's own variants. An experiment whose assignment flag has gone missing is a conflict rather than a silent no-op — there is nothing to promote.  Deciding is NOT terminal. A second call re-promotes a different variant and re-stamps the row; the status stays decided and the previous winner is overwritten with no record that it was ever chosen. Nothing here reverts the flag to its original weights either, so an experiment cannot be un-decided through this route — restoring a split means writing the flag definition back through the flags plane.
+        Promotes one variant to the whole rollout and records who decided.  It rewrites the assignment flag so the named winner serves 100% of the rollout and every other arm 0%, preserving the flag's targeting groups and payloads, then stamps the experiment decided with the winner, the deciding credential and the time. This is a production behaviour change that takes effect immediately for every subject the flag evaluates.  It requires an ORG ADMIN of the caller's own org — a stricter gate than the rest of this surface, matching the flags write plane, because promoting is a flag write. The admin check runs AFTER the experiment is found, so a caller from another tenant is answered not-found rather than forbidden and learns nothing about what exists.  An experiment whose assignment flag has gone missing is a conflict rather than a silent no-op — there is nothing to promote.  Deciding is NOT terminal. A second call re-promotes a different variant and re-stamps the row; the status stays decided and the previous winner is overwritten with no record that it was ever chosen. Nothing here reverts the flag to its original weights either, so an experiment cannot be un-decided through this route — restoring a split means writing the flag definition back through the flags plane.
 
         :param id: (required)
         :type id: str
+        :param decide_body: (required)
+        :type decide_body: DecideBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1538,6 +1701,7 @@ class ExperimentsApi:
 
         _param = self._post_v1_experiments_by_id_decide_serialize(
             id=id,
+            decide_body=decide_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1545,6 +1709,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1561,6 +1726,7 @@ class ExperimentsApi:
     def post_v1_experiments_by_id_decide_with_http_info(
         self,
         id: StrictStr,
+        decide_body: DecideBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1573,13 +1739,15 @@ class ExperimentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Promote one variant to the whole rollout and record who decided.
+    ) -> ApiResponse[Trial]:
+        """Promotes one variant to the whole rollout and records who decided.
 
-        Rewrites the assignment flag so the named `winner` serves 100% of the rollout and every other arm 0%, preserving the flag's targeting groups and payloads, then stamps the experiment decided with the winner, the deciding credential and the time. This is a production behaviour change that takes effect immediately for every subject the flag evaluates.  Requires an ORG ADMIN of the caller's own org — a stricter gate than the rest of this surface, matching the flags write plane, because promoting is a flag write. The admin check runs AFTER the experiment is found, so a caller from another tenant is answered not-found rather than forbidden and learns nothing about what exists.  `winner` is required and must name one of the experiment's own variants. An experiment whose assignment flag has gone missing is a conflict rather than a silent no-op — there is nothing to promote.  Deciding is NOT terminal. A second call re-promotes a different variant and re-stamps the row; the status stays decided and the previous winner is overwritten with no record that it was ever chosen. Nothing here reverts the flag to its original weights either, so an experiment cannot be un-decided through this route — restoring a split means writing the flag definition back through the flags plane.
+        Promotes one variant to the whole rollout and records who decided.  It rewrites the assignment flag so the named winner serves 100% of the rollout and every other arm 0%, preserving the flag's targeting groups and payloads, then stamps the experiment decided with the winner, the deciding credential and the time. This is a production behaviour change that takes effect immediately for every subject the flag evaluates.  It requires an ORG ADMIN of the caller's own org — a stricter gate than the rest of this surface, matching the flags write plane, because promoting is a flag write. The admin check runs AFTER the experiment is found, so a caller from another tenant is answered not-found rather than forbidden and learns nothing about what exists.  An experiment whose assignment flag has gone missing is a conflict rather than a silent no-op — there is nothing to promote.  Deciding is NOT terminal. A second call re-promotes a different variant and re-stamps the row; the status stays decided and the previous winner is overwritten with no record that it was ever chosen. Nothing here reverts the flag to its original weights either, so an experiment cannot be un-decided through this route — restoring a split means writing the flag definition back through the flags plane.
 
         :param id: (required)
         :type id: str
+        :param decide_body: (required)
+        :type decide_body: DecideBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1604,6 +1772,7 @@ class ExperimentsApi:
 
         _param = self._post_v1_experiments_by_id_decide_serialize(
             id=id,
+            decide_body=decide_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1611,6 +1780,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1627,6 +1797,7 @@ class ExperimentsApi:
     def post_v1_experiments_by_id_decide_without_preload_content(
         self,
         id: StrictStr,
+        decide_body: DecideBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1640,12 +1811,14 @@ class ExperimentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Promote one variant to the whole rollout and record who decided.
+        """Promotes one variant to the whole rollout and records who decided.
 
-        Rewrites the assignment flag so the named `winner` serves 100% of the rollout and every other arm 0%, preserving the flag's targeting groups and payloads, then stamps the experiment decided with the winner, the deciding credential and the time. This is a production behaviour change that takes effect immediately for every subject the flag evaluates.  Requires an ORG ADMIN of the caller's own org — a stricter gate than the rest of this surface, matching the flags write plane, because promoting is a flag write. The admin check runs AFTER the experiment is found, so a caller from another tenant is answered not-found rather than forbidden and learns nothing about what exists.  `winner` is required and must name one of the experiment's own variants. An experiment whose assignment flag has gone missing is a conflict rather than a silent no-op — there is nothing to promote.  Deciding is NOT terminal. A second call re-promotes a different variant and re-stamps the row; the status stays decided and the previous winner is overwritten with no record that it was ever chosen. Nothing here reverts the flag to its original weights either, so an experiment cannot be un-decided through this route — restoring a split means writing the flag definition back through the flags plane.
+        Promotes one variant to the whole rollout and records who decided.  It rewrites the assignment flag so the named winner serves 100% of the rollout and every other arm 0%, preserving the flag's targeting groups and payloads, then stamps the experiment decided with the winner, the deciding credential and the time. This is a production behaviour change that takes effect immediately for every subject the flag evaluates.  It requires an ORG ADMIN of the caller's own org — a stricter gate than the rest of this surface, matching the flags write plane, because promoting is a flag write. The admin check runs AFTER the experiment is found, so a caller from another tenant is answered not-found rather than forbidden and learns nothing about what exists.  An experiment whose assignment flag has gone missing is a conflict rather than a silent no-op — there is nothing to promote.  Deciding is NOT terminal. A second call re-promotes a different variant and re-stamps the row; the status stays decided and the previous winner is overwritten with no record that it was ever chosen. Nothing here reverts the flag to its original weights either, so an experiment cannot be un-decided through this route — restoring a split means writing the flag definition back through the flags plane.
 
         :param id: (required)
         :type id: str
+        :param decide_body: (required)
+        :type decide_body: DecideBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1670,6 +1843,7 @@ class ExperimentsApi:
 
         _param = self._post_v1_experiments_by_id_decide_serialize(
             id=id,
+            decide_body=decide_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1677,6 +1851,7 @@ class ExperimentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Trial",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1688,6 +1863,7 @@ class ExperimentsApi:
     def _post_v1_experiments_by_id_decide_serialize(
         self,
         id,
+        decide_body,
         _request_auth,
         _content_type,
         _headers,
@@ -1715,9 +1891,31 @@ class ExperimentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if decide_body is not None:
+            _body_params = decide_body
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

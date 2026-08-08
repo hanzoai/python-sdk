@@ -16,7 +16,17 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import Field, StrictInt, StrictStr
+from typing import Optional
+from typing_extensions import Annotated
+from hanzoai.cloud.models.finding_list import FindingList
+from hanzoai.cloud.models.finding_view import FindingView
+from hanzoai.cloud.models.rule_list import RuleList
+from hanzoai.cloud.models.ruleset import Ruleset
+from hanzoai.cloud.models.scan_detail import ScanDetail
+from hanzoai.cloud.models.scan_list import ScanList
+from hanzoai.cloud.models.scan_view import ScanView
+from hanzoai.cloud.models.submit_req import SubmitReq
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -39,6 +49,9 @@ class SecurityApi:
     @validate_call
     def get_v1_security_findings(
         self,
+        scan_id: Annotated[Optional[StrictStr], Field(description="ScanID narrows to a single scan.")] = None,
+        min_severity: Annotated[Optional[StrictStr], Field(description="MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51,11 +64,17 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The org's findings, across scans or within one
+    ) -> FindingList:
+        """Is the org's findings — rule, severity, path, line, masked preview and fingerprint — newest first, across scans or within one.
 
-        Lists the caller org's findings — rule, severity, path, line, masked preview and fingerprint — newest first. `scanId` narrows to a single scan, `minSeverity` (critical | high | medium | low) drops everything below that rank, and `limit` caps the page; a minSeverity outside that set is refused with 400 rather than quietly ignored, so a filter typo cannot read as \"no findings\". Strictly org-scoped, and a caller with no validated org is refused.
+        Is the org's findings — rule, severity, path, line, masked preview and fingerprint — newest first, across scans or within one.  A minSeverity outside critical|high|medium|low is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\". Strictly org-scoped, and a caller with no validated org is refused.
 
+        :param scan_id: ScanID narrows to a single scan.
+        :type scan_id: str
+        :param min_severity: MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".
+        :type min_severity: str
+        :param limit: Limit caps the page.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -79,6 +98,9 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._get_v1_security_findings_serialize(
+            scan_id=scan_id,
+            min_severity=min_severity,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -86,6 +108,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FindingList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -101,6 +124,9 @@ class SecurityApi:
     @validate_call
     def get_v1_security_findings_with_http_info(
         self,
+        scan_id: Annotated[Optional[StrictStr], Field(description="ScanID narrows to a single scan.")] = None,
+        min_severity: Annotated[Optional[StrictStr], Field(description="MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -113,11 +139,17 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The org's findings, across scans or within one
+    ) -> ApiResponse[FindingList]:
+        """Is the org's findings — rule, severity, path, line, masked preview and fingerprint — newest first, across scans or within one.
 
-        Lists the caller org's findings — rule, severity, path, line, masked preview and fingerprint — newest first. `scanId` narrows to a single scan, `minSeverity` (critical | high | medium | low) drops everything below that rank, and `limit` caps the page; a minSeverity outside that set is refused with 400 rather than quietly ignored, so a filter typo cannot read as \"no findings\". Strictly org-scoped, and a caller with no validated org is refused.
+        Is the org's findings — rule, severity, path, line, masked preview and fingerprint — newest first, across scans or within one.  A minSeverity outside critical|high|medium|low is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\". Strictly org-scoped, and a caller with no validated org is refused.
 
+        :param scan_id: ScanID narrows to a single scan.
+        :type scan_id: str
+        :param min_severity: MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".
+        :type min_severity: str
+        :param limit: Limit caps the page.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -141,6 +173,9 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._get_v1_security_findings_serialize(
+            scan_id=scan_id,
+            min_severity=min_severity,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -148,6 +183,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FindingList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -163,6 +199,9 @@ class SecurityApi:
     @validate_call
     def get_v1_security_findings_without_preload_content(
         self,
+        scan_id: Annotated[Optional[StrictStr], Field(description="ScanID narrows to a single scan.")] = None,
+        min_severity: Annotated[Optional[StrictStr], Field(description="MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -176,10 +215,16 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The org's findings, across scans or within one
+        """Is the org's findings — rule, severity, path, line, masked preview and fingerprint — newest first, across scans or within one.
 
-        Lists the caller org's findings — rule, severity, path, line, masked preview and fingerprint — newest first. `scanId` narrows to a single scan, `minSeverity` (critical | high | medium | low) drops everything below that rank, and `limit` caps the page; a minSeverity outside that set is refused with 400 rather than quietly ignored, so a filter typo cannot read as \"no findings\". Strictly org-scoped, and a caller with no validated org is refused.
+        Is the org's findings — rule, severity, path, line, masked preview and fingerprint — newest first, across scans or within one.  A minSeverity outside critical|high|medium|low is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\". Strictly org-scoped, and a caller with no validated org is refused.
 
+        :param scan_id: ScanID narrows to a single scan.
+        :type scan_id: str
+        :param min_severity: MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".
+        :type min_severity: str
+        :param limit: Limit caps the page.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -203,6 +248,9 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._get_v1_security_findings_serialize(
+            scan_id=scan_id,
+            min_severity=min_severity,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -210,6 +258,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FindingList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -220,6 +269,9 @@ class SecurityApi:
 
     def _get_v1_security_findings_serialize(
         self,
+        scan_id,
+        min_severity,
+        limit,
         _request_auth,
         _content_type,
         _headers,
@@ -242,11 +294,30 @@ class SecurityApi:
 
         # process the path parameters
         # process the query parameters
+        if scan_id is not None:
+            
+            _query_params.append(('scanId', scan_id))
+            
+        if min_severity is not None:
+            
+            _query_params.append(('minSeverity', min_severity))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -274,7 +345,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_findings_by_id(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the finding the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -287,12 +358,12 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """One finding
+    ) -> FindingView:
+        """Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back.
 
-        Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back. Scoped to the caller's org, and a finding belonging to another org is the same 404 as one that never existed.
+        Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back.  Scoped to the caller's org, and a finding belonging to another org is the same 404 as one that never existed.
 
-        :param id: (required)
+        :param id: ID is the finding the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -325,6 +396,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FindingView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -340,7 +412,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_findings_by_id_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the finding the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -353,12 +425,12 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """One finding
+    ) -> ApiResponse[FindingView]:
+        """Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back.
 
-        Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back. Scoped to the caller's org, and a finding belonging to another org is the same 404 as one that never existed.
+        Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back.  Scoped to the caller's org, and a finding belonging to another org is the same 404 as one that never existed.
 
-        :param id: (required)
+        :param id: ID is the finding the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -391,6 +463,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FindingView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -406,7 +479,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_findings_by_id_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the finding the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -420,11 +493,11 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """One finding
+        """Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back.
 
-        Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back. Scoped to the caller's org, and a finding belonging to another org is the same 404 as one that never existed.
+        Returns a single finding: which rule fired, where (path and line), the masked preview and the SHA-256 fingerprint of the secret — the raw secret is not stored and cannot be read back.  Scoped to the caller's org, and a finding belonging to another org is the same 404 as one that never existed.
 
-        :param id: (required)
+        :param id: ID is the finding the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -457,6 +530,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FindingView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -497,6 +571,13 @@ class SecurityApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -536,10 +617,10 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Liveness, and how many detection rules are loaded
+    ) -> Ruleset:
+        """Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds.
 
-        Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds. It has no external dependency — the answer is ok whenever the findings store opened — so it measures this process rather than anything downstream. Reads no tenant: a prober that sends no principal is answered, not refused.
+        Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds.  It has no external dependency — the answer is ok whenever the findings store opened — so it measures this process rather than anything downstream. It reads no tenant: a prober that sends no principal is answered, not refused.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -571,6 +652,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Ruleset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -598,10 +680,10 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Liveness, and how many detection rules are loaded
+    ) -> ApiResponse[Ruleset]:
+        """Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds.
 
-        Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds. It has no external dependency — the answer is ok whenever the findings store opened — so it measures this process rather than anything downstream. Reads no tenant: a prober that sends no principal is answered, not refused.
+        Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds.  It has no external dependency — the answer is ok whenever the findings store opened — so it measures this process rather than anything downstream. It reads no tenant: a prober that sends no principal is answered, not refused.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -633,6 +715,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Ruleset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -661,9 +744,9 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Liveness, and how many detection rules are loaded
+        """Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds.
 
-        Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds. It has no external dependency — the answer is ok whenever the findings store opened — so it measures this process rather than anything downstream. Reads no tenant: a prober that sends no principal is answered, not refused.
+        Reports that the scanning subsystem is serving and how many secret-detection rules the engine holds.  It has no external dependency — the answer is ok whenever the findings store opened — so it measures this process rather than anything downstream. It reads no tenant: a prober that sends no principal is answered, not refused.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -695,6 +778,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Ruleset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -732,6 +816,13 @@ class SecurityApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -771,10 +862,10 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The secret-detection catalog the engine scans with
+    ) -> RuleList:
+        """Is the secret-detection catalog the engine scans with.
 
-        Returns every rule a scan can fire — the id, name and severity a finding cites — so a caller can render or triage results without hard-coding the catalog. It is the same for everyone and discloses nothing tenant-specific, so it carries no org scope.
+        Is the secret-detection catalog the engine scans with.  It returns every rule a scan can fire — the id, name and severity a finding cites — so a caller can render or triage results without hard-coding the catalog. It is the same for everyone and discloses nothing tenant-specific, so it carries no org scope.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -806,6 +897,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "RuleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -833,10 +925,10 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The secret-detection catalog the engine scans with
+    ) -> ApiResponse[RuleList]:
+        """Is the secret-detection catalog the engine scans with.
 
-        Returns every rule a scan can fire — the id, name and severity a finding cites — so a caller can render or triage results without hard-coding the catalog. It is the same for everyone and discloses nothing tenant-specific, so it carries no org scope.
+        Is the secret-detection catalog the engine scans with.  It returns every rule a scan can fire — the id, name and severity a finding cites — so a caller can render or triage results without hard-coding the catalog. It is the same for everyone and discloses nothing tenant-specific, so it carries no org scope.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -868,6 +960,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "RuleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -896,9 +989,9 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The secret-detection catalog the engine scans with
+        """Is the secret-detection catalog the engine scans with.
 
-        Returns every rule a scan can fire — the id, name and severity a finding cites — so a caller can render or triage results without hard-coding the catalog. It is the same for everyone and discloses nothing tenant-specific, so it carries no org scope.
+        Is the secret-detection catalog the engine scans with.  It returns every rule a scan can fire — the id, name and severity a finding cites — so a caller can render or triage results without hard-coding the catalog. It is the same for everyone and discloses nothing tenant-specific, so it carries no org scope.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -930,6 +1023,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "RuleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -967,6 +1061,13 @@ class SecurityApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -994,6 +1095,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_scans(
         self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1006,11 +1108,13 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The org's scan history
+    ) -> ScanList:
+        """Is the org's scan history, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity.
 
-        Lists the caller org's scans, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity. `limit` caps the page. Strictly org-scoped: a caller only ever sees its own scans, and one with no validated org is refused.
+        Is the org's scan history, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity.  Strictly org-scoped: a caller only ever sees its own scans, and one with no validated org is refused.
 
+        :param limit: Limit caps the page.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1034,6 +1138,7 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._get_v1_security_scans_serialize(
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1041,6 +1146,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ScanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1056,6 +1162,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_scans_with_http_info(
         self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1068,11 +1175,13 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The org's scan history
+    ) -> ApiResponse[ScanList]:
+        """Is the org's scan history, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity.
 
-        Lists the caller org's scans, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity. `limit` caps the page. Strictly org-scoped: a caller only ever sees its own scans, and one with no validated org is refused.
+        Is the org's scan history, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity.  Strictly org-scoped: a caller only ever sees its own scans, and one with no validated org is refused.
 
+        :param limit: Limit caps the page.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1096,6 +1205,7 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._get_v1_security_scans_serialize(
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1103,6 +1213,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ScanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1118,6 +1229,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_scans_without_preload_content(
         self,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1131,10 +1243,12 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The org's scan history
+        """Is the org's scan history, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity.
 
-        Lists the caller org's scans, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity. `limit` caps the page. Strictly org-scoped: a caller only ever sees its own scans, and one with no validated org is refused.
+        Is the org's scan history, newest first, each as the same summary the submission answered — files read, findings fired, tally by severity.  Strictly org-scoped: a caller only ever sees its own scans, and one with no validated org is refused.
 
+        :param limit: Limit caps the page.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1158,6 +1272,7 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._get_v1_security_scans_serialize(
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1165,6 +1280,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ScanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1175,6 +1291,7 @@ class SecurityApi:
 
     def _get_v1_security_scans_serialize(
         self,
+        limit,
         _request_auth,
         _content_type,
         _headers,
@@ -1197,11 +1314,22 @@ class SecurityApi:
 
         # process the path parameters
         # process the query parameters
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1229,7 +1357,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_scans_by_id(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the scan the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1242,12 +1370,12 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """One scan and every finding on it
+    ) -> ScanDetail:
+        """Returns one scan together with every finding on it, so the detail view is one round-trip rather than a list call per scan.
 
-        Returns the scan summary together with all of its findings, so the detail view is one round-trip rather than a list call per scan. The findings carry masked previews and fingerprints, never secrets.  Scoped to the caller's org: a scan id belonging to another org is the same 404 as an id that never existed, so a probe learns nothing about what exists elsewhere. No validated org is refused.
+        Returns one scan together with every finding on it, so the detail view is one round-trip rather than a list call per scan. The findings carry masked previews and fingerprints, never secrets.  Scoped to the caller's org: a scan id belonging to another org is the same 404 as an id that never existed, so a ruleset learns nothing about what exists elsewhere. No validated org is refused.
 
-        :param id: (required)
+        :param id: ID is the scan the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1280,6 +1408,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ScanDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1295,7 +1424,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_scans_by_id_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the scan the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1308,12 +1437,12 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """One scan and every finding on it
+    ) -> ApiResponse[ScanDetail]:
+        """Returns one scan together with every finding on it, so the detail view is one round-trip rather than a list call per scan.
 
-        Returns the scan summary together with all of its findings, so the detail view is one round-trip rather than a list call per scan. The findings carry masked previews and fingerprints, never secrets.  Scoped to the caller's org: a scan id belonging to another org is the same 404 as an id that never existed, so a probe learns nothing about what exists elsewhere. No validated org is refused.
+        Returns one scan together with every finding on it, so the detail view is one round-trip rather than a list call per scan. The findings carry masked previews and fingerprints, never secrets.  Scoped to the caller's org: a scan id belonging to another org is the same 404 as an id that never existed, so a ruleset learns nothing about what exists elsewhere. No validated org is refused.
 
-        :param id: (required)
+        :param id: ID is the scan the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1346,6 +1475,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ScanDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1361,7 +1491,7 @@ class SecurityApi:
     @validate_call
     def get_v1_security_scans_by_id_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the scan the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1375,11 +1505,11 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """One scan and every finding on it
+        """Returns one scan together with every finding on it, so the detail view is one round-trip rather than a list call per scan.
 
-        Returns the scan summary together with all of its findings, so the detail view is one round-trip rather than a list call per scan. The findings carry masked previews and fingerprints, never secrets.  Scoped to the caller's org: a scan id belonging to another org is the same 404 as an id that never existed, so a probe learns nothing about what exists elsewhere. No validated org is refused.
+        Returns one scan together with every finding on it, so the detail view is one round-trip rather than a list call per scan. The findings carry masked previews and fingerprints, never secrets.  Scoped to the caller's org: a scan id belonging to another org is the same 404 as an id that never existed, so a ruleset learns nothing about what exists elsewhere. No validated org is refused.
 
-        :param id: (required)
+        :param id: ID is the scan the URL names. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1412,6 +1542,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ScanDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1452,6 +1583,13 @@ class SecurityApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1479,6 +1617,7 @@ class SecurityApi:
     @validate_call
     def post_v1_security_scans(
         self,
+        submit_req: SubmitReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1491,11 +1630,13 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Scan submitted source for hardcoded secrets
+    ) -> ScanView:
+        """Runs the detection engine over a batch of files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.
 
-        Runs the detection engine over a batch of {path, content} files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.  THE SUBMITTED CONTENT IS NEVER STORED. It is scanned in memory; what persists is the finding — its rule, its path and line, a MASKED preview (first and last characters kept, the middle starred) and the SHA-256 fingerprint of the raw secret. The fingerprint is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.  Requires a validated org, which scopes the stored scan and every finding on it; a caller with no org is refused. `project` in the body names the sub-scope and is refused with 400 if it is not a valid slug; omit it and the caller's project header is used instead, where an unusable value is simply ignored. Bounded at 500 files and 8 MiB of total content per submission — split a larger tree across scans. One scan is one metered unit, and the scan is recorded in the audit log with its tally, never with its findings.
+        Runs the detection engine over a batch of files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.  THE SUBMITTED CONTENT IS NEVER STORED. It is scanned in memory; what persists is the finding — its rule, its path and line, a MASKED preview (first and last characters kept, the middle starred) and the SHA-256 fingerprint of the raw secret. The fingerprint is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.  It requires a validated org, which scopes the stored scan and every finding on it; a caller with no org is refused. Bounded at 500 files and 8 MiB of total content per submission — split a larger tree across scans. One scan is one metered unit, and the scan is recorded in the audit log with its tally, never with its findings.
 
+        :param submit_req: (required)
+        :type submit_req: SubmitReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1519,6 +1660,7 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._post_v1_security_scans_serialize(
+            submit_req=submit_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1526,6 +1668,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ScanView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1541,6 +1684,7 @@ class SecurityApi:
     @validate_call
     def post_v1_security_scans_with_http_info(
         self,
+        submit_req: SubmitReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1553,11 +1697,13 @@ class SecurityApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Scan submitted source for hardcoded secrets
+    ) -> ApiResponse[ScanView]:
+        """Runs the detection engine over a batch of files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.
 
-        Runs the detection engine over a batch of {path, content} files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.  THE SUBMITTED CONTENT IS NEVER STORED. It is scanned in memory; what persists is the finding — its rule, its path and line, a MASKED preview (first and last characters kept, the middle starred) and the SHA-256 fingerprint of the raw secret. The fingerprint is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.  Requires a validated org, which scopes the stored scan and every finding on it; a caller with no org is refused. `project` in the body names the sub-scope and is refused with 400 if it is not a valid slug; omit it and the caller's project header is used instead, where an unusable value is simply ignored. Bounded at 500 files and 8 MiB of total content per submission — split a larger tree across scans. One scan is one metered unit, and the scan is recorded in the audit log with its tally, never with its findings.
+        Runs the detection engine over a batch of files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.  THE SUBMITTED CONTENT IS NEVER STORED. It is scanned in memory; what persists is the finding — its rule, its path and line, a MASKED preview (first and last characters kept, the middle starred) and the SHA-256 fingerprint of the raw secret. The fingerprint is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.  It requires a validated org, which scopes the stored scan and every finding on it; a caller with no org is refused. Bounded at 500 files and 8 MiB of total content per submission — split a larger tree across scans. One scan is one metered unit, and the scan is recorded in the audit log with its tally, never with its findings.
 
+        :param submit_req: (required)
+        :type submit_req: SubmitReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1581,6 +1727,7 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._post_v1_security_scans_serialize(
+            submit_req=submit_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1588,6 +1735,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ScanView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1603,6 +1751,7 @@ class SecurityApi:
     @validate_call
     def post_v1_security_scans_without_preload_content(
         self,
+        submit_req: SubmitReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1616,10 +1765,12 @@ class SecurityApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Scan submitted source for hardcoded secrets
+        """Runs the detection engine over a batch of files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.
 
-        Runs the detection engine over a batch of {path, content} files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.  THE SUBMITTED CONTENT IS NEVER STORED. It is scanned in memory; what persists is the finding — its rule, its path and line, a MASKED preview (first and last characters kept, the middle starred) and the SHA-256 fingerprint of the raw secret. The fingerprint is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.  Requires a validated org, which scopes the stored scan and every finding on it; a caller with no org is refused. `project` in the body names the sub-scope and is refused with 400 if it is not a valid slug; omit it and the caller's project header is used instead, where an unusable value is simply ignored. Bounded at 500 files and 8 MiB of total content per submission — split a larger tree across scans. One scan is one metered unit, and the scan is recorded in the audit log with its tally, never with its findings.
+        Runs the detection engine over a batch of files and answers 201 with the scan summary: how many files were read, how many findings fired, and the tally by severity.  THE SUBMITTED CONTENT IS NEVER STORED. It is scanned in memory; what persists is the finding — its rule, its path and line, a MASKED preview (first and last characters kept, the middle starred) and the SHA-256 fingerprint of the raw secret. The fingerprint is what makes the same secret recognisable across scans and after rotation without the secret ever being written down.  It requires a validated org, which scopes the stored scan and every finding on it; a caller with no org is refused. Bounded at 500 files and 8 MiB of total content per submission — split a larger tree across scans. One scan is one metered unit, and the scan is recorded in the audit log with its tally, never with its findings.
 
+        :param submit_req: (required)
+        :type submit_req: SubmitReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1643,6 +1794,7 @@ class SecurityApi:
         """ # noqa: E501
 
         _param = self._post_v1_security_scans_serialize(
+            submit_req=submit_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1650,6 +1802,7 @@ class SecurityApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "ScanView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1660,6 +1813,7 @@ class SecurityApi:
 
     def _post_v1_security_scans_serialize(
         self,
+        submit_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1685,9 +1839,31 @@ class SecurityApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if submit_req is not None:
+            _body_params = submit_req
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
