@@ -25,7 +25,13 @@ from pathlib import Path
 from dataclasses import field, dataclass
 from urllib.parse import unquote, urlparse
 
-from hanzo_tools.core import BaseTool, CloudError, HanzoCloud, MCPResourceDocument
+from hanzo_tools.core import (
+    NO_KEY,
+    BaseTool,
+    CloudError,
+    HanzoCloud,
+    MCPResourceDocument,
+)
 
 # LSP server configurations
 LSP_SERVERS = {
@@ -633,7 +639,7 @@ class LSPTool(BaseTool):
             return {
                 "action": action,
                 "repo": repo,
-                "error": "no hk- key: set HANZO_API_KEY or ~/.hanzo/config.json .apiKey",
+                "error": NO_KEY,
             }
 
         # The wire speaks LSP's own frame: 0-based line, 0-based UTF-16

@@ -66,7 +66,7 @@ Each reads `HANZO_API_KEY` from the environment and talks to
 `https://api.hanzo.ai` unless `HANZO_BASE_URL` says otherwise:
 
 ```bash
-export HANZO_API_KEY=hk-...
+export HANZO_API_KEY=sk-...
 uv run python -m examples.hello
 ```
 
