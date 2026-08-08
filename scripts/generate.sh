@@ -20,7 +20,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-: "${OPENAPI:?the generator lives in hanzoai/openapi; hanzoai/ci's client lane sets OPENAPI, or point it at a checkout}"
+: "${OPENAPI:?the generator lives in hanzoai/openapi; the ci client lane sets OPENAPI, or point it at a checkout}"
 
 if [ -n "${SPEC:-}" ]; then set -- --spec "$SPEC" "$@"; fi
 
