@@ -5,9 +5,9 @@ search, web search, research, vision — talks to it through this one client.
 There is exactly one place that knows the base URL, the auth header, and how to
 turn a non-2xx into a typed error; tools compose it, never re-implement it.
 
-Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` (hk- key) in
-``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session. Base URL is
-``https://api.hanzo.ai``, overridable via ``HANZO_API_BASE``.
+Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` (a ``pk-``/``sk-``
+key) in ``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session.
+Base URL is ``https://api.hanzo.ai``, overridable via ``HANZO_API_BASE``.
 
 Reference: HIP-0300 unified tools; api.hanzo.ai /v1 surface.
 """
@@ -20,6 +20,13 @@ from pathlib import Path
 from collections.abc import AsyncIterator
 
 DEFAULT_BASE = "https://api.hanzo.ai"
+
+#: What a cloud-backed tool says when no key resolved — one sentence in one
+#: place, so the shapes cannot drift apart tool by tool. Cloud admits two:
+#: ``pk-`` is the publishable key you may ship in a browser bundle, ``sk-`` is
+#: the one you may not. ``APIKeyPrefixes`` in cloud's ``auth_identity.go`` is
+#: the authority; anything else resolves to no principal.
+NO_KEY = "no API key: run `hanzo login` or set HANZO_API_KEY (pk-/sk-)"
 
 
 # Memo for cli_session_token: shelling out costs ~100ms and the token is stable
@@ -58,8 +65,8 @@ def cli_session_token() -> str | None:
 def cloud_api_key() -> str | None:
     """Resolve the bearer credential.
 
-    Order: ``HANZO_API_KEY`` env, then the hk- key in ~/.hanzo/config.json,
-    then the CLI's live IAM session.
+    Order: ``HANZO_API_KEY`` env, then the key in ~/.hanzo/config.json, then
+    the CLI's live IAM session.
     """
     env = os.environ.get("HANZO_API_KEY") or os.environ.get("HANZO_KEY")
     if env and env.strip():

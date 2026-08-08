@@ -65,7 +65,7 @@ For the typed Hanzo Cloud API client, install [`hanzoai`](https://pypi.org/proje
 ## Configuration
 
 ```bash
-HANZO_API_KEY=hk-...
+HANZO_API_KEY=sk-...
 HANZO_BASE_URL=https://api.hanzo.ai
 ```
 

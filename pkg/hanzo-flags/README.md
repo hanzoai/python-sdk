@@ -20,7 +20,7 @@ pip install hanzo-flags     # or: uv add hanzo-flags
 ```python
 from hanzo_flags import HanzoFlags
 
-flags = HanzoFlags("https://api.hanzo.ai", token="hk-...")
+flags = HanzoFlags("https://api.hanzo.ai", token="sk-...")
 flags.load("user-123", person_properties={"plan": "pro"})
 
 if flags.is_enabled("checkout-exp"):
@@ -46,7 +46,7 @@ Async (asyncio services):
 ```python
 from hanzo_flags import AsyncHanzoFlags
 
-flags = AsyncHanzoFlags("https://api.hanzo.ai", token="hk-...")
+flags = AsyncHanzoFlags("https://api.hanzo.ai", token="sk-...")
 await flags.load("user-123")
 if flags.is_enabled("checkout-exp"):
     ...
@@ -56,7 +56,7 @@ One-shot:
 
 ```python
 from hanzo_flags import evaluate
-res = evaluate("https://api.hanzo.ai", "user-123", token="hk-...")
+res = evaluate("https://api.hanzo.ai", "user-123", token="sk-...")
 res.is_enabled("checkout-exp")
 ```
 

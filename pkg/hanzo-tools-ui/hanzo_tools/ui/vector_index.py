@@ -5,7 +5,7 @@ Uses the Hanzo Cloud RAG pipeline:
 - POST /v1/chat-docs  — RAG chat with component context
 - POST /v1/index-docs — index components into the search backend
 
-Authentication: publishable key (pk-*) for read, API key (hk-*) for write.
+Authentication: publishable key (pk-) for read, secret key (sk-) for write.
 """
 
 import logging

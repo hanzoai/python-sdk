@@ -11,7 +11,7 @@ import json
 import asyncio
 
 from hanzo_tools.lsp import TOOLS, LSPTool
-from hanzo_tools.core import HanzoCloud
+from hanzo_tools.core import NO_KEY, HanzoCloud
 from hanzo_tools.lsp.lsp_tool import CLOUD_OPS, LOCAL_ACTIONS
 
 
@@ -42,7 +42,7 @@ class FakeClient:
         return FakeResponse(self.reply, self.status)
 
 
-def tool_over(reply=None, key="hk-test", status=200):
+def tool_over(reply=None, key="sk-test", status=200):
     """An LSPTool whose cloud client answers from a canned transport."""
     tool = LSPTool()
     cloud = HanzoCloud(key=key)
@@ -153,7 +153,7 @@ def test_upstream_failure_is_reported_not_raised():
 def test_without_a_key_nothing_is_sent():
     tool, client = tool_over(key="")
     out = _run(tool.run(action="hover", repo="hanzoai/mcp", file="a.py", line=1))
-    assert "hk-" in out.data["error"]
+    assert out.data["error"] == NO_KEY
     assert client.calls == []
 
 
