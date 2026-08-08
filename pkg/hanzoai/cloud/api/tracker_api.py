@@ -60,9 +60,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param key: (required)
         :type key: str
@@ -126,9 +126,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param key: (required)
         :type key: str
@@ -192,9 +192,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param key: (required)
         :type key: str
@@ -1405,9 +1405,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param key: (required)
         :type key: str
@@ -1471,9 +1471,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param key: (required)
         :type key: str
@@ -1537,9 +1537,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param key: (required)
         :type key: str
@@ -1957,9 +1957,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2019,9 +2019,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2081,9 +2081,9 @@ class TrackerApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Refuses — a board is a repository on the forge.
+        """Refused — a board is a repository on the forge
 
-        Refuses — a board is a repository on the forge.  It answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
+        Answers 405. A tracker board IS a repository on this deployment's forge, so creating, renaming and deleting one is a FORGE operation carried out with FORGE permissions.  Offering it here would put a second door on the same object, guarded by this surface instead of by the forge — a weaker guard on the same thing. So the route exists and refuses, rather than 404ing: \"not this service's job\" and \"no such thing\" are different facts, and the body names the forge so a caller knows where the job IS done.  What this surface DOES own is the work on a board: list the boards you can see, read and file their issues, move a card between columns, and roll milestones up across the org. Those are the routes beside this one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

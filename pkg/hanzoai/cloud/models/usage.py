@@ -19,6 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.cost_line import CostLine
+from hanzoai.cloud.models.status_breakdown import StatusBreakdown
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,11 +28,10 @@ class Usage(BaseModel):
     """
     Usage
     """ # noqa: E501
-    cpu_ns: Optional[StrictInt] = Field(default=None, description="CPU is total user+system time this instance has consumed since it started. It only ever climbs, so a rate is the interesting derivative.", alias="cpuNs")
-    fds: Optional[StrictInt] = None
-    rss_bytes: Optional[StrictInt] = Field(default=None, description="RSS is resident memory in bytes — the honest number for \"what does this plugin cost\", as opposed to virtual size.", alias="rssBytes")
-    threads: Optional[StrictInt] = Field(default=None, description="Threads and FDs are the two limits a busy service hits first, and both are leaks when they climb without bound.")
-    __properties: ClassVar[List[str]] = ["cpuNs", "fds", "rssBytes", "threads"]
+    cost_cents: Optional[StrictInt] = Field(default=None, description="null — no per-invocation cost source", alias="costCents")
+    series: Optional[List[CostLine]] = Field(default=None, description="one line per function that ran in the window")
+    status: Optional[StatusBreakdown] = Field(default=None, description="how those invocations ended")
+    __properties: ClassVar[List[str]] = ["costCents", "series", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,6 +72,16 @@ class Usage(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in series (list)
+        _items = []
+        if self.series:
+            for _item_series in self.series:
+                if _item_series:
+                    _items.append(_item_series.to_dict())
+            _dict['series'] = _items
+        # override the default output from pydantic by calling `to_dict()` of status
+        if self.status:
+            _dict['status'] = self.status.to_dict()
         return _dict
 
     @classmethod
@@ -83,10 +94,9 @@ class Usage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "cpuNs": obj.get("cpuNs"),
-            "fds": obj.get("fds"),
-            "rssBytes": obj.get("rssBytes"),
-            "threads": obj.get("threads")
+            "costCents": obj.get("costCents"),
+            "series": [CostLine.from_dict(_item) for _item in obj["series"]] if obj.get("series") is not None else None,
+            "status": StatusBreakdown.from_dict(obj["status"]) if obj.get("status") is not None else None
         })
         return _obj
 

@@ -16,7 +16,20 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import Field, StrictInt, StrictStr
+from typing import Any, Dict, Optional
+from typing_extensions import Annotated
+from hanzoai.cloud.models.definition import Definition
+from hanzoai.cloud.models.fn_list import FnList
+from hanzoai.cloud.models.function_detail import FunctionDetail
+from hanzoai.cloud.models.function_view import FunctionView
+from hanzoai.cloud.models.invocation_list import InvocationList
+from hanzoai.cloud.models.invocation_view import InvocationView
+from hanzoai.cloud.models.invoke_req import InvokeReq
+from hanzoai.cloud.models.log_lines import LogLines
+from hanzoai.cloud.models.secret_list import SecretList
+from hanzoai.cloud.models.trigger_list import TriggerList
+from hanzoai.cloud.models.usage import Usage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -39,7 +52,7 @@ class FunctionsApi:
     @validate_call
     def delete_v1_functions_by_name(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52,12 +65,12 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Delete a function and its entire invocation history
+    ) -> object:
+        """Removes one of the caller org's functions and answers 204.
 
-        One transaction removes the function record and every invocation row recorded against its name, so that history also leaves the metrics chart and the invocation list. This is not a soft delete and there is no restore.  Deletion is keyed on (org, name): a name owned by another org is not found here, exactly like a name that never existed, so the call cannot be used to probe for or destroy another tenant's function. A successful delete answers with no body.  Requires a validated principal.
+        Removes one of the caller org's functions and answers 204.  A name this org does not hold is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -90,6 +103,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105,7 +119,7 @@ class FunctionsApi:
     @validate_call
     def delete_v1_functions_by_name_with_http_info(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -118,12 +132,12 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Delete a function and its entire invocation history
+    ) -> ApiResponse[object]:
+        """Removes one of the caller org's functions and answers 204.
 
-        One transaction removes the function record and every invocation row recorded against its name, so that history also leaves the metrics chart and the invocation list. This is not a soft delete and there is no restore.  Deletion is keyed on (org, name): a name owned by another org is not found here, exactly like a name that never existed, so the call cannot be used to probe for or destroy another tenant's function. A successful delete answers with no body.  Requires a validated principal.
+        Removes one of the caller org's functions and answers 204.  A name this org does not hold is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -156,6 +170,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -171,7 +186,7 @@ class FunctionsApi:
     @validate_call
     def delete_v1_functions_by_name_without_preload_content(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -185,11 +200,11 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Delete a function and its entire invocation history
+        """Removes one of the caller org's functions and answers 204.
 
-        One transaction removes the function record and every invocation row recorded against its name, so that history also leaves the metrics chart and the invocation list. This is not a soft delete and there is no restore.  Deletion is keyed on (org, name): a name owned by another org is not found here, exactly like a name that never existed, so the call cannot be used to probe for or destroy another tenant's function. A successful delete answers with no body.  Requires a validated principal.
+        Removes one of the caller org's functions and answers 204.  A name this org does not hold is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -222,6 +237,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '204': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -262,6 +278,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -301,10 +324,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Every serverless function the caller's org has published, with its real 7-day rollup
+    ) -> FnList:
+        """Is every serverless function the caller's org has published, each with its real 7-day rollup.
 
-        A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The registry holds secret NAMES only; a value never enters this store and is never returned.  The rollup (invocations7d, errors7d, successRate, avgDurationMs) is counted from real invocation rows over the trailing 7 days and is OMITTED for a function with no calls in that window rather than sent as zero, so a consumer must render absence as unknown, not as an idle function. Ordered most-recently-deployed first.  Scoped to the caller's own org — one store per org, with the org column on every query. Requires a validated principal: an org claim with no verified credential behind it is refused, never answered with an empty list.
+        Is every serverless function the caller's org has published, each with its real 7-day rollup.  A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The rollup fields are ABSENT rather than zero when the function has not run in the window, so a console renders \"—\" instead of a fabricated 0.  Requires a validated principal; the listing is scoped to its org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -336,6 +359,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -363,10 +387,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Every serverless function the caller's org has published, with its real 7-day rollup
+    ) -> ApiResponse[FnList]:
+        """Is every serverless function the caller's org has published, each with its real 7-day rollup.
 
-        A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The registry holds secret NAMES only; a value never enters this store and is never returned.  The rollup (invocations7d, errors7d, successRate, avgDurationMs) is counted from real invocation rows over the trailing 7 days and is OMITTED for a function with no calls in that window rather than sent as zero, so a consumer must render absence as unknown, not as an idle function. Ordered most-recently-deployed first.  Scoped to the caller's own org — one store per org, with the org column on every query. Requires a validated principal: an org claim with no verified credential behind it is refused, never answered with an empty list.
+        Is every serverless function the caller's org has published, each with its real 7-day rollup.  A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The rollup fields are ABSENT rather than zero when the function has not run in the window, so a console renders \"—\" instead of a fabricated 0.  Requires a validated principal; the listing is scoped to its org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -398,6 +422,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -426,9 +451,9 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Every serverless function the caller's org has published, with its real 7-day rollup
+        """Is every serverless function the caller's org has published, each with its real 7-day rollup.
 
-        A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The registry holds secret NAMES only; a value never enters this store and is never returned.  The rollup (invocations7d, errors7d, successRate, avgDurationMs) is counted from real invocation rows over the trailing 7 days and is OMITTED for a function with no calls in that window rather than sent as zero, so a consumer must render absence as unknown, not as an idle function. Ordered most-recently-deployed first.  Scoped to the caller's own org — one store per org, with the org column on every query. Requires a validated principal: an org claim with no verified credential behind it is refused, never answered with an empty list.
+        Is every serverless function the caller's org has published, each with its real 7-day rollup.  A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The rollup fields are ABSENT rather than zero when the function has not run in the window, so a console renders \"—\" instead of a fabricated 0.  Requires a validated principal; the listing is scoped to its org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -460,6 +485,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -497,6 +523,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -524,7 +557,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -537,12 +570,12 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """One function in full: spec, trailing-7-day rollup, trigger, latest runs and mounted secret names
+    ) -> FunctionDetail:
+        """Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
 
-        Extends the list row with the function's single derived HTTP trigger, its 20 most recent invocations (newest first, metadata only — no captured output), and `secrets`, the NAMES of the secrets it mounts. No secret value is stored or returned.  Lookup is keyed on (org, name), so a function that exists but belongs to another org answers exactly as one that never existed — not found, never a signal that the name is taken elsewhere. The 7-day rollup fields are omitted rather than zeroed when the function has not run in the window.  Requires a validated principal.
+        Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.  Secret values are never read or returned. A name the caller's org does not hold is 404, which is also what another tenant's function looks like from here.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -575,6 +608,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FunctionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -590,7 +624,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_with_http_info(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -603,12 +637,12 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """One function in full: spec, trailing-7-day rollup, trigger, latest runs and mounted secret names
+    ) -> ApiResponse[FunctionDetail]:
+        """Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
 
-        Extends the list row with the function's single derived HTTP trigger, its 20 most recent invocations (newest first, metadata only — no captured output), and `secrets`, the NAMES of the secrets it mounts. No secret value is stored or returned.  Lookup is keyed on (org, name), so a function that exists but belongs to another org answers exactly as one that never existed — not found, never a signal that the name is taken elsewhere. The 7-day rollup fields are omitted rather than zeroed when the function has not run in the window.  Requires a validated principal.
+        Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.  Secret values are never read or returned. A name the caller's org does not hold is 404, which is also what another tenant's function looks like from here.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -641,6 +675,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FunctionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -656,7 +691,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_without_preload_content(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -670,11 +705,11 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """One function in full: spec, trailing-7-day rollup, trigger, latest runs and mounted secret names
+        """Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
 
-        Extends the list row with the function's single derived HTTP trigger, its 20 most recent invocations (newest first, metadata only — no captured output), and `secrets`, the NAMES of the secrets it mounts. No secret value is stored or returned.  Lookup is keyed on (org, name), so a function that exists but belongs to another org answers exactly as one that never existed — not found, never a signal that the name is taken elsewhere. The 7-day rollup fields are omitted rather than zeroed when the function has not run in the window.  Requires a validated principal.
+        Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.  Secret values are never read or returned. A name the caller's org does not hold is 404, which is also what another tenant's function looks like from here.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -707,6 +742,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FunctionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -747,6 +783,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -774,7 +817,8 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_invocations(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page, defaulting to 100.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -787,13 +831,15 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Recent invocation history for one function, newest first
+    ) -> InvocationList:
+        """Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
 
-        Each entry is invocation METADATA — id, status, HTTP status code, wall-clock duration and when it ran. The captured stdout/stderr is not on this path; the logs call returns it, for the latest run only.  `limit` defaults to 100 and is clamped: at or below zero, above 500, or not a number at all, it falls back to 100. An unknown function name is NOT an error here — nothing has ever run under it, so the answer is an empty list rather than a not-found, and a caller testing existence must ask for the function itself.  Scoped to the caller's org, so it can only ever return the calling tenant's own runs. Requires a validated principal.
+        Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.  These are real recorded rows, not a projection: an invocation appears here only once it actually ran. Requires a validated principal; the read is scoped to its org.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
+        :param limit: Limit caps the page, defaulting to 100.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -818,6 +864,7 @@ class FunctionsApi:
 
         _param = self._get_v1_functions_by_name_invocations_serialize(
             name=name,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -825,6 +872,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InvocationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -840,7 +888,8 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_invocations_with_http_info(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page, defaulting to 100.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -853,13 +902,15 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Recent invocation history for one function, newest first
+    ) -> ApiResponse[InvocationList]:
+        """Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
 
-        Each entry is invocation METADATA — id, status, HTTP status code, wall-clock duration and when it ran. The captured stdout/stderr is not on this path; the logs call returns it, for the latest run only.  `limit` defaults to 100 and is clamped: at or below zero, above 500, or not a number at all, it falls back to 100. An unknown function name is NOT an error here — nothing has ever run under it, so the answer is an empty list rather than a not-found, and a caller testing existence must ask for the function itself.  Scoped to the caller's org, so it can only ever return the calling tenant's own runs. Requires a validated principal.
+        Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.  These are real recorded rows, not a projection: an invocation appears here only once it actually ran. Requires a validated principal; the read is scoped to its org.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
+        :param limit: Limit caps the page, defaulting to 100.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -884,6 +935,7 @@ class FunctionsApi:
 
         _param = self._get_v1_functions_by_name_invocations_serialize(
             name=name,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -891,6 +943,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InvocationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -906,7 +959,8 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_invocations_without_preload_content(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page, defaulting to 100.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -920,12 +974,14 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Recent invocation history for one function, newest first
+        """Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
 
-        Each entry is invocation METADATA — id, status, HTTP status code, wall-clock duration and when it ran. The captured stdout/stderr is not on this path; the logs call returns it, for the latest run only.  `limit` defaults to 100 and is clamped: at or below zero, above 500, or not a number at all, it falls back to 100. An unknown function name is NOT an error here — nothing has ever run under it, so the answer is an empty list rather than a not-found, and a caller testing existence must ask for the function itself.  Scoped to the caller's org, so it can only ever return the calling tenant's own runs. Requires a validated principal.
+        Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.  These are real recorded rows, not a projection: an invocation appears here only once it actually ran. Requires a validated principal; the read is scoped to its org.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
+        :param limit: Limit caps the page, defaulting to 100.
+        :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -950,6 +1006,7 @@ class FunctionsApi:
 
         _param = self._get_v1_functions_by_name_invocations_serialize(
             name=name,
+            limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -957,6 +1014,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InvocationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -968,6 +1026,7 @@ class FunctionsApi:
     def _get_v1_functions_by_name_invocations_serialize(
         self,
         name,
+        limit,
         _request_auth,
         _content_type,
         _headers,
@@ -992,11 +1051,22 @@ class FunctionsApi:
         if name is not None:
             _path_params['name'] = name
         # process the query parameters
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1024,7 +1094,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_logs(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1037,12 +1107,12 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The captured output of a function's most recent invocation
+    ) -> LogLines:
+        """Is the output of a function's most recent run — its error text when that run failed, else what it printed.
 
-        One string, from the LATEST invocation only. This is not a log stream and carries no history; the invocations list is where earlier runs are enumerated.  When that run failed, the string is its ERROR text rather than its stdout — the two share one field, so success cannot be told from failure by this value alone and the invocation's status is what answers that. Output was truncated to 64 KiB when the run was recorded, error text to 16 KiB.  A function that has never run — or a name that does not exist in the caller's org — answers with an empty string, not a not-found. Scoped to the caller's org; requires a validated principal.
+        Is the output of a function's most recent run — its error text when that run failed, else what it printed.  It is the LAST run only, and it is empty when the function has never run. There is no log retention behind this beyond the recorded invocation itself.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1075,6 +1145,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LogLines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1090,7 +1161,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_logs_with_http_info(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1103,12 +1174,12 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The captured output of a function's most recent invocation
+    ) -> ApiResponse[LogLines]:
+        """Is the output of a function's most recent run — its error text when that run failed, else what it printed.
 
-        One string, from the LATEST invocation only. This is not a log stream and carries no history; the invocations list is where earlier runs are enumerated.  When that run failed, the string is its ERROR text rather than its stdout — the two share one field, so success cannot be told from failure by this value alone and the invocation's status is what answers that. Output was truncated to 64 KiB when the run was recorded, error text to 16 KiB.  A function that has never run — or a name that does not exist in the caller's org — answers with an empty string, not a not-found. Scoped to the caller's org; requires a validated principal.
+        Is the output of a function's most recent run — its error text when that run failed, else what it printed.  It is the LAST run only, and it is empty when the function has never run. There is no log retention behind this beyond the recorded invocation itself.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1141,6 +1212,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LogLines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1156,7 +1228,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_by_name_logs_without_preload_content(
         self,
-        name: StrictStr,
+        name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1170,11 +1242,11 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The captured output of a function's most recent invocation
+        """Is the output of a function's most recent run — its error text when that run failed, else what it printed.
 
-        One string, from the LATEST invocation only. This is not a log stream and carries no history; the invocations list is where earlier runs are enumerated.  When that run failed, the string is its ERROR text rather than its stdout — the two share one field, so success cannot be told from failure by this value alone and the invocation's status is what answers that. Output was truncated to 64 KiB when the run was recorded, error text to 16 KiB.  A function that has never run — or a name that does not exist in the caller's org — answers with an empty string, not a not-found. Scoped to the caller's org; requires a validated principal.
+        Is the output of a function's most recent run — its error text when that run failed, else what it printed.  It is the LAST run only, and it is empty when the function has never run. There is no log retention behind this beyond the recorded invocation itself.
 
-        :param name: (required)
+        :param name: Name is the function the URL names. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1207,6 +1279,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "LogLines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1247,6 +1320,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1286,10 +1366,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The live deployment of every function in the caller's org
+    ) -> FnList:
+        """Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
 
-        A function's current record IS its deployment, so this answers in the same shape the function list does — runtime, resource limits, target, endpoint, and when it was last deployed.  Two things not to assume. The invocation rollup is never populated here, even for a function that has run: those fields are omitted unconditionally, and the function list is where they are filled in. And this is an inventory of what is live, not a history — there is exactly one entry per function, and a redeploy replaces it rather than appending to it.  Scoped to the caller's org; requires a validated principal.
+        Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.  There is no deployment history behind it: a function has one record, and publishing replaces it. The 7-day rollup is deliberately absent here, because this read is about what is deployed rather than about how it has performed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1321,6 +1401,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1348,10 +1429,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The live deployment of every function in the caller's org
+    ) -> ApiResponse[FnList]:
+        """Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
 
-        A function's current record IS its deployment, so this answers in the same shape the function list does — runtime, resource limits, target, endpoint, and when it was last deployed.  Two things not to assume. The invocation rollup is never populated here, even for a function that has run: those fields are omitted unconditionally, and the function list is where they are filled in. And this is an inventory of what is live, not a history — there is exactly one entry per function, and a redeploy replaces it rather than appending to it.  Scoped to the caller's org; requires a validated principal.
+        Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.  There is no deployment history behind it: a function has one record, and publishing replaces it. The 7-day rollup is deliberately absent here, because this read is about what is deployed rather than about how it has performed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1383,6 +1464,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1411,9 +1493,9 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The live deployment of every function in the caller's org
+        """Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
 
-        A function's current record IS its deployment, so this answers in the same shape the function list does — runtime, resource limits, target, endpoint, and when it was last deployed.  Two things not to assume. The invocation rollup is never populated here, even for a function that has run: those fields are omitted unconditionally, and the function list is where they are filled in. And this is an inventory of what is live, not a history — there is exactly one entry per function, and a redeploy replaces it rather than appending to it.  Scoped to the caller's org; requires a validated principal.
+        Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.  There is no deployment history behind it: a function has one record, and publishing replaces it. The 7-day rollup is deliberately absent here, because this read is about what is deployed rather than about how it has performed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1445,6 +1527,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "FnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1482,6 +1565,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1509,6 +1599,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_metrics(
         self,
+        range: Annotated[Optional[StrictStr], Field(description="Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1521,11 +1612,13 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Invocation chart and status breakdown across every function in the caller's org
+    ) -> Usage:
+        """Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
 
-        One series per function that actually ran in the window, bucketed, plus a success/timeout/error donut over the same rows. Every point is a COUNT of real invocation rows that fell in that bucket — nothing is interpolated, and a function with no invocations in the window has no series at all.  The `range` query selects the window and its bucket count: 1H, 6H, 24H, 7D or 30D. An absent or unrecognized value falls back to 24H rather than failing. At most the 5000 newest rows are read, so a very busy org's oldest buckets in a wide range can undercount.  costCents is always null: this view has no per-invocation cost source, and reports nothing rather than a fabricated figure. Scoped to the caller's org; requires a validated principal.
+        Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.  Every point is a REAL count of rows that fell in that bucket — nothing is interpolated or invented, so an empty window draws a flat line rather than a fabricated one.  costCents is null and stays null: there is no per-invocation cost source to read, and reporting a number computed some other way would be a guess presented as a measurement. Requires a validated principal; the read is scoped to its org.
 
+        :param range: Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.
+        :type range: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1549,6 +1642,7 @@ class FunctionsApi:
         """ # noqa: E501
 
         _param = self._get_v1_functions_metrics_serialize(
+            range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1556,6 +1650,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Usage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1571,6 +1666,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_metrics_with_http_info(
         self,
+        range: Annotated[Optional[StrictStr], Field(description="Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1583,11 +1679,13 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Invocation chart and status breakdown across every function in the caller's org
+    ) -> ApiResponse[Usage]:
+        """Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
 
-        One series per function that actually ran in the window, bucketed, plus a success/timeout/error donut over the same rows. Every point is a COUNT of real invocation rows that fell in that bucket — nothing is interpolated, and a function with no invocations in the window has no series at all.  The `range` query selects the window and its bucket count: 1H, 6H, 24H, 7D or 30D. An absent or unrecognized value falls back to 24H rather than failing. At most the 5000 newest rows are read, so a very busy org's oldest buckets in a wide range can undercount.  costCents is always null: this view has no per-invocation cost source, and reports nothing rather than a fabricated figure. Scoped to the caller's org; requires a validated principal.
+        Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.  Every point is a REAL count of rows that fell in that bucket — nothing is interpolated or invented, so an empty window draws a flat line rather than a fabricated one.  costCents is null and stays null: there is no per-invocation cost source to read, and reporting a number computed some other way would be a guess presented as a measurement. Requires a validated principal; the read is scoped to its org.
 
+        :param range: Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.
+        :type range: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1611,6 +1709,7 @@ class FunctionsApi:
         """ # noqa: E501
 
         _param = self._get_v1_functions_metrics_serialize(
+            range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1618,6 +1717,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Usage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1633,6 +1733,7 @@ class FunctionsApi:
     @validate_call
     def get_v1_functions_metrics_without_preload_content(
         self,
+        range: Annotated[Optional[StrictStr], Field(description="Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1646,10 +1747,12 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Invocation chart and status breakdown across every function in the caller's org
+        """Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
 
-        One series per function that actually ran in the window, bucketed, plus a success/timeout/error donut over the same rows. Every point is a COUNT of real invocation rows that fell in that bucket — nothing is interpolated, and a function with no invocations in the window has no series at all.  The `range` query selects the window and its bucket count: 1H, 6H, 24H, 7D or 30D. An absent or unrecognized value falls back to 24H rather than failing. At most the 5000 newest rows are read, so a very busy org's oldest buckets in a wide range can undercount.  costCents is always null: this view has no per-invocation cost source, and reports nothing rather than a fabricated figure. Scoped to the caller's org; requires a validated principal.
+        Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.  Every point is a REAL count of rows that fell in that bucket — nothing is interpolated or invented, so an empty window draws a flat line rather than a fabricated one.  costCents is null and stays null: there is no per-invocation cost source to read, and reporting a number computed some other way would be a guess presented as a measurement. Requires a validated principal; the read is scoped to its org.
 
+        :param range: Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.
+        :type range: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1673,6 +1776,7 @@ class FunctionsApi:
         """ # noqa: E501
 
         _param = self._get_v1_functions_metrics_serialize(
+            range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1680,6 +1784,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Usage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1690,6 +1795,7 @@ class FunctionsApi:
 
     def _get_v1_functions_metrics_serialize(
         self,
+        range,
         _request_auth,
         _content_type,
         _headers,
@@ -1712,11 +1818,22 @@ class FunctionsApi:
 
         # process the path parameters
         # process the query parameters
+        if range is not None:
+            
+            _query_params.append(('range', range))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1756,10 +1873,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The names of the secrets mounted by the caller's org's functions
+    ) -> SecretList:
+        """Is the NAMES of the secrets the caller org's functions mount.
 
-        NAMES only. A secret's value is not held by this subsystem and is not read on this path — values live in KMS and are resolved sandbox-side when a function runs — so nothing in this answer is a credential.  The list is derived from the mount declarations on the function records and deduplicated by namespace and name, so a name mounted by several functions appears ONCE: mountedBy names the first function that claimed it in deploy order, not every function that mounts it. Read it as a hint about origin, not as a complete usage map.  Scoped to the caller's org; requires a validated principal.
+        Is the NAMES of the secrets the caller org's functions mount.  Values are NEVER read or returned — this surface knows which names a function asks for and nothing about what is behind them, which is what makes it safe to list at all. One row per distinct (namespace, name).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1791,6 +1908,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SecretList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1818,10 +1936,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The names of the secrets mounted by the caller's org's functions
+    ) -> ApiResponse[SecretList]:
+        """Is the NAMES of the secrets the caller org's functions mount.
 
-        NAMES only. A secret's value is not held by this subsystem and is not read on this path — values live in KMS and are resolved sandbox-side when a function runs — so nothing in this answer is a credential.  The list is derived from the mount declarations on the function records and deduplicated by namespace and name, so a name mounted by several functions appears ONCE: mountedBy names the first function that claimed it in deploy order, not every function that mounts it. Read it as a hint about origin, not as a complete usage map.  Scoped to the caller's org; requires a validated principal.
+        Is the NAMES of the secrets the caller org's functions mount.  Values are NEVER read or returned — this surface knows which names a function asks for and nothing about what is behind them, which is what makes it safe to list at all. One row per distinct (namespace, name).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1853,6 +1971,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SecretList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1881,9 +2000,9 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The names of the secrets mounted by the caller's org's functions
+        """Is the NAMES of the secrets the caller org's functions mount.
 
-        NAMES only. A secret's value is not held by this subsystem and is not read on this path — values live in KMS and are resolved sandbox-side when a function runs — so nothing in this answer is a credential.  The list is derived from the mount declarations on the function records and deduplicated by namespace and name, so a name mounted by several functions appears ONCE: mountedBy names the first function that claimed it in deploy order, not every function that mounts it. Read it as a hint about origin, not as a complete usage map.  Scoped to the caller's org; requires a validated principal.
+        Is the NAMES of the secrets the caller org's functions mount.  Values are NEVER read or returned — this surface knows which names a function asks for and nothing about what is behind them, which is what makes it safe to list at all. One row per distinct (namespace, name).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1915,6 +2034,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SecretList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1952,6 +2072,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1991,10 +2118,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Every trigger attached to the caller's org's functions
+    ) -> TriggerList:
+        """Is what calls the caller org's functions — one row per function.
 
-        A function has exactly ONE trigger today and it is derived, not stored: an always-enabled HTTP trigger whose target is that function's own invoke endpoint, listed once per function.  There is no trigger table behind this and no call that creates, disables or deletes one. The list is a projection of the function registry, so it changes only when a function is published or deleted.  Scoped to the caller's org; requires a validated principal.
+        Is what calls the caller org's functions — one row per function.  Every function has exactly one trigger today, its HTTP invoke endpoint, so this is the function list read as \"how is each of these reached\".
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2026,6 +2153,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TriggerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2053,10 +2181,10 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Every trigger attached to the caller's org's functions
+    ) -> ApiResponse[TriggerList]:
+        """Is what calls the caller org's functions — one row per function.
 
-        A function has exactly ONE trigger today and it is derived, not stored: an always-enabled HTTP trigger whose target is that function's own invoke endpoint, listed once per function.  There is no trigger table behind this and no call that creates, disables or deletes one. The list is a projection of the function registry, so it changes only when a function is published or deleted.  Scoped to the caller's org; requires a validated principal.
+        Is what calls the caller org's functions — one row per function.  Every function has exactly one trigger today, its HTTP invoke endpoint, so this is the function list read as \"how is each of these reached\".
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2088,6 +2216,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TriggerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2116,9 +2245,9 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Every trigger attached to the caller's org's functions
+        """Is what calls the caller org's functions — one row per function.
 
-        A function has exactly ONE trigger today and it is derived, not stored: an always-enabled HTTP trigger whose target is that function's own invoke endpoint, listed once per function.  There is no trigger table behind this and no call that creates, disables or deletes one. The list is a projection of the function registry, so it changes only when a function is published or deleted.  Scoped to the caller's org; requires a validated principal.
+        Is what calls the caller org's functions — one row per function.  Every function has exactly one trigger today, its HTTP invoke endpoint, so this is the function list read as \"how is each of these reached\".
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2150,6 +2279,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TriggerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2187,6 +2317,13 @@ class FunctionsApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -2214,6 +2351,7 @@ class FunctionsApi:
     @validate_call
     def post_v1_functions(
         self,
+        definition: Definition,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2226,11 +2364,13 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Publish a function, or redeploy an existing one under the same name
+    ) -> FunctionView:
+        """Publishes a serverless function under the caller's org and answers 201 with it.
 
-        Org and name together identify a function, so a second call for a name the org already owns is a REDEPLOY: the spec is replaced, the deploy version advances, and the original creation time is kept. There is no separate update call, and no way to take over a name another org owns.  What is accepted is a closed set. runtime is one of node, python, go, deno, bash or container; name must match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ and may not be one of the reserved static names (metrics, triggers, deployments, secrets); source is capped at 256 KiB. timeoutSec is CLAMPED to the 900s ceiling rather than rejected, and an absent one defaults to 30s with 256Mi of memory. target=fleet runs the function on the org's own linked GPU fleet and is accepted for runtime=python only; everything else runs on the shared sandbox.  envNames declares which secrets the function mounts BY NAME — values live in KMS and are resolved sandbox-side at run time, so no secret value is sent here or stored here. Scoped to the caller's org; requires a validated principal.
+        Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
 
+        :param definition: (required)
+        :type definition: Definition
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2254,6 +2394,7 @@ class FunctionsApi:
         """ # noqa: E501
 
         _param = self._post_v1_functions_serialize(
+            definition=definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2261,6 +2402,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "FunctionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2276,6 +2418,7 @@ class FunctionsApi:
     @validate_call
     def post_v1_functions_with_http_info(
         self,
+        definition: Definition,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2288,11 +2431,13 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Publish a function, or redeploy an existing one under the same name
+    ) -> ApiResponse[FunctionView]:
+        """Publishes a serverless function under the caller's org and answers 201 with it.
 
-        Org and name together identify a function, so a second call for a name the org already owns is a REDEPLOY: the spec is replaced, the deploy version advances, and the original creation time is kept. There is no separate update call, and no way to take over a name another org owns.  What is accepted is a closed set. runtime is one of node, python, go, deno, bash or container; name must match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ and may not be one of the reserved static names (metrics, triggers, deployments, secrets); source is capped at 256 KiB. timeoutSec is CLAMPED to the 900s ceiling rather than rejected, and an absent one defaults to 30s with 256Mi of memory. target=fleet runs the function on the org's own linked GPU fleet and is accepted for runtime=python only; everything else runs on the shared sandbox.  envNames declares which secrets the function mounts BY NAME — values live in KMS and are resolved sandbox-side at run time, so no secret value is sent here or stored here. Scoped to the caller's org; requires a validated principal.
+        Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
 
+        :param definition: (required)
+        :type definition: Definition
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2316,6 +2461,7 @@ class FunctionsApi:
         """ # noqa: E501
 
         _param = self._post_v1_functions_serialize(
+            definition=definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2323,6 +2469,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "FunctionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2338,6 +2485,7 @@ class FunctionsApi:
     @validate_call
     def post_v1_functions_without_preload_content(
         self,
+        definition: Definition,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2351,10 +2499,12 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Publish a function, or redeploy an existing one under the same name
+        """Publishes a serverless function under the caller's org and answers 201 with it.
 
-        Org and name together identify a function, so a second call for a name the org already owns is a REDEPLOY: the spec is replaced, the deploy version advances, and the original creation time is kept. There is no separate update call, and no way to take over a name another org owns.  What is accepted is a closed set. runtime is one of node, python, go, deno, bash or container; name must match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$ and may not be one of the reserved static names (metrics, triggers, deployments, secrets); source is capped at 256 KiB. timeoutSec is CLAMPED to the 900s ceiling rather than rejected, and an absent one defaults to 30s with 256Mi of memory. target=fleet runs the function on the org's own linked GPU fleet and is accepted for runtime=python only; everything else runs on the shared sandbox.  envNames declares which secrets the function mounts BY NAME — values live in KMS and are resolved sandbox-side at run time, so no secret value is sent here or stored here. Scoped to the caller's org; requires a validated principal.
+        Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
 
+        :param definition: (required)
+        :type definition: Definition
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2378,6 +2528,7 @@ class FunctionsApi:
         """ # noqa: E501
 
         _param = self._post_v1_functions_serialize(
+            definition=definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2385,6 +2536,7 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "FunctionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2395,6 +2547,7 @@ class FunctionsApi:
 
     def _post_v1_functions_serialize(
         self,
+        definition,
         _request_auth,
         _content_type,
         _headers,
@@ -2420,9 +2573,31 @@ class FunctionsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if definition is not None:
+            _body_params = definition
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -2450,6 +2625,7 @@ class FunctionsApi:
     def post_v1_functions_by_name_invoke(
         self,
         name: StrictStr,
+        invoke_req: InvokeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2462,13 +2638,15 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Run a function and get back the recorded invocation
+    ) -> InvocationView:
+        """Runs a function and records a REAL invocation.
 
-        The body's `input` is handed to the function on stdin. Execution NEVER happens in this process: the runtime and source go to the sandboxed code executor, or, for a function published with target=fleet, to the org's own linked GPU fleet as an fn.run job this call blocks on until it finishes. Either way it is bounded by the function's own timeout, itself capped at 900s.  The answer is the invocation record — id, status, duration — and its HTTP status is about the RUN, not about this API: a function whose own code fails answers 502 with a recorded `error` invocation, which is a successful invocation of a failing program. The captured output is not in this reply; the logs call returns it.  MONEY. The caller's org ledger is gated BEFORE any compute runs, so an org out of credit or over its spend cap is refused 402 and nothing executes, and a billing plane that cannot answer refuses rather than granting free compute. A run that actually executed is then debited twice — a flat per-invocation fee, and GB-seconds of compute derived from the measured duration and the function's configured memory. A run that never reached its executor (unreachable, or timed out in transport) consumed nothing and is not charged; a run whose code exited non-zero DID consume compute and is. An operator who prices either half at zero makes it a no-op, and a zero request fee removes the balance gate with it.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
+        Runs a function and records a REAL invocation.  The answer is the invocation record whatever happened to it: 200 when the org's code ran clean, 502 when it ran and failed, 503 when this deployment has no sandbox to run code in. The record IS the evidence, so it rides the failure rather than being replaced by an error envelope.  Billing is two-part and both parts are prepaid-then-metered on the one shared meter: a flat per-invocation request fee, gated BEFORE any sandbox compute runs so an unfunded org gets 402 and nothing executes, and a usage-native GB-seconds compute debit taken after the run. Either is independently free when its fee is zero, so an operator can bill by request alone, by compute alone, or by both — and a zero request fee removes the balance gate with it.  A TRANSPORT failure is not charged: the sandbox being unreachable ran no billable compute. Code that ran and exited non-zero IS charged — that is a successful invocation of a failing program, not a billing failure.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
 
         :param name: (required)
         :type name: str
+        :param invoke_req: (required)
+        :type invoke_req: InvokeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2493,6 +2671,7 @@ class FunctionsApi:
 
         _param = self._post_v1_functions_by_name_invoke_serialize(
             name=name,
+            invoke_req=invoke_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2500,6 +2679,9 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InvocationView",
+            '502': "InvocationView",
+            '503': "InvocationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2516,6 +2698,7 @@ class FunctionsApi:
     def post_v1_functions_by_name_invoke_with_http_info(
         self,
         name: StrictStr,
+        invoke_req: InvokeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2528,13 +2711,15 @@ class FunctionsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Run a function and get back the recorded invocation
+    ) -> ApiResponse[InvocationView]:
+        """Runs a function and records a REAL invocation.
 
-        The body's `input` is handed to the function on stdin. Execution NEVER happens in this process: the runtime and source go to the sandboxed code executor, or, for a function published with target=fleet, to the org's own linked GPU fleet as an fn.run job this call blocks on until it finishes. Either way it is bounded by the function's own timeout, itself capped at 900s.  The answer is the invocation record — id, status, duration — and its HTTP status is about the RUN, not about this API: a function whose own code fails answers 502 with a recorded `error` invocation, which is a successful invocation of a failing program. The captured output is not in this reply; the logs call returns it.  MONEY. The caller's org ledger is gated BEFORE any compute runs, so an org out of credit or over its spend cap is refused 402 and nothing executes, and a billing plane that cannot answer refuses rather than granting free compute. A run that actually executed is then debited twice — a flat per-invocation fee, and GB-seconds of compute derived from the measured duration and the function's configured memory. A run that never reached its executor (unreachable, or timed out in transport) consumed nothing and is not charged; a run whose code exited non-zero DID consume compute and is. An operator who prices either half at zero makes it a no-op, and a zero request fee removes the balance gate with it.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
+        Runs a function and records a REAL invocation.  The answer is the invocation record whatever happened to it: 200 when the org's code ran clean, 502 when it ran and failed, 503 when this deployment has no sandbox to run code in. The record IS the evidence, so it rides the failure rather than being replaced by an error envelope.  Billing is two-part and both parts are prepaid-then-metered on the one shared meter: a flat per-invocation request fee, gated BEFORE any sandbox compute runs so an unfunded org gets 402 and nothing executes, and a usage-native GB-seconds compute debit taken after the run. Either is independently free when its fee is zero, so an operator can bill by request alone, by compute alone, or by both — and a zero request fee removes the balance gate with it.  A TRANSPORT failure is not charged: the sandbox being unreachable ran no billable compute. Code that ran and exited non-zero IS charged — that is a successful invocation of a failing program, not a billing failure.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
 
         :param name: (required)
         :type name: str
+        :param invoke_req: (required)
+        :type invoke_req: InvokeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2559,6 +2744,7 @@ class FunctionsApi:
 
         _param = self._post_v1_functions_by_name_invoke_serialize(
             name=name,
+            invoke_req=invoke_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2566,6 +2752,9 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InvocationView",
+            '502': "InvocationView",
+            '503': "InvocationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2582,6 +2771,7 @@ class FunctionsApi:
     def post_v1_functions_by_name_invoke_without_preload_content(
         self,
         name: StrictStr,
+        invoke_req: InvokeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2595,12 +2785,14 @@ class FunctionsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Run a function and get back the recorded invocation
+        """Runs a function and records a REAL invocation.
 
-        The body's `input` is handed to the function on stdin. Execution NEVER happens in this process: the runtime and source go to the sandboxed code executor, or, for a function published with target=fleet, to the org's own linked GPU fleet as an fn.run job this call blocks on until it finishes. Either way it is bounded by the function's own timeout, itself capped at 900s.  The answer is the invocation record — id, status, duration — and its HTTP status is about the RUN, not about this API: a function whose own code fails answers 502 with a recorded `error` invocation, which is a successful invocation of a failing program. The captured output is not in this reply; the logs call returns it.  MONEY. The caller's org ledger is gated BEFORE any compute runs, so an org out of credit or over its spend cap is refused 402 and nothing executes, and a billing plane that cannot answer refuses rather than granting free compute. A run that actually executed is then debited twice — a flat per-invocation fee, and GB-seconds of compute derived from the measured duration and the function's configured memory. A run that never reached its executor (unreachable, or timed out in transport) consumed nothing and is not charged; a run whose code exited non-zero DID consume compute and is. An operator who prices either half at zero makes it a no-op, and a zero request fee removes the balance gate with it.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
+        Runs a function and records a REAL invocation.  The answer is the invocation record whatever happened to it: 200 when the org's code ran clean, 502 when it ran and failed, 503 when this deployment has no sandbox to run code in. The record IS the evidence, so it rides the failure rather than being replaced by an error envelope.  Billing is two-part and both parts are prepaid-then-metered on the one shared meter: a flat per-invocation request fee, gated BEFORE any sandbox compute runs so an unfunded org gets 402 and nothing executes, and a usage-native GB-seconds compute debit taken after the run. Either is independently free when its fee is zero, so an operator can bill by request alone, by compute alone, or by both — and a zero request fee removes the balance gate with it.  A TRANSPORT failure is not charged: the sandbox being unreachable ran no billable compute. Code that ran and exited non-zero IS charged — that is a successful invocation of a failing program, not a billing failure.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
 
         :param name: (required)
         :type name: str
+        :param invoke_req: (required)
+        :type invoke_req: InvokeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2625,6 +2817,7 @@ class FunctionsApi:
 
         _param = self._post_v1_functions_by_name_invoke_serialize(
             name=name,
+            invoke_req=invoke_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2632,6 +2825,9 @@ class FunctionsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "InvocationView",
+            '502': "InvocationView",
+            '503': "InvocationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2643,6 +2839,7 @@ class FunctionsApi:
     def _post_v1_functions_by_name_invoke_serialize(
         self,
         name,
+        invoke_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2670,9 +2867,31 @@ class FunctionsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if invoke_req is not None:
+            _body_params = invoke_req
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
