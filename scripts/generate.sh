@@ -16,7 +16,8 @@
 # from a private repo — so every CI regeneration died at the clone with
 # `could not read Username`. Set OPENAPI by hand to run it by hand.
 #
-# Requires: python3 (+pyyaml), java 11+.
+# Requires: uv, java 11+. uv carries the interpreter and the PyYAML the driver
+# needs; the ci client lane provisions it.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -24,4 +25,4 @@ cd "$(dirname "$0")/.."
 
 if [ -n "${SPEC:-}" ]; then set -- --spec "$SPEC" "$@"; fi
 
-exec python3 "$OPENAPI/generate.py" python --repo "$PWD" "$@"
+exec uv run --with pyyaml python3 "$OPENAPI/generate.py" python --repo "$PWD" "$@"
