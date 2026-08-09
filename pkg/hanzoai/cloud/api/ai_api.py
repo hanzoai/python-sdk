@@ -19,8 +19,55 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBool, StrictStr
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.ai_envelope import AiEnvelope
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
+from hanzoai.cloud.models.envelope import Envelope
+from hanzoai.cloud.models.get_v1_ai_activities200_response import GetV1AiActivities200Response
+from hanzoai.cloud.models.get_v1_ai_articles200_response import GetV1AiArticles200Response
+from hanzoai.cloud.models.get_v1_ai_assets200_response import GetV1AiAssets200Response
+from hanzoai.cloud.models.get_v1_ai_chats200_response import GetV1AiChats200Response
+from hanzoai.cloud.models.get_v1_ai_deployments200_response import GetV1AiDeployments200Response
+from hanzoai.cloud.models.get_v1_ai_files200_response import GetV1AiFiles200Response
+from hanzoai.cloud.models.get_v1_ai_forms200_response import GetV1AiForms200Response
+from hanzoai.cloud.models.get_v1_ai_graphs200_response import GetV1AiGraphs200Response
+from hanzoai.cloud.models.get_v1_ai_messages200_response import GetV1AiMessages200Response
+from hanzoai.cloud.models.get_v1_ai_nodes200_response import GetV1AiNodes200Response
+from hanzoai.cloud.models.get_v1_ai_providers200_response import GetV1AiProviders200Response
+from hanzoai.cloud.models.get_v1_ai_records200_response import GetV1AiRecords200Response
+from hanzoai.cloud.models.get_v1_ai_remote_connections200_response import GetV1AiRemoteConnections200Response
+from hanzoai.cloud.models.get_v1_ai_routes200_response import GetV1AiRoutes200Response
+from hanzoai.cloud.models.get_v1_ai_scales200_response import GetV1AiScales200Response
+from hanzoai.cloud.models.get_v1_ai_scans200_response import GetV1AiScans200Response
+from hanzoai.cloud.models.get_v1_ai_signin_sessions200_response import GetV1AiSigninSessions200Response
+from hanzoai.cloud.models.get_v1_ai_stores200_response import GetV1AiStores200Response
+from hanzoai.cloud.models.get_v1_ai_tasks200_response import GetV1AiTasks200Response
+from hanzoai.cloud.models.get_v1_ai_templates200_response import GetV1AiTemplates200Response
+from hanzoai.cloud.models.get_v1_ai_usages200_response import GetV1AiUsages200Response
+from hanzoai.cloud.models.get_v1_ai_vectors200_response import GetV1AiVectors200Response
+from hanzoai.cloud.models.get_v1_ai_videos200_response import GetV1AiVideos200Response
+from hanzoai.cloud.models.get_v1_ai_workflows200_response import GetV1AiWorkflows200Response
+from hanzoai.cloud.models.post_v1_ai_articles200_response import PostV1AiArticles200Response
+from hanzoai.cloud.models.post_v1_ai_assets200_response import PostV1AiAssets200Response
+from hanzoai.cloud.models.post_v1_ai_chats200_response import PostV1AiChats200Response
+from hanzoai.cloud.models.post_v1_ai_deployments200_response import PostV1AiDeployments200Response
+from hanzoai.cloud.models.post_v1_ai_files200_response import PostV1AiFiles200Response
+from hanzoai.cloud.models.post_v1_ai_forms200_response import PostV1AiForms200Response
+from hanzoai.cloud.models.post_v1_ai_graphs200_response import PostV1AiGraphs200Response
+from hanzoai.cloud.models.post_v1_ai_messages200_response import PostV1AiMessages200Response
+from hanzoai.cloud.models.post_v1_ai_nodes200_response import PostV1AiNodes200Response
+from hanzoai.cloud.models.post_v1_ai_providers200_response import PostV1AiProviders200Response
+from hanzoai.cloud.models.post_v1_ai_records200_response import PostV1AiRecords200Response
+from hanzoai.cloud.models.post_v1_ai_remote_connections200_response import PostV1AiRemoteConnections200Response
+from hanzoai.cloud.models.post_v1_ai_routes200_response import PostV1AiRoutes200Response
+from hanzoai.cloud.models.post_v1_ai_scales200_response import PostV1AiScales200Response
+from hanzoai.cloud.models.post_v1_ai_scans200_response import PostV1AiScans200Response
+from hanzoai.cloud.models.post_v1_ai_signin_sessions200_response import PostV1AiSigninSessions200Response
+from hanzoai.cloud.models.post_v1_ai_stores200_response import PostV1AiStores200Response
+from hanzoai.cloud.models.post_v1_ai_tasks200_response import PostV1AiTasks200Response
+from hanzoai.cloud.models.post_v1_ai_templates200_response import PostV1AiTemplates200Response
+from hanzoai.cloud.models.post_v1_ai_tree_files200_response import PostV1AiTreeFiles200Response
+from hanzoai.cloud.models.post_v1_ai_vectors200_response import PostV1AiVectors200Response
+from hanzoai.cloud.models.post_v1_ai_videos200_response import PostV1AiVideos200Response
+from hanzoai.cloud.models.post_v1_ai_workflows200_response import PostV1AiWorkflows200Response
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -319,7 +366,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiArticles200Response:
         """Delete a article
 
         Delete one article.
@@ -360,7 +407,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -392,7 +439,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiArticles200Response]:
         """Delete a article
 
         Delete one article.
@@ -433,7 +480,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -506,7 +553,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -600,7 +647,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiAssets200Response:
         """Delete a asset
 
         Delete one asset.
@@ -641,7 +688,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -673,7 +720,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiAssets200Response]:
         """Delete a asset
 
         Delete one asset.
@@ -714,7 +761,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -787,7 +834,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -881,7 +928,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiChats200Response:
         """Delete a chat
 
         Delete one chat.
@@ -922,7 +969,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -954,7 +1001,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiChats200Response]:
         """Delete a chat
 
         Delete one chat.
@@ -995,7 +1042,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -1068,7 +1115,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -1148,7 +1195,6 @@ class AiApi:
     @validate_call
     def delete_v1_ai_connections_by_provider(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1166,8 +1212,6 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1191,7 +1235,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._delete_v1_ai_connections_by_provider_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1214,7 +1257,6 @@ class AiApi:
     @validate_call
     def delete_v1_ai_connections_by_provider_with_http_info(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1232,8 +1274,6 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1257,7 +1297,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._delete_v1_ai_connections_by_provider_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1280,7 +1319,6 @@ class AiApi:
     @validate_call
     def delete_v1_ai_connections_by_provider_without_preload_content(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1298,8 +1336,6 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1323,7 +1359,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._delete_v1_ai_connections_by_provider_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1341,7 +1376,6 @@ class AiApi:
 
     def _delete_v1_ai_connections_by_provider_serialize(
         self,
-        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -1363,8 +1397,6 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -1412,7 +1444,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiDeployments200Response:
         """Delete a application
 
         Delete one application.
@@ -1453,7 +1485,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -1485,7 +1517,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiDeployments200Response]:
         """Delete a application
 
         Delete one application.
@@ -1526,7 +1558,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -1599,7 +1631,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -1693,7 +1725,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiFiles200Response:
         """Delete a file
 
         Delete one file.
@@ -1734,7 +1766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -1766,7 +1798,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiFiles200Response]:
         """Delete a file
 
         Delete one file.
@@ -1807,7 +1839,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -1880,7 +1912,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -1974,7 +2006,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiForms200Response:
         """Delete a form
 
         Delete one form.
@@ -2015,7 +2047,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -2047,7 +2079,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiForms200Response]:
         """Delete a form
 
         Delete one form.
@@ -2088,7 +2120,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -2161,7 +2193,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -2255,7 +2287,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiGraphs200Response:
         """Delete a graph
 
         Delete one graph.
@@ -2296,7 +2328,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -2328,7 +2360,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiGraphs200Response]:
         """Delete a graph
 
         Delete one graph.
@@ -2369,7 +2401,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -2442,7 +2474,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -2536,7 +2568,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiMessages200Response:
         """Delete a message
 
         Delete one message.
@@ -2577,7 +2609,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -2609,7 +2641,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiMessages200Response]:
         """Delete a message
 
         Delete one message.
@@ -2650,7 +2682,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -2723,7 +2755,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -2815,7 +2847,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Welcome (message)
 
 
@@ -2849,7 +2881,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -2879,7 +2911,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Welcome (message)
 
 
@@ -2913,7 +2945,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -2977,7 +3009,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -3065,7 +3097,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiNodes200Response:
         """Delete a node
 
         Delete one node.
@@ -3106,7 +3138,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -3138,7 +3170,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiNodes200Response]:
         """Delete a node
 
         Delete one node.
@@ -3179,7 +3211,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -3252,7 +3284,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -3346,7 +3378,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiProviders200Response:
         """Delete a provider
 
         Delete one provider.
@@ -3387,7 +3419,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -3419,7 +3451,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiProviders200Response]:
         """Delete a provider
 
         Delete one provider.
@@ -3460,7 +3492,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -3533,7 +3565,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -3627,7 +3659,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRecords200Response:
         """Delete a record
 
         Delete one record.
@@ -3668,7 +3700,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -3700,7 +3732,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRecords200Response]:
         """Delete a record
 
         Delete one record.
@@ -3741,7 +3773,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -3814,7 +3846,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -3908,7 +3940,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRemoteConnections200Response:
         """Delete a connection
 
         Delete one connection.
@@ -3949,7 +3981,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -3981,7 +4013,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
         """Delete a connection
 
         Delete one connection.
@@ -4022,7 +4054,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -4095,7 +4127,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -4189,7 +4221,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRoutes200Response:
         """Delete a model-route
 
         Delete one model-route.
@@ -4230,7 +4262,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -4262,7 +4294,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRoutes200Response]:
         """Delete a model-route
 
         Delete one model-route.
@@ -4303,7 +4335,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -4376,7 +4408,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -4470,7 +4502,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScales200Response:
         """Delete a scale
 
         Delete one scale.
@@ -4511,7 +4543,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -4543,7 +4575,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScales200Response]:
         """Delete a scale
 
         Delete one scale.
@@ -4584,7 +4616,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -4657,7 +4689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -4751,7 +4783,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScans200Response:
         """Delete a scan
 
         Delete one scan.
@@ -4792,7 +4824,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -4824,7 +4856,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScans200Response]:
         """Delete a scan
 
         Delete one scan.
@@ -4865,7 +4897,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -4938,7 +4970,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -5032,7 +5064,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiSigninSessions200Response:
         """Delete a session
 
         Delete one session.
@@ -5073,7 +5105,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -5105,7 +5137,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
         """Delete a session
 
         Delete one session.
@@ -5146,7 +5178,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -5219,7 +5251,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -5313,7 +5345,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiStores200Response:
         """Delete a store
 
         Delete one store.
@@ -5354,7 +5386,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -5386,7 +5418,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiStores200Response]:
         """Delete a store
 
         Delete one store.
@@ -5427,7 +5459,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -5500,7 +5532,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -5594,7 +5626,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTasks200Response:
         """Delete a task
 
         Delete one task.
@@ -5635,7 +5667,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -5667,7 +5699,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTasks200Response]:
         """Delete a task
 
         Delete one task.
@@ -5708,7 +5740,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -5781,7 +5813,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -5875,7 +5907,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTemplates200Response:
         """Delete a template
 
         Delete one template.
@@ -5916,7 +5948,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -5948,7 +5980,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTemplates200Response]:
         """Delete a template
 
         Delete one template.
@@ -5989,7 +6021,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -6062,7 +6094,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -6156,7 +6188,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTreeFiles200Response:
         """Delete a tree-file
 
         Delete one tree-file.
@@ -6197,7 +6229,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -6229,7 +6261,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
         """Delete a tree-file
 
         Delete one tree-file.
@@ -6270,7 +6302,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -6343,7 +6375,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -6435,7 +6467,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """All (vector)
 
 
@@ -6469,7 +6501,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -6499,7 +6531,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """All (vector)
 
 
@@ -6533,7 +6565,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -6597,7 +6629,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -6685,7 +6717,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVectors200Response:
         """Delete a vector
 
         Delete one vector.
@@ -6726,7 +6758,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -6758,7 +6790,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVectors200Response]:
         """Delete a vector
 
         Delete one vector.
@@ -6799,7 +6831,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -6872,7 +6904,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -6966,7 +6998,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVideos200Response:
         """Delete a video
 
         Delete one video.
@@ -7007,7 +7039,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -7039,7 +7071,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVideos200Response]:
         """Delete a video
 
         Delete one video.
@@ -7080,7 +7112,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -7153,7 +7185,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -7247,7 +7279,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiWorkflows200Response:
         """Delete a workflow
 
         Delete one workflow.
@@ -7288,7 +7320,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -7320,7 +7352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiWorkflows200Response]:
         """Delete a workflow
 
         Delete one workflow.
@@ -7361,7 +7393,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -7434,7 +7466,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -7526,7 +7558,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Account
 
 
@@ -7560,7 +7592,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -7590,7 +7622,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Account
 
 
@@ -7624,7 +7656,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -7688,7 +7720,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -7774,7 +7806,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiActivities200Response:
         """List activities
 
         List the caller's activities.
@@ -7809,7 +7841,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiActivities200Response",
             '401': None,
             '403': None,
         }
@@ -7839,7 +7871,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiActivities200Response]:
         """List activities
 
         List the caller's activities.
@@ -7874,7 +7906,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiActivities200Response",
             '401': None,
             '403': None,
         }
@@ -7939,7 +7971,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiActivities200Response",
             '401': None,
             '403': None,
         }
@@ -8025,7 +8057,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Answer
 
 
@@ -8059,7 +8091,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -8089,7 +8121,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Answer
 
 
@@ -8123,7 +8155,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -8187,7 +8219,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -8273,7 +8305,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiArticles200Response:
         """List articles
 
         List the caller's articles.
@@ -8308,7 +8340,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8338,7 +8370,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiArticles200Response]:
         """List articles
 
         List the caller's articles.
@@ -8373,7 +8405,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8438,7 +8470,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8526,7 +8558,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiArticles200Response:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
@@ -8567,7 +8599,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8599,7 +8631,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiArticles200Response]:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
@@ -8640,7 +8672,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8713,7 +8745,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8805,7 +8837,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiArticles200Response:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -8840,7 +8872,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8870,7 +8902,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiArticles200Response]:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -8905,7 +8937,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8970,7 +9002,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -9056,7 +9088,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiAssets200Response:
         """List assets
 
         List the caller's assets.
@@ -9091,7 +9123,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9121,7 +9153,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiAssets200Response]:
         """List assets
 
         List the caller's assets.
@@ -9156,7 +9188,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9221,7 +9253,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9309,7 +9341,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiAssets200Response:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
@@ -9350,7 +9382,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9382,7 +9414,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiAssets200Response]:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
@@ -9423,7 +9455,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9496,7 +9528,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9588,7 +9620,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiChats200Response:
         """List chats
 
         List the caller's chats.
@@ -9623,7 +9655,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9653,7 +9685,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiChats200Response]:
         """List chats
 
         List the caller's chats.
@@ -9688,7 +9720,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9753,7 +9785,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9841,7 +9873,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiChats200Response:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
@@ -9882,7 +9914,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9914,7 +9946,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiChats200Response]:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
@@ -9955,7 +9987,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10028,7 +10060,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10120,7 +10152,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiChats200Response:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10155,7 +10187,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10185,7 +10217,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiChats200Response]:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10220,7 +10252,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10285,7 +10317,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10594,7 +10626,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_authorize(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10612,8 +10643,6 @@ class AiApi:
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10637,7 +10666,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_authorize_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10660,7 +10688,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_authorize_with_http_info(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10678,8 +10705,6 @@ class AiApi:
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10703,7 +10728,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_authorize_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10726,7 +10750,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_authorize_without_preload_content(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10744,8 +10767,6 @@ class AiApi:
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10769,7 +10790,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_authorize_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10787,7 +10807,6 @@ class AiApi:
 
     def _get_v1_ai_connections_by_provider_authorize_serialize(
         self,
-        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -10809,8 +10828,6 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -10844,7 +10861,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_callback(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10862,8 +10878,6 @@ class AiApi:
 
         Completes OAuth: the org is recovered from the SIGNED state (not a header), the code is exchanged for a token, the token is SEALED into KMS (never the row/logs) through the same path as a BYOK key, and the org's provider row is upserted to \"connected\". The browser is then redirected back to the console with ?ai_connected=<provider> (or ?ai_connect_error=<provider> on failure). Because the org comes from the state THIS server signed, an attacker cannot land their token in a victim org — which is why this endpoint is state-authenticated rather than credential-gated.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10887,7 +10901,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_callback_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10910,7 +10923,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_callback_with_http_info(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10928,8 +10940,6 @@ class AiApi:
 
         Completes OAuth: the org is recovered from the SIGNED state (not a header), the code is exchanged for a token, the token is SEALED into KMS (never the row/logs) through the same path as a BYOK key, and the org's provider row is upserted to \"connected\". The browser is then redirected back to the console with ?ai_connected=<provider> (or ?ai_connect_error=<provider> on failure). Because the org comes from the state THIS server signed, an attacker cannot land their token in a victim org — which is why this endpoint is state-authenticated rather than credential-gated.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10953,7 +10963,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_callback_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10976,7 +10985,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_callback_without_preload_content(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10994,8 +11002,6 @@ class AiApi:
 
         Completes OAuth: the org is recovered from the SIGNED state (not a header), the code is exchanged for a token, the token is SEALED into KMS (never the row/logs) through the same path as a BYOK key, and the org's provider row is upserted to \"connected\". The browser is then redirected back to the console with ?ai_connected=<provider> (or ?ai_connect_error=<provider> on failure). Because the org comes from the state THIS server signed, an attacker cannot land their token in a victim org — which is why this endpoint is state-authenticated rather than credential-gated.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11019,7 +11025,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_callback_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11037,7 +11042,6 @@ class AiApi:
 
     def _get_v1_ai_connections_by_provider_callback_serialize(
         self,
-        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -11059,8 +11063,6 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -11094,7 +11096,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_usage(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11112,8 +11113,6 @@ class AiApi:
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11137,7 +11136,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_usage_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11160,7 +11158,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_usage_with_http_info(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11178,8 +11175,6 @@ class AiApi:
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11203,7 +11198,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_usage_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11226,7 +11220,6 @@ class AiApi:
     @validate_call
     def get_v1_ai_connections_by_provider_usage_without_preload_content(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11244,8 +11237,6 @@ class AiApi:
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11269,7 +11260,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_v1_ai_connections_by_provider_usage_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11287,7 +11277,6 @@ class AiApi:
 
     def _get_v1_ai_connections_by_provider_usage_serialize(
         self,
-        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -11309,8 +11298,6 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -11356,7 +11343,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Dashboards Agents
 
 
@@ -11390,7 +11377,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -11420,7 +11407,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Dashboards Agents
 
 
@@ -11454,7 +11441,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -11518,7 +11505,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -11604,7 +11591,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Dashboards Vm
 
 
@@ -11638,7 +11625,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -11668,7 +11655,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Dashboards Vm
 
 
@@ -11702,7 +11689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -11766,7 +11753,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -11852,7 +11839,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiDeployments200Response:
         """List deployments
 
         List the caller's deployments.
@@ -11887,7 +11874,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -11917,7 +11904,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiDeployments200Response]:
         """List deployments
 
         List the caller's deployments.
@@ -11952,7 +11939,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12017,7 +12004,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12105,7 +12092,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiDeployments200Response:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
@@ -12146,7 +12133,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12178,7 +12165,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiDeployments200Response]:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
@@ -12219,7 +12206,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12292,7 +12279,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12384,7 +12371,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiFiles200Response:
         """List files
 
         List the caller's files.
@@ -12419,7 +12406,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12449,7 +12436,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiFiles200Response]:
         """List files
 
         List the caller's files.
@@ -12484,7 +12471,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12549,7 +12536,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12635,7 +12622,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Active (file)
 
 
@@ -12669,7 +12656,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -12699,7 +12686,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Active (file)
 
 
@@ -12733,7 +12720,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -12797,7 +12784,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -12885,7 +12872,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiFiles200Response:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
@@ -12926,7 +12913,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12958,7 +12945,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiFiles200Response]:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
@@ -12999,7 +12986,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13072,7 +13059,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13164,7 +13151,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiFiles200Response:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -13199,7 +13186,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13229,7 +13216,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiFiles200Response]:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -13264,7 +13251,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13329,7 +13316,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13415,7 +13402,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiForms200Response:
         """List forms
 
         List the caller's forms.
@@ -13450,7 +13437,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13480,7 +13467,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiForms200Response]:
         """List forms
 
         List the caller's forms.
@@ -13515,7 +13502,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13580,7 +13567,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13668,7 +13655,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiForms200Response:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
@@ -13709,7 +13696,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13741,7 +13728,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiForms200Response]:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
@@ -13782,7 +13769,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13855,7 +13842,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13947,7 +13934,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Data (form)
 
 
@@ -13981,7 +13968,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -14011,7 +13998,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Data (form)
 
 
@@ -14045,7 +14032,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -14109,7 +14096,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -14195,7 +14182,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiForms200Response:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14230,7 +14217,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -14260,7 +14247,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiForms200Response]:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14295,7 +14282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -14360,7 +14347,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -14446,7 +14433,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiGraphs200Response:
         """List graphs
 
         List the caller's graphs.
@@ -14481,7 +14468,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14511,7 +14498,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiGraphs200Response]:
         """List graphs
 
         List the caller's graphs.
@@ -14546,7 +14533,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14611,7 +14598,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14699,7 +14686,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiGraphs200Response:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
@@ -14740,7 +14727,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14772,7 +14759,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiGraphs200Response]:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
@@ -14813,7 +14800,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14886,7 +14873,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14978,7 +14965,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiGraphs200Response:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -15013,7 +15000,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -15043,7 +15030,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiGraphs200Response]:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -15078,7 +15065,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -15143,7 +15130,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -15229,7 +15216,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """K8s Status
 
 
@@ -15263,7 +15250,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -15293,7 +15280,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """K8s Status
 
 
@@ -15327,7 +15314,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -15391,7 +15378,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -15477,7 +15464,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiMessages200Response:
         """List messages
 
         List the caller's messages.
@@ -15512,7 +15499,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15542,7 +15529,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiMessages200Response]:
         """List messages
 
         List the caller's messages.
@@ -15577,7 +15564,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15642,7 +15629,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15730,7 +15717,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiMessages200Response:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
@@ -15771,7 +15758,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15803,7 +15790,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiMessages200Response]:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
@@ -15844,7 +15831,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15917,7 +15904,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16011,7 +15998,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Answer (message)
 
 
@@ -16051,7 +16038,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -16083,7 +16070,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Answer (message)
 
 
@@ -16123,7 +16110,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -16195,7 +16182,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -16287,7 +16274,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiMessages200Response:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16322,7 +16309,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16352,7 +16339,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiMessages200Response]:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16387,7 +16374,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16452,7 +16439,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16538,7 +16525,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiNodes200Response:
         """List nodes
 
         List the caller's nodes.
@@ -16573,7 +16560,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16603,7 +16590,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiNodes200Response]:
         """List nodes
 
         List the caller's nodes.
@@ -16638,7 +16625,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16703,7 +16690,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16791,7 +16778,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiNodes200Response:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
@@ -16832,7 +16819,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16864,7 +16851,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiNodes200Response]:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
@@ -16905,7 +16892,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16978,7 +16965,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -17072,7 +17059,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Tunnel (node)
 
 
@@ -17112,7 +17099,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -17144,7 +17131,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Tunnel (node)
 
 
@@ -17184,7 +17171,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -17256,7 +17243,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -17348,7 +17335,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Prometheus
 
 
@@ -17382,7 +17369,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -17412,7 +17399,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Prometheus
 
 
@@ -17446,7 +17433,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -17510,7 +17497,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -17596,7 +17583,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiProviders200Response:
         """List providers
 
         List the caller's providers.
@@ -17631,7 +17618,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17661,7 +17648,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiProviders200Response]:
         """List providers
 
         List the caller's providers.
@@ -17696,7 +17683,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17761,7 +17748,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17849,7 +17836,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiProviders200Response:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
@@ -17890,7 +17877,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17922,7 +17909,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiProviders200Response]:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
@@ -17963,7 +17950,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18036,7 +18023,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18128,7 +18115,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiProviders200Response:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -18163,7 +18150,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18193,7 +18180,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiProviders200Response]:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -18228,7 +18215,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18293,7 +18280,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18379,7 +18366,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiRecords200Response:
         """List records
 
         List the caller's records.
@@ -18414,7 +18401,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18444,7 +18431,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiRecords200Response]:
         """List records
 
         List the caller's records.
@@ -18479,7 +18466,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18544,7 +18531,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18632,7 +18619,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRecords200Response:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
@@ -18673,7 +18660,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18705,7 +18692,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRecords200Response]:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
@@ -18746,7 +18733,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18819,7 +18806,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18911,7 +18898,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Query (record)
 
 
@@ -18945,7 +18932,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -18975,7 +18962,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Query (record)
 
 
@@ -19009,7 +18996,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -19073,7 +19060,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -19159,7 +19146,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Query Second (record)
 
 
@@ -19193,7 +19180,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -19223,7 +19210,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Query Second (record)
 
 
@@ -19257,7 +19244,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -19321,7 +19308,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -19407,7 +19394,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiRemoteConnections200Response:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -19442,7 +19429,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19472,7 +19459,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiRemoteConnections200Response]:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -19507,7 +19494,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19572,7 +19559,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19660,7 +19647,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRemoteConnections200Response:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
@@ -19701,7 +19688,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19733,7 +19720,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
@@ -19774,7 +19761,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19847,7 +19834,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19939,7 +19926,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiRoutes200Response:
         """List routes
 
         List the caller's routes.
@@ -19974,7 +19961,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20004,7 +19991,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiRoutes200Response]:
         """List routes
 
         List the caller's routes.
@@ -20039,7 +20026,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20104,7 +20091,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20192,7 +20179,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRoutes200Response:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
@@ -20233,7 +20220,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20265,7 +20252,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRoutes200Response]:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
@@ -20306,7 +20293,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20379,7 +20366,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20471,7 +20458,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiScales200Response:
         """List scales
 
         List the caller's scales.
@@ -20506,7 +20493,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20536,7 +20523,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiScales200Response]:
         """List scales
 
         List the caller's scales.
@@ -20571,7 +20558,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20636,7 +20623,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20724,7 +20711,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScales200Response:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
@@ -20765,7 +20752,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20797,7 +20784,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScales200Response]:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
@@ -20838,7 +20825,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20911,7 +20898,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21003,7 +20990,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiScales200Response:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21038,7 +21025,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21068,7 +21055,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiScales200Response]:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21103,7 +21090,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21168,7 +21155,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21254,7 +21241,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Public (scale)
 
 
@@ -21288,7 +21275,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -21318,7 +21305,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Public (scale)
 
 
@@ -21352,7 +21339,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -21416,7 +21403,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -21502,7 +21489,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiScans200Response:
         """List scans
 
         List the caller's scans.
@@ -21537,7 +21524,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21567,7 +21554,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiScans200Response]:
         """List scans
 
         List the caller's scans.
@@ -21602,7 +21589,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21667,7 +21654,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21755,7 +21742,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScans200Response:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
@@ -21796,7 +21783,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21828,7 +21815,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScans200Response]:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
@@ -21869,7 +21856,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21942,7 +21929,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -22034,7 +22021,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiSigninSessions200Response:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -22069,7 +22056,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22099,7 +22086,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiSigninSessions200Response]:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -22134,7 +22121,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22199,7 +22186,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22287,7 +22274,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiSigninSessions200Response:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
@@ -22328,7 +22315,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22360,7 +22347,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
@@ -22401,7 +22388,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22474,7 +22461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22566,7 +22553,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Duplicated (session)
 
 
@@ -22600,7 +22587,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -22630,7 +22617,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Duplicated (session)
 
 
@@ -22664,7 +22651,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -22728,7 +22715,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -22814,7 +22801,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiStores200Response:
         """List stores
 
         List the caller's stores.
@@ -22849,7 +22836,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -22879,7 +22866,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiStores200Response]:
         """List stores
 
         List the caller's stores.
@@ -22914,7 +22901,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -22979,7 +22966,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23067,7 +23054,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiStores200Response:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
@@ -23108,7 +23095,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23140,7 +23127,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiStores200Response]:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
@@ -23181,7 +23168,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23254,7 +23241,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23346,7 +23333,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiStores200Response:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -23381,7 +23368,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23411,7 +23398,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiStores200Response]:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -23446,7 +23433,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23511,7 +23498,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23597,7 +23584,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Names (store)
 
 
@@ -23631,7 +23618,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -23661,7 +23648,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Names (store)
 
 
@@ -23695,7 +23682,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -23759,7 +23746,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -23845,7 +23832,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Providers (store)
 
 
@@ -23879,7 +23866,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -23909,7 +23896,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Providers (store)
 
 
@@ -23943,7 +23930,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -24007,7 +23994,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -24093,7 +24080,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """System
 
 
@@ -24127,7 +24114,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -24157,7 +24144,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """System
 
 
@@ -24191,7 +24178,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -24255,7 +24242,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -24341,7 +24328,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiTasks200Response:
         """List tasks
 
         List the caller's tasks.
@@ -24376,7 +24363,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24406,7 +24393,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiTasks200Response]:
         """List tasks
 
         List the caller's tasks.
@@ -24441,7 +24428,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24506,7 +24493,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24594,7 +24581,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTasks200Response:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
@@ -24635,7 +24622,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24667,7 +24654,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTasks200Response]:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
@@ -24708,7 +24695,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24781,7 +24768,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24873,7 +24860,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiTasks200Response:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -24908,7 +24895,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24938,7 +24925,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiTasks200Response]:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -24973,7 +24960,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -25038,7 +25025,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -25124,7 +25111,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiTemplates200Response:
         """List templates
 
         List the caller's templates.
@@ -25159,7 +25146,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25189,7 +25176,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiTemplates200Response]:
         """List templates
 
         List the caller's templates.
@@ -25224,7 +25211,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25289,7 +25276,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25377,7 +25364,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTemplates200Response:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
@@ -25418,7 +25405,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25450,7 +25437,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTemplates200Response]:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
@@ -25491,7 +25478,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25564,7 +25551,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25656,7 +25643,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Training Contribution
 
 
@@ -25690,7 +25677,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -25720,7 +25707,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Training Contribution
 
 
@@ -25754,7 +25741,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -25818,7 +25805,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -25904,7 +25891,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiUsages200Response:
         """List usages
 
         List the caller's usages.
@@ -25939,7 +25926,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiUsages200Response",
             '401': None,
             '403': None,
         }
@@ -25969,7 +25956,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiUsages200Response]:
         """List usages
 
         List the caller's usages.
@@ -26004,7 +25991,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiUsages200Response",
             '401': None,
             '403': None,
         }
@@ -26069,7 +26056,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiUsages200Response",
             '401': None,
             '403': None,
         }
@@ -26155,7 +26142,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """By User (usage)
 
 
@@ -26189,7 +26176,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26219,7 +26206,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """By User (usage)
 
 
@@ -26253,7 +26240,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26317,7 +26304,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26403,7 +26390,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Cloud (usage)
 
 
@@ -26437,7 +26424,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26467,7 +26454,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Cloud (usage)
 
 
@@ -26501,7 +26488,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26565,7 +26552,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26651,7 +26638,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Range (usage)
 
 
@@ -26685,7 +26672,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26715,7 +26702,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Range (usage)
 
 
@@ -26749,7 +26736,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26813,7 +26800,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26899,7 +26886,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """User Names (usage)
 
 
@@ -26933,7 +26920,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -26963,7 +26950,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """User Names (usage)
 
 
@@ -26997,7 +26984,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -27061,7 +27048,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -27147,7 +27134,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiVectors200Response:
         """List vectors
 
         List the caller's vectors.
@@ -27182,7 +27169,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27212,7 +27199,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiVectors200Response]:
         """List vectors
 
         List the caller's vectors.
@@ -27247,7 +27234,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27312,7 +27299,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27400,7 +27387,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVectors200Response:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
@@ -27441,7 +27428,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27473,7 +27460,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVectors200Response]:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
@@ -27514,7 +27501,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27587,7 +27574,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27679,7 +27666,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiVectors200Response:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27714,7 +27701,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27744,7 +27731,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiVectors200Response]:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27779,7 +27766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27844,7 +27831,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27930,7 +27917,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Version
 
 
@@ -27964,7 +27951,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -27994,7 +27981,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Version
 
 
@@ -28028,7 +28015,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -28092,7 +28079,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -28178,7 +28165,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiVideos200Response:
         """List videos
 
         List the caller's videos.
@@ -28213,7 +28200,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28243,7 +28230,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiVideos200Response]:
         """List videos
 
         List the caller's videos.
@@ -28278,7 +28265,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28343,7 +28330,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28431,7 +28418,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVideos200Response:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
@@ -28472,7 +28459,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28504,7 +28491,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVideos200Response]:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
@@ -28545,7 +28532,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28618,7 +28605,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28710,7 +28697,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiVideos200Response:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -28745,7 +28732,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28775,7 +28762,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiVideos200Response]:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -28810,7 +28797,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28875,7 +28862,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28961,7 +28948,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiWorkflows200Response:
         """List workflows
 
         List the caller's workflows.
@@ -28996,7 +28983,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29026,7 +29013,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiWorkflows200Response]:
         """List workflows
 
         List the caller's workflows.
@@ -29061,7 +29048,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29126,7 +29113,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29214,7 +29201,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiWorkflows200Response:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
@@ -29255,7 +29242,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29287,7 +29274,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiWorkflows200Response]:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
@@ -29328,7 +29315,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29401,7 +29388,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29493,7 +29480,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> GetV1AiWorkflows200Response:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29528,7 +29515,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29558,7 +29545,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[GetV1AiWorkflows200Response]:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29593,7 +29580,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29658,7 +29645,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "GetV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29747,7 +29734,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiArticles200Response:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -29791,7 +29778,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -29824,7 +29811,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiArticles200Response]:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -29868,7 +29855,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -29945,7 +29932,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -30056,7 +30043,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiAssets200Response:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30100,7 +30087,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -30133,7 +30120,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiAssets200Response]:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30177,7 +30164,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -30254,7 +30241,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -30365,7 +30352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiChats200Response:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30409,7 +30396,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -30442,7 +30429,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiChats200Response]:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30486,7 +30473,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -30563,7 +30550,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -30674,7 +30661,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiDeployments200Response:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30718,7 +30705,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -30751,7 +30738,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiDeployments200Response]:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30795,7 +30782,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -30872,7 +30859,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -30983,7 +30970,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiFiles200Response:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31027,7 +31014,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -31060,7 +31047,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiFiles200Response]:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31104,7 +31091,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -31181,7 +31168,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -31292,7 +31279,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiForms200Response:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31336,7 +31323,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -31369,7 +31356,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiForms200Response]:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31413,7 +31400,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -31490,7 +31477,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -31601,7 +31588,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiGraphs200Response:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31645,7 +31632,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -31678,7 +31665,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiGraphs200Response]:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31722,7 +31709,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -31799,7 +31786,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -31910,7 +31897,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiMessages200Response:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31954,7 +31941,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -31987,7 +31974,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiMessages200Response]:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32031,7 +32018,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -32108,7 +32095,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -32219,7 +32206,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiNodes200Response:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32263,7 +32250,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -32296,7 +32283,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiNodes200Response]:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32340,7 +32327,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -32417,7 +32404,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -32526,7 +32513,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Preferences
 
 
@@ -32563,7 +32550,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -32594,7 +32581,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Preferences
 
 
@@ -32631,7 +32618,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -32699,7 +32686,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -32804,7 +32791,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiProviders200Response:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32848,7 +32835,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -32881,7 +32868,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiProviders200Response]:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32925,7 +32912,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -33002,7 +32989,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -33113,7 +33100,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRecords200Response:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33157,7 +33144,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -33190,7 +33177,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRecords200Response]:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33234,7 +33221,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -33311,7 +33298,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -33422,7 +33409,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRemoteConnections200Response:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33466,7 +33453,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -33499,7 +33486,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33543,7 +33530,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -33620,7 +33607,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -33731,7 +33718,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRoutes200Response:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33775,7 +33762,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -33808,7 +33795,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRoutes200Response]:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33852,7 +33839,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -33929,7 +33916,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -34040,7 +34027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScales200Response:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34084,7 +34071,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -34117,7 +34104,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScales200Response]:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34161,7 +34148,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -34238,7 +34225,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -34349,7 +34336,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScans200Response:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34393,7 +34380,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -34426,7 +34413,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScans200Response]:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34470,7 +34457,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -34547,7 +34534,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -34658,7 +34645,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiSigninSessions200Response:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34702,7 +34689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -34735,7 +34722,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34779,7 +34766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -34856,7 +34843,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -34967,7 +34954,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiStores200Response:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35011,7 +34998,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -35044,7 +35031,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiStores200Response]:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35088,7 +35075,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -35165,7 +35152,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -35276,7 +35263,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTasks200Response:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35320,7 +35307,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -35353,7 +35340,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTasks200Response]:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35397,7 +35384,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -35474,7 +35461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -35585,7 +35572,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTemplates200Response:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35629,7 +35616,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -35662,7 +35649,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTemplates200Response]:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35706,7 +35693,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -35783,7 +35770,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -35892,7 +35879,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Training Contribution
 
 
@@ -35929,7 +35916,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -35960,7 +35947,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Training Contribution
 
 
@@ -35997,7 +35984,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -36065,7 +36052,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -36170,7 +36157,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTreeFiles200Response:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36214,7 +36201,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -36247,7 +36234,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36291,7 +36278,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -36368,7 +36355,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -36479,7 +36466,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVectors200Response:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36523,7 +36510,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -36556,7 +36543,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVectors200Response]:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36600,7 +36587,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -36677,7 +36664,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -36788,7 +36775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVideos200Response:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36832,7 +36819,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -36865,7 +36852,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVideos200Response]:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36909,7 +36896,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -36986,7 +36973,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -37097,7 +37084,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiWorkflows200Response:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37141,7 +37128,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -37174,7 +37161,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiWorkflows200Response]:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37218,7 +37205,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -37295,7 +37282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -37404,7 +37391,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiArticles200Response:
         """Create a article
 
         Create one article.
@@ -37442,7 +37429,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -37473,7 +37460,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiArticles200Response]:
         """Create a article
 
         Create one article.
@@ -37511,7 +37498,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -37580,7 +37567,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -37683,7 +37670,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiAssets200Response:
         """Create a asset
 
         Create one asset.
@@ -37721,7 +37708,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -37752,7 +37739,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiAssets200Response]:
         """Create a asset
 
         Create one asset.
@@ -37790,7 +37777,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -37859,7 +37846,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -37964,7 +37951,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Scan (asset)
 
 
@@ -38007,7 +37994,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -38040,7 +38027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Scan (asset)
 
 
@@ -38083,7 +38070,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -38159,7 +38146,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -38268,7 +38255,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Scan (asset)
 
 
@@ -38305,7 +38292,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -38336,7 +38323,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Scan (asset)
 
 
@@ -38373,7 +38360,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -38441,7 +38428,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -38544,7 +38531,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiChats200Response:
         """Create a chat
 
         Create one chat.
@@ -38582,7 +38569,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -38613,7 +38600,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiChats200Response]:
         """Create a chat
 
         Create one chat.
@@ -38651,7 +38638,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -38720,7 +38707,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -39045,7 +39032,6 @@ class AiApi:
     @validate_call
     def post_v1_ai_connections_by_provider(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39063,8 +39049,6 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39088,7 +39072,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_v1_ai_connections_by_provider_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39111,7 +39094,6 @@ class AiApi:
     @validate_call
     def post_v1_ai_connections_by_provider_with_http_info(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39129,8 +39111,6 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39154,7 +39134,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_v1_ai_connections_by_provider_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39177,7 +39156,6 @@ class AiApi:
     @validate_call
     def post_v1_ai_connections_by_provider_without_preload_content(
         self,
-        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39195,8 +39173,6 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
-        :param provider: (required)
-        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39220,7 +39196,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_v1_ai_connections_by_provider_serialize(
-            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39238,7 +39213,6 @@ class AiApi:
 
     def _post_v1_ai_connections_by_provider_serialize(
         self,
-        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -39260,8 +39234,6 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if provider is not None:
-            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -39308,7 +39280,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiDeployments200Response:
         """Create a application
 
         Create one application.
@@ -39346,7 +39318,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -39377,7 +39349,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiDeployments200Response]:
         """Create a application
 
         Create one application.
@@ -39415,7 +39387,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -39484,7 +39456,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -39589,7 +39561,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Deploy (application)
 
 
@@ -39632,7 +39604,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -39665,7 +39637,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Deploy (application)
 
 
@@ -39708,7 +39680,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -39784,7 +39756,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -39895,7 +39867,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Undeploy (application)
 
 
@@ -39938,7 +39910,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -39971,7 +39943,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Undeploy (application)
 
 
@@ -40014,7 +39986,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40090,7 +40062,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40199,7 +40171,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiFiles200Response:
         """Create a file
 
         Create one file.
@@ -40237,7 +40209,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -40268,7 +40240,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiFiles200Response]:
         """Create a file
 
         Create one file.
@@ -40306,7 +40278,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -40375,7 +40347,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -40478,7 +40450,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Activate (file)
 
 
@@ -40515,7 +40487,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40546,7 +40518,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Activate (file)
 
 
@@ -40583,7 +40555,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40651,7 +40623,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40756,7 +40728,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Vectors (file)
 
 
@@ -40799,7 +40771,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40832,7 +40804,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Vectors (file)
 
 
@@ -40875,7 +40847,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -40951,7 +40923,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -41060,7 +41032,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Upload (file)
 
 
@@ -41097,7 +41069,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -41128,7 +41100,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Upload (file)
 
 
@@ -41165,7 +41137,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -41233,7 +41205,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -41336,7 +41308,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiForms200Response:
         """Create a form
 
         Create one form.
@@ -41374,7 +41346,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -41405,7 +41377,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiForms200Response]:
         """Create a form
 
         Create one form.
@@ -41443,7 +41415,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -41512,7 +41484,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -41615,7 +41587,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiGraphs200Response:
         """Create a graph
 
         Create one graph.
@@ -41653,7 +41625,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -41684,7 +41656,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiGraphs200Response]:
         """Create a graph
 
         Create one graph.
@@ -41722,7 +41694,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -41791,7 +41763,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -41894,7 +41866,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiMessages200Response:
         """Create a message
 
         Create one message.
@@ -41932,7 +41904,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -41963,7 +41935,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiMessages200Response]:
         """Create a message
 
         Create one message.
@@ -42001,7 +41973,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -42070,7 +42042,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -42173,7 +42145,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiNodes200Response:
         """Create a node
 
         Create one node.
@@ -42211,7 +42183,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -42242,7 +42214,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiNodes200Response]:
         """Create a node
 
         Create one node.
@@ -42280,7 +42252,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -42349,7 +42321,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -42454,7 +42426,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Tunnel (node)
 
 
@@ -42497,7 +42469,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -42530,7 +42502,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Tunnel (node)
 
 
@@ -42573,7 +42545,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -42649,7 +42621,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -42758,7 +42730,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiProviders200Response:
         """Create a provider
 
         Create one provider.
@@ -42796,7 +42768,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -42827,7 +42799,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiProviders200Response]:
         """Create a provider
 
         Create one provider.
@@ -42865,7 +42837,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -42934,7 +42906,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -43037,7 +43009,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Mcp Tools (provider)
 
 
@@ -43074,7 +43046,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43105,7 +43077,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Mcp Tools (provider)
 
 
@@ -43142,7 +43114,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43210,7 +43182,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43313,7 +43285,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRecords200Response:
         """Create a record
 
         Create one record.
@@ -43351,7 +43323,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -43382,7 +43354,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRecords200Response]:
         """Create a record
 
         Create one record.
@@ -43420,7 +43392,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -43489,7 +43461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -43592,7 +43564,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Batch (record)
 
 
@@ -43629,7 +43601,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43660,7 +43632,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Batch (record)
 
 
@@ -43697,7 +43669,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43765,7 +43737,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43868,7 +43840,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Commit (record)
 
 
@@ -43905,7 +43877,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -43936,7 +43908,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Commit (record)
 
 
@@ -43973,7 +43945,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44041,7 +44013,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44144,7 +44116,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Commit Second (record)
 
 
@@ -44181,7 +44153,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44212,7 +44184,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Commit Second (record)
 
 
@@ -44249,7 +44221,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44317,7 +44289,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44420,7 +44392,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRemoteConnections200Response:
         """Create a connection
 
         Create one connection.
@@ -44458,7 +44430,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -44489,7 +44461,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
         """Create a connection
 
         Create one connection.
@@ -44527,7 +44499,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -44596,7 +44568,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -44701,7 +44673,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Start (connection)
 
 
@@ -44744,7 +44716,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44777,7 +44749,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Start (connection)
 
 
@@ -44820,7 +44792,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -44896,7 +44868,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -45007,7 +44979,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Stop (connection)
 
 
@@ -45050,7 +45022,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -45083,7 +45055,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Stop (connection)
 
 
@@ -45126,7 +45098,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -45202,7 +45174,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -45311,7 +45283,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRoutes200Response:
         """Create a model-route
 
         Create one model-route.
@@ -45349,7 +45321,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -45380,7 +45352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRoutes200Response]:
         """Create a model-route
 
         Create one model-route.
@@ -45418,7 +45390,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -45487,7 +45459,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -45590,7 +45562,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScales200Response:
         """Create a scale
 
         Create one scale.
@@ -45628,7 +45600,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -45659,7 +45631,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScales200Response]:
         """Create a scale
 
         Create one scale.
@@ -45697,7 +45669,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -45766,7 +45738,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -45869,7 +45841,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScans200Response:
         """Create a scan
 
         Create one scan.
@@ -45907,7 +45879,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -45938,7 +45910,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScans200Response]:
         """Create a scan
 
         Create one scan.
@@ -45976,7 +45948,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -46045,7 +46017,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -46148,7 +46120,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Signin
 
 
@@ -46185,7 +46157,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -46216,7 +46188,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Signin
 
 
@@ -46253,7 +46225,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -46321,7 +46293,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -46424,7 +46396,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiSigninSessions200Response:
         """Create a session
 
         Create one session.
@@ -46462,7 +46434,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -46493,7 +46465,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
         """Create a session
 
         Create one session.
@@ -46531,7 +46503,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -46600,7 +46572,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -46703,7 +46675,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Signout
 
 
@@ -46740,7 +46712,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -46771,7 +46743,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Signout
 
 
@@ -46808,7 +46780,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -46876,7 +46848,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -46979,7 +46951,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiStores200Response:
         """Create a store
 
         Create one store.
@@ -47017,7 +46989,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -47048,7 +47020,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiStores200Response]:
         """Create a store
 
         Create one store.
@@ -47086,7 +47058,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -47155,7 +47127,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -47260,7 +47232,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Vectors (store)
 
 
@@ -47303,7 +47275,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -47336,7 +47308,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Vectors (store)
 
 
@@ -47379,7 +47351,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -47455,7 +47427,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -47564,7 +47536,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTasks200Response:
         """Create a task
 
         Create one task.
@@ -47602,7 +47574,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -47633,7 +47605,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTasks200Response]:
         """Create a task
 
         Create one task.
@@ -47671,7 +47643,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -47740,7 +47712,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -47845,7 +47817,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Analyze (task)
 
 
@@ -47888,7 +47860,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -47921,7 +47893,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Analyze (task)
 
 
@@ -47964,7 +47936,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -48040,7 +48012,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -48151,7 +48123,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Document (task)
 
 
@@ -48194,7 +48166,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -48227,7 +48199,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Document (task)
 
 
@@ -48270,7 +48242,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -48346,7 +48318,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -48455,7 +48427,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTemplates200Response:
         """Create a template
 
         Create one template.
@@ -48493,7 +48465,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -48524,7 +48496,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTemplates200Response]:
         """Create a template
 
         Create one template.
@@ -48562,7 +48534,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -48631,7 +48603,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -48734,7 +48706,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTreeFiles200Response:
         """Create a tree-file
 
         Create one tree-file.
@@ -48772,7 +48744,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -48803,7 +48775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
         """Create a tree-file
 
         Create one tree-file.
@@ -48841,7 +48813,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -48910,7 +48882,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -49013,7 +48985,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVectors200Response:
         """Create a vector
 
         Create one vector.
@@ -49051,7 +49023,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -49082,7 +49054,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVectors200Response]:
         """Create a vector
 
         Create one vector.
@@ -49120,7 +49092,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -49189,7 +49161,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -49292,7 +49264,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVideos200Response:
         """Create a video
 
         Create one video.
@@ -49330,7 +49302,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -49361,7 +49333,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVideos200Response]:
         """Create a video
 
         Create one video.
@@ -49399,7 +49371,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -49468,7 +49440,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -49571,7 +49543,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Upload (video)
 
 
@@ -49608,7 +49580,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -49639,7 +49611,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Upload (video)
 
 
@@ -49676,7 +49648,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -49744,7 +49716,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -49847,7 +49819,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiWorkflows200Response:
         """Create a workflow
 
         Create one workflow.
@@ -49885,7 +49857,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -49916,7 +49888,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiWorkflows200Response]:
         """Create a workflow
 
         Create one workflow.
@@ -49954,7 +49926,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -50023,7 +49995,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -50128,7 +50100,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiArticles200Response:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50172,7 +50144,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -50205,7 +50177,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiArticles200Response]:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50249,7 +50221,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -50326,7 +50298,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -50437,7 +50409,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiAssets200Response:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50481,7 +50453,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -50514,7 +50486,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiAssets200Response]:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50558,7 +50530,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -50635,7 +50607,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -50746,7 +50718,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiChats200Response:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50790,7 +50762,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -50823,7 +50795,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiChats200Response]:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50867,7 +50839,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -50944,7 +50916,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiChats200Response",
             '401': None,
             '403': None,
         }
@@ -51055,7 +51027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiDeployments200Response:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51099,7 +51071,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -51132,7 +51104,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiDeployments200Response]:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51176,7 +51148,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -51253,7 +51225,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -51364,7 +51336,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiFiles200Response:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51408,7 +51380,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -51441,7 +51413,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiFiles200Response]:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51485,7 +51457,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -51562,7 +51534,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -51673,7 +51645,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiForms200Response:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51717,7 +51689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -51750,7 +51722,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiForms200Response]:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51794,7 +51766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -51871,7 +51843,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiForms200Response",
             '401': None,
             '403': None,
         }
@@ -51982,7 +51954,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiGraphs200Response:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52026,7 +51998,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -52059,7 +52031,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiGraphs200Response]:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52103,7 +52075,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -52180,7 +52152,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -52291,7 +52263,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiMessages200Response:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52335,7 +52307,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -52368,7 +52340,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiMessages200Response]:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52412,7 +52384,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -52489,7 +52461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -52600,7 +52572,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiNodes200Response:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52644,7 +52616,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -52677,7 +52649,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiNodes200Response]:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52721,7 +52693,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -52798,7 +52770,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -52907,7 +52879,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Preferences
 
 
@@ -52944,7 +52916,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -52975,7 +52947,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Preferences
 
 
@@ -53012,7 +52984,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -53080,7 +53052,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -53185,7 +53157,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiProviders200Response:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53229,7 +53201,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -53262,7 +53234,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiProviders200Response]:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53306,7 +53278,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -53383,7 +53355,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -53494,7 +53466,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRecords200Response:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53538,7 +53510,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -53571,7 +53543,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRecords200Response]:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53615,7 +53587,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -53692,7 +53664,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -53803,7 +53775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRemoteConnections200Response:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53847,7 +53819,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -53880,7 +53852,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53924,7 +53896,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -54001,7 +53973,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -54112,7 +54084,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiRoutes200Response:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54156,7 +54128,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -54189,7 +54161,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiRoutes200Response]:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54233,7 +54205,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -54310,7 +54282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -54421,7 +54393,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScales200Response:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54465,7 +54437,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -54498,7 +54470,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScales200Response]:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54542,7 +54514,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -54619,7 +54591,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScales200Response",
             '401': None,
             '403': None,
         }
@@ -54730,7 +54702,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiScans200Response:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54774,7 +54746,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -54807,7 +54779,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiScans200Response]:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54851,7 +54823,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -54928,7 +54900,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiScans200Response",
             '401': None,
             '403': None,
         }
@@ -55039,7 +55011,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiSigninSessions200Response:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55083,7 +55055,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -55116,7 +55088,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55160,7 +55132,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -55237,7 +55209,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -55348,7 +55320,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiStores200Response:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55392,7 +55364,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -55425,7 +55397,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiStores200Response]:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55469,7 +55441,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -55546,7 +55518,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiStores200Response",
             '401': None,
             '403': None,
         }
@@ -55657,7 +55629,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTasks200Response:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55701,7 +55673,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -55734,7 +55706,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTasks200Response]:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55778,7 +55750,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -55855,7 +55827,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -55966,7 +55938,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTemplates200Response:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56010,7 +55982,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -56043,7 +56015,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTemplates200Response]:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56087,7 +56059,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -56164,7 +56136,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -56273,7 +56245,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> Envelope:
         """Training Contribution
 
 
@@ -56310,7 +56282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -56341,7 +56313,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[Envelope]:
         """Training Contribution
 
 
@@ -56378,7 +56350,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -56446,7 +56418,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "Envelope",
             '401': None,
             '403': None,
         }
@@ -56551,7 +56523,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiTreeFiles200Response:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56595,7 +56567,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -56628,7 +56600,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56672,7 +56644,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -56749,7 +56721,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -56860,7 +56832,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVectors200Response:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56904,7 +56876,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -56937,7 +56909,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVectors200Response]:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56981,7 +56953,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -57058,7 +57030,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -57169,7 +57141,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiVideos200Response:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57213,7 +57185,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -57246,7 +57218,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiVideos200Response]:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57290,7 +57262,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -57367,7 +57339,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -57478,7 +57450,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiEnvelope:
+    ) -> PostV1AiWorkflows200Response:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57522,7 +57494,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -57555,7 +57527,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiEnvelope]:
+    ) -> ApiResponse[PostV1AiWorkflows200Response]:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57599,7 +57571,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -57676,7 +57648,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiEnvelope",
+            '200': "PostV1AiWorkflows200Response",
             '401': None,
             '403': None,
         }

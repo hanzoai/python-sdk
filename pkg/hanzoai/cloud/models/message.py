@@ -17,9 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from hanzoai.cloud.models.model_search_result import ModelSearchResult
+from hanzoai.cloud.models.model_tool_call import ModelToolCall
+from hanzoai.cloud.models.suggestion import Suggestion
+from hanzoai.cloud.models.vector_score import VectorScore
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,14 +30,42 @@ class Message(BaseModel):
     """
     Message
     """ # noqa: E501
-    data: Optional[StrictStr] = Field(default=None, description="Data is the payload, base64-encoded.")
-    headers: Optional[Dict[str, List[StrictStr]]] = Field(default=None, description="Headers are the message headers, when any were published.")
-    num_delivered: Optional[StrictInt] = Field(default=None, description="Delivered is how many times a consumer has been handed this message (pulls only).")
-    num_pending: Optional[StrictInt] = Field(default=None, description="Remaining is how many messages follow this one for the consumer (pulls only).")
-    sequence: Optional[StrictInt] = Field(default=None, description="Sequence is the message's stream sequence.")
-    subject: Optional[StrictStr] = Field(default=None, description="Subject is the org-relative subject the message was stored under.")
-    timestamp: Optional[datetime] = Field(default=None, description="Timestamp is when the broker stored the message.")
-    __properties: ClassVar[List[str]] = ["data", "headers", "num_delivered", "num_pending", "sequence", "subject", "timestamp"]
+    answered_time: Optional[StrictStr] = Field(default=None, alias="answeredTime")
+    author: Optional[StrictStr] = None
+    chat: Optional[StrictStr] = None
+    claimed_time: Optional[StrictStr] = Field(default=None, alias="claimedTime")
+    comment: Optional[StrictStr] = None
+    created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
+    currency: Optional[StrictStr] = None
+    dislike_users: Optional[List[StrictStr]] = Field(default=None, alias="dislikeUsers")
+    embedding_provider: Optional[StrictStr] = Field(default=None, alias="embeddingProvider")
+    error_text: Optional[StrictStr] = Field(default=None, alias="errorText")
+    file_name: Optional[StrictStr] = Field(default=None, alias="fileName")
+    is_alerted: Optional[StrictBool] = Field(default=None, alias="isAlerted")
+    is_deleted: Optional[StrictBool] = Field(default=None, alias="isDeleted")
+    is_hidden: Optional[StrictBool] = Field(default=None, alias="isHidden")
+    is_regenerated: Optional[StrictBool] = Field(default=None, alias="isRegenerated")
+    like_users: Optional[List[StrictStr]] = Field(default=None, alias="likeUsers")
+    model_provider: Optional[StrictStr] = Field(default=None, alias="modelProvider")
+    name: Optional[StrictStr] = None
+    need_notify: Optional[StrictBool] = Field(default=None, alias="needNotify")
+    organization: Optional[StrictStr] = None
+    owner: Optional[StrictStr] = None
+    price: Optional[Union[StrictFloat, StrictInt]] = None
+    reason_text: Optional[StrictStr] = Field(default=None, alias="reasonText")
+    reply_to: Optional[StrictStr] = Field(default=None, alias="replyTo")
+    search_results: Optional[List[ModelSearchResult]] = Field(default=None, alias="searchResults")
+    store: Optional[StrictStr] = None
+    suggestions: Optional[List[Suggestion]] = None
+    text: Optional[StrictStr] = None
+    text_token_count: Optional[StrictInt] = Field(default=None, alias="textTokenCount")
+    token_count: Optional[StrictInt] = Field(default=None, alias="tokenCount")
+    tool_calls: Optional[List[ModelToolCall]] = Field(default=None, alias="toolCalls")
+    transaction_id: Optional[StrictStr] = Field(default=None, alias="transactionId")
+    user: Optional[StrictStr] = None
+    vector_scores: Optional[List[VectorScore]] = Field(default=None, alias="vectorScores")
+    web_search_enabled: Optional[StrictBool] = Field(default=None, alias="webSearchEnabled")
+    __properties: ClassVar[List[str]] = ["answeredTime", "author", "chat", "claimedTime", "comment", "createdTime", "currency", "dislikeUsers", "embeddingProvider", "errorText", "fileName", "isAlerted", "isDeleted", "isHidden", "isRegenerated", "likeUsers", "modelProvider", "name", "needNotify", "organization", "owner", "price", "reasonText", "replyTo", "searchResults", "store", "suggestions", "text", "textTokenCount", "tokenCount", "toolCalls", "transactionId", "user", "vectorScores", "webSearchEnabled"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -75,6 +106,34 @@ class Message(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in search_results (list)
+        _items = []
+        if self.search_results:
+            for _item_search_results in self.search_results:
+                if _item_search_results:
+                    _items.append(_item_search_results.to_dict())
+            _dict['searchResults'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in suggestions (list)
+        _items = []
+        if self.suggestions:
+            for _item_suggestions in self.suggestions:
+                if _item_suggestions:
+                    _items.append(_item_suggestions.to_dict())
+            _dict['suggestions'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in tool_calls (list)
+        _items = []
+        if self.tool_calls:
+            for _item_tool_calls in self.tool_calls:
+                if _item_tool_calls:
+                    _items.append(_item_tool_calls.to_dict())
+            _dict['toolCalls'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in vector_scores (list)
+        _items = []
+        if self.vector_scores:
+            for _item_vector_scores in self.vector_scores:
+                if _item_vector_scores:
+                    _items.append(_item_vector_scores.to_dict())
+            _dict['vectorScores'] = _items
         return _dict
 
     @classmethod
@@ -87,13 +146,41 @@ class Message(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": obj.get("data"),
-            "headers": obj.get("headers"),
-            "num_delivered": obj.get("num_delivered"),
-            "num_pending": obj.get("num_pending"),
-            "sequence": obj.get("sequence"),
-            "subject": obj.get("subject"),
-            "timestamp": obj.get("timestamp")
+            "answeredTime": obj.get("answeredTime"),
+            "author": obj.get("author"),
+            "chat": obj.get("chat"),
+            "claimedTime": obj.get("claimedTime"),
+            "comment": obj.get("comment"),
+            "createdTime": obj.get("createdTime"),
+            "currency": obj.get("currency"),
+            "dislikeUsers": obj.get("dislikeUsers"),
+            "embeddingProvider": obj.get("embeddingProvider"),
+            "errorText": obj.get("errorText"),
+            "fileName": obj.get("fileName"),
+            "isAlerted": obj.get("isAlerted"),
+            "isDeleted": obj.get("isDeleted"),
+            "isHidden": obj.get("isHidden"),
+            "isRegenerated": obj.get("isRegenerated"),
+            "likeUsers": obj.get("likeUsers"),
+            "modelProvider": obj.get("modelProvider"),
+            "name": obj.get("name"),
+            "needNotify": obj.get("needNotify"),
+            "organization": obj.get("organization"),
+            "owner": obj.get("owner"),
+            "price": obj.get("price"),
+            "reasonText": obj.get("reasonText"),
+            "replyTo": obj.get("replyTo"),
+            "searchResults": [ModelSearchResult.from_dict(_item) for _item in obj["searchResults"]] if obj.get("searchResults") is not None else None,
+            "store": obj.get("store"),
+            "suggestions": [Suggestion.from_dict(_item) for _item in obj["suggestions"]] if obj.get("suggestions") is not None else None,
+            "text": obj.get("text"),
+            "textTokenCount": obj.get("textTokenCount"),
+            "tokenCount": obj.get("tokenCount"),
+            "toolCalls": [ModelToolCall.from_dict(_item) for _item in obj["toolCalls"]] if obj.get("toolCalls") is not None else None,
+            "transactionId": obj.get("transactionId"),
+            "user": obj.get("user"),
+            "vectorScores": [VectorScore.from_dict(_item) for _item in obj["vectorScores"]] if obj.get("vectorScores") is not None else None,
+            "webSearchEnabled": obj.get("webSearchEnabled")
         })
         return _obj
 

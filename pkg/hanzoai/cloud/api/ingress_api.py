@@ -25,8 +25,8 @@ from hanzoai.cloud.models.ingress_status import IngressStatus
 from hanzoai.cloud.models.ingress_tls import IngressTLS
 from hanzoai.cloud.models.middleware import Middleware
 from hanzoai.cloud.models.route import Route
-from hanzoai.cloud.models.service import Service
 from hanzoai.cloud.models.tls_config import TLSConfig
+from hanzoai.cloud.models.upstream import Upstream
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -2076,7 +2076,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Service:
+    ) -> Upstream:
         """Returns one of the caller org's backend pools by id.
 
         Returns one of the caller org's backend pools by id.
@@ -2114,7 +2114,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2143,7 +2143,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Service]:
+    ) -> ApiResponse[Upstream]:
         """Returns one of the caller org's backend pools by id.
 
         Returns one of the caller org's backend pools by id.
@@ -2181,7 +2181,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2248,7 +2248,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3359,7 +3359,7 @@ class IngressApi:
     @validate_call
     def post_v1_ingress_services(
         self,
-        service: Service,
+        upstream: Upstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3372,13 +3372,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Service:
+    ) -> Upstream:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
-        :param service: (required)
-        :type service: Service
+        :param upstream: (required)
+        :type upstream: Upstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3402,7 +3402,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_v1_ingress_services_serialize(
-            service=service,
+            upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3410,7 +3410,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3426,7 +3426,7 @@ class IngressApi:
     @validate_call
     def post_v1_ingress_services_with_http_info(
         self,
-        service: Service,
+        upstream: Upstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3439,13 +3439,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Service]:
+    ) -> ApiResponse[Upstream]:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
-        :param service: (required)
-        :type service: Service
+        :param upstream: (required)
+        :type upstream: Upstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3469,7 +3469,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_v1_ingress_services_serialize(
-            service=service,
+            upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3477,7 +3477,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3493,7 +3493,7 @@ class IngressApi:
     @validate_call
     def post_v1_ingress_services_without_preload_content(
         self,
-        service: Service,
+        upstream: Upstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3511,8 +3511,8 @@ class IngressApi:
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
-        :param service: (required)
-        :type service: Service
+        :param upstream: (required)
+        :type upstream: Upstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3536,7 +3536,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_v1_ingress_services_serialize(
-            service=service,
+            upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3544,7 +3544,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3555,7 +3555,7 @@ class IngressApi:
 
     def _post_v1_ingress_services_serialize(
         self,
-        service,
+        upstream,
         _request_auth,
         _content_type,
         _headers,
@@ -3581,8 +3581,8 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if service is not None:
-            _body_params = service
+        if upstream is not None:
+            _body_params = upstream
 
 
         # set the HTTP header `Accept`
@@ -4209,7 +4209,7 @@ class IngressApi:
     def put_v1_ingress_services_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        service: Service,
+        upstream: Upstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4222,15 +4222,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Service:
+    ) -> Upstream:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
         :param id: ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param service: (required)
-        :type service: Service
+        :param upstream: (required)
+        :type upstream: Upstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4255,7 +4255,7 @@ class IngressApi:
 
         _param = self._put_v1_ingress_services_by_id_serialize(
             id=id,
-            service=service,
+            upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4263,7 +4263,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4280,7 +4280,7 @@ class IngressApi:
     def put_v1_ingress_services_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        service: Service,
+        upstream: Upstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4293,15 +4293,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Service]:
+    ) -> ApiResponse[Upstream]:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
         :param id: ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param service: (required)
-        :type service: Service
+        :param upstream: (required)
+        :type upstream: Upstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4326,7 +4326,7 @@ class IngressApi:
 
         _param = self._put_v1_ingress_services_by_id_serialize(
             id=id,
-            service=service,
+            upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4334,7 +4334,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4351,7 +4351,7 @@ class IngressApi:
     def put_v1_ingress_services_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        service: Service,
+        upstream: Upstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4371,8 +4371,8 @@ class IngressApi:
 
         :param id: ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param service: (required)
-        :type service: Service
+        :param upstream: (required)
+        :type upstream: Upstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4397,7 +4397,7 @@ class IngressApi:
 
         _param = self._put_v1_ingress_services_by_id_serialize(
             id=id,
-            service=service,
+            upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4405,7 +4405,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Service",
+            '200': "Upstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4417,7 +4417,7 @@ class IngressApi:
     def _put_v1_ingress_services_by_id_serialize(
         self,
         id,
-        service,
+        upstream,
         _request_auth,
         _content_type,
         _headers,
@@ -4445,8 +4445,8 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if service is not None:
-            _body_params = service
+        if upstream is not None:
+            _body_params = upstream
 
 
         # set the HTTP header `Accept`

@@ -26,11 +26,11 @@ class LeaseIn(BaseModel):
     """
     LeaseIn
     """ # noqa: E501
-    var_class: Optional[StrictStr] = Field(default=None, alias="class")
-    id: Optional[StrictStr] = None
-    project: Optional[StrictStr] = None
-    runtime: Optional[StrictStr] = None
-    ttl_sec: Optional[StrictInt] = Field(default=None, alias="ttlSec")
+    var_class: Optional[StrictStr] = Field(default=None, description="Class is what KIND of computer to lease, and the set is closed:   exec     a throwaway one that keeps nothing. Seconds to minutes.  dev      a coding one, with the project's own disk attached. Hours.  desktop  a dev one that also has a screen.  Empty leases an `exec`, which is the right answer for running a program and the wrong one for working on a repository, because it keeps nothing.", alias="class")
+    id: Optional[StrictStr] = Field(default=None, description="ID names a sandbox to RESUME, and is the id an earlier lease answered with. Empty asks for a new one. A caller that holds an id and omits it does not get a second view of the same computer, it gets a second computer.")
+    project: Optional[StrictStr] = Field(default=None, description="Project names the disk to attach, and is REQUIRED for every class but `exec`.  One live sandbox per project: the disk attaches to one computer at a time, so a second lease over a project that already has one is refused by name rather than handed a silently empty disk.")
+    runtime: Optional[StrictStr] = Field(default=None, description="Runtime is the isolation boundary asked for: `gvisor` shares a filesystem and holds a project volume, `kata-fc` is a microVM that boots slower and reads files faster but has no shared filesystem at all. Empty asks for the fleet's default, which is the right answer unless you are measuring.  It is a REQUEST. The owner decides, and refuses a combination it cannot honour — a volume under a runtime with no shared filesystem would write into a tmpfs and lose the bytes at exit. Read Leased.Runtime for what the sandbox actually got.")
+    ttl_sec: Optional[StrictInt] = Field(default=None, description="TTLSec bounds the lease in seconds. Unset takes the class default. Nothing runs forever, because a sandbox is somebody else's code on our nodes.", alias="ttlSec")
     __properties: ClassVar[List[str]] = ["class", "id", "project", "runtime", "ttlSec"]
 
     model_config = ConfigDict(

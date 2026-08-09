@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,8 @@ class EndIn(BaseModel):
     """
     EndIn
     """ # noqa: E501
-    id: Optional[StrictStr] = None
-    purge: Optional[StrictBool] = None
+    id: Optional[StrictStr] = Field(default=None, description="ID is the sandbox whose lease ends, from an earlier lease.")
+    purge: Optional[StrictBool] = Field(default=None, description="Purge deletes the project's DISK as well. It is opt-in because the disk holds the only copy of the checkout: ending a lease is cheap and reversible, deleting someone's uncommitted work is neither.")
     __properties: ClassVar[List[str]] = ["id", "purge"]
 
     model_config = ConfigDict(

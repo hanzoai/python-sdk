@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,8 @@ class PathIn(BaseModel):
     """
     PathIn
     """ # noqa: E501
-    id: Optional[StrictStr] = None
-    path: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="ID is the sandbox to read from, from an earlier lease.")
+    path: Optional[StrictStr] = Field(default=None, description="Path is read relative to the sandbox's working directory unless it is absolute, and a path that climbs out of it is refused rather than rewritten. Empty names the working directory itself, which lists it.")
     __properties: ClassVar[List[str]] = ["id", "path"]
 
     model_config = ConfigDict(

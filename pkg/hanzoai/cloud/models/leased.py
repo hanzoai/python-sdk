@@ -28,7 +28,7 @@ class Leased(BaseModel):
     """ # noqa: E501
     var_class: Optional[StrictStr] = Field(default=None, alias="class")
     id: Optional[StrictStr] = None
-    runtime: Optional[StrictStr] = None
+    runtime: Optional[StrictStr] = Field(default=None, description="Runtime is the boundary this sandbox GOT, which need not be the one asked for — carried for the same reason Workdir is, that it is a fact only the owner knows and a caller assuming it would be holding a second copy. Empty is the node's default runtime, and a real answer.")
     status: Optional[StrictStr] = None
     workdir: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["class", "id", "runtime", "status", "workdir"]
