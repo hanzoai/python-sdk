@@ -2724,9 +2724,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> DeckOut:
-        """Shares a pitch deck in the org's data room.
+        """Share a pitch deck in the org's data room
 
-        Shares a pitch deck in the org's data room.  It stores the request body as a document in the caller org's data room and answers with the data room id to reference it by. The deck is RAW BYTES of whatever content type is sent — a PDF, a slide export — not a JSON document: the Content-Type header is carried through to the data room as given, and `?name=` names the document, defaulting to `pitch-deck`.  Scoped to the caller's validated org, and only after incorporation: a formation still short of stage `company` is refused 409 and an org that never began one is 404. The route is registered AHEAD of the surface's JSON body cap deliberately, so a deck's size ceiling is the edge's rather than the cap meant for small structured records. An empty body is 400; a data room that will not take the bytes is 502.
+        Stores the request body as a document in the caller org's data room and answers with the data room id to reference it by. The deck is RAW BYTES of whatever content type is sent — a PDF, a slide export — not a JSON document: the Content-Type header is carried through to the data room as given, and `?name=` names the document, defaulting to `pitch-deck`.  Scoped to the caller's validated org, and only after incorporation: a formation still short of stage `company` is refused 409 and an org that never began one is 404. The route is registered AHEAD of the surface's JSON body cap deliberately, so a deck's size ceiling is the edge's rather than the cap meant for small structured records. An empty body is 400; a data room that will not take the bytes is 502.
 
         :param body:
         :type body: bytearray
@@ -2791,9 +2791,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[DeckOut]:
-        """Shares a pitch deck in the org's data room.
+        """Share a pitch deck in the org's data room
 
-        Shares a pitch deck in the org's data room.  It stores the request body as a document in the caller org's data room and answers with the data room id to reference it by. The deck is RAW BYTES of whatever content type is sent — a PDF, a slide export — not a JSON document: the Content-Type header is carried through to the data room as given, and `?name=` names the document, defaulting to `pitch-deck`.  Scoped to the caller's validated org, and only after incorporation: a formation still short of stage `company` is refused 409 and an org that never began one is 404. The route is registered AHEAD of the surface's JSON body cap deliberately, so a deck's size ceiling is the edge's rather than the cap meant for small structured records. An empty body is 400; a data room that will not take the bytes is 502.
+        Stores the request body as a document in the caller org's data room and answers with the data room id to reference it by. The deck is RAW BYTES of whatever content type is sent — a PDF, a slide export — not a JSON document: the Content-Type header is carried through to the data room as given, and `?name=` names the document, defaulting to `pitch-deck`.  Scoped to the caller's validated org, and only after incorporation: a formation still short of stage `company` is refused 409 and an org that never began one is 404. The route is registered AHEAD of the surface's JSON body cap deliberately, so a deck's size ceiling is the edge's rather than the cap meant for small structured records. An empty body is 400; a data room that will not take the bytes is 502.
 
         :param body:
         :type body: bytearray
@@ -2858,9 +2858,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Shares a pitch deck in the org's data room.
+        """Share a pitch deck in the org's data room
 
-        Shares a pitch deck in the org's data room.  It stores the request body as a document in the caller org's data room and answers with the data room id to reference it by. The deck is RAW BYTES of whatever content type is sent — a PDF, a slide export — not a JSON document: the Content-Type header is carried through to the data room as given, and `?name=` names the document, defaulting to `pitch-deck`.  Scoped to the caller's validated org, and only after incorporation: a formation still short of stage `company` is refused 409 and an org that never began one is 404. The route is registered AHEAD of the surface's JSON body cap deliberately, so a deck's size ceiling is the edge's rather than the cap meant for small structured records. An empty body is 400; a data room that will not take the bytes is 502.
+        Stores the request body as a document in the caller org's data room and answers with the data room id to reference it by. The deck is RAW BYTES of whatever content type is sent — a PDF, a slide export — not a JSON document: the Content-Type header is carried through to the data room as given, and `?name=` names the document, defaulting to `pitch-deck`.  Scoped to the caller's validated org, and only after incorporation: a formation still short of stage `company` is refused 409 and an org that never began one is 404. The route is registered AHEAD of the surface's JSON body cap deliberately, so a deck's size ceiling is the edge's rather than the cap meant for small structured records. An empty body is 400; a data room that will not take the bytes is 502.
 
         :param body:
         :type body: bytearray
@@ -5104,9 +5104,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> FormationView:
-        """Charges the one-time formation fee and marks the formation paid.
+        """Charge the one-time formation fee and mark the formation paid
 
-        Charges the one-time formation fee and marks the formation paid.  It bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
+        Bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5167,9 +5167,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[FormationView]:
-        """Charges the one-time formation fee and marks the formation paid.
+        """Charge the one-time formation fee and mark the formation paid
 
-        Charges the one-time formation fee and marks the formation paid.  It bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
+        Bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5230,9 +5230,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Charges the one-time formation fee and marks the formation paid.
+        """Charge the one-time formation fee and mark the formation paid
 
-        Charges the one-time formation fee and marks the formation paid.  It bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
+        Bills the caller's own org the one-time Hanzo Company formation fee — $999 unless the deployment sets another — and answers with the formation record carrying its paid flag and the charge reference. Takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A refused charge answers the fleet-wide billing contract, not a formation error — 402 when the org cannot pay, 503 when metering is unavailable — which is exactly why this route is not a typed op.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

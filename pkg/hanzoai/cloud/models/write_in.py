@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class WriteIn(BaseModel):
     """
     WriteIn
     """ # noqa: E501
-    data: Optional[StrictStr] = None
-    id: Optional[StrictStr] = None
-    path: Optional[StrictStr] = None
+    data: Optional[StrictStr] = Field(default=None, description="Data is the file's bytes, and replaces whatever was there.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the sandbox to write into, from an earlier lease.")
+    path: Optional[StrictStr] = Field(default=None, description="Path is confined the same way PathIn.Path is. Missing parent directories are created.")
     __properties: ClassVar[List[str]] = ["data", "id", "path"]
 
     model_config = ConfigDict(

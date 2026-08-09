@@ -316,6 +316,7 @@ class SandboxesApi:
     ) -> None:
         """End a sandbox and release it
 
+        Ends the caller's sandbox lease: the pod goes, and the volume goes only when the caller asked for that too.
 
         :param end_in: (required)
         :type end_in: EndIn
@@ -382,6 +383,7 @@ class SandboxesApi:
     ) -> ApiResponse[None]:
         """End a sandbox and release it
 
+        Ends the caller's sandbox lease: the pod goes, and the volume goes only when the caller asked for that too.
 
         :param end_in: (required)
         :type end_in: EndIn
@@ -448,6 +450,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """End a sandbox and release it
 
+        Ends the caller's sandbox lease: the pod goes, and the volume goes only when the caller asked for that too.
 
         :param end_in: (required)
         :type end_in: EndIn
@@ -1814,6 +1817,7 @@ class SandboxesApi:
     ) -> Leased:
         """Lease a sandbox — a real computer — or resume one you hold
 
+        Leases the caller's sandbox, or returns the one it named if that lease is still running.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
 
         :param lease_in: (required)
         :type lease_in: LeaseIn
@@ -1880,6 +1884,7 @@ class SandboxesApi:
     ) -> ApiResponse[Leased]:
         """Lease a sandbox — a real computer — or resume one you hold
 
+        Leases the caller's sandbox, or returns the one it named if that lease is still running.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
 
         :param lease_in: (required)
         :type lease_in: LeaseIn
@@ -1946,6 +1951,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """Lease a sandbox — a real computer — or resume one you hold
 
+        Leases the caller's sandbox, or returns the one it named if that lease is still running.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
 
         :param lease_in: (required)
         :type lease_in: LeaseIn
@@ -3069,6 +3075,7 @@ class SandboxesApi:
     ) -> Blob:
         """Read a file from a sandbox you hold
 
+        Reads one path in the caller's sandbox: a file's bytes, or a directory's entries when the path names one.
 
         :param path_in: (required)
         :type path_in: PathIn
@@ -3135,6 +3142,7 @@ class SandboxesApi:
     ) -> ApiResponse[Blob]:
         """Read a file from a sandbox you hold
 
+        Reads one path in the caller's sandbox: a file's bytes, or a directory's entries when the path names one.
 
         :param path_in: (required)
         :type path_in: PathIn
@@ -3201,6 +3209,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """Read a file from a sandbox you hold
 
+        Reads one path in the caller's sandbox: a file's bytes, or a directory's entries when the path names one.
 
         :param path_in: (required)
         :type path_in: PathIn
@@ -3339,6 +3348,7 @@ class SandboxesApi:
     ) -> Ran:
         """Run a command in a sandbox you hold and read its output
 
+        Runs one command inside the caller's sandbox and answers its exit code, stdout and stderr. A non-zero exit is a successful call carrying a failed program, so it comes back as data and not as an error.  Name a `session` and the command NARRATES INTO IT: its output is appended to that session's live log as the program produces it, so anything watching the session — GET /v1/agents/sessions/stream, scoped to one run with ?root= — watches the work happen rather than waiting for the verdict. Without it the call is what it always was: silent until it returns, which for an agentic run is twenty-five minutes of blank screen.  The session is named; the TENANT is not. It is the org the caller already proved, so a session belonging to somebody else is absent from the org this call acts for and the append is refused there.
 
         :param run_in: (required)
         :type run_in: RunIn
@@ -3405,6 +3415,7 @@ class SandboxesApi:
     ) -> ApiResponse[Ran]:
         """Run a command in a sandbox you hold and read its output
 
+        Runs one command inside the caller's sandbox and answers its exit code, stdout and stderr. A non-zero exit is a successful call carrying a failed program, so it comes back as data and not as an error.  Name a `session` and the command NARRATES INTO IT: its output is appended to that session's live log as the program produces it, so anything watching the session — GET /v1/agents/sessions/stream, scoped to one run with ?root= — watches the work happen rather than waiting for the verdict. Without it the call is what it always was: silent until it returns, which for an agentic run is twenty-five minutes of blank screen.  The session is named; the TENANT is not. It is the org the caller already proved, so a session belonging to somebody else is absent from the org this call acts for and the append is refused there.
 
         :param run_in: (required)
         :type run_in: RunIn
@@ -3471,6 +3482,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """Run a command in a sandbox you hold and read its output
 
+        Runs one command inside the caller's sandbox and answers its exit code, stdout and stderr. A non-zero exit is a successful call carrying a failed program, so it comes back as data and not as an error.  Name a `session` and the command NARRATES INTO IT: its output is appended to that session's live log as the program produces it, so anything watching the session — GET /v1/agents/sessions/stream, scoped to one run with ?root= — watches the work happen rather than waiting for the verdict. Without it the call is what it always was: silent until it returns, which for an agentic run is twenty-five minutes of blank screen.  The session is named; the TENANT is not. It is the org the caller already proved, so a session belonging to somebody else is absent from the org this call acts for and the append is refused there.
 
         :param run_in: (required)
         :type run_in: RunIn
@@ -3609,6 +3621,7 @@ class SandboxesApi:
     ) -> Stopped:
         """Stop what a sandbox is running, and keep the sandbox
 
+        Interrupts whatever the caller's sandbox is running and answers how many commands it ended. The sandbox stays leased — stop ends the WORK, end ends the RESOURCE — so whoever stopped a run can still read what it left behind.
 
         :param stop_in: (required)
         :type stop_in: StopIn
@@ -3675,6 +3688,7 @@ class SandboxesApi:
     ) -> ApiResponse[Stopped]:
         """Stop what a sandbox is running, and keep the sandbox
 
+        Interrupts whatever the caller's sandbox is running and answers how many commands it ended. The sandbox stays leased — stop ends the WORK, end ends the RESOURCE — so whoever stopped a run can still read what it left behind.
 
         :param stop_in: (required)
         :type stop_in: StopIn
@@ -3741,6 +3755,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """Stop what a sandbox is running, and keep the sandbox
 
+        Interrupts whatever the caller's sandbox is running and answers how many commands it ended. The sandbox stays leased — stop ends the WORK, end ends the RESOURCE — so whoever stopped a run can still read what it left behind.
 
         :param stop_in: (required)
         :type stop_in: StopIn
@@ -3879,6 +3894,7 @@ class SandboxesApi:
     ) -> Wrote:
         """Write a file into a sandbox you hold
 
+        Writes bytes to one path in the caller's sandbox, creating parents, and answers the resolved path.
 
         :param write_in: (required)
         :type write_in: WriteIn
@@ -3945,6 +3961,7 @@ class SandboxesApi:
     ) -> ApiResponse[Wrote]:
         """Write a file into a sandbox you hold
 
+        Writes bytes to one path in the caller's sandbox, creating parents, and answers the resolved path.
 
         :param write_in: (required)
         :type write_in: WriteIn
@@ -4011,6 +4028,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """Write a file into a sandbox you hold
 
+        Writes bytes to one path in the caller's sandbox, creating parents, and answers the resolved path.
 
         :param write_in: (required)
         :type write_in: WriteIn

@@ -2801,9 +2801,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Reads a Workers KV value as its stored bytes.
+        """Read a Workers KV value as its stored bytes
 
-        Reads a Workers KV value as its stored bytes.  It answers one KV key's value from the org's OWN Cloudflare account as RAW BYTES under the content type it was written with — not wrapped in a JSON envelope, which is why this is not a typed op. Any org member may read. A key that does not exist is Cloudflare's own 404; an invalid namespace, or a key that is empty, over 512 bytes, not valid UTF-8, or carries a control character, is 400; 503 if the org has never connected a Cloudflare token.
+        Answers one KV key's value from the org's OWN Cloudflare account as RAW BYTES under the content type it was written with — not wrapped in a JSON envelope, which is why this is not a typed op. Any org member may read. A key that does not exist is Cloudflare's own 404; an invalid namespace, or a key that is empty, over 512 bytes, not valid UTF-8, or carries a control character, is 400; 503 if the org has never connected a Cloudflare token.
 
         :param namespace: (required)
         :type namespace: str
@@ -2871,9 +2871,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Reads a Workers KV value as its stored bytes.
+        """Read a Workers KV value as its stored bytes
 
-        Reads a Workers KV value as its stored bytes.  It answers one KV key's value from the org's OWN Cloudflare account as RAW BYTES under the content type it was written with — not wrapped in a JSON envelope, which is why this is not a typed op. Any org member may read. A key that does not exist is Cloudflare's own 404; an invalid namespace, or a key that is empty, over 512 bytes, not valid UTF-8, or carries a control character, is 400; 503 if the org has never connected a Cloudflare token.
+        Answers one KV key's value from the org's OWN Cloudflare account as RAW BYTES under the content type it was written with — not wrapped in a JSON envelope, which is why this is not a typed op. Any org member may read. A key that does not exist is Cloudflare's own 404; an invalid namespace, or a key that is empty, over 512 bytes, not valid UTF-8, or carries a control character, is 400; 503 if the org has never connected a Cloudflare token.
 
         :param namespace: (required)
         :type namespace: str
@@ -2941,9 +2941,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Reads a Workers KV value as its stored bytes.
+        """Read a Workers KV value as its stored bytes
 
-        Reads a Workers KV value as its stored bytes.  It answers one KV key's value from the org's OWN Cloudflare account as RAW BYTES under the content type it was written with — not wrapped in a JSON envelope, which is why this is not a typed op. Any org member may read. A key that does not exist is Cloudflare's own 404; an invalid namespace, or a key that is empty, over 512 bytes, not valid UTF-8, or carries a control character, is 400; 503 if the org has never connected a Cloudflare token.
+        Answers one KV key's value from the org's OWN Cloudflare account as RAW BYTES under the content type it was written with — not wrapped in a JSON envelope, which is why this is not a typed op. Any org member may read. A key that does not exist is Cloudflare's own 404; an invalid namespace, or a key that is empty, over 512 bytes, not valid UTF-8, or carries a control character, is 400; 503 if the org has never connected a Cloudflare token.
 
         :param namespace: (required)
         :type namespace: str
@@ -5568,9 +5568,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Runs a Cloudflare Workers AI model and gets its output back.
+        """Run a Cloudflare Workers AI model and get its output back
 
-        Runs a Cloudflare Workers AI model and gets its output back.  The model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct`, and the run happens on the org's OWN Cloudflare account. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
+        Runs a Workers AI model — the model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct` — on the org's OWN Cloudflare account and relays the model's output. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
 
         :param wildcard1: (required)
         :type wildcard1: str
@@ -5634,9 +5634,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Runs a Cloudflare Workers AI model and gets its output back.
+        """Run a Cloudflare Workers AI model and get its output back
 
-        Runs a Cloudflare Workers AI model and gets its output back.  The model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct`, and the run happens on the org's OWN Cloudflare account. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
+        Runs a Workers AI model — the model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct` — on the org's OWN Cloudflare account and relays the model's output. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
 
         :param wildcard1: (required)
         :type wildcard1: str
@@ -5700,9 +5700,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Runs a Cloudflare Workers AI model and gets its output back.
+        """Run a Cloudflare Workers AI model and get its output back
 
-        Runs a Cloudflare Workers AI model and gets its output back.  The model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct`, and the run happens on the org's OWN Cloudflare account. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
+        Runs a Workers AI model — the model id is the rest of the path, e.g. `@cf/meta/llama-3.1-8b-instruct` — on the org's OWN Cloudflare account and relays the model's output. The request body is whatever the chosen model takes (a prompt, chat messages, a base64 audio clip) and is forwarded unchanged; the response is the model's own, which for an image or audio model is BYTES under Cloudflare's content type rather than JSON. Both halves are why this is not a typed op.  It is the ONE PRICED route on this plane, because a run is inference rather than passthrough. The org's own token already paid Cloudflare for the compute, so Hanzo debits only the thin BYO routing fee — never the full inference cost — and meters it on the SAME `ai` product axis and per-project caps as every other model call, so Workers AI spend sums with LLM spend. The fee has a floor, so every run leaves a usage row even for a modality that reports no tokens, and it emits one gen_ai span with `gen_ai.system = cloudflare`.  Gated by BALANCE, not by the admin bit that guards the destructive verbs here: a validated org is enough, and a frozen, broke or over-cap org is refused with the fleet-wide 402/503 billing contract BEFORE any byte reaches Cloudflare — no run, and no account discovery either. An empty or oversized body is 400, as is a model id that is not a plain Cloudflare model path; 503 if the org has never connected a Cloudflare token.
 
         :param wildcard1: (required)
         :type wildcard1: str
@@ -6092,9 +6092,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Runs a SQL statement against a D1 database.
+        """Run a SQL statement against a D1 database
 
-        Runs a SQL statement against a D1 database.  It executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+        Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
 
         :param database: (required)
         :type database: str
@@ -6163,9 +6163,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Runs a SQL statement against a D1 database.
+        """Run a SQL statement against a D1 database
 
-        Runs a SQL statement against a D1 database.  It executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+        Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
 
         :param database: (required)
         :type database: str
@@ -6234,9 +6234,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Runs a SQL statement against a D1 database.
+        """Run a SQL statement against a D1 database
 
-        Runs a SQL statement against a D1 database.  It executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+        Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
 
         :param database: (required)
         :type database: str
@@ -6926,9 +6926,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Triggers a new Pages deployment for a project.
+        """Trigger a new Pages deployment for a project
 
-        Triggers a new Pages deployment for a project.  It starts a build and deployment of one Cloudflare Pages project on the org's OWN Cloudflare account, and relays Cloudflare's deployment record back. `branch` picks what to build; OMITTING it builds the project's production branch.  A body it cannot parse is IGNORED rather than refused — the deployment falls back to the production branch — which is the one rule to get right here and the reason this is not a typed op: a typed request would answer 400 where this deploys. Requires ORG ADMIN (403 otherwise), and 503 if the org has never connected a Cloudflare token.
+        Starts a build and deployment of one Cloudflare Pages project on the org's OWN Cloudflare account, and relays Cloudflare's deployment record back. `branch` picks what to build; OMITTING it builds the project's production branch.  A body it cannot parse is IGNORED rather than refused — the deployment falls back to the production branch — which is the one rule to get right here and the reason this is not a typed op: a typed request would answer 400 where this deploys. Requires ORG ADMIN (403 otherwise), and 503 if the org has never connected a Cloudflare token.
 
         :param project: (required)
         :type project: str
@@ -6997,9 +6997,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Triggers a new Pages deployment for a project.
+        """Trigger a new Pages deployment for a project
 
-        Triggers a new Pages deployment for a project.  It starts a build and deployment of one Cloudflare Pages project on the org's OWN Cloudflare account, and relays Cloudflare's deployment record back. `branch` picks what to build; OMITTING it builds the project's production branch.  A body it cannot parse is IGNORED rather than refused — the deployment falls back to the production branch — which is the one rule to get right here and the reason this is not a typed op: a typed request would answer 400 where this deploys. Requires ORG ADMIN (403 otherwise), and 503 if the org has never connected a Cloudflare token.
+        Starts a build and deployment of one Cloudflare Pages project on the org's OWN Cloudflare account, and relays Cloudflare's deployment record back. `branch` picks what to build; OMITTING it builds the project's production branch.  A body it cannot parse is IGNORED rather than refused — the deployment falls back to the production branch — which is the one rule to get right here and the reason this is not a typed op: a typed request would answer 400 where this deploys. Requires ORG ADMIN (403 otherwise), and 503 if the org has never connected a Cloudflare token.
 
         :param project: (required)
         :type project: str
@@ -7068,9 +7068,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Triggers a new Pages deployment for a project.
+        """Trigger a new Pages deployment for a project
 
-        Triggers a new Pages deployment for a project.  It starts a build and deployment of one Cloudflare Pages project on the org's OWN Cloudflare account, and relays Cloudflare's deployment record back. `branch` picks what to build; OMITTING it builds the project's production branch.  A body it cannot parse is IGNORED rather than refused — the deployment falls back to the production branch — which is the one rule to get right here and the reason this is not a typed op: a typed request would answer 400 where this deploys. Requires ORG ADMIN (403 otherwise), and 503 if the org has never connected a Cloudflare token.
+        Starts a build and deployment of one Cloudflare Pages project on the org's OWN Cloudflare account, and relays Cloudflare's deployment record back. `branch` picks what to build; OMITTING it builds the project's production branch.  A body it cannot parse is IGNORED rather than refused — the deployment falls back to the production branch — which is the one rule to get right here and the reason this is not a typed op: a typed request would answer 400 where this deploys. Requires ORG ADMIN (403 otherwise), and 503 if the org has never connected a Cloudflare token.
 
         :param project: (required)
         :type project: str
@@ -8639,9 +8639,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Writes a Workers KV value from the request body.
+        """Write a Workers KV value from the request body
 
-        Writes a Workers KV value from the request body.  It stores one KV key on the org's OWN Cloudflare account. The REQUEST BODY IS THE VALUE, forwarded verbatim under the caller's own Content-Type (`text/plain` when none is sent), so a value is never re-encoded on the way in — which is why this is not a typed op. `expiration` and `expiration_ttl` may ride the query string and are passed through to Cloudflare. Requires ORG ADMIN (403 otherwise); the same namespace and key validation as the read answers 400; 503 if the org has never connected a Cloudflare token.
+        Stores one KV key on the org's OWN Cloudflare account. The REQUEST BODY IS THE VALUE, forwarded verbatim under the caller's own Content-Type (`text/plain` when none is sent), so a value is never re-encoded on the way in — which is why this is not a typed op. `expiration` and `expiration_ttl` may ride the query string and are passed through to Cloudflare. Requires ORG ADMIN (403 otherwise); the same namespace and key validation as the read answers 400; 503 if the org has never connected a Cloudflare token.
 
         :param namespace: (required)
         :type namespace: str
@@ -8709,9 +8709,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Writes a Workers KV value from the request body.
+        """Write a Workers KV value from the request body
 
-        Writes a Workers KV value from the request body.  It stores one KV key on the org's OWN Cloudflare account. The REQUEST BODY IS THE VALUE, forwarded verbatim under the caller's own Content-Type (`text/plain` when none is sent), so a value is never re-encoded on the way in — which is why this is not a typed op. `expiration` and `expiration_ttl` may ride the query string and are passed through to Cloudflare. Requires ORG ADMIN (403 otherwise); the same namespace and key validation as the read answers 400; 503 if the org has never connected a Cloudflare token.
+        Stores one KV key on the org's OWN Cloudflare account. The REQUEST BODY IS THE VALUE, forwarded verbatim under the caller's own Content-Type (`text/plain` when none is sent), so a value is never re-encoded on the way in — which is why this is not a typed op. `expiration` and `expiration_ttl` may ride the query string and are passed through to Cloudflare. Requires ORG ADMIN (403 otherwise); the same namespace and key validation as the read answers 400; 503 if the org has never connected a Cloudflare token.
 
         :param namespace: (required)
         :type namespace: str
@@ -8779,9 +8779,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Writes a Workers KV value from the request body.
+        """Write a Workers KV value from the request body
 
-        Writes a Workers KV value from the request body.  It stores one KV key on the org's OWN Cloudflare account. The REQUEST BODY IS THE VALUE, forwarded verbatim under the caller's own Content-Type (`text/plain` when none is sent), so a value is never re-encoded on the way in — which is why this is not a typed op. `expiration` and `expiration_ttl` may ride the query string and are passed through to Cloudflare. Requires ORG ADMIN (403 otherwise); the same namespace and key validation as the read answers 400; 503 if the org has never connected a Cloudflare token.
+        Stores one KV key on the org's OWN Cloudflare account. The REQUEST BODY IS THE VALUE, forwarded verbatim under the caller's own Content-Type (`text/plain` when none is sent), so a value is never re-encoded on the way in — which is why this is not a typed op. `expiration` and `expiration_ttl` may ride the query string and are passed through to Cloudflare. Requires ORG ADMIN (403 otherwise); the same namespace and key validation as the read answers 400; 503 if the org has never connected a Cloudflare token.
 
         :param namespace: (required)
         :type namespace: str
@@ -8904,9 +8904,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Uploads or replaces a module Worker script.
+        """Upload or replace a module Worker script
 
-        Uploads or replaces a module Worker script.  It publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+        Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
 
         :param script: (required)
         :type script: str
@@ -8975,9 +8975,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Uploads or replaces a module Worker script.
+        """Upload or replace a module Worker script
 
-        Uploads or replaces a module Worker script.  It publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+        Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
 
         :param script: (required)
         :type script: str
@@ -9046,9 +9046,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Uploads or replaces a module Worker script.
+        """Upload or replace a module Worker script
 
-        Uploads or replaces a module Worker script.  It publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+        Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
 
         :param script: (required)
         :type script: str

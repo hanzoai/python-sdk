@@ -19,14 +19,15 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.video import Video
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiEnvelope(BaseModel):
+class PostV1AiVideos200Response(BaseModel):
     """
-    The resource surface's response. `status` is the verdict, not the HTTP code: a handled failure is still 200.
+    PostV1AiVideos200Response
     """ # noqa: E501
-    data: Optional[Any] = None
+    data: Optional[Video] = None
     data2: Optional[Any] = None
     msg: StrictStr = Field(description="Empty on success, the reason on failure.")
     status: StrictStr
@@ -57,7 +58,7 @@ class AiEnvelope(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiEnvelope from a JSON string"""
+        """Create an instance of PostV1AiVideos200Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -78,11 +79,9 @@ class AiEnvelope(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if data (nullable) is None
-        # and model_fields_set contains the field
-        if self.data is None and "data" in self.model_fields_set:
-            _dict['data'] = None
-
+        # override the default output from pydantic by calling `to_dict()` of data
+        if self.data:
+            _dict['data'] = self.data.to_dict()
         # set to None if data2 (nullable) is None
         # and model_fields_set contains the field
         if self.data2 is None and "data2" in self.model_fields_set:
@@ -92,7 +91,7 @@ class AiEnvelope(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiEnvelope from a dict"""
+        """Create an instance of PostV1AiVideos200Response from a dict"""
         if obj is None:
             return None
 
@@ -100,7 +99,7 @@ class AiEnvelope(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": obj.get("data"),
+            "data": Video.from_dict(obj["data"]) if obj.get("data") is not None else None,
             "data2": obj.get("data2"),
             "msg": obj.get("msg"),
             "status": obj.get("status")

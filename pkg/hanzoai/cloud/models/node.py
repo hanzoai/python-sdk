@@ -19,6 +19,9 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.patch import Patch
+from hanzoai.cloud.models.remote_app import RemoteApp
+from hanzoai.cloud.models.service import Service
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,28 +29,34 @@ class Node(BaseModel):
     """
     Node
     """ # noqa: E501
-    blocked_reason: Optional[StrictStr] = Field(default=None, alias="blockedReason")
-    cluster: Optional[StrictStr] = None
-    cluster_id: Optional[StrictStr] = Field(default=None, alias="clusterId")
-    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
-    id: Optional[StrictInt] = None
-    local_disk_gi_b: Optional[StrictInt] = Field(default=None, alias="localDiskGiB")
-    memory_mi_b: Optional[StrictInt] = Field(default=None, alias="memoryMiB")
-    monthly_cents: Optional[StrictInt] = Field(default=None, alias="monthlyCents")
-    mutable: Optional[StrictBool] = Field(default=None, description="Mutable reports whether this droplet may be changed DIRECTLY — deleted or resized. One predicate covers both because one fact decides both: a DOKS node belongs to a node pool, and the pool is the only thing allowed to change it.")
+    auto_query: Optional[StrictBool] = Field(default=None, alias="autoQuery")
+    category: Optional[StrictStr] = None
+    cpu_size: Optional[StrictStr] = Field(default=None, alias="cpuSize")
+    created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
+    description: Optional[StrictStr] = None
+    display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
+    enable_remote_app: Optional[StrictBool] = Field(default=None, alias="enableRemoteApp")
+    is_permanent: Optional[StrictBool] = Field(default=None, alias="isPermanent")
+    language: Optional[StrictStr] = None
+    machine_name: Optional[StrictStr] = Field(default=None, alias="machineName")
+    mem_size: Optional[StrictStr] = Field(default=None, alias="memSize")
     name: Optional[StrictStr] = None
-    pods: Optional[StrictInt] = None
+    os: Optional[StrictStr] = None
+    owner: Optional[StrictStr] = None
+    patches: Optional[List[Patch]] = None
     private_ip: Optional[StrictStr] = Field(default=None, alias="privateIp")
     public_ip: Optional[StrictStr] = Field(default=None, alias="publicIp")
-    ready: Optional[StrictBool] = None
-    region: Optional[StrictStr] = None
-    schedulable: Optional[StrictBool] = None
-    size_slug: Optional[StrictStr] = Field(default=None, alias="sizeSlug")
-    status: Optional[StrictStr] = None
-    tags: Optional[List[StrictStr]] = None
-    vcpus: Optional[StrictInt] = None
-    volumes: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["blockedReason", "cluster", "clusterId", "createdAt", "id", "localDiskGiB", "memoryMiB", "monthlyCents", "mutable", "name", "pods", "privateIp", "publicIp", "ready", "region", "schedulable", "sizeSlug", "status", "tags", "vcpus", "volumes"]
+    remote_apps: Optional[List[RemoteApp]] = Field(default=None, alias="remoteApps")
+    remote_password: Optional[StrictStr] = Field(default=None, alias="remotePassword")
+    remote_port: Optional[StrictInt] = Field(default=None, alias="remotePort")
+    remote_protocol: Optional[StrictStr] = Field(default=None, alias="remoteProtocol")
+    remote_username: Optional[StrictStr] = Field(default=None, alias="remoteUsername")
+    services: Optional[List[Service]] = None
+    size: Optional[StrictStr] = None
+    tag: Optional[StrictStr] = None
+    type: Optional[StrictStr] = None
+    updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
+    __properties: ClassVar[List[str]] = ["autoQuery", "category", "cpuSize", "createdTime", "description", "displayName", "enableRemoteApp", "isPermanent", "language", "machineName", "memSize", "name", "os", "owner", "patches", "privateIp", "publicIp", "remoteApps", "remotePassword", "remotePort", "remoteProtocol", "remoteUsername", "services", "size", "tag", "type", "updatedTime"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +97,27 @@ class Node(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in patches (list)
+        _items = []
+        if self.patches:
+            for _item_patches in self.patches:
+                if _item_patches:
+                    _items.append(_item_patches.to_dict())
+            _dict['patches'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in remote_apps (list)
+        _items = []
+        if self.remote_apps:
+            for _item_remote_apps in self.remote_apps:
+                if _item_remote_apps:
+                    _items.append(_item_remote_apps.to_dict())
+            _dict['remoteApps'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in services (list)
+        _items = []
+        if self.services:
+            for _item_services in self.services:
+                if _item_services:
+                    _items.append(_item_services.to_dict())
+            _dict['services'] = _items
         return _dict
 
     @classmethod
@@ -100,27 +130,33 @@ class Node(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "blockedReason": obj.get("blockedReason"),
-            "cluster": obj.get("cluster"),
-            "clusterId": obj.get("clusterId"),
-            "createdAt": obj.get("createdAt"),
-            "id": obj.get("id"),
-            "localDiskGiB": obj.get("localDiskGiB"),
-            "memoryMiB": obj.get("memoryMiB"),
-            "monthlyCents": obj.get("monthlyCents"),
-            "mutable": obj.get("mutable"),
+            "autoQuery": obj.get("autoQuery"),
+            "category": obj.get("category"),
+            "cpuSize": obj.get("cpuSize"),
+            "createdTime": obj.get("createdTime"),
+            "description": obj.get("description"),
+            "displayName": obj.get("displayName"),
+            "enableRemoteApp": obj.get("enableRemoteApp"),
+            "isPermanent": obj.get("isPermanent"),
+            "language": obj.get("language"),
+            "machineName": obj.get("machineName"),
+            "memSize": obj.get("memSize"),
             "name": obj.get("name"),
-            "pods": obj.get("pods"),
+            "os": obj.get("os"),
+            "owner": obj.get("owner"),
+            "patches": [Patch.from_dict(_item) for _item in obj["patches"]] if obj.get("patches") is not None else None,
             "privateIp": obj.get("privateIp"),
             "publicIp": obj.get("publicIp"),
-            "ready": obj.get("ready"),
-            "region": obj.get("region"),
-            "schedulable": obj.get("schedulable"),
-            "sizeSlug": obj.get("sizeSlug"),
-            "status": obj.get("status"),
-            "tags": obj.get("tags"),
-            "vcpus": obj.get("vcpus"),
-            "volumes": obj.get("volumes")
+            "remoteApps": [RemoteApp.from_dict(_item) for _item in obj["remoteApps"]] if obj.get("remoteApps") is not None else None,
+            "remotePassword": obj.get("remotePassword"),
+            "remotePort": obj.get("remotePort"),
+            "remoteProtocol": obj.get("remoteProtocol"),
+            "remoteUsername": obj.get("remoteUsername"),
+            "services": [Service.from_dict(_item) for _item in obj["services"]] if obj.get("services") is not None else None,
+            "size": obj.get("size"),
+            "tag": obj.get("tag"),
+            "type": obj.get("type"),
+            "updatedTime": obj.get("updatedTime")
         })
         return _obj
 

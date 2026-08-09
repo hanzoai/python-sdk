@@ -20,10 +20,10 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.journey_step import JourneyStep
+from hanzoai.cloud.models.page import Page
 from hanzoai.cloud.models.principle import Principle
 from hanzoai.cloud.models.section import Section
 from hanzoai.cloud.models.strategy import Strategy
-from hanzoai.cloud.models.template import Template
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -37,7 +37,7 @@ class Blueprint(BaseModel):
     sections: Optional[List[Section]] = None
     steps: Optional[List[JourneyStep]] = None
     strategies: Optional[List[Strategy]] = None
-    templates: Optional[List[Template]] = None
+    templates: Optional[List[Page]] = None
     title: Optional[StrictStr] = None
     version: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["brand", "enabled", "principles", "sections", "steps", "strategies", "templates", "title", "version"]
@@ -134,7 +134,7 @@ class Blueprint(BaseModel):
             "sections": [Section.from_dict(_item) for _item in obj["sections"]] if obj.get("sections") is not None else None,
             "steps": [JourneyStep.from_dict(_item) for _item in obj["steps"]] if obj.get("steps") is not None else None,
             "strategies": [Strategy.from_dict(_item) for _item in obj["strategies"]] if obj.get("strategies") is not None else None,
-            "templates": [Template.from_dict(_item) for _item in obj["templates"]] if obj.get("templates") is not None else None,
+            "templates": [Page.from_dict(_item) for _item in obj["templates"]] if obj.get("templates") is not None else None,
             "title": obj.get("title"),
             "version": obj.get("version")
         })

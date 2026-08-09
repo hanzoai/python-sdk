@@ -56,6 +56,7 @@ class CodingApi:
     ) -> CodingStarted:
         """Start one autonomous coding run against a repo in the caller's org
 
+        Is the app's door. It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.
 
         :param coding_start_in: (required)
         :type coding_start_in: CodingStartIn
@@ -122,6 +123,7 @@ class CodingApi:
     ) -> ApiResponse[CodingStarted]:
         """Start one autonomous coding run against a repo in the caller's org
 
+        Is the app's door. It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.
 
         :param coding_start_in: (required)
         :type coding_start_in: CodingStartIn
@@ -188,6 +190,7 @@ class CodingApi:
     ) -> RESTResponseType:
         """Start one autonomous coding run against a repo in the caller's org
 
+        Is the app's door. It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.
 
         :param coding_start_in: (required)
         :type coding_start_in: CodingStartIn

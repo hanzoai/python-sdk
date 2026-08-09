@@ -20,6 +20,8 @@ from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.issue_edit import IssueEdit
+from hanzoai.cloud.models.issue_hit import IssueHit
+from hanzoai.cloud.models.issue_hits import IssueHits
 from hanzoai.cloud.models.issue_view import IssueView
 from hanzoai.cloud.models.milestone_view import MilestoneView
 from hanzoai.cloud.models.new_issue import NewIssue
@@ -278,6 +280,387 @@ class TrackerApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/tracker/projects/{key}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_v1_tracker_issues(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.")] = None,
+        project: Annotated[Optional[StrictStr], Field(description="Project narrows to one team key; \"\" searches every project in the org, which is the point of this op.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
+        assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IssueHits:
+        """Answers across every project in the org.
+
+        Answers across every project in the org.  The org comes from the validated principal and never from the request: a caller able to name the org could read another tenant's backlog, and a search is exactly the shape that would quietly return it.
+
+        :param q: Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.
+        :type q: str
+        :param project: Project narrows to one team key; \"\" searches every project in the org, which is the point of this op.
+        :type project: str
+        :param status: Status keeps one board column: backlog, todo, in_progress, done, canceled.
+        :type status: str
+        :param kind: Kind keeps one shape: issue, pr, epic.
+        :type kind: str
+        :param repo: Repo keeps issues bound to one git repository.
+        :type repo: str
+        :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
+        :type source: str
+        :param assignee: Assignee keeps issues held by one person. Pass \"me\" for yourself.
+        :type assignee: str
+        :param limit: Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_tracker_issues_serialize(
+            q=q,
+            project=project,
+            status=status,
+            kind=kind,
+            repo=repo,
+            source=source,
+            assignee=assignee,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueHits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_v1_tracker_issues_with_http_info(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.")] = None,
+        project: Annotated[Optional[StrictStr], Field(description="Project narrows to one team key; \"\" searches every project in the org, which is the point of this op.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
+        assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IssueHits]:
+        """Answers across every project in the org.
+
+        Answers across every project in the org.  The org comes from the validated principal and never from the request: a caller able to name the org could read another tenant's backlog, and a search is exactly the shape that would quietly return it.
+
+        :param q: Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.
+        :type q: str
+        :param project: Project narrows to one team key; \"\" searches every project in the org, which is the point of this op.
+        :type project: str
+        :param status: Status keeps one board column: backlog, todo, in_progress, done, canceled.
+        :type status: str
+        :param kind: Kind keeps one shape: issue, pr, epic.
+        :type kind: str
+        :param repo: Repo keeps issues bound to one git repository.
+        :type repo: str
+        :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
+        :type source: str
+        :param assignee: Assignee keeps issues held by one person. Pass \"me\" for yourself.
+        :type assignee: str
+        :param limit: Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_tracker_issues_serialize(
+            q=q,
+            project=project,
+            status=status,
+            kind=kind,
+            repo=repo,
+            source=source,
+            assignee=assignee,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueHits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_v1_tracker_issues_without_preload_content(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.")] = None,
+        project: Annotated[Optional[StrictStr], Field(description="Project narrows to one team key; \"\" searches every project in the org, which is the point of this op.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
+        repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
+        source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
+        assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers across every project in the org.
+
+        Answers across every project in the org.  The org comes from the validated principal and never from the request: a caller able to name the org could read another tenant's backlog, and a search is exactly the shape that would quietly return it.
+
+        :param q: Q matches an issue's title or description. A word from the issue, which is what someone remembers — not its number, which is what they are looking up.
+        :type q: str
+        :param project: Project narrows to one team key; \"\" searches every project in the org, which is the point of this op.
+        :type project: str
+        :param status: Status keeps one board column: backlog, todo, in_progress, done, canceled.
+        :type status: str
+        :param kind: Kind keeps one shape: issue, pr, epic.
+        :type kind: str
+        :param repo: Repo keeps issues bound to one git repository.
+        :type repo: str
+        :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
+        :type source: str
+        :param assignee: Assignee keeps issues held by one person. Pass \"me\" for yourself.
+        :type assignee: str
+        :param limit: Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_v1_tracker_issues_serialize(
+            q=q,
+            project=project,
+            status=status,
+            kind=kind,
+            repo=repo,
+            source=source,
+            assignee=assignee,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueHits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_v1_tracker_issues_serialize(
+        self,
+        q,
+        project,
+        status,
+        kind,
+        repo,
+        source,
+        assignee,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        if project is not None:
+            
+            _query_params.append(('project', project))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if kind is not None:
+            
+            _query_params.append(('kind', kind))
+            
+        if repo is not None:
+            
+            _query_params.append(('repo', repo))
+            
+        if source is not None:
+            
+            _query_params.append(('source', source))
+            
+        if assignee is not None:
+            
+            _query_params.append(('assignee', assignee))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/tracker/issues',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2449,6 +2832,281 @@ class TrackerApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/tracker/projects/{key}/issues',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_v1_tracker_projects_by_key_issues_by_num_claim(
+        self,
+        key: StrictStr,
+        num: StrictInt,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IssueHit:
+        """Takes an issue: it becomes yours and it moves to in_progress.
+
+        Takes an issue: it becomes yours and it moves to in_progress.  The holder is the CALLER, never an argument. \"Assign this to someone else\" is a different act with different authority, and it already exists as a PATCH; conflating them would let anyone hand work to anyone by naming them.  Claiming something already held by someone else is refused rather than silently taken — two agents on one issue is the failure this prevents, and a claim that quietly wins a race is worse than one that says no.
+
+        :param key: (required)
+        :type key: str
+        :param num: (required)
+        :type num: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_tracker_projects_by_key_issues_by_num_claim_serialize(
+            key=key,
+            num=num,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueHit",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_v1_tracker_projects_by_key_issues_by_num_claim_with_http_info(
+        self,
+        key: StrictStr,
+        num: StrictInt,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IssueHit]:
+        """Takes an issue: it becomes yours and it moves to in_progress.
+
+        Takes an issue: it becomes yours and it moves to in_progress.  The holder is the CALLER, never an argument. \"Assign this to someone else\" is a different act with different authority, and it already exists as a PATCH; conflating them would let anyone hand work to anyone by naming them.  Claiming something already held by someone else is refused rather than silently taken — two agents on one issue is the failure this prevents, and a claim that quietly wins a race is worse than one that says no.
+
+        :param key: (required)
+        :type key: str
+        :param num: (required)
+        :type num: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_tracker_projects_by_key_issues_by_num_claim_serialize(
+            key=key,
+            num=num,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueHit",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_v1_tracker_projects_by_key_issues_by_num_claim_without_preload_content(
+        self,
+        key: StrictStr,
+        num: StrictInt,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes an issue: it becomes yours and it moves to in_progress.
+
+        Takes an issue: it becomes yours and it moves to in_progress.  The holder is the CALLER, never an argument. \"Assign this to someone else\" is a different act with different authority, and it already exists as a PATCH; conflating them would let anyone hand work to anyone by naming them.  Claiming something already held by someone else is refused rather than silently taken — two agents on one issue is the failure this prevents, and a claim that quietly wins a race is worse than one that says no.
+
+        :param key: (required)
+        :type key: str
+        :param num: (required)
+        :type num: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_v1_tracker_projects_by_key_issues_by_num_claim_serialize(
+            key=key,
+            num=num,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IssueHit",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_v1_tracker_projects_by_key_issues_by_num_claim_serialize(
+        self,
+        key,
+        num,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if key is not None:
+            _path_params['key'] = key
+        if num is not None:
+            _path_params['num'] = num
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/tracker/projects/{key}/issues/{num}/claim',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -1056,9 +1056,9 @@ class WorldApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Pushes live news refreshes for the caller's org and project as Server-Sent Events.
+        """Live news refreshes for the caller's org and project, as Server-Sent Events.
 
-        Pushes live news refreshes for the caller's org and project as Server-Sent Events.  It holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s.  Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one. Org-scoped fail-closed: the bus filters on org and the loop drops any update whose Project differs, so a subscriber only ever receives its own tenant+project.  It streams over both the plain HTTP listener and the ZAP machine transport with no transport-specific code (zip SendStreamWriter is transport-agnostic). org and project are captured (both cloned by scope) BEFORE SendStreamWriter, so the loop never touches the request Ctx after the handler returns — client-gone is a flush error, bounded by the heartbeat.
+        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1118,9 +1118,9 @@ class WorldApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Pushes live news refreshes for the caller's org and project as Server-Sent Events.
+        """Live news refreshes for the caller's org and project, as Server-Sent Events.
 
-        Pushes live news refreshes for the caller's org and project as Server-Sent Events.  It holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s.  Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one. Org-scoped fail-closed: the bus filters on org and the loop drops any update whose Project differs, so a subscriber only ever receives its own tenant+project.  It streams over both the plain HTTP listener and the ZAP machine transport with no transport-specific code (zip SendStreamWriter is transport-agnostic). org and project are captured (both cloned by scope) BEFORE SendStreamWriter, so the loop never touches the request Ctx after the handler returns — client-gone is a flush error, bounded by the heartbeat.
+        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1180,9 +1180,9 @@ class WorldApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Pushes live news refreshes for the caller's org and project as Server-Sent Events.
+        """Live news refreshes for the caller's org and project, as Server-Sent Events.
 
-        Pushes live news refreshes for the caller's org and project as Server-Sent Events.  It holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s.  Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one. Org-scoped fail-closed: the bus filters on org and the loop drops any update whose Project differs, so a subscriber only ever receives its own tenant+project.  It streams over both the plain HTTP listener and the ZAP machine transport with no transport-specific code (zip SendStreamWriter is transport-agnostic). org and project are captured (both cloned by scope) BEFORE SendStreamWriter, so the loop never touches the request Ctx after the handler returns — client-gone is a flush error, bounded by the heartbeat.
+        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

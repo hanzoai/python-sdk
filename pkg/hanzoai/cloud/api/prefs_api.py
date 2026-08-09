@@ -297,9 +297,9 @@ class PrefsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Saves the preference keys a surface owns, leaving every other key alone.
+        """Save the preference keys your surface owns, leaving every other key alone
 
-        Saves the preference keys a surface owns, leaving every other key alone.  It merges a JSON object key-wise into the signed-in caller's OWN preference document and answers with the whole document after the merge, so a surface saves `theme` without having to send back the `density` another surface owns. The merge is SHALLOW and the key space is open: an unnamed key is left untouched, a named key is replaced whole, and a key sent with a `null` value is DELETED.  The subject is the `<owner>/<name>` identity built from the validated credential and is the mandatory predicate on the write, so there is no path to another user's preferences — not for an org admin, not for a platform SuperAdmin. Fails closed: no validated principal is 403; an empty body or a literal `null` is 400; and a patch or a resulting document over 16 KiB or 128 keys is 413.
+        Merges a JSON object key-wise into the signed-in caller's OWN preference document and answers with the whole document after the merge, so a surface saves `theme` without having to send back the `density` another surface owns. The merge is SHALLOW and the key space is open: an unnamed key is left untouched, a named key is replaced whole, and a key sent with a `null` value is DELETED. The subject is the `<owner>/<name>` identity built from the validated credential and is the mandatory predicate on the write, so there is no path to another user's preferences — not for an org admin, not for a platform SuperAdmin. Fails closed: no validated principal is 403; an empty body or a literal `null` is 400; and a patch or a resulting document over 16 KiB or 128 keys is 413.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -359,9 +359,9 @@ class PrefsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Saves the preference keys a surface owns, leaving every other key alone.
+        """Save the preference keys your surface owns, leaving every other key alone
 
-        Saves the preference keys a surface owns, leaving every other key alone.  It merges a JSON object key-wise into the signed-in caller's OWN preference document and answers with the whole document after the merge, so a surface saves `theme` without having to send back the `density` another surface owns. The merge is SHALLOW and the key space is open: an unnamed key is left untouched, a named key is replaced whole, and a key sent with a `null` value is DELETED.  The subject is the `<owner>/<name>` identity built from the validated credential and is the mandatory predicate on the write, so there is no path to another user's preferences — not for an org admin, not for a platform SuperAdmin. Fails closed: no validated principal is 403; an empty body or a literal `null` is 400; and a patch or a resulting document over 16 KiB or 128 keys is 413.
+        Merges a JSON object key-wise into the signed-in caller's OWN preference document and answers with the whole document after the merge, so a surface saves `theme` without having to send back the `density` another surface owns. The merge is SHALLOW and the key space is open: an unnamed key is left untouched, a named key is replaced whole, and a key sent with a `null` value is DELETED. The subject is the `<owner>/<name>` identity built from the validated credential and is the mandatory predicate on the write, so there is no path to another user's preferences — not for an org admin, not for a platform SuperAdmin. Fails closed: no validated principal is 403; an empty body or a literal `null` is 400; and a patch or a resulting document over 16 KiB or 128 keys is 413.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -421,9 +421,9 @@ class PrefsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Saves the preference keys a surface owns, leaving every other key alone.
+        """Save the preference keys your surface owns, leaving every other key alone
 
-        Saves the preference keys a surface owns, leaving every other key alone.  It merges a JSON object key-wise into the signed-in caller's OWN preference document and answers with the whole document after the merge, so a surface saves `theme` without having to send back the `density` another surface owns. The merge is SHALLOW and the key space is open: an unnamed key is left untouched, a named key is replaced whole, and a key sent with a `null` value is DELETED.  The subject is the `<owner>/<name>` identity built from the validated credential and is the mandatory predicate on the write, so there is no path to another user's preferences — not for an org admin, not for a platform SuperAdmin. Fails closed: no validated principal is 403; an empty body or a literal `null` is 400; and a patch or a resulting document over 16 KiB or 128 keys is 413.
+        Merges a JSON object key-wise into the signed-in caller's OWN preference document and answers with the whole document after the merge, so a surface saves `theme` without having to send back the `density` another surface owns. The merge is SHALLOW and the key space is open: an unnamed key is left untouched, a named key is replaced whole, and a key sent with a `null` value is DELETED. The subject is the `<owner>/<name>` identity built from the validated credential and is the mandatory predicate on the write, so there is no path to another user's preferences — not for an org admin, not for a platform SuperAdmin. Fails closed: no validated principal is 403; an empty body or a literal `null` is 400; and a patch or a resulting document over 16 KiB or 128 keys is 413.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

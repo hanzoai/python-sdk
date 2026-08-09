@@ -56,9 +56,9 @@ class AskApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.
+        """Ask a grounded question about your own org
 
-        Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
+        Answers a natural-language question about the CALLER'S OWN org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
 
         :param ask_request:
         :type ask_request: AskRequest
@@ -122,9 +122,9 @@ class AskApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.
+        """Ask a grounded question about your own org
 
-        Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
+        Answers a natural-language question about the CALLER'S OWN org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
 
         :param ask_request:
         :type ask_request: AskRequest
@@ -188,9 +188,9 @@ class AskApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.
+        """Ask a grounded question about your own org
 
-        Answers a grounded question about the caller's own org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
+        Answers a natural-language question about the CALLER'S OWN org, from real figures rather than from the model's memory.  The question is classified to a grounded domain, that domain's read runs IN-PROCESS under the caller's own credentials, and only then is the result narrated. So the figures and their sources are the domain's, resolved before any model call and never altered by one — a wrong answer is a wrong query, never an invention.  Domains: books (the org's ledger), projects (what is built and what of it is deployed), git (the org's repositories and what changed in them), and web (search, news, research, deep). A validated principal is required; the answer is scoped to that principal's org and nothing else.
 
         :param ask_request:
         :type ask_request: AskRequest
