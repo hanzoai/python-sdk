@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.endpoint_req import EndpointReq
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,8 +30,11 @@ class PatchSyncIn(BaseModel):
     actor: Optional[StrictStr] = Field(default=None, description="Actor is the loop-guard identity the sync writes as. Omitted, the stored actor stands.")
     direction: Optional[StrictStr] = Field(default=None, description="Direction is both, pull, push or off. Omitted, the stored direction stands.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the sync to update, from the path.")
+    kind: Optional[StrictStr] = None
+    source: Optional[EndpointReq] = Field(default=None, description="Source, Target and Kind are DECLARED HERE IN ORDER TO BE REFUSED.  They are immutable by design — re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else — but an UNDECLARED field is dropped by the binder before the handler sees it, so a request asking to repoint answered 200, changed nothing, and said nothing. The operator then believes a moved repository has been repointed and it has not.  Live: a sync still naming github.com/hanzoai/cloud after the repository moved to hanzo-inc/cloud failed every reconcile with \"Repository not found\", and the PATCH that appeared to fix it did nothing at all. Declaring the fields is what lets the documented immutability actually answer.")
+    target: Optional[EndpointReq] = None
     trigger: Optional[StrictStr] = Field(default=None, description="Trigger is webhook, poll or manual. Omitted, the stored trigger stands.")
-    __properties: ClassVar[List[str]] = ["actor", "direction", "id", "trigger"]
+    __properties: ClassVar[List[str]] = ["actor", "direction", "id", "kind", "source", "target", "trigger"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,6 +75,12 @@ class PatchSyncIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of source
+        if self.source:
+            _dict['source'] = self.source.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of target
+        if self.target:
+            _dict['target'] = self.target.to_dict()
         return _dict
 
     @classmethod
@@ -86,6 +96,9 @@ class PatchSyncIn(BaseModel):
             "actor": obj.get("actor"),
             "direction": obj.get("direction"),
             "id": obj.get("id"),
+            "kind": obj.get("kind"),
+            "source": EndpointReq.from_dict(obj["source"]) if obj.get("source") is not None else None,
+            "target": EndpointReq.from_dict(obj["target"]) if obj.get("target") is not None else None,
             "trigger": obj.get("trigger")
         })
         return _obj

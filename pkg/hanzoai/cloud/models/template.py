@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.template_config_option import TemplateConfigOption
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,11 +27,19 @@ class Template(BaseModel):
     """
     Template
     """ # noqa: E501
-    body: Optional[StrictStr] = None
-    enabled: Optional[StrictBool] = None
-    id: Optional[StrictStr] = None
-    title: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["body", "enabled", "id", "title"]
+    basic_config_options: Optional[List[TemplateConfigOption]] = Field(default=None, alias="basicConfigOptions")
+    created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
+    description: Optional[StrictStr] = None
+    display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
+    enable_basic_config: Optional[StrictBool] = Field(default=None, alias="enableBasicConfig")
+    icon: Optional[StrictStr] = None
+    manifest: Optional[StrictStr] = None
+    name: Optional[StrictStr] = None
+    owner: Optional[StrictStr] = None
+    readme: Optional[StrictStr] = None
+    updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
+    version: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["basicConfigOptions", "createdTime", "description", "displayName", "enableBasicConfig", "icon", "manifest", "name", "owner", "readme", "updatedTime", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,6 +80,13 @@ class Template(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in basic_config_options (list)
+        _items = []
+        if self.basic_config_options:
+            for _item_basic_config_options in self.basic_config_options:
+                if _item_basic_config_options:
+                    _items.append(_item_basic_config_options.to_dict())
+            _dict['basicConfigOptions'] = _items
         return _dict
 
     @classmethod
@@ -83,10 +99,18 @@ class Template(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "body": obj.get("body"),
-            "enabled": obj.get("enabled"),
-            "id": obj.get("id"),
-            "title": obj.get("title")
+            "basicConfigOptions": [TemplateConfigOption.from_dict(_item) for _item in obj["basicConfigOptions"]] if obj.get("basicConfigOptions") is not None else None,
+            "createdTime": obj.get("createdTime"),
+            "description": obj.get("description"),
+            "displayName": obj.get("displayName"),
+            "enableBasicConfig": obj.get("enableBasicConfig"),
+            "icon": obj.get("icon"),
+            "manifest": obj.get("manifest"),
+            "name": obj.get("name"),
+            "owner": obj.get("owner"),
+            "readme": obj.get("readme"),
+            "updatedTime": obj.get("updatedTime"),
+            "version": obj.get("version")
         })
         return _obj
 

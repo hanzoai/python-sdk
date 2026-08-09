@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.github_repo_view import GithubRepoView
 from typing import Optional, Set
@@ -28,7 +28,8 @@ class GithubReposOut(BaseModel):
     GithubReposOut
     """ # noqa: E501
     repos: Optional[List[GithubRepoView]] = Field(default=None, description="Repos is every repo the installation grants. Never null; [] when none.")
-    __properties: ClassVar[List[str]] = ["repos"]
+    unread: Optional[List[StrictStr]] = Field(default=None, description="Unread names the connected accounts this answer could NOT read, so a short list is distinguishable from a complete one. Absent when the answer is whole.  The fan-out is per installation, and one account failing used to be dropped in silence: the response stayed 200 and simply carried fewer repositories, erroring only when EVERY account failed. Measured, twice in a row, minutes apart: 1475 repositories, then 1157 — a whole installation missing with nothing in the answer to say so. Anything driven off the list then under-covers and reports success, which is the failure this field ends.")
+    __properties: ClassVar[List[str]] = ["repos", "unread"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +89,8 @@ class GithubReposOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "repos": [GithubRepoView.from_dict(_item) for _item in obj["repos"]] if obj.get("repos") is not None else None
+            "repos": [GithubRepoView.from_dict(_item) for _item in obj["repos"]] if obj.get("repos") is not None else None,
+            "unread": obj.get("unread")
         })
         return _obj
 

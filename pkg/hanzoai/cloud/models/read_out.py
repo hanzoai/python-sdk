@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.message import Message
+from hanzoai.cloud.models.delivery import Delivery
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class ReadOut(BaseModel):
     """
     ReadOut
     """ # noqa: E501
-    messages: Optional[List[Message]] = Field(default=None, description="Messages is what was read, stream-ordered.")
+    messages: Optional[List[Delivery]] = Field(default=None, description="Messages is what was read, stream-ordered.")
     __properties: ClassVar[List[str]] = ["messages"]
 
     model_config = ConfigDict(
@@ -88,7 +88,7 @@ class ReadOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "messages": [Message.from_dict(_item) for _item in obj["messages"]] if obj.get("messages") is not None else None
+            "messages": [Delivery.from_dict(_item) for _item in obj["messages"]] if obj.get("messages") is not None else None
         })
         return _obj
 

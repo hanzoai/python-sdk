@@ -16,7 +16,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -39,7 +38,6 @@ class WecomBotApi:
     @validate_call
     def get_v1_wecom_bot_callback_by_botid(
         self,
-        bot_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57,8 +55,6 @@ class WecomBotApi:
 
         Verify WeChat work bot callback URL
 
-        :param bot_id: (required)
-        :type bot_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -82,7 +78,6 @@ class WecomBotApi:
         """ # noqa: E501
 
         _param = self._get_v1_wecom_bot_callback_by_botid_serialize(
-            bot_id=bot_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -105,7 +100,6 @@ class WecomBotApi:
     @validate_call
     def get_v1_wecom_bot_callback_by_botid_with_http_info(
         self,
-        bot_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -123,8 +117,6 @@ class WecomBotApi:
 
         Verify WeChat work bot callback URL
 
-        :param bot_id: (required)
-        :type bot_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -148,7 +140,6 @@ class WecomBotApi:
         """ # noqa: E501
 
         _param = self._get_v1_wecom_bot_callback_by_botid_serialize(
-            bot_id=bot_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -171,7 +162,6 @@ class WecomBotApi:
     @validate_call
     def get_v1_wecom_bot_callback_by_botid_without_preload_content(
         self,
-        bot_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -189,8 +179,6 @@ class WecomBotApi:
 
         Verify WeChat work bot callback URL
 
-        :param bot_id: (required)
-        :type bot_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -214,7 +202,6 @@ class WecomBotApi:
         """ # noqa: E501
 
         _param = self._get_v1_wecom_bot_callback_by_botid_serialize(
-            bot_id=bot_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -232,7 +219,6 @@ class WecomBotApi:
 
     def _get_v1_wecom_bot_callback_by_botid_serialize(
         self,
-        bot_id,
         _request_auth,
         _content_type,
         _headers,
@@ -254,8 +240,6 @@ class WecomBotApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if bot_id is not None:
-            _path_params['botId'] = bot_id
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -289,7 +273,6 @@ class WecomBotApi:
     @validate_call
     def post_v1_wecom_bot_callback_by_botid(
         self,
-        bot_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -307,8 +290,6 @@ class WecomBotApi:
 
         Process WeChat work bot messages
 
-        :param bot_id: (required)
-        :type bot_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -332,7 +313,6 @@ class WecomBotApi:
         """ # noqa: E501
 
         _param = self._post_v1_wecom_bot_callback_by_botid_serialize(
-            bot_id=bot_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -355,7 +335,6 @@ class WecomBotApi:
     @validate_call
     def post_v1_wecom_bot_callback_by_botid_with_http_info(
         self,
-        bot_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -373,8 +352,6 @@ class WecomBotApi:
 
         Process WeChat work bot messages
 
-        :param bot_id: (required)
-        :type bot_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -398,7 +375,6 @@ class WecomBotApi:
         """ # noqa: E501
 
         _param = self._post_v1_wecom_bot_callback_by_botid_serialize(
-            bot_id=bot_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -421,7 +397,6 @@ class WecomBotApi:
     @validate_call
     def post_v1_wecom_bot_callback_by_botid_without_preload_content(
         self,
-        bot_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -439,8 +414,6 @@ class WecomBotApi:
 
         Process WeChat work bot messages
 
-        :param bot_id: (required)
-        :type bot_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -464,7 +437,6 @@ class WecomBotApi:
         """ # noqa: E501
 
         _param = self._post_v1_wecom_bot_callback_by_botid_serialize(
-            bot_id=bot_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -482,7 +454,6 @@ class WecomBotApi:
 
     def _post_v1_wecom_bot_callback_by_botid_serialize(
         self,
-        bot_id,
         _request_auth,
         _content_type,
         _headers,
@@ -504,8 +475,6 @@ class WecomBotApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if bot_id is not None:
-            _path_params['botId'] = bot_id
         # process the query parameters
         # process the header parameters
         # process the form parameters

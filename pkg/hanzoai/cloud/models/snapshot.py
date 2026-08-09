@@ -23,7 +23,7 @@ from hanzoai.cloud.models.cluster import Cluster
 from hanzoai.cloud.models.cost import Cost
 from hanzoai.cloud.models.finding import Finding
 from hanzoai.cloud.models.load_balancer import LoadBalancer
-from hanzoai.cloud.models.node import Node
+from hanzoai.cloud.models.machine import Machine
 from hanzoai.cloud.models.source_status import SourceStatus
 from hanzoai.cloud.models.totals import Totals
 from hanzoai.cloud.models.volume import Volume
@@ -41,7 +41,7 @@ class Snapshot(BaseModel):
     findings: Optional[List[Finding]] = None
     incomplete_reason: Optional[StrictStr] = Field(default=None, alias="incompleteReason")
     load_balancers: Optional[List[LoadBalancer]] = Field(default=None, alias="loadBalancers")
-    nodes: Optional[List[Node]] = None
+    nodes: Optional[List[Machine]] = None
     sources: Optional[List[SourceStatus]] = None
     totals: Optional[Totals] = None
     volumes: Optional[List[Volume]] = None
@@ -153,7 +153,7 @@ class Snapshot(BaseModel):
             "findings": [Finding.from_dict(_item) for _item in obj["findings"]] if obj.get("findings") is not None else None,
             "incompleteReason": obj.get("incompleteReason"),
             "loadBalancers": [LoadBalancer.from_dict(_item) for _item in obj["loadBalancers"]] if obj.get("loadBalancers") is not None else None,
-            "nodes": [Node.from_dict(_item) for _item in obj["nodes"]] if obj.get("nodes") is not None else None,
+            "nodes": [Machine.from_dict(_item) for _item in obj["nodes"]] if obj.get("nodes") is not None else None,
             "sources": [SourceStatus.from_dict(_item) for _item in obj["sources"]] if obj.get("sources") is not None else None,
             "totals": Totals.from_dict(obj["totals"]) if obj.get("totals") is not None else None,
             "volumes": [Volume.from_dict(_item) for _item in obj["volumes"]] if obj.get("volumes") is not None else None

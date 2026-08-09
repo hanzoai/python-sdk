@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.service import Service
+from hanzoai.cloud.models.upstream import Upstream
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class IngressServices(BaseModel):
     """
     IngressServices
     """ # noqa: E501
-    services: Optional[List[Service]] = Field(default=None, description="Services is the org's services, ordered by id.")
+    services: Optional[List[Upstream]] = Field(default=None, description="Services is the org's services, ordered by id.")
     __properties: ClassVar[List[str]] = ["services"]
 
     model_config = ConfigDict(
@@ -88,7 +88,7 @@ class IngressServices(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "services": [Service.from_dict(_item) for _item in obj["services"]] if obj.get("services") is not None else None
+            "services": [Upstream.from_dict(_item) for _item in obj["services"]] if obj.get("services") is not None else None
         })
         return _obj
 

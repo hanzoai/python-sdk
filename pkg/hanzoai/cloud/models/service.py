@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.backend import Backend
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,10 +26,16 @@ class Service(BaseModel):
     """
     Service
     """ # noqa: E501
-    backends: Optional[List[Backend]] = Field(default=None, description="Backends are the upstream servers to balance across: 1..32 of them.")
-    id: Optional[StrictStr] = Field(default=None, description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")
-    pass_host_header: Optional[StrictBool] = Field(default=None, description="PassHostHeader forwards the client's original Host header upstream instead of rewriting it to the backend's.", alias="passHostHeader")
-    __properties: ClassVar[List[str]] = ["backends", "id", "passHostHeader"]
+    expected_status: Optional[StrictStr] = Field(default=None, alias="expectedStatus")
+    message: Optional[StrictStr] = None
+    name: Optional[StrictStr] = None
+    no: Optional[StrictInt] = None
+    path: Optional[StrictStr] = None
+    port: Optional[StrictInt] = None
+    process_id: Optional[StrictInt] = Field(default=None, alias="processId")
+    status: Optional[StrictStr] = None
+    sub_status: Optional[StrictStr] = Field(default=None, alias="subStatus")
+    __properties: ClassVar[List[str]] = ["expectedStatus", "message", "name", "no", "path", "port", "processId", "status", "subStatus"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,13 +76,6 @@ class Service(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in backends (list)
-        _items = []
-        if self.backends:
-            for _item_backends in self.backends:
-                if _item_backends:
-                    _items.append(_item_backends.to_dict())
-            _dict['backends'] = _items
         return _dict
 
     @classmethod
@@ -90,9 +88,15 @@ class Service(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "backends": [Backend.from_dict(_item) for _item in obj["backends"]] if obj.get("backends") is not None else None,
-            "id": obj.get("id"),
-            "passHostHeader": obj.get("passHostHeader")
+            "expectedStatus": obj.get("expectedStatus"),
+            "message": obj.get("message"),
+            "name": obj.get("name"),
+            "no": obj.get("no"),
+            "path": obj.get("path"),
+            "port": obj.get("port"),
+            "processId": obj.get("processId"),
+            "status": obj.get("status"),
+            "subStatus": obj.get("subStatus")
         })
         return _obj
 
