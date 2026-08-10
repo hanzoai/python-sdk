@@ -14,6 +14,10 @@ from hanzo_sandbox.sandbox import (
 )
 
 __all__ = [
+    "Exec",
+    "SandboxError",
+    "Sandbox",
+    "Sandboxes",
     "ContainerEnvironment",
     "FilesystemIsolationMode",
     "LinuxSandboxCommand",
@@ -27,3 +31,6 @@ __all__ = [
     "resolve_sandbox_status",
     "resolve_sandbox_status_for_request",
 ]
+
+# The remote half: cloud's /v1/sandboxes. The names above are the local one.
+from .cloud import Exec, Sandbox, SandboxError, Sandboxes  # noqa: E402
