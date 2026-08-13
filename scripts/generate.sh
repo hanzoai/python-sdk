@@ -2,8 +2,8 @@
 # Regenerate the Hanzo Python client (`hanzoai`) from the unified OpenAPI spec.
 #
 # The ONE way: hanzoai/openapi `hanzo.yaml` is the single source of truth. The
-# `hanzoai` package under pkg/ is generated from it with openapi-generator — no
-# Stainless. Other pkg/hanzo-* packages are hand-written and untouched here.
+# `hanzoai` package under pkg/ is generated from it with openapi-generator, run
+# on our own CI. Other pkg/hanzo-* packages are hand-written and untouched here.
 #
 #   ./scripts/generate.sh                 # pulls spec from hanzoai/openapi@main
 #   SPEC=/path/to/hanzo.yaml ./scripts/generate.sh   # local spec override
