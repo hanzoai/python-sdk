@@ -51,7 +51,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates(
+    def get_affiliates(
         self,
         _request_timeout: Union[
             None,
@@ -92,7 +92,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_serialize(
+        _param = self._get_affiliates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -114,7 +114,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_with_http_info(
+    def get_affiliates_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -155,7 +155,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_serialize(
+        _param = self._get_affiliates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -177,7 +177,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_without_preload_content(
+    def get_affiliates_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -218,7 +218,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_serialize(
+        _param = self._get_affiliates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -235,7 +235,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _get_v1_affiliates_serialize(
+    def _get_affiliates_serialize(
         self,
         _request_auth,
         _content_type,
@@ -296,7 +296,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_leaderboard(
+    def get_affiliates_leaderboard(
         self,
         _request_timeout: Union[
             None,
@@ -337,7 +337,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_leaderboard_serialize(
+        _param = self._get_affiliates_leaderboard_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -359,7 +359,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_leaderboard_with_http_info(
+    def get_affiliates_leaderboard_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -400,7 +400,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_leaderboard_serialize(
+        _param = self._get_affiliates_leaderboard_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -422,7 +422,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_leaderboard_without_preload_content(
+    def get_affiliates_leaderboard_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -463,7 +463,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_leaderboard_serialize(
+        _param = self._get_affiliates_leaderboard_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -480,7 +480,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _get_v1_affiliates_leaderboard_serialize(
+    def _get_affiliates_leaderboard_serialize(
         self,
         _request_auth,
         _content_type,
@@ -541,7 +541,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me(
+    def get_affiliates_me(
         self,
         _request_timeout: Union[
             None,
@@ -582,7 +582,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_serialize(
+        _param = self._get_affiliates_me_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -604,7 +604,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_with_http_info(
+    def get_affiliates_me_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -645,7 +645,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_serialize(
+        _param = self._get_affiliates_me_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -667,7 +667,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_without_preload_content(
+    def get_affiliates_me_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -708,7 +708,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_serialize(
+        _param = self._get_affiliates_me_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -725,7 +725,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _get_v1_affiliates_me_serialize(
+    def _get_affiliates_me_serialize(
         self,
         _request_auth,
         _content_type,
@@ -786,7 +786,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_earnings(
+    def get_affiliates_me_earnings(
         self,
         _request_timeout: Union[
             None,
@@ -827,7 +827,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_earnings_serialize(
+        _param = self._get_affiliates_me_earnings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -849,7 +849,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_earnings_with_http_info(
+    def get_affiliates_me_earnings_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -890,7 +890,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_earnings_serialize(
+        _param = self._get_affiliates_me_earnings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -912,7 +912,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_earnings_without_preload_content(
+    def get_affiliates_me_earnings_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -953,7 +953,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_earnings_serialize(
+        _param = self._get_affiliates_me_earnings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -970,7 +970,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _get_v1_affiliates_me_earnings_serialize(
+    def _get_affiliates_me_earnings_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1031,7 +1031,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_links(
+    def get_affiliates_me_links(
         self,
         _request_timeout: Union[
             None,
@@ -1072,7 +1072,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_links_serialize(
+        _param = self._get_affiliates_me_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1094,7 +1094,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_links_with_http_info(
+    def get_affiliates_me_links_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1135,7 +1135,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_links_serialize(
+        _param = self._get_affiliates_me_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1157,7 +1157,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def get_v1_affiliates_me_links_without_preload_content(
+    def get_affiliates_me_links_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1198,7 +1198,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_affiliates_me_links_serialize(
+        _param = self._get_affiliates_me_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1215,7 +1215,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _get_v1_affiliates_me_links_serialize(
+    def _get_affiliates_me_links_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1276,7 +1276,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_apply(
+    def post_affiliates_apply(
         self,
         apply_request: ApplyRequest,
         _request_timeout: Union[
@@ -1320,7 +1320,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_apply_serialize(
+        _param = self._post_affiliates_apply_serialize(
             apply_request=apply_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1344,7 +1344,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_apply_with_http_info(
+    def post_affiliates_apply_with_http_info(
         self,
         apply_request: ApplyRequest,
         _request_timeout: Union[
@@ -1388,7 +1388,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_apply_serialize(
+        _param = self._post_affiliates_apply_serialize(
             apply_request=apply_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1412,7 +1412,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_apply_without_preload_content(
+    def post_affiliates_apply_without_preload_content(
         self,
         apply_request: ApplyRequest,
         _request_timeout: Union[
@@ -1456,7 +1456,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_apply_serialize(
+        _param = self._post_affiliates_apply_serialize(
             apply_request=apply_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1475,7 +1475,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _post_v1_affiliates_apply_serialize(
+    def _post_affiliates_apply_serialize(
         self,
         apply_request,
         _request_auth,
@@ -1552,7 +1552,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_attribute(
+    def post_affiliates_attribute(
         self,
         attribute_request: AttributeRequest,
         _request_timeout: Union[
@@ -1596,7 +1596,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_attribute_serialize(
+        _param = self._post_affiliates_attribute_serialize(
             attribute_request=attribute_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1620,7 +1620,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_attribute_with_http_info(
+    def post_affiliates_attribute_with_http_info(
         self,
         attribute_request: AttributeRequest,
         _request_timeout: Union[
@@ -1664,7 +1664,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_attribute_serialize(
+        _param = self._post_affiliates_attribute_serialize(
             attribute_request=attribute_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1688,7 +1688,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_attribute_without_preload_content(
+    def post_affiliates_attribute_without_preload_content(
         self,
         attribute_request: AttributeRequest,
         _request_timeout: Union[
@@ -1732,7 +1732,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_attribute_serialize(
+        _param = self._post_affiliates_attribute_serialize(
             attribute_request=attribute_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1751,7 +1751,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _post_v1_affiliates_attribute_serialize(
+    def _post_affiliates_attribute_serialize(
         self,
         attribute_request,
         _request_auth,
@@ -1828,7 +1828,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_click(
+    def post_affiliates_click(
         self,
         click_request: ClickRequest,
         _request_timeout: Union[
@@ -1872,7 +1872,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_click_serialize(
+        _param = self._post_affiliates_click_serialize(
             click_request=click_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1895,7 +1895,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_click_with_http_info(
+    def post_affiliates_click_with_http_info(
         self,
         click_request: ClickRequest,
         _request_timeout: Union[
@@ -1939,7 +1939,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_click_serialize(
+        _param = self._post_affiliates_click_serialize(
             click_request=click_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1962,7 +1962,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_click_without_preload_content(
+    def post_affiliates_click_without_preload_content(
         self,
         click_request: ClickRequest,
         _request_timeout: Union[
@@ -2006,7 +2006,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_click_serialize(
+        _param = self._post_affiliates_click_serialize(
             click_request=click_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2024,7 +2024,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _post_v1_affiliates_click_serialize(
+    def _post_affiliates_click_serialize(
         self,
         click_request,
         _request_auth,
@@ -2101,7 +2101,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_me_handle(
+    def post_affiliates_me_handle(
         self,
         handle_request: HandleRequest,
         _request_timeout: Union[
@@ -2145,7 +2145,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_me_handle_serialize(
+        _param = self._post_affiliates_me_handle_serialize(
             handle_request=handle_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2168,7 +2168,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_me_handle_with_http_info(
+    def post_affiliates_me_handle_with_http_info(
         self,
         handle_request: HandleRequest,
         _request_timeout: Union[
@@ -2212,7 +2212,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_me_handle_serialize(
+        _param = self._post_affiliates_me_handle_serialize(
             handle_request=handle_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2235,7 +2235,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_me_handle_without_preload_content(
+    def post_affiliates_me_handle_without_preload_content(
         self,
         handle_request: HandleRequest,
         _request_timeout: Union[
@@ -2279,7 +2279,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_me_handle_serialize(
+        _param = self._post_affiliates_me_handle_serialize(
             handle_request=handle_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2297,7 +2297,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _post_v1_affiliates_me_handle_serialize(
+    def _post_affiliates_me_handle_serialize(
         self,
         handle_request,
         _request_auth,
@@ -2374,7 +2374,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_me_links(
+    def post_affiliates_me_links(
         self,
         create_link_request: CreateLinkRequest,
         _request_timeout: Union[
@@ -2418,7 +2418,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_me_links_serialize(
+        _param = self._post_affiliates_me_links_serialize(
             create_link_request=create_link_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2441,7 +2441,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_me_links_with_http_info(
+    def post_affiliates_me_links_with_http_info(
         self,
         create_link_request: CreateLinkRequest,
         _request_timeout: Union[
@@ -2485,7 +2485,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_me_links_serialize(
+        _param = self._post_affiliates_me_links_serialize(
             create_link_request=create_link_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2508,7 +2508,7 @@ class AffiliatesApi:
 
 
     @validate_call
-    def post_v1_affiliates_me_links_without_preload_content(
+    def post_affiliates_me_links_without_preload_content(
         self,
         create_link_request: CreateLinkRequest,
         _request_timeout: Union[
@@ -2552,7 +2552,7 @@ class AffiliatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_affiliates_me_links_serialize(
+        _param = self._post_affiliates_me_links_serialize(
             create_link_request=create_link_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2570,7 +2570,7 @@ class AffiliatesApi:
         return response_data.response
 
 
-    def _post_v1_affiliates_me_links_serialize(
+    def _post_affiliates_me_links_serialize(
         self,
         create_link_request,
         _request_auth,

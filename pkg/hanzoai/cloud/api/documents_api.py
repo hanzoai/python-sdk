@@ -36,7 +36,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def delete_v1_documents(
+    def delete_documents(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class DocumentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_documents_serialize(
+        _param = self._delete_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def delete_v1_documents_with_http_info(
+    def delete_documents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class DocumentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_documents_serialize(
+        _param = self._delete_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def delete_v1_documents_without_preload_content(
+    def delete_documents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class DocumentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_documents_serialize(
+        _param = self._delete_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class DocumentsApi:
         return response_data.response
 
 
-    def _delete_v1_documents_serialize(
+    def _delete_documents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_v1_documents_by_file_id_context(
+    def get_documents_by_file_id_context(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class DocumentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_documents_by_file_id_context_serialize(
+        _param = self._get_documents_by_file_id_context_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_v1_documents_by_file_id_context_with_http_info(
+    def get_documents_by_file_id_context_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class DocumentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_documents_by_file_id_context_serialize(
+        _param = self._get_documents_by_file_id_context_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class DocumentsApi:
 
 
     @validate_call
-    def get_v1_documents_by_file_id_context_without_preload_content(
+    def get_documents_by_file_id_context_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class DocumentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_documents_by_file_id_context_serialize(
+        _param = self._get_documents_by_file_id_context_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class DocumentsApi:
         return response_data.response
 
 
-    def _get_v1_documents_by_file_id_context_serialize(
+    def _get_documents_by_file_id_context_serialize(
         self,
         _request_auth,
         _content_type,

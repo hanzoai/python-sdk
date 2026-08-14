@@ -54,7 +54,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_by_wildcard1(
+    def delete_sentry_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -98,7 +98,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_by_wildcard1_serialize(
+        _param = self._delete_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -120,7 +120,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_by_wildcard1_with_http_info(
+    def delete_sentry_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -164,7 +164,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_by_wildcard1_serialize(
+        _param = self._delete_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -186,7 +186,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_by_wildcard1_without_preload_content(
+    def delete_sentry_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -230,7 +230,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_by_wildcard1_serialize(
+        _param = self._delete_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -247,7 +247,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _delete_v1_sentry_by_wildcard1_serialize(
+    def _delete_sentry_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -304,7 +304,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_projects_by_id(
+    def delete_sentry_projects_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -348,7 +348,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_projects_by_id_serialize(
+        _param = self._delete_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -371,7 +371,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_projects_by_id_with_http_info(
+    def delete_sentry_projects_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -415,7 +415,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_projects_by_id_serialize(
+        _param = self._delete_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -438,7 +438,7 @@ class SentryApi:
 
 
     @validate_call
-    def delete_v1_sentry_projects_by_id_without_preload_content(
+    def delete_sentry_projects_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -482,7 +482,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sentry_projects_by_id_serialize(
+        _param = self._delete_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -500,7 +500,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _delete_v1_sentry_projects_by_id_serialize(
+    def _delete_sentry_projects_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -557,7 +557,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_by_wildcard1(
+    def get_sentry_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -601,7 +601,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_by_wildcard1_serialize(
+        _param = self._get_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -623,7 +623,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_by_wildcard1_with_http_info(
+    def get_sentry_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -667,7 +667,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_by_wildcard1_serialize(
+        _param = self._get_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -689,7 +689,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_by_wildcard1_without_preload_content(
+    def get_sentry_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -733,7 +733,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_by_wildcard1_serialize(
+        _param = self._get_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -750,7 +750,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_by_wildcard1_serialize(
+    def _get_sentry_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -807,7 +807,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_events_by_id(
+    def get_sentry_events_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the event id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the event belongs to, by its id. Required.")],
@@ -854,7 +854,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_events_by_id_serialize(
+        _param = self._get_sentry_events_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -878,7 +878,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_events_by_id_with_http_info(
+    def get_sentry_events_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the event id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the event belongs to, by its id. Required.")],
@@ -925,7 +925,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_events_by_id_serialize(
+        _param = self._get_sentry_events_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -949,7 +949,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_events_by_id_without_preload_content(
+    def get_sentry_events_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the event id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the event belongs to, by its id. Required.")],
@@ -996,7 +996,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_events_by_id_serialize(
+        _param = self._get_sentry_events_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -1015,7 +1015,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_events_by_id_serialize(
+    def _get_sentry_events_by_id_serialize(
         self,
         id,
         project,
@@ -1084,7 +1084,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues(
+    def get_sentry_issues(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status narrows to one lifecycle state: unresolved, resolved or ignored.")] = None,
         level: Annotated[Optional[StrictStr], Field(description="Level narrows to one severity, e.g. error, warning, info.")] = None,
@@ -1155,7 +1155,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_serialize(
+        _param = self._get_sentry_issues_serialize(
             status=status,
             level=level,
             environment=environment,
@@ -1187,7 +1187,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_with_http_info(
+    def get_sentry_issues_with_http_info(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status narrows to one lifecycle state: unresolved, resolved or ignored.")] = None,
         level: Annotated[Optional[StrictStr], Field(description="Level narrows to one severity, e.g. error, warning, info.")] = None,
@@ -1258,7 +1258,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_serialize(
+        _param = self._get_sentry_issues_serialize(
             status=status,
             level=level,
             environment=environment,
@@ -1290,7 +1290,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_without_preload_content(
+    def get_sentry_issues_without_preload_content(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status narrows to one lifecycle state: unresolved, resolved or ignored.")] = None,
         level: Annotated[Optional[StrictStr], Field(description="Level narrows to one severity, e.g. error, warning, info.")] = None,
@@ -1361,7 +1361,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_serialize(
+        _param = self._get_sentry_issues_serialize(
             status=status,
             level=level,
             environment=environment,
@@ -1388,7 +1388,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_issues_serialize(
+    def _get_sentry_issues_serialize(
         self,
         status,
         level,
@@ -1499,7 +1499,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_by_id(
+    def get_sentry_issues_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -1543,7 +1543,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_by_id_serialize(
+        _param = self._get_sentry_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1566,7 +1566,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_by_id_with_http_info(
+    def get_sentry_issues_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -1610,7 +1610,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_by_id_serialize(
+        _param = self._get_sentry_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1633,7 +1633,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_by_id_without_preload_content(
+    def get_sentry_issues_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         _request_timeout: Union[
@@ -1677,7 +1677,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_by_id_serialize(
+        _param = self._get_sentry_issues_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1695,7 +1695,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_issues_by_id_serialize(
+    def _get_sentry_issues_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1759,7 +1759,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_by_id_events(
+    def get_sentry_issues_by_id_events(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         project: Annotated[StrictStr, Field(description="Project is the project whose occurrences to read, by its id. Required.")],
@@ -1809,7 +1809,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_by_id_events_serialize(
+        _param = self._get_sentry_issues_by_id_events_serialize(
             id=id,
             project=project,
             limit=limit,
@@ -1834,7 +1834,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_by_id_events_with_http_info(
+    def get_sentry_issues_by_id_events_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         project: Annotated[StrictStr, Field(description="Project is the project whose occurrences to read, by its id. Required.")],
@@ -1884,7 +1884,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_by_id_events_serialize(
+        _param = self._get_sentry_issues_by_id_events_serialize(
             id=id,
             project=project,
             limit=limit,
@@ -1909,7 +1909,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_issues_by_id_events_without_preload_content(
+    def get_sentry_issues_by_id_events_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         project: Annotated[StrictStr, Field(description="Project is the project whose occurrences to read, by its id. Required.")],
@@ -1959,7 +1959,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_issues_by_id_events_serialize(
+        _param = self._get_sentry_issues_by_id_events_serialize(
             id=id,
             project=project,
             limit=limit,
@@ -1979,7 +1979,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_issues_by_id_events_serialize(
+    def _get_sentry_issues_by_id_events_serialize(
         self,
         id,
         project,
@@ -2053,7 +2053,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_logs(
+    def get_sentry_logs(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         query: Annotated[Optional[StrictStr], Field(description="Query narrows the page to events whose text contains it.")] = None,
@@ -2106,7 +2106,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_logs_serialize(
+        _param = self._get_sentry_logs_serialize(
             project=project,
             query=query,
             period=period,
@@ -2132,7 +2132,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_logs_with_http_info(
+    def get_sentry_logs_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         query: Annotated[Optional[StrictStr], Field(description="Query narrows the page to events whose text contains it.")] = None,
@@ -2185,7 +2185,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_logs_serialize(
+        _param = self._get_sentry_logs_serialize(
             project=project,
             query=query,
             period=period,
@@ -2211,7 +2211,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_logs_without_preload_content(
+    def get_sentry_logs_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         query: Annotated[Optional[StrictStr], Field(description="Query narrows the page to events whose text contains it.")] = None,
@@ -2264,7 +2264,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_logs_serialize(
+        _param = self._get_sentry_logs_serialize(
             project=project,
             query=query,
             period=period,
@@ -2285,7 +2285,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_logs_serialize(
+    def _get_sentry_logs_serialize(
         self,
         project,
         query,
@@ -2366,7 +2366,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects(
+    def get_sentry_projects(
         self,
         _request_timeout: Union[
             None,
@@ -2407,7 +2407,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_serialize(
+        _param = self._get_sentry_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2429,7 +2429,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_with_http_info(
+    def get_sentry_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2470,7 +2470,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_serialize(
+        _param = self._get_sentry_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2492,7 +2492,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_without_preload_content(
+    def get_sentry_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2533,7 +2533,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_serialize(
+        _param = self._get_sentry_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2550,7 +2550,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_projects_serialize(
+    def _get_sentry_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2611,7 +2611,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_by_id(
+    def get_sentry_projects_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -2655,7 +2655,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_by_id_serialize(
+        _param = self._get_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2678,7 +2678,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_by_id_with_http_info(
+    def get_sentry_projects_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -2722,7 +2722,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_by_id_serialize(
+        _param = self._get_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2745,7 +2745,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_projects_by_id_without_preload_content(
+    def get_sentry_projects_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -2789,7 +2789,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_projects_by_id_serialize(
+        _param = self._get_sentry_projects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2807,7 +2807,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_projects_by_id_serialize(
+    def _get_sentry_projects_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2871,7 +2871,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_stats(
+    def get_sentry_stats(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         var_field: Annotated[Optional[StrictStr], Field(description="Field is the dimension to count over. Empty counts all events.")] = None,
@@ -2921,7 +2921,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_stats_serialize(
+        _param = self._get_sentry_stats_serialize(
             project=project,
             var_field=var_field,
             period=period,
@@ -2946,7 +2946,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_stats_with_http_info(
+    def get_sentry_stats_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         var_field: Annotated[Optional[StrictStr], Field(description="Field is the dimension to count over. Empty counts all events.")] = None,
@@ -2996,7 +2996,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_stats_serialize(
+        _param = self._get_sentry_stats_serialize(
             project=project,
             var_field=var_field,
             period=period,
@@ -3021,7 +3021,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_stats_without_preload_content(
+    def get_sentry_stats_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         var_field: Annotated[Optional[StrictStr], Field(description="Field is the dimension to count over. Empty counts all events.")] = None,
@@ -3071,7 +3071,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_stats_serialize(
+        _param = self._get_sentry_stats_serialize(
             project=project,
             var_field=var_field,
             period=period,
@@ -3091,7 +3091,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_stats_serialize(
+    def _get_sentry_stats_serialize(
         self,
         project,
         var_field,
@@ -3167,7 +3167,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces(
+    def get_sentry_traces(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         period: Annotated[Optional[StrictStr], Field(description="Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d.")] = None,
@@ -3217,7 +3217,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_serialize(
+        _param = self._get_sentry_traces_serialize(
             project=project,
             period=period,
             limit=limit,
@@ -3242,7 +3242,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_with_http_info(
+    def get_sentry_traces_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         period: Annotated[Optional[StrictStr], Field(description="Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d.")] = None,
@@ -3292,7 +3292,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_serialize(
+        _param = self._get_sentry_traces_serialize(
             project=project,
             period=period,
             limit=limit,
@@ -3317,7 +3317,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_without_preload_content(
+    def get_sentry_traces_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to read, as its id. Required.")],
         period: Annotated[Optional[StrictStr], Field(description="Period is the window to read, relative to now — 1h, 24h, 7d, 14d, 30d.")] = None,
@@ -3367,7 +3367,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_serialize(
+        _param = self._get_sentry_traces_serialize(
             project=project,
             period=period,
             limit=limit,
@@ -3387,7 +3387,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_traces_serialize(
+    def _get_sentry_traces_serialize(
         self,
         project,
         period,
@@ -3463,7 +3463,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_by_id(
+    def get_sentry_traces_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the trace id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the trace's errors belong to. Required.")],
@@ -3510,7 +3510,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_by_id_serialize(
+        _param = self._get_sentry_traces_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -3534,7 +3534,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_by_id_with_http_info(
+    def get_sentry_traces_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the trace id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the trace's errors belong to. Required.")],
@@ -3581,7 +3581,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_by_id_serialize(
+        _param = self._get_sentry_traces_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -3605,7 +3605,7 @@ class SentryApi:
 
 
     @validate_call
-    def get_v1_sentry_traces_by_id_without_preload_content(
+    def get_sentry_traces_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the trace id.")],
         project: Annotated[StrictStr, Field(description="Project is the project the trace's errors belong to. Required.")],
@@ -3652,7 +3652,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sentry_traces_by_id_serialize(
+        _param = self._get_sentry_traces_by_id_serialize(
             id=id,
             project=project,
             _request_auth=_request_auth,
@@ -3671,7 +3671,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _get_v1_sentry_traces_by_id_serialize(
+    def _get_sentry_traces_by_id_serialize(
         self,
         id,
         project,
@@ -3740,7 +3740,7 @@ class SentryApi:
 
 
     @validate_call
-    def patch_v1_sentry_by_wildcard1(
+    def patch_sentry_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -3784,7 +3784,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_sentry_by_wildcard1_serialize(
+        _param = self._patch_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3806,7 +3806,7 @@ class SentryApi:
 
 
     @validate_call
-    def patch_v1_sentry_by_wildcard1_with_http_info(
+    def patch_sentry_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -3850,7 +3850,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_sentry_by_wildcard1_serialize(
+        _param = self._patch_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3872,7 +3872,7 @@ class SentryApi:
 
 
     @validate_call
-    def patch_v1_sentry_by_wildcard1_without_preload_content(
+    def patch_sentry_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -3916,7 +3916,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_sentry_by_wildcard1_serialize(
+        _param = self._patch_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3933,7 +3933,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _patch_v1_sentry_by_wildcard1_serialize(
+    def _patch_sentry_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -3990,7 +3990,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_project_envelope(
+    def post_sentry_by_project_envelope(
         self,
         project: StrictStr,
         _request_timeout: Union[
@@ -4034,7 +4034,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_project_envelope_serialize(
+        _param = self._post_sentry_by_project_envelope_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4056,7 +4056,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_project_envelope_with_http_info(
+    def post_sentry_by_project_envelope_with_http_info(
         self,
         project: StrictStr,
         _request_timeout: Union[
@@ -4100,7 +4100,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_project_envelope_serialize(
+        _param = self._post_sentry_by_project_envelope_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4122,7 +4122,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_project_envelope_without_preload_content(
+    def post_sentry_by_project_envelope_without_preload_content(
         self,
         project: StrictStr,
         _request_timeout: Union[
@@ -4166,7 +4166,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_project_envelope_serialize(
+        _param = self._post_sentry_by_project_envelope_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4183,7 +4183,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_by_project_envelope_serialize(
+    def _post_sentry_by_project_envelope_serialize(
         self,
         project,
         _request_auth,
@@ -4240,7 +4240,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_project_store(
+    def post_sentry_by_project_store(
         self,
         project: StrictStr,
         _request_timeout: Union[
@@ -4284,7 +4284,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_project_store_serialize(
+        _param = self._post_sentry_by_project_store_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4306,7 +4306,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_project_store_with_http_info(
+    def post_sentry_by_project_store_with_http_info(
         self,
         project: StrictStr,
         _request_timeout: Union[
@@ -4350,7 +4350,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_project_store_serialize(
+        _param = self._post_sentry_by_project_store_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4372,7 +4372,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_project_store_without_preload_content(
+    def post_sentry_by_project_store_without_preload_content(
         self,
         project: StrictStr,
         _request_timeout: Union[
@@ -4416,7 +4416,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_project_store_serialize(
+        _param = self._post_sentry_by_project_store_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4433,7 +4433,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_by_project_store_serialize(
+    def _post_sentry_by_project_store_serialize(
         self,
         project,
         _request_auth,
@@ -4490,7 +4490,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_wildcard1(
+    def post_sentry_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -4534,7 +4534,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_wildcard1_serialize(
+        _param = self._post_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4556,7 +4556,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_wildcard1_with_http_info(
+    def post_sentry_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -4600,7 +4600,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_wildcard1_serialize(
+        _param = self._post_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4622,7 +4622,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_by_wildcard1_without_preload_content(
+    def post_sentry_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -4666,7 +4666,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_by_wildcard1_serialize(
+        _param = self._post_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4683,7 +4683,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_by_wildcard1_serialize(
+    def _post_sentry_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -4740,7 +4740,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_discover(
+    def post_sentry_discover(
         self,
         o11y_o11y_discover_in: O11yO11yDiscoverIn,
         _request_timeout: Union[
@@ -4784,7 +4784,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_discover_serialize(
+        _param = self._post_sentry_discover_serialize(
             o11y_o11y_discover_in=o11y_o11y_discover_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4807,7 +4807,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_discover_with_http_info(
+    def post_sentry_discover_with_http_info(
         self,
         o11y_o11y_discover_in: O11yO11yDiscoverIn,
         _request_timeout: Union[
@@ -4851,7 +4851,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_discover_serialize(
+        _param = self._post_sentry_discover_serialize(
             o11y_o11y_discover_in=o11y_o11y_discover_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4874,7 +4874,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_discover_without_preload_content(
+    def post_sentry_discover_without_preload_content(
         self,
         o11y_o11y_discover_in: O11yO11yDiscoverIn,
         _request_timeout: Union[
@@ -4918,7 +4918,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_discover_serialize(
+        _param = self._post_sentry_discover_serialize(
             o11y_o11y_discover_in=o11y_o11y_discover_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4936,7 +4936,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_discover_serialize(
+    def _post_sentry_discover_serialize(
         self,
         o11y_o11y_discover_in,
         _request_auth,
@@ -5013,7 +5013,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects(
+    def post_sentry_projects(
         self,
         o11y_o11y_sentry_postable_project: O11yO11ySentryPostableProject,
         _request_timeout: Union[
@@ -5057,7 +5057,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_serialize(
+        _param = self._post_sentry_projects_serialize(
             o11y_o11y_sentry_postable_project=o11y_o11y_sentry_postable_project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5080,7 +5080,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_with_http_info(
+    def post_sentry_projects_with_http_info(
         self,
         o11y_o11y_sentry_postable_project: O11yO11ySentryPostableProject,
         _request_timeout: Union[
@@ -5124,7 +5124,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_serialize(
+        _param = self._post_sentry_projects_serialize(
             o11y_o11y_sentry_postable_project=o11y_o11y_sentry_postable_project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5147,7 +5147,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_without_preload_content(
+    def post_sentry_projects_without_preload_content(
         self,
         o11y_o11y_sentry_postable_project: O11yO11ySentryPostableProject,
         _request_timeout: Union[
@@ -5191,7 +5191,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_serialize(
+        _param = self._post_sentry_projects_serialize(
             o11y_o11y_sentry_postable_project=o11y_o11y_sentry_postable_project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5209,7 +5209,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_projects_serialize(
+    def _post_sentry_projects_serialize(
         self,
         o11y_o11y_sentry_postable_project,
         _request_auth,
@@ -5286,7 +5286,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_by_id_keys_rotate(
+    def post_sentry_projects_by_id_keys_rotate(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -5330,7 +5330,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_by_id_keys_rotate_serialize(
+        _param = self._post_sentry_projects_by_id_keys_rotate_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5353,7 +5353,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_by_id_keys_rotate_with_http_info(
+    def post_sentry_projects_by_id_keys_rotate_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -5397,7 +5397,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_by_id_keys_rotate_serialize(
+        _param = self._post_sentry_projects_by_id_keys_rotate_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5420,7 +5420,7 @@ class SentryApi:
 
 
     @validate_call
-    def post_v1_sentry_projects_by_id_keys_rotate_without_preload_content(
+    def post_sentry_projects_by_id_keys_rotate_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the project id.")],
         _request_timeout: Union[
@@ -5464,7 +5464,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sentry_projects_by_id_keys_rotate_serialize(
+        _param = self._post_sentry_projects_by_id_keys_rotate_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5482,7 +5482,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _post_v1_sentry_projects_by_id_keys_rotate_serialize(
+    def _post_sentry_projects_by_id_keys_rotate_serialize(
         self,
         id,
         _request_auth,
@@ -5546,7 +5546,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_by_wildcard1(
+    def put_sentry_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -5590,7 +5590,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_by_wildcard1_serialize(
+        _param = self._put_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5612,7 +5612,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_by_wildcard1_with_http_info(
+    def put_sentry_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -5656,7 +5656,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_by_wildcard1_serialize(
+        _param = self._put_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5678,7 +5678,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_by_wildcard1_without_preload_content(
+    def put_sentry_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -5722,7 +5722,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_by_wildcard1_serialize(
+        _param = self._put_sentry_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5739,7 +5739,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _put_v1_sentry_by_wildcard1_serialize(
+    def _put_sentry_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -5796,7 +5796,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_issues_by_id(
+    def put_sentry_issues_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_sentry_update_issue_in: O11yO11ySentryUpdateIssueIn,
@@ -5843,7 +5843,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_issues_by_id_serialize(
+        _param = self._put_sentry_issues_by_id_serialize(
             id=id,
             o11y_o11y_sentry_update_issue_in=o11y_o11y_sentry_update_issue_in,
             _request_auth=_request_auth,
@@ -5867,7 +5867,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_issues_by_id_with_http_info(
+    def put_sentry_issues_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_sentry_update_issue_in: O11yO11ySentryUpdateIssueIn,
@@ -5914,7 +5914,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_issues_by_id_serialize(
+        _param = self._put_sentry_issues_by_id_serialize(
             id=id,
             o11y_o11y_sentry_update_issue_in=o11y_o11y_sentry_update_issue_in,
             _request_auth=_request_auth,
@@ -5938,7 +5938,7 @@ class SentryApi:
 
 
     @validate_call
-    def put_v1_sentry_issues_by_id_without_preload_content(
+    def put_sentry_issues_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the issue id.")],
         o11y_o11y_sentry_update_issue_in: O11yO11ySentryUpdateIssueIn,
@@ -5985,7 +5985,7 @@ class SentryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_sentry_issues_by_id_serialize(
+        _param = self._put_sentry_issues_by_id_serialize(
             id=id,
             o11y_o11y_sentry_update_issue_in=o11y_o11y_sentry_update_issue_in,
             _request_auth=_request_auth,
@@ -6004,7 +6004,7 @@ class SentryApi:
         return response_data.response
 
 
-    def _put_v1_sentry_issues_by_id_serialize(
+    def _put_sentry_issues_by_id_serialize(
         self,
         id,
         o11y_o11y_sentry_update_issue_in,

@@ -48,7 +48,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing(
+    def get_pricing(
         self,
         _request_timeout: Union[
             None,
@@ -89,7 +89,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_serialize(
+        _param = self._get_pricing_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -111,7 +111,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_with_http_info(
+    def get_pricing_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -152,7 +152,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_serialize(
+        _param = self._get_pricing_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -174,7 +174,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_without_preload_content(
+    def get_pricing_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -215,7 +215,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_serialize(
+        _param = self._get_pricing_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -232,7 +232,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_serialize(
+    def _get_pricing_serialize(
         self,
         _request_auth,
         _content_type,
@@ -293,7 +293,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_base(
+    def get_pricing_base(
         self,
         _request_timeout: Union[
             None,
@@ -334,7 +334,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_base_serialize(
+        _param = self._get_pricing_base_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -356,7 +356,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_base_with_http_info(
+    def get_pricing_base_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -397,7 +397,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_base_serialize(
+        _param = self._get_pricing_base_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -419,7 +419,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_base_without_preload_content(
+    def get_pricing_base_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -460,7 +460,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_base_serialize(
+        _param = self._get_pricing_base_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -477,7 +477,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_base_serialize(
+    def _get_pricing_base_serialize(
         self,
         _request_auth,
         _content_type,
@@ -538,7 +538,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_blockchain(
+    def get_pricing_blockchain(
         self,
         _request_timeout: Union[
             None,
@@ -579,7 +579,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_blockchain_serialize(
+        _param = self._get_pricing_blockchain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -601,7 +601,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_blockchain_with_http_info(
+    def get_pricing_blockchain_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -642,7 +642,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_blockchain_serialize(
+        _param = self._get_pricing_blockchain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -664,7 +664,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_blockchain_without_preload_content(
+    def get_pricing_blockchain_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -705,7 +705,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_blockchain_serialize(
+        _param = self._get_pricing_blockchain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -722,7 +722,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_blockchain_serialize(
+    def _get_pricing_blockchain_serialize(
         self,
         _request_auth,
         _content_type,
@@ -783,7 +783,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud(
+    def get_pricing_cloud(
         self,
         _request_timeout: Union[
             None,
@@ -824,7 +824,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_serialize(
+        _param = self._get_pricing_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -846,7 +846,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_with_http_info(
+    def get_pricing_cloud_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -887,7 +887,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_serialize(
+        _param = self._get_pricing_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -909,7 +909,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_without_preload_content(
+    def get_pricing_cloud_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -950,7 +950,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_serialize(
+        _param = self._get_pricing_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -967,7 +967,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_cloud_serialize(
+    def _get_pricing_cloud_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1028,7 +1028,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_plans(
+    def get_pricing_cloud_plans(
         self,
         _request_timeout: Union[
             None,
@@ -1069,7 +1069,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_plans_serialize(
+        _param = self._get_pricing_cloud_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1091,7 +1091,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_plans_with_http_info(
+    def get_pricing_cloud_plans_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1132,7 +1132,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_plans_serialize(
+        _param = self._get_pricing_cloud_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1154,7 +1154,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_plans_without_preload_content(
+    def get_pricing_cloud_plans_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1195,7 +1195,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_plans_serialize(
+        _param = self._get_pricing_cloud_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1212,7 +1212,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_cloud_plans_serialize(
+    def _get_pricing_cloud_plans_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1273,7 +1273,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_regions(
+    def get_pricing_cloud_regions(
         self,
         _request_timeout: Union[
             None,
@@ -1314,7 +1314,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_regions_serialize(
+        _param = self._get_pricing_cloud_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1336,7 +1336,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_regions_with_http_info(
+    def get_pricing_cloud_regions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1377,7 +1377,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_regions_serialize(
+        _param = self._get_pricing_cloud_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1399,7 +1399,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_regions_without_preload_content(
+    def get_pricing_cloud_regions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1440,7 +1440,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_regions_serialize(
+        _param = self._get_pricing_cloud_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1457,7 +1457,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_cloud_regions_serialize(
+    def _get_pricing_cloud_regions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1518,7 +1518,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_storage(
+    def get_pricing_cloud_storage(
         self,
         _request_timeout: Union[
             None,
@@ -1559,7 +1559,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_storage_serialize(
+        _param = self._get_pricing_cloud_storage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1581,7 +1581,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_storage_with_http_info(
+    def get_pricing_cloud_storage_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1622,7 +1622,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_storage_serialize(
+        _param = self._get_pricing_cloud_storage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1644,7 +1644,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_cloud_storage_without_preload_content(
+    def get_pricing_cloud_storage_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1685,7 +1685,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_cloud_storage_serialize(
+        _param = self._get_pricing_cloud_storage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1702,7 +1702,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_cloud_storage_serialize(
+    def _get_pricing_cloud_storage_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1763,7 +1763,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_compute(
+    def get_pricing_compute(
         self,
         _request_timeout: Union[
             None,
@@ -1804,7 +1804,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_compute_serialize(
+        _param = self._get_pricing_compute_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1826,7 +1826,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_compute_with_http_info(
+    def get_pricing_compute_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1867,7 +1867,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_compute_serialize(
+        _param = self._get_pricing_compute_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1889,7 +1889,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_compute_without_preload_content(
+    def get_pricing_compute_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1930,7 +1930,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_compute_serialize(
+        _param = self._get_pricing_compute_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1947,7 +1947,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_compute_serialize(
+    def _get_pricing_compute_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2008,7 +2008,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_compute_presets(
+    def get_pricing_compute_presets(
         self,
         _request_timeout: Union[
             None,
@@ -2049,7 +2049,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_compute_presets_serialize(
+        _param = self._get_pricing_compute_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2071,7 +2071,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_compute_presets_with_http_info(
+    def get_pricing_compute_presets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2112,7 +2112,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_compute_presets_serialize(
+        _param = self._get_pricing_compute_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2134,7 +2134,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_compute_presets_without_preload_content(
+    def get_pricing_compute_presets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2175,7 +2175,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_compute_presets_serialize(
+        _param = self._get_pricing_compute_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2192,7 +2192,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_compute_presets_serialize(
+    def _get_pricing_compute_presets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2253,7 +2253,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_datastore(
+    def get_pricing_datastore(
         self,
         _request_timeout: Union[
             None,
@@ -2294,7 +2294,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_datastore_serialize(
+        _param = self._get_pricing_datastore_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2316,7 +2316,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_datastore_with_http_info(
+    def get_pricing_datastore_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2357,7 +2357,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_datastore_serialize(
+        _param = self._get_pricing_datastore_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2379,7 +2379,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_datastore_without_preload_content(
+    def get_pricing_datastore_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2420,7 +2420,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_datastore_serialize(
+        _param = self._get_pricing_datastore_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2437,7 +2437,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_datastore_serialize(
+    def _get_pricing_datastore_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2498,7 +2498,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_featured(
+    def get_pricing_featured(
         self,
         _request_timeout: Union[
             None,
@@ -2539,7 +2539,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_featured_serialize(
+        _param = self._get_pricing_featured_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2561,7 +2561,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_featured_with_http_info(
+    def get_pricing_featured_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2602,7 +2602,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_featured_serialize(
+        _param = self._get_pricing_featured_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2624,7 +2624,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_featured_without_preload_content(
+    def get_pricing_featured_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2665,7 +2665,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_featured_serialize(
+        _param = self._get_pricing_featured_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2682,7 +2682,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_featured_serialize(
+    def _get_pricing_featured_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2743,7 +2743,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_free(
+    def get_pricing_free(
         self,
         _request_timeout: Union[
             None,
@@ -2784,7 +2784,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_free_serialize(
+        _param = self._get_pricing_free_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2806,7 +2806,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_free_with_http_info(
+    def get_pricing_free_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2847,7 +2847,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_free_serialize(
+        _param = self._get_pricing_free_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2869,7 +2869,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_free_without_preload_content(
+    def get_pricing_free_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2910,7 +2910,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_free_serialize(
+        _param = self._get_pricing_free_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2927,7 +2927,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_free_serialize(
+    def _get_pricing_free_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2988,7 +2988,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_gpu(
+    def get_pricing_gpu(
         self,
         _request_timeout: Union[
             None,
@@ -3029,7 +3029,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_gpu_serialize(
+        _param = self._get_pricing_gpu_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3051,7 +3051,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_gpu_with_http_info(
+    def get_pricing_gpu_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3092,7 +3092,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_gpu_serialize(
+        _param = self._get_pricing_gpu_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3114,7 +3114,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_gpu_without_preload_content(
+    def get_pricing_gpu_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3155,7 +3155,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_gpu_serialize(
+        _param = self._get_pricing_gpu_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3172,7 +3172,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_gpu_serialize(
+    def _get_pricing_gpu_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3233,7 +3233,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_health(
+    def get_pricing_health(
         self,
         _request_timeout: Union[
             None,
@@ -3274,7 +3274,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_health_serialize(
+        _param = self._get_pricing_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3296,7 +3296,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_health_with_http_info(
+    def get_pricing_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3337,7 +3337,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_health_serialize(
+        _param = self._get_pricing_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3359,7 +3359,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_health_without_preload_content(
+    def get_pricing_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3400,7 +3400,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_health_serialize(
+        _param = self._get_pricing_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3417,7 +3417,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_health_serialize(
+    def _get_pricing_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3478,7 +3478,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_iam(
+    def get_pricing_iam(
         self,
         _request_timeout: Union[
             None,
@@ -3519,7 +3519,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_iam_serialize(
+        _param = self._get_pricing_iam_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3541,7 +3541,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_iam_with_http_info(
+    def get_pricing_iam_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3582,7 +3582,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_iam_serialize(
+        _param = self._get_pricing_iam_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3604,7 +3604,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_iam_without_preload_content(
+    def get_pricing_iam_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3645,7 +3645,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_iam_serialize(
+        _param = self._get_pricing_iam_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3662,7 +3662,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_iam_serialize(
+    def _get_pricing_iam_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3723,7 +3723,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_model_by_name(
+    def get_pricing_model_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the model's name or its slugged id (\"zen4\", \"acme/some-model-1\"), matched case-insensitively. It comes from the path: the URL is the addressing authority.")],
         _request_timeout: Union[
@@ -3767,7 +3767,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_model_by_name_serialize(
+        _param = self._get_pricing_model_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3790,7 +3790,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_model_by_name_with_http_info(
+    def get_pricing_model_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the model's name or its slugged id (\"zen4\", \"acme/some-model-1\"), matched case-insensitively. It comes from the path: the URL is the addressing authority.")],
         _request_timeout: Union[
@@ -3834,7 +3834,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_model_by_name_serialize(
+        _param = self._get_pricing_model_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3857,7 +3857,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_model_by_name_without_preload_content(
+    def get_pricing_model_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the model's name or its slugged id (\"zen4\", \"acme/some-model-1\"), matched case-insensitively. It comes from the path: the URL is the addressing authority.")],
         _request_timeout: Union[
@@ -3901,7 +3901,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_model_by_name_serialize(
+        _param = self._get_pricing_model_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3919,7 +3919,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_model_by_name_serialize(
+    def _get_pricing_model_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -3983,7 +3983,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_models(
+    def get_pricing_models(
         self,
         _request_timeout: Union[
             None,
@@ -3998,9 +3998,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PricingModelList:
-        """Returns the whole model catalog — Hanzo's own Zen models and every third-party model — filtered to what the caller's org may see.
+        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
 
-        Returns the whole model catalog — Hanzo's own Zen models and every third-party model — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4024,7 +4024,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_models_serialize(
+        _param = self._get_pricing_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4046,7 +4046,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_models_with_http_info(
+    def get_pricing_models_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4061,9 +4061,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PricingModelList]:
-        """Returns the whole model catalog — Hanzo's own Zen models and every third-party model — filtered to what the caller's org may see.
+        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
 
-        Returns the whole model catalog — Hanzo's own Zen models and every third-party model — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4087,7 +4087,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_models_serialize(
+        _param = self._get_pricing_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4109,7 +4109,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_models_without_preload_content(
+    def get_pricing_models_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4124,9 +4124,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the whole model catalog — Hanzo's own Zen models and every third-party model — filtered to what the caller's org may see.
+        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
 
-        Returns the whole model catalog — Hanzo's own Zen models and every third-party model — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4150,7 +4150,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_models_serialize(
+        _param = self._get_pricing_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4167,7 +4167,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_models_serialize(
+    def _get_pricing_models_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4228,7 +4228,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_paas(
+    def get_pricing_paas(
         self,
         _request_timeout: Union[
             None,
@@ -4269,7 +4269,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_paas_serialize(
+        _param = self._get_pricing_paas_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4291,7 +4291,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_paas_with_http_info(
+    def get_pricing_paas_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4332,7 +4332,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_paas_serialize(
+        _param = self._get_pricing_paas_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4354,7 +4354,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_paas_without_preload_content(
+    def get_pricing_paas_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4395,7 +4395,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_paas_serialize(
+        _param = self._get_pricing_paas_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4412,7 +4412,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_paas_serialize(
+    def _get_pricing_paas_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4473,7 +4473,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_policy(
+    def get_pricing_policy(
         self,
         _request_timeout: Union[
             None,
@@ -4514,7 +4514,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_policy_serialize(
+        _param = self._get_pricing_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4536,7 +4536,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_policy_with_http_info(
+    def get_pricing_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4577,7 +4577,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_policy_serialize(
+        _param = self._get_pricing_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4599,7 +4599,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_policy_without_preload_content(
+    def get_pricing_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4640,7 +4640,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_policy_serialize(
+        _param = self._get_pricing_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4657,7 +4657,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_policy_serialize(
+    def _get_pricing_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4718,7 +4718,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_providers(
+    def get_pricing_providers(
         self,
         _request_timeout: Union[
             None,
@@ -4759,7 +4759,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_providers_serialize(
+        _param = self._get_pricing_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4781,7 +4781,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_providers_with_http_info(
+    def get_pricing_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4822,7 +4822,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_providers_serialize(
+        _param = self._get_pricing_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4844,7 +4844,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_providers_without_preload_content(
+    def get_pricing_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4885,7 +4885,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_providers_serialize(
+        _param = self._get_pricing_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4902,7 +4902,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_providers_serialize(
+    def _get_pricing_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4963,7 +4963,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_services(
+    def get_pricing_services(
         self,
         _request_timeout: Union[
             None,
@@ -5004,7 +5004,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_services_serialize(
+        _param = self._get_pricing_services_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5026,7 +5026,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_services_with_http_info(
+    def get_pricing_services_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5067,7 +5067,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_services_serialize(
+        _param = self._get_pricing_services_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5089,7 +5089,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_services_without_preload_content(
+    def get_pricing_services_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5130,7 +5130,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_services_serialize(
+        _param = self._get_pricing_services_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5147,7 +5147,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_services_serialize(
+    def _get_pricing_services_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5208,7 +5208,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_subscriptions(
+    def get_pricing_subscriptions(
         self,
         _request_timeout: Union[
             None,
@@ -5249,7 +5249,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_subscriptions_serialize(
+        _param = self._get_pricing_subscriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5271,7 +5271,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_subscriptions_with_http_info(
+    def get_pricing_subscriptions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5312,7 +5312,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_subscriptions_serialize(
+        _param = self._get_pricing_subscriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5334,7 +5334,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_subscriptions_without_preload_content(
+    def get_pricing_subscriptions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5375,7 +5375,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_subscriptions_serialize(
+        _param = self._get_pricing_subscriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5392,7 +5392,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_subscriptions_serialize(
+    def _get_pricing_subscriptions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5453,7 +5453,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_summary(
+    def get_pricing_summary(
         self,
         _request_timeout: Union[
             None,
@@ -5494,7 +5494,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_summary_serialize(
+        _param = self._get_pricing_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5516,7 +5516,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_summary_with_http_info(
+    def get_pricing_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5557,7 +5557,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_summary_serialize(
+        _param = self._get_pricing_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5579,7 +5579,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_summary_without_preload_content(
+    def get_pricing_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5620,7 +5620,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_summary_serialize(
+        _param = self._get_pricing_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5637,7 +5637,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_summary_serialize(
+    def _get_pricing_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5698,7 +5698,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_tools(
+    def get_pricing_tools(
         self,
         _request_timeout: Union[
             None,
@@ -5739,7 +5739,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_tools_serialize(
+        _param = self._get_pricing_tools_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5761,7 +5761,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_tools_with_http_info(
+    def get_pricing_tools_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5802,7 +5802,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_tools_serialize(
+        _param = self._get_pricing_tools_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5824,7 +5824,7 @@ class PricingApi:
 
 
     @validate_call
-    def get_v1_pricing_tools_without_preload_content(
+    def get_pricing_tools_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5865,7 +5865,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_pricing_tools_serialize(
+        _param = self._get_pricing_tools_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5882,7 +5882,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _get_v1_pricing_tools_serialize(
+    def _get_pricing_tools_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5943,7 +5943,7 @@ class PricingApi:
 
 
     @validate_call
-    def post_v1_pricing_sync(
+    def post_pricing_sync(
         self,
         _request_timeout: Union[
             None,
@@ -5984,7 +5984,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pricing_sync_serialize(
+        _param = self._post_pricing_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6006,7 +6006,7 @@ class PricingApi:
 
 
     @validate_call
-    def post_v1_pricing_sync_with_http_info(
+    def post_pricing_sync_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6047,7 +6047,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pricing_sync_serialize(
+        _param = self._post_pricing_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6069,7 +6069,7 @@ class PricingApi:
 
 
     @validate_call
-    def post_v1_pricing_sync_without_preload_content(
+    def post_pricing_sync_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6110,7 +6110,7 @@ class PricingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_pricing_sync_serialize(
+        _param = self._post_pricing_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6127,7 +6127,7 @@ class PricingApi:
         return response_data.response
 
 
-    def _post_v1_pricing_sync_serialize(
+    def _post_pricing_sync_serialize(
         self,
         _request_auth,
         _content_type,

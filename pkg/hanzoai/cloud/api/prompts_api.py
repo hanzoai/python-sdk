@@ -43,7 +43,7 @@ class PromptsApi:
 
 
     @validate_call
-    def delete_v1_prompts_by_name(
+    def delete_prompts_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the prompt to act on, from the path.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_prompts_by_name_serialize(
+        _param = self._delete_prompts_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class PromptsApi:
 
 
     @validate_call
-    def delete_v1_prompts_by_name_with_http_info(
+    def delete_prompts_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the prompt to act on, from the path.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_prompts_by_name_serialize(
+        _param = self._delete_prompts_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class PromptsApi:
 
 
     @validate_call
-    def delete_v1_prompts_by_name_without_preload_content(
+    def delete_prompts_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the prompt to act on, from the path.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_prompts_by_name_serialize(
+        _param = self._delete_prompts_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _delete_v1_prompts_by_name_serialize(
+    def _delete_prompts_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -296,7 +296,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts(
+    def get_prompts(
         self,
         _request_timeout: Union[
             None,
@@ -337,7 +337,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_serialize(
+        _param = self._get_prompts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -359,7 +359,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_with_http_info(
+    def get_prompts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -400,7 +400,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_serialize(
+        _param = self._get_prompts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -422,7 +422,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_without_preload_content(
+    def get_prompts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -463,7 +463,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_serialize(
+        _param = self._get_prompts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -480,7 +480,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _get_v1_prompts_serialize(
+    def _get_prompts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -541,7 +541,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_by_name(
+    def get_prompts_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the prompt to act on, from the path.")],
         _request_timeout: Union[
@@ -585,7 +585,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_by_name_serialize(
+        _param = self._get_prompts_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -608,7 +608,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_by_name_with_http_info(
+    def get_prompts_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the prompt to act on, from the path.")],
         _request_timeout: Union[
@@ -652,7 +652,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_by_name_serialize(
+        _param = self._get_prompts_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -675,7 +675,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_by_name_without_preload_content(
+    def get_prompts_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the prompt to act on, from the path.")],
         _request_timeout: Union[
@@ -719,7 +719,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_by_name_serialize(
+        _param = self._get_prompts_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -737,7 +737,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _get_v1_prompts_by_name_serialize(
+    def _get_prompts_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -801,7 +801,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_catalog(
+    def get_prompts_catalog(
         self,
         _request_timeout: Union[
             None,
@@ -842,7 +842,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_catalog_serialize(
+        _param = self._get_prompts_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -864,7 +864,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_catalog_with_http_info(
+    def get_prompts_catalog_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -905,7 +905,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_catalog_serialize(
+        _param = self._get_prompts_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -927,7 +927,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_catalog_without_preload_content(
+    def get_prompts_catalog_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -968,7 +968,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_catalog_serialize(
+        _param = self._get_prompts_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -985,7 +985,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _get_v1_prompts_catalog_serialize(
+    def _get_prompts_catalog_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1046,7 +1046,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_metrics(
+    def get_prompts_metrics(
         self,
         _request_timeout: Union[
             None,
@@ -1087,7 +1087,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_metrics_serialize(
+        _param = self._get_prompts_metrics_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1109,7 +1109,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_metrics_with_http_info(
+    def get_prompts_metrics_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1150,7 +1150,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_metrics_serialize(
+        _param = self._get_prompts_metrics_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1172,7 +1172,7 @@ class PromptsApi:
 
 
     @validate_call
-    def get_v1_prompts_metrics_without_preload_content(
+    def get_prompts_metrics_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1213,7 +1213,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prompts_metrics_serialize(
+        _param = self._get_prompts_metrics_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1230,7 +1230,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _get_v1_prompts_metrics_serialize(
+    def _get_prompts_metrics_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1291,7 +1291,7 @@ class PromptsApi:
 
 
     @validate_call
-    def post_v1_prompts(
+    def post_prompts(
         self,
         prompt_req: PromptReq,
         _request_timeout: Union[
@@ -1335,7 +1335,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_prompts_serialize(
+        _param = self._post_prompts_serialize(
             prompt_req=prompt_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1358,7 +1358,7 @@ class PromptsApi:
 
 
     @validate_call
-    def post_v1_prompts_with_http_info(
+    def post_prompts_with_http_info(
         self,
         prompt_req: PromptReq,
         _request_timeout: Union[
@@ -1402,7 +1402,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_prompts_serialize(
+        _param = self._post_prompts_serialize(
             prompt_req=prompt_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1425,7 +1425,7 @@ class PromptsApi:
 
 
     @validate_call
-    def post_v1_prompts_without_preload_content(
+    def post_prompts_without_preload_content(
         self,
         prompt_req: PromptReq,
         _request_timeout: Union[
@@ -1469,7 +1469,7 @@ class PromptsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_prompts_serialize(
+        _param = self._post_prompts_serialize(
             prompt_req=prompt_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1487,7 +1487,7 @@ class PromptsApi:
         return response_data.response
 
 
-    def _post_v1_prompts_serialize(
+    def _post_prompts_serialize(
         self,
         prompt_req,
         _request_auth,

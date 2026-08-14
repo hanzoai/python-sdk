@@ -54,7 +54,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_activity(
+    def get_usage_activity(
         self,
         subject: Annotated[Optional[StrictStr], Field(description="Subject is what the series is about: \"user\" (default), \"org\" or \"project\".")] = None,
         id: Annotated[Optional[StrictStr], Field(description="ID names the subject within what the caller is entitled to see. Omitted (or \"me\") it is the caller themselves, or their own org. Another user requires org admin and must belong to the caller's org; another org requires a SuperAdmin.")] = None,
@@ -107,7 +107,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_activity_serialize(
+        _param = self._get_usage_activity_serialize(
             subject=subject,
             id=id,
             var_from=var_from,
@@ -133,7 +133,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_activity_with_http_info(
+    def get_usage_activity_with_http_info(
         self,
         subject: Annotated[Optional[StrictStr], Field(description="Subject is what the series is about: \"user\" (default), \"org\" or \"project\".")] = None,
         id: Annotated[Optional[StrictStr], Field(description="ID names the subject within what the caller is entitled to see. Omitted (or \"me\") it is the caller themselves, or their own org. Another user requires org admin and must belong to the caller's org; another org requires a SuperAdmin.")] = None,
@@ -186,7 +186,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_activity_serialize(
+        _param = self._get_usage_activity_serialize(
             subject=subject,
             id=id,
             var_from=var_from,
@@ -212,7 +212,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_activity_without_preload_content(
+    def get_usage_activity_without_preload_content(
         self,
         subject: Annotated[Optional[StrictStr], Field(description="Subject is what the series is about: \"user\" (default), \"org\" or \"project\".")] = None,
         id: Annotated[Optional[StrictStr], Field(description="ID names the subject within what the caller is entitled to see. Omitted (or \"me\") it is the caller themselves, or their own org. Another user requires org admin and must belong to the caller's org; another org requires a SuperAdmin.")] = None,
@@ -265,7 +265,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_activity_serialize(
+        _param = self._get_usage_activity_serialize(
             subject=subject,
             id=id,
             var_from=var_from,
@@ -286,7 +286,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_activity_serialize(
+    def _get_usage_activity_serialize(
         self,
         subject,
         id,
@@ -367,11 +367,11 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_analytics(
+    def get_usage_analytics(
         self,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive window end, RFC3339. Read only when Range is custom.")] = None,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org's own plan.")] = None,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d, or custom. Empty means 24h.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan's retention entitlement.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan's retention floor.")] = None,
         _request_timeout: Union[
             None,
@@ -394,7 +394,7 @@ class UsageApi:
         :type end: str
         :param plan: Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org's own plan.
         :type plan: str
-        :param range: Range is the window: 24h, 7d, 30d, or custom. Empty means 24h.
+        :param range: Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan's retention entitlement.
         :type range: str
         :param start: Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan's retention floor.
         :type start: str
@@ -420,7 +420,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_analytics_serialize(
+        _param = self._get_usage_analytics_serialize(
             end=end,
             plan=plan,
             range=range,
@@ -446,11 +446,11 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_analytics_with_http_info(
+    def get_usage_analytics_with_http_info(
         self,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive window end, RFC3339. Read only when Range is custom.")] = None,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org's own plan.")] = None,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d, or custom. Empty means 24h.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan's retention entitlement.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan's retention floor.")] = None,
         _request_timeout: Union[
             None,
@@ -473,7 +473,7 @@ class UsageApi:
         :type end: str
         :param plan: Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org's own plan.
         :type plan: str
-        :param range: Range is the window: 24h, 7d, 30d, or custom. Empty means 24h.
+        :param range: Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan's retention entitlement.
         :type range: str
         :param start: Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan's retention floor.
         :type start: str
@@ -499,7 +499,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_analytics_serialize(
+        _param = self._get_usage_analytics_serialize(
             end=end,
             plan=plan,
             range=range,
@@ -525,11 +525,11 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_analytics_without_preload_content(
+    def get_usage_analytics_without_preload_content(
         self,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive window end, RFC3339. Read only when Range is custom.")] = None,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org's own plan.")] = None,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d, or custom. Empty means 24h.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan's retention entitlement.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan's retention floor.")] = None,
         _request_timeout: Union[
             None,
@@ -552,7 +552,7 @@ class UsageApi:
         :type end: str
         :param plan: Plan is the plan id whose entitlement decides access and retention. INTERIM: cloud has no org-to-plan resolver yet, so the caller names the plan; when that resolver lands this becomes the caller org's own plan.
         :type plan: str
-        :param range: Range is the window: 24h, 7d, 30d, or custom. Empty means 24h.
+        :param range: Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. The window is then clamped forward to the plan's retention entitlement.
         :type range: str
         :param start: Start is the inclusive window start, RFC3339. Read only when Range is custom, and clamped forward to the plan's retention floor.
         :type start: str
@@ -578,7 +578,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_analytics_serialize(
+        _param = self._get_usage_analytics_serialize(
             end=end,
             plan=plan,
             range=range,
@@ -599,7 +599,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_analytics_serialize(
+    def _get_usage_analytics_serialize(
         self,
         end,
         plan,
@@ -680,7 +680,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_analytics_access(
+    def get_usage_analytics_access(
         self,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is a plan id from the live @hanzo/plans catalog. Empty resolves the free floor, and so does an id the catalog does not know — this never fails on an unknown plan.")] = None,
         _request_timeout: Union[
@@ -724,7 +724,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_analytics_access_serialize(
+        _param = self._get_usage_analytics_access_serialize(
             plan=plan,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -747,7 +747,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_analytics_access_with_http_info(
+    def get_usage_analytics_access_with_http_info(
         self,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is a plan id from the live @hanzo/plans catalog. Empty resolves the free floor, and so does an id the catalog does not know — this never fails on an unknown plan.")] = None,
         _request_timeout: Union[
@@ -791,7 +791,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_analytics_access_serialize(
+        _param = self._get_usage_analytics_access_serialize(
             plan=plan,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -814,7 +814,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_analytics_access_without_preload_content(
+    def get_usage_analytics_access_without_preload_content(
         self,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is a plan id from the live @hanzo/plans catalog. Empty resolves the free floor, and so does an id the catalog does not know — this never fails on an unknown plan.")] = None,
         _request_timeout: Union[
@@ -858,7 +858,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_analytics_access_serialize(
+        _param = self._get_usage_analytics_access_serialize(
             plan=plan,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -876,7 +876,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_analytics_access_serialize(
+    def _get_usage_analytics_access_serialize(
         self,
         plan,
         _request_auth,
@@ -942,7 +942,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_leaderboard(
+    def get_usage_leaderboard(
         self,
         scope: Annotated[Optional[StrictStr], Field(description="Scope picks the board: \"personal\" (default) ranks the caller among their own org's users, \"org\" is that same org board named for an admin, \"global\" ranks organizations against each other.")] = None,
         metric: Annotated[Optional[StrictStr], Field(description="Metric is the value ranked: tokens (default), requests, or cost.")] = None,
@@ -995,7 +995,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_leaderboard_serialize(
+        _param = self._get_usage_leaderboard_serialize(
             scope=scope,
             metric=metric,
             period=period,
@@ -1021,7 +1021,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_leaderboard_with_http_info(
+    def get_usage_leaderboard_with_http_info(
         self,
         scope: Annotated[Optional[StrictStr], Field(description="Scope picks the board: \"personal\" (default) ranks the caller among their own org's users, \"org\" is that same org board named for an admin, \"global\" ranks organizations against each other.")] = None,
         metric: Annotated[Optional[StrictStr], Field(description="Metric is the value ranked: tokens (default), requests, or cost.")] = None,
@@ -1074,7 +1074,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_leaderboard_serialize(
+        _param = self._get_usage_leaderboard_serialize(
             scope=scope,
             metric=metric,
             period=period,
@@ -1100,7 +1100,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_leaderboard_without_preload_content(
+    def get_usage_leaderboard_without_preload_content(
         self,
         scope: Annotated[Optional[StrictStr], Field(description="Scope picks the board: \"personal\" (default) ranks the caller among their own org's users, \"org\" is that same org board named for an admin, \"global\" ranks organizations against each other.")] = None,
         metric: Annotated[Optional[StrictStr], Field(description="Metric is the value ranked: tokens (default), requests, or cost.")] = None,
@@ -1153,7 +1153,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_leaderboard_serialize(
+        _param = self._get_usage_leaderboard_serialize(
             scope=scope,
             metric=metric,
             period=period,
@@ -1174,7 +1174,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_leaderboard_serialize(
+    def _get_usage_leaderboard_serialize(
         self,
         scope,
         metric,
@@ -1255,7 +1255,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_leaderboard_optin(
+    def get_usage_leaderboard_optin(
         self,
         _request_timeout: Union[
             None,
@@ -1296,7 +1296,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_leaderboard_optin_serialize(
+        _param = self._get_usage_leaderboard_optin_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1318,7 +1318,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_leaderboard_optin_with_http_info(
+    def get_usage_leaderboard_optin_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1359,7 +1359,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_leaderboard_optin_serialize(
+        _param = self._get_usage_leaderboard_optin_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1381,7 +1381,7 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_leaderboard_optin_without_preload_content(
+    def get_usage_leaderboard_optin_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1422,7 +1422,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_leaderboard_optin_serialize(
+        _param = self._get_usage_leaderboard_optin_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1439,7 +1439,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_leaderboard_optin_serialize(
+    def _get_usage_leaderboard_optin_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1500,11 +1500,11 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_samples(
+    def get_usage_samples(
         self,
         account: Annotated[Optional[StrictStr], Field(description="Account narrows to ONE linked account of that provider. Empty covers every account the caller has linked there.")] = None,
         provider: Annotated[Optional[StrictStr], Field(description="Provider is the upstream to read, e.g. anthropic. Required.")] = None,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window to read: 1h, 24h, 7d or 30d. Empty means 24h, and any other label is refused rather than silently replaced.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window to read: a count and a unit — 1h, 24h, 90d, any <N>h or <N>d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced.")] = None,
         window: Annotated[Optional[StrictStr], Field(description="Window narrows to ONE window class: 6h, day, week or month. Empty covers every class.")] = None,
         _request_timeout: Union[
             None,
@@ -1527,7 +1527,7 @@ class UsageApi:
         :type account: str
         :param provider: Provider is the upstream to read, e.g. anthropic. Required.
         :type provider: str
-        :param range: Range is the window to read: 1h, 24h, 7d or 30d. Empty means 24h, and any other label is refused rather than silently replaced.
+        :param range: Range is the window to read: a count and a unit — 1h, 24h, 90d, any <N>h or <N>d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced.
         :type range: str
         :param window: Window narrows to ONE window class: 6h, day, week or month. Empty covers every class.
         :type window: str
@@ -1553,7 +1553,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_samples_serialize(
+        _param = self._get_usage_samples_serialize(
             account=account,
             provider=provider,
             range=range,
@@ -1579,11 +1579,11 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_samples_with_http_info(
+    def get_usage_samples_with_http_info(
         self,
         account: Annotated[Optional[StrictStr], Field(description="Account narrows to ONE linked account of that provider. Empty covers every account the caller has linked there.")] = None,
         provider: Annotated[Optional[StrictStr], Field(description="Provider is the upstream to read, e.g. anthropic. Required.")] = None,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window to read: 1h, 24h, 7d or 30d. Empty means 24h, and any other label is refused rather than silently replaced.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window to read: a count and a unit — 1h, 24h, 90d, any <N>h or <N>d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced.")] = None,
         window: Annotated[Optional[StrictStr], Field(description="Window narrows to ONE window class: 6h, day, week or month. Empty covers every class.")] = None,
         _request_timeout: Union[
             None,
@@ -1606,7 +1606,7 @@ class UsageApi:
         :type account: str
         :param provider: Provider is the upstream to read, e.g. anthropic. Required.
         :type provider: str
-        :param range: Range is the window to read: 1h, 24h, 7d or 30d. Empty means 24h, and any other label is refused rather than silently replaced.
+        :param range: Range is the window to read: a count and a unit — 1h, 24h, 90d, any <N>h or <N>d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced.
         :type range: str
         :param window: Window narrows to ONE window class: 6h, day, week or month. Empty covers every class.
         :type window: str
@@ -1632,7 +1632,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_samples_serialize(
+        _param = self._get_usage_samples_serialize(
             account=account,
             provider=provider,
             range=range,
@@ -1658,11 +1658,11 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_samples_without_preload_content(
+    def get_usage_samples_without_preload_content(
         self,
         account: Annotated[Optional[StrictStr], Field(description="Account narrows to ONE linked account of that provider. Empty covers every account the caller has linked there.")] = None,
         provider: Annotated[Optional[StrictStr], Field(description="Provider is the upstream to read, e.g. anthropic. Required.")] = None,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window to read: 1h, 24h, 7d or 30d. Empty means 24h, and any other label is refused rather than silently replaced.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window to read: a count and a unit — 1h, 24h, 90d, any <N>h or <N>d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced.")] = None,
         window: Annotated[Optional[StrictStr], Field(description="Window narrows to ONE window class: 6h, day, week or month. Empty covers every class.")] = None,
         _request_timeout: Union[
             None,
@@ -1685,7 +1685,7 @@ class UsageApi:
         :type account: str
         :param provider: Provider is the upstream to read, e.g. anthropic. Required.
         :type provider: str
-        :param range: Range is the window to read: 1h, 24h, 7d or 30d. Empty means 24h, and any other label is refused rather than silently replaced.
+        :param range: Range is the window to read: a count and a unit — 1h, 24h, 90d, any <N>h or <N>d — or day, week, month, all. Empty means 24h. A label that is not a count, or one reaching past the 730-day horizon, is refused rather than silently replaced.
         :type range: str
         :param window: Window narrows to ONE window class: 6h, day, week or month. Empty covers every class.
         :type window: str
@@ -1711,7 +1711,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_samples_serialize(
+        _param = self._get_usage_samples_serialize(
             account=account,
             provider=provider,
             range=range,
@@ -1732,7 +1732,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_samples_serialize(
+    def _get_usage_samples_serialize(
         self,
         account,
         provider,
@@ -1813,9 +1813,9 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_summary(
+    def get_usage_summary(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d, or custom. Empty means 24h. A label this surface does not know is refused rather than silently replaced.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive window start, RFC3339. Read only when Range is custom.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive window end, RFC3339. Read only when Range is custom.")] = None,
         _request_timeout: Union[
@@ -1835,7 +1835,7 @@ class UsageApi:
 
         Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.  Every source degrades INDEPENDENTLY to honest zeros and says so in `sources` and in its own `available` flag, so a partial deploy reports \"no data\" rather than fabricating spend. The account rows and the Hanzo rows are concatenated and never summed: a plan's percent is not money.  The response is org-scoped from the validated principal and marked no-store — a signed-out caller is refused.
 
-        :param range: Range is the window: 24h, 7d, 30d, or custom. Empty means 24h. A label this surface does not know is refused rather than silently replaced.
+        :param range: Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced.
         :type range: str
         :param start: Start is the inclusive window start, RFC3339. Read only when Range is custom.
         :type start: str
@@ -1863,7 +1863,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_summary_serialize(
+        _param = self._get_usage_summary_serialize(
             range=range,
             start=start,
             end=end,
@@ -1888,9 +1888,9 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_summary_with_http_info(
+    def get_usage_summary_with_http_info(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d, or custom. Empty means 24h. A label this surface does not know is refused rather than silently replaced.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive window start, RFC3339. Read only when Range is custom.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive window end, RFC3339. Read only when Range is custom.")] = None,
         _request_timeout: Union[
@@ -1910,7 +1910,7 @@ class UsageApi:
 
         Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.  Every source degrades INDEPENDENTLY to honest zeros and says so in `sources` and in its own `available` flag, so a partial deploy reports \"no data\" rather than fabricating spend. The account rows and the Hanzo rows are concatenated and never summed: a plan's percent is not money.  The response is org-scoped from the validated principal and marked no-store — a signed-out caller is refused.
 
-        :param range: Range is the window: 24h, 7d, 30d, or custom. Empty means 24h. A label this surface does not know is refused rather than silently replaced.
+        :param range: Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced.
         :type range: str
         :param start: Start is the inclusive window start, RFC3339. Read only when Range is custom.
         :type start: str
@@ -1938,7 +1938,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_summary_serialize(
+        _param = self._get_usage_summary_serialize(
             range=range,
             start=start,
             end=end,
@@ -1963,9 +1963,9 @@ class UsageApi:
 
 
     @validate_call
-    def get_v1_usage_summary_without_preload_content(
+    def get_usage_summary_without_preload_content(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d, or custom. Empty means 24h. A label this surface does not know is refused rather than silently replaced.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive window start, RFC3339. Read only when Range is custom.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive window end, RFC3339. Read only when Range is custom.")] = None,
         _request_timeout: Union[
@@ -1985,7 +1985,7 @@ class UsageApi:
 
         Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.  Every source degrades INDEPENDENTLY to honest zeros and says so in `sources` and in its own `available` flag, so a partial deploy reports \"no data\" rather than fabricating spend. The account rows and the Hanzo rows are concatenated and never summed: a plan's percent is not money.  The response is org-scoped from the validated principal and marked no-store — a signed-out caller is refused.
 
-        :param range: Range is the window: 24h, 7d, 30d, or custom. Empty means 24h. A label this surface does not know is refused rather than silently replaced.
+        :param range: Range is the window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all, custom. Empty means 24h. A label this surface does not know, or one reaching past the 730-day horizon, is refused rather than silently replaced.
         :type range: str
         :param start: Start is the inclusive window start, RFC3339. Read only when Range is custom.
         :type start: str
@@ -2013,7 +2013,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_usage_summary_serialize(
+        _param = self._get_usage_summary_serialize(
             range=range,
             start=start,
             end=end,
@@ -2033,7 +2033,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _get_v1_usage_summary_serialize(
+    def _get_usage_summary_serialize(
         self,
         range,
         start,
@@ -2109,7 +2109,7 @@ class UsageApi:
 
 
     @validate_call
-    def post_v1_usage(
+    def post_usage(
         self,
         report_req: ReportReq,
         _request_timeout: Union[
@@ -2153,7 +2153,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_usage_serialize(
+        _param = self._post_usage_serialize(
             report_req=report_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2176,7 +2176,7 @@ class UsageApi:
 
 
     @validate_call
-    def post_v1_usage_with_http_info(
+    def post_usage_with_http_info(
         self,
         report_req: ReportReq,
         _request_timeout: Union[
@@ -2220,7 +2220,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_usage_serialize(
+        _param = self._post_usage_serialize(
             report_req=report_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2243,7 +2243,7 @@ class UsageApi:
 
 
     @validate_call
-    def post_v1_usage_without_preload_content(
+    def post_usage_without_preload_content(
         self,
         report_req: ReportReq,
         _request_timeout: Union[
@@ -2287,7 +2287,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_usage_serialize(
+        _param = self._post_usage_serialize(
             report_req=report_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2305,7 +2305,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _post_v1_usage_serialize(
+    def _post_usage_serialize(
         self,
         report_req,
         _request_auth,
@@ -2382,7 +2382,7 @@ class UsageApi:
 
 
     @validate_call
-    def post_v1_usage_rollup_backfill(
+    def post_usage_rollup_backfill(
         self,
         backfill_query: BackfillQuery,
         _request_timeout: Union[
@@ -2426,7 +2426,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_usage_rollup_backfill_serialize(
+        _param = self._post_usage_rollup_backfill_serialize(
             backfill_query=backfill_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2449,7 +2449,7 @@ class UsageApi:
 
 
     @validate_call
-    def post_v1_usage_rollup_backfill_with_http_info(
+    def post_usage_rollup_backfill_with_http_info(
         self,
         backfill_query: BackfillQuery,
         _request_timeout: Union[
@@ -2493,7 +2493,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_usage_rollup_backfill_serialize(
+        _param = self._post_usage_rollup_backfill_serialize(
             backfill_query=backfill_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2516,7 +2516,7 @@ class UsageApi:
 
 
     @validate_call
-    def post_v1_usage_rollup_backfill_without_preload_content(
+    def post_usage_rollup_backfill_without_preload_content(
         self,
         backfill_query: BackfillQuery,
         _request_timeout: Union[
@@ -2560,7 +2560,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_usage_rollup_backfill_serialize(
+        _param = self._post_usage_rollup_backfill_serialize(
             backfill_query=backfill_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2578,7 +2578,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _post_v1_usage_rollup_backfill_serialize(
+    def _post_usage_rollup_backfill_serialize(
         self,
         backfill_query,
         _request_auth,
@@ -2655,7 +2655,7 @@ class UsageApi:
 
 
     @validate_call
-    def put_v1_usage_leaderboard_optin(
+    def put_usage_leaderboard_optin(
         self,
         user_optin_req: UserOptinReq,
         _request_timeout: Union[
@@ -2699,7 +2699,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_usage_leaderboard_optin_serialize(
+        _param = self._put_usage_leaderboard_optin_serialize(
             user_optin_req=user_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2722,7 +2722,7 @@ class UsageApi:
 
 
     @validate_call
-    def put_v1_usage_leaderboard_optin_with_http_info(
+    def put_usage_leaderboard_optin_with_http_info(
         self,
         user_optin_req: UserOptinReq,
         _request_timeout: Union[
@@ -2766,7 +2766,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_usage_leaderboard_optin_serialize(
+        _param = self._put_usage_leaderboard_optin_serialize(
             user_optin_req=user_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2789,7 +2789,7 @@ class UsageApi:
 
 
     @validate_call
-    def put_v1_usage_leaderboard_optin_without_preload_content(
+    def put_usage_leaderboard_optin_without_preload_content(
         self,
         user_optin_req: UserOptinReq,
         _request_timeout: Union[
@@ -2833,7 +2833,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_usage_leaderboard_optin_serialize(
+        _param = self._put_usage_leaderboard_optin_serialize(
             user_optin_req=user_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2851,7 +2851,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _put_v1_usage_leaderboard_optin_serialize(
+    def _put_usage_leaderboard_optin_serialize(
         self,
         user_optin_req,
         _request_auth,
@@ -2928,7 +2928,7 @@ class UsageApi:
 
 
     @validate_call
-    def put_v1_usage_leaderboard_optin_org(
+    def put_usage_leaderboard_optin_org(
         self,
         org_optin_req: OrgOptinReq,
         _request_timeout: Union[
@@ -2972,7 +2972,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_usage_leaderboard_optin_org_serialize(
+        _param = self._put_usage_leaderboard_optin_org_serialize(
             org_optin_req=org_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2995,7 +2995,7 @@ class UsageApi:
 
 
     @validate_call
-    def put_v1_usage_leaderboard_optin_org_with_http_info(
+    def put_usage_leaderboard_optin_org_with_http_info(
         self,
         org_optin_req: OrgOptinReq,
         _request_timeout: Union[
@@ -3039,7 +3039,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_usage_leaderboard_optin_org_serialize(
+        _param = self._put_usage_leaderboard_optin_org_serialize(
             org_optin_req=org_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3062,7 +3062,7 @@ class UsageApi:
 
 
     @validate_call
-    def put_v1_usage_leaderboard_optin_org_without_preload_content(
+    def put_usage_leaderboard_optin_org_without_preload_content(
         self,
         org_optin_req: OrgOptinReq,
         _request_timeout: Union[
@@ -3106,7 +3106,7 @@ class UsageApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_usage_leaderboard_optin_org_serialize(
+        _param = self._put_usage_leaderboard_optin_org_serialize(
             org_optin_req=org_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3124,7 +3124,7 @@ class UsageApi:
         return response_data.response
 
 
-    def _put_v1_usage_leaderboard_optin_org_serialize(
+    def _put_usage_leaderboard_optin_org_serialize(
         self,
         org_optin_req,
         _request_auth,

@@ -50,7 +50,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_ask(
+    def get_code_ask(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the question to answer. Required, max 4000 bytes.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo narrows retrieval to one repository. Empty searches every repo the org has indexed.")] = None,
@@ -97,7 +97,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_ask_serialize(
+        _param = self._get_code_ask_serialize(
             q=q,
             repo=repo,
             _request_auth=_request_auth,
@@ -121,7 +121,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_ask_with_http_info(
+    def get_code_ask_with_http_info(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the question to answer. Required, max 4000 bytes.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo narrows retrieval to one repository. Empty searches every repo the org has indexed.")] = None,
@@ -168,7 +168,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_ask_serialize(
+        _param = self._get_code_ask_serialize(
             q=q,
             repo=repo,
             _request_auth=_request_auth,
@@ -192,7 +192,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_ask_without_preload_content(
+    def get_code_ask_without_preload_content(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the question to answer. Required, max 4000 bytes.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo narrows retrieval to one repository. Empty searches every repo the org has indexed.")] = None,
@@ -239,7 +239,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_ask_serialize(
+        _param = self._get_code_ask_serialize(
             q=q,
             repo=repo,
             _request_auth=_request_auth,
@@ -258,7 +258,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _get_v1_code_ask_serialize(
+    def _get_code_ask_serialize(
         self,
         q,
         repo,
@@ -329,7 +329,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_file(
+    def get_code_file(
         self,
         path: Annotated[Optional[StrictStr], Field(description="Path is the file's repo-relative path. Required.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository the file belongs to. REQUIRED.")] = None,
@@ -376,7 +376,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_file_serialize(
+        _param = self._get_code_file_serialize(
             path=path,
             repo=repo,
             _request_auth=_request_auth,
@@ -400,7 +400,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_file_with_http_info(
+    def get_code_file_with_http_info(
         self,
         path: Annotated[Optional[StrictStr], Field(description="Path is the file's repo-relative path. Required.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository the file belongs to. REQUIRED.")] = None,
@@ -447,7 +447,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_file_serialize(
+        _param = self._get_code_file_serialize(
             path=path,
             repo=repo,
             _request_auth=_request_auth,
@@ -471,7 +471,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_file_without_preload_content(
+    def get_code_file_without_preload_content(
         self,
         path: Annotated[Optional[StrictStr], Field(description="Path is the file's repo-relative path. Required.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository the file belongs to. REQUIRED.")] = None,
@@ -518,7 +518,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_file_serialize(
+        _param = self._get_code_file_serialize(
             path=path,
             repo=repo,
             _request_auth=_request_auth,
@@ -537,7 +537,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _get_v1_code_file_serialize(
+    def _get_code_file_serialize(
         self,
         path,
         repo,
@@ -608,7 +608,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_search(
+    def get_code_search(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the search query. Required, max 4000 bytes. For type=regex it is a regular expression; for type=symbol it is a symbol name.")] = None,
         type: Annotated[Optional[StrictStr], Field(description="Type selects the retrieval tier: \"text\" (FTS5 trigram), \"regex\", \"symbol\" (definitions), \"semantic\" (embeddings) or \"hybrid\". Anything else — including empty — reads as hybrid.")] = None,
@@ -661,7 +661,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_search_serialize(
+        _param = self._get_code_search_serialize(
             q=q,
             type=type,
             repo=repo,
@@ -687,7 +687,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_search_with_http_info(
+    def get_code_search_with_http_info(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the search query. Required, max 4000 bytes. For type=regex it is a regular expression; for type=symbol it is a symbol name.")] = None,
         type: Annotated[Optional[StrictStr], Field(description="Type selects the retrieval tier: \"text\" (FTS5 trigram), \"regex\", \"symbol\" (definitions), \"semantic\" (embeddings) or \"hybrid\". Anything else — including empty — reads as hybrid.")] = None,
@@ -740,7 +740,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_search_serialize(
+        _param = self._get_code_search_serialize(
             q=q,
             type=type,
             repo=repo,
@@ -766,7 +766,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_search_without_preload_content(
+    def get_code_search_without_preload_content(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the search query. Required, max 4000 bytes. For type=regex it is a regular expression; for type=symbol it is a symbol name.")] = None,
         type: Annotated[Optional[StrictStr], Field(description="Type selects the retrieval tier: \"text\" (FTS5 trigram), \"regex\", \"symbol\" (definitions), \"semantic\" (embeddings) or \"hybrid\". Anything else — including empty — reads as hybrid.")] = None,
@@ -819,7 +819,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_search_serialize(
+        _param = self._get_code_search_serialize(
             q=q,
             type=type,
             repo=repo,
@@ -840,7 +840,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _get_v1_code_search_serialize(
+    def _get_code_search_serialize(
         self,
         q,
         type,
@@ -921,7 +921,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_tree(
+    def get_code_tree(
         self,
         repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository to walk. REQUIRED — a tree is repo-scoped.")] = None,
         _request_timeout: Union[
@@ -965,7 +965,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_tree_serialize(
+        _param = self._get_code_tree_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -988,7 +988,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_tree_with_http_info(
+    def get_code_tree_with_http_info(
         self,
         repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository to walk. REQUIRED — a tree is repo-scoped.")] = None,
         _request_timeout: Union[
@@ -1032,7 +1032,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_tree_serialize(
+        _param = self._get_code_tree_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1055,7 +1055,7 @@ class CodeApi:
 
 
     @validate_call
-    def get_v1_code_tree_without_preload_content(
+    def get_code_tree_without_preload_content(
         self,
         repo: Annotated[Optional[StrictStr], Field(description="Repo is the repository to walk. REQUIRED — a tree is repo-scoped.")] = None,
         _request_timeout: Union[
@@ -1099,7 +1099,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_code_tree_serialize(
+        _param = self._get_code_tree_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1117,7 +1117,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _get_v1_code_tree_serialize(
+    def _get_code_tree_serialize(
         self,
         repo,
         _request_auth,
@@ -1183,7 +1183,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_ask(
+    def post_code_ask(
         self,
         ask_post_in: AskPostIn,
         _request_timeout: Union[
@@ -1227,7 +1227,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_ask_serialize(
+        _param = self._post_code_ask_serialize(
             ask_post_in=ask_post_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1250,7 +1250,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_ask_with_http_info(
+    def post_code_ask_with_http_info(
         self,
         ask_post_in: AskPostIn,
         _request_timeout: Union[
@@ -1294,7 +1294,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_ask_serialize(
+        _param = self._post_code_ask_serialize(
             ask_post_in=ask_post_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1317,7 +1317,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_ask_without_preload_content(
+    def post_code_ask_without_preload_content(
         self,
         ask_post_in: AskPostIn,
         _request_timeout: Union[
@@ -1361,7 +1361,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_ask_serialize(
+        _param = self._post_code_ask_serialize(
             ask_post_in=ask_post_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1379,7 +1379,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_ask_serialize(
+    def _post_code_ask_serialize(
         self,
         ask_post_in,
         _request_auth,
@@ -1456,7 +1456,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_context(
+    def post_code_context(
         self,
         context_in: ContextIn,
         _request_timeout: Union[
@@ -1500,7 +1500,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_context_serialize(
+        _param = self._post_code_context_serialize(
             context_in=context_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1523,7 +1523,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_context_with_http_info(
+    def post_code_context_with_http_info(
         self,
         context_in: ContextIn,
         _request_timeout: Union[
@@ -1567,7 +1567,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_context_serialize(
+        _param = self._post_code_context_serialize(
             context_in=context_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1590,7 +1590,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_context_without_preload_content(
+    def post_code_context_without_preload_content(
         self,
         context_in: ContextIn,
         _request_timeout: Union[
@@ -1634,7 +1634,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_context_serialize(
+        _param = self._post_code_context_serialize(
             context_in=context_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1652,7 +1652,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_context_serialize(
+    def _post_code_context_serialize(
         self,
         context_in,
         _request_auth,
@@ -1729,7 +1729,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_index(
+    def post_code_index(
         self,
         index_in: IndexIn,
         _request_timeout: Union[
@@ -1773,7 +1773,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_index_serialize(
+        _param = self._post_code_index_serialize(
             index_in=index_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1796,7 +1796,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_index_with_http_info(
+    def post_code_index_with_http_info(
         self,
         index_in: IndexIn,
         _request_timeout: Union[
@@ -1840,7 +1840,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_index_serialize(
+        _param = self._post_code_index_serialize(
             index_in=index_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1863,7 +1863,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_index_without_preload_content(
+    def post_code_index_without_preload_content(
         self,
         index_in: IndexIn,
         _request_timeout: Union[
@@ -1907,7 +1907,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_index_serialize(
+        _param = self._post_code_index_serialize(
             index_in=index_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1925,7 +1925,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_index_serialize(
+    def _post_code_index_serialize(
         self,
         index_in,
         _request_auth,
@@ -2002,7 +2002,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_complete(
+    def post_code_lsp_complete(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2046,7 +2046,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_complete_serialize(
+        _param = self._post_code_lsp_complete_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2069,7 +2069,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_complete_with_http_info(
+    def post_code_lsp_complete_with_http_info(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2113,7 +2113,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_complete_serialize(
+        _param = self._post_code_lsp_complete_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2136,7 +2136,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_complete_without_preload_content(
+    def post_code_lsp_complete_without_preload_content(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2180,7 +2180,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_complete_serialize(
+        _param = self._post_code_lsp_complete_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2198,7 +2198,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_lsp_complete_serialize(
+    def _post_code_lsp_complete_serialize(
         self,
         query,
         _request_auth,
@@ -2275,7 +2275,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_diagnostics(
+    def post_code_lsp_diagnostics(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2319,7 +2319,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_diagnostics_serialize(
+        _param = self._post_code_lsp_diagnostics_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2342,7 +2342,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_diagnostics_with_http_info(
+    def post_code_lsp_diagnostics_with_http_info(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2386,7 +2386,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_diagnostics_serialize(
+        _param = self._post_code_lsp_diagnostics_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2409,7 +2409,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_diagnostics_without_preload_content(
+    def post_code_lsp_diagnostics_without_preload_content(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2453,7 +2453,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_diagnostics_serialize(
+        _param = self._post_code_lsp_diagnostics_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2471,7 +2471,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_lsp_diagnostics_serialize(
+    def _post_code_lsp_diagnostics_serialize(
         self,
         query,
         _request_auth,
@@ -2548,7 +2548,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_hover(
+    def post_code_lsp_hover(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2592,7 +2592,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_hover_serialize(
+        _param = self._post_code_lsp_hover_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2615,7 +2615,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_hover_with_http_info(
+    def post_code_lsp_hover_with_http_info(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2659,7 +2659,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_hover_serialize(
+        _param = self._post_code_lsp_hover_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2682,7 +2682,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_hover_without_preload_content(
+    def post_code_lsp_hover_without_preload_content(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2726,7 +2726,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_hover_serialize(
+        _param = self._post_code_lsp_hover_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2744,7 +2744,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_lsp_hover_serialize(
+    def _post_code_lsp_hover_serialize(
         self,
         query,
         _request_auth,
@@ -2821,7 +2821,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_locate(
+    def post_code_lsp_locate(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2865,7 +2865,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_locate_serialize(
+        _param = self._post_code_lsp_locate_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2888,7 +2888,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_locate_with_http_info(
+    def post_code_lsp_locate_with_http_info(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2932,7 +2932,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_locate_serialize(
+        _param = self._post_code_lsp_locate_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2955,7 +2955,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_locate_without_preload_content(
+    def post_code_lsp_locate_without_preload_content(
         self,
         query: Query,
         _request_timeout: Union[
@@ -2999,7 +2999,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_locate_serialize(
+        _param = self._post_code_lsp_locate_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3017,7 +3017,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_lsp_locate_serialize(
+    def _post_code_lsp_locate_serialize(
         self,
         query,
         _request_auth,
@@ -3094,7 +3094,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_symbols(
+    def post_code_lsp_symbols(
         self,
         query: Query,
         _request_timeout: Union[
@@ -3138,7 +3138,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_symbols_serialize(
+        _param = self._post_code_lsp_symbols_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3161,7 +3161,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_symbols_with_http_info(
+    def post_code_lsp_symbols_with_http_info(
         self,
         query: Query,
         _request_timeout: Union[
@@ -3205,7 +3205,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_symbols_serialize(
+        _param = self._post_code_lsp_symbols_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3228,7 +3228,7 @@ class CodeApi:
 
 
     @validate_call
-    def post_v1_code_lsp_symbols_without_preload_content(
+    def post_code_lsp_symbols_without_preload_content(
         self,
         query: Query,
         _request_timeout: Union[
@@ -3272,7 +3272,7 @@ class CodeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_code_lsp_symbols_serialize(
+        _param = self._post_code_lsp_symbols_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3290,7 +3290,7 @@ class CodeApi:
         return response_data.response
 
 
-    def _post_v1_code_lsp_symbols_serialize(
+    def _post_code_lsp_symbols_serialize(
         self,
         query,
         _request_auth,

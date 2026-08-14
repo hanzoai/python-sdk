@@ -79,7 +79,7 @@ class RiskApi:
 
 
     @validate_call
-    def get_v1_risk_health(
+    def get_risk_health(
         self,
         _request_timeout: Union[
             None,
@@ -120,7 +120,7 @@ class RiskApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_risk_health_serialize(
+        _param = self._get_risk_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -141,7 +141,7 @@ class RiskApi:
 
 
     @validate_call
-    def get_v1_risk_health_with_http_info(
+    def get_risk_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -182,7 +182,7 @@ class RiskApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_risk_health_serialize(
+        _param = self._get_risk_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -203,7 +203,7 @@ class RiskApi:
 
 
     @validate_call
-    def get_v1_risk_health_without_preload_content(
+    def get_risk_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -244,7 +244,7 @@ class RiskApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_risk_health_serialize(
+        _param = self._get_risk_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -260,7 +260,7 @@ class RiskApi:
         return response_data.response
 
 
-    def _get_v1_risk_health_serialize(
+    def _get_risk_health_serialize(
         self,
         _request_auth,
         _content_type,

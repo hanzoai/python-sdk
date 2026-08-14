@@ -46,7 +46,7 @@ class FlagsApi:
 
 
     @validate_call
-    def delete_v1_flags_defs_by_key(
+    def delete_flags_defs_by_key(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to act on, from the path.")],
         _request_timeout: Union[
@@ -90,7 +90,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flags_defs_by_key_serialize(
+        _param = self._delete_flags_defs_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -113,7 +113,7 @@ class FlagsApi:
 
 
     @validate_call
-    def delete_v1_flags_defs_by_key_with_http_info(
+    def delete_flags_defs_by_key_with_http_info(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to act on, from the path.")],
         _request_timeout: Union[
@@ -157,7 +157,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flags_defs_by_key_serialize(
+        _param = self._delete_flags_defs_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -180,7 +180,7 @@ class FlagsApi:
 
 
     @validate_call
-    def delete_v1_flags_defs_by_key_without_preload_content(
+    def delete_flags_defs_by_key_without_preload_content(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to act on, from the path.")],
         _request_timeout: Union[
@@ -224,7 +224,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flags_defs_by_key_serialize(
+        _param = self._delete_flags_defs_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -242,7 +242,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _delete_v1_flags_defs_by_key_serialize(
+    def _delete_flags_defs_by_key_serialize(
         self,
         key,
         _request_auth,
@@ -306,7 +306,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_activity(
+    def get_flags_activity(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. 1–500; anything else takes the default 100.")] = None,
         _request_timeout: Union[
@@ -350,7 +350,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_activity_serialize(
+        _param = self._get_flags_activity_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -373,7 +373,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_activity_with_http_info(
+    def get_flags_activity_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. 1–500; anything else takes the default 100.")] = None,
         _request_timeout: Union[
@@ -417,7 +417,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_activity_serialize(
+        _param = self._get_flags_activity_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -440,7 +440,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_activity_without_preload_content(
+    def get_flags_activity_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. 1–500; anything else takes the default 100.")] = None,
         _request_timeout: Union[
@@ -484,7 +484,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_activity_serialize(
+        _param = self._get_flags_activity_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -502,7 +502,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _get_v1_flags_activity_serialize(
+    def _get_flags_activity_serialize(
         self,
         limit,
         _request_auth,
@@ -568,7 +568,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_defs(
+    def get_flags_defs(
         self,
         _request_timeout: Union[
             None,
@@ -609,7 +609,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_defs_serialize(
+        _param = self._get_flags_defs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -631,7 +631,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_defs_with_http_info(
+    def get_flags_defs_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -672,7 +672,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_defs_serialize(
+        _param = self._get_flags_defs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -694,7 +694,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_defs_without_preload_content(
+    def get_flags_defs_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -735,7 +735,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_defs_serialize(
+        _param = self._get_flags_defs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -752,7 +752,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _get_v1_flags_defs_serialize(
+    def _get_flags_defs_serialize(
         self,
         _request_auth,
         _content_type,
@@ -813,7 +813,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_defs_by_key(
+    def get_flags_defs_by_key(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to act on, from the path.")],
         _request_timeout: Union[
@@ -857,7 +857,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_defs_by_key_serialize(
+        _param = self._get_flags_defs_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -880,7 +880,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_defs_by_key_with_http_info(
+    def get_flags_defs_by_key_with_http_info(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to act on, from the path.")],
         _request_timeout: Union[
@@ -924,7 +924,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_defs_by_key_serialize(
+        _param = self._get_flags_defs_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -947,7 +947,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_defs_by_key_without_preload_content(
+    def get_flags_defs_by_key_without_preload_content(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to act on, from the path.")],
         _request_timeout: Union[
@@ -991,7 +991,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_defs_by_key_serialize(
+        _param = self._get_flags_defs_by_key_serialize(
             key=key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1009,7 +1009,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _get_v1_flags_defs_by_key_serialize(
+    def _get_flags_defs_by_key_serialize(
         self,
         key,
         _request_auth,
@@ -1073,7 +1073,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_health(
+    def get_flags_health(
         self,
         _request_timeout: Union[
             None,
@@ -1114,7 +1114,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_health_serialize(
+        _param = self._get_flags_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1136,7 +1136,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_health_with_http_info(
+    def get_flags_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1177,7 +1177,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_health_serialize(
+        _param = self._get_flags_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1199,7 +1199,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_health_without_preload_content(
+    def get_flags_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1240,7 +1240,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_health_serialize(
+        _param = self._get_flags_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1257,7 +1257,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _get_v1_flags_health_serialize(
+    def _get_flags_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1318,7 +1318,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_waitlist(
+    def get_flags_waitlist(
         self,
         host: Annotated[Optional[StrictStr], Field(description="Host is the host to resolve, e.g. \"chat.hanzo.ai\". Defaults to the request's own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument.")] = None,
         _request_timeout: Union[
@@ -1362,7 +1362,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_waitlist_serialize(
+        _param = self._get_flags_waitlist_serialize(
             host=host,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1385,7 +1385,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_waitlist_with_http_info(
+    def get_flags_waitlist_with_http_info(
         self,
         host: Annotated[Optional[StrictStr], Field(description="Host is the host to resolve, e.g. \"chat.hanzo.ai\". Defaults to the request's own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument.")] = None,
         _request_timeout: Union[
@@ -1429,7 +1429,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_waitlist_serialize(
+        _param = self._get_flags_waitlist_serialize(
             host=host,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1452,7 +1452,7 @@ class FlagsApi:
 
 
     @validate_call
-    def get_v1_flags_waitlist_without_preload_content(
+    def get_flags_waitlist_without_preload_content(
         self,
         host: Annotated[Optional[StrictStr], Field(description="Host is the host to resolve, e.g. \"chat.hanzo.ai\". Defaults to the request's own Host header when omitted, which is what lets a guard running on the governed host ask about itself with no argument.")] = None,
         _request_timeout: Union[
@@ -1496,7 +1496,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flags_waitlist_serialize(
+        _param = self._get_flags_waitlist_serialize(
             host=host,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1514,7 +1514,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _get_v1_flags_waitlist_serialize(
+    def _get_flags_waitlist_serialize(
         self,
         host,
         _request_auth,
@@ -1580,7 +1580,7 @@ class FlagsApi:
 
 
     @validate_call
-    def post_v1_flags(
+    def post_flags(
         self,
         evaluate_in: EvaluateIn,
         _request_timeout: Union[
@@ -1624,7 +1624,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flags_serialize(
+        _param = self._post_flags_serialize(
             evaluate_in=evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1647,7 +1647,7 @@ class FlagsApi:
 
 
     @validate_call
-    def post_v1_flags_with_http_info(
+    def post_flags_with_http_info(
         self,
         evaluate_in: EvaluateIn,
         _request_timeout: Union[
@@ -1691,7 +1691,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flags_serialize(
+        _param = self._post_flags_serialize(
             evaluate_in=evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1714,7 +1714,7 @@ class FlagsApi:
 
 
     @validate_call
-    def post_v1_flags_without_preload_content(
+    def post_flags_without_preload_content(
         self,
         evaluate_in: EvaluateIn,
         _request_timeout: Union[
@@ -1758,7 +1758,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flags_serialize(
+        _param = self._post_flags_serialize(
             evaluate_in=evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1776,7 +1776,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _post_v1_flags_serialize(
+    def _post_flags_serialize(
         self,
         evaluate_in,
         _request_auth,
@@ -1853,7 +1853,7 @@ class FlagsApi:
 
 
     @validate_call
-    def post_v1_flags_decide(
+    def post_flags_decide(
         self,
         evaluate_in: EvaluateIn,
         _request_timeout: Union[
@@ -1897,7 +1897,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flags_decide_serialize(
+        _param = self._post_flags_decide_serialize(
             evaluate_in=evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1920,7 +1920,7 @@ class FlagsApi:
 
 
     @validate_call
-    def post_v1_flags_decide_with_http_info(
+    def post_flags_decide_with_http_info(
         self,
         evaluate_in: EvaluateIn,
         _request_timeout: Union[
@@ -1964,7 +1964,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flags_decide_serialize(
+        _param = self._post_flags_decide_serialize(
             evaluate_in=evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1987,7 +1987,7 @@ class FlagsApi:
 
 
     @validate_call
-    def post_v1_flags_decide_without_preload_content(
+    def post_flags_decide_without_preload_content(
         self,
         evaluate_in: EvaluateIn,
         _request_timeout: Union[
@@ -2031,7 +2031,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flags_decide_serialize(
+        _param = self._post_flags_decide_serialize(
             evaluate_in=evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2049,7 +2049,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _post_v1_flags_decide_serialize(
+    def _post_flags_decide_serialize(
         self,
         evaluate_in,
         _request_auth,
@@ -2126,7 +2126,7 @@ class FlagsApi:
 
 
     @validate_call
-    def put_v1_flags_defs_by_key(
+    def put_flags_defs_by_key(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to write, from the path.")],
         body: Optional[Any],
@@ -2173,7 +2173,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_flags_defs_by_key_serialize(
+        _param = self._put_flags_defs_by_key_serialize(
             key=key,
             body=body,
             _request_auth=_request_auth,
@@ -2197,7 +2197,7 @@ class FlagsApi:
 
 
     @validate_call
-    def put_v1_flags_defs_by_key_with_http_info(
+    def put_flags_defs_by_key_with_http_info(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to write, from the path.")],
         body: Optional[Any],
@@ -2244,7 +2244,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_flags_defs_by_key_serialize(
+        _param = self._put_flags_defs_by_key_serialize(
             key=key,
             body=body,
             _request_auth=_request_auth,
@@ -2268,7 +2268,7 @@ class FlagsApi:
 
 
     @validate_call
-    def put_v1_flags_defs_by_key_without_preload_content(
+    def put_flags_defs_by_key_without_preload_content(
         self,
         key: Annotated[StrictStr, Field(description="Key is the flag key to write, from the path.")],
         body: Optional[Any],
@@ -2315,7 +2315,7 @@ class FlagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_flags_defs_by_key_serialize(
+        _param = self._put_flags_defs_by_key_serialize(
             key=key,
             body=body,
             _request_auth=_request_auth,
@@ -2334,7 +2334,7 @@ class FlagsApi:
         return response_data.response
 
 
-    def _put_v1_flags_defs_by_key_serialize(
+    def _put_flags_defs_by_key_serialize(
         self,
         key,
         body,

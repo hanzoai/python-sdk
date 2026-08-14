@@ -44,7 +44,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def delete_v1_marketplace_listings_by_id(
+    def delete_marketplace_listings_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketplace_listings_by_id_serialize(
+        _param = self._delete_marketplace_listings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def delete_v1_marketplace_listings_by_id_with_http_info(
+    def delete_marketplace_listings_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketplace_listings_by_id_serialize(
+        _param = self._delete_marketplace_listings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def delete_v1_marketplace_listings_by_id_without_preload_content(
+    def delete_marketplace_listings_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketplace_listings_by_id_serialize(
+        _param = self._delete_marketplace_listings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _delete_v1_marketplace_listings_by_id_serialize(
+    def _delete_marketplace_listings_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -297,7 +297,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def get_v1_marketplace(
+    def get_marketplace(
         self,
         _request_timeout: Union[
             None,
@@ -338,7 +338,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketplace_serialize(
+        _param = self._get_marketplace_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -360,7 +360,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def get_v1_marketplace_with_http_info(
+    def get_marketplace_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -401,7 +401,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketplace_serialize(
+        _param = self._get_marketplace_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -423,7 +423,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def get_v1_marketplace_without_preload_content(
+    def get_marketplace_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -464,7 +464,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketplace_serialize(
+        _param = self._get_marketplace_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -481,7 +481,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _get_v1_marketplace_serialize(
+    def _get_marketplace_serialize(
         self,
         _request_auth,
         _content_type,
@@ -542,7 +542,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def get_v1_marketplace_listings(
+    def get_marketplace_listings(
         self,
         _request_timeout: Union[
             None,
@@ -583,7 +583,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketplace_listings_serialize(
+        _param = self._get_marketplace_listings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -605,7 +605,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def get_v1_marketplace_listings_with_http_info(
+    def get_marketplace_listings_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -646,7 +646,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketplace_listings_serialize(
+        _param = self._get_marketplace_listings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -668,7 +668,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def get_v1_marketplace_listings_without_preload_content(
+    def get_marketplace_listings_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -709,7 +709,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketplace_listings_serialize(
+        _param = self._get_marketplace_listings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -726,7 +726,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _get_v1_marketplace_listings_serialize(
+    def _get_marketplace_listings_serialize(
         self,
         _request_auth,
         _content_type,
@@ -787,7 +787,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_install(
+    def post_marketplace_install(
         self,
         install_req: InstallReq,
         _request_timeout: Union[
@@ -831,7 +831,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_install_serialize(
+        _param = self._post_marketplace_install_serialize(
             install_req=install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -854,7 +854,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_install_with_http_info(
+    def post_marketplace_install_with_http_info(
         self,
         install_req: InstallReq,
         _request_timeout: Union[
@@ -898,7 +898,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_install_serialize(
+        _param = self._post_marketplace_install_serialize(
             install_req=install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -921,7 +921,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_install_without_preload_content(
+    def post_marketplace_install_without_preload_content(
         self,
         install_req: InstallReq,
         _request_timeout: Union[
@@ -965,7 +965,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_install_serialize(
+        _param = self._post_marketplace_install_serialize(
             install_req=install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -983,7 +983,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _post_v1_marketplace_install_serialize(
+    def _post_marketplace_install_serialize(
         self,
         install_req,
         _request_auth,
@@ -1060,7 +1060,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_listings(
+    def post_marketplace_listings(
         self,
         publish_req: PublishReq,
         _request_timeout: Union[
@@ -1104,7 +1104,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_listings_serialize(
+        _param = self._post_marketplace_listings_serialize(
             publish_req=publish_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1127,7 +1127,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_listings_with_http_info(
+    def post_marketplace_listings_with_http_info(
         self,
         publish_req: PublishReq,
         _request_timeout: Union[
@@ -1171,7 +1171,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_listings_serialize(
+        _param = self._post_marketplace_listings_serialize(
             publish_req=publish_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1194,7 +1194,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_listings_without_preload_content(
+    def post_marketplace_listings_without_preload_content(
         self,
         publish_req: PublishReq,
         _request_timeout: Union[
@@ -1238,7 +1238,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_listings_serialize(
+        _param = self._post_marketplace_listings_serialize(
             publish_req=publish_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1256,7 +1256,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _post_v1_marketplace_listings_serialize(
+    def _post_marketplace_listings_serialize(
         self,
         publish_req,
         _request_auth,
@@ -1333,7 +1333,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_uninstall(
+    def post_marketplace_uninstall(
         self,
         install_req: InstallReq,
         _request_timeout: Union[
@@ -1377,7 +1377,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_uninstall_serialize(
+        _param = self._post_marketplace_uninstall_serialize(
             install_req=install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1400,7 +1400,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_uninstall_with_http_info(
+    def post_marketplace_uninstall_with_http_info(
         self,
         install_req: InstallReq,
         _request_timeout: Union[
@@ -1444,7 +1444,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_uninstall_serialize(
+        _param = self._post_marketplace_uninstall_serialize(
             install_req=install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1467,7 +1467,7 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_v1_marketplace_uninstall_without_preload_content(
+    def post_marketplace_uninstall_without_preload_content(
         self,
         install_req: InstallReq,
         _request_timeout: Union[
@@ -1511,7 +1511,7 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketplace_uninstall_serialize(
+        _param = self._post_marketplace_uninstall_serialize(
             install_req=install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1529,7 +1529,7 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _post_v1_marketplace_uninstall_serialize(
+    def _post_marketplace_uninstall_serialize(
         self,
         install_req,
         _request_auth,

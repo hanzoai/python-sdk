@@ -37,7 +37,7 @@ class SummaryApi:
 
 
     @validate_call
-    def get_v1_summary(
+    def get_summary(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class SummaryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_summary_serialize(
+        _param = self._get_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +100,7 @@ class SummaryApi:
 
 
     @validate_call
-    def get_v1_summary_with_http_info(
+    def get_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -141,7 +141,7 @@ class SummaryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_summary_serialize(
+        _param = self._get_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -163,7 +163,7 @@ class SummaryApi:
 
 
     @validate_call
-    def get_v1_summary_without_preload_content(
+    def get_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -204,7 +204,7 @@ class SummaryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_summary_serialize(
+        _param = self._get_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -221,7 +221,7 @@ class SummaryApi:
         return response_data.response
 
 
-    def _get_v1_summary_serialize(
+    def _get_summary_serialize(
         self,
         _request_auth,
         _content_type,

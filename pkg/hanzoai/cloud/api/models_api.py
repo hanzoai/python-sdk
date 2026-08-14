@@ -37,7 +37,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models(
+    def get_models(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_serialize(
+        _param = self._get_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +99,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_with_http_info(
+    def get_models_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -140,7 +140,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_serialize(
+        _param = self._get_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -161,7 +161,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_without_preload_content(
+    def get_models_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -202,7 +202,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_serialize(
+        _param = self._get_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -218,7 +218,7 @@ class ModelsApi:
         return response_data.response
 
 
-    def _get_v1_models_serialize(
+    def _get_models_serialize(
         self,
         _request_auth,
         _content_type,
@@ -272,7 +272,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_by_model_access(
+    def get_models_by_model_access(
         self,
         model: StrictStr,
         _request_timeout: Union[
@@ -316,7 +316,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_by_model_access_serialize(
+        _param = self._get_models_by_model_access_serialize(
             model=model,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -338,7 +338,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_by_model_access_with_http_info(
+    def get_models_by_model_access_with_http_info(
         self,
         model: StrictStr,
         _request_timeout: Union[
@@ -382,7 +382,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_by_model_access_serialize(
+        _param = self._get_models_by_model_access_serialize(
             model=model,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -404,7 +404,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_by_model_access_without_preload_content(
+    def get_models_by_model_access_without_preload_content(
         self,
         model: StrictStr,
         _request_timeout: Union[
@@ -448,7 +448,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_by_model_access_serialize(
+        _param = self._get_models_by_model_access_serialize(
             model=model,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -465,7 +465,7 @@ class ModelsApi:
         return response_data.response
 
 
-    def _get_v1_models_by_model_access_serialize(
+    def _get_models_by_model_access_serialize(
         self,
         model,
         _request_auth,
@@ -522,7 +522,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_providers(
+    def get_models_providers(
         self,
         _request_timeout: Union[
             None,
@@ -563,7 +563,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_providers_serialize(
+        _param = self._get_models_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -584,7 +584,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_providers_with_http_info(
+    def get_models_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -625,7 +625,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_providers_serialize(
+        _param = self._get_models_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -646,7 +646,7 @@ class ModelsApi:
 
 
     @validate_call
-    def get_v1_models_providers_without_preload_content(
+    def get_models_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -687,7 +687,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_models_providers_serialize(
+        _param = self._get_models_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -703,7 +703,7 @@ class ModelsApi:
         return response_data.response
 
 
-    def _get_v1_models_providers_serialize(
+    def _get_models_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -757,7 +757,7 @@ class ModelsApi:
 
 
     @validate_call
-    def post_v1_models_by_model_access(
+    def post_models_by_model_access(
         self,
         model: StrictStr,
         _request_timeout: Union[
@@ -801,7 +801,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_models_by_model_access_serialize(
+        _param = self._post_models_by_model_access_serialize(
             model=model,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -823,7 +823,7 @@ class ModelsApi:
 
 
     @validate_call
-    def post_v1_models_by_model_access_with_http_info(
+    def post_models_by_model_access_with_http_info(
         self,
         model: StrictStr,
         _request_timeout: Union[
@@ -867,7 +867,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_models_by_model_access_serialize(
+        _param = self._post_models_by_model_access_serialize(
             model=model,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -889,7 +889,7 @@ class ModelsApi:
 
 
     @validate_call
-    def post_v1_models_by_model_access_without_preload_content(
+    def post_models_by_model_access_without_preload_content(
         self,
         model: StrictStr,
         _request_timeout: Union[
@@ -933,7 +933,7 @@ class ModelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_models_by_model_access_serialize(
+        _param = self._post_models_by_model_access_serialize(
             model=model,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -950,7 +950,7 @@ class ModelsApi:
         return response_data.response
 
 
-    def _post_v1_models_by_model_access_serialize(
+    def _post_models_by_model_access_serialize(
         self,
         model,
         _request_auth,

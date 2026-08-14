@@ -37,7 +37,7 @@ class AvatarApi:
 
 
     @validate_call
-    def get_v1_avatar_by_org_by_user_by_digest(
+    def get_avatar_by_org_by_user_by_digest(
         self,
         org: StrictStr,
         user: StrictStr,
@@ -87,7 +87,7 @@ class AvatarApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_avatar_by_org_by_user_by_digest_serialize(
+        _param = self._get_avatar_by_org_by_user_by_digest_serialize(
             org=org,
             user=user,
             digest=digest,
@@ -111,7 +111,7 @@ class AvatarApi:
 
 
     @validate_call
-    def get_v1_avatar_by_org_by_user_by_digest_with_http_info(
+    def get_avatar_by_org_by_user_by_digest_with_http_info(
         self,
         org: StrictStr,
         user: StrictStr,
@@ -161,7 +161,7 @@ class AvatarApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_avatar_by_org_by_user_by_digest_serialize(
+        _param = self._get_avatar_by_org_by_user_by_digest_serialize(
             org=org,
             user=user,
             digest=digest,
@@ -185,7 +185,7 @@ class AvatarApi:
 
 
     @validate_call
-    def get_v1_avatar_by_org_by_user_by_digest_without_preload_content(
+    def get_avatar_by_org_by_user_by_digest_without_preload_content(
         self,
         org: StrictStr,
         user: StrictStr,
@@ -235,7 +235,7 @@ class AvatarApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_avatar_by_org_by_user_by_digest_serialize(
+        _param = self._get_avatar_by_org_by_user_by_digest_serialize(
             org=org,
             user=user,
             digest=digest,
@@ -254,7 +254,7 @@ class AvatarApi:
         return response_data.response
 
 
-    def _get_v1_avatar_by_org_by_user_by_digest_serialize(
+    def _get_avatar_by_org_by_user_by_digest_serialize(
         self,
         org,
         user,
@@ -317,7 +317,7 @@ class AvatarApi:
 
 
     @validate_call
-    def post_v1_avatar(
+    def post_avatar(
         self,
         _request_timeout: Union[
             None,
@@ -358,7 +358,7 @@ class AvatarApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_avatar_serialize(
+        _param = self._post_avatar_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -379,7 +379,7 @@ class AvatarApi:
 
 
     @validate_call
-    def post_v1_avatar_with_http_info(
+    def post_avatar_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -420,7 +420,7 @@ class AvatarApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_avatar_serialize(
+        _param = self._post_avatar_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -441,7 +441,7 @@ class AvatarApi:
 
 
     @validate_call
-    def post_v1_avatar_without_preload_content(
+    def post_avatar_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -482,7 +482,7 @@ class AvatarApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_avatar_serialize(
+        _param = self._post_avatar_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -498,7 +498,7 @@ class AvatarApi:
         return response_data.response
 
 
-    def _post_v1_avatar_serialize(
+    def _post_avatar_serialize(
         self,
         _request_auth,
         _content_type,

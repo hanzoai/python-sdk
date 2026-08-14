@@ -39,7 +39,7 @@ class NotifyApi:
 
 
     @validate_call
-    def get_v1_notify_health(
+    def get_notify_health(
         self,
         _request_timeout: Union[
             None,
@@ -80,7 +80,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_notify_health_serialize(
+        _param = self._get_notify_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -102,7 +102,7 @@ class NotifyApi:
 
 
     @validate_call
-    def get_v1_notify_health_with_http_info(
+    def get_notify_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -143,7 +143,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_notify_health_serialize(
+        _param = self._get_notify_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -165,7 +165,7 @@ class NotifyApi:
 
 
     @validate_call
-    def get_v1_notify_health_without_preload_content(
+    def get_notify_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -206,7 +206,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_notify_health_serialize(
+        _param = self._get_notify_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -223,7 +223,7 @@ class NotifyApi:
         return response_data.response
 
 
-    def _get_v1_notify_health_serialize(
+    def _get_notify_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -284,7 +284,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send(
+    def post_notify_send(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -328,7 +328,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_serialize(
+        _param = self._post_notify_send_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -351,7 +351,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_with_http_info(
+    def post_notify_send_with_http_info(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -395,7 +395,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_serialize(
+        _param = self._post_notify_send_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -418,7 +418,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_without_preload_content(
+    def post_notify_send_without_preload_content(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -462,7 +462,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_serialize(
+        _param = self._post_notify_send_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -480,7 +480,7 @@ class NotifyApi:
         return response_data.response
 
 
-    def _post_v1_notify_send_serialize(
+    def _post_notify_send_serialize(
         self,
         notify_send,
         _request_auth,
@@ -557,7 +557,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_email(
+    def post_notify_send_email(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -601,7 +601,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_email_serialize(
+        _param = self._post_notify_send_email_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -624,7 +624,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_email_with_http_info(
+    def post_notify_send_email_with_http_info(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -668,7 +668,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_email_serialize(
+        _param = self._post_notify_send_email_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -691,7 +691,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_email_without_preload_content(
+    def post_notify_send_email_without_preload_content(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -735,7 +735,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_email_serialize(
+        _param = self._post_notify_send_email_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -753,7 +753,7 @@ class NotifyApi:
         return response_data.response
 
 
-    def _post_v1_notify_send_email_serialize(
+    def _post_notify_send_email_serialize(
         self,
         notify_send,
         _request_auth,
@@ -830,7 +830,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_sms(
+    def post_notify_send_sms(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -874,7 +874,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_sms_serialize(
+        _param = self._post_notify_send_sms_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -897,7 +897,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_sms_with_http_info(
+    def post_notify_send_sms_with_http_info(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -941,7 +941,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_sms_serialize(
+        _param = self._post_notify_send_sms_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -964,7 +964,7 @@ class NotifyApi:
 
 
     @validate_call
-    def post_v1_notify_send_sms_without_preload_content(
+    def post_notify_send_sms_without_preload_content(
         self,
         notify_send: NotifySend,
         _request_timeout: Union[
@@ -1008,7 +1008,7 @@ class NotifyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_notify_send_sms_serialize(
+        _param = self._post_notify_send_sms_serialize(
             notify_send=notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1026,7 +1026,7 @@ class NotifyApi:
         return response_data.response
 
 
-    def _post_v1_notify_send_sms_serialize(
+    def _post_notify_send_sms_serialize(
         self,
         notify_send,
         _request_auth,

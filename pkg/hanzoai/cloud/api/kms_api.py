@@ -37,7 +37,7 @@ class KmsApi:
 
 
     @validate_call
-    def delete_v1_kms_secrets_by_wildcard1(
+    def delete_kms_secrets_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -55,7 +55,7 @@ class KmsApi:
     ) -> None:
         """Delete one secret from your org
 
-        Removes one secret from the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  The trailing path is the secret's subpath and name beneath the caller's org root, and `env` selects the environment, defaulting when omitted. Scoped to the caller's own org — the store root comes from the validated claim, never from the request — under the same fail-closed admission as the reads.
+        Removes one secret from the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  The trailing path is the secret's subpath and name beneath the caller's org root, and `env` selects the environment, defaulting when omitted. Scoped to the caller's own org — the store root comes from the validated claim, never from the request.  Requires ADMIN authority over the org, like the write: destroying a secret is an administrative act, and a credential distributed to read one must not be able to remove it.
 
         :param wildcard1: (required)
         :type wildcard1: str
@@ -81,7 +81,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kms_secrets_by_wildcard1_serialize(
+        _param = self._delete_kms_secrets_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class KmsApi:
 
 
     @validate_call
-    def delete_v1_kms_secrets_by_wildcard1_with_http_info(
+    def delete_kms_secrets_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -121,7 +121,7 @@ class KmsApi:
     ) -> ApiResponse[None]:
         """Delete one secret from your org
 
-        Removes one secret from the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  The trailing path is the secret's subpath and name beneath the caller's org root, and `env` selects the environment, defaulting when omitted. Scoped to the caller's own org — the store root comes from the validated claim, never from the request — under the same fail-closed admission as the reads.
+        Removes one secret from the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  The trailing path is the secret's subpath and name beneath the caller's org root, and `env` selects the environment, defaulting when omitted. Scoped to the caller's own org — the store root comes from the validated claim, never from the request.  Requires ADMIN authority over the org, like the write: destroying a secret is an administrative act, and a credential distributed to read one must not be able to remove it.
 
         :param wildcard1: (required)
         :type wildcard1: str
@@ -147,7 +147,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kms_secrets_by_wildcard1_serialize(
+        _param = self._delete_kms_secrets_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class KmsApi:
 
 
     @validate_call
-    def delete_v1_kms_secrets_by_wildcard1_without_preload_content(
+    def delete_kms_secrets_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -187,7 +187,7 @@ class KmsApi:
     ) -> RESTResponseType:
         """Delete one secret from your org
 
-        Removes one secret from the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  The trailing path is the secret's subpath and name beneath the caller's org root, and `env` selects the environment, defaulting when omitted. Scoped to the caller's own org — the store root comes from the validated claim, never from the request — under the same fail-closed admission as the reads.
+        Removes one secret from the caller's own org and confirms the name and environment that were removed. Deleting a secret that is not there is a 404, not a silent success, so a caller can tell a real deletion from a typo.  The trailing path is the secret's subpath and name beneath the caller's org root, and `env` selects the environment, defaulting when omitted. Scoped to the caller's own org — the store root comes from the validated claim, never from the request.  Requires ADMIN authority over the org, like the write: destroying a secret is an administrative act, and a credential distributed to read one must not be able to remove it.
 
         :param wildcard1: (required)
         :type wildcard1: str
@@ -213,7 +213,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kms_secrets_by_wildcard1_serialize(
+        _param = self._delete_kms_secrets_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _delete_v1_kms_secrets_by_wildcard1_serialize(
+    def _delete_kms_secrets_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -287,7 +287,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_config(
+    def get_kms_config(
         self,
         _request_timeout: Union[
             None,
@@ -328,7 +328,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_config_serialize(
+        _param = self._get_kms_config_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -349,7 +349,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_config_with_http_info(
+    def get_kms_config_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -390,7 +390,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_config_serialize(
+        _param = self._get_kms_config_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -411,7 +411,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_config_without_preload_content(
+    def get_kms_config_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -452,7 +452,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_config_serialize(
+        _param = self._get_kms_config_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -468,7 +468,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _get_v1_kms_config_serialize(
+    def _get_kms_config_serialize(
         self,
         _request_auth,
         _content_type,
@@ -522,7 +522,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_health(
+    def get_kms_health(
         self,
         _request_timeout: Union[
             None,
@@ -563,7 +563,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_health_serialize(
+        _param = self._get_kms_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -584,7 +584,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_health_with_http_info(
+    def get_kms_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -625,7 +625,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_health_serialize(
+        _param = self._get_kms_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -646,7 +646,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_health_without_preload_content(
+    def get_kms_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -687,7 +687,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_health_serialize(
+        _param = self._get_kms_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -703,7 +703,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _get_v1_kms_health_serialize(
+    def _get_kms_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -757,7 +757,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_secrets(
+    def get_kms_secrets(
         self,
         _request_timeout: Union[
             None,
@@ -798,7 +798,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_secrets_serialize(
+        _param = self._get_kms_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -819,7 +819,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_secrets_with_http_info(
+    def get_kms_secrets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -860,7 +860,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_secrets_serialize(
+        _param = self._get_kms_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -881,7 +881,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_secrets_without_preload_content(
+    def get_kms_secrets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -922,7 +922,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_secrets_serialize(
+        _param = self._get_kms_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -938,7 +938,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _get_v1_kms_secrets_serialize(
+    def _get_kms_secrets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -992,7 +992,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_secrets_by_wildcard1(
+    def get_kms_secrets_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1036,7 +1036,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_secrets_by_wildcard1_serialize(
+        _param = self._get_kms_secrets_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1058,7 +1058,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_secrets_by_wildcard1_with_http_info(
+    def get_kms_secrets_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1102,7 +1102,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_secrets_by_wildcard1_serialize(
+        _param = self._get_kms_secrets_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1124,7 +1124,7 @@ class KmsApi:
 
 
     @validate_call
-    def get_v1_kms_secrets_by_wildcard1_without_preload_content(
+    def get_kms_secrets_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1168,7 +1168,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kms_secrets_by_wildcard1_serialize(
+        _param = self._get_kms_secrets_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1185,7 +1185,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _get_v1_kms_secrets_by_wildcard1_serialize(
+    def _get_kms_secrets_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -1242,7 +1242,7 @@ class KmsApi:
 
 
     @validate_call
-    def post_v1_kms_auth_login(
+    def post_kms_auth_login(
         self,
         _request_timeout: Union[
             None,
@@ -1283,7 +1283,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kms_auth_login_serialize(
+        _param = self._post_kms_auth_login_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1304,7 +1304,7 @@ class KmsApi:
 
 
     @validate_call
-    def post_v1_kms_auth_login_with_http_info(
+    def post_kms_auth_login_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1345,7 +1345,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kms_auth_login_serialize(
+        _param = self._post_kms_auth_login_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1366,7 +1366,7 @@ class KmsApi:
 
 
     @validate_call
-    def post_v1_kms_auth_login_without_preload_content(
+    def post_kms_auth_login_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1407,7 +1407,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kms_auth_login_serialize(
+        _param = self._post_kms_auth_login_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1423,7 +1423,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _post_v1_kms_auth_login_serialize(
+    def _post_kms_auth_login_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1477,7 +1477,7 @@ class KmsApi:
 
 
     @validate_call
-    def post_v1_kms_secrets(
+    def post_kms_secrets(
         self,
         _request_timeout: Union[
             None,
@@ -1494,7 +1494,7 @@ class KmsApi:
     ) -> None:
         """Store or replace one secret in your org
 
-        Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body. Same fail-closed admission as the rest of the secret surface: validated member, well-formed org, master key present.
+        Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Requires ADMIN authority over the org — a member reads, an admin writes. A machine credential holds no membership and so is never an org admin: it can read the secrets it was issued for and cannot replace one. Fail-closed admission, in order: admin of the org, well-formed org, master key present — 403, 400 and 503, all decided before any record is touched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1518,7 +1518,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kms_secrets_serialize(
+        _param = self._post_kms_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1539,7 +1539,7 @@ class KmsApi:
 
 
     @validate_call
-    def post_v1_kms_secrets_with_http_info(
+    def post_kms_secrets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1556,7 +1556,7 @@ class KmsApi:
     ) -> ApiResponse[None]:
         """Store or replace one secret in your org
 
-        Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body. Same fail-closed admission as the rest of the secret surface: validated member, well-formed org, master key present.
+        Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Requires ADMIN authority over the org — a member reads, an admin writes. A machine credential holds no membership and so is never an org admin: it can read the secrets it was issued for and cannot replace one. Fail-closed admission, in order: admin of the org, well-formed org, master key present — 403, 400 and 503, all decided before any record is touched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1580,7 +1580,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kms_secrets_serialize(
+        _param = self._post_kms_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1601,7 +1601,7 @@ class KmsApi:
 
 
     @validate_call
-    def post_v1_kms_secrets_without_preload_content(
+    def post_kms_secrets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1618,7 +1618,7 @@ class KmsApi:
     ) -> RESTResponseType:
         """Store or replace one secret in your org
 
-        Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body. Same fail-closed admission as the rest of the secret surface: validated member, well-formed org, master key present.
+        Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Requires ADMIN authority over the org — a member reads, an admin writes. A machine credential holds no membership and so is never an org admin: it can read the secrets it was issued for and cannot replace one. Fail-closed admission, in order: admin of the org, well-formed org, master key present — 403, 400 and 503, all decided before any record is touched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1642,7 +1642,7 @@ class KmsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kms_secrets_serialize(
+        _param = self._post_kms_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1658,7 +1658,7 @@ class KmsApi:
         return response_data.response
 
 
-    def _post_v1_kms_secrets_serialize(
+    def _post_kms_secrets_serialize(
         self,
         _request_auth,
         _content_type,

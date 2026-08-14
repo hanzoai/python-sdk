@@ -47,7 +47,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_catalog(
+    def get_benchmark_catalog(
         self,
         _request_timeout: Union[
             None,
@@ -88,7 +88,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_catalog_serialize(
+        _param = self._get_benchmark_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -110,7 +110,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_catalog_with_http_info(
+    def get_benchmark_catalog_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -151,7 +151,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_catalog_serialize(
+        _param = self._get_benchmark_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -173,7 +173,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_catalog_without_preload_content(
+    def get_benchmark_catalog_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -214,7 +214,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_catalog_serialize(
+        _param = self._get_benchmark_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -231,7 +231,7 @@ class BenchmarkApi:
         return response_data.response
 
 
-    def _get_v1_benchmark_catalog_serialize(
+    def _get_benchmark_catalog_serialize(
         self,
         _request_auth,
         _content_type,
@@ -292,7 +292,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_compare(
+    def get_benchmark_compare(
         self,
         a: Annotated[StrictStr, Field(description="A is the first model id. It is required.")],
         b: Annotated[StrictStr, Field(description="B is the second model id. It is required.")],
@@ -342,7 +342,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_compare_serialize(
+        _param = self._get_benchmark_compare_serialize(
             a=a,
             b=b,
             benchmark=benchmark,
@@ -367,7 +367,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_compare_with_http_info(
+    def get_benchmark_compare_with_http_info(
         self,
         a: Annotated[StrictStr, Field(description="A is the first model id. It is required.")],
         b: Annotated[StrictStr, Field(description="B is the second model id. It is required.")],
@@ -417,7 +417,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_compare_serialize(
+        _param = self._get_benchmark_compare_serialize(
             a=a,
             b=b,
             benchmark=benchmark,
@@ -442,7 +442,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_compare_without_preload_content(
+    def get_benchmark_compare_without_preload_content(
         self,
         a: Annotated[StrictStr, Field(description="A is the first model id. It is required.")],
         b: Annotated[StrictStr, Field(description="B is the second model id. It is required.")],
@@ -492,7 +492,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_compare_serialize(
+        _param = self._get_benchmark_compare_serialize(
             a=a,
             b=b,
             benchmark=benchmark,
@@ -512,7 +512,7 @@ class BenchmarkApi:
         return response_data.response
 
 
-    def _get_v1_benchmark_compare_serialize(
+    def _get_benchmark_compare_serialize(
         self,
         a,
         b,
@@ -588,7 +588,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_leaderboard(
+    def get_benchmark_leaderboard(
         self,
         benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to read, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
@@ -632,7 +632,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_leaderboard_serialize(
+        _param = self._get_benchmark_leaderboard_serialize(
             benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -655,7 +655,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_leaderboard_with_http_info(
+    def get_benchmark_leaderboard_with_http_info(
         self,
         benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to read, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
@@ -699,7 +699,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_leaderboard_serialize(
+        _param = self._get_benchmark_leaderboard_serialize(
             benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -722,7 +722,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_leaderboard_without_preload_content(
+    def get_benchmark_leaderboard_without_preload_content(
         self,
         benchmark: Annotated[Optional[StrictStr], Field(description="Benchmark is the catalog id to read, defaulting to gpqa_diamond.")] = None,
         _request_timeout: Union[
@@ -766,7 +766,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_leaderboard_serialize(
+        _param = self._get_benchmark_leaderboard_serialize(
             benchmark=benchmark,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -784,7 +784,7 @@ class BenchmarkApi:
         return response_data.response
 
 
-    def _get_v1_benchmark_leaderboard_serialize(
+    def _get_benchmark_leaderboard_serialize(
         self,
         benchmark,
         _request_auth,
@@ -850,7 +850,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_presets(
+    def get_benchmark_presets(
         self,
         _request_timeout: Union[
             None,
@@ -891,7 +891,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_presets_serialize(
+        _param = self._get_benchmark_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -913,7 +913,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_presets_with_http_info(
+    def get_benchmark_presets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -954,7 +954,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_presets_serialize(
+        _param = self._get_benchmark_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -976,7 +976,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def get_v1_benchmark_presets_without_preload_content(
+    def get_benchmark_presets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1017,7 +1017,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_benchmark_presets_serialize(
+        _param = self._get_benchmark_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1034,7 +1034,7 @@ class BenchmarkApi:
         return response_data.response
 
 
-    def _get_v1_benchmark_presets_serialize(
+    def _get_benchmark_presets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1095,7 +1095,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def post_v1_benchmark_presets(
+    def post_benchmark_presets(
         self,
         preset: Preset,
         _request_timeout: Union[
@@ -1139,7 +1139,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_benchmark_presets_serialize(
+        _param = self._post_benchmark_presets_serialize(
             preset=preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1162,7 +1162,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def post_v1_benchmark_presets_with_http_info(
+    def post_benchmark_presets_with_http_info(
         self,
         preset: Preset,
         _request_timeout: Union[
@@ -1206,7 +1206,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_benchmark_presets_serialize(
+        _param = self._post_benchmark_presets_serialize(
             preset=preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1229,7 +1229,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def post_v1_benchmark_presets_without_preload_content(
+    def post_benchmark_presets_without_preload_content(
         self,
         preset: Preset,
         _request_timeout: Union[
@@ -1273,7 +1273,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_benchmark_presets_serialize(
+        _param = self._post_benchmark_presets_serialize(
             preset=preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1291,7 +1291,7 @@ class BenchmarkApi:
         return response_data.response
 
 
-    def _post_v1_benchmark_presets_serialize(
+    def _post_benchmark_presets_serialize(
         self,
         preset,
         _request_auth,
@@ -1368,7 +1368,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def post_v1_benchmark_runs(
+    def post_benchmark_runs(
         self,
         suite: Suite,
         _request_timeout: Union[
@@ -1412,7 +1412,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_benchmark_runs_serialize(
+        _param = self._post_benchmark_runs_serialize(
             suite=suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1435,7 +1435,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def post_v1_benchmark_runs_with_http_info(
+    def post_benchmark_runs_with_http_info(
         self,
         suite: Suite,
         _request_timeout: Union[
@@ -1479,7 +1479,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_benchmark_runs_serialize(
+        _param = self._post_benchmark_runs_serialize(
             suite=suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1502,7 +1502,7 @@ class BenchmarkApi:
 
 
     @validate_call
-    def post_v1_benchmark_runs_without_preload_content(
+    def post_benchmark_runs_without_preload_content(
         self,
         suite: Suite,
         _request_timeout: Union[
@@ -1546,7 +1546,7 @@ class BenchmarkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_benchmark_runs_serialize(
+        _param = self._post_benchmark_runs_serialize(
             suite=suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1564,7 +1564,7 @@ class BenchmarkApi:
         return response_data.response
 
 
-    def _post_v1_benchmark_runs_serialize(
+    def _post_benchmark_runs_serialize(
         self,
         suite,
         _request_auth,

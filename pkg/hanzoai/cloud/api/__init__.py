@@ -8,6 +8,7 @@ from hanzoai.cloud.api.agent_api import AgentApi
 from hanzoai.cloud.api.agents_api import AgentsApi
 from hanzoai.cloud.api.ai_api import AiApi
 from hanzoai.cloud.api.analytics_api import AnalyticsApi
+from hanzoai.cloud.api.appearance_api import AppearanceApi
 from hanzoai.cloud.api.ask_api import AskApi
 from hanzoai.cloud.api.audio_api import AudioApi
 from hanzoai.cloud.api.audit_api import AuditApi
@@ -29,6 +30,7 @@ from hanzoai.cloud.api.campaign_api import CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi
 from hanzoai.cloud.api.cart_api import CartApi
 from hanzoai.cloud.api.catalog_api import CatalogApi
+from hanzoai.cloud.api.chains_api import ChainsApi
 from hanzoai.cloud.api.channels_api import ChannelsApi
 from hanzoai.cloud.api.chat_api import ChatApi
 from hanzoai.cloud.api.cloud_api import CloudApi
@@ -36,7 +38,6 @@ from hanzoai.cloud.api.cloudflare_api import CloudflareApi
 from hanzoai.cloud.api.clusters_api import ClustersApi
 from hanzoai.cloud.api.code_api import CodeApi
 from hanzoai.cloud.api.coding_api import CodingApi
-from hanzoai.cloud.api.collections_api import CollectionsApi
 from hanzoai.cloud.api.commands_api import CommandsApi
 from hanzoai.cloud.api.commerce_api import CommerceApi
 from hanzoai.cloud.api.company_api import CompanyApi
@@ -44,7 +45,6 @@ from hanzoai.cloud.api.compat_api import CompatApi
 from hanzoai.cloud.api.completions_api import CompletionsApi
 from hanzoai.cloud.api.compliance_api import ComplianceApi
 from hanzoai.cloud.api.compute_api import ComputeApi
-from hanzoai.cloud.api.connector_api import ConnectorApi
 from hanzoai.cloud.api.connectors_api import ConnectorsApi
 from hanzoai.cloud.api.content_api import ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi
@@ -87,6 +87,7 @@ from hanzoai.cloud.api.gateway_api import GatewayApi
 from hanzoai.cloud.api.generate_text_to_speech_audio_api import GenerateTextToSpeechAudioApi
 from hanzoai.cloud.api.generate_text_to_speech_audio_stream_api import GenerateTextToSpeechAudioStreamApi
 from hanzoai.cloud.api.git_api import GitApi
+from hanzoai.cloud.api.git_webhook_api import GitWebhookApi
 from hanzoai.cloud.api.gpus_api import GpusApi
 from hanzoai.cloud.api.guide_api import GuideApi
 from hanzoai.cloud.api.health_api import HealthApi
@@ -149,6 +150,7 @@ from hanzoai.cloud.api.research_api import ResearchApi
 from hanzoai.cloud.api.responses_api import ResponsesApi
 from hanzoai.cloud.api.risk_api import RiskApi
 from hanzoai.cloud.api.router_api import RouterApi
+from hanzoai.cloud.api.rpc_api import RpcApi
 from hanzoai.cloud.api.run_api import RunApi
 from hanzoai.cloud.api.runner_api import RunnerApi
 from hanzoai.cloud.api.s3_api import S3Api
@@ -169,11 +171,14 @@ from hanzoai.cloud.api.summary_api import SummaryApi
 from hanzoai.cloud.api.sync_api import SyncApi
 from hanzoai.cloud.api.tags_api import TagsApi
 from hanzoai.cloud.api.tasks_api import TasksApi
+from hanzoai.cloud.api.taxonomy_api import TaxonomyApi
 from hanzoai.cloud.api.team_api import TeamApi
+from hanzoai.cloud.api.tel_api import TelApi
 from hanzoai.cloud.api.templates_api import TemplatesApi
+from hanzoai.cloud.api.todo_api import TodoApi
+from hanzoai.cloud.api.tokens_api import TokensApi
 from hanzoai.cloud.api.tools_api import ToolsApi
 from hanzoai.cloud.api.traces_api import TracesApi
-from hanzoai.cloud.api.tracker_api import TrackerApi
 from hanzoai.cloud.api.traffic_api import TrafficApi
 from hanzoai.cloud.api.translate_api import TranslateApi
 from hanzoai.cloud.api.upload_api import UploadApi

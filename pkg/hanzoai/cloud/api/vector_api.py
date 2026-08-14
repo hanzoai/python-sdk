@@ -45,7 +45,7 @@ class VectorApi:
 
 
     @validate_call
-    def delete_v1_vector_by_name(
+    def delete_vector_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -89,7 +89,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_vector_by_name_serialize(
+        _param = self._delete_vector_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -112,7 +112,7 @@ class VectorApi:
 
 
     @validate_call
-    def delete_v1_vector_by_name_with_http_info(
+    def delete_vector_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -156,7 +156,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_vector_by_name_serialize(
+        _param = self._delete_vector_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -179,7 +179,7 @@ class VectorApi:
 
 
     @validate_call
-    def delete_v1_vector_by_name_without_preload_content(
+    def delete_vector_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -223,7 +223,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_vector_by_name_serialize(
+        _param = self._delete_vector_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -241,7 +241,7 @@ class VectorApi:
         return response_data.response
 
 
-    def _delete_v1_vector_by_name_serialize(
+    def _delete_vector_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -298,7 +298,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector(
+    def get_vector(
         self,
         _request_timeout: Union[
             None,
@@ -339,7 +339,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_serialize(
+        _param = self._get_vector_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -361,7 +361,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_with_http_info(
+    def get_vector_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -402,7 +402,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_serialize(
+        _param = self._get_vector_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,7 +424,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_without_preload_content(
+    def get_vector_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -465,7 +465,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_serialize(
+        _param = self._get_vector_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -482,7 +482,7 @@ class VectorApi:
         return response_data.response
 
 
-    def _get_v1_vector_serialize(
+    def _get_vector_serialize(
         self,
         _request_auth,
         _content_type,
@@ -543,7 +543,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_by_name(
+    def get_vector_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -587,7 +587,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_by_name_serialize(
+        _param = self._get_vector_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -610,7 +610,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_by_name_with_http_info(
+    def get_vector_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -654,7 +654,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_by_name_serialize(
+        _param = self._get_vector_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -677,7 +677,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_by_name_without_preload_content(
+    def get_vector_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -721,7 +721,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_by_name_serialize(
+        _param = self._get_vector_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -739,7 +739,7 @@ class VectorApi:
         return response_data.response
 
 
-    def _get_v1_vector_by_name_serialize(
+    def _get_vector_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -803,7 +803,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_collections(
+    def get_vector_collections(
         self,
         authorization: Annotated[Optional[StrictStr], Field(description="Authorization carries the surface's bearer key (`Bearer <key>`); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not `validate:\"required\"` on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses.")] = None,
         _request_timeout: Union[
@@ -847,7 +847,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_collections_serialize(
+        _param = self._get_vector_collections_serialize(
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -870,7 +870,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_collections_with_http_info(
+    def get_vector_collections_with_http_info(
         self,
         authorization: Annotated[Optional[StrictStr], Field(description="Authorization carries the surface's bearer key (`Bearer <key>`); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not `validate:\"required\"` on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses.")] = None,
         _request_timeout: Union[
@@ -914,7 +914,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_collections_serialize(
+        _param = self._get_vector_collections_serialize(
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -937,7 +937,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_collections_without_preload_content(
+    def get_vector_collections_without_preload_content(
         self,
         authorization: Annotated[Optional[StrictStr], Field(description="Authorization carries the surface's bearer key (`Bearer <key>`); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not `validate:\"required\"` on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses.")] = None,
         _request_timeout: Union[
@@ -981,7 +981,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_collections_serialize(
+        _param = self._get_vector_collections_serialize(
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -999,7 +999,7 @@ class VectorApi:
         return response_data.response
 
 
-    def _get_v1_vector_collections_serialize(
+    def _get_vector_collections_serialize(
         self,
         authorization,
         _request_auth,
@@ -1063,7 +1063,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_stats(
+    def get_vector_stats(
         self,
         authorization: Annotated[Optional[StrictStr], Field(description="Authorization carries the surface's bearer key (`Bearer <key>`); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not `validate:\"required\"` on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses.")] = None,
         _request_timeout: Union[
@@ -1107,7 +1107,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_stats_serialize(
+        _param = self._get_vector_stats_serialize(
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1130,7 +1130,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_stats_with_http_info(
+    def get_vector_stats_with_http_info(
         self,
         authorization: Annotated[Optional[StrictStr], Field(description="Authorization carries the surface's bearer key (`Bearer <key>`); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not `validate:\"required\"` on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses.")] = None,
         _request_timeout: Union[
@@ -1174,7 +1174,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_stats_serialize(
+        _param = self._get_vector_stats_serialize(
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1197,7 +1197,7 @@ class VectorApi:
 
 
     @validate_call
-    def get_v1_vector_stats_without_preload_content(
+    def get_vector_stats_without_preload_content(
         self,
         authorization: Annotated[Optional[StrictStr], Field(description="Authorization carries the surface's bearer key (`Bearer <key>`); the bare key is accepted too. Search and vector are two surfaces with two keys. It is not `validate:\"required\"` on purpose: requireKey answers absence itself, so an unconfigured surface 503s and a missing bearer 401s — a validation refusal would rewrite both statuses.")] = None,
         _request_timeout: Union[
@@ -1241,7 +1241,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_vector_stats_serialize(
+        _param = self._get_vector_stats_serialize(
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1259,7 +1259,7 @@ class VectorApi:
         return response_data.response
 
 
-    def _get_v1_vector_stats_serialize(
+    def _get_vector_stats_serialize(
         self,
         authorization,
         _request_auth,
@@ -1323,7 +1323,7 @@ class VectorApi:
 
 
     @validate_call
-    def post_v1_vector(
+    def post_vector(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -1367,7 +1367,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_vector_serialize(
+        _param = self._post_vector_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1390,7 +1390,7 @@ class VectorApi:
 
 
     @validate_call
-    def post_v1_vector_with_http_info(
+    def post_vector_with_http_info(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -1434,7 +1434,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_vector_serialize(
+        _param = self._post_vector_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1457,7 +1457,7 @@ class VectorApi:
 
 
     @validate_call
-    def post_v1_vector_without_preload_content(
+    def post_vector_without_preload_content(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -1501,7 +1501,7 @@ class VectorApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_vector_serialize(
+        _param = self._post_vector_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1519,7 +1519,7 @@ class VectorApi:
         return response_data.response
 
 
-    def _post_v1_vector_serialize(
+    def _post_vector_serialize(
         self,
         provision_request,
         _request_auth,

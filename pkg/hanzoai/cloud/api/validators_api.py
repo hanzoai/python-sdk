@@ -43,7 +43,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators(
+    def get_validators(
         self,
         limit: Annotated[Optional[StrictStr], Field(description="Limit is how many slots to return, as a decimal string in the `?limit=` query. Absent, unparseable or non-positive means 200; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_serialize(
+        _param = self._get_validators_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_with_http_info(
+    def get_validators_with_http_info(
         self,
         limit: Annotated[Optional[StrictStr], Field(description="Limit is how many slots to return, as a decimal string in the `?limit=` query. Absent, unparseable or non-positive means 200; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_serialize(
+        _param = self._get_validators_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_without_preload_content(
+    def get_validators_without_preload_content(
         self,
         limit: Annotated[Optional[StrictStr], Field(description="Limit is how many slots to return, as a decimal string in the `?limit=` query. Absent, unparseable or non-positive means 200; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_serialize(
+        _param = self._get_validators_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class ValidatorsApi:
         return response_data.response
 
 
-    def _get_v1_validators_serialize(
+    def _get_validators_serialize(
         self,
         limit,
         _request_auth,
@@ -305,7 +305,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_by_tokenid(
+    def get_validators_by_tokenid(
         self,
         token_id: Annotated[StrictStr, Field(description="TokenID is the slot's GenesisNFT token id, from the path, as a decimal string. A value that is not a positive integer is 400. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")],
         _request_timeout: Union[
@@ -349,7 +349,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_by_tokenid_serialize(
+        _param = self._get_validators_by_tokenid_serialize(
             token_id=token_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -372,7 +372,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_by_tokenid_with_http_info(
+    def get_validators_by_tokenid_with_http_info(
         self,
         token_id: Annotated[StrictStr, Field(description="TokenID is the slot's GenesisNFT token id, from the path, as a decimal string. A value that is not a positive integer is 400. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")],
         _request_timeout: Union[
@@ -416,7 +416,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_by_tokenid_serialize(
+        _param = self._get_validators_by_tokenid_serialize(
             token_id=token_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -439,7 +439,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_by_tokenid_without_preload_content(
+    def get_validators_by_tokenid_without_preload_content(
         self,
         token_id: Annotated[StrictStr, Field(description="TokenID is the slot's GenesisNFT token id, from the path, as a decimal string. A value that is not a positive integer is 400. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")],
         _request_timeout: Union[
@@ -483,7 +483,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_by_tokenid_serialize(
+        _param = self._get_validators_by_tokenid_serialize(
             token_id=token_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -501,7 +501,7 @@ class ValidatorsApi:
         return response_data.response
 
 
-    def _get_v1_validators_by_tokenid_serialize(
+    def _get_validators_by_tokenid_serialize(
         self,
         token_id,
         _request_auth,
@@ -565,7 +565,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_challenge(
+    def get_validators_challenge(
         self,
         token_id: Annotated[Optional[StrictStr], Field(description="TokenID is the Validator-tier GenesisNFT token id, as a decimal string in the `?tokenId=` query. A value that is not a positive integer is 400. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -609,7 +609,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_challenge_serialize(
+        _param = self._get_validators_challenge_serialize(
             token_id=token_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -632,7 +632,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_challenge_with_http_info(
+    def get_validators_challenge_with_http_info(
         self,
         token_id: Annotated[Optional[StrictStr], Field(description="TokenID is the Validator-tier GenesisNFT token id, as a decimal string in the `?tokenId=` query. A value that is not a positive integer is 400. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -676,7 +676,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_challenge_serialize(
+        _param = self._get_validators_challenge_serialize(
             token_id=token_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -699,7 +699,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def get_v1_validators_challenge_without_preload_content(
+    def get_validators_challenge_without_preload_content(
         self,
         token_id: Annotated[Optional[StrictStr], Field(description="TokenID is the Validator-tier GenesisNFT token id, as a decimal string in the `?tokenId=` query. A value that is not a positive integer is 400. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -743,7 +743,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_validators_challenge_serialize(
+        _param = self._get_validators_challenge_serialize(
             token_id=token_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -761,7 +761,7 @@ class ValidatorsApi:
         return response_data.response
 
 
-    def _get_v1_validators_challenge_serialize(
+    def _get_validators_challenge_serialize(
         self,
         token_id,
         _request_auth,
@@ -827,7 +827,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def post_v1_validators(
+    def post_validators(
         self,
         validator_claim: ValidatorClaim,
         _request_timeout: Union[
@@ -871,7 +871,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_validators_serialize(
+        _param = self._post_validators_serialize(
             validator_claim=validator_claim,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -894,7 +894,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def post_v1_validators_with_http_info(
+    def post_validators_with_http_info(
         self,
         validator_claim: ValidatorClaim,
         _request_timeout: Union[
@@ -938,7 +938,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_validators_serialize(
+        _param = self._post_validators_serialize(
             validator_claim=validator_claim,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -961,7 +961,7 @@ class ValidatorsApi:
 
 
     @validate_call
-    def post_v1_validators_without_preload_content(
+    def post_validators_without_preload_content(
         self,
         validator_claim: ValidatorClaim,
         _request_timeout: Union[
@@ -1005,7 +1005,7 @@ class ValidatorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_validators_serialize(
+        _param = self._post_validators_serialize(
             validator_claim=validator_claim,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1023,7 +1023,7 @@ class ValidatorsApi:
         return response_data.response
 
 
-    def _post_v1_validators_serialize(
+    def _post_validators_serialize(
         self,
         validator_claim,
         _request_auth,

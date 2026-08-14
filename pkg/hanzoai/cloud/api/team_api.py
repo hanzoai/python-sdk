@@ -45,7 +45,7 @@ class TeamApi:
 
 
     @validate_call
-    def delete_v1_team_account_cookie(
+    def delete_team_account_cookie(
         self,
         _request_timeout: Union[
             None,
@@ -86,7 +86,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_team_account_cookie_serialize(
+        _param = self._delete_team_account_cookie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -108,7 +108,7 @@ class TeamApi:
 
 
     @validate_call
-    def delete_v1_team_account_cookie_with_http_info(
+    def delete_team_account_cookie_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -149,7 +149,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_team_account_cookie_serialize(
+        _param = self._delete_team_account_cookie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -171,7 +171,7 @@ class TeamApi:
 
 
     @validate_call
-    def delete_v1_team_account_cookie_without_preload_content(
+    def delete_team_account_cookie_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -212,7 +212,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_team_account_cookie_serialize(
+        _param = self._delete_team_account_cookie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -229,7 +229,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _delete_v1_team_account_cookie_serialize(
+    def _delete_team_account_cookie_serialize(
         self,
         _request_auth,
         _content_type,
@@ -290,7 +290,7 @@ class TeamApi:
 
 
     @validate_call
-    def delete_v1_team_files_by_workspace_by_filename(
+    def delete_team_files_by_workspace_by_filename(
         self,
         workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid the blob belongs to, from the path.")],
         filename: Annotated[StrictStr, Field(description="Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`.")],
@@ -340,7 +340,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_team_files_by_workspace_by_filename_serialize(
+        _param = self._delete_team_files_by_workspace_by_filename_serialize(
             workspace=workspace,
             filename=filename,
             file=file,
@@ -365,7 +365,7 @@ class TeamApi:
 
 
     @validate_call
-    def delete_v1_team_files_by_workspace_by_filename_with_http_info(
+    def delete_team_files_by_workspace_by_filename_with_http_info(
         self,
         workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid the blob belongs to, from the path.")],
         filename: Annotated[StrictStr, Field(description="Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`.")],
@@ -415,7 +415,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_team_files_by_workspace_by_filename_serialize(
+        _param = self._delete_team_files_by_workspace_by_filename_serialize(
             workspace=workspace,
             filename=filename,
             file=file,
@@ -440,7 +440,7 @@ class TeamApi:
 
 
     @validate_call
-    def delete_v1_team_files_by_workspace_by_filename_without_preload_content(
+    def delete_team_files_by_workspace_by_filename_without_preload_content(
         self,
         workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid the blob belongs to, from the path.")],
         filename: Annotated[StrictStr, Field(description="Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`.")],
@@ -490,7 +490,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_team_files_by_workspace_by_filename_serialize(
+        _param = self._delete_team_files_by_workspace_by_filename_serialize(
             workspace=workspace,
             filename=filename,
             file=file,
@@ -510,7 +510,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _delete_v1_team_files_by_workspace_by_filename_serialize(
+    def _delete_team_files_by_workspace_by_filename_serialize(
         self,
         workspace,
         filename,
@@ -575,7 +575,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_auth_by_provider(
+    def get_team_account_auth_by_provider(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -619,7 +619,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_auth_by_provider_serialize(
+        _param = self._get_team_account_auth_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -641,7 +641,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_auth_by_provider_with_http_info(
+    def get_team_account_auth_by_provider_with_http_info(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -685,7 +685,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_auth_by_provider_serialize(
+        _param = self._get_team_account_auth_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -707,7 +707,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_auth_by_provider_without_preload_content(
+    def get_team_account_auth_by_provider_without_preload_content(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -751,7 +751,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_auth_by_provider_serialize(
+        _param = self._get_team_account_auth_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -768,7 +768,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_account_auth_by_provider_serialize(
+    def _get_team_account_auth_by_provider_serialize(
         self,
         provider,
         _request_auth,
@@ -825,7 +825,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_auth_by_provider_callback(
+    def get_team_account_auth_by_provider_callback(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -869,7 +869,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_auth_by_provider_callback_serialize(
+        _param = self._get_team_account_auth_by_provider_callback_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -891,7 +891,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_auth_by_provider_callback_with_http_info(
+    def get_team_account_auth_by_provider_callback_with_http_info(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -935,7 +935,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_auth_by_provider_callback_serialize(
+        _param = self._get_team_account_auth_by_provider_callback_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -957,7 +957,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_auth_by_provider_callback_without_preload_content(
+    def get_team_account_auth_by_provider_callback_without_preload_content(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -1001,7 +1001,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_auth_by_provider_callback_serialize(
+        _param = self._get_team_account_auth_by_provider_callback_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1018,7 +1018,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_account_auth_by_provider_callback_serialize(
+    def _get_team_account_auth_by_provider_callback_serialize(
         self,
         provider,
         _request_auth,
@@ -1075,7 +1075,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_providers(
+    def get_team_account_providers(
         self,
         _request_timeout: Union[
             None,
@@ -1116,7 +1116,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_providers_serialize(
+        _param = self._get_team_account_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1138,7 +1138,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_providers_with_http_info(
+    def get_team_account_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1179,7 +1179,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_providers_serialize(
+        _param = self._get_team_account_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1201,7 +1201,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_account_providers_without_preload_content(
+    def get_team_account_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1242,7 +1242,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_account_providers_serialize(
+        _param = self._get_team_account_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1259,7 +1259,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_account_providers_serialize(
+    def _get_team_account_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1320,7 +1320,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_plan(
+    def get_team_billing_plan(
         self,
         _request_timeout: Union[
             None,
@@ -1361,7 +1361,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_plan_serialize(
+        _param = self._get_team_billing_plan_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1383,7 +1383,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_plan_with_http_info(
+    def get_team_billing_plan_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1424,7 +1424,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_plan_serialize(
+        _param = self._get_team_billing_plan_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1446,7 +1446,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_plan_without_preload_content(
+    def get_team_billing_plan_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1487,7 +1487,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_plan_serialize(
+        _param = self._get_team_billing_plan_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1504,7 +1504,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_billing_plan_serialize(
+    def _get_team_billing_plan_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1565,7 +1565,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_ui(
+    def get_team_billing_ui(
         self,
         _request_timeout: Union[
             None,
@@ -1606,7 +1606,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_ui_serialize(
+        _param = self._get_team_billing_ui_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1627,7 +1627,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_ui_with_http_info(
+    def get_team_billing_ui_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1668,7 +1668,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_ui_serialize(
+        _param = self._get_team_billing_ui_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1689,7 +1689,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_ui_without_preload_content(
+    def get_team_billing_ui_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1730,7 +1730,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_ui_serialize(
+        _param = self._get_team_billing_ui_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1746,7 +1746,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_billing_ui_serialize(
+    def _get_team_billing_ui_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1800,7 +1800,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_ui_by_wildcard1(
+    def get_team_billing_ui_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1844,7 +1844,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_ui_by_wildcard1_serialize(
+        _param = self._get_team_billing_ui_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1866,7 +1866,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_ui_by_wildcard1_with_http_info(
+    def get_team_billing_ui_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1910,7 +1910,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_ui_by_wildcard1_serialize(
+        _param = self._get_team_billing_ui_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1932,7 +1932,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_billing_ui_by_wildcard1_without_preload_content(
+    def get_team_billing_ui_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1976,7 +1976,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_billing_ui_by_wildcard1_serialize(
+        _param = self._get_team_billing_ui_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1993,7 +1993,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_billing_ui_by_wildcard1_serialize(
+    def _get_team_billing_ui_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -2050,7 +2050,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_bots(
+    def get_team_bots(
         self,
         _request_timeout: Union[
             None,
@@ -2091,7 +2091,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_bots_serialize(
+        _param = self._get_team_bots_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2113,7 +2113,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_bots_with_http_info(
+    def get_team_bots_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2154,7 +2154,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_bots_serialize(
+        _param = self._get_team_bots_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2176,7 +2176,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_bots_without_preload_content(
+    def get_team_bots_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2217,7 +2217,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_bots_serialize(
+        _param = self._get_team_bots_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2234,7 +2234,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_bots_serialize(
+    def _get_team_bots_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2295,7 +2295,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_files_by_workspace_by_filename(
+    def get_team_files_by_workspace_by_filename(
         self,
         workspace: StrictStr,
         filename: StrictStr,
@@ -2342,7 +2342,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_files_by_workspace_by_filename_serialize(
+        _param = self._get_team_files_by_workspace_by_filename_serialize(
             workspace=workspace,
             filename=filename,
             _request_auth=_request_auth,
@@ -2365,7 +2365,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_files_by_workspace_by_filename_with_http_info(
+    def get_team_files_by_workspace_by_filename_with_http_info(
         self,
         workspace: StrictStr,
         filename: StrictStr,
@@ -2412,7 +2412,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_files_by_workspace_by_filename_serialize(
+        _param = self._get_team_files_by_workspace_by_filename_serialize(
             workspace=workspace,
             filename=filename,
             _request_auth=_request_auth,
@@ -2435,7 +2435,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_files_by_workspace_by_filename_without_preload_content(
+    def get_team_files_by_workspace_by_filename_without_preload_content(
         self,
         workspace: StrictStr,
         filename: StrictStr,
@@ -2482,7 +2482,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_files_by_workspace_by_filename_serialize(
+        _param = self._get_team_files_by_workspace_by_filename_serialize(
             workspace=workspace,
             filename=filename,
             _request_auth=_request_auth,
@@ -2500,7 +2500,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_files_by_workspace_by_filename_serialize(
+    def _get_team_files_by_workspace_by_filename_serialize(
         self,
         workspace,
         filename,
@@ -2560,7 +2560,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_api_v1_statistics(
+    def get_team_transactor_api_v1_statistics(
         self,
         token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
@@ -2604,7 +2604,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_api_v1_statistics_serialize(
+        _param = self._get_team_transactor_api_v1_statistics_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2627,7 +2627,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_api_v1_statistics_with_http_info(
+    def get_team_transactor_api_v1_statistics_with_http_info(
         self,
         token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
@@ -2671,7 +2671,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_api_v1_statistics_serialize(
+        _param = self._get_team_transactor_api_v1_statistics_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2694,7 +2694,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_api_v1_statistics_without_preload_content(
+    def get_team_transactor_api_v1_statistics_without_preload_content(
         self,
         token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
@@ -2738,7 +2738,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_api_v1_statistics_serialize(
+        _param = self._get_team_transactor_api_v1_statistics_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2756,7 +2756,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_transactor_api_v1_statistics_serialize(
+    def _get_team_transactor_api_v1_statistics_serialize(
         self,
         token,
         _request_auth,
@@ -2822,7 +2822,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_by_token(
+    def get_team_transactor_by_token(
         self,
         token: StrictStr,
         _request_timeout: Union[
@@ -2866,7 +2866,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_by_token_serialize(
+        _param = self._get_team_transactor_by_token_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2888,7 +2888,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_by_token_with_http_info(
+    def get_team_transactor_by_token_with_http_info(
         self,
         token: StrictStr,
         _request_timeout: Union[
@@ -2932,7 +2932,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_by_token_serialize(
+        _param = self._get_team_transactor_by_token_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2954,7 +2954,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_by_token_without_preload_content(
+    def get_team_transactor_by_token_without_preload_content(
         self,
         token: StrictStr,
         _request_timeout: Union[
@@ -2998,7 +2998,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_by_token_serialize(
+        _param = self._get_team_transactor_by_token_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3015,7 +3015,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_transactor_by_token_serialize(
+    def _get_team_transactor_by_token_serialize(
         self,
         token,
         _request_auth,
@@ -3072,7 +3072,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_statistics(
+    def get_team_transactor_statistics(
         self,
         token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
@@ -3116,7 +3116,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_statistics_serialize(
+        _param = self._get_team_transactor_statistics_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3139,7 +3139,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_statistics_with_http_info(
+    def get_team_transactor_statistics_with_http_info(
         self,
         token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
@@ -3183,7 +3183,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_statistics_serialize(
+        _param = self._get_team_transactor_statistics_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3206,7 +3206,7 @@ class TeamApi:
 
 
     @validate_call
-    def get_v1_team_transactor_statistics_without_preload_content(
+    def get_team_transactor_statistics_without_preload_content(
         self,
         token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
@@ -3250,7 +3250,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_team_transactor_statistics_serialize(
+        _param = self._get_team_transactor_statistics_serialize(
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3268,7 +3268,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_v1_team_transactor_statistics_serialize(
+    def _get_team_transactor_statistics_serialize(
         self,
         token,
         _request_auth,
@@ -3334,7 +3334,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_account(
+    def post_team_account(
         self,
         _request_timeout: Union[
             None,
@@ -3375,7 +3375,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_account_serialize(
+        _param = self._post_team_account_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3396,7 +3396,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_account_with_http_info(
+    def post_team_account_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3437,7 +3437,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_account_serialize(
+        _param = self._post_team_account_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3458,7 +3458,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_account_without_preload_content(
+    def post_team_account_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3499,7 +3499,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_account_serialize(
+        _param = self._post_team_account_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3515,7 +3515,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _post_v1_team_account_serialize(
+    def _post_team_account_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3569,7 +3569,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_bots_sync(
+    def post_team_bots_sync(
         self,
         _request_timeout: Union[
             None,
@@ -3610,7 +3610,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_bots_sync_serialize(
+        _param = self._post_team_bots_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3632,7 +3632,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_bots_sync_with_http_info(
+    def post_team_bots_sync_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3673,7 +3673,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_bots_sync_serialize(
+        _param = self._post_team_bots_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3695,7 +3695,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_bots_sync_without_preload_content(
+    def post_team_bots_sync_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3736,7 +3736,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_bots_sync_serialize(
+        _param = self._post_team_bots_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3753,7 +3753,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _post_v1_team_bots_sync_serialize(
+    def _post_team_bots_sync_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3814,7 +3814,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_files_by_workspace(
+    def post_team_files_by_workspace(
         self,
         workspace: StrictStr,
         _request_timeout: Union[
@@ -3858,7 +3858,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_files_by_workspace_serialize(
+        _param = self._post_team_files_by_workspace_serialize(
             workspace=workspace,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3880,7 +3880,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_files_by_workspace_with_http_info(
+    def post_team_files_by_workspace_with_http_info(
         self,
         workspace: StrictStr,
         _request_timeout: Union[
@@ -3924,7 +3924,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_files_by_workspace_serialize(
+        _param = self._post_team_files_by_workspace_serialize(
             workspace=workspace,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3946,7 +3946,7 @@ class TeamApi:
 
 
     @validate_call
-    def post_v1_team_files_by_workspace_without_preload_content(
+    def post_team_files_by_workspace_without_preload_content(
         self,
         workspace: StrictStr,
         _request_timeout: Union[
@@ -3990,7 +3990,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_team_files_by_workspace_serialize(
+        _param = self._post_team_files_by_workspace_serialize(
             workspace=workspace,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4007,7 +4007,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _post_v1_team_files_by_workspace_serialize(
+    def _post_team_files_by_workspace_serialize(
         self,
         workspace,
         _request_auth,
@@ -4064,7 +4064,7 @@ class TeamApi:
 
 
     @validate_call
-    def put_v1_team_account_cookie(
+    def put_team_account_cookie(
         self,
         _request_timeout: Union[
             None,
@@ -4105,7 +4105,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_team_account_cookie_serialize(
+        _param = self._put_team_account_cookie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4126,7 +4126,7 @@ class TeamApi:
 
 
     @validate_call
-    def put_v1_team_account_cookie_with_http_info(
+    def put_team_account_cookie_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4167,7 +4167,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_team_account_cookie_serialize(
+        _param = self._put_team_account_cookie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4188,7 +4188,7 @@ class TeamApi:
 
 
     @validate_call
-    def put_v1_team_account_cookie_without_preload_content(
+    def put_team_account_cookie_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4229,7 +4229,7 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_team_account_cookie_serialize(
+        _param = self._put_team_account_cookie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4245,7 +4245,7 @@ class TeamApi:
         return response_data.response
 
 
-    def _put_v1_team_account_cookie_serialize(
+    def _put_team_account_cookie_serialize(
         self,
         _request_auth,
         _content_type,

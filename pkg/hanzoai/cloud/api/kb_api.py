@@ -47,7 +47,7 @@ class KbApi:
 
 
     @validate_call
-    def delete_v1_kb_connectors_by_provider(
+    def delete_kb_connectors_by_provider(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -91,7 +91,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kb_connectors_by_provider_serialize(
+        _param = self._delete_kb_connectors_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -114,7 +114,7 @@ class KbApi:
 
 
     @validate_call
-    def delete_v1_kb_connectors_by_provider_with_http_info(
+    def delete_kb_connectors_by_provider_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -158,7 +158,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kb_connectors_by_provider_serialize(
+        _param = self._delete_kb_connectors_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -181,7 +181,7 @@ class KbApi:
 
 
     @validate_call
-    def delete_v1_kb_connectors_by_provider_without_preload_content(
+    def delete_kb_connectors_by_provider_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -225,7 +225,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_kb_connectors_by_provider_serialize(
+        _param = self._delete_kb_connectors_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -243,7 +243,7 @@ class KbApi:
         return response_data.response
 
 
-    def _delete_v1_kb_connectors_by_provider_serialize(
+    def _delete_kb_connectors_by_provider_serialize(
         self,
         provider,
         _request_auth,
@@ -307,7 +307,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors(
+    def get_kb_connectors(
         self,
         _request_timeout: Union[
             None,
@@ -348,7 +348,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_serialize(
+        _param = self._get_kb_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -370,7 +370,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_with_http_info(
+    def get_kb_connectors_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -411,7 +411,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_serialize(
+        _param = self._get_kb_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -433,7 +433,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_without_preload_content(
+    def get_kb_connectors_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -474,7 +474,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_serialize(
+        _param = self._get_kb_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -491,7 +491,7 @@ class KbApi:
         return response_data.response
 
 
-    def _get_v1_kb_connectors_serialize(
+    def _get_kb_connectors_serialize(
         self,
         _request_auth,
         _content_type,
@@ -552,7 +552,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_by_provider_callback(
+    def get_kb_connectors_by_provider_callback(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
         code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
@@ -605,7 +605,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_by_provider_callback_serialize(
+        _param = self._get_kb_connectors_by_provider_callback_serialize(
             provider=provider,
             code=code,
             state=state,
@@ -631,7 +631,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_by_provider_callback_with_http_info(
+    def get_kb_connectors_by_provider_callback_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
         code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
@@ -684,7 +684,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_by_provider_callback_serialize(
+        _param = self._get_kb_connectors_by_provider_callback_serialize(
             provider=provider,
             code=code,
             state=state,
@@ -710,7 +710,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_by_provider_callback_without_preload_content(
+    def get_kb_connectors_by_provider_callback_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector completing its flow, from the path.")],
         code: Annotated[Optional[StrictStr], Field(description="Code is the provider's authorization code, exchanged for a token.")] = None,
@@ -763,7 +763,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_by_provider_callback_serialize(
+        _param = self._get_kb_connectors_by_provider_callback_serialize(
             provider=provider,
             code=code,
             state=state,
@@ -784,7 +784,7 @@ class KbApi:
         return response_data.response
 
 
-    def _get_v1_kb_connectors_by_provider_callback_serialize(
+    def _get_kb_connectors_by_provider_callback_serialize(
         self,
         provider,
         code,
@@ -863,7 +863,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_by_provider_connect(
+    def get_kb_connectors_by_provider_connect(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -907,7 +907,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_by_provider_connect_serialize(
+        _param = self._get_kb_connectors_by_provider_connect_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -930,7 +930,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_by_provider_connect_with_http_info(
+    def get_kb_connectors_by_provider_connect_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -974,7 +974,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_by_provider_connect_serialize(
+        _param = self._get_kb_connectors_by_provider_connect_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -997,7 +997,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_by_provider_connect_without_preload_content(
+    def get_kb_connectors_by_provider_connect_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1041,7 +1041,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_by_provider_connect_serialize(
+        _param = self._get_kb_connectors_by_provider_connect_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1059,7 +1059,7 @@ class KbApi:
         return response_data.response
 
 
-    def _get_v1_kb_connectors_by_provider_connect_serialize(
+    def _get_kb_connectors_by_provider_connect_serialize(
         self,
         provider,
         _request_auth,
@@ -1123,7 +1123,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_catalog(
+    def get_kb_connectors_catalog(
         self,
         _request_timeout: Union[
             None,
@@ -1164,7 +1164,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_catalog_serialize(
+        _param = self._get_kb_connectors_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1186,7 +1186,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_catalog_with_http_info(
+    def get_kb_connectors_catalog_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1227,7 +1227,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_catalog_serialize(
+        _param = self._get_kb_connectors_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1249,7 +1249,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_connectors_catalog_without_preload_content(
+    def get_kb_connectors_catalog_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1290,7 +1290,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_connectors_catalog_serialize(
+        _param = self._get_kb_connectors_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1307,7 +1307,7 @@ class KbApi:
         return response_data.response
 
 
-    def _get_v1_kb_connectors_catalog_serialize(
+    def _get_kb_connectors_catalog_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1368,7 +1368,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_graph(
+    def get_kb_graph(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows the graph to one project scope. Empty reads the whole org.")] = None,
         _request_timeout: Union[
@@ -1412,7 +1412,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_graph_serialize(
+        _param = self._get_kb_graph_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1435,7 +1435,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_graph_with_http_info(
+    def get_kb_graph_with_http_info(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows the graph to one project scope. Empty reads the whole org.")] = None,
         _request_timeout: Union[
@@ -1479,7 +1479,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_graph_serialize(
+        _param = self._get_kb_graph_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1502,7 +1502,7 @@ class KbApi:
 
 
     @validate_call
-    def get_v1_kb_graph_without_preload_content(
+    def get_kb_graph_without_preload_content(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows the graph to one project scope. Empty reads the whole org.")] = None,
         _request_timeout: Union[
@@ -1546,7 +1546,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_kb_graph_serialize(
+        _param = self._get_kb_graph_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1564,7 +1564,7 @@ class KbApi:
         return response_data.response
 
 
-    def _get_v1_kb_graph_serialize(
+    def _get_kb_graph_serialize(
         self,
         project,
         _request_auth,
@@ -1630,7 +1630,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_connectors_by_provider_sync(
+    def post_kb_connectors_by_provider_sync(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1674,7 +1674,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_connectors_by_provider_sync_serialize(
+        _param = self._post_kb_connectors_by_provider_sync_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1697,7 +1697,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_connectors_by_provider_sync_with_http_info(
+    def post_kb_connectors_by_provider_sync_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1741,7 +1741,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_connectors_by_provider_sync_serialize(
+        _param = self._post_kb_connectors_by_provider_sync_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1764,7 +1764,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_connectors_by_provider_sync_without_preload_content(
+    def post_kb_connectors_by_provider_sync_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector to act on: github, slack, google or notion.")],
         _request_timeout: Union[
@@ -1808,7 +1808,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_connectors_by_provider_sync_serialize(
+        _param = self._post_kb_connectors_by_provider_sync_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1826,7 +1826,7 @@ class KbApi:
         return response_data.response
 
 
-    def _post_v1_kb_connectors_by_provider_sync_serialize(
+    def _post_kb_connectors_by_provider_sync_serialize(
         self,
         provider,
         _request_auth,
@@ -1890,7 +1890,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_import(
+    def post_kb_import(
         self,
         _request_timeout: Union[
             None,
@@ -1931,7 +1931,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_import_serialize(
+        _param = self._post_kb_import_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1952,7 +1952,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_import_with_http_info(
+    def post_kb_import_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1993,7 +1993,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_import_serialize(
+        _param = self._post_kb_import_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2014,7 +2014,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_import_without_preload_content(
+    def post_kb_import_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2055,7 +2055,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_import_serialize(
+        _param = self._post_kb_import_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2071,7 +2071,7 @@ class KbApi:
         return response_data.response
 
 
-    def _post_v1_kb_import_serialize(
+    def _post_kb_import_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2125,7 +2125,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_search(
+    def post_kb_search(
         self,
         search_in: SearchIn,
         _request_timeout: Union[
@@ -2169,7 +2169,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_search_serialize(
+        _param = self._post_kb_search_serialize(
             search_in=search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2192,7 +2192,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_search_with_http_info(
+    def post_kb_search_with_http_info(
         self,
         search_in: SearchIn,
         _request_timeout: Union[
@@ -2236,7 +2236,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_search_serialize(
+        _param = self._post_kb_search_serialize(
             search_in=search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2259,7 +2259,7 @@ class KbApi:
 
 
     @validate_call
-    def post_v1_kb_search_without_preload_content(
+    def post_kb_search_without_preload_content(
         self,
         search_in: SearchIn,
         _request_timeout: Union[
@@ -2303,7 +2303,7 @@ class KbApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_kb_search_serialize(
+        _param = self._post_kb_search_serialize(
             search_in=search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2321,7 +2321,7 @@ class KbApi:
         return response_data.response
 
 
-    def _post_v1_kb_search_serialize(
+    def _post_kb_search_serialize(
         self,
         search_in,
         _request_auth,

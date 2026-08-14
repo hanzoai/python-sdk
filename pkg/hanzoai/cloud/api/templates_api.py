@@ -42,7 +42,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def delete_v1_templates_by_slug(
+    def delete_templates_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the starter kit to act on, from the path.")],
         _request_timeout: Union[
@@ -86,7 +86,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_templates_by_slug_serialize(
+        _param = self._delete_templates_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -109,7 +109,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def delete_v1_templates_by_slug_with_http_info(
+    def delete_templates_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the starter kit to act on, from the path.")],
         _request_timeout: Union[
@@ -153,7 +153,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_templates_by_slug_serialize(
+        _param = self._delete_templates_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -176,7 +176,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def delete_v1_templates_by_slug_without_preload_content(
+    def delete_templates_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the starter kit to act on, from the path.")],
         _request_timeout: Union[
@@ -220,7 +220,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_templates_by_slug_serialize(
+        _param = self._delete_templates_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -238,7 +238,7 @@ class TemplatesApi:
         return response_data.response
 
 
-    def _delete_v1_templates_by_slug_serialize(
+    def _delete_templates_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -295,7 +295,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def get_v1_templates(
+    def get_templates(
         self,
         _request_timeout: Union[
             None,
@@ -336,7 +336,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_templates_serialize(
+        _param = self._get_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -358,7 +358,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def get_v1_templates_with_http_info(
+    def get_templates_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -399,7 +399,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_templates_serialize(
+        _param = self._get_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -421,7 +421,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def get_v1_templates_without_preload_content(
+    def get_templates_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -462,7 +462,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_templates_serialize(
+        _param = self._get_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -479,7 +479,7 @@ class TemplatesApi:
         return response_data.response
 
 
-    def _get_v1_templates_serialize(
+    def _get_templates_serialize(
         self,
         _request_auth,
         _content_type,
@@ -540,7 +540,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def get_v1_templates_by_slug(
+    def get_templates_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the starter kit to act on, from the path.")],
         _request_timeout: Union[
@@ -584,7 +584,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_templates_by_slug_serialize(
+        _param = self._get_templates_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -607,7 +607,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def get_v1_templates_by_slug_with_http_info(
+    def get_templates_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the starter kit to act on, from the path.")],
         _request_timeout: Union[
@@ -651,7 +651,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_templates_by_slug_serialize(
+        _param = self._get_templates_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -674,7 +674,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def get_v1_templates_by_slug_without_preload_content(
+    def get_templates_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the starter kit to act on, from the path.")],
         _request_timeout: Union[
@@ -718,7 +718,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_templates_by_slug_serialize(
+        _param = self._get_templates_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -736,7 +736,7 @@ class TemplatesApi:
         return response_data.response
 
 
-    def _get_v1_templates_by_slug_serialize(
+    def _get_templates_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -800,7 +800,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def post_v1_templates(
+    def post_templates(
         self,
         publish_kit_in: PublishKitIn,
         _request_timeout: Union[
@@ -844,7 +844,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_templates_serialize(
+        _param = self._post_templates_serialize(
             publish_kit_in=publish_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -867,7 +867,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def post_v1_templates_with_http_info(
+    def post_templates_with_http_info(
         self,
         publish_kit_in: PublishKitIn,
         _request_timeout: Union[
@@ -911,7 +911,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_templates_serialize(
+        _param = self._post_templates_serialize(
             publish_kit_in=publish_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -934,7 +934,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def post_v1_templates_without_preload_content(
+    def post_templates_without_preload_content(
         self,
         publish_kit_in: PublishKitIn,
         _request_timeout: Union[
@@ -978,7 +978,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_templates_serialize(
+        _param = self._post_templates_serialize(
             publish_kit_in=publish_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -996,7 +996,7 @@ class TemplatesApi:
         return response_data.response
 
 
-    def _post_v1_templates_serialize(
+    def _post_templates_serialize(
         self,
         publish_kit_in,
         _request_auth,
@@ -1073,7 +1073,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def put_v1_templates_by_slug(
+    def put_templates_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the kit to replace, from the path.")],
         replace_kit_in: ReplaceKitIn,
@@ -1120,7 +1120,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_templates_by_slug_serialize(
+        _param = self._put_templates_by_slug_serialize(
             slug=slug,
             replace_kit_in=replace_kit_in,
             _request_auth=_request_auth,
@@ -1144,7 +1144,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def put_v1_templates_by_slug_with_http_info(
+    def put_templates_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the kit to replace, from the path.")],
         replace_kit_in: ReplaceKitIn,
@@ -1191,7 +1191,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_templates_by_slug_serialize(
+        _param = self._put_templates_by_slug_serialize(
             slug=slug,
             replace_kit_in=replace_kit_in,
             _request_auth=_request_auth,
@@ -1215,7 +1215,7 @@ class TemplatesApi:
 
 
     @validate_call
-    def put_v1_templates_by_slug_without_preload_content(
+    def put_templates_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the kit to replace, from the path.")],
         replace_kit_in: ReplaceKitIn,
@@ -1262,7 +1262,7 @@ class TemplatesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_templates_by_slug_serialize(
+        _param = self._put_templates_by_slug_serialize(
             slug=slug,
             replace_kit_in=replace_kit_in,
             _request_auth=_request_auth,
@@ -1281,7 +1281,7 @@ class TemplatesApi:
         return response_data.response
 
 
-    def _put_v1_templates_by_slug_serialize(
+    def _put_templates_by_slug_serialize(
         self,
         slug,
         replace_kit_in,

@@ -47,7 +47,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_findings(
+    def get_security_findings(
         self,
         scan_id: Annotated[Optional[StrictStr], Field(description="ScanID narrows to a single scan.")] = None,
         min_severity: Annotated[Optional[StrictStr], Field(description="MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".")] = None,
@@ -97,7 +97,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_findings_serialize(
+        _param = self._get_security_findings_serialize(
             scan_id=scan_id,
             min_severity=min_severity,
             limit=limit,
@@ -122,7 +122,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_findings_with_http_info(
+    def get_security_findings_with_http_info(
         self,
         scan_id: Annotated[Optional[StrictStr], Field(description="ScanID narrows to a single scan.")] = None,
         min_severity: Annotated[Optional[StrictStr], Field(description="MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".")] = None,
@@ -172,7 +172,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_findings_serialize(
+        _param = self._get_security_findings_serialize(
             scan_id=scan_id,
             min_severity=min_severity,
             limit=limit,
@@ -197,7 +197,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_findings_without_preload_content(
+    def get_security_findings_without_preload_content(
         self,
         scan_id: Annotated[Optional[StrictStr], Field(description="ScanID narrows to a single scan.")] = None,
         min_severity: Annotated[Optional[StrictStr], Field(description="MinSeverity drops everything below that rank: critical, high, medium or low. A value outside that set is refused rather than quietly ignored, so a filter typo cannot read as \"no findings\".")] = None,
@@ -247,7 +247,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_findings_serialize(
+        _param = self._get_security_findings_serialize(
             scan_id=scan_id,
             min_severity=min_severity,
             limit=limit,
@@ -267,7 +267,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _get_v1_security_findings_serialize(
+    def _get_security_findings_serialize(
         self,
         scan_id,
         min_severity,
@@ -343,7 +343,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_findings_by_id(
+    def get_security_findings_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the finding the URL names.")],
         _request_timeout: Union[
@@ -387,7 +387,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_findings_by_id_serialize(
+        _param = self._get_security_findings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -410,7 +410,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_findings_by_id_with_http_info(
+    def get_security_findings_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the finding the URL names.")],
         _request_timeout: Union[
@@ -454,7 +454,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_findings_by_id_serialize(
+        _param = self._get_security_findings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -477,7 +477,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_findings_by_id_without_preload_content(
+    def get_security_findings_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the finding the URL names.")],
         _request_timeout: Union[
@@ -521,7 +521,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_findings_by_id_serialize(
+        _param = self._get_security_findings_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -539,7 +539,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _get_v1_security_findings_by_id_serialize(
+    def _get_security_findings_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -603,7 +603,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_health(
+    def get_security_health(
         self,
         _request_timeout: Union[
             None,
@@ -644,7 +644,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_health_serialize(
+        _param = self._get_security_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -666,7 +666,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_health_with_http_info(
+    def get_security_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -707,7 +707,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_health_serialize(
+        _param = self._get_security_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -729,7 +729,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_health_without_preload_content(
+    def get_security_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -770,7 +770,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_health_serialize(
+        _param = self._get_security_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -787,7 +787,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _get_v1_security_health_serialize(
+    def _get_security_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -848,7 +848,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_rules(
+    def get_security_rules(
         self,
         _request_timeout: Union[
             None,
@@ -889,7 +889,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_rules_serialize(
+        _param = self._get_security_rules_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -911,7 +911,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_rules_with_http_info(
+    def get_security_rules_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -952,7 +952,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_rules_serialize(
+        _param = self._get_security_rules_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -974,7 +974,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_rules_without_preload_content(
+    def get_security_rules_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1015,7 +1015,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_rules_serialize(
+        _param = self._get_security_rules_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1032,7 +1032,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _get_v1_security_rules_serialize(
+    def _get_security_rules_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1093,7 +1093,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_scans(
+    def get_security_scans(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
@@ -1137,7 +1137,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_scans_serialize(
+        _param = self._get_security_scans_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1160,7 +1160,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_scans_with_http_info(
+    def get_security_scans_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
@@ -1204,7 +1204,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_scans_serialize(
+        _param = self._get_security_scans_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1227,7 +1227,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_scans_without_preload_content(
+    def get_security_scans_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page.")] = None,
         _request_timeout: Union[
@@ -1271,7 +1271,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_scans_serialize(
+        _param = self._get_security_scans_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1289,7 +1289,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _get_v1_security_scans_serialize(
+    def _get_security_scans_serialize(
         self,
         limit,
         _request_auth,
@@ -1355,7 +1355,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_scans_by_id(
+    def get_security_scans_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the scan the URL names.")],
         _request_timeout: Union[
@@ -1399,7 +1399,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_scans_by_id_serialize(
+        _param = self._get_security_scans_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1422,7 +1422,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_scans_by_id_with_http_info(
+    def get_security_scans_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the scan the URL names.")],
         _request_timeout: Union[
@@ -1466,7 +1466,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_scans_by_id_serialize(
+        _param = self._get_security_scans_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1489,7 +1489,7 @@ class SecurityApi:
 
 
     @validate_call
-    def get_v1_security_scans_by_id_without_preload_content(
+    def get_security_scans_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the scan the URL names.")],
         _request_timeout: Union[
@@ -1533,7 +1533,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_security_scans_by_id_serialize(
+        _param = self._get_security_scans_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1551,7 +1551,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _get_v1_security_scans_by_id_serialize(
+    def _get_security_scans_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1615,7 +1615,7 @@ class SecurityApi:
 
 
     @validate_call
-    def post_v1_security_scans(
+    def post_security_scans(
         self,
         submit_req: SubmitReq,
         _request_timeout: Union[
@@ -1659,7 +1659,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_security_scans_serialize(
+        _param = self._post_security_scans_serialize(
             submit_req=submit_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1682,7 +1682,7 @@ class SecurityApi:
 
 
     @validate_call
-    def post_v1_security_scans_with_http_info(
+    def post_security_scans_with_http_info(
         self,
         submit_req: SubmitReq,
         _request_timeout: Union[
@@ -1726,7 +1726,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_security_scans_serialize(
+        _param = self._post_security_scans_serialize(
             submit_req=submit_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1749,7 +1749,7 @@ class SecurityApi:
 
 
     @validate_call
-    def post_v1_security_scans_without_preload_content(
+    def post_security_scans_without_preload_content(
         self,
         submit_req: SubmitReq,
         _request_timeout: Union[
@@ -1793,7 +1793,7 @@ class SecurityApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_security_scans_serialize(
+        _param = self._post_security_scans_serialize(
             submit_req=submit_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1811,7 +1811,7 @@ class SecurityApi:
         return response_data.response
 
 
-    def _post_v1_security_scans_serialize(
+    def _post_security_scans_serialize(
         self,
         submit_req,
         _request_auth,

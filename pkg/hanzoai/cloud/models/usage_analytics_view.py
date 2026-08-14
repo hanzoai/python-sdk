@@ -32,7 +32,7 @@ class UsageAnalyticsView(BaseModel):
     export: Optional[StrictBool] = Field(default=None, description="Export is whether the resolved plan allows exporting these rows.")
     plan: Optional[StrictStr] = Field(default=None, description="Plan echoes the plan id the entitlement was resolved from.")
     providers: Optional[ProviderBreakdown] = Field(default=None, description="Providers is the per-provider roll-up over the window.")
-    range: Optional[StrictStr] = Field(default=None, description="Range is the window label that was served, which is what was asked for.")
+    range: Optional[StrictStr] = Field(default=None, description="Range is the label that was ASKED for. A plan whose retention is shorter than that window is served the retention instead, so read start and end for the window the rows actually cover and retentionDays for the reason — on a clamped read the label is longer than what was served.")
     retention_days: Optional[StrictInt] = Field(default=None, description="RetentionDays is how far back the resolved plan allows reading.", alias="retentionDays")
     scope: Optional[UsageScope] = Field(default=None, description="Scope is the tenant the rows were read under — the validated principal's org.")
     start: Optional[StrictStr] = Field(default=None, description="Start is the window's inclusive start, RFC3339 UTC, AFTER the retention clamp — so it may be later than the start that was asked for.")

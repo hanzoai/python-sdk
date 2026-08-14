@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.aim_actor_stat import AimActorStat
 from hanzoai.cloud.models.aim_evals import AimEvals
 from hanzoai.cloud.models.aim_lf_model_stat import AimLfModelStat
 from hanzoai.cloud.models.aim_model_stat import AimModelStat
@@ -43,9 +44,10 @@ class AiMetrics(BaseModel):
     score_names: Optional[List[AimScoreStat]] = Field(default=None, description="eval_scores per score-name", alias="scoreNames")
     score_series: Optional[List[AimScorePoint]] = Field(default=None, description="avg eval score over time (progress trend)", alias="scoreSeries")
     start: Optional[StrictStr] = None
+    top_actors: Optional[List[AimActorStat]] = Field(default=None, description="TopActors is per-PRINCIPAL spend from the same ledger — whose bill it is, which the per-model board cannot answer.", alias="topActors")
     top_models: Optional[List[AimModelStat]] = Field(default=None, description="cloud_usage per-model (populated today)", alias="topModels")
     usage: Optional[AimUsage] = None
-    __properties: ClassVar[List[str]] = ["end", "evalRuns", "evals", "o11yAi", "o11yAiModels", "range", "scoreNames", "scoreSeries", "start", "topModels", "usage"]
+    __properties: ClassVar[List[str]] = ["end", "evalRuns", "evals", "o11yAi", "o11yAiModels", "range", "scoreNames", "scoreSeries", "start", "topActors", "topModels", "usage"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -120,6 +122,13 @@ class AiMetrics(BaseModel):
                 if _item_score_series:
                     _items.append(_item_score_series.to_dict())
             _dict['scoreSeries'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in top_actors (list)
+        _items = []
+        if self.top_actors:
+            for _item_top_actors in self.top_actors:
+                if _item_top_actors:
+                    _items.append(_item_top_actors.to_dict())
+            _dict['topActors'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in top_models (list)
         _items = []
         if self.top_models:
@@ -151,6 +160,7 @@ class AiMetrics(BaseModel):
             "scoreNames": [AimScoreStat.from_dict(_item) for _item in obj["scoreNames"]] if obj.get("scoreNames") is not None else None,
             "scoreSeries": [AimScorePoint.from_dict(_item) for _item in obj["scoreSeries"]] if obj.get("scoreSeries") is not None else None,
             "start": obj.get("start"),
+            "topActors": [AimActorStat.from_dict(_item) for _item in obj["topActors"]] if obj.get("topActors") is not None else None,
             "topModels": [AimModelStat.from_dict(_item) for _item in obj["topModels"]] if obj.get("topModels") is not None else None,
             "usage": AimUsage.from_dict(obj["usage"]) if obj.get("usage") is not None else None
         })

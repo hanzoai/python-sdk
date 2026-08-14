@@ -43,7 +43,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def delete_v1_destinations_by_platform(
+    def delete_destinations_by_platform(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_destinations_by_platform_serialize(
+        _param = self._delete_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def delete_v1_destinations_by_platform_with_http_info(
+    def delete_destinations_by_platform_with_http_info(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_destinations_by_platform_serialize(
+        _param = self._delete_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def delete_v1_destinations_by_platform_without_preload_content(
+    def delete_destinations_by_platform_without_preload_content(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_destinations_by_platform_serialize(
+        _param = self._delete_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _delete_v1_destinations_by_platform_serialize(
+    def _delete_destinations_by_platform_serialize(
         self,
         platform,
         _request_auth,
@@ -303,7 +303,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations(
+    def get_destinations(
         self,
         _request_timeout: Union[
             None,
@@ -344,7 +344,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_serialize(
+        _param = self._get_destinations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -366,7 +366,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_with_http_info(
+    def get_destinations_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -407,7 +407,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_serialize(
+        _param = self._get_destinations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -429,7 +429,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_without_preload_content(
+    def get_destinations_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -470,7 +470,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_serialize(
+        _param = self._get_destinations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -487,7 +487,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _get_v1_destinations_serialize(
+    def _get_destinations_serialize(
         self,
         _request_auth,
         _content_type,
@@ -548,7 +548,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_by_platform(
+    def get_destinations_by_platform(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -592,7 +592,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_by_platform_serialize(
+        _param = self._get_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -615,7 +615,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_by_platform_with_http_info(
+    def get_destinations_by_platform_with_http_info(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -659,7 +659,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_by_platform_serialize(
+        _param = self._get_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -682,7 +682,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def get_v1_destinations_by_platform_without_preload_content(
+    def get_destinations_by_platform_without_preload_content(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -726,7 +726,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_destinations_by_platform_serialize(
+        _param = self._get_destinations_by_platform_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -744,7 +744,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _get_v1_destinations_by_platform_serialize(
+    def _get_destinations_by_platform_serialize(
         self,
         platform,
         _request_auth,
@@ -808,7 +808,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_by_platform(
+    def post_destinations_by_platform(
         self,
         platform: StrictStr,
         request_body: Optional[Dict[str, Any]] = None,
@@ -855,7 +855,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_by_platform_serialize(
+        _param = self._post_destinations_by_platform_serialize(
             platform=platform,
             request_body=request_body,
             _request_auth=_request_auth,
@@ -879,7 +879,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_by_platform_with_http_info(
+    def post_destinations_by_platform_with_http_info(
         self,
         platform: StrictStr,
         request_body: Optional[Dict[str, Any]] = None,
@@ -926,7 +926,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_by_platform_serialize(
+        _param = self._post_destinations_by_platform_serialize(
             platform=platform,
             request_body=request_body,
             _request_auth=_request_auth,
@@ -950,7 +950,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_by_platform_without_preload_content(
+    def post_destinations_by_platform_without_preload_content(
         self,
         platform: StrictStr,
         request_body: Optional[Dict[str, Any]] = None,
@@ -997,7 +997,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_by_platform_serialize(
+        _param = self._post_destinations_by_platform_serialize(
             platform=platform,
             request_body=request_body,
             _request_auth=_request_auth,
@@ -1016,7 +1016,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _post_v1_destinations_by_platform_serialize(
+    def _post_destinations_by_platform_serialize(
         self,
         platform,
         request_body,
@@ -1096,7 +1096,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_by_platform_test(
+    def post_destinations_by_platform_test(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -1140,7 +1140,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_by_platform_test_serialize(
+        _param = self._post_destinations_by_platform_test_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1163,7 +1163,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_by_platform_test_with_http_info(
+    def post_destinations_by_platform_test_with_http_info(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -1207,7 +1207,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_by_platform_test_serialize(
+        _param = self._post_destinations_by_platform_test_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1230,7 +1230,7 @@ class DestinationsApi:
 
 
     @validate_call
-    def post_v1_destinations_by_platform_test_without_preload_content(
+    def post_destinations_by_platform_test_without_preload_content(
         self,
         platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | posthog | umami.")],
         _request_timeout: Union[
@@ -1274,7 +1274,7 @@ class DestinationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_destinations_by_platform_test_serialize(
+        _param = self._post_destinations_by_platform_test_serialize(
             platform=platform,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1292,7 +1292,7 @@ class DestinationsApi:
         return response_data.response
 
 
-    def _post_v1_destinations_by_platform_test_serialize(
+    def _post_destinations_by_platform_test_serialize(
         self,
         platform,
         _request_auth,

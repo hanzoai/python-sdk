@@ -37,7 +37,7 @@ class FilesApi:
 
 
     @validate_call
-    def get_v1_files_by_sid(
+    def get_files_by_sid(
         self,
         sid: StrictStr,
         _request_timeout: Union[
@@ -81,7 +81,7 @@ class FilesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_files_by_sid_serialize(
+        _param = self._get_files_by_sid_serialize(
             sid=sid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class FilesApi:
 
 
     @validate_call
-    def get_v1_files_by_sid_with_http_info(
+    def get_files_by_sid_with_http_info(
         self,
         sid: StrictStr,
         _request_timeout: Union[
@@ -147,7 +147,7 @@ class FilesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_files_by_sid_serialize(
+        _param = self._get_files_by_sid_serialize(
             sid=sid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class FilesApi:
 
 
     @validate_call
-    def get_v1_files_by_sid_without_preload_content(
+    def get_files_by_sid_without_preload_content(
         self,
         sid: StrictStr,
         _request_timeout: Union[
@@ -213,7 +213,7 @@ class FilesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_files_by_sid_serialize(
+        _param = self._get_files_by_sid_serialize(
             sid=sid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class FilesApi:
         return response_data.response
 
 
-    def _get_v1_files_by_sid_serialize(
+    def _get_files_by_sid_serialize(
         self,
         sid,
         _request_auth,

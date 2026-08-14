@@ -38,7 +38,7 @@ class CodingApi:
 
 
     @validate_call
-    def post_v1_coding(
+    def post_coding(
         self,
         coding_start_in: CodingStartIn,
         _request_timeout: Union[
@@ -56,7 +56,7 @@ class CodingApi:
     ) -> CodingStarted:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Is the app's door. It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
 
         :param coding_start_in: (required)
         :type coding_start_in: CodingStartIn
@@ -82,7 +82,7 @@ class CodingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_coding_serialize(
+        _param = self._post_coding_serialize(
             coding_start_in=coding_start_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -105,7 +105,7 @@ class CodingApi:
 
 
     @validate_call
-    def post_v1_coding_with_http_info(
+    def post_coding_with_http_info(
         self,
         coding_start_in: CodingStartIn,
         _request_timeout: Union[
@@ -123,7 +123,7 @@ class CodingApi:
     ) -> ApiResponse[CodingStarted]:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Is the app's door. It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
 
         :param coding_start_in: (required)
         :type coding_start_in: CodingStartIn
@@ -149,7 +149,7 @@ class CodingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_coding_serialize(
+        _param = self._post_coding_serialize(
             coding_start_in=coding_start_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -172,7 +172,7 @@ class CodingApi:
 
 
     @validate_call
-    def post_v1_coding_without_preload_content(
+    def post_coding_without_preload_content(
         self,
         coding_start_in: CodingStartIn,
         _request_timeout: Union[
@@ -190,7 +190,7 @@ class CodingApi:
     ) -> RESTResponseType:
         """Start one autonomous coding run against a repo in the caller's org
 
-        Is the app's door. It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agents/sessions/{id}/stream), so this door does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
 
         :param coding_start_in: (required)
         :type coding_start_in: CodingStartIn
@@ -216,7 +216,7 @@ class CodingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_coding_serialize(
+        _param = self._post_coding_serialize(
             coding_start_in=coding_start_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -234,7 +234,7 @@ class CodingApi:
         return response_data.response
 
 
-    def _post_v1_coding_serialize(
+    def _post_coding_serialize(
         self,
         coding_start_in,
         _request_auth,

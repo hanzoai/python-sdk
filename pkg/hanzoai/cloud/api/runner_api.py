@@ -42,7 +42,7 @@ class RunnerApi:
 
 
     @validate_call
-    def get_v1_runner_releases(
+    def get_runner_releases(
         self,
         _request_timeout: Union[
             None,
@@ -83,7 +83,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_runner_releases_serialize(
+        _param = self._get_runner_releases_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -105,7 +105,7 @@ class RunnerApi:
 
 
     @validate_call
-    def get_v1_runner_releases_with_http_info(
+    def get_runner_releases_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -146,7 +146,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_runner_releases_serialize(
+        _param = self._get_runner_releases_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -168,7 +168,7 @@ class RunnerApi:
 
 
     @validate_call
-    def get_v1_runner_releases_without_preload_content(
+    def get_runner_releases_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -209,7 +209,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_runner_releases_serialize(
+        _param = self._get_runner_releases_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -226,7 +226,7 @@ class RunnerApi:
         return response_data.response
 
 
-    def _get_v1_runner_releases_serialize(
+    def _get_runner_releases_serialize(
         self,
         _request_auth,
         _content_type,
@@ -287,7 +287,7 @@ class RunnerApi:
 
 
     @validate_call
-    def get_v1_runner_releases_by_id(
+    def get_runner_releases_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the build id the release trigger answered with, from the path.")],
         _request_timeout: Union[
@@ -331,7 +331,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_runner_releases_by_id_serialize(
+        _param = self._get_runner_releases_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -354,7 +354,7 @@ class RunnerApi:
 
 
     @validate_call
-    def get_v1_runner_releases_by_id_with_http_info(
+    def get_runner_releases_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the build id the release trigger answered with, from the path.")],
         _request_timeout: Union[
@@ -398,7 +398,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_runner_releases_by_id_serialize(
+        _param = self._get_runner_releases_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -421,7 +421,7 @@ class RunnerApi:
 
 
     @validate_call
-    def get_v1_runner_releases_by_id_without_preload_content(
+    def get_runner_releases_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the build id the release trigger answered with, from the path.")],
         _request_timeout: Union[
@@ -465,7 +465,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_runner_releases_by_id_serialize(
+        _param = self._get_runner_releases_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -483,7 +483,7 @@ class RunnerApi:
         return response_data.response
 
 
-    def _get_v1_runner_releases_by_id_serialize(
+    def _get_runner_releases_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -547,7 +547,7 @@ class RunnerApi:
 
 
     @validate_call
-    def post_v1_runner(
+    def post_runner(
         self,
         runner_build_req: RunnerBuildReq,
         _request_timeout: Union[
@@ -591,7 +591,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_runner_serialize(
+        _param = self._post_runner_serialize(
             runner_build_req=runner_build_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -614,7 +614,7 @@ class RunnerApi:
 
 
     @validate_call
-    def post_v1_runner_with_http_info(
+    def post_runner_with_http_info(
         self,
         runner_build_req: RunnerBuildReq,
         _request_timeout: Union[
@@ -658,7 +658,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_runner_serialize(
+        _param = self._post_runner_serialize(
             runner_build_req=runner_build_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -681,7 +681,7 @@ class RunnerApi:
 
 
     @validate_call
-    def post_v1_runner_without_preload_content(
+    def post_runner_without_preload_content(
         self,
         runner_build_req: RunnerBuildReq,
         _request_timeout: Union[
@@ -725,7 +725,7 @@ class RunnerApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_runner_serialize(
+        _param = self._post_runner_serialize(
             runner_build_req=runner_build_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -743,7 +743,7 @@ class RunnerApi:
         return response_data.response
 
 
-    def _post_v1_runner_serialize(
+    def _post_runner_serialize(
         self,
         runner_build_req,
         _request_auth,

@@ -37,7 +37,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_collection_by_collectionid(
+    def delete_commerce_collection_by_collectionid(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -81,7 +81,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._delete_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_collection_by_collectionid_with_http_info(
+    def delete_commerce_collection_by_collectionid_with_http_info(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -147,7 +147,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._delete_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_collection_by_collectionid_without_preload_content(
+    def delete_commerce_collection_by_collectionid_without_preload_content(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -213,7 +213,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._delete_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_collection_by_collectionid_serialize(
+    def _delete_commerce_collection_by_collectionid_serialize(
         self,
         collectionid,
         _request_auth,
@@ -287,7 +287,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_disclosure_by_disclosureid(
+    def delete_commerce_disclosure_by_disclosureid(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -331,7 +331,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._delete_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -353,7 +353,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_disclosure_by_disclosureid_with_http_info(
+    def delete_commerce_disclosure_by_disclosureid_with_http_info(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -397,7 +397,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._delete_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -419,7 +419,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_disclosure_by_disclosureid_without_preload_content(
+    def delete_commerce_disclosure_by_disclosureid_without_preload_content(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -463,7 +463,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._delete_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -480,7 +480,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_disclosure_by_disclosureid_serialize(
+    def _delete_commerce_disclosure_by_disclosureid_serialize(
         self,
         disclosureid,
         _request_auth,
@@ -537,7 +537,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_discount_by_discountid(
+    def delete_commerce_discount_by_discountid(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -581,7 +581,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_discount_by_discountid_serialize(
+        _param = self._delete_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -603,7 +603,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_discount_by_discountid_with_http_info(
+    def delete_commerce_discount_by_discountid_with_http_info(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -647,7 +647,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_discount_by_discountid_serialize(
+        _param = self._delete_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -669,7 +669,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_discount_by_discountid_without_preload_content(
+    def delete_commerce_discount_by_discountid_without_preload_content(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -713,7 +713,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_discount_by_discountid_serialize(
+        _param = self._delete_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -730,7 +730,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_discount_by_discountid_serialize(
+    def _delete_commerce_discount_by_discountid_serialize(
         self,
         discountid,
         _request_auth,
@@ -787,7 +787,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_movie_by_movieid(
+    def delete_commerce_movie_by_movieid(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -831,7 +831,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_movie_by_movieid_serialize(
+        _param = self._delete_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -853,7 +853,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_movie_by_movieid_with_http_info(
+    def delete_commerce_movie_by_movieid_with_http_info(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -897,7 +897,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_movie_by_movieid_serialize(
+        _param = self._delete_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -919,7 +919,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_movie_by_movieid_without_preload_content(
+    def delete_commerce_movie_by_movieid_without_preload_content(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -963,7 +963,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_movie_by_movieid_serialize(
+        _param = self._delete_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -980,7 +980,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_movie_by_movieid_serialize(
+    def _delete_commerce_movie_by_movieid_serialize(
         self,
         movieid,
         _request_auth,
@@ -1037,7 +1037,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_note_by_noteid(
+    def delete_commerce_note_by_noteid(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -1081,7 +1081,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_note_by_noteid_serialize(
+        _param = self._delete_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1103,7 +1103,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_note_by_noteid_with_http_info(
+    def delete_commerce_note_by_noteid_with_http_info(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -1147,7 +1147,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_note_by_noteid_serialize(
+        _param = self._delete_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1169,7 +1169,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_note_by_noteid_without_preload_content(
+    def delete_commerce_note_by_noteid_without_preload_content(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -1213,7 +1213,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_note_by_noteid_serialize(
+        _param = self._delete_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1230,7 +1230,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_note_by_noteid_serialize(
+    def _delete_commerce_note_by_noteid_serialize(
         self,
         noteid,
         _request_auth,
@@ -1287,7 +1287,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_product_by_productid(
+    def delete_commerce_product_by_productid(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -1331,7 +1331,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_product_by_productid_serialize(
+        _param = self._delete_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1353,7 +1353,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_product_by_productid_with_http_info(
+    def delete_commerce_product_by_productid_with_http_info(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -1397,7 +1397,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_product_by_productid_serialize(
+        _param = self._delete_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1419,7 +1419,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_product_by_productid_without_preload_content(
+    def delete_commerce_product_by_productid_without_preload_content(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -1463,7 +1463,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_product_by_productid_serialize(
+        _param = self._delete_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1480,7 +1480,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_product_by_productid_serialize(
+    def _delete_commerce_product_by_productid_serialize(
         self,
         productid,
         _request_auth,
@@ -1537,7 +1537,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_return_by_returnid(
+    def delete_commerce_return_by_returnid(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -1581,7 +1581,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_return_by_returnid_serialize(
+        _param = self._delete_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1603,7 +1603,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_return_by_returnid_with_http_info(
+    def delete_commerce_return_by_returnid_with_http_info(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -1647,7 +1647,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_return_by_returnid_serialize(
+        _param = self._delete_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1669,7 +1669,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_return_by_returnid_without_preload_content(
+    def delete_commerce_return_by_returnid_without_preload_content(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -1713,7 +1713,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_return_by_returnid_serialize(
+        _param = self._delete_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1730,7 +1730,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_return_by_returnid_serialize(
+    def _delete_commerce_return_by_returnid_serialize(
         self,
         returnid,
         _request_auth,
@@ -1787,7 +1787,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_saleschannel_by_saleschannelid(
+    def delete_commerce_saleschannel_by_saleschannelid(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -1831,7 +1831,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._delete_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1853,7 +1853,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_saleschannel_by_saleschannelid_with_http_info(
+    def delete_commerce_saleschannel_by_saleschannelid_with_http_info(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -1897,7 +1897,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._delete_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1919,7 +1919,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_saleschannel_by_saleschannelid_without_preload_content(
+    def delete_commerce_saleschannel_by_saleschannelid_without_preload_content(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -1963,7 +1963,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._delete_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1980,7 +1980,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_saleschannel_by_saleschannelid_serialize(
+    def _delete_commerce_saleschannel_by_saleschannelid_serialize(
         self,
         saleschannelid,
         _request_auth,
@@ -2037,7 +2037,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_stocklocation_by_stocklocationid(
+    def delete_commerce_stocklocation_by_stocklocationid(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -2081,7 +2081,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._delete_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2103,7 +2103,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_stocklocation_by_stocklocationid_with_http_info(
+    def delete_commerce_stocklocation_by_stocklocationid_with_http_info(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -2147,7 +2147,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._delete_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2169,7 +2169,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_stocklocation_by_stocklocationid_without_preload_content(
+    def delete_commerce_stocklocation_by_stocklocationid_without_preload_content(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -2213,7 +2213,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._delete_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2230,7 +2230,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_stocklocation_by_stocklocationid_serialize(
+    def _delete_commerce_stocklocation_by_stocklocationid_serialize(
         self,
         stocklocationid,
         _request_auth,
@@ -2287,7 +2287,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_submission_by_submissionid(
+    def delete_commerce_submission_by_submissionid(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -2331,7 +2331,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._delete_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2353,7 +2353,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_submission_by_submissionid_with_http_info(
+    def delete_commerce_submission_by_submissionid_with_http_info(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -2397,7 +2397,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._delete_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2419,7 +2419,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_submission_by_submissionid_without_preload_content(
+    def delete_commerce_submission_by_submissionid_without_preload_content(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -2463,7 +2463,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._delete_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2480,7 +2480,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_submission_by_submissionid_serialize(
+    def _delete_commerce_submission_by_submissionid_serialize(
         self,
         submissionid,
         _request_auth,
@@ -2537,7 +2537,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_subscriber_by_subscriberid(
+    def delete_commerce_subscriber_by_subscriberid(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -2581,7 +2581,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._delete_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2603,7 +2603,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_subscriber_by_subscriberid_with_http_info(
+    def delete_commerce_subscriber_by_subscriberid_with_http_info(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -2647,7 +2647,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._delete_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2669,7 +2669,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_subscriber_by_subscriberid_without_preload_content(
+    def delete_commerce_subscriber_by_subscriberid_without_preload_content(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -2713,7 +2713,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._delete_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2730,7 +2730,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_subscriber_by_subscriberid_serialize(
+    def _delete_commerce_subscriber_by_subscriberid_serialize(
         self,
         subscriberid,
         _request_auth,
@@ -2787,7 +2787,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_tokentransaction_by_tokentransactionid(
+    def delete_commerce_tokentransaction_by_tokentransactionid(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -2831,7 +2831,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._delete_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2853,7 +2853,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_tokentransaction_by_tokentransactionid_with_http_info(
+    def delete_commerce_tokentransaction_by_tokentransactionid_with_http_info(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -2897,7 +2897,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._delete_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2919,7 +2919,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
+    def delete_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -2963,7 +2963,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._delete_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2980,7 +2980,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+    def _delete_commerce_tokentransaction_by_tokentransactionid_serialize(
         self,
         tokentransactionid,
         _request_auth,
@@ -3037,7 +3037,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_transfer_by_transferid(
+    def delete_commerce_transfer_by_transferid(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -3081,7 +3081,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._delete_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3103,7 +3103,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_transfer_by_transferid_with_http_info(
+    def delete_commerce_transfer_by_transferid_with_http_info(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -3147,7 +3147,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._delete_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3169,7 +3169,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_transfer_by_transferid_without_preload_content(
+    def delete_commerce_transfer_by_transferid_without_preload_content(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -3213,7 +3213,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._delete_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3230,7 +3230,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_transfer_by_transferid_serialize(
+    def _delete_commerce_transfer_by_transferid_serialize(
         self,
         transferid,
         _request_auth,
@@ -3287,7 +3287,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_variant_by_variantid(
+    def delete_commerce_variant_by_variantid(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -3331,7 +3331,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_variant_by_variantid_serialize(
+        _param = self._delete_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3353,7 +3353,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_variant_by_variantid_with_http_info(
+    def delete_commerce_variant_by_variantid_with_http_info(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -3397,7 +3397,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_variant_by_variantid_serialize(
+        _param = self._delete_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3419,7 +3419,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_variant_by_variantid_without_preload_content(
+    def delete_commerce_variant_by_variantid_without_preload_content(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -3463,7 +3463,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_variant_by_variantid_serialize(
+        _param = self._delete_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3480,7 +3480,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_variant_by_variantid_serialize(
+    def _delete_commerce_variant_by_variantid_serialize(
         self,
         variantid,
         _request_auth,
@@ -3537,7 +3537,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_wallet_by_walletid(
+    def delete_commerce_wallet_by_walletid(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -3581,7 +3581,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._delete_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3603,7 +3603,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_wallet_by_walletid_with_http_info(
+    def delete_commerce_wallet_by_walletid_with_http_info(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -3647,7 +3647,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._delete_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3669,7 +3669,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_wallet_by_walletid_without_preload_content(
+    def delete_commerce_wallet_by_walletid_without_preload_content(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -3713,7 +3713,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._delete_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3730,7 +3730,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_wallet_by_walletid_serialize(
+    def _delete_commerce_wallet_by_walletid_serialize(
         self,
         walletid,
         _request_auth,
@@ -3787,7 +3787,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_watchlist_by_watchlistid(
+    def delete_commerce_watchlist_by_watchlistid(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -3831,7 +3831,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._delete_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3853,7 +3853,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_watchlist_by_watchlistid_with_http_info(
+    def delete_commerce_watchlist_by_watchlistid_with_http_info(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -3897,7 +3897,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._delete_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3919,7 +3919,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_watchlist_by_watchlistid_without_preload_content(
+    def delete_commerce_watchlist_by_watchlistid_without_preload_content(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -3963,7 +3963,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._delete_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3980,7 +3980,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_watchlist_by_watchlistid_serialize(
+    def _delete_commerce_watchlist_by_watchlistid_serialize(
         self,
         watchlistid,
         _request_auth,
@@ -4037,7 +4037,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_webhook_by_webhookid(
+    def delete_commerce_webhook_by_webhookid(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -4081,7 +4081,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._delete_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4103,7 +4103,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_webhook_by_webhookid_with_http_info(
+    def delete_commerce_webhook_by_webhookid_with_http_info(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -4147,7 +4147,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._delete_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4169,7 +4169,7 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_v1_commerce_webhook_by_webhookid_without_preload_content(
+    def delete_commerce_webhook_by_webhookid_without_preload_content(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -4213,7 +4213,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._delete_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4230,7 +4230,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_v1_commerce_webhook_by_webhookid_serialize(
+    def _delete_commerce_webhook_by_webhookid_serialize(
         self,
         webhookid,
         _request_auth,
@@ -4287,7 +4287,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_admin_catalog(
+    def get_commerce_admin_catalog(
         self,
         _request_timeout: Union[
             None,
@@ -4328,7 +4328,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_admin_catalog_serialize(
+        _param = self._get_commerce_admin_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4349,7 +4349,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_admin_catalog_with_http_info(
+    def get_commerce_admin_catalog_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4390,7 +4390,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_admin_catalog_serialize(
+        _param = self._get_commerce_admin_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4411,7 +4411,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_admin_catalog_without_preload_content(
+    def get_commerce_admin_catalog_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4452,7 +4452,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_admin_catalog_serialize(
+        _param = self._get_commerce_admin_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4468,7 +4468,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_admin_catalog_serialize(
+    def _get_commerce_admin_catalog_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4522,7 +4522,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_catalog(
+    def get_commerce_catalog(
         self,
         _request_timeout: Union[
             None,
@@ -4563,7 +4563,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_catalog_serialize(
+        _param = self._get_commerce_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4584,7 +4584,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_catalog_with_http_info(
+    def get_commerce_catalog_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4625,7 +4625,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_catalog_serialize(
+        _param = self._get_commerce_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4646,7 +4646,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_catalog_without_preload_content(
+    def get_commerce_catalog_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4687,7 +4687,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_catalog_serialize(
+        _param = self._get_commerce_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4703,7 +4703,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_catalog_serialize(
+    def _get_commerce_catalog_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4757,7 +4757,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_collection(
+    def get_commerce_collection(
         self,
         _request_timeout: Union[
             None,
@@ -4798,7 +4798,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_collection_serialize(
+        _param = self._get_commerce_collection_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4819,7 +4819,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_collection_with_http_info(
+    def get_commerce_collection_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4860,7 +4860,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_collection_serialize(
+        _param = self._get_commerce_collection_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4881,7 +4881,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_collection_without_preload_content(
+    def get_commerce_collection_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4922,7 +4922,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_collection_serialize(
+        _param = self._get_commerce_collection_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4938,7 +4938,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_collection_serialize(
+    def _get_commerce_collection_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4992,7 +4992,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_collection_by_collectionid(
+    def get_commerce_collection_by_collectionid(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -5036,7 +5036,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._get_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5058,7 +5058,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_collection_by_collectionid_with_http_info(
+    def get_commerce_collection_by_collectionid_with_http_info(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -5102,7 +5102,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._get_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5124,7 +5124,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_collection_by_collectionid_without_preload_content(
+    def get_commerce_collection_by_collectionid_without_preload_content(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -5168,7 +5168,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._get_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5185,7 +5185,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_collection_by_collectionid_serialize(
+    def _get_commerce_collection_by_collectionid_serialize(
         self,
         collectionid,
         _request_auth,
@@ -5242,7 +5242,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_currencies(
+    def get_commerce_currencies(
         self,
         _request_timeout: Union[
             None,
@@ -5283,7 +5283,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_currencies_serialize(
+        _param = self._get_commerce_currencies_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5304,7 +5304,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_currencies_with_http_info(
+    def get_commerce_currencies_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5345,7 +5345,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_currencies_serialize(
+        _param = self._get_commerce_currencies_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5366,7 +5366,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_currencies_without_preload_content(
+    def get_commerce_currencies_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5407,7 +5407,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_currencies_serialize(
+        _param = self._get_commerce_currencies_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5423,7 +5423,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_currencies_serialize(
+    def _get_commerce_currencies_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5477,7 +5477,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_disclosure(
+    def get_commerce_disclosure(
         self,
         _request_timeout: Union[
             None,
@@ -5518,7 +5518,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_disclosure_serialize(
+        _param = self._get_commerce_disclosure_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5539,7 +5539,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_disclosure_with_http_info(
+    def get_commerce_disclosure_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5580,7 +5580,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_disclosure_serialize(
+        _param = self._get_commerce_disclosure_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5601,7 +5601,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_disclosure_without_preload_content(
+    def get_commerce_disclosure_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5642,7 +5642,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_disclosure_serialize(
+        _param = self._get_commerce_disclosure_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5658,7 +5658,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_disclosure_serialize(
+    def _get_commerce_disclosure_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5712,7 +5712,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_disclosure_by_disclosureid(
+    def get_commerce_disclosure_by_disclosureid(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -5756,7 +5756,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._get_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5778,7 +5778,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_disclosure_by_disclosureid_with_http_info(
+    def get_commerce_disclosure_by_disclosureid_with_http_info(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -5822,7 +5822,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._get_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5844,7 +5844,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_disclosure_by_disclosureid_without_preload_content(
+    def get_commerce_disclosure_by_disclosureid_without_preload_content(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -5888,7 +5888,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._get_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5905,7 +5905,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_disclosure_by_disclosureid_serialize(
+    def _get_commerce_disclosure_by_disclosureid_serialize(
         self,
         disclosureid,
         _request_auth,
@@ -5962,7 +5962,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_discount(
+    def get_commerce_discount(
         self,
         _request_timeout: Union[
             None,
@@ -6003,7 +6003,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_discount_serialize(
+        _param = self._get_commerce_discount_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6024,7 +6024,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_discount_with_http_info(
+    def get_commerce_discount_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6065,7 +6065,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_discount_serialize(
+        _param = self._get_commerce_discount_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6086,7 +6086,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_discount_without_preload_content(
+    def get_commerce_discount_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6127,7 +6127,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_discount_serialize(
+        _param = self._get_commerce_discount_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6143,7 +6143,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_discount_serialize(
+    def _get_commerce_discount_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6197,7 +6197,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_discount_by_discountid(
+    def get_commerce_discount_by_discountid(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -6241,7 +6241,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_discount_by_discountid_serialize(
+        _param = self._get_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6263,7 +6263,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_discount_by_discountid_with_http_info(
+    def get_commerce_discount_by_discountid_with_http_info(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -6307,7 +6307,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_discount_by_discountid_serialize(
+        _param = self._get_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6329,7 +6329,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_discount_by_discountid_without_preload_content(
+    def get_commerce_discount_by_discountid_without_preload_content(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -6373,7 +6373,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_discount_by_discountid_serialize(
+        _param = self._get_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6390,7 +6390,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_discount_by_discountid_serialize(
+    def _get_commerce_discount_by_discountid_serialize(
         self,
         discountid,
         _request_auth,
@@ -6447,7 +6447,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_movie(
+    def get_commerce_movie(
         self,
         _request_timeout: Union[
             None,
@@ -6488,7 +6488,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_movie_serialize(
+        _param = self._get_commerce_movie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6509,7 +6509,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_movie_with_http_info(
+    def get_commerce_movie_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6550,7 +6550,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_movie_serialize(
+        _param = self._get_commerce_movie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6571,7 +6571,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_movie_without_preload_content(
+    def get_commerce_movie_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6612,7 +6612,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_movie_serialize(
+        _param = self._get_commerce_movie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6628,7 +6628,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_movie_serialize(
+    def _get_commerce_movie_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6682,7 +6682,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_movie_by_movieid(
+    def get_commerce_movie_by_movieid(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -6726,7 +6726,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_movie_by_movieid_serialize(
+        _param = self._get_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6748,7 +6748,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_movie_by_movieid_with_http_info(
+    def get_commerce_movie_by_movieid_with_http_info(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -6792,7 +6792,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_movie_by_movieid_serialize(
+        _param = self._get_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6814,7 +6814,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_movie_by_movieid_without_preload_content(
+    def get_commerce_movie_by_movieid_without_preload_content(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -6858,7 +6858,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_movie_by_movieid_serialize(
+        _param = self._get_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6875,7 +6875,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_movie_by_movieid_serialize(
+    def _get_commerce_movie_by_movieid_serialize(
         self,
         movieid,
         _request_auth,
@@ -6932,7 +6932,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_note(
+    def get_commerce_note(
         self,
         _request_timeout: Union[
             None,
@@ -6973,7 +6973,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_note_serialize(
+        _param = self._get_commerce_note_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6994,7 +6994,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_note_with_http_info(
+    def get_commerce_note_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7035,7 +7035,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_note_serialize(
+        _param = self._get_commerce_note_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7056,7 +7056,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_note_without_preload_content(
+    def get_commerce_note_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7097,7 +7097,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_note_serialize(
+        _param = self._get_commerce_note_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7113,7 +7113,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_note_serialize(
+    def _get_commerce_note_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7167,7 +7167,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_note_by_noteid(
+    def get_commerce_note_by_noteid(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -7211,7 +7211,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_note_by_noteid_serialize(
+        _param = self._get_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7233,7 +7233,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_note_by_noteid_with_http_info(
+    def get_commerce_note_by_noteid_with_http_info(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -7277,7 +7277,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_note_by_noteid_serialize(
+        _param = self._get_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7299,7 +7299,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_note_by_noteid_without_preload_content(
+    def get_commerce_note_by_noteid_without_preload_content(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -7343,7 +7343,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_note_by_noteid_serialize(
+        _param = self._get_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7360,7 +7360,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_note_by_noteid_serialize(
+    def _get_commerce_note_by_noteid_serialize(
         self,
         noteid,
         _request_auth,
@@ -7417,7 +7417,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_org(
+    def get_commerce_org(
         self,
         _request_timeout: Union[
             None,
@@ -7458,7 +7458,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_org_serialize(
+        _param = self._get_commerce_org_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7479,7 +7479,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_org_with_http_info(
+    def get_commerce_org_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7520,7 +7520,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_org_serialize(
+        _param = self._get_commerce_org_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7541,7 +7541,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_org_without_preload_content(
+    def get_commerce_org_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7582,7 +7582,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_org_serialize(
+        _param = self._get_commerce_org_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7598,7 +7598,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_org_serialize(
+    def _get_commerce_org_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7652,7 +7652,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_product(
+    def get_commerce_product(
         self,
         _request_timeout: Union[
             None,
@@ -7693,7 +7693,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_product_serialize(
+        _param = self._get_commerce_product_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7714,7 +7714,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_product_with_http_info(
+    def get_commerce_product_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7755,7 +7755,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_product_serialize(
+        _param = self._get_commerce_product_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7776,7 +7776,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_product_without_preload_content(
+    def get_commerce_product_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7817,7 +7817,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_product_serialize(
+        _param = self._get_commerce_product_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7833,7 +7833,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_product_serialize(
+    def _get_commerce_product_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7887,7 +7887,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_product_by_productid(
+    def get_commerce_product_by_productid(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -7931,7 +7931,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_product_by_productid_serialize(
+        _param = self._get_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7953,7 +7953,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_product_by_productid_with_http_info(
+    def get_commerce_product_by_productid_with_http_info(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -7997,7 +7997,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_product_by_productid_serialize(
+        _param = self._get_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8019,7 +8019,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_product_by_productid_without_preload_content(
+    def get_commerce_product_by_productid_without_preload_content(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -8063,7 +8063,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_product_by_productid_serialize(
+        _param = self._get_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8080,7 +8080,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_product_by_productid_serialize(
+    def _get_commerce_product_by_productid_serialize(
         self,
         productid,
         _request_auth,
@@ -8137,7 +8137,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_return(
+    def get_commerce_return(
         self,
         _request_timeout: Union[
             None,
@@ -8178,7 +8178,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_return_serialize(
+        _param = self._get_commerce_return_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8199,7 +8199,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_return_with_http_info(
+    def get_commerce_return_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8240,7 +8240,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_return_serialize(
+        _param = self._get_commerce_return_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8261,7 +8261,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_return_without_preload_content(
+    def get_commerce_return_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8302,7 +8302,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_return_serialize(
+        _param = self._get_commerce_return_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8318,7 +8318,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_return_serialize(
+    def _get_commerce_return_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8372,7 +8372,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_return_by_returnid(
+    def get_commerce_return_by_returnid(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -8416,7 +8416,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_return_by_returnid_serialize(
+        _param = self._get_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8438,7 +8438,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_return_by_returnid_with_http_info(
+    def get_commerce_return_by_returnid_with_http_info(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -8482,7 +8482,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_return_by_returnid_serialize(
+        _param = self._get_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8504,7 +8504,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_return_by_returnid_without_preload_content(
+    def get_commerce_return_by_returnid_without_preload_content(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -8548,7 +8548,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_return_by_returnid_serialize(
+        _param = self._get_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8565,7 +8565,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_return_by_returnid_serialize(
+    def _get_commerce_return_by_returnid_serialize(
         self,
         returnid,
         _request_auth,
@@ -8622,7 +8622,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_saleschannel(
+    def get_commerce_saleschannel(
         self,
         _request_timeout: Union[
             None,
@@ -8663,7 +8663,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_saleschannel_serialize(
+        _param = self._get_commerce_saleschannel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8684,7 +8684,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_saleschannel_with_http_info(
+    def get_commerce_saleschannel_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8725,7 +8725,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_saleschannel_serialize(
+        _param = self._get_commerce_saleschannel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8746,7 +8746,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_saleschannel_without_preload_content(
+    def get_commerce_saleschannel_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8787,7 +8787,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_saleschannel_serialize(
+        _param = self._get_commerce_saleschannel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8803,7 +8803,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_saleschannel_serialize(
+    def _get_commerce_saleschannel_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8857,7 +8857,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_saleschannel_by_saleschannelid(
+    def get_commerce_saleschannel_by_saleschannelid(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -8901,7 +8901,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._get_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8923,7 +8923,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_saleschannel_by_saleschannelid_with_http_info(
+    def get_commerce_saleschannel_by_saleschannelid_with_http_info(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -8967,7 +8967,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._get_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8989,7 +8989,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_saleschannel_by_saleschannelid_without_preload_content(
+    def get_commerce_saleschannel_by_saleschannelid_without_preload_content(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -9033,7 +9033,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._get_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9050,7 +9050,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_saleschannel_by_saleschannelid_serialize(
+    def _get_commerce_saleschannel_by_saleschannelid_serialize(
         self,
         saleschannelid,
         _request_auth,
@@ -9107,7 +9107,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_stocklocation(
+    def get_commerce_stocklocation(
         self,
         _request_timeout: Union[
             None,
@@ -9148,7 +9148,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_stocklocation_serialize(
+        _param = self._get_commerce_stocklocation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9169,7 +9169,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_stocklocation_with_http_info(
+    def get_commerce_stocklocation_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -9210,7 +9210,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_stocklocation_serialize(
+        _param = self._get_commerce_stocklocation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9231,7 +9231,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_stocklocation_without_preload_content(
+    def get_commerce_stocklocation_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -9272,7 +9272,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_stocklocation_serialize(
+        _param = self._get_commerce_stocklocation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9288,7 +9288,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_stocklocation_serialize(
+    def _get_commerce_stocklocation_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9342,7 +9342,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_stocklocation_by_stocklocationid(
+    def get_commerce_stocklocation_by_stocklocationid(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -9386,7 +9386,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._get_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9408,7 +9408,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_stocklocation_by_stocklocationid_with_http_info(
+    def get_commerce_stocklocation_by_stocklocationid_with_http_info(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -9452,7 +9452,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._get_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9474,7 +9474,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_stocklocation_by_stocklocationid_without_preload_content(
+    def get_commerce_stocklocation_by_stocklocationid_without_preload_content(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -9518,7 +9518,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._get_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9535,7 +9535,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_stocklocation_by_stocklocationid_serialize(
+    def _get_commerce_stocklocation_by_stocklocationid_serialize(
         self,
         stocklocationid,
         _request_auth,
@@ -9592,7 +9592,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_submission(
+    def get_commerce_submission(
         self,
         _request_timeout: Union[
             None,
@@ -9633,7 +9633,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_submission_serialize(
+        _param = self._get_commerce_submission_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9654,7 +9654,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_submission_with_http_info(
+    def get_commerce_submission_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -9695,7 +9695,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_submission_serialize(
+        _param = self._get_commerce_submission_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9716,7 +9716,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_submission_without_preload_content(
+    def get_commerce_submission_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -9757,7 +9757,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_submission_serialize(
+        _param = self._get_commerce_submission_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9773,7 +9773,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_submission_serialize(
+    def _get_commerce_submission_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9827,7 +9827,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_submission_by_submissionid(
+    def get_commerce_submission_by_submissionid(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -9871,7 +9871,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._get_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9893,7 +9893,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_submission_by_submissionid_with_http_info(
+    def get_commerce_submission_by_submissionid_with_http_info(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -9937,7 +9937,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._get_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9959,7 +9959,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_submission_by_submissionid_without_preload_content(
+    def get_commerce_submission_by_submissionid_without_preload_content(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -10003,7 +10003,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._get_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10020,7 +10020,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_submission_by_submissionid_serialize(
+    def _get_commerce_submission_by_submissionid_serialize(
         self,
         submissionid,
         _request_auth,
@@ -10077,7 +10077,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_subscriber(
+    def get_commerce_subscriber(
         self,
         _request_timeout: Union[
             None,
@@ -10118,7 +10118,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_subscriber_serialize(
+        _param = self._get_commerce_subscriber_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10139,7 +10139,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_subscriber_with_http_info(
+    def get_commerce_subscriber_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10180,7 +10180,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_subscriber_serialize(
+        _param = self._get_commerce_subscriber_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10201,7 +10201,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_subscriber_without_preload_content(
+    def get_commerce_subscriber_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10242,7 +10242,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_subscriber_serialize(
+        _param = self._get_commerce_subscriber_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10258,7 +10258,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_subscriber_serialize(
+    def _get_commerce_subscriber_serialize(
         self,
         _request_auth,
         _content_type,
@@ -10312,7 +10312,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_subscriber_by_subscriberid(
+    def get_commerce_subscriber_by_subscriberid(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -10356,7 +10356,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._get_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10378,7 +10378,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_subscriber_by_subscriberid_with_http_info(
+    def get_commerce_subscriber_by_subscriberid_with_http_info(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -10422,7 +10422,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._get_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10444,7 +10444,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_subscriber_by_subscriberid_without_preload_content(
+    def get_commerce_subscriber_by_subscriberid_without_preload_content(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -10488,7 +10488,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._get_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10505,7 +10505,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_subscriber_by_subscriberid_serialize(
+    def _get_commerce_subscriber_by_subscriberid_serialize(
         self,
         subscriberid,
         _request_auth,
@@ -10562,7 +10562,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_tokentransaction(
+    def get_commerce_tokentransaction(
         self,
         _request_timeout: Union[
             None,
@@ -10603,7 +10603,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_tokentransaction_serialize(
+        _param = self._get_commerce_tokentransaction_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10624,7 +10624,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_tokentransaction_with_http_info(
+    def get_commerce_tokentransaction_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10665,7 +10665,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_tokentransaction_serialize(
+        _param = self._get_commerce_tokentransaction_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10686,7 +10686,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_tokentransaction_without_preload_content(
+    def get_commerce_tokentransaction_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10727,7 +10727,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_tokentransaction_serialize(
+        _param = self._get_commerce_tokentransaction_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10743,7 +10743,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_tokentransaction_serialize(
+    def _get_commerce_tokentransaction_serialize(
         self,
         _request_auth,
         _content_type,
@@ -10797,7 +10797,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_tokentransaction_by_tokentransactionid(
+    def get_commerce_tokentransaction_by_tokentransactionid(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -10841,7 +10841,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._get_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10863,7 +10863,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_tokentransaction_by_tokentransactionid_with_http_info(
+    def get_commerce_tokentransaction_by_tokentransactionid_with_http_info(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -10907,7 +10907,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._get_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10929,7 +10929,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
+    def get_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -10973,7 +10973,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._get_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10990,7 +10990,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+    def _get_commerce_tokentransaction_by_tokentransactionid_serialize(
         self,
         tokentransactionid,
         _request_auth,
@@ -11047,7 +11047,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_transfer(
+    def get_commerce_transfer(
         self,
         _request_timeout: Union[
             None,
@@ -11088,7 +11088,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_transfer_serialize(
+        _param = self._get_commerce_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11109,7 +11109,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_transfer_with_http_info(
+    def get_commerce_transfer_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -11150,7 +11150,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_transfer_serialize(
+        _param = self._get_commerce_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11171,7 +11171,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_transfer_without_preload_content(
+    def get_commerce_transfer_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11212,7 +11212,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_transfer_serialize(
+        _param = self._get_commerce_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11228,7 +11228,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_transfer_serialize(
+    def _get_commerce_transfer_serialize(
         self,
         _request_auth,
         _content_type,
@@ -11282,7 +11282,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_transfer_by_transferid(
+    def get_commerce_transfer_by_transferid(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -11326,7 +11326,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._get_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11348,7 +11348,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_transfer_by_transferid_with_http_info(
+    def get_commerce_transfer_by_transferid_with_http_info(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -11392,7 +11392,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._get_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11414,7 +11414,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_transfer_by_transferid_without_preload_content(
+    def get_commerce_transfer_by_transferid_without_preload_content(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -11458,7 +11458,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._get_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11475,7 +11475,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_transfer_by_transferid_serialize(
+    def _get_commerce_transfer_by_transferid_serialize(
         self,
         transferid,
         _request_auth,
@@ -11532,7 +11532,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_variant(
+    def get_commerce_variant(
         self,
         _request_timeout: Union[
             None,
@@ -11573,7 +11573,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_variant_serialize(
+        _param = self._get_commerce_variant_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11594,7 +11594,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_variant_with_http_info(
+    def get_commerce_variant_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -11635,7 +11635,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_variant_serialize(
+        _param = self._get_commerce_variant_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11656,7 +11656,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_variant_without_preload_content(
+    def get_commerce_variant_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11697,7 +11697,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_variant_serialize(
+        _param = self._get_commerce_variant_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11713,7 +11713,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_variant_serialize(
+    def _get_commerce_variant_serialize(
         self,
         _request_auth,
         _content_type,
@@ -11767,7 +11767,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_variant_by_variantid(
+    def get_commerce_variant_by_variantid(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -11811,7 +11811,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_variant_by_variantid_serialize(
+        _param = self._get_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11833,7 +11833,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_variant_by_variantid_with_http_info(
+    def get_commerce_variant_by_variantid_with_http_info(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -11877,7 +11877,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_variant_by_variantid_serialize(
+        _param = self._get_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11899,7 +11899,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_variant_by_variantid_without_preload_content(
+    def get_commerce_variant_by_variantid_without_preload_content(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -11943,7 +11943,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_variant_by_variantid_serialize(
+        _param = self._get_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11960,7 +11960,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_variant_by_variantid_serialize(
+    def _get_commerce_variant_by_variantid_serialize(
         self,
         variantid,
         _request_auth,
@@ -12017,7 +12017,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_wallet(
+    def get_commerce_wallet(
         self,
         _request_timeout: Union[
             None,
@@ -12058,7 +12058,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_wallet_serialize(
+        _param = self._get_commerce_wallet_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12079,7 +12079,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_wallet_with_http_info(
+    def get_commerce_wallet_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -12120,7 +12120,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_wallet_serialize(
+        _param = self._get_commerce_wallet_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12141,7 +12141,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_wallet_without_preload_content(
+    def get_commerce_wallet_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -12182,7 +12182,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_wallet_serialize(
+        _param = self._get_commerce_wallet_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12198,7 +12198,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_wallet_serialize(
+    def _get_commerce_wallet_serialize(
         self,
         _request_auth,
         _content_type,
@@ -12252,7 +12252,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_wallet_by_walletid(
+    def get_commerce_wallet_by_walletid(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -12296,7 +12296,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._get_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12318,7 +12318,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_wallet_by_walletid_with_http_info(
+    def get_commerce_wallet_by_walletid_with_http_info(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -12362,7 +12362,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._get_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12384,7 +12384,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_wallet_by_walletid_without_preload_content(
+    def get_commerce_wallet_by_walletid_without_preload_content(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -12428,7 +12428,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._get_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12445,7 +12445,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_wallet_by_walletid_serialize(
+    def _get_commerce_wallet_by_walletid_serialize(
         self,
         walletid,
         _request_auth,
@@ -12502,7 +12502,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_watchlist(
+    def get_commerce_watchlist(
         self,
         _request_timeout: Union[
             None,
@@ -12543,7 +12543,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_watchlist_serialize(
+        _param = self._get_commerce_watchlist_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12564,7 +12564,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_watchlist_with_http_info(
+    def get_commerce_watchlist_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -12605,7 +12605,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_watchlist_serialize(
+        _param = self._get_commerce_watchlist_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12626,7 +12626,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_watchlist_without_preload_content(
+    def get_commerce_watchlist_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -12667,7 +12667,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_watchlist_serialize(
+        _param = self._get_commerce_watchlist_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12683,7 +12683,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_watchlist_serialize(
+    def _get_commerce_watchlist_serialize(
         self,
         _request_auth,
         _content_type,
@@ -12737,7 +12737,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_watchlist_by_watchlistid(
+    def get_commerce_watchlist_by_watchlistid(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -12781,7 +12781,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._get_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12803,7 +12803,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_watchlist_by_watchlistid_with_http_info(
+    def get_commerce_watchlist_by_watchlistid_with_http_info(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -12847,7 +12847,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._get_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12869,7 +12869,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_watchlist_by_watchlistid_without_preload_content(
+    def get_commerce_watchlist_by_watchlistid_without_preload_content(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -12913,7 +12913,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._get_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -12930,7 +12930,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_watchlist_by_watchlistid_serialize(
+    def _get_commerce_watchlist_by_watchlistid_serialize(
         self,
         watchlistid,
         _request_auth,
@@ -12987,7 +12987,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_webhook(
+    def get_commerce_webhook(
         self,
         _request_timeout: Union[
             None,
@@ -13028,7 +13028,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_webhook_serialize(
+        _param = self._get_commerce_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13049,7 +13049,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_webhook_with_http_info(
+    def get_commerce_webhook_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -13090,7 +13090,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_webhook_serialize(
+        _param = self._get_commerce_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13111,7 +13111,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_webhook_without_preload_content(
+    def get_commerce_webhook_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -13152,7 +13152,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_webhook_serialize(
+        _param = self._get_commerce_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13168,7 +13168,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_webhook_serialize(
+    def _get_commerce_webhook_serialize(
         self,
         _request_auth,
         _content_type,
@@ -13222,7 +13222,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_webhook_by_webhookid(
+    def get_commerce_webhook_by_webhookid(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -13266,7 +13266,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._get_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13288,7 +13288,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_webhook_by_webhookid_with_http_info(
+    def get_commerce_webhook_by_webhookid_with_http_info(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -13332,7 +13332,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._get_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13354,7 +13354,7 @@ class CommerceApi:
 
 
     @validate_call
-    def get_v1_commerce_webhook_by_webhookid_without_preload_content(
+    def get_commerce_webhook_by_webhookid_without_preload_content(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -13398,7 +13398,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._get_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13415,7 +13415,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _get_v1_commerce_webhook_by_webhookid_serialize(
+    def _get_commerce_webhook_by_webhookid_serialize(
         self,
         webhookid,
         _request_auth,
@@ -13472,7 +13472,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_collection_by_collectionid(
+    def patch_commerce_collection_by_collectionid(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -13516,7 +13516,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._patch_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13538,7 +13538,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_collection_by_collectionid_with_http_info(
+    def patch_commerce_collection_by_collectionid_with_http_info(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -13582,7 +13582,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._patch_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13604,7 +13604,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_collection_by_collectionid_without_preload_content(
+    def patch_commerce_collection_by_collectionid_without_preload_content(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -13648,7 +13648,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._patch_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13665,7 +13665,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_collection_by_collectionid_serialize(
+    def _patch_commerce_collection_by_collectionid_serialize(
         self,
         collectionid,
         _request_auth,
@@ -13722,7 +13722,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_disclosure_by_disclosureid(
+    def patch_commerce_disclosure_by_disclosureid(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -13766,7 +13766,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._patch_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13788,7 +13788,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_disclosure_by_disclosureid_with_http_info(
+    def patch_commerce_disclosure_by_disclosureid_with_http_info(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -13832,7 +13832,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._patch_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13854,7 +13854,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_disclosure_by_disclosureid_without_preload_content(
+    def patch_commerce_disclosure_by_disclosureid_without_preload_content(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -13898,7 +13898,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._patch_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -13915,7 +13915,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_disclosure_by_disclosureid_serialize(
+    def _patch_commerce_disclosure_by_disclosureid_serialize(
         self,
         disclosureid,
         _request_auth,
@@ -13972,7 +13972,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_discount_by_discountid(
+    def patch_commerce_discount_by_discountid(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -14016,7 +14016,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_discount_by_discountid_serialize(
+        _param = self._patch_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14038,7 +14038,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_discount_by_discountid_with_http_info(
+    def patch_commerce_discount_by_discountid_with_http_info(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -14082,7 +14082,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_discount_by_discountid_serialize(
+        _param = self._patch_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14104,7 +14104,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_discount_by_discountid_without_preload_content(
+    def patch_commerce_discount_by_discountid_without_preload_content(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -14148,7 +14148,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_discount_by_discountid_serialize(
+        _param = self._patch_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14165,7 +14165,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_discount_by_discountid_serialize(
+    def _patch_commerce_discount_by_discountid_serialize(
         self,
         discountid,
         _request_auth,
@@ -14222,7 +14222,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_movie_by_movieid(
+    def patch_commerce_movie_by_movieid(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -14266,7 +14266,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_movie_by_movieid_serialize(
+        _param = self._patch_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14288,7 +14288,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_movie_by_movieid_with_http_info(
+    def patch_commerce_movie_by_movieid_with_http_info(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -14332,7 +14332,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_movie_by_movieid_serialize(
+        _param = self._patch_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14354,7 +14354,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_movie_by_movieid_without_preload_content(
+    def patch_commerce_movie_by_movieid_without_preload_content(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -14398,7 +14398,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_movie_by_movieid_serialize(
+        _param = self._patch_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14415,7 +14415,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_movie_by_movieid_serialize(
+    def _patch_commerce_movie_by_movieid_serialize(
         self,
         movieid,
         _request_auth,
@@ -14472,7 +14472,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_note_by_noteid(
+    def patch_commerce_note_by_noteid(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -14516,7 +14516,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_note_by_noteid_serialize(
+        _param = self._patch_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14538,7 +14538,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_note_by_noteid_with_http_info(
+    def patch_commerce_note_by_noteid_with_http_info(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -14582,7 +14582,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_note_by_noteid_serialize(
+        _param = self._patch_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14604,7 +14604,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_note_by_noteid_without_preload_content(
+    def patch_commerce_note_by_noteid_without_preload_content(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -14648,7 +14648,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_note_by_noteid_serialize(
+        _param = self._patch_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14665,7 +14665,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_note_by_noteid_serialize(
+    def _patch_commerce_note_by_noteid_serialize(
         self,
         noteid,
         _request_auth,
@@ -14722,7 +14722,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_product_by_productid(
+    def patch_commerce_product_by_productid(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -14766,7 +14766,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_product_by_productid_serialize(
+        _param = self._patch_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14788,7 +14788,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_product_by_productid_with_http_info(
+    def patch_commerce_product_by_productid_with_http_info(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -14832,7 +14832,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_product_by_productid_serialize(
+        _param = self._patch_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14854,7 +14854,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_product_by_productid_without_preload_content(
+    def patch_commerce_product_by_productid_without_preload_content(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -14898,7 +14898,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_product_by_productid_serialize(
+        _param = self._patch_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -14915,7 +14915,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_product_by_productid_serialize(
+    def _patch_commerce_product_by_productid_serialize(
         self,
         productid,
         _request_auth,
@@ -14972,7 +14972,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_return_by_returnid(
+    def patch_commerce_return_by_returnid(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -15016,7 +15016,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_return_by_returnid_serialize(
+        _param = self._patch_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15038,7 +15038,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_return_by_returnid_with_http_info(
+    def patch_commerce_return_by_returnid_with_http_info(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -15082,7 +15082,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_return_by_returnid_serialize(
+        _param = self._patch_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15104,7 +15104,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_return_by_returnid_without_preload_content(
+    def patch_commerce_return_by_returnid_without_preload_content(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -15148,7 +15148,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_return_by_returnid_serialize(
+        _param = self._patch_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15165,7 +15165,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_return_by_returnid_serialize(
+    def _patch_commerce_return_by_returnid_serialize(
         self,
         returnid,
         _request_auth,
@@ -15222,7 +15222,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_saleschannel_by_saleschannelid(
+    def patch_commerce_saleschannel_by_saleschannelid(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -15266,7 +15266,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._patch_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15288,7 +15288,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_saleschannel_by_saleschannelid_with_http_info(
+    def patch_commerce_saleschannel_by_saleschannelid_with_http_info(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -15332,7 +15332,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._patch_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15354,7 +15354,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_saleschannel_by_saleschannelid_without_preload_content(
+    def patch_commerce_saleschannel_by_saleschannelid_without_preload_content(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -15398,7 +15398,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._patch_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15415,7 +15415,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_saleschannel_by_saleschannelid_serialize(
+    def _patch_commerce_saleschannel_by_saleschannelid_serialize(
         self,
         saleschannelid,
         _request_auth,
@@ -15472,7 +15472,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_stocklocation_by_stocklocationid(
+    def patch_commerce_stocklocation_by_stocklocationid(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -15516,7 +15516,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._patch_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15538,7 +15538,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_stocklocation_by_stocklocationid_with_http_info(
+    def patch_commerce_stocklocation_by_stocklocationid_with_http_info(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -15582,7 +15582,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._patch_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15604,7 +15604,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_stocklocation_by_stocklocationid_without_preload_content(
+    def patch_commerce_stocklocation_by_stocklocationid_without_preload_content(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -15648,7 +15648,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._patch_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15665,7 +15665,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_stocklocation_by_stocklocationid_serialize(
+    def _patch_commerce_stocklocation_by_stocklocationid_serialize(
         self,
         stocklocationid,
         _request_auth,
@@ -15722,7 +15722,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_submission_by_submissionid(
+    def patch_commerce_submission_by_submissionid(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -15766,7 +15766,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._patch_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15788,7 +15788,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_submission_by_submissionid_with_http_info(
+    def patch_commerce_submission_by_submissionid_with_http_info(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -15832,7 +15832,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._patch_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15854,7 +15854,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_submission_by_submissionid_without_preload_content(
+    def patch_commerce_submission_by_submissionid_without_preload_content(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -15898,7 +15898,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._patch_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -15915,7 +15915,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_submission_by_submissionid_serialize(
+    def _patch_commerce_submission_by_submissionid_serialize(
         self,
         submissionid,
         _request_auth,
@@ -15972,7 +15972,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_subscriber_by_subscriberid(
+    def patch_commerce_subscriber_by_subscriberid(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -16016,7 +16016,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._patch_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16038,7 +16038,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_subscriber_by_subscriberid_with_http_info(
+    def patch_commerce_subscriber_by_subscriberid_with_http_info(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -16082,7 +16082,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._patch_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16104,7 +16104,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_subscriber_by_subscriberid_without_preload_content(
+    def patch_commerce_subscriber_by_subscriberid_without_preload_content(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -16148,7 +16148,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._patch_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16165,7 +16165,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_subscriber_by_subscriberid_serialize(
+    def _patch_commerce_subscriber_by_subscriberid_serialize(
         self,
         subscriberid,
         _request_auth,
@@ -16222,7 +16222,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_tokentransaction_by_tokentransactionid(
+    def patch_commerce_tokentransaction_by_tokentransactionid(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -16266,7 +16266,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._patch_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16288,7 +16288,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_tokentransaction_by_tokentransactionid_with_http_info(
+    def patch_commerce_tokentransaction_by_tokentransactionid_with_http_info(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -16332,7 +16332,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._patch_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16354,7 +16354,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
+    def patch_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -16398,7 +16398,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._patch_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16415,7 +16415,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+    def _patch_commerce_tokentransaction_by_tokentransactionid_serialize(
         self,
         tokentransactionid,
         _request_auth,
@@ -16472,7 +16472,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_transfer_by_transferid(
+    def patch_commerce_transfer_by_transferid(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -16516,7 +16516,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._patch_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16538,7 +16538,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_transfer_by_transferid_with_http_info(
+    def patch_commerce_transfer_by_transferid_with_http_info(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -16582,7 +16582,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._patch_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16604,7 +16604,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_transfer_by_transferid_without_preload_content(
+    def patch_commerce_transfer_by_transferid_without_preload_content(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -16648,7 +16648,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._patch_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16665,7 +16665,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_transfer_by_transferid_serialize(
+    def _patch_commerce_transfer_by_transferid_serialize(
         self,
         transferid,
         _request_auth,
@@ -16722,7 +16722,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_variant_by_variantid(
+    def patch_commerce_variant_by_variantid(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -16766,7 +16766,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_variant_by_variantid_serialize(
+        _param = self._patch_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16788,7 +16788,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_variant_by_variantid_with_http_info(
+    def patch_commerce_variant_by_variantid_with_http_info(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -16832,7 +16832,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_variant_by_variantid_serialize(
+        _param = self._patch_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16854,7 +16854,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_variant_by_variantid_without_preload_content(
+    def patch_commerce_variant_by_variantid_without_preload_content(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -16898,7 +16898,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_variant_by_variantid_serialize(
+        _param = self._patch_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16915,7 +16915,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_variant_by_variantid_serialize(
+    def _patch_commerce_variant_by_variantid_serialize(
         self,
         variantid,
         _request_auth,
@@ -16972,7 +16972,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_wallet_by_walletid(
+    def patch_commerce_wallet_by_walletid(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -17016,7 +17016,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._patch_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17038,7 +17038,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_wallet_by_walletid_with_http_info(
+    def patch_commerce_wallet_by_walletid_with_http_info(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -17082,7 +17082,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._patch_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17104,7 +17104,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_wallet_by_walletid_without_preload_content(
+    def patch_commerce_wallet_by_walletid_without_preload_content(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -17148,7 +17148,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._patch_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17165,7 +17165,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_wallet_by_walletid_serialize(
+    def _patch_commerce_wallet_by_walletid_serialize(
         self,
         walletid,
         _request_auth,
@@ -17222,7 +17222,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_watchlist_by_watchlistid(
+    def patch_commerce_watchlist_by_watchlistid(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -17266,7 +17266,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._patch_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17288,7 +17288,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_watchlist_by_watchlistid_with_http_info(
+    def patch_commerce_watchlist_by_watchlistid_with_http_info(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -17332,7 +17332,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._patch_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17354,7 +17354,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_watchlist_by_watchlistid_without_preload_content(
+    def patch_commerce_watchlist_by_watchlistid_without_preload_content(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -17398,7 +17398,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._patch_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17415,7 +17415,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_watchlist_by_watchlistid_serialize(
+    def _patch_commerce_watchlist_by_watchlistid_serialize(
         self,
         watchlistid,
         _request_auth,
@@ -17472,7 +17472,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_webhook_by_webhookid(
+    def patch_commerce_webhook_by_webhookid(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -17516,7 +17516,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._patch_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17538,7 +17538,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_webhook_by_webhookid_with_http_info(
+    def patch_commerce_webhook_by_webhookid_with_http_info(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -17582,7 +17582,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._patch_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17604,7 +17604,7 @@ class CommerceApi:
 
 
     @validate_call
-    def patch_v1_commerce_webhook_by_webhookid_without_preload_content(
+    def patch_commerce_webhook_by_webhookid_without_preload_content(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -17648,7 +17648,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._patch_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17665,7 +17665,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _patch_v1_commerce_webhook_by_webhookid_serialize(
+    def _patch_commerce_webhook_by_webhookid_serialize(
         self,
         webhookid,
         _request_auth,
@@ -17722,7 +17722,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_collection(
+    def post_commerce_collection(
         self,
         _request_timeout: Union[
             None,
@@ -17763,7 +17763,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_collection_serialize(
+        _param = self._post_commerce_collection_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17784,7 +17784,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_collection_with_http_info(
+    def post_commerce_collection_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -17825,7 +17825,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_collection_serialize(
+        _param = self._post_commerce_collection_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17846,7 +17846,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_collection_without_preload_content(
+    def post_commerce_collection_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -17887,7 +17887,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_collection_serialize(
+        _param = self._post_commerce_collection_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17903,7 +17903,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_collection_serialize(
+    def _post_commerce_collection_serialize(
         self,
         _request_auth,
         _content_type,
@@ -17957,7 +17957,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_collection_by_collectionid(
+    def post_commerce_collection_by_collectionid(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -18001,7 +18001,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._post_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18023,7 +18023,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_collection_by_collectionid_with_http_info(
+    def post_commerce_collection_by_collectionid_with_http_info(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -18067,7 +18067,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._post_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18089,7 +18089,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_collection_by_collectionid_without_preload_content(
+    def post_commerce_collection_by_collectionid_without_preload_content(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -18133,7 +18133,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._post_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18150,7 +18150,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_collection_by_collectionid_serialize(
+    def _post_commerce_collection_by_collectionid_serialize(
         self,
         collectionid,
         _request_auth,
@@ -18207,7 +18207,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_disclosure(
+    def post_commerce_disclosure(
         self,
         _request_timeout: Union[
             None,
@@ -18248,7 +18248,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_disclosure_serialize(
+        _param = self._post_commerce_disclosure_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18269,7 +18269,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_disclosure_with_http_info(
+    def post_commerce_disclosure_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -18310,7 +18310,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_disclosure_serialize(
+        _param = self._post_commerce_disclosure_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18331,7 +18331,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_disclosure_without_preload_content(
+    def post_commerce_disclosure_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -18372,7 +18372,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_disclosure_serialize(
+        _param = self._post_commerce_disclosure_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18388,7 +18388,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_disclosure_serialize(
+    def _post_commerce_disclosure_serialize(
         self,
         _request_auth,
         _content_type,
@@ -18442,7 +18442,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_disclosure_by_disclosureid(
+    def post_commerce_disclosure_by_disclosureid(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -18486,7 +18486,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._post_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18508,7 +18508,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_disclosure_by_disclosureid_with_http_info(
+    def post_commerce_disclosure_by_disclosureid_with_http_info(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -18552,7 +18552,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._post_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18574,7 +18574,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_disclosure_by_disclosureid_without_preload_content(
+    def post_commerce_disclosure_by_disclosureid_without_preload_content(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -18618,7 +18618,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._post_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18635,7 +18635,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_disclosure_by_disclosureid_serialize(
+    def _post_commerce_disclosure_by_disclosureid_serialize(
         self,
         disclosureid,
         _request_auth,
@@ -18692,7 +18692,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_discount(
+    def post_commerce_discount(
         self,
         _request_timeout: Union[
             None,
@@ -18733,7 +18733,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_discount_serialize(
+        _param = self._post_commerce_discount_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18754,7 +18754,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_discount_with_http_info(
+    def post_commerce_discount_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -18795,7 +18795,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_discount_serialize(
+        _param = self._post_commerce_discount_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18816,7 +18816,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_discount_without_preload_content(
+    def post_commerce_discount_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -18857,7 +18857,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_discount_serialize(
+        _param = self._post_commerce_discount_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18873,7 +18873,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_discount_serialize(
+    def _post_commerce_discount_serialize(
         self,
         _request_auth,
         _content_type,
@@ -18927,7 +18927,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_discount_by_discountid(
+    def post_commerce_discount_by_discountid(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -18971,7 +18971,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_discount_by_discountid_serialize(
+        _param = self._post_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18993,7 +18993,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_discount_by_discountid_with_http_info(
+    def post_commerce_discount_by_discountid_with_http_info(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -19037,7 +19037,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_discount_by_discountid_serialize(
+        _param = self._post_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19059,7 +19059,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_discount_by_discountid_without_preload_content(
+    def post_commerce_discount_by_discountid_without_preload_content(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -19103,7 +19103,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_discount_by_discountid_serialize(
+        _param = self._post_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19120,7 +19120,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_discount_by_discountid_serialize(
+    def _post_commerce_discount_by_discountid_serialize(
         self,
         discountid,
         _request_auth,
@@ -19177,7 +19177,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_movie(
+    def post_commerce_movie(
         self,
         _request_timeout: Union[
             None,
@@ -19218,7 +19218,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_movie_serialize(
+        _param = self._post_commerce_movie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19239,7 +19239,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_movie_with_http_info(
+    def post_commerce_movie_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -19280,7 +19280,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_movie_serialize(
+        _param = self._post_commerce_movie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19301,7 +19301,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_movie_without_preload_content(
+    def post_commerce_movie_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -19342,7 +19342,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_movie_serialize(
+        _param = self._post_commerce_movie_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19358,7 +19358,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_movie_serialize(
+    def _post_commerce_movie_serialize(
         self,
         _request_auth,
         _content_type,
@@ -19412,7 +19412,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_movie_by_movieid(
+    def post_commerce_movie_by_movieid(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -19456,7 +19456,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_movie_by_movieid_serialize(
+        _param = self._post_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19478,7 +19478,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_movie_by_movieid_with_http_info(
+    def post_commerce_movie_by_movieid_with_http_info(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -19522,7 +19522,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_movie_by_movieid_serialize(
+        _param = self._post_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19544,7 +19544,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_movie_by_movieid_without_preload_content(
+    def post_commerce_movie_by_movieid_without_preload_content(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -19588,7 +19588,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_movie_by_movieid_serialize(
+        _param = self._post_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19605,7 +19605,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_movie_by_movieid_serialize(
+    def _post_commerce_movie_by_movieid_serialize(
         self,
         movieid,
         _request_auth,
@@ -19662,7 +19662,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_note(
+    def post_commerce_note(
         self,
         _request_timeout: Union[
             None,
@@ -19703,7 +19703,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_note_serialize(
+        _param = self._post_commerce_note_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19724,7 +19724,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_note_with_http_info(
+    def post_commerce_note_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -19765,7 +19765,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_note_serialize(
+        _param = self._post_commerce_note_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19786,7 +19786,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_note_without_preload_content(
+    def post_commerce_note_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -19827,7 +19827,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_note_serialize(
+        _param = self._post_commerce_note_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19843,7 +19843,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_note_serialize(
+    def _post_commerce_note_serialize(
         self,
         _request_auth,
         _content_type,
@@ -19897,7 +19897,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_note_by_noteid(
+    def post_commerce_note_by_noteid(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -19941,7 +19941,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_note_by_noteid_serialize(
+        _param = self._post_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -19963,7 +19963,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_note_by_noteid_with_http_info(
+    def post_commerce_note_by_noteid_with_http_info(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -20007,7 +20007,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_note_by_noteid_serialize(
+        _param = self._post_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20029,7 +20029,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_note_by_noteid_without_preload_content(
+    def post_commerce_note_by_noteid_without_preload_content(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -20073,7 +20073,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_note_by_noteid_serialize(
+        _param = self._post_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20090,7 +20090,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_note_by_noteid_serialize(
+    def _post_commerce_note_by_noteid_serialize(
         self,
         noteid,
         _request_auth,
@@ -20147,7 +20147,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_product(
+    def post_commerce_product(
         self,
         _request_timeout: Union[
             None,
@@ -20188,7 +20188,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_product_serialize(
+        _param = self._post_commerce_product_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20209,7 +20209,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_product_with_http_info(
+    def post_commerce_product_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -20250,7 +20250,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_product_serialize(
+        _param = self._post_commerce_product_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20271,7 +20271,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_product_without_preload_content(
+    def post_commerce_product_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -20312,7 +20312,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_product_serialize(
+        _param = self._post_commerce_product_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20328,7 +20328,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_product_serialize(
+    def _post_commerce_product_serialize(
         self,
         _request_auth,
         _content_type,
@@ -20382,7 +20382,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_product_by_productid(
+    def post_commerce_product_by_productid(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -20426,7 +20426,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_product_by_productid_serialize(
+        _param = self._post_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20448,7 +20448,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_product_by_productid_with_http_info(
+    def post_commerce_product_by_productid_with_http_info(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -20492,7 +20492,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_product_by_productid_serialize(
+        _param = self._post_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20514,7 +20514,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_product_by_productid_without_preload_content(
+    def post_commerce_product_by_productid_without_preload_content(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -20558,7 +20558,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_product_by_productid_serialize(
+        _param = self._post_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20575,7 +20575,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_product_by_productid_serialize(
+    def _post_commerce_product_by_productid_serialize(
         self,
         productid,
         _request_auth,
@@ -20632,7 +20632,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_return(
+    def post_commerce_return(
         self,
         _request_timeout: Union[
             None,
@@ -20673,7 +20673,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_return_serialize(
+        _param = self._post_commerce_return_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20694,7 +20694,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_return_with_http_info(
+    def post_commerce_return_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -20735,7 +20735,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_return_serialize(
+        _param = self._post_commerce_return_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20756,7 +20756,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_return_without_preload_content(
+    def post_commerce_return_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -20797,7 +20797,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_return_serialize(
+        _param = self._post_commerce_return_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20813,7 +20813,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_return_serialize(
+    def _post_commerce_return_serialize(
         self,
         _request_auth,
         _content_type,
@@ -20867,7 +20867,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_return_by_returnid(
+    def post_commerce_return_by_returnid(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -20911,7 +20911,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_return_by_returnid_serialize(
+        _param = self._post_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20933,7 +20933,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_return_by_returnid_with_http_info(
+    def post_commerce_return_by_returnid_with_http_info(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -20977,7 +20977,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_return_by_returnid_serialize(
+        _param = self._post_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20999,7 +20999,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_return_by_returnid_without_preload_content(
+    def post_commerce_return_by_returnid_without_preload_content(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -21043,7 +21043,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_return_by_returnid_serialize(
+        _param = self._post_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21060,7 +21060,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_return_by_returnid_serialize(
+    def _post_commerce_return_by_returnid_serialize(
         self,
         returnid,
         _request_auth,
@@ -21117,7 +21117,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_saleschannel(
+    def post_commerce_saleschannel(
         self,
         _request_timeout: Union[
             None,
@@ -21158,7 +21158,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_saleschannel_serialize(
+        _param = self._post_commerce_saleschannel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21179,7 +21179,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_saleschannel_with_http_info(
+    def post_commerce_saleschannel_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21220,7 +21220,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_saleschannel_serialize(
+        _param = self._post_commerce_saleschannel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21241,7 +21241,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_saleschannel_without_preload_content(
+    def post_commerce_saleschannel_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21282,7 +21282,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_saleschannel_serialize(
+        _param = self._post_commerce_saleschannel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21298,7 +21298,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_saleschannel_serialize(
+    def _post_commerce_saleschannel_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21352,7 +21352,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_saleschannel_by_saleschannelid(
+    def post_commerce_saleschannel_by_saleschannelid(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -21396,7 +21396,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._post_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21418,7 +21418,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_saleschannel_by_saleschannelid_with_http_info(
+    def post_commerce_saleschannel_by_saleschannelid_with_http_info(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -21462,7 +21462,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._post_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21484,7 +21484,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_saleschannel_by_saleschannelid_without_preload_content(
+    def post_commerce_saleschannel_by_saleschannelid_without_preload_content(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -21528,7 +21528,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._post_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21545,7 +21545,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_saleschannel_by_saleschannelid_serialize(
+    def _post_commerce_saleschannel_by_saleschannelid_serialize(
         self,
         saleschannelid,
         _request_auth,
@@ -21602,7 +21602,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_stocklocation(
+    def post_commerce_stocklocation(
         self,
         _request_timeout: Union[
             None,
@@ -21643,7 +21643,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_stocklocation_serialize(
+        _param = self._post_commerce_stocklocation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21664,7 +21664,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_stocklocation_with_http_info(
+    def post_commerce_stocklocation_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21705,7 +21705,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_stocklocation_serialize(
+        _param = self._post_commerce_stocklocation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21726,7 +21726,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_stocklocation_without_preload_content(
+    def post_commerce_stocklocation_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21767,7 +21767,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_stocklocation_serialize(
+        _param = self._post_commerce_stocklocation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21783,7 +21783,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_stocklocation_serialize(
+    def _post_commerce_stocklocation_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21837,7 +21837,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_stocklocation_by_stocklocationid(
+    def post_commerce_stocklocation_by_stocklocationid(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -21881,7 +21881,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._post_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21903,7 +21903,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_stocklocation_by_stocklocationid_with_http_info(
+    def post_commerce_stocklocation_by_stocklocationid_with_http_info(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -21947,7 +21947,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._post_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21969,7 +21969,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_stocklocation_by_stocklocationid_without_preload_content(
+    def post_commerce_stocklocation_by_stocklocationid_without_preload_content(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -22013,7 +22013,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._post_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22030,7 +22030,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_stocklocation_by_stocklocationid_serialize(
+    def _post_commerce_stocklocation_by_stocklocationid_serialize(
         self,
         stocklocationid,
         _request_auth,
@@ -22087,7 +22087,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_submission(
+    def post_commerce_submission(
         self,
         _request_timeout: Union[
             None,
@@ -22128,7 +22128,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_submission_serialize(
+        _param = self._post_commerce_submission_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22149,7 +22149,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_submission_with_http_info(
+    def post_commerce_submission_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -22190,7 +22190,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_submission_serialize(
+        _param = self._post_commerce_submission_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22211,7 +22211,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_submission_without_preload_content(
+    def post_commerce_submission_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -22252,7 +22252,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_submission_serialize(
+        _param = self._post_commerce_submission_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22268,7 +22268,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_submission_serialize(
+    def _post_commerce_submission_serialize(
         self,
         _request_auth,
         _content_type,
@@ -22322,7 +22322,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_submission_by_submissionid(
+    def post_commerce_submission_by_submissionid(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -22366,7 +22366,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._post_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22388,7 +22388,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_submission_by_submissionid_with_http_info(
+    def post_commerce_submission_by_submissionid_with_http_info(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -22432,7 +22432,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._post_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22454,7 +22454,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_submission_by_submissionid_without_preload_content(
+    def post_commerce_submission_by_submissionid_without_preload_content(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -22498,7 +22498,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._post_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22515,7 +22515,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_submission_by_submissionid_serialize(
+    def _post_commerce_submission_by_submissionid_serialize(
         self,
         submissionid,
         _request_auth,
@@ -22572,7 +22572,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_subscriber(
+    def post_commerce_subscriber(
         self,
         _request_timeout: Union[
             None,
@@ -22613,7 +22613,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_subscriber_serialize(
+        _param = self._post_commerce_subscriber_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22634,7 +22634,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_subscriber_with_http_info(
+    def post_commerce_subscriber_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -22675,7 +22675,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_subscriber_serialize(
+        _param = self._post_commerce_subscriber_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22696,7 +22696,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_subscriber_without_preload_content(
+    def post_commerce_subscriber_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -22737,7 +22737,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_subscriber_serialize(
+        _param = self._post_commerce_subscriber_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22753,7 +22753,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_subscriber_serialize(
+    def _post_commerce_subscriber_serialize(
         self,
         _request_auth,
         _content_type,
@@ -22807,7 +22807,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_subscriber_by_subscriberid(
+    def post_commerce_subscriber_by_subscriberid(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -22851,7 +22851,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._post_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22873,7 +22873,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_subscriber_by_subscriberid_with_http_info(
+    def post_commerce_subscriber_by_subscriberid_with_http_info(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -22917,7 +22917,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._post_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22939,7 +22939,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_subscriber_by_subscriberid_without_preload_content(
+    def post_commerce_subscriber_by_subscriberid_without_preload_content(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -22983,7 +22983,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._post_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23000,7 +23000,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_subscriber_by_subscriberid_serialize(
+    def _post_commerce_subscriber_by_subscriberid_serialize(
         self,
         subscriberid,
         _request_auth,
@@ -23057,7 +23057,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_tokentransaction(
+    def post_commerce_tokentransaction(
         self,
         _request_timeout: Union[
             None,
@@ -23098,7 +23098,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_tokentransaction_serialize(
+        _param = self._post_commerce_tokentransaction_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23119,7 +23119,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_tokentransaction_with_http_info(
+    def post_commerce_tokentransaction_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -23160,7 +23160,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_tokentransaction_serialize(
+        _param = self._post_commerce_tokentransaction_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23181,7 +23181,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_tokentransaction_without_preload_content(
+    def post_commerce_tokentransaction_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -23222,7 +23222,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_tokentransaction_serialize(
+        _param = self._post_commerce_tokentransaction_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23238,7 +23238,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_tokentransaction_serialize(
+    def _post_commerce_tokentransaction_serialize(
         self,
         _request_auth,
         _content_type,
@@ -23292,7 +23292,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_tokentransaction_by_tokentransactionid(
+    def post_commerce_tokentransaction_by_tokentransactionid(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -23336,7 +23336,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._post_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23358,7 +23358,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_tokentransaction_by_tokentransactionid_with_http_info(
+    def post_commerce_tokentransaction_by_tokentransactionid_with_http_info(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -23402,7 +23402,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._post_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23424,7 +23424,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
+    def post_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -23468,7 +23468,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._post_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23485,7 +23485,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+    def _post_commerce_tokentransaction_by_tokentransactionid_serialize(
         self,
         tokentransactionid,
         _request_auth,
@@ -23542,7 +23542,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_transfer(
+    def post_commerce_transfer(
         self,
         _request_timeout: Union[
             None,
@@ -23583,7 +23583,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_transfer_serialize(
+        _param = self._post_commerce_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23604,7 +23604,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_transfer_with_http_info(
+    def post_commerce_transfer_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -23645,7 +23645,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_transfer_serialize(
+        _param = self._post_commerce_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23666,7 +23666,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_transfer_without_preload_content(
+    def post_commerce_transfer_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -23707,7 +23707,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_transfer_serialize(
+        _param = self._post_commerce_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23723,7 +23723,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_transfer_serialize(
+    def _post_commerce_transfer_serialize(
         self,
         _request_auth,
         _content_type,
@@ -23777,7 +23777,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_transfer_by_transferid(
+    def post_commerce_transfer_by_transferid(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -23821,7 +23821,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._post_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23843,7 +23843,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_transfer_by_transferid_with_http_info(
+    def post_commerce_transfer_by_transferid_with_http_info(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -23887,7 +23887,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._post_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23909,7 +23909,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_transfer_by_transferid_without_preload_content(
+    def post_commerce_transfer_by_transferid_without_preload_content(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -23953,7 +23953,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._post_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23970,7 +23970,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_transfer_by_transferid_serialize(
+    def _post_commerce_transfer_by_transferid_serialize(
         self,
         transferid,
         _request_auth,
@@ -24027,7 +24027,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_variant(
+    def post_commerce_variant(
         self,
         _request_timeout: Union[
             None,
@@ -24068,7 +24068,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_variant_serialize(
+        _param = self._post_commerce_variant_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24089,7 +24089,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_variant_with_http_info(
+    def post_commerce_variant_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -24130,7 +24130,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_variant_serialize(
+        _param = self._post_commerce_variant_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24151,7 +24151,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_variant_without_preload_content(
+    def post_commerce_variant_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -24192,7 +24192,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_variant_serialize(
+        _param = self._post_commerce_variant_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24208,7 +24208,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_variant_serialize(
+    def _post_commerce_variant_serialize(
         self,
         _request_auth,
         _content_type,
@@ -24262,7 +24262,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_variant_by_variantid(
+    def post_commerce_variant_by_variantid(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -24306,7 +24306,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_variant_by_variantid_serialize(
+        _param = self._post_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -24328,7 +24328,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_variant_by_variantid_with_http_info(
+    def post_commerce_variant_by_variantid_with_http_info(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -24372,7 +24372,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_variant_by_variantid_serialize(
+        _param = self._post_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -24394,7 +24394,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_variant_by_variantid_without_preload_content(
+    def post_commerce_variant_by_variantid_without_preload_content(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -24438,7 +24438,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_variant_by_variantid_serialize(
+        _param = self._post_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -24455,7 +24455,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_variant_by_variantid_serialize(
+    def _post_commerce_variant_by_variantid_serialize(
         self,
         variantid,
         _request_auth,
@@ -24512,7 +24512,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_wallet(
+    def post_commerce_wallet(
         self,
         _request_timeout: Union[
             None,
@@ -24553,7 +24553,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_wallet_serialize(
+        _param = self._post_commerce_wallet_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24574,7 +24574,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_wallet_with_http_info(
+    def post_commerce_wallet_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -24615,7 +24615,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_wallet_serialize(
+        _param = self._post_commerce_wallet_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24636,7 +24636,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_wallet_without_preload_content(
+    def post_commerce_wallet_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -24677,7 +24677,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_wallet_serialize(
+        _param = self._post_commerce_wallet_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24693,7 +24693,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_wallet_serialize(
+    def _post_commerce_wallet_serialize(
         self,
         _request_auth,
         _content_type,
@@ -24747,7 +24747,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_wallet_by_walletid(
+    def post_commerce_wallet_by_walletid(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -24791,7 +24791,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._post_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -24813,7 +24813,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_wallet_by_walletid_with_http_info(
+    def post_commerce_wallet_by_walletid_with_http_info(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -24857,7 +24857,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._post_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -24879,7 +24879,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_wallet_by_walletid_without_preload_content(
+    def post_commerce_wallet_by_walletid_without_preload_content(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -24923,7 +24923,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._post_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -24940,7 +24940,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_wallet_by_walletid_serialize(
+    def _post_commerce_wallet_by_walletid_serialize(
         self,
         walletid,
         _request_auth,
@@ -24997,7 +24997,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_watchlist(
+    def post_commerce_watchlist(
         self,
         _request_timeout: Union[
             None,
@@ -25038,7 +25038,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_watchlist_serialize(
+        _param = self._post_commerce_watchlist_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25059,7 +25059,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_watchlist_with_http_info(
+    def post_commerce_watchlist_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -25100,7 +25100,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_watchlist_serialize(
+        _param = self._post_commerce_watchlist_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25121,7 +25121,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_watchlist_without_preload_content(
+    def post_commerce_watchlist_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -25162,7 +25162,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_watchlist_serialize(
+        _param = self._post_commerce_watchlist_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25178,7 +25178,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_watchlist_serialize(
+    def _post_commerce_watchlist_serialize(
         self,
         _request_auth,
         _content_type,
@@ -25232,7 +25232,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_watchlist_by_watchlistid(
+    def post_commerce_watchlist_by_watchlistid(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -25276,7 +25276,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._post_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25298,7 +25298,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_watchlist_by_watchlistid_with_http_info(
+    def post_commerce_watchlist_by_watchlistid_with_http_info(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -25342,7 +25342,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._post_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25364,7 +25364,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_watchlist_by_watchlistid_without_preload_content(
+    def post_commerce_watchlist_by_watchlistid_without_preload_content(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -25408,7 +25408,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._post_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25425,7 +25425,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_watchlist_by_watchlistid_serialize(
+    def _post_commerce_watchlist_by_watchlistid_serialize(
         self,
         watchlistid,
         _request_auth,
@@ -25482,7 +25482,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_webhook(
+    def post_commerce_webhook(
         self,
         _request_timeout: Union[
             None,
@@ -25523,7 +25523,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_webhook_serialize(
+        _param = self._post_commerce_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25544,7 +25544,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_webhook_with_http_info(
+    def post_commerce_webhook_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -25585,7 +25585,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_webhook_serialize(
+        _param = self._post_commerce_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25606,7 +25606,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_webhook_without_preload_content(
+    def post_commerce_webhook_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -25647,7 +25647,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_webhook_serialize(
+        _param = self._post_commerce_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25663,7 +25663,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_webhook_serialize(
+    def _post_commerce_webhook_serialize(
         self,
         _request_auth,
         _content_type,
@@ -25717,7 +25717,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_webhook_by_webhookid(
+    def post_commerce_webhook_by_webhookid(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -25761,7 +25761,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._post_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25783,7 +25783,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_webhook_by_webhookid_with_http_info(
+    def post_commerce_webhook_by_webhookid_with_http_info(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -25827,7 +25827,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._post_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25849,7 +25849,7 @@ class CommerceApi:
 
 
     @validate_call
-    def post_v1_commerce_webhook_by_webhookid_without_preload_content(
+    def post_commerce_webhook_by_webhookid_without_preload_content(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -25893,7 +25893,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._post_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -25910,7 +25910,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _post_v1_commerce_webhook_by_webhookid_serialize(
+    def _post_commerce_webhook_by_webhookid_serialize(
         self,
         webhookid,
         _request_auth,
@@ -25967,7 +25967,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_collection_by_collectionid(
+    def put_commerce_collection_by_collectionid(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -26011,7 +26011,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._put_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26033,7 +26033,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_collection_by_collectionid_with_http_info(
+    def put_commerce_collection_by_collectionid_with_http_info(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -26077,7 +26077,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._put_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26099,7 +26099,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_collection_by_collectionid_without_preload_content(
+    def put_commerce_collection_by_collectionid_without_preload_content(
         self,
         collectionid: StrictStr,
         _request_timeout: Union[
@@ -26143,7 +26143,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_collection_by_collectionid_serialize(
+        _param = self._put_commerce_collection_by_collectionid_serialize(
             collectionid=collectionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26160,7 +26160,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_collection_by_collectionid_serialize(
+    def _put_commerce_collection_by_collectionid_serialize(
         self,
         collectionid,
         _request_auth,
@@ -26217,7 +26217,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_disclosure_by_disclosureid(
+    def put_commerce_disclosure_by_disclosureid(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -26261,7 +26261,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._put_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26283,7 +26283,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_disclosure_by_disclosureid_with_http_info(
+    def put_commerce_disclosure_by_disclosureid_with_http_info(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -26327,7 +26327,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._put_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26349,7 +26349,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_disclosure_by_disclosureid_without_preload_content(
+    def put_commerce_disclosure_by_disclosureid_without_preload_content(
         self,
         disclosureid: StrictStr,
         _request_timeout: Union[
@@ -26393,7 +26393,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_disclosure_by_disclosureid_serialize(
+        _param = self._put_commerce_disclosure_by_disclosureid_serialize(
             disclosureid=disclosureid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26410,7 +26410,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_disclosure_by_disclosureid_serialize(
+    def _put_commerce_disclosure_by_disclosureid_serialize(
         self,
         disclosureid,
         _request_auth,
@@ -26467,7 +26467,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_discount_by_discountid(
+    def put_commerce_discount_by_discountid(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -26511,7 +26511,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_discount_by_discountid_serialize(
+        _param = self._put_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26533,7 +26533,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_discount_by_discountid_with_http_info(
+    def put_commerce_discount_by_discountid_with_http_info(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -26577,7 +26577,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_discount_by_discountid_serialize(
+        _param = self._put_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26599,7 +26599,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_discount_by_discountid_without_preload_content(
+    def put_commerce_discount_by_discountid_without_preload_content(
         self,
         discountid: StrictStr,
         _request_timeout: Union[
@@ -26643,7 +26643,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_discount_by_discountid_serialize(
+        _param = self._put_commerce_discount_by_discountid_serialize(
             discountid=discountid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26660,7 +26660,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_discount_by_discountid_serialize(
+    def _put_commerce_discount_by_discountid_serialize(
         self,
         discountid,
         _request_auth,
@@ -26717,7 +26717,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_movie_by_movieid(
+    def put_commerce_movie_by_movieid(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -26761,7 +26761,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_movie_by_movieid_serialize(
+        _param = self._put_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26783,7 +26783,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_movie_by_movieid_with_http_info(
+    def put_commerce_movie_by_movieid_with_http_info(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -26827,7 +26827,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_movie_by_movieid_serialize(
+        _param = self._put_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26849,7 +26849,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_movie_by_movieid_without_preload_content(
+    def put_commerce_movie_by_movieid_without_preload_content(
         self,
         movieid: StrictStr,
         _request_timeout: Union[
@@ -26893,7 +26893,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_movie_by_movieid_serialize(
+        _param = self._put_commerce_movie_by_movieid_serialize(
             movieid=movieid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -26910,7 +26910,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_movie_by_movieid_serialize(
+    def _put_commerce_movie_by_movieid_serialize(
         self,
         movieid,
         _request_auth,
@@ -26967,7 +26967,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_note_by_noteid(
+    def put_commerce_note_by_noteid(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -27011,7 +27011,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_note_by_noteid_serialize(
+        _param = self._put_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27033,7 +27033,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_note_by_noteid_with_http_info(
+    def put_commerce_note_by_noteid_with_http_info(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -27077,7 +27077,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_note_by_noteid_serialize(
+        _param = self._put_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27099,7 +27099,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_note_by_noteid_without_preload_content(
+    def put_commerce_note_by_noteid_without_preload_content(
         self,
         noteid: StrictStr,
         _request_timeout: Union[
@@ -27143,7 +27143,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_note_by_noteid_serialize(
+        _param = self._put_commerce_note_by_noteid_serialize(
             noteid=noteid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27160,7 +27160,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_note_by_noteid_serialize(
+    def _put_commerce_note_by_noteid_serialize(
         self,
         noteid,
         _request_auth,
@@ -27217,7 +27217,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_product_by_productid(
+    def put_commerce_product_by_productid(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -27261,7 +27261,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_product_by_productid_serialize(
+        _param = self._put_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27283,7 +27283,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_product_by_productid_with_http_info(
+    def put_commerce_product_by_productid_with_http_info(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -27327,7 +27327,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_product_by_productid_serialize(
+        _param = self._put_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27349,7 +27349,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_product_by_productid_without_preload_content(
+    def put_commerce_product_by_productid_without_preload_content(
         self,
         productid: StrictStr,
         _request_timeout: Union[
@@ -27393,7 +27393,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_product_by_productid_serialize(
+        _param = self._put_commerce_product_by_productid_serialize(
             productid=productid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27410,7 +27410,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_product_by_productid_serialize(
+    def _put_commerce_product_by_productid_serialize(
         self,
         productid,
         _request_auth,
@@ -27467,7 +27467,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_return_by_returnid(
+    def put_commerce_return_by_returnid(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -27511,7 +27511,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_return_by_returnid_serialize(
+        _param = self._put_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27533,7 +27533,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_return_by_returnid_with_http_info(
+    def put_commerce_return_by_returnid_with_http_info(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -27577,7 +27577,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_return_by_returnid_serialize(
+        _param = self._put_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27599,7 +27599,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_return_by_returnid_without_preload_content(
+    def put_commerce_return_by_returnid_without_preload_content(
         self,
         returnid: StrictStr,
         _request_timeout: Union[
@@ -27643,7 +27643,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_return_by_returnid_serialize(
+        _param = self._put_commerce_return_by_returnid_serialize(
             returnid=returnid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27660,7 +27660,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_return_by_returnid_serialize(
+    def _put_commerce_return_by_returnid_serialize(
         self,
         returnid,
         _request_auth,
@@ -27717,7 +27717,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_saleschannel_by_saleschannelid(
+    def put_commerce_saleschannel_by_saleschannelid(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -27761,7 +27761,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._put_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27783,7 +27783,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_saleschannel_by_saleschannelid_with_http_info(
+    def put_commerce_saleschannel_by_saleschannelid_with_http_info(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -27827,7 +27827,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._put_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27849,7 +27849,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_saleschannel_by_saleschannelid_without_preload_content(
+    def put_commerce_saleschannel_by_saleschannelid_without_preload_content(
         self,
         saleschannelid: StrictStr,
         _request_timeout: Union[
@@ -27893,7 +27893,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_saleschannel_by_saleschannelid_serialize(
+        _param = self._put_commerce_saleschannel_by_saleschannelid_serialize(
             saleschannelid=saleschannelid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -27910,7 +27910,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_saleschannel_by_saleschannelid_serialize(
+    def _put_commerce_saleschannel_by_saleschannelid_serialize(
         self,
         saleschannelid,
         _request_auth,
@@ -27967,7 +27967,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_stocklocation_by_stocklocationid(
+    def put_commerce_stocklocation_by_stocklocationid(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -28011,7 +28011,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._put_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28033,7 +28033,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_stocklocation_by_stocklocationid_with_http_info(
+    def put_commerce_stocklocation_by_stocklocationid_with_http_info(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -28077,7 +28077,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._put_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28099,7 +28099,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_stocklocation_by_stocklocationid_without_preload_content(
+    def put_commerce_stocklocation_by_stocklocationid_without_preload_content(
         self,
         stocklocationid: StrictStr,
         _request_timeout: Union[
@@ -28143,7 +28143,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_stocklocation_by_stocklocationid_serialize(
+        _param = self._put_commerce_stocklocation_by_stocklocationid_serialize(
             stocklocationid=stocklocationid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28160,7 +28160,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_stocklocation_by_stocklocationid_serialize(
+    def _put_commerce_stocklocation_by_stocklocationid_serialize(
         self,
         stocklocationid,
         _request_auth,
@@ -28217,7 +28217,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_submission_by_submissionid(
+    def put_commerce_submission_by_submissionid(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -28261,7 +28261,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._put_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28283,7 +28283,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_submission_by_submissionid_with_http_info(
+    def put_commerce_submission_by_submissionid_with_http_info(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -28327,7 +28327,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._put_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28349,7 +28349,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_submission_by_submissionid_without_preload_content(
+    def put_commerce_submission_by_submissionid_without_preload_content(
         self,
         submissionid: StrictStr,
         _request_timeout: Union[
@@ -28393,7 +28393,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_submission_by_submissionid_serialize(
+        _param = self._put_commerce_submission_by_submissionid_serialize(
             submissionid=submissionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28410,7 +28410,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_submission_by_submissionid_serialize(
+    def _put_commerce_submission_by_submissionid_serialize(
         self,
         submissionid,
         _request_auth,
@@ -28467,7 +28467,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_subscriber_by_subscriberid(
+    def put_commerce_subscriber_by_subscriberid(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -28511,7 +28511,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._put_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28533,7 +28533,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_subscriber_by_subscriberid_with_http_info(
+    def put_commerce_subscriber_by_subscriberid_with_http_info(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -28577,7 +28577,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._put_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28599,7 +28599,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_subscriber_by_subscriberid_without_preload_content(
+    def put_commerce_subscriber_by_subscriberid_without_preload_content(
         self,
         subscriberid: StrictStr,
         _request_timeout: Union[
@@ -28643,7 +28643,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_subscriber_by_subscriberid_serialize(
+        _param = self._put_commerce_subscriber_by_subscriberid_serialize(
             subscriberid=subscriberid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28660,7 +28660,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_subscriber_by_subscriberid_serialize(
+    def _put_commerce_subscriber_by_subscriberid_serialize(
         self,
         subscriberid,
         _request_auth,
@@ -28717,7 +28717,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_tokentransaction_by_tokentransactionid(
+    def put_commerce_tokentransaction_by_tokentransactionid(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -28761,7 +28761,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._put_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28783,7 +28783,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_tokentransaction_by_tokentransactionid_with_http_info(
+    def put_commerce_tokentransaction_by_tokentransactionid_with_http_info(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -28827,7 +28827,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._put_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28849,7 +28849,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
+    def put_commerce_tokentransaction_by_tokentransactionid_without_preload_content(
         self,
         tokentransactionid: StrictStr,
         _request_timeout: Union[
@@ -28893,7 +28893,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+        _param = self._put_commerce_tokentransaction_by_tokentransactionid_serialize(
             tokentransactionid=tokentransactionid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -28910,7 +28910,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_tokentransaction_by_tokentransactionid_serialize(
+    def _put_commerce_tokentransaction_by_tokentransactionid_serialize(
         self,
         tokentransactionid,
         _request_auth,
@@ -28967,7 +28967,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_transfer_by_transferid(
+    def put_commerce_transfer_by_transferid(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -29011,7 +29011,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._put_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29033,7 +29033,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_transfer_by_transferid_with_http_info(
+    def put_commerce_transfer_by_transferid_with_http_info(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -29077,7 +29077,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._put_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29099,7 +29099,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_transfer_by_transferid_without_preload_content(
+    def put_commerce_transfer_by_transferid_without_preload_content(
         self,
         transferid: StrictStr,
         _request_timeout: Union[
@@ -29143,7 +29143,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_transfer_by_transferid_serialize(
+        _param = self._put_commerce_transfer_by_transferid_serialize(
             transferid=transferid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29160,7 +29160,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_transfer_by_transferid_serialize(
+    def _put_commerce_transfer_by_transferid_serialize(
         self,
         transferid,
         _request_auth,
@@ -29217,7 +29217,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_variant_by_variantid(
+    def put_commerce_variant_by_variantid(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -29261,7 +29261,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_variant_by_variantid_serialize(
+        _param = self._put_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29283,7 +29283,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_variant_by_variantid_with_http_info(
+    def put_commerce_variant_by_variantid_with_http_info(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -29327,7 +29327,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_variant_by_variantid_serialize(
+        _param = self._put_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29349,7 +29349,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_variant_by_variantid_without_preload_content(
+    def put_commerce_variant_by_variantid_without_preload_content(
         self,
         variantid: StrictStr,
         _request_timeout: Union[
@@ -29393,7 +29393,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_variant_by_variantid_serialize(
+        _param = self._put_commerce_variant_by_variantid_serialize(
             variantid=variantid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29410,7 +29410,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_variant_by_variantid_serialize(
+    def _put_commerce_variant_by_variantid_serialize(
         self,
         variantid,
         _request_auth,
@@ -29467,7 +29467,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_wallet_by_walletid(
+    def put_commerce_wallet_by_walletid(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -29511,7 +29511,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._put_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29533,7 +29533,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_wallet_by_walletid_with_http_info(
+    def put_commerce_wallet_by_walletid_with_http_info(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -29577,7 +29577,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._put_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29599,7 +29599,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_wallet_by_walletid_without_preload_content(
+    def put_commerce_wallet_by_walletid_without_preload_content(
         self,
         walletid: StrictStr,
         _request_timeout: Union[
@@ -29643,7 +29643,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_wallet_by_walletid_serialize(
+        _param = self._put_commerce_wallet_by_walletid_serialize(
             walletid=walletid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29660,7 +29660,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_wallet_by_walletid_serialize(
+    def _put_commerce_wallet_by_walletid_serialize(
         self,
         walletid,
         _request_auth,
@@ -29717,7 +29717,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_watchlist_by_watchlistid(
+    def put_commerce_watchlist_by_watchlistid(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -29761,7 +29761,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._put_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29783,7 +29783,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_watchlist_by_watchlistid_with_http_info(
+    def put_commerce_watchlist_by_watchlistid_with_http_info(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -29827,7 +29827,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._put_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29849,7 +29849,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_watchlist_by_watchlistid_without_preload_content(
+    def put_commerce_watchlist_by_watchlistid_without_preload_content(
         self,
         watchlistid: StrictStr,
         _request_timeout: Union[
@@ -29893,7 +29893,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_watchlist_by_watchlistid_serialize(
+        _param = self._put_commerce_watchlist_by_watchlistid_serialize(
             watchlistid=watchlistid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -29910,7 +29910,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_watchlist_by_watchlistid_serialize(
+    def _put_commerce_watchlist_by_watchlistid_serialize(
         self,
         watchlistid,
         _request_auth,
@@ -29967,7 +29967,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_webhook_by_webhookid(
+    def put_commerce_webhook_by_webhookid(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -30011,7 +30011,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._put_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -30033,7 +30033,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_webhook_by_webhookid_with_http_info(
+    def put_commerce_webhook_by_webhookid_with_http_info(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -30077,7 +30077,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._put_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -30099,7 +30099,7 @@ class CommerceApi:
 
 
     @validate_call
-    def put_v1_commerce_webhook_by_webhookid_without_preload_content(
+    def put_commerce_webhook_by_webhookid_without_preload_content(
         self,
         webhookid: StrictStr,
         _request_timeout: Union[
@@ -30143,7 +30143,7 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_commerce_webhook_by_webhookid_serialize(
+        _param = self._put_commerce_webhook_by_webhookid_serialize(
             webhookid=webhookid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -30160,7 +30160,7 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_v1_commerce_webhook_by_webhookid_serialize(
+    def _put_commerce_webhook_by_webhookid_serialize(
         self,
         webhookid,
         _request_auth,

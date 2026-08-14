@@ -43,7 +43,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_buckets_by_bucket(
+    def delete_s3_buckets_by_bucket(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_buckets_by_bucket_serialize(
+        _param = self._delete_s3_buckets_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -109,7 +109,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_buckets_by_bucket_with_http_info(
+    def delete_s3_buckets_by_bucket_with_http_info(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -153,7 +153,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_buckets_by_bucket_serialize(
+        _param = self._delete_s3_buckets_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -175,7 +175,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_buckets_by_bucket_without_preload_content(
+    def delete_s3_buckets_by_bucket_without_preload_content(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -219,7 +219,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_buckets_by_bucket_serialize(
+        _param = self._delete_s3_buckets_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -236,7 +236,7 @@ class S3Api:
         return response_data.response
 
 
-    def _delete_v1_s3_buckets_by_bucket_serialize(
+    def _delete_s3_buckets_by_bucket_serialize(
         self,
         bucket,
         _request_auth,
@@ -293,7 +293,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_buckets_by_bucket_objects_by_wildcard1(
+    def delete_s3_buckets_by_bucket_objects_by_wildcard1(
         self,
         bucket: StrictStr,
         wildcard1: StrictStr,
@@ -340,7 +340,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        _param = self._delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
             bucket=bucket,
             wildcard1=wildcard1,
             _request_auth=_request_auth,
@@ -363,7 +363,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_buckets_by_bucket_objects_by_wildcard1_with_http_info(
+    def delete_s3_buckets_by_bucket_objects_by_wildcard1_with_http_info(
         self,
         bucket: StrictStr,
         wildcard1: StrictStr,
@@ -410,7 +410,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        _param = self._delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
             bucket=bucket,
             wildcard1=wildcard1,
             _request_auth=_request_auth,
@@ -433,7 +433,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_buckets_by_bucket_objects_by_wildcard1_without_preload_content(
+    def delete_s3_buckets_by_bucket_objects_by_wildcard1_without_preload_content(
         self,
         bucket: StrictStr,
         wildcard1: StrictStr,
@@ -480,7 +480,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        _param = self._delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
             bucket=bucket,
             wildcard1=wildcard1,
             _request_auth=_request_auth,
@@ -498,7 +498,7 @@ class S3Api:
         return response_data.response
 
 
-    def _delete_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+    def _delete_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
         self,
         bucket,
         wildcard1,
@@ -558,7 +558,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_by_name(
+    def delete_s3_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -602,7 +602,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_by_name_serialize(
+        _param = self._delete_s3_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -625,7 +625,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_by_name_with_http_info(
+    def delete_s3_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -669,7 +669,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_by_name_serialize(
+        _param = self._delete_s3_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -692,7 +692,7 @@ class S3Api:
 
 
     @validate_call
-    def delete_v1_s3_by_name_without_preload_content(
+    def delete_s3_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -736,7 +736,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_s3_by_name_serialize(
+        _param = self._delete_s3_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -754,7 +754,7 @@ class S3Api:
         return response_data.response
 
 
-    def _delete_v1_s3_by_name_serialize(
+    def _delete_s3_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -811,7 +811,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3(
+    def get_s3(
         self,
         _request_timeout: Union[
             None,
@@ -852,7 +852,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_serialize(
+        _param = self._get_s3_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -874,7 +874,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_with_http_info(
+    def get_s3_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -915,7 +915,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_serialize(
+        _param = self._get_s3_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -937,7 +937,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_without_preload_content(
+    def get_s3_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -978,7 +978,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_serialize(
+        _param = self._get_s3_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -995,7 +995,7 @@ class S3Api:
         return response_data.response
 
 
-    def _get_v1_s3_serialize(
+    def _get_s3_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1056,7 +1056,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets(
+    def get_s3_buckets(
         self,
         _request_timeout: Union[
             None,
@@ -1097,7 +1097,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_serialize(
+        _param = self._get_s3_buckets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1118,7 +1118,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_with_http_info(
+    def get_s3_buckets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1159,7 +1159,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_serialize(
+        _param = self._get_s3_buckets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1180,7 +1180,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_without_preload_content(
+    def get_s3_buckets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1221,7 +1221,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_serialize(
+        _param = self._get_s3_buckets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1237,7 +1237,7 @@ class S3Api:
         return response_data.response
 
 
-    def _get_v1_s3_buckets_serialize(
+    def _get_s3_buckets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1291,7 +1291,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_by_bucket_objects(
+    def get_s3_buckets_by_bucket_objects(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -1335,7 +1335,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_by_bucket_objects_serialize(
+        _param = self._get_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1357,7 +1357,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_by_bucket_objects_with_http_info(
+    def get_s3_buckets_by_bucket_objects_with_http_info(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -1401,7 +1401,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_by_bucket_objects_serialize(
+        _param = self._get_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1423,7 +1423,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_by_bucket_objects_without_preload_content(
+    def get_s3_buckets_by_bucket_objects_without_preload_content(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -1467,7 +1467,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_by_bucket_objects_serialize(
+        _param = self._get_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1484,7 +1484,7 @@ class S3Api:
         return response_data.response
 
 
-    def _get_v1_s3_buckets_by_bucket_objects_serialize(
+    def _get_s3_buckets_by_bucket_objects_serialize(
         self,
         bucket,
         _request_auth,
@@ -1541,7 +1541,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_by_bucket_objects_by_wildcard1(
+    def get_s3_buckets_by_bucket_objects_by_wildcard1(
         self,
         bucket: StrictStr,
         wildcard1: StrictStr,
@@ -1588,7 +1588,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        _param = self._get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
             bucket=bucket,
             wildcard1=wildcard1,
             _request_auth=_request_auth,
@@ -1611,7 +1611,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_by_bucket_objects_by_wildcard1_with_http_info(
+    def get_s3_buckets_by_bucket_objects_by_wildcard1_with_http_info(
         self,
         bucket: StrictStr,
         wildcard1: StrictStr,
@@ -1658,7 +1658,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        _param = self._get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
             bucket=bucket,
             wildcard1=wildcard1,
             _request_auth=_request_auth,
@@ -1681,7 +1681,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_buckets_by_bucket_objects_by_wildcard1_without_preload_content(
+    def get_s3_buckets_by_bucket_objects_by_wildcard1_without_preload_content(
         self,
         bucket: StrictStr,
         wildcard1: StrictStr,
@@ -1728,7 +1728,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+        _param = self._get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
             bucket=bucket,
             wildcard1=wildcard1,
             _request_auth=_request_auth,
@@ -1746,7 +1746,7 @@ class S3Api:
         return response_data.response
 
 
-    def _get_v1_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
+    def _get_s3_buckets_by_bucket_objects_by_wildcard1_serialize(
         self,
         bucket,
         wildcard1,
@@ -1806,7 +1806,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_by_name(
+    def get_s3_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -1850,7 +1850,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_by_name_serialize(
+        _param = self._get_s3_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1873,7 +1873,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_by_name_with_http_info(
+    def get_s3_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -1917,7 +1917,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_by_name_serialize(
+        _param = self._get_s3_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1940,7 +1940,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_by_name_without_preload_content(
+    def get_s3_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -1984,7 +1984,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_by_name_serialize(
+        _param = self._get_s3_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2002,7 +2002,7 @@ class S3Api:
         return response_data.response
 
 
-    def _get_v1_s3_by_name_serialize(
+    def _get_s3_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -2066,7 +2066,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_health(
+    def get_s3_health(
         self,
         _request_timeout: Union[
             None,
@@ -2107,7 +2107,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_health_serialize(
+        _param = self._get_s3_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2128,7 +2128,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_health_with_http_info(
+    def get_s3_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2169,7 +2169,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_health_serialize(
+        _param = self._get_s3_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2190,7 +2190,7 @@ class S3Api:
 
 
     @validate_call
-    def get_v1_s3_health_without_preload_content(
+    def get_s3_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2231,7 +2231,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_s3_health_serialize(
+        _param = self._get_s3_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2247,7 +2247,7 @@ class S3Api:
         return response_data.response
 
 
-    def _get_v1_s3_health_serialize(
+    def _get_s3_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2301,7 +2301,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3(
+    def post_s3(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -2345,7 +2345,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_serialize(
+        _param = self._post_s3_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2368,7 +2368,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_with_http_info(
+    def post_s3_with_http_info(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -2412,7 +2412,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_serialize(
+        _param = self._post_s3_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2435,7 +2435,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_without_preload_content(
+    def post_s3_without_preload_content(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -2479,7 +2479,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_serialize(
+        _param = self._post_s3_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2497,7 +2497,7 @@ class S3Api:
         return response_data.response
 
 
-    def _post_v1_s3_serialize(
+    def _post_s3_serialize(
         self,
         provision_request,
         _request_auth,
@@ -2574,7 +2574,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_buckets(
+    def post_s3_buckets(
         self,
         _request_timeout: Union[
             None,
@@ -2615,7 +2615,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_buckets_serialize(
+        _param = self._post_s3_buckets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2636,7 +2636,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_buckets_with_http_info(
+    def post_s3_buckets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2677,7 +2677,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_buckets_serialize(
+        _param = self._post_s3_buckets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2698,7 +2698,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_buckets_without_preload_content(
+    def post_s3_buckets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2739,7 +2739,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_buckets_serialize(
+        _param = self._post_s3_buckets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2755,7 +2755,7 @@ class S3Api:
         return response_data.response
 
 
-    def _post_v1_s3_buckets_serialize(
+    def _post_s3_buckets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2809,7 +2809,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_buckets_by_bucket_objects(
+    def post_s3_buckets_by_bucket_objects(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -2853,7 +2853,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_buckets_by_bucket_objects_serialize(
+        _param = self._post_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2875,7 +2875,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_buckets_by_bucket_objects_with_http_info(
+    def post_s3_buckets_by_bucket_objects_with_http_info(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -2919,7 +2919,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_buckets_by_bucket_objects_serialize(
+        _param = self._post_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2941,7 +2941,7 @@ class S3Api:
 
 
     @validate_call
-    def post_v1_s3_buckets_by_bucket_objects_without_preload_content(
+    def post_s3_buckets_by_bucket_objects_without_preload_content(
         self,
         bucket: StrictStr,
         _request_timeout: Union[
@@ -2985,7 +2985,7 @@ class S3Api:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_s3_buckets_by_bucket_objects_serialize(
+        _param = self._post_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3002,7 +3002,7 @@ class S3Api:
         return response_data.response
 
 
-    def _post_v1_s3_buckets_by_bucket_objects_serialize(
+    def _post_s3_buckets_by_bucket_objects_serialize(
         self,
         bucket,
         _request_auth,

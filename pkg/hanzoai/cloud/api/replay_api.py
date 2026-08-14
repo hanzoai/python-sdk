@@ -39,7 +39,7 @@ class ReplayApi:
 
 
     @validate_call
-    def post_v1_replay(
+    def post_replay(
         self,
         replay_body: Optional[ReplayBody] = None,
         _request_timeout: Union[
@@ -83,7 +83,7 @@ class ReplayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_replay_serialize(
+        _param = self._post_replay_serialize(
             replay_body=replay_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -106,7 +106,7 @@ class ReplayApi:
 
 
     @validate_call
-    def post_v1_replay_with_http_info(
+    def post_replay_with_http_info(
         self,
         replay_body: Optional[ReplayBody] = None,
         _request_timeout: Union[
@@ -150,7 +150,7 @@ class ReplayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_replay_serialize(
+        _param = self._post_replay_serialize(
             replay_body=replay_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -173,7 +173,7 @@ class ReplayApi:
 
 
     @validate_call
-    def post_v1_replay_without_preload_content(
+    def post_replay_without_preload_content(
         self,
         replay_body: Optional[ReplayBody] = None,
         _request_timeout: Union[
@@ -217,7 +217,7 @@ class ReplayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_replay_serialize(
+        _param = self._post_replay_serialize(
             replay_body=replay_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -235,7 +235,7 @@ class ReplayApi:
         return response_data.response
 
 
-    def _post_v1_replay_serialize(
+    def _post_replay_serialize(
         self,
         replay_body,
         _request_auth,

@@ -51,7 +51,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_name(
+    def delete_mq_streams_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         _request_timeout: Union[
@@ -95,7 +95,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_name_serialize(
+        _param = self._delete_mq_streams_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -118,7 +118,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_name_with_http_info(
+    def delete_mq_streams_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         _request_timeout: Union[
@@ -162,7 +162,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_name_serialize(
+        _param = self._delete_mq_streams_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -185,7 +185,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_name_without_preload_content(
+    def delete_mq_streams_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         _request_timeout: Union[
@@ -229,7 +229,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_name_serialize(
+        _param = self._delete_mq_streams_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -247,7 +247,7 @@ class MqApi:
         return response_data.response
 
 
-    def _delete_v1_mq_streams_by_name_serialize(
+    def _delete_mq_streams_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -304,7 +304,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_name_messages_by_seq(
+    def delete_mq_streams_by_name_messages_by_seq(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         seq: Annotated[StrictInt, Field(description="Seq is the message's stream sequence, from the path.")],
@@ -351,7 +351,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_name_messages_by_seq_serialize(
+        _param = self._delete_mq_streams_by_name_messages_by_seq_serialize(
             name=name,
             seq=seq,
             _request_auth=_request_auth,
@@ -375,7 +375,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_name_messages_by_seq_with_http_info(
+    def delete_mq_streams_by_name_messages_by_seq_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         seq: Annotated[StrictInt, Field(description="Seq is the message's stream sequence, from the path.")],
@@ -422,7 +422,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_name_messages_by_seq_serialize(
+        _param = self._delete_mq_streams_by_name_messages_by_seq_serialize(
             name=name,
             seq=seq,
             _request_auth=_request_auth,
@@ -446,7 +446,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_name_messages_by_seq_without_preload_content(
+    def delete_mq_streams_by_name_messages_by_seq_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         seq: Annotated[StrictInt, Field(description="Seq is the message's stream sequence, from the path.")],
@@ -493,7 +493,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_name_messages_by_seq_serialize(
+        _param = self._delete_mq_streams_by_name_messages_by_seq_serialize(
             name=name,
             seq=seq,
             _request_auth=_request_auth,
@@ -512,7 +512,7 @@ class MqApi:
         return response_data.response
 
 
-    def _delete_v1_mq_streams_by_name_messages_by_seq_serialize(
+    def _delete_mq_streams_by_name_messages_by_seq_serialize(
         self,
         name,
         seq,
@@ -572,7 +572,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_stream_consumers_by_name(
+    def delete_mq_streams_by_stream_consumers_by_name(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -619,7 +619,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_stream_consumers_by_name_serialize(
+        _param = self._delete_mq_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -643,7 +643,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_stream_consumers_by_name_with_http_info(
+    def delete_mq_streams_by_stream_consumers_by_name_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -690,7 +690,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_stream_consumers_by_name_serialize(
+        _param = self._delete_mq_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -714,7 +714,7 @@ class MqApi:
 
 
     @validate_call
-    def delete_v1_mq_streams_by_stream_consumers_by_name_without_preload_content(
+    def delete_mq_streams_by_stream_consumers_by_name_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -761,7 +761,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mq_streams_by_stream_consumers_by_name_serialize(
+        _param = self._delete_mq_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -780,7 +780,7 @@ class MqApi:
         return response_data.response
 
 
-    def _delete_v1_mq_streams_by_stream_consumers_by_name_serialize(
+    def _delete_mq_streams_by_stream_consumers_by_name_serialize(
         self,
         stream,
         name,
@@ -840,7 +840,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_health(
+    def get_mq_health(
         self,
         _request_timeout: Union[
             None,
@@ -881,7 +881,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_health_serialize(
+        _param = self._get_mq_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -903,7 +903,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_health_with_http_info(
+    def get_mq_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -944,7 +944,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_health_serialize(
+        _param = self._get_mq_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -966,7 +966,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_health_without_preload_content(
+    def get_mq_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1007,7 +1007,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_health_serialize(
+        _param = self._get_mq_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1024,7 +1024,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_health_serialize(
+    def _get_mq_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1085,7 +1085,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_info(
+    def get_mq_info(
         self,
         _request_timeout: Union[
             None,
@@ -1126,7 +1126,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_info_serialize(
+        _param = self._get_mq_info_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1148,7 +1148,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_info_with_http_info(
+    def get_mq_info_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1189,7 +1189,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_info_serialize(
+        _param = self._get_mq_info_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1211,7 +1211,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_info_without_preload_content(
+    def get_mq_info_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1252,7 +1252,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_info_serialize(
+        _param = self._get_mq_info_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1269,7 +1269,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_info_serialize(
+    def _get_mq_info_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1330,7 +1330,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams(
+    def get_mq_streams(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the streams returned (1–1000, default 100).")] = None,
         offset: Annotated[Optional[StrictInt], Field(description="Offset skips that many streams, name-ordered.")] = None,
@@ -1377,7 +1377,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_serialize(
+        _param = self._get_mq_streams_serialize(
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -1401,7 +1401,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_with_http_info(
+    def get_mq_streams_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the streams returned (1–1000, default 100).")] = None,
         offset: Annotated[Optional[StrictInt], Field(description="Offset skips that many streams, name-ordered.")] = None,
@@ -1448,7 +1448,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_serialize(
+        _param = self._get_mq_streams_serialize(
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -1472,7 +1472,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_without_preload_content(
+    def get_mq_streams_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the streams returned (1–1000, default 100).")] = None,
         offset: Annotated[Optional[StrictInt], Field(description="Offset skips that many streams, name-ordered.")] = None,
@@ -1519,7 +1519,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_serialize(
+        _param = self._get_mq_streams_serialize(
             limit=limit,
             offset=offset,
             _request_auth=_request_auth,
@@ -1538,7 +1538,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_streams_serialize(
+    def _get_mq_streams_serialize(
         self,
         limit,
         offset,
@@ -1609,7 +1609,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_name(
+    def get_mq_streams_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         _request_timeout: Union[
@@ -1653,7 +1653,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_name_serialize(
+        _param = self._get_mq_streams_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1676,7 +1676,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_name_with_http_info(
+    def get_mq_streams_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         _request_timeout: Union[
@@ -1720,7 +1720,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_name_serialize(
+        _param = self._get_mq_streams_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1743,7 +1743,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_name_without_preload_content(
+    def get_mq_streams_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         _request_timeout: Union[
@@ -1787,7 +1787,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_name_serialize(
+        _param = self._get_mq_streams_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1805,7 +1805,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_streams_by_name_serialize(
+    def _get_mq_streams_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -1869,7 +1869,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_name_messages(
+    def get_mq_streams_by_name_messages(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         seq: Annotated[Optional[StrictInt], Field(description="Seq reads the message at this sequence (with next_by_subject: the walk's start).")] = None,
@@ -1925,7 +1925,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_name_messages_serialize(
+        _param = self._get_mq_streams_by_name_messages_serialize(
             name=name,
             seq=seq,
             last_by_subject=last_by_subject,
@@ -1952,7 +1952,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_name_messages_with_http_info(
+    def get_mq_streams_by_name_messages_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         seq: Annotated[Optional[StrictInt], Field(description="Seq reads the message at this sequence (with next_by_subject: the walk's start).")] = None,
@@ -2008,7 +2008,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_name_messages_serialize(
+        _param = self._get_mq_streams_by_name_messages_serialize(
             name=name,
             seq=seq,
             last_by_subject=last_by_subject,
@@ -2035,7 +2035,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_name_messages_without_preload_content(
+    def get_mq_streams_by_name_messages_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         seq: Annotated[Optional[StrictInt], Field(description="Seq reads the message at this sequence (with next_by_subject: the walk's start).")] = None,
@@ -2091,7 +2091,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_name_messages_serialize(
+        _param = self._get_mq_streams_by_name_messages_serialize(
             name=name,
             seq=seq,
             last_by_subject=last_by_subject,
@@ -2113,7 +2113,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_streams_by_name_messages_serialize(
+    def _get_mq_streams_by_name_messages_serialize(
         self,
         name,
         seq,
@@ -2197,7 +2197,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_stream_consumers(
+    def get_mq_streams_by_stream_consumers(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the consumers returned (1–1000, default 100).")] = None,
@@ -2247,7 +2247,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_stream_consumers_serialize(
+        _param = self._get_mq_streams_by_stream_consumers_serialize(
             stream=stream,
             limit=limit,
             offset=offset,
@@ -2272,7 +2272,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_stream_consumers_with_http_info(
+    def get_mq_streams_by_stream_consumers_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the consumers returned (1–1000, default 100).")] = None,
@@ -2322,7 +2322,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_stream_consumers_serialize(
+        _param = self._get_mq_streams_by_stream_consumers_serialize(
             stream=stream,
             limit=limit,
             offset=offset,
@@ -2347,7 +2347,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_stream_consumers_without_preload_content(
+    def get_mq_streams_by_stream_consumers_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the consumers returned (1–1000, default 100).")] = None,
@@ -2397,7 +2397,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_stream_consumers_serialize(
+        _param = self._get_mq_streams_by_stream_consumers_serialize(
             stream=stream,
             limit=limit,
             offset=offset,
@@ -2417,7 +2417,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_streams_by_stream_consumers_serialize(
+    def _get_mq_streams_by_stream_consumers_serialize(
         self,
         stream,
         limit,
@@ -2491,7 +2491,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_stream_consumers_by_name(
+    def get_mq_streams_by_stream_consumers_by_name(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -2538,7 +2538,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_stream_consumers_by_name_serialize(
+        _param = self._get_mq_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -2562,7 +2562,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_stream_consumers_by_name_with_http_info(
+    def get_mq_streams_by_stream_consumers_by_name_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -2609,7 +2609,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_stream_consumers_by_name_serialize(
+        _param = self._get_mq_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -2633,7 +2633,7 @@ class MqApi:
 
 
     @validate_call
-    def get_v1_mq_streams_by_stream_consumers_by_name_without_preload_content(
+    def get_mq_streams_by_stream_consumers_by_name_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -2680,7 +2680,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mq_streams_by_stream_consumers_by_name_serialize(
+        _param = self._get_mq_streams_by_stream_consumers_by_name_serialize(
             stream=stream,
             name=name,
             _request_auth=_request_auth,
@@ -2699,7 +2699,7 @@ class MqApi:
         return response_data.response
 
 
-    def _get_v1_mq_streams_by_stream_consumers_by_name_serialize(
+    def _get_mq_streams_by_stream_consumers_by_name_serialize(
         self,
         stream,
         name,
@@ -2766,7 +2766,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams(
+    def post_mq_streams(
         self,
         config: Config,
         _request_timeout: Union[
@@ -2810,7 +2810,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_serialize(
+        _param = self._post_mq_streams_serialize(
             config=config,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2833,7 +2833,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_with_http_info(
+    def post_mq_streams_with_http_info(
         self,
         config: Config,
         _request_timeout: Union[
@@ -2877,7 +2877,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_serialize(
+        _param = self._post_mq_streams_serialize(
             config=config,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2900,7 +2900,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_without_preload_content(
+    def post_mq_streams_without_preload_content(
         self,
         config: Config,
         _request_timeout: Union[
@@ -2944,7 +2944,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_serialize(
+        _param = self._post_mq_streams_serialize(
             config=config,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2962,7 +2962,7 @@ class MqApi:
         return response_data.response
 
 
-    def _post_v1_mq_streams_serialize(
+    def _post_mq_streams_serialize(
         self,
         config,
         _request_auth,
@@ -3039,7 +3039,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_name_purge(
+    def post_mq_streams_by_name_purge(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         purge: Purge,
@@ -3086,7 +3086,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_name_purge_serialize(
+        _param = self._post_mq_streams_by_name_purge_serialize(
             name=name,
             purge=purge,
             _request_auth=_request_auth,
@@ -3110,7 +3110,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_name_purge_with_http_info(
+    def post_mq_streams_by_name_purge_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         purge: Purge,
@@ -3157,7 +3157,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_name_purge_serialize(
+        _param = self._post_mq_streams_by_name_purge_serialize(
             name=name,
             purge=purge,
             _request_auth=_request_auth,
@@ -3181,7 +3181,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_name_purge_without_preload_content(
+    def post_mq_streams_by_name_purge_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
         purge: Purge,
@@ -3228,7 +3228,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_name_purge_serialize(
+        _param = self._post_mq_streams_by_name_purge_serialize(
             name=name,
             purge=purge,
             _request_auth=_request_auth,
@@ -3247,7 +3247,7 @@ class MqApi:
         return response_data.response
 
 
-    def _post_v1_mq_streams_by_name_purge_serialize(
+    def _post_mq_streams_by_name_purge_serialize(
         self,
         name,
         purge,
@@ -3327,7 +3327,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_stream_consumers(
+    def post_mq_streams_by_stream_consumers(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         make_in: MakeIn,
@@ -3374,7 +3374,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_stream_consumers_serialize(
+        _param = self._post_mq_streams_by_stream_consumers_serialize(
             stream=stream,
             make_in=make_in,
             _request_auth=_request_auth,
@@ -3398,7 +3398,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_stream_consumers_with_http_info(
+    def post_mq_streams_by_stream_consumers_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         make_in: MakeIn,
@@ -3445,7 +3445,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_stream_consumers_serialize(
+        _param = self._post_mq_streams_by_stream_consumers_serialize(
             stream=stream,
             make_in=make_in,
             _request_auth=_request_auth,
@@ -3469,7 +3469,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_stream_consumers_without_preload_content(
+    def post_mq_streams_by_stream_consumers_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         make_in: MakeIn,
@@ -3516,7 +3516,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_stream_consumers_serialize(
+        _param = self._post_mq_streams_by_stream_consumers_serialize(
             stream=stream,
             make_in=make_in,
             _request_auth=_request_auth,
@@ -3535,7 +3535,7 @@ class MqApi:
         return response_data.response
 
 
-    def _post_v1_mq_streams_by_stream_consumers_serialize(
+    def _post_mq_streams_by_stream_consumers_serialize(
         self,
         stream,
         make_in,
@@ -3615,7 +3615,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_stream_consumers_by_name_next(
+    def post_mq_streams_by_stream_consumers_by_name_next(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -3665,7 +3665,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_stream_consumers_by_name_next_serialize(
+        _param = self._post_mq_streams_by_stream_consumers_by_name_next_serialize(
             stream=stream,
             name=name,
             next_in=next_in,
@@ -3690,7 +3690,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_stream_consumers_by_name_next_with_http_info(
+    def post_mq_streams_by_stream_consumers_by_name_next_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -3740,7 +3740,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_stream_consumers_by_name_next_serialize(
+        _param = self._post_mq_streams_by_stream_consumers_by_name_next_serialize(
             stream=stream,
             name=name,
             next_in=next_in,
@@ -3765,7 +3765,7 @@ class MqApi:
 
 
     @validate_call
-    def post_v1_mq_streams_by_stream_consumers_by_name_next_without_preload_content(
+    def post_mq_streams_by_stream_consumers_by_name_next_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
@@ -3815,7 +3815,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mq_streams_by_stream_consumers_by_name_next_serialize(
+        _param = self._post_mq_streams_by_stream_consumers_by_name_next_serialize(
             stream=stream,
             name=name,
             next_in=next_in,
@@ -3835,7 +3835,7 @@ class MqApi:
         return response_data.response
 
 
-    def _post_v1_mq_streams_by_stream_consumers_by_name_next_serialize(
+    def _post_mq_streams_by_stream_consumers_by_name_next_serialize(
         self,
         stream,
         name,
@@ -3918,7 +3918,7 @@ class MqApi:
 
 
     @validate_call
-    def put_v1_mq_streams_by_name(
+    def put_mq_streams_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, unique within the org (alphanumeric, hyphens, underscores).")],
         config: Config,
@@ -3965,7 +3965,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_mq_streams_by_name_serialize(
+        _param = self._put_mq_streams_by_name_serialize(
             name=name,
             config=config,
             _request_auth=_request_auth,
@@ -3989,7 +3989,7 @@ class MqApi:
 
 
     @validate_call
-    def put_v1_mq_streams_by_name_with_http_info(
+    def put_mq_streams_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, unique within the org (alphanumeric, hyphens, underscores).")],
         config: Config,
@@ -4036,7 +4036,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_mq_streams_by_name_serialize(
+        _param = self._put_mq_streams_by_name_serialize(
             name=name,
             config=config,
             _request_auth=_request_auth,
@@ -4060,7 +4060,7 @@ class MqApi:
 
 
     @validate_call
-    def put_v1_mq_streams_by_name_without_preload_content(
+    def put_mq_streams_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, unique within the org (alphanumeric, hyphens, underscores).")],
         config: Config,
@@ -4107,7 +4107,7 @@ class MqApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_mq_streams_by_name_serialize(
+        _param = self._put_mq_streams_by_name_serialize(
             name=name,
             config=config,
             _request_auth=_request_auth,
@@ -4126,7 +4126,7 @@ class MqApi:
         return response_data.response
 
 
-    def _put_v1_mq_streams_by_name_serialize(
+    def _put_mq_streams_by_name_serialize(
         self,
         name,
         config,

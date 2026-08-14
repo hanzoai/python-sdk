@@ -38,7 +38,7 @@ class RunApi:
 
 
     @validate_call
-    def post_v1_run(
+    def post_run(
         self,
         run_req: RunReq,
         _request_timeout: Union[
@@ -82,7 +82,7 @@ class RunApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_run_serialize(
+        _param = self._post_run_serialize(
             run_req=run_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -105,7 +105,7 @@ class RunApi:
 
 
     @validate_call
-    def post_v1_run_with_http_info(
+    def post_run_with_http_info(
         self,
         run_req: RunReq,
         _request_timeout: Union[
@@ -149,7 +149,7 @@ class RunApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_run_serialize(
+        _param = self._post_run_serialize(
             run_req=run_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -172,7 +172,7 @@ class RunApi:
 
 
     @validate_call
-    def post_v1_run_without_preload_content(
+    def post_run_without_preload_content(
         self,
         run_req: RunReq,
         _request_timeout: Union[
@@ -216,7 +216,7 @@ class RunApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_run_serialize(
+        _param = self._post_run_serialize(
             run_req=run_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -234,7 +234,7 @@ class RunApi:
         return response_data.response
 
 
-    def _post_v1_run_serialize(
+    def _post_run_serialize(
         self,
         run_req,
         _request_auth,

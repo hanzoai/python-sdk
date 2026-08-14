@@ -40,7 +40,7 @@ class EmbedApi:
 
 
     @validate_call
-    def get_v1_embed(
+    def get_embed(
         self,
         app: Annotated[Optional[StrictStr], Field(description="App is the embedded app to report on: cms (Content Studio), erp or help.")] = None,
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class EmbedApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_embed_serialize(
+        _param = self._get_embed_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -107,7 +107,7 @@ class EmbedApi:
 
 
     @validate_call
-    def get_v1_embed_with_http_info(
+    def get_embed_with_http_info(
         self,
         app: Annotated[Optional[StrictStr], Field(description="App is the embedded app to report on: cms (Content Studio), erp or help.")] = None,
         _request_timeout: Union[
@@ -151,7 +151,7 @@ class EmbedApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_embed_serialize(
+        _param = self._get_embed_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -174,7 +174,7 @@ class EmbedApi:
 
 
     @validate_call
-    def get_v1_embed_without_preload_content(
+    def get_embed_without_preload_content(
         self,
         app: Annotated[Optional[StrictStr], Field(description="App is the embedded app to report on: cms (Content Studio), erp or help.")] = None,
         _request_timeout: Union[
@@ -218,7 +218,7 @@ class EmbedApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_embed_serialize(
+        _param = self._get_embed_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -236,7 +236,7 @@ class EmbedApi:
         return response_data.response
 
 
-    def _get_v1_embed_serialize(
+    def _get_embed_serialize(
         self,
         app,
         _request_auth,

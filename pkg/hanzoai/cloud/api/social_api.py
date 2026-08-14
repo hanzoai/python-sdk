@@ -37,7 +37,7 @@ class SocialApi:
 
 
     @validate_call
-    def delete_v1_social_accounts_by_id(
+    def delete_social_accounts_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -81,7 +81,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_social_accounts_by_id_serialize(
+        _param = self._delete_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class SocialApi:
 
 
     @validate_call
-    def delete_v1_social_accounts_by_id_with_http_info(
+    def delete_social_accounts_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -147,7 +147,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_social_accounts_by_id_serialize(
+        _param = self._delete_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class SocialApi:
 
 
     @validate_call
-    def delete_v1_social_accounts_by_id_without_preload_content(
+    def delete_social_accounts_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -213,7 +213,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_social_accounts_by_id_serialize(
+        _param = self._delete_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _delete_v1_social_accounts_by_id_serialize(
+    def _delete_social_accounts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -287,7 +287,7 @@ class SocialApi:
 
 
     @validate_call
-    def delete_v1_social_posts_by_id(
+    def delete_social_posts_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -331,7 +331,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_social_posts_by_id_serialize(
+        _param = self._delete_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -353,7 +353,7 @@ class SocialApi:
 
 
     @validate_call
-    def delete_v1_social_posts_by_id_with_http_info(
+    def delete_social_posts_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -397,7 +397,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_social_posts_by_id_serialize(
+        _param = self._delete_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -419,7 +419,7 @@ class SocialApi:
 
 
     @validate_call
-    def delete_v1_social_posts_by_id_without_preload_content(
+    def delete_social_posts_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -463,7 +463,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_social_posts_by_id_serialize(
+        _param = self._delete_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -480,7 +480,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _delete_v1_social_posts_by_id_serialize(
+    def _delete_social_posts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -537,7 +537,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_accounts(
+    def get_social_accounts(
         self,
         _request_timeout: Union[
             None,
@@ -578,7 +578,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_accounts_serialize(
+        _param = self._get_social_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -599,7 +599,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_accounts_with_http_info(
+    def get_social_accounts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -640,7 +640,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_accounts_serialize(
+        _param = self._get_social_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -661,7 +661,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_accounts_without_preload_content(
+    def get_social_accounts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -702,7 +702,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_accounts_serialize(
+        _param = self._get_social_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -718,7 +718,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _get_v1_social_accounts_serialize(
+    def _get_social_accounts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -772,7 +772,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_accounts_by_id(
+    def get_social_accounts_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -816,7 +816,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_accounts_by_id_serialize(
+        _param = self._get_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -838,7 +838,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_accounts_by_id_with_http_info(
+    def get_social_accounts_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -882,7 +882,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_accounts_by_id_serialize(
+        _param = self._get_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -904,7 +904,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_accounts_by_id_without_preload_content(
+    def get_social_accounts_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -948,7 +948,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_accounts_by_id_serialize(
+        _param = self._get_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -965,7 +965,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _get_v1_social_accounts_by_id_serialize(
+    def _get_social_accounts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1022,7 +1022,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_posts(
+    def get_social_posts(
         self,
         _request_timeout: Union[
             None,
@@ -1063,7 +1063,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_posts_serialize(
+        _param = self._get_social_posts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1084,7 +1084,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_posts_with_http_info(
+    def get_social_posts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1125,7 +1125,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_posts_serialize(
+        _param = self._get_social_posts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1146,7 +1146,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_posts_without_preload_content(
+    def get_social_posts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1187,7 +1187,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_posts_serialize(
+        _param = self._get_social_posts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1203,7 +1203,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _get_v1_social_posts_serialize(
+    def _get_social_posts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1257,7 +1257,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_posts_by_id(
+    def get_social_posts_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1301,7 +1301,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_posts_by_id_serialize(
+        _param = self._get_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1323,7 +1323,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_posts_by_id_with_http_info(
+    def get_social_posts_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1367,7 +1367,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_posts_by_id_serialize(
+        _param = self._get_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1389,7 +1389,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_posts_by_id_without_preload_content(
+    def get_social_posts_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1433,7 +1433,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_posts_by_id_serialize(
+        _param = self._get_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1450,7 +1450,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _get_v1_social_posts_by_id_serialize(
+    def _get_social_posts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1507,7 +1507,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_providers(
+    def get_social_providers(
         self,
         _request_timeout: Union[
             None,
@@ -1548,7 +1548,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_providers_serialize(
+        _param = self._get_social_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1569,7 +1569,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_providers_with_http_info(
+    def get_social_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1610,7 +1610,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_providers_serialize(
+        _param = self._get_social_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1631,7 +1631,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_providers_without_preload_content(
+    def get_social_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1672,7 +1672,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_providers_serialize(
+        _param = self._get_social_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1688,7 +1688,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _get_v1_social_providers_serialize(
+    def _get_social_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1742,7 +1742,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_summary(
+    def get_social_summary(
         self,
         _request_timeout: Union[
             None,
@@ -1783,7 +1783,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_summary_serialize(
+        _param = self._get_social_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1804,7 +1804,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_summary_with_http_info(
+    def get_social_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1845,7 +1845,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_summary_serialize(
+        _param = self._get_social_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1866,7 +1866,7 @@ class SocialApi:
 
 
     @validate_call
-    def get_v1_social_summary_without_preload_content(
+    def get_social_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1907,7 +1907,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_social_summary_serialize(
+        _param = self._get_social_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1923,7 +1923,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _get_v1_social_summary_serialize(
+    def _get_social_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1977,7 +1977,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_accounts(
+    def post_social_accounts(
         self,
         _request_timeout: Union[
             None,
@@ -2018,7 +2018,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_accounts_serialize(
+        _param = self._post_social_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2039,7 +2039,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_accounts_with_http_info(
+    def post_social_accounts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2080,7 +2080,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_accounts_serialize(
+        _param = self._post_social_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2101,7 +2101,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_accounts_without_preload_content(
+    def post_social_accounts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2142,7 +2142,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_accounts_serialize(
+        _param = self._post_social_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2158,7 +2158,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _post_v1_social_accounts_serialize(
+    def _post_social_accounts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2212,7 +2212,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_posts(
+    def post_social_posts(
         self,
         _request_timeout: Union[
             None,
@@ -2253,7 +2253,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_posts_serialize(
+        _param = self._post_social_posts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2274,7 +2274,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_posts_with_http_info(
+    def post_social_posts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2315,7 +2315,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_posts_serialize(
+        _param = self._post_social_posts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2336,7 +2336,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_posts_without_preload_content(
+    def post_social_posts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2377,7 +2377,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_posts_serialize(
+        _param = self._post_social_posts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2393,7 +2393,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _post_v1_social_posts_serialize(
+    def _post_social_posts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2447,7 +2447,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_posts_by_id_publish(
+    def post_social_posts_by_id_publish(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2491,7 +2491,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_posts_by_id_publish_serialize(
+        _param = self._post_social_posts_by_id_publish_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2513,7 +2513,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_posts_by_id_publish_with_http_info(
+    def post_social_posts_by_id_publish_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2557,7 +2557,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_posts_by_id_publish_serialize(
+        _param = self._post_social_posts_by_id_publish_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2579,7 +2579,7 @@ class SocialApi:
 
 
     @validate_call
-    def post_v1_social_posts_by_id_publish_without_preload_content(
+    def post_social_posts_by_id_publish_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2623,7 +2623,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_social_posts_by_id_publish_serialize(
+        _param = self._post_social_posts_by_id_publish_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2640,7 +2640,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _post_v1_social_posts_by_id_publish_serialize(
+    def _post_social_posts_by_id_publish_serialize(
         self,
         id,
         _request_auth,
@@ -2697,7 +2697,7 @@ class SocialApi:
 
 
     @validate_call
-    def put_v1_social_accounts_by_id(
+    def put_social_accounts_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2741,7 +2741,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_social_accounts_by_id_serialize(
+        _param = self._put_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2763,7 +2763,7 @@ class SocialApi:
 
 
     @validate_call
-    def put_v1_social_accounts_by_id_with_http_info(
+    def put_social_accounts_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2807,7 +2807,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_social_accounts_by_id_serialize(
+        _param = self._put_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2829,7 +2829,7 @@ class SocialApi:
 
 
     @validate_call
-    def put_v1_social_accounts_by_id_without_preload_content(
+    def put_social_accounts_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2873,7 +2873,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_social_accounts_by_id_serialize(
+        _param = self._put_social_accounts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2890,7 +2890,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _put_v1_social_accounts_by_id_serialize(
+    def _put_social_accounts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2947,7 +2947,7 @@ class SocialApi:
 
 
     @validate_call
-    def put_v1_social_posts_by_id(
+    def put_social_posts_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2991,7 +2991,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_social_posts_by_id_serialize(
+        _param = self._put_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3013,7 +3013,7 @@ class SocialApi:
 
 
     @validate_call
-    def put_v1_social_posts_by_id_with_http_info(
+    def put_social_posts_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3057,7 +3057,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_social_posts_by_id_serialize(
+        _param = self._put_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3079,7 +3079,7 @@ class SocialApi:
 
 
     @validate_call
-    def put_v1_social_posts_by_id_without_preload_content(
+    def put_social_posts_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3123,7 +3123,7 @@ class SocialApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_social_posts_by_id_serialize(
+        _param = self._put_social_posts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3140,7 +3140,7 @@ class SocialApi:
         return response_data.response
 
 
-    def _put_v1_social_posts_by_id_serialize(
+    def _put_social_posts_by_id_serialize(
         self,
         id,
         _request_auth,

@@ -40,7 +40,7 @@ class SbomApi:
 
 
     @validate_call
-    def get_v1_sbom_by_wildcard1(
+    def get_sbom_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sbom_by_wildcard1_serialize(
+        _param = self._get_sbom_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -106,7 +106,7 @@ class SbomApi:
 
 
     @validate_call
-    def get_v1_sbom_by_wildcard1_with_http_info(
+    def get_sbom_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -150,7 +150,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sbom_by_wildcard1_serialize(
+        _param = self._get_sbom_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -172,7 +172,7 @@ class SbomApi:
 
 
     @validate_call
-    def get_v1_sbom_by_wildcard1_without_preload_content(
+    def get_sbom_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -216,7 +216,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sbom_by_wildcard1_serialize(
+        _param = self._get_sbom_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -233,7 +233,7 @@ class SbomApi:
         return response_data.response
 
 
-    def _get_v1_sbom_by_wildcard1_serialize(
+    def _get_sbom_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -290,7 +290,7 @@ class SbomApi:
 
 
     @validate_call
-    def get_v1_sbom_health(
+    def get_sbom_health(
         self,
         _request_timeout: Union[
             None,
@@ -331,7 +331,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sbom_health_serialize(
+        _param = self._get_sbom_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -353,7 +353,7 @@ class SbomApi:
 
 
     @validate_call
-    def get_v1_sbom_health_with_http_info(
+    def get_sbom_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -394,7 +394,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sbom_health_serialize(
+        _param = self._get_sbom_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -416,7 +416,7 @@ class SbomApi:
 
 
     @validate_call
-    def get_v1_sbom_health_without_preload_content(
+    def get_sbom_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -457,7 +457,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sbom_health_serialize(
+        _param = self._get_sbom_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -474,7 +474,7 @@ class SbomApi:
         return response_data.response
 
 
-    def _get_v1_sbom_health_serialize(
+    def _get_sbom_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -535,7 +535,7 @@ class SbomApi:
 
 
     @validate_call
-    def post_v1_sbom(
+    def post_sbom(
         self,
         sbom_ingest: SbomIngest,
         _request_timeout: Union[
@@ -579,7 +579,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sbom_serialize(
+        _param = self._post_sbom_serialize(
             sbom_ingest=sbom_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -602,7 +602,7 @@ class SbomApi:
 
 
     @validate_call
-    def post_v1_sbom_with_http_info(
+    def post_sbom_with_http_info(
         self,
         sbom_ingest: SbomIngest,
         _request_timeout: Union[
@@ -646,7 +646,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sbom_serialize(
+        _param = self._post_sbom_serialize(
             sbom_ingest=sbom_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -669,7 +669,7 @@ class SbomApi:
 
 
     @validate_call
-    def post_v1_sbom_without_preload_content(
+    def post_sbom_without_preload_content(
         self,
         sbom_ingest: SbomIngest,
         _request_timeout: Union[
@@ -713,7 +713,7 @@ class SbomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sbom_serialize(
+        _param = self._post_sbom_serialize(
             sbom_ingest=sbom_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -731,7 +731,7 @@ class SbomApi:
         return response_data.response
 
 
-    def _post_v1_sbom_serialize(
+    def _post_sbom_serialize(
         self,
         sbom_ingest,
         _request_auth,

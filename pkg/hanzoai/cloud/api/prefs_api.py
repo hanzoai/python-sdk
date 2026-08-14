@@ -37,7 +37,7 @@ class PrefsApi:
 
 
     @validate_call
-    def get_v1_prefs(
+    def get_prefs(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class PrefsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prefs_serialize(
+        _param = self._get_prefs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +100,7 @@ class PrefsApi:
 
 
     @validate_call
-    def get_v1_prefs_with_http_info(
+    def get_prefs_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -141,7 +141,7 @@ class PrefsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prefs_serialize(
+        _param = self._get_prefs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -163,7 +163,7 @@ class PrefsApi:
 
 
     @validate_call
-    def get_v1_prefs_without_preload_content(
+    def get_prefs_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -204,7 +204,7 @@ class PrefsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_prefs_serialize(
+        _param = self._get_prefs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -221,7 +221,7 @@ class PrefsApi:
         return response_data.response
 
 
-    def _get_v1_prefs_serialize(
+    def _get_prefs_serialize(
         self,
         _request_auth,
         _content_type,
@@ -282,7 +282,7 @@ class PrefsApi:
 
 
     @validate_call
-    def patch_v1_prefs(
+    def patch_prefs(
         self,
         _request_timeout: Union[
             None,
@@ -323,7 +323,7 @@ class PrefsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_prefs_serialize(
+        _param = self._patch_prefs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -344,7 +344,7 @@ class PrefsApi:
 
 
     @validate_call
-    def patch_v1_prefs_with_http_info(
+    def patch_prefs_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -385,7 +385,7 @@ class PrefsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_prefs_serialize(
+        _param = self._patch_prefs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -406,7 +406,7 @@ class PrefsApi:
 
 
     @validate_call
-    def patch_v1_prefs_without_preload_content(
+    def patch_prefs_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -447,7 +447,7 @@ class PrefsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_prefs_serialize(
+        _param = self._patch_prefs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -463,7 +463,7 @@ class PrefsApi:
         return response_data.response
 
 
-    def _patch_v1_prefs_serialize(
+    def _patch_prefs_serialize(
         self,
         _request_auth,
         _content_type,

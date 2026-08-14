@@ -51,7 +51,7 @@ class CompatApi:
 
 
     @validate_call
-    def delete_v1_iam_application(
+    def delete_iam_application(
         self,
         owner: StrictStr,
         name: StrictStr,
@@ -98,7 +98,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_iam_application_serialize(
+        _param = self._delete_iam_application_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -122,7 +122,7 @@ class CompatApi:
 
 
     @validate_call
-    def delete_v1_iam_application_with_http_info(
+    def delete_iam_application_with_http_info(
         self,
         owner: StrictStr,
         name: StrictStr,
@@ -169,7 +169,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_iam_application_serialize(
+        _param = self._delete_iam_application_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -193,7 +193,7 @@ class CompatApi:
 
 
     @validate_call
-    def delete_v1_iam_application_without_preload_content(
+    def delete_iam_application_without_preload_content(
         self,
         owner: StrictStr,
         name: StrictStr,
@@ -240,7 +240,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_iam_application_serialize(
+        _param = self._delete_iam_application_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -259,7 +259,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _delete_v1_iam_application_serialize(
+    def _delete_iam_application_serialize(
         self,
         owner,
         name,
@@ -330,7 +330,7 @@ class CompatApi:
 
 
     @validate_call
-    def get_v1_iam_application(
+    def get_iam_application(
         self,
         owner: StrictStr,
         name: StrictStr,
@@ -377,7 +377,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_iam_application_serialize(
+        _param = self._get_iam_application_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -401,7 +401,7 @@ class CompatApi:
 
 
     @validate_call
-    def get_v1_iam_application_with_http_info(
+    def get_iam_application_with_http_info(
         self,
         owner: StrictStr,
         name: StrictStr,
@@ -448,7 +448,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_iam_application_serialize(
+        _param = self._get_iam_application_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -472,7 +472,7 @@ class CompatApi:
 
 
     @validate_call
-    def get_v1_iam_application_without_preload_content(
+    def get_iam_application_without_preload_content(
         self,
         owner: StrictStr,
         name: StrictStr,
@@ -519,7 +519,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_iam_application_serialize(
+        _param = self._get_iam_application_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -538,7 +538,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _get_v1_iam_application_serialize(
+    def _get_iam_application_serialize(
         self,
         owner,
         name,
@@ -609,7 +609,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_application(
+    def post_iam_add_application(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -653,7 +653,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_application_serialize(
+        _param = self._post_iam_add_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -676,7 +676,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_application_with_http_info(
+    def post_iam_add_application_with_http_info(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -720,7 +720,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_application_serialize(
+        _param = self._post_iam_add_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -743,7 +743,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_application_without_preload_content(
+    def post_iam_add_application_without_preload_content(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -787,7 +787,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_application_serialize(
+        _param = self._post_iam_add_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -805,7 +805,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_application_serialize(
+    def _post_iam_add_application_serialize(
         self,
         iam_application,
         _request_auth,
@@ -882,7 +882,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_organization(
+    def post_iam_add_organization(
         self,
         iam_create_organization_input: IamCreateOrganizationInput,
         _request_timeout: Union[
@@ -926,7 +926,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_organization_serialize(
+        _param = self._post_iam_add_organization_serialize(
             iam_create_organization_input=iam_create_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -949,7 +949,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_organization_with_http_info(
+    def post_iam_add_organization_with_http_info(
         self,
         iam_create_organization_input: IamCreateOrganizationInput,
         _request_timeout: Union[
@@ -993,7 +993,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_organization_serialize(
+        _param = self._post_iam_add_organization_serialize(
             iam_create_organization_input=iam_create_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1016,7 +1016,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_organization_without_preload_content(
+    def post_iam_add_organization_without_preload_content(
         self,
         iam_create_organization_input: IamCreateOrganizationInput,
         _request_timeout: Union[
@@ -1060,7 +1060,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_organization_serialize(
+        _param = self._post_iam_add_organization_serialize(
             iam_create_organization_input=iam_create_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1078,7 +1078,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_organization_serialize(
+    def _post_iam_add_organization_serialize(
         self,
         iam_create_organization_input,
         _request_auth,
@@ -1155,7 +1155,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_project(
+    def post_iam_add_project(
         self,
         iam_input: IamInput,
         _request_timeout: Union[
@@ -1199,7 +1199,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_project_serialize(
+        _param = self._post_iam_add_project_serialize(
             iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1222,7 +1222,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_project_with_http_info(
+    def post_iam_add_project_with_http_info(
         self,
         iam_input: IamInput,
         _request_timeout: Union[
@@ -1266,7 +1266,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_project_serialize(
+        _param = self._post_iam_add_project_serialize(
             iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1289,7 +1289,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_project_without_preload_content(
+    def post_iam_add_project_without_preload_content(
         self,
         iam_input: IamInput,
         _request_timeout: Union[
@@ -1333,7 +1333,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_project_serialize(
+        _param = self._post_iam_add_project_serialize(
             iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1351,7 +1351,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_project_serialize(
+    def _post_iam_add_project_serialize(
         self,
         iam_input,
         _request_auth,
@@ -1428,7 +1428,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_provider(
+    def post_iam_add_provider(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -1472,7 +1472,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_provider_serialize(
+        _param = self._post_iam_add_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1495,7 +1495,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_provider_with_http_info(
+    def post_iam_add_provider_with_http_info(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -1539,7 +1539,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_provider_serialize(
+        _param = self._post_iam_add_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1562,7 +1562,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_provider_without_preload_content(
+    def post_iam_add_provider_without_preload_content(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -1606,7 +1606,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_provider_serialize(
+        _param = self._post_iam_add_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1624,7 +1624,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_provider_serialize(
+    def _post_iam_add_provider_serialize(
         self,
         iam_provider,
         _request_auth,
@@ -1701,7 +1701,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_role(
+    def post_iam_add_role(
         self,
         iam_roles_input: IamRolesInput,
         _request_timeout: Union[
@@ -1745,7 +1745,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_role_serialize(
+        _param = self._post_iam_add_role_serialize(
             iam_roles_input=iam_roles_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1768,7 +1768,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_role_with_http_info(
+    def post_iam_add_role_with_http_info(
         self,
         iam_roles_input: IamRolesInput,
         _request_timeout: Union[
@@ -1812,7 +1812,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_role_serialize(
+        _param = self._post_iam_add_role_serialize(
             iam_roles_input=iam_roles_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1835,7 +1835,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_role_without_preload_content(
+    def post_iam_add_role_without_preload_content(
         self,
         iam_roles_input: IamRolesInput,
         _request_timeout: Union[
@@ -1879,7 +1879,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_role_serialize(
+        _param = self._post_iam_add_role_serialize(
             iam_roles_input=iam_roles_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1897,7 +1897,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_role_serialize(
+    def _post_iam_add_role_serialize(
         self,
         iam_roles_input,
         _request_auth,
@@ -1974,7 +1974,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_user(
+    def post_iam_add_user(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -2018,7 +2018,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_user_serialize(
+        _param = self._post_iam_add_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2041,7 +2041,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_user_with_http_info(
+    def post_iam_add_user_with_http_info(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -2085,7 +2085,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_user_serialize(
+        _param = self._post_iam_add_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2108,7 +2108,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_user_without_preload_content(
+    def post_iam_add_user_without_preload_content(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -2152,7 +2152,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_user_serialize(
+        _param = self._post_iam_add_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2170,7 +2170,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_user_serialize(
+    def _post_iam_add_user_serialize(
         self,
         iam_user_body,
         _request_auth,
@@ -2247,7 +2247,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_workspace(
+    def post_iam_add_workspace(
         self,
         iam_workspaces_input: IamWorkspacesInput,
         _request_timeout: Union[
@@ -2291,7 +2291,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_workspace_serialize(
+        _param = self._post_iam_add_workspace_serialize(
             iam_workspaces_input=iam_workspaces_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2314,7 +2314,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_workspace_with_http_info(
+    def post_iam_add_workspace_with_http_info(
         self,
         iam_workspaces_input: IamWorkspacesInput,
         _request_timeout: Union[
@@ -2358,7 +2358,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_workspace_serialize(
+        _param = self._post_iam_add_workspace_serialize(
             iam_workspaces_input=iam_workspaces_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2381,7 +2381,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_add_workspace_without_preload_content(
+    def post_iam_add_workspace_without_preload_content(
         self,
         iam_workspaces_input: IamWorkspacesInput,
         _request_timeout: Union[
@@ -2425,7 +2425,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_add_workspace_serialize(
+        _param = self._post_iam_add_workspace_serialize(
             iam_workspaces_input=iam_workspaces_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2443,7 +2443,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_add_workspace_serialize(
+    def _post_iam_add_workspace_serialize(
         self,
         iam_workspaces_input,
         _request_auth,
@@ -2520,7 +2520,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_application(
+    def post_iam_application(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -2564,7 +2564,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_application_serialize(
+        _param = self._post_iam_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2587,7 +2587,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_application_with_http_info(
+    def post_iam_application_with_http_info(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -2631,7 +2631,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_application_serialize(
+        _param = self._post_iam_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2654,7 +2654,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_application_without_preload_content(
+    def post_iam_application_without_preload_content(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -2698,7 +2698,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_application_serialize(
+        _param = self._post_iam_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2716,7 +2716,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_application_serialize(
+    def _post_iam_application_serialize(
         self,
         iam_application,
         _request_auth,
@@ -2793,7 +2793,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_application(
+    def post_iam_delete_application(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -2837,7 +2837,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_application_serialize(
+        _param = self._post_iam_delete_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2860,7 +2860,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_application_with_http_info(
+    def post_iam_delete_application_with_http_info(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -2904,7 +2904,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_application_serialize(
+        _param = self._post_iam_delete_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2927,7 +2927,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_application_without_preload_content(
+    def post_iam_delete_application_without_preload_content(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -2971,7 +2971,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_application_serialize(
+        _param = self._post_iam_delete_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2989,7 +2989,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_application_serialize(
+    def _post_iam_delete_application_serialize(
         self,
         iam_application,
         _request_auth,
@@ -3066,7 +3066,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_organization(
+    def post_iam_delete_organization(
         self,
         iam_delete_organization_input: IamDeleteOrganizationInput,
         _request_timeout: Union[
@@ -3110,7 +3110,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_organization_serialize(
+        _param = self._post_iam_delete_organization_serialize(
             iam_delete_organization_input=iam_delete_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3133,7 +3133,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_organization_with_http_info(
+    def post_iam_delete_organization_with_http_info(
         self,
         iam_delete_organization_input: IamDeleteOrganizationInput,
         _request_timeout: Union[
@@ -3177,7 +3177,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_organization_serialize(
+        _param = self._post_iam_delete_organization_serialize(
             iam_delete_organization_input=iam_delete_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3200,7 +3200,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_organization_without_preload_content(
+    def post_iam_delete_organization_without_preload_content(
         self,
         iam_delete_organization_input: IamDeleteOrganizationInput,
         _request_timeout: Union[
@@ -3244,7 +3244,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_organization_serialize(
+        _param = self._post_iam_delete_organization_serialize(
             iam_delete_organization_input=iam_delete_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3262,7 +3262,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_organization_serialize(
+    def _post_iam_delete_organization_serialize(
         self,
         iam_delete_organization_input,
         _request_auth,
@@ -3339,7 +3339,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_project(
+    def post_iam_delete_project(
         self,
         iam_projects_ref: IamProjectsRef,
         _request_timeout: Union[
@@ -3383,7 +3383,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_project_serialize(
+        _param = self._post_iam_delete_project_serialize(
             iam_projects_ref=iam_projects_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3406,7 +3406,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_project_with_http_info(
+    def post_iam_delete_project_with_http_info(
         self,
         iam_projects_ref: IamProjectsRef,
         _request_timeout: Union[
@@ -3450,7 +3450,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_project_serialize(
+        _param = self._post_iam_delete_project_serialize(
             iam_projects_ref=iam_projects_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3473,7 +3473,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_project_without_preload_content(
+    def post_iam_delete_project_without_preload_content(
         self,
         iam_projects_ref: IamProjectsRef,
         _request_timeout: Union[
@@ -3517,7 +3517,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_project_serialize(
+        _param = self._post_iam_delete_project_serialize(
             iam_projects_ref=iam_projects_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3535,7 +3535,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_project_serialize(
+    def _post_iam_delete_project_serialize(
         self,
         iam_projects_ref,
         _request_auth,
@@ -3612,7 +3612,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_provider(
+    def post_iam_delete_provider(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -3656,7 +3656,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_provider_serialize(
+        _param = self._post_iam_delete_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3679,7 +3679,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_provider_with_http_info(
+    def post_iam_delete_provider_with_http_info(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -3723,7 +3723,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_provider_serialize(
+        _param = self._post_iam_delete_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3746,7 +3746,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_provider_without_preload_content(
+    def post_iam_delete_provider_without_preload_content(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -3790,7 +3790,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_provider_serialize(
+        _param = self._post_iam_delete_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3808,7 +3808,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_provider_serialize(
+    def _post_iam_delete_provider_serialize(
         self,
         iam_provider,
         _request_auth,
@@ -3885,7 +3885,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_role(
+    def post_iam_delete_role(
         self,
         iam_roles_ref: IamRolesRef,
         _request_timeout: Union[
@@ -3929,7 +3929,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_role_serialize(
+        _param = self._post_iam_delete_role_serialize(
             iam_roles_ref=iam_roles_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3952,7 +3952,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_role_with_http_info(
+    def post_iam_delete_role_with_http_info(
         self,
         iam_roles_ref: IamRolesRef,
         _request_timeout: Union[
@@ -3996,7 +3996,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_role_serialize(
+        _param = self._post_iam_delete_role_serialize(
             iam_roles_ref=iam_roles_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4019,7 +4019,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_role_without_preload_content(
+    def post_iam_delete_role_without_preload_content(
         self,
         iam_roles_ref: IamRolesRef,
         _request_timeout: Union[
@@ -4063,7 +4063,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_role_serialize(
+        _param = self._post_iam_delete_role_serialize(
             iam_roles_ref=iam_roles_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4081,7 +4081,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_role_serialize(
+    def _post_iam_delete_role_serialize(
         self,
         iam_roles_ref,
         _request_auth,
@@ -4158,7 +4158,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_user(
+    def post_iam_delete_user(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -4202,7 +4202,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_user_serialize(
+        _param = self._post_iam_delete_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4225,7 +4225,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_user_with_http_info(
+    def post_iam_delete_user_with_http_info(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -4269,7 +4269,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_user_serialize(
+        _param = self._post_iam_delete_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4292,7 +4292,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_user_without_preload_content(
+    def post_iam_delete_user_without_preload_content(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -4336,7 +4336,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_user_serialize(
+        _param = self._post_iam_delete_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4354,7 +4354,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_user_serialize(
+    def _post_iam_delete_user_serialize(
         self,
         iam_user_body,
         _request_auth,
@@ -4431,7 +4431,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_workspace(
+    def post_iam_delete_workspace(
         self,
         iam_workspaces_ref: IamWorkspacesRef,
         _request_timeout: Union[
@@ -4475,7 +4475,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_workspace_serialize(
+        _param = self._post_iam_delete_workspace_serialize(
             iam_workspaces_ref=iam_workspaces_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4498,7 +4498,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_workspace_with_http_info(
+    def post_iam_delete_workspace_with_http_info(
         self,
         iam_workspaces_ref: IamWorkspacesRef,
         _request_timeout: Union[
@@ -4542,7 +4542,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_workspace_serialize(
+        _param = self._post_iam_delete_workspace_serialize(
             iam_workspaces_ref=iam_workspaces_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4565,7 +4565,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_delete_workspace_without_preload_content(
+    def post_iam_delete_workspace_without_preload_content(
         self,
         iam_workspaces_ref: IamWorkspacesRef,
         _request_timeout: Union[
@@ -4609,7 +4609,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_delete_workspace_serialize(
+        _param = self._post_iam_delete_workspace_serialize(
             iam_workspaces_ref=iam_workspaces_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4627,7 +4627,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_delete_workspace_serialize(
+    def _post_iam_delete_workspace_serialize(
         self,
         iam_workspaces_ref,
         _request_auth,
@@ -4704,7 +4704,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_application(
+    def post_iam_update_application(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -4748,7 +4748,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_application_serialize(
+        _param = self._post_iam_update_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4771,7 +4771,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_application_with_http_info(
+    def post_iam_update_application_with_http_info(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -4815,7 +4815,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_application_serialize(
+        _param = self._post_iam_update_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4838,7 +4838,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_application_without_preload_content(
+    def post_iam_update_application_without_preload_content(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -4882,7 +4882,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_application_serialize(
+        _param = self._post_iam_update_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4900,7 +4900,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_update_application_serialize(
+    def _post_iam_update_application_serialize(
         self,
         iam_application,
         _request_auth,
@@ -4977,7 +4977,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_organization(
+    def post_iam_update_organization(
         self,
         iam_update_organization_input: IamUpdateOrganizationInput,
         _request_timeout: Union[
@@ -5021,7 +5021,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_organization_serialize(
+        _param = self._post_iam_update_organization_serialize(
             iam_update_organization_input=iam_update_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5044,7 +5044,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_organization_with_http_info(
+    def post_iam_update_organization_with_http_info(
         self,
         iam_update_organization_input: IamUpdateOrganizationInput,
         _request_timeout: Union[
@@ -5088,7 +5088,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_organization_serialize(
+        _param = self._post_iam_update_organization_serialize(
             iam_update_organization_input=iam_update_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5111,7 +5111,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_organization_without_preload_content(
+    def post_iam_update_organization_without_preload_content(
         self,
         iam_update_organization_input: IamUpdateOrganizationInput,
         _request_timeout: Union[
@@ -5155,7 +5155,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_organization_serialize(
+        _param = self._post_iam_update_organization_serialize(
             iam_update_organization_input=iam_update_organization_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5173,7 +5173,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_update_organization_serialize(
+    def _post_iam_update_organization_serialize(
         self,
         iam_update_organization_input,
         _request_auth,
@@ -5250,7 +5250,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_provider(
+    def post_iam_update_provider(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -5294,7 +5294,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_provider_serialize(
+        _param = self._post_iam_update_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5317,7 +5317,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_provider_with_http_info(
+    def post_iam_update_provider_with_http_info(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -5361,7 +5361,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_provider_serialize(
+        _param = self._post_iam_update_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5384,7 +5384,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_provider_without_preload_content(
+    def post_iam_update_provider_without_preload_content(
         self,
         iam_provider: IamProvider,
         _request_timeout: Union[
@@ -5428,7 +5428,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_provider_serialize(
+        _param = self._post_iam_update_provider_serialize(
             iam_provider=iam_provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5446,7 +5446,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_update_provider_serialize(
+    def _post_iam_update_provider_serialize(
         self,
         iam_provider,
         _request_auth,
@@ -5523,7 +5523,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_role(
+    def post_iam_update_role(
         self,
         iam_roles_input: IamRolesInput,
         _request_timeout: Union[
@@ -5567,7 +5567,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_role_serialize(
+        _param = self._post_iam_update_role_serialize(
             iam_roles_input=iam_roles_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5590,7 +5590,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_role_with_http_info(
+    def post_iam_update_role_with_http_info(
         self,
         iam_roles_input: IamRolesInput,
         _request_timeout: Union[
@@ -5634,7 +5634,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_role_serialize(
+        _param = self._post_iam_update_role_serialize(
             iam_roles_input=iam_roles_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5657,7 +5657,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_role_without_preload_content(
+    def post_iam_update_role_without_preload_content(
         self,
         iam_roles_input: IamRolesInput,
         _request_timeout: Union[
@@ -5701,7 +5701,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_role_serialize(
+        _param = self._post_iam_update_role_serialize(
             iam_roles_input=iam_roles_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5719,7 +5719,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_update_role_serialize(
+    def _post_iam_update_role_serialize(
         self,
         iam_roles_input,
         _request_auth,
@@ -5796,7 +5796,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_user(
+    def post_iam_update_user(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -5840,7 +5840,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_user_serialize(
+        _param = self._post_iam_update_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5863,7 +5863,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_user_with_http_info(
+    def post_iam_update_user_with_http_info(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -5907,7 +5907,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_user_serialize(
+        _param = self._post_iam_update_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5930,7 +5930,7 @@ class CompatApi:
 
 
     @validate_call
-    def post_v1_iam_update_user_without_preload_content(
+    def post_iam_update_user_without_preload_content(
         self,
         iam_user_body: IamUserBody,
         _request_timeout: Union[
@@ -5974,7 +5974,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_iam_update_user_serialize(
+        _param = self._post_iam_update_user_serialize(
             iam_user_body=iam_user_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5992,7 +5992,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _post_v1_iam_update_user_serialize(
+    def _post_iam_update_user_serialize(
         self,
         iam_user_body,
         _request_auth,
@@ -6069,7 +6069,7 @@ class CompatApi:
 
 
     @validate_call
-    def put_v1_iam_application(
+    def put_iam_application(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -6113,7 +6113,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_iam_application_serialize(
+        _param = self._put_iam_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6136,7 +6136,7 @@ class CompatApi:
 
 
     @validate_call
-    def put_v1_iam_application_with_http_info(
+    def put_iam_application_with_http_info(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -6180,7 +6180,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_iam_application_serialize(
+        _param = self._put_iam_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6203,7 +6203,7 @@ class CompatApi:
 
 
     @validate_call
-    def put_v1_iam_application_without_preload_content(
+    def put_iam_application_without_preload_content(
         self,
         iam_application: IamApplication,
         _request_timeout: Union[
@@ -6247,7 +6247,7 @@ class CompatApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_iam_application_serialize(
+        _param = self._put_iam_application_serialize(
             iam_application=iam_application,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6265,7 +6265,7 @@ class CompatApi:
         return response_data.response
 
 
-    def _put_v1_iam_application_serialize(
+    def _put_iam_application_serialize(
         self,
         iam_application,
         _request_auth,

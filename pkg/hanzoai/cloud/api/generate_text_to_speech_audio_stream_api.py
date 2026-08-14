@@ -36,7 +36,7 @@ class GenerateTextToSpeechAudioStreamApi:
 
 
     @validate_call
-    def get_v1_generate_text_to_speech_audio_stream(
+    def get_generate_text_to_speech_audio_stream(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class GenerateTextToSpeechAudioStreamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_generate_text_to_speech_audio_stream_serialize(
+        _param = self._get_generate_text_to_speech_audio_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class GenerateTextToSpeechAudioStreamApi:
 
 
     @validate_call
-    def get_v1_generate_text_to_speech_audio_stream_with_http_info(
+    def get_generate_text_to_speech_audio_stream_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class GenerateTextToSpeechAudioStreamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_generate_text_to_speech_audio_stream_serialize(
+        _param = self._get_generate_text_to_speech_audio_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class GenerateTextToSpeechAudioStreamApi:
 
 
     @validate_call
-    def get_v1_generate_text_to_speech_audio_stream_without_preload_content(
+    def get_generate_text_to_speech_audio_stream_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class GenerateTextToSpeechAudioStreamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_generate_text_to_speech_audio_stream_serialize(
+        _param = self._get_generate_text_to_speech_audio_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class GenerateTextToSpeechAudioStreamApi:
         return response_data.response
 
 
-    def _get_v1_generate_text_to_speech_audio_stream_serialize(
+    def _get_generate_text_to_speech_audio_stream_serialize(
         self,
         _request_auth,
         _content_type,

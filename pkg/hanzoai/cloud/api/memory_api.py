@@ -36,7 +36,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_facts(
+    def get_memory_facts(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_facts_serialize(
+        _param = self._get_memory_facts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_facts_with_http_info(
+    def get_memory_facts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_facts_serialize(
+        _param = self._get_memory_facts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_facts_without_preload_content(
+    def get_memory_facts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_facts_serialize(
+        _param = self._get_memory_facts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _get_v1_memory_facts_serialize(
+    def _get_memory_facts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_list(
+    def get_memory_list(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_list_serialize(
+        _param = self._get_memory_list_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_list_with_http_info(
+    def get_memory_list_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_list_serialize(
+        _param = self._get_memory_list_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_list_without_preload_content(
+    def get_memory_list_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_list_serialize(
+        _param = self._get_memory_list_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _get_v1_memory_list_serialize(
+    def _get_memory_list_serialize(
         self,
         _request_auth,
         _content_type,
@@ -506,7 +506,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_recall(
+    def get_memory_recall(
         self,
         _request_timeout: Union[
             None,
@@ -547,7 +547,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_recall_serialize(
+        _param = self._get_memory_recall_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -568,7 +568,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_recall_with_http_info(
+    def get_memory_recall_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -609,7 +609,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_recall_serialize(
+        _param = self._get_memory_recall_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -630,7 +630,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_recall_without_preload_content(
+    def get_memory_recall_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -671,7 +671,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_recall_serialize(
+        _param = self._get_memory_recall_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -687,7 +687,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _get_v1_memory_recall_serialize(
+    def _get_memory_recall_serialize(
         self,
         _request_auth,
         _content_type,
@@ -741,7 +741,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_search(
+    def get_memory_search(
         self,
         _request_timeout: Union[
             None,
@@ -782,7 +782,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_search_serialize(
+        _param = self._get_memory_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -803,7 +803,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_search_with_http_info(
+    def get_memory_search_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -844,7 +844,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_search_serialize(
+        _param = self._get_memory_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -865,7 +865,7 @@ class MemoryApi:
 
 
     @validate_call
-    def get_v1_memory_search_without_preload_content(
+    def get_memory_search_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -906,7 +906,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_memory_search_serialize(
+        _param = self._get_memory_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,7 +922,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _get_v1_memory_search_serialize(
+    def _get_memory_search_serialize(
         self,
         _request_auth,
         _content_type,
@@ -976,7 +976,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_delete(
+    def post_memory_delete(
         self,
         _request_timeout: Union[
             None,
@@ -1017,7 +1017,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_delete_serialize(
+        _param = self._post_memory_delete_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1038,7 +1038,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_delete_with_http_info(
+    def post_memory_delete_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1079,7 +1079,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_delete_serialize(
+        _param = self._post_memory_delete_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1100,7 +1100,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_delete_without_preload_content(
+    def post_memory_delete_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1141,7 +1141,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_delete_serialize(
+        _param = self._post_memory_delete_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1157,7 +1157,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _post_v1_memory_delete_serialize(
+    def _post_memory_delete_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1211,7 +1211,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_remember(
+    def post_memory_remember(
         self,
         _request_timeout: Union[
             None,
@@ -1252,7 +1252,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_remember_serialize(
+        _param = self._post_memory_remember_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1273,7 +1273,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_remember_with_http_info(
+    def post_memory_remember_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1314,7 +1314,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_remember_serialize(
+        _param = self._post_memory_remember_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1335,7 +1335,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_remember_without_preload_content(
+    def post_memory_remember_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1376,7 +1376,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_remember_serialize(
+        _param = self._post_memory_remember_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1392,7 +1392,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _post_v1_memory_remember_serialize(
+    def _post_memory_remember_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1446,7 +1446,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_update(
+    def post_memory_update(
         self,
         _request_timeout: Union[
             None,
@@ -1487,7 +1487,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_update_serialize(
+        _param = self._post_memory_update_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1508,7 +1508,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_update_with_http_info(
+    def post_memory_update_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1549,7 +1549,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_update_serialize(
+        _param = self._post_memory_update_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1570,7 +1570,7 @@ class MemoryApi:
 
 
     @validate_call
-    def post_v1_memory_update_without_preload_content(
+    def post_memory_update_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1611,7 +1611,7 @@ class MemoryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_memory_update_serialize(
+        _param = self._post_memory_update_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1627,7 +1627,7 @@ class MemoryApi:
         return response_data.response
 
 
-    def _post_v1_memory_update_serialize(
+    def _post_memory_update_serialize(
         self,
         _request_auth,
         _content_type,

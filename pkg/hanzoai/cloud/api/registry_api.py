@@ -46,7 +46,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_images(
+    def get_registry_images(
         self,
         _request_timeout: Union[
             None,
@@ -87,7 +87,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_images_serialize(
+        _param = self._get_registry_images_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -109,7 +109,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_images_with_http_info(
+    def get_registry_images_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -150,7 +150,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_images_serialize(
+        _param = self._get_registry_images_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -172,7 +172,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_images_without_preload_content(
+    def get_registry_images_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -213,7 +213,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_images_serialize(
+        _param = self._get_registry_images_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -230,7 +230,7 @@ class RegistryApi:
         return response_data.response
 
 
-    def _get_v1_registry_images_serialize(
+    def _get_registry_images_serialize(
         self,
         _request_auth,
         _content_type,
@@ -291,7 +291,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_packages(
+    def get_registry_packages(
         self,
         query: Annotated[Optional[StrictStr], Field(description="Query narrows the listing within the org's scope when present; the org boundary itself is never widened by it. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -335,7 +335,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_packages_serialize(
+        _param = self._get_registry_packages_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -358,7 +358,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_packages_with_http_info(
+    def get_registry_packages_with_http_info(
         self,
         query: Annotated[Optional[StrictStr], Field(description="Query narrows the listing within the org's scope when present; the org boundary itself is never widened by it. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -402,7 +402,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_packages_serialize(
+        _param = self._get_registry_packages_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -425,7 +425,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_packages_without_preload_content(
+    def get_registry_packages_without_preload_content(
         self,
         query: Annotated[Optional[StrictStr], Field(description="Query narrows the listing within the org's scope when present; the org boundary itself is never widened by it. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -469,7 +469,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_packages_serialize(
+        _param = self._get_registry_packages_serialize(
             query=query,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -487,7 +487,7 @@ class RegistryApi:
         return response_data.response
 
 
-    def _get_v1_registry_packages_serialize(
+    def _get_registry_packages_serialize(
         self,
         query,
         _request_auth,
@@ -553,7 +553,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_projects(
+    def get_registry_projects(
         self,
         _request_timeout: Union[
             None,
@@ -594,7 +594,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_projects_serialize(
+        _param = self._get_registry_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -616,7 +616,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_projects_with_http_info(
+    def get_registry_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -657,7 +657,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_projects_serialize(
+        _param = self._get_registry_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -679,7 +679,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_projects_without_preload_content(
+    def get_registry_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -720,7 +720,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_projects_serialize(
+        _param = self._get_registry_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -737,7 +737,7 @@ class RegistryApi:
         return response_data.response
 
 
-    def _get_v1_registry_projects_serialize(
+    def _get_registry_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -798,7 +798,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_status(
+    def get_registry_status(
         self,
         _request_timeout: Union[
             None,
@@ -839,7 +839,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_status_serialize(
+        _param = self._get_registry_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -861,7 +861,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_status_with_http_info(
+    def get_registry_status_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -902,7 +902,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_status_serialize(
+        _param = self._get_registry_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -924,7 +924,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_status_without_preload_content(
+    def get_registry_status_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -965,7 +965,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_status_serialize(
+        _param = self._get_registry_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -982,7 +982,7 @@ class RegistryApi:
         return response_data.response
 
 
-    def _get_v1_registry_status_serialize(
+    def _get_registry_status_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1043,7 +1043,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_tags(
+    def get_registry_tags(
         self,
         image: Annotated[Optional[StrictStr], Field(description="Image is the repository name inside the org's namespace, as returned by the images op. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -1087,7 +1087,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_tags_serialize(
+        _param = self._get_registry_tags_serialize(
             image=image,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1110,7 +1110,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_tags_with_http_info(
+    def get_registry_tags_with_http_info(
         self,
         image: Annotated[Optional[StrictStr], Field(description="Image is the repository name inside the org's namespace, as returned by the images op. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -1154,7 +1154,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_tags_serialize(
+        _param = self._get_registry_tags_serialize(
             image=image,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1177,7 +1177,7 @@ class RegistryApi:
 
 
     @validate_call
-    def get_v1_registry_tags_without_preload_content(
+    def get_registry_tags_without_preload_content(
         self,
         image: Annotated[Optional[StrictStr], Field(description="Image is the repository name inside the org's namespace, as returned by the images op. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -1221,7 +1221,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_registry_tags_serialize(
+        _param = self._get_registry_tags_serialize(
             image=image,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1239,7 +1239,7 @@ class RegistryApi:
         return response_data.response
 
 
-    def _get_v1_registry_tags_serialize(
+    def _get_registry_tags_serialize(
         self,
         image,
         _request_auth,
@@ -1305,7 +1305,7 @@ class RegistryApi:
 
 
     @validate_call
-    def post_v1_registry_token(
+    def post_registry_token(
         self,
         registry_mint: RegistryMint,
         _request_timeout: Union[
@@ -1349,7 +1349,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_registry_token_serialize(
+        _param = self._post_registry_token_serialize(
             registry_mint=registry_mint,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1372,7 +1372,7 @@ class RegistryApi:
 
 
     @validate_call
-    def post_v1_registry_token_with_http_info(
+    def post_registry_token_with_http_info(
         self,
         registry_mint: RegistryMint,
         _request_timeout: Union[
@@ -1416,7 +1416,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_registry_token_serialize(
+        _param = self._post_registry_token_serialize(
             registry_mint=registry_mint,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1439,7 +1439,7 @@ class RegistryApi:
 
 
     @validate_call
-    def post_v1_registry_token_without_preload_content(
+    def post_registry_token_without_preload_content(
         self,
         registry_mint: RegistryMint,
         _request_timeout: Union[
@@ -1483,7 +1483,7 @@ class RegistryApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_registry_token_serialize(
+        _param = self._post_registry_token_serialize(
             registry_mint=registry_mint,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1501,7 +1501,7 @@ class RegistryApi:
         return response_data.response
 
 
-    def _post_v1_registry_token_serialize(
+    def _post_registry_token_serialize(
         self,
         registry_mint,
         _request_auth,

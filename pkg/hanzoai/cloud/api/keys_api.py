@@ -43,7 +43,7 @@ class KeysApi:
 
 
     @validate_call
-    def delete_v1_keys(
+    def delete_keys(
         self,
         type: Annotated[Optional[StrictStr], Field(description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")] = None,
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_keys_serialize(
+        _param = self._delete_keys_serialize(
             type=type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class KeysApi:
 
 
     @validate_call
-    def delete_v1_keys_with_http_info(
+    def delete_keys_with_http_info(
         self,
         type: Annotated[Optional[StrictStr], Field(description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")] = None,
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_keys_serialize(
+        _param = self._delete_keys_serialize(
             type=type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class KeysApi:
 
 
     @validate_call
-    def delete_v1_keys_without_preload_content(
+    def delete_keys_without_preload_content(
         self,
         type: Annotated[Optional[StrictStr], Field(description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")] = None,
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_keys_serialize(
+        _param = self._delete_keys_serialize(
             type=type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class KeysApi:
         return response_data.response
 
 
-    def _delete_v1_keys_serialize(
+    def _delete_keys_serialize(
         self,
         type,
         _request_auth,
@@ -305,7 +305,7 @@ class KeysApi:
 
 
     @validate_call
-    def get_v1_keys(
+    def get_keys(
         self,
         _request_timeout: Union[
             None,
@@ -346,7 +346,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_keys_serialize(
+        _param = self._get_keys_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -368,7 +368,7 @@ class KeysApi:
 
 
     @validate_call
-    def get_v1_keys_with_http_info(
+    def get_keys_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -409,7 +409,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_keys_serialize(
+        _param = self._get_keys_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -431,7 +431,7 @@ class KeysApi:
 
 
     @validate_call
-    def get_v1_keys_without_preload_content(
+    def get_keys_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -472,7 +472,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_keys_serialize(
+        _param = self._get_keys_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -489,7 +489,7 @@ class KeysApi:
         return response_data.response
 
 
-    def _get_v1_keys_serialize(
+    def _get_keys_serialize(
         self,
         _request_auth,
         _content_type,
@@ -550,7 +550,7 @@ class KeysApi:
 
 
     @validate_call
-    def post_v1_keys(
+    def post_keys(
         self,
         key_type_in: KeyTypeIn,
         _request_timeout: Union[
@@ -594,7 +594,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_keys_serialize(
+        _param = self._post_keys_serialize(
             key_type_in=key_type_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -617,7 +617,7 @@ class KeysApi:
 
 
     @validate_call
-    def post_v1_keys_with_http_info(
+    def post_keys_with_http_info(
         self,
         key_type_in: KeyTypeIn,
         _request_timeout: Union[
@@ -661,7 +661,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_keys_serialize(
+        _param = self._post_keys_serialize(
             key_type_in=key_type_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -684,7 +684,7 @@ class KeysApi:
 
 
     @validate_call
-    def post_v1_keys_without_preload_content(
+    def post_keys_without_preload_content(
         self,
         key_type_in: KeyTypeIn,
         _request_timeout: Union[
@@ -728,7 +728,7 @@ class KeysApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_keys_serialize(
+        _param = self._post_keys_serialize(
             key_type_in=key_type_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -746,7 +746,7 @@ class KeysApi:
         return response_data.response
 
 
-    def _post_v1_keys_serialize(
+    def _post_keys_serialize(
         self,
         key_type_in,
         _request_auth,

@@ -44,7 +44,7 @@ class AdsApi:
 
 
     @validate_call
-    def delete_v1_ads_campaigns_by_id(
+    def delete_ads_campaigns_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ads_campaigns_by_id_serialize(
+        _param = self._delete_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class AdsApi:
 
 
     @validate_call
-    def delete_v1_ads_campaigns_by_id_with_http_info(
+    def delete_ads_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ads_campaigns_by_id_serialize(
+        _param = self._delete_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class AdsApi:
 
 
     @validate_call
-    def delete_v1_ads_campaigns_by_id_without_preload_content(
+    def delete_ads_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ads_campaigns_by_id_serialize(
+        _param = self._delete_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _delete_v1_ads_campaigns_by_id_serialize(
+    def _delete_ads_campaigns_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -297,7 +297,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns(
+    def get_ads_campaigns(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to one lifecycle state (draft, active, paused, completed). Empty returns every campaign the org has.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many campaigns come back: default 200, maximum 1000. A value that is not a positive integer reads as the default.")] = None,
@@ -344,7 +344,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_serialize(
+        _param = self._get_ads_campaigns_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -368,7 +368,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_with_http_info(
+    def get_ads_campaigns_with_http_info(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to one lifecycle state (draft, active, paused, completed). Empty returns every campaign the org has.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many campaigns come back: default 200, maximum 1000. A value that is not a positive integer reads as the default.")] = None,
@@ -415,7 +415,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_serialize(
+        _param = self._get_ads_campaigns_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -439,7 +439,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_without_preload_content(
+    def get_ads_campaigns_without_preload_content(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to one lifecycle state (draft, active, paused, completed). Empty returns every campaign the org has.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many campaigns come back: default 200, maximum 1000. A value that is not a positive integer reads as the default.")] = None,
@@ -486,7 +486,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_serialize(
+        _param = self._get_ads_campaigns_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -505,7 +505,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _get_v1_ads_campaigns_serialize(
+    def _get_ads_campaigns_serialize(
         self,
         status,
         limit,
@@ -576,7 +576,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_by_id(
+    def get_ads_campaigns_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -620,7 +620,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_by_id_serialize(
+        _param = self._get_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -643,7 +643,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_by_id_with_http_info(
+    def get_ads_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -687,7 +687,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_by_id_serialize(
+        _param = self._get_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -710,7 +710,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_campaigns_by_id_without_preload_content(
+    def get_ads_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -754,7 +754,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_campaigns_by_id_serialize(
+        _param = self._get_ads_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -772,7 +772,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _get_v1_ads_campaigns_by_id_serialize(
+    def _get_ads_campaigns_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -836,7 +836,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_summary(
+    def get_ads_summary(
         self,
         _request_timeout: Union[
             None,
@@ -877,7 +877,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_summary_serialize(
+        _param = self._get_ads_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -899,7 +899,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_summary_with_http_info(
+    def get_ads_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -940,7 +940,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_summary_serialize(
+        _param = self._get_ads_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -962,7 +962,7 @@ class AdsApi:
 
 
     @validate_call
-    def get_v1_ads_summary_without_preload_content(
+    def get_ads_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1003,7 +1003,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ads_summary_serialize(
+        _param = self._get_ads_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1020,7 +1020,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _get_v1_ads_summary_serialize(
+    def _get_ads_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1081,7 +1081,7 @@ class AdsApi:
 
 
     @validate_call
-    def post_v1_ads_campaigns(
+    def post_ads_campaigns(
         self,
         campaign_input: CampaignInput,
         _request_timeout: Union[
@@ -1125,7 +1125,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ads_campaigns_serialize(
+        _param = self._post_ads_campaigns_serialize(
             campaign_input=campaign_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1148,7 +1148,7 @@ class AdsApi:
 
 
     @validate_call
-    def post_v1_ads_campaigns_with_http_info(
+    def post_ads_campaigns_with_http_info(
         self,
         campaign_input: CampaignInput,
         _request_timeout: Union[
@@ -1192,7 +1192,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ads_campaigns_serialize(
+        _param = self._post_ads_campaigns_serialize(
             campaign_input=campaign_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1215,7 +1215,7 @@ class AdsApi:
 
 
     @validate_call
-    def post_v1_ads_campaigns_without_preload_content(
+    def post_ads_campaigns_without_preload_content(
         self,
         campaign_input: CampaignInput,
         _request_timeout: Union[
@@ -1259,7 +1259,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ads_campaigns_serialize(
+        _param = self._post_ads_campaigns_serialize(
             campaign_input=campaign_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1277,7 +1277,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _post_v1_ads_campaigns_serialize(
+    def _post_ads_campaigns_serialize(
         self,
         campaign_input,
         _request_auth,
@@ -1354,7 +1354,7 @@ class AdsApi:
 
 
     @validate_call
-    def post_v1_ads_campaigns_by_id_launch(
+    def post_ads_campaigns_by_id_launch(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1398,7 +1398,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ads_campaigns_by_id_launch_serialize(
+        _param = self._post_ads_campaigns_by_id_launch_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1420,7 +1420,7 @@ class AdsApi:
 
 
     @validate_call
-    def post_v1_ads_campaigns_by_id_launch_with_http_info(
+    def post_ads_campaigns_by_id_launch_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1464,7 +1464,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ads_campaigns_by_id_launch_serialize(
+        _param = self._post_ads_campaigns_by_id_launch_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1486,7 +1486,7 @@ class AdsApi:
 
 
     @validate_call
-    def post_v1_ads_campaigns_by_id_launch_without_preload_content(
+    def post_ads_campaigns_by_id_launch_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1530,7 +1530,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ads_campaigns_by_id_launch_serialize(
+        _param = self._post_ads_campaigns_by_id_launch_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1547,7 +1547,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _post_v1_ads_campaigns_by_id_launch_serialize(
+    def _post_ads_campaigns_by_id_launch_serialize(
         self,
         id,
         _request_auth,
@@ -1604,7 +1604,7 @@ class AdsApi:
 
 
     @validate_call
-    def put_v1_ads_campaigns_by_id(
+    def put_ads_campaigns_by_id(
         self,
         id: StrictStr,
         update_campaign_in: UpdateCampaignIn,
@@ -1651,7 +1651,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ads_campaigns_by_id_serialize(
+        _param = self._put_ads_campaigns_by_id_serialize(
             id=id,
             update_campaign_in=update_campaign_in,
             _request_auth=_request_auth,
@@ -1675,7 +1675,7 @@ class AdsApi:
 
 
     @validate_call
-    def put_v1_ads_campaigns_by_id_with_http_info(
+    def put_ads_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
         update_campaign_in: UpdateCampaignIn,
@@ -1722,7 +1722,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ads_campaigns_by_id_serialize(
+        _param = self._put_ads_campaigns_by_id_serialize(
             id=id,
             update_campaign_in=update_campaign_in,
             _request_auth=_request_auth,
@@ -1746,7 +1746,7 @@ class AdsApi:
 
 
     @validate_call
-    def put_v1_ads_campaigns_by_id_without_preload_content(
+    def put_ads_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
         update_campaign_in: UpdateCampaignIn,
@@ -1793,7 +1793,7 @@ class AdsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ads_campaigns_by_id_serialize(
+        _param = self._put_ads_campaigns_by_id_serialize(
             id=id,
             update_campaign_in=update_campaign_in,
             _request_auth=_request_auth,
@@ -1812,7 +1812,7 @@ class AdsApi:
         return response_data.response
 
 
-    def _put_v1_ads_campaigns_by_id_serialize(
+    def _put_ads_campaigns_by_id_serialize(
         self,
         id,
         update_campaign_in,
