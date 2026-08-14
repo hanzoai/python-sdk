@@ -27,7 +27,7 @@ from __future__ import annotations
 
 import re
 from typing import Any, Dict, List, Final, Tuple, Union
-from functools import lru_cache  # noqa: TID251 - not using Stainless SDK
+from functools import lru_cache  # noqa: TID251 - the typed replacement is hanzoai-only
 
 # Type aliases with full annotations
 ASTDict = Dict[str, Any]

@@ -24,15 +24,24 @@ MODEL = os.environ.get("HANZO_MODEL", "zen4")
 
 
 def api_key() -> str:
-    """Fail loudly and early when the key is absent.
+    """Fail loudly and early when the key is absent or of the wrong shape.
 
     Without this the SDK sends an unauthenticated request and the flow dies on a
     401 several frames deep, which reads like an API bug rather than an unset
     shell variable.
+
+    A ``pk-`` is rejected here for the same reason. It is the PUBLISHABLE shape:
+    cloud resolves it to an org so a browser beacon can be attributed, but the
+    identity boundary refuses it outright, so it never becomes a principal. Every
+    route below wants one — ``/v1/tools`` says so in as many words, "a validated
+    principal is required" — so a ``pk-`` collects the same 403 as no key at all,
+    and that 403 reads like a revoked key rather than the wrong shape of key.
     """
     key = os.environ.get("HANZO_API_KEY")
     if not key:
-        raise SystemExit("HANZO_API_KEY is not set — export an IAM JWT or a pk-/sk- cloud key")
+        raise SystemExit("HANZO_API_KEY is not set — export an sk- cloud key or an IAM JWT")
+    if key.startswith("pk-"):
+        raise SystemExit("HANZO_API_KEY is a pk- (publishable) key, which authenticates nobody — use an sk-")
     return key
 
 

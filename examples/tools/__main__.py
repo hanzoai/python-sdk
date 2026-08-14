@@ -4,13 +4,12 @@
 MCP surface: each entry is a tool name, its description and its input schema.
 
 A note on the MCP door, because it is easy to pick the wrong one. There is a
-live JSON-RPC endpoint at ``POST /v1/mcp`` that answers ``tools/list`` with the
-same catalog (730 tools at the time of writing) — but it is NOT in hanzo.yaml,
-so the generator emits no method for it and an example would have to bypass the
-SDK to call it, which defeats the point of an SDK example. Of the MCP routes
-that ARE declared, ``/v1/automations/mcp`` returns 405 at api.hanzo.ai. So this
-catalog read is the one that is both generated and served. When ``/v1/mcp`` is
-added to the spec, this flow should move to it.
+JSON-RPC endpoint at ``POST /v1/mcp`` that answers ``tools/list`` with the same
+catalog — but it is NOT in the document, so the generator emits no method for it
+and an example would have to bypass the SDK to call it, which defeats the point
+of an SDK example. Of the MCP routes that ARE declared, ``/v1/automations/mcp``
+404s at api.hanzo.ai. So this catalog read is the one that is both generated and
+served. When ``/v1/mcp`` is added to the spec, this flow should move to it.
 
     python -m examples.tools
 """
