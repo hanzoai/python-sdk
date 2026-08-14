@@ -39,7 +39,7 @@ class ReferralsApi:
 
 
     @validate_call
-    def get_v1_referrals(
+    def get_referrals(
         self,
         _request_timeout: Union[
             None,
@@ -80,7 +80,7 @@ class ReferralsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_referrals_serialize(
+        _param = self._get_referrals_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -102,7 +102,7 @@ class ReferralsApi:
 
 
     @validate_call
-    def get_v1_referrals_with_http_info(
+    def get_referrals_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -143,7 +143,7 @@ class ReferralsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_referrals_serialize(
+        _param = self._get_referrals_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -165,7 +165,7 @@ class ReferralsApi:
 
 
     @validate_call
-    def get_v1_referrals_without_preload_content(
+    def get_referrals_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -206,7 +206,7 @@ class ReferralsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_referrals_serialize(
+        _param = self._get_referrals_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -223,7 +223,7 @@ class ReferralsApi:
         return response_data.response
 
 
-    def _get_v1_referrals_serialize(
+    def _get_referrals_serialize(
         self,
         _request_auth,
         _content_type,
@@ -284,7 +284,7 @@ class ReferralsApi:
 
 
     @validate_call
-    def post_v1_referrals_claim(
+    def post_referrals_claim(
         self,
         claim_request: ClaimRequest,
         _request_timeout: Union[
@@ -328,7 +328,7 @@ class ReferralsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_referrals_claim_serialize(
+        _param = self._post_referrals_claim_serialize(
             claim_request=claim_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -351,7 +351,7 @@ class ReferralsApi:
 
 
     @validate_call
-    def post_v1_referrals_claim_with_http_info(
+    def post_referrals_claim_with_http_info(
         self,
         claim_request: ClaimRequest,
         _request_timeout: Union[
@@ -395,7 +395,7 @@ class ReferralsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_referrals_claim_serialize(
+        _param = self._post_referrals_claim_serialize(
             claim_request=claim_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -418,7 +418,7 @@ class ReferralsApi:
 
 
     @validate_call
-    def post_v1_referrals_claim_without_preload_content(
+    def post_referrals_claim_without_preload_content(
         self,
         claim_request: ClaimRequest,
         _request_timeout: Union[
@@ -462,7 +462,7 @@ class ReferralsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_referrals_claim_serialize(
+        _param = self._post_referrals_claim_serialize(
             claim_request=claim_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -480,7 +480,7 @@ class ReferralsApi:
         return response_data.response
 
 
-    def _post_v1_referrals_claim_serialize(
+    def _post_referrals_claim_serialize(
         self,
         claim_request,
         _request_auth,

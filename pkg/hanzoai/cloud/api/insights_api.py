@@ -41,7 +41,7 @@ class InsightsApi:
 
 
     @validate_call
-    def get_v1_insights_events(
+    def get_insights_events(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
         _request_timeout: Union[
@@ -85,7 +85,7 @@ class InsightsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_insights_events_serialize(
+        _param = self._get_insights_events_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -108,7 +108,7 @@ class InsightsApi:
 
 
     @validate_call
-    def get_v1_insights_events_with_http_info(
+    def get_insights_events_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
         _request_timeout: Union[
@@ -152,7 +152,7 @@ class InsightsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_insights_events_serialize(
+        _param = self._get_insights_events_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -175,7 +175,7 @@ class InsightsApi:
 
 
     @validate_call
-    def get_v1_insights_events_without_preload_content(
+    def get_insights_events_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
         _request_timeout: Union[
@@ -219,7 +219,7 @@ class InsightsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_insights_events_serialize(
+        _param = self._get_insights_events_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -237,7 +237,7 @@ class InsightsApi:
         return response_data.response
 
 
-    def _get_v1_insights_events_serialize(
+    def _get_insights_events_serialize(
         self,
         limit,
         _request_auth,
@@ -303,7 +303,7 @@ class InsightsApi:
 
 
     @validate_call
-    def get_v1_insights_health(
+    def get_insights_health(
         self,
         _request_timeout: Union[
             None,
@@ -344,7 +344,7 @@ class InsightsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_insights_health_serialize(
+        _param = self._get_insights_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -366,7 +366,7 @@ class InsightsApi:
 
 
     @validate_call
-    def get_v1_insights_health_with_http_info(
+    def get_insights_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -407,7 +407,7 @@ class InsightsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_insights_health_serialize(
+        _param = self._get_insights_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -429,7 +429,7 @@ class InsightsApi:
 
 
     @validate_call
-    def get_v1_insights_health_without_preload_content(
+    def get_insights_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -470,7 +470,7 @@ class InsightsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_insights_health_serialize(
+        _param = self._get_insights_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -487,7 +487,7 @@ class InsightsApi:
         return response_data.response
 
 
-    def _get_v1_insights_health_serialize(
+    def _get_insights_health_serialize(
         self,
         _request_auth,
         _content_type,

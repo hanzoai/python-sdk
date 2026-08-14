@@ -38,7 +38,7 @@ class BotApi:
 
 
     @validate_call
-    def delete_v1_bot_by_wildcard1(
+    def delete_bot_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -82,7 +82,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_bot_by_wildcard1_serialize(
+        _param = self._delete_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -104,7 +104,7 @@ class BotApi:
 
 
     @validate_call
-    def delete_v1_bot_by_wildcard1_with_http_info(
+    def delete_bot_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -148,7 +148,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_bot_by_wildcard1_serialize(
+        _param = self._delete_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -170,7 +170,7 @@ class BotApi:
 
 
     @validate_call
-    def delete_v1_bot_by_wildcard1_without_preload_content(
+    def delete_bot_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -214,7 +214,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_bot_by_wildcard1_serialize(
+        _param = self._delete_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -231,7 +231,7 @@ class BotApi:
         return response_data.response
 
 
-    def _delete_v1_bot_by_wildcard1_serialize(
+    def _delete_bot_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -288,7 +288,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_by_wildcard1(
+    def get_bot_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -332,7 +332,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_by_wildcard1_serialize(
+        _param = self._get_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -354,7 +354,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_by_wildcard1_with_http_info(
+    def get_bot_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -398,7 +398,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_by_wildcard1_serialize(
+        _param = self._get_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -420,7 +420,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_by_wildcard1_without_preload_content(
+    def get_bot_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -464,7 +464,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_by_wildcard1_serialize(
+        _param = self._get_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -481,7 +481,7 @@ class BotApi:
         return response_data.response
 
 
-    def _get_v1_bot_by_wildcard1_serialize(
+    def _get_bot_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -538,7 +538,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_connect(
+    def get_bot_connect(
         self,
         _request_timeout: Union[
             None,
@@ -579,7 +579,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_connect_serialize(
+        _param = self._get_bot_connect_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -600,7 +600,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_connect_with_http_info(
+    def get_bot_connect_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -641,7 +641,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_connect_serialize(
+        _param = self._get_bot_connect_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -662,7 +662,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_connect_without_preload_content(
+    def get_bot_connect_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -703,7 +703,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_connect_serialize(
+        _param = self._get_bot_connect_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -719,7 +719,7 @@ class BotApi:
         return response_data.response
 
 
-    def _get_v1_bot_connect_serialize(
+    def _get_bot_connect_serialize(
         self,
         _request_auth,
         _content_type,
@@ -773,7 +773,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_nodes(
+    def get_bot_nodes(
         self,
         _request_timeout: Union[
             None,
@@ -814,7 +814,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_nodes_serialize(
+        _param = self._get_bot_nodes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -836,7 +836,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_nodes_with_http_info(
+    def get_bot_nodes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -877,7 +877,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_nodes_serialize(
+        _param = self._get_bot_nodes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -899,7 +899,7 @@ class BotApi:
 
 
     @validate_call
-    def get_v1_bot_nodes_without_preload_content(
+    def get_bot_nodes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -940,7 +940,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bot_nodes_serialize(
+        _param = self._get_bot_nodes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -957,7 +957,7 @@ class BotApi:
         return response_data.response
 
 
-    def _get_v1_bot_nodes_serialize(
+    def _get_bot_nodes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1018,7 +1018,7 @@ class BotApi:
 
 
     @validate_call
-    def patch_v1_bot_by_wildcard1(
+    def patch_bot_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1062,7 +1062,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_bot_by_wildcard1_serialize(
+        _param = self._patch_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1084,7 +1084,7 @@ class BotApi:
 
 
     @validate_call
-    def patch_v1_bot_by_wildcard1_with_http_info(
+    def patch_bot_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1128,7 +1128,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_bot_by_wildcard1_serialize(
+        _param = self._patch_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1150,7 +1150,7 @@ class BotApi:
 
 
     @validate_call
-    def patch_v1_bot_by_wildcard1_without_preload_content(
+    def patch_bot_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1194,7 +1194,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_bot_by_wildcard1_serialize(
+        _param = self._patch_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1211,7 +1211,7 @@ class BotApi:
         return response_data.response
 
 
-    def _patch_v1_bot_by_wildcard1_serialize(
+    def _patch_bot_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -1268,7 +1268,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_by_wildcard1(
+    def post_bot_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1312,7 +1312,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_by_wildcard1_serialize(
+        _param = self._post_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1334,7 +1334,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_by_wildcard1_with_http_info(
+    def post_bot_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1378,7 +1378,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_by_wildcard1_serialize(
+        _param = self._post_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1400,7 +1400,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_by_wildcard1_without_preload_content(
+    def post_bot_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1444,7 +1444,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_by_wildcard1_serialize(
+        _param = self._post_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1461,7 +1461,7 @@ class BotApi:
         return response_data.response
 
 
-    def _post_v1_bot_by_wildcard1_serialize(
+    def _post_bot_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -1518,7 +1518,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_nodes_by_id_invoke(
+    def post_bot_nodes_by_id_invoke(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1562,7 +1562,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_nodes_by_id_invoke_serialize(
+        _param = self._post_bot_nodes_by_id_invoke_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1584,7 +1584,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_nodes_by_id_invoke_with_http_info(
+    def post_bot_nodes_by_id_invoke_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1628,7 +1628,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_nodes_by_id_invoke_serialize(
+        _param = self._post_bot_nodes_by_id_invoke_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1650,7 +1650,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_nodes_by_id_invoke_without_preload_content(
+    def post_bot_nodes_by_id_invoke_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1694,7 +1694,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_nodes_by_id_invoke_serialize(
+        _param = self._post_bot_nodes_by_id_invoke_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1711,7 +1711,7 @@ class BotApi:
         return response_data.response
 
 
-    def _post_v1_bot_nodes_by_id_invoke_serialize(
+    def _post_bot_nodes_by_id_invoke_serialize(
         self,
         id,
         _request_auth,
@@ -1768,7 +1768,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_peer_invoke(
+    def post_bot_peer_invoke(
         self,
         _request_timeout: Union[
             None,
@@ -1809,7 +1809,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_peer_invoke_serialize(
+        _param = self._post_bot_peer_invoke_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1830,7 +1830,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_peer_invoke_with_http_info(
+    def post_bot_peer_invoke_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1871,7 +1871,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_peer_invoke_serialize(
+        _param = self._post_bot_peer_invoke_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1892,7 +1892,7 @@ class BotApi:
 
 
     @validate_call
-    def post_v1_bot_peer_invoke_without_preload_content(
+    def post_bot_peer_invoke_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1933,7 +1933,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bot_peer_invoke_serialize(
+        _param = self._post_bot_peer_invoke_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1949,7 +1949,7 @@ class BotApi:
         return response_data.response
 
 
-    def _post_v1_bot_peer_invoke_serialize(
+    def _post_bot_peer_invoke_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2003,7 +2003,7 @@ class BotApi:
 
 
     @validate_call
-    def put_v1_bot_by_wildcard1(
+    def put_bot_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2047,7 +2047,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_bot_by_wildcard1_serialize(
+        _param = self._put_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2069,7 +2069,7 @@ class BotApi:
 
 
     @validate_call
-    def put_v1_bot_by_wildcard1_with_http_info(
+    def put_bot_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2113,7 +2113,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_bot_by_wildcard1_serialize(
+        _param = self._put_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2135,7 +2135,7 @@ class BotApi:
 
 
     @validate_call
-    def put_v1_bot_by_wildcard1_without_preload_content(
+    def put_bot_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2179,7 +2179,7 @@ class BotApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_bot_by_wildcard1_serialize(
+        _param = self._put_bot_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2196,7 +2196,7 @@ class BotApi:
         return response_data.response
 
 
-    def _put_v1_bot_by_wildcard1_serialize(
+    def _put_bot_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,

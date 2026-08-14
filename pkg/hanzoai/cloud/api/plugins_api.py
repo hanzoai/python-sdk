@@ -44,7 +44,7 @@ class PluginsApi:
 
 
     @validate_call
-    def delete_v1_plugins_authored_by_id(
+    def delete_plugins_authored_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plugin to remove, from the path.")],
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plugins_authored_by_id_serialize(
+        _param = self._delete_plugins_authored_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class PluginsApi:
 
 
     @validate_call
-    def delete_v1_plugins_authored_by_id_with_http_info(
+    def delete_plugins_authored_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plugin to remove, from the path.")],
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plugins_authored_by_id_serialize(
+        _param = self._delete_plugins_authored_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class PluginsApi:
 
 
     @validate_call
-    def delete_v1_plugins_authored_by_id_without_preload_content(
+    def delete_plugins_authored_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plugin to remove, from the path.")],
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plugins_authored_by_id_serialize(
+        _param = self._delete_plugins_authored_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class PluginsApi:
         return response_data.response
 
 
-    def _delete_v1_plugins_authored_by_id_serialize(
+    def _delete_plugins_authored_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -304,7 +304,7 @@ class PluginsApi:
 
 
     @validate_call
-    def get_v1_plugins(
+    def get_plugins(
         self,
         all: Annotated[Optional[StrictStr], Field(description="All includes the configured-but-disabled subsystems too, but only when it is exactly the string \"true\". Otherwise only the running ones are reported.")] = None,
         _request_timeout: Union[
@@ -348,7 +348,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plugins_serialize(
+        _param = self._get_plugins_serialize(
             all=all,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -371,7 +371,7 @@ class PluginsApi:
 
 
     @validate_call
-    def get_v1_plugins_with_http_info(
+    def get_plugins_with_http_info(
         self,
         all: Annotated[Optional[StrictStr], Field(description="All includes the configured-but-disabled subsystems too, but only when it is exactly the string \"true\". Otherwise only the running ones are reported.")] = None,
         _request_timeout: Union[
@@ -415,7 +415,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plugins_serialize(
+        _param = self._get_plugins_serialize(
             all=all,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -438,7 +438,7 @@ class PluginsApi:
 
 
     @validate_call
-    def get_v1_plugins_without_preload_content(
+    def get_plugins_without_preload_content(
         self,
         all: Annotated[Optional[StrictStr], Field(description="All includes the configured-but-disabled subsystems too, but only when it is exactly the string \"true\". Otherwise only the running ones are reported.")] = None,
         _request_timeout: Union[
@@ -482,7 +482,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plugins_serialize(
+        _param = self._get_plugins_serialize(
             all=all,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -500,7 +500,7 @@ class PluginsApi:
         return response_data.response
 
 
-    def _get_v1_plugins_serialize(
+    def _get_plugins_serialize(
         self,
         all,
         _request_auth,
@@ -566,7 +566,7 @@ class PluginsApi:
 
 
     @validate_call
-    def get_v1_plugins_authored(
+    def get_plugins_authored(
         self,
         _request_timeout: Union[
             None,
@@ -607,7 +607,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plugins_authored_serialize(
+        _param = self._get_plugins_authored_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -629,7 +629,7 @@ class PluginsApi:
 
 
     @validate_call
-    def get_v1_plugins_authored_with_http_info(
+    def get_plugins_authored_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -670,7 +670,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plugins_authored_serialize(
+        _param = self._get_plugins_authored_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -692,7 +692,7 @@ class PluginsApi:
 
 
     @validate_call
-    def get_v1_plugins_authored_without_preload_content(
+    def get_plugins_authored_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -733,7 +733,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plugins_authored_serialize(
+        _param = self._get_plugins_authored_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -750,7 +750,7 @@ class PluginsApi:
         return response_data.response
 
 
-    def _get_v1_plugins_authored_serialize(
+    def _get_plugins_authored_serialize(
         self,
         _request_auth,
         _content_type,
@@ -811,7 +811,7 @@ class PluginsApi:
 
 
     @validate_call
-    def post_v1_plugins_build(
+    def post_plugins_build(
         self,
         build_request: Optional[BuildRequest] = None,
         _request_timeout: Union[
@@ -855,7 +855,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plugins_build_serialize(
+        _param = self._post_plugins_build_serialize(
             build_request=build_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -878,7 +878,7 @@ class PluginsApi:
 
 
     @validate_call
-    def post_v1_plugins_build_with_http_info(
+    def post_plugins_build_with_http_info(
         self,
         build_request: Optional[BuildRequest] = None,
         _request_timeout: Union[
@@ -922,7 +922,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plugins_build_serialize(
+        _param = self._post_plugins_build_serialize(
             build_request=build_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -945,7 +945,7 @@ class PluginsApi:
 
 
     @validate_call
-    def post_v1_plugins_build_without_preload_content(
+    def post_plugins_build_without_preload_content(
         self,
         build_request: Optional[BuildRequest] = None,
         _request_timeout: Union[
@@ -989,7 +989,7 @@ class PluginsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plugins_build_serialize(
+        _param = self._post_plugins_build_serialize(
             build_request=build_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1007,7 +1007,7 @@ class PluginsApi:
         return response_data.response
 
 
-    def _post_v1_plugins_build_serialize(
+    def _post_plugins_build_serialize(
         self,
         build_request,
         _request_auth,

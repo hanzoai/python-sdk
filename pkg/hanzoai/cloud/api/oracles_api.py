@@ -37,7 +37,7 @@ class OraclesApi:
 
 
     @validate_call
-    def get_v1_oracles(
+    def get_oracles(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class OraclesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_oracles_serialize(
+        _param = self._get_oracles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +100,7 @@ class OraclesApi:
 
 
     @validate_call
-    def get_v1_oracles_with_http_info(
+    def get_oracles_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -141,7 +141,7 @@ class OraclesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_oracles_serialize(
+        _param = self._get_oracles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -163,7 +163,7 @@ class OraclesApi:
 
 
     @validate_call
-    def get_v1_oracles_without_preload_content(
+    def get_oracles_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -204,7 +204,7 @@ class OraclesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_oracles_serialize(
+        _param = self._get_oracles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -221,7 +221,7 @@ class OraclesApi:
         return response_data.response
 
 
-    def _get_v1_oracles_serialize(
+    def _get_oracles_serialize(
         self,
         _request_auth,
         _content_type,

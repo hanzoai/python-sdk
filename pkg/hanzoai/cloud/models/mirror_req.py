@@ -28,7 +28,7 @@ class MirrorReq(BaseModel):
     """ # noqa: E501
     name: Optional[StrictStr] = Field(default=None, description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the sub-scope to land the repo in; empty uses the caller's own, exactly as a create would.")
-    source: Optional[StrictStr] = Field(default=None, description="Source is the http(s) git URL to fetch from. The host is SSRF-guarded and the shared mirror credential is only sent to allowlisted hosts.")
+    source: Optional[StrictStr] = Field(default=None, description="Source is the http(s) git URL to fetch from. The host is SSRF-guarded, and a credential is sent only if we hold one NAMED FOR that host — so a tenant-supplied URL to anywhere else fetches anonymously.")
     __properties: ClassVar[List[str]] = ["name", "project", "source"]
 
     model_config = ConfigDict(

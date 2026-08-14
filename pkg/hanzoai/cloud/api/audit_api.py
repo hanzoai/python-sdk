@@ -40,7 +40,7 @@ class AuditApi:
 
 
     @validate_call
-    def get_v1_audit(
+    def get_audit(
         self,
         sub: Annotated[Optional[StrictStr], Field(description="Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org.")] = None,
         action: Annotated[Optional[StrictStr], Field(description="Action narrows it to one action name, e.g. \"machine.create\".")] = None,
@@ -108,7 +108,7 @@ class AuditApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_audit_serialize(
+        _param = self._get_audit_serialize(
             sub=sub,
             action=action,
             resource=resource,
@@ -139,7 +139,7 @@ class AuditApi:
 
 
     @validate_call
-    def get_v1_audit_with_http_info(
+    def get_audit_with_http_info(
         self,
         sub: Annotated[Optional[StrictStr], Field(description="Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org.")] = None,
         action: Annotated[Optional[StrictStr], Field(description="Action narrows it to one action name, e.g. \"machine.create\".")] = None,
@@ -207,7 +207,7 @@ class AuditApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_audit_serialize(
+        _param = self._get_audit_serialize(
             sub=sub,
             action=action,
             resource=resource,
@@ -238,7 +238,7 @@ class AuditApi:
 
 
     @validate_call
-    def get_v1_audit_without_preload_content(
+    def get_audit_without_preload_content(
         self,
         sub: Annotated[Optional[StrictStr], Field(description="Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org.")] = None,
         action: Annotated[Optional[StrictStr], Field(description="Action narrows it to one action name, e.g. \"machine.create\".")] = None,
@@ -306,7 +306,7 @@ class AuditApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_audit_serialize(
+        _param = self._get_audit_serialize(
             sub=sub,
             action=action,
             resource=resource,
@@ -332,7 +332,7 @@ class AuditApi:
         return response_data.response
 
 
-    def _get_v1_audit_serialize(
+    def _get_audit_serialize(
         self,
         sub,
         action,

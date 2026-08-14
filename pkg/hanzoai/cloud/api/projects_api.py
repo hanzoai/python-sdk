@@ -16,12 +16,13 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-from typing import List
+from pydantic import Field, StrictBytes, StrictStr
+from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.projects_bound_domains import ProjectsBoundDomains
 from hanzoai.cloud.models.projects_complete import ProjectsComplete
 from hanzoai.cloud.models.projects_create import ProjectsCreate
+from hanzoai.cloud.models.projects_deploy_start import ProjectsDeployStart
 from hanzoai.cloud.models.projects_deployment import ProjectsDeployment
 from hanzoai.cloud.models.projects_domain import ProjectsDomain
 from hanzoai.cloud.models.projects_domains import ProjectsDomains
@@ -49,7 +50,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def delete_v1_projects_by_slug(
+    def delete_projects_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -67,7 +68,7 @@ class ProjectsApi:
     ) -> None:
         """Deletes a project and takes its site off the internet.
 
-        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
 
         :param slug: Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404. (required)
         :type slug: str
@@ -93,7 +94,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_projects_by_slug_serialize(
+        _param = self._delete_projects_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -116,7 +117,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def delete_v1_projects_by_slug_with_http_info(
+    def delete_projects_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -134,7 +135,7 @@ class ProjectsApi:
     ) -> ApiResponse[None]:
         """Deletes a project and takes its site off the internet.
 
-        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
 
         :param slug: Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404. (required)
         :type slug: str
@@ -160,7 +161,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_projects_by_slug_serialize(
+        _param = self._delete_projects_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -183,7 +184,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def delete_v1_projects_by_slug_without_preload_content(
+    def delete_projects_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -201,7 +202,7 @@ class ProjectsApi:
     ) -> RESTResponseType:
         """Deletes a project and takes its site off the internet.
 
-        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
 
         :param slug: Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404. (required)
         :type slug: str
@@ -227,7 +228,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_projects_by_slug_serialize(
+        _param = self._delete_projects_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -245,7 +246,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _delete_v1_projects_by_slug_serialize(
+    def _delete_projects_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -302,7 +303,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def delete_v1_projects_by_slug_domains_by_host(
+    def delete_projects_by_slug_domains_by_host(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -349,7 +350,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_projects_by_slug_domains_by_host_serialize(
+        _param = self._delete_projects_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -373,7 +374,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def delete_v1_projects_by_slug_domains_by_host_with_http_info(
+    def delete_projects_by_slug_domains_by_host_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -420,7 +421,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_projects_by_slug_domains_by_host_serialize(
+        _param = self._delete_projects_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -444,7 +445,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def delete_v1_projects_by_slug_domains_by_host_without_preload_content(
+    def delete_projects_by_slug_domains_by_host_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -491,7 +492,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_projects_by_slug_domains_by_host_serialize(
+        _param = self._delete_projects_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -510,7 +511,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _delete_v1_projects_by_slug_domains_by_host_serialize(
+    def _delete_projects_by_slug_domains_by_host_serialize(
         self,
         slug,
         host,
@@ -570,7 +571,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects(
+    def get_projects(
         self,
         _request_timeout: Union[
             None,
@@ -611,7 +612,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_serialize(
+        _param = self._get_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -633,7 +634,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_with_http_info(
+    def get_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -674,7 +675,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_serialize(
+        _param = self._get_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -696,7 +697,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_without_preload_content(
+    def get_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -737,7 +738,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_serialize(
+        _param = self._get_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -754,7 +755,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _get_v1_projects_serialize(
+    def _get_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -815,7 +816,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug(
+    def get_projects_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -859,7 +860,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_serialize(
+        _param = self._get_projects_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -882,7 +883,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_with_http_info(
+    def get_projects_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -926,7 +927,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_serialize(
+        _param = self._get_projects_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -949,7 +950,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_without_preload_content(
+    def get_projects_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -993,7 +994,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_serialize(
+        _param = self._get_projects_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1011,7 +1012,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _get_v1_projects_by_slug_serialize(
+    def _get_projects_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -1075,7 +1076,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_deployments(
+    def get_projects_by_slug_deployments(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -1119,7 +1120,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_deployments_serialize(
+        _param = self._get_projects_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1142,7 +1143,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_deployments_with_http_info(
+    def get_projects_by_slug_deployments_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -1186,7 +1187,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_deployments_serialize(
+        _param = self._get_projects_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1209,7 +1210,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_deployments_without_preload_content(
+    def get_projects_by_slug_deployments_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -1253,7 +1254,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_deployments_serialize(
+        _param = self._get_projects_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1271,7 +1272,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _get_v1_projects_by_slug_deployments_serialize(
+    def _get_projects_by_slug_deployments_serialize(
         self,
         slug,
         _request_auth,
@@ -1335,7 +1336,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_deployments_by_id(
+    def get_projects_by_slug_deployments_by_id(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -1382,7 +1383,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_deployments_by_id_serialize(
+        _param = self._get_projects_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -1406,7 +1407,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_deployments_by_id_with_http_info(
+    def get_projects_by_slug_deployments_by_id_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -1453,7 +1454,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_deployments_by_id_serialize(
+        _param = self._get_projects_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -1477,7 +1478,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_deployments_by_id_without_preload_content(
+    def get_projects_by_slug_deployments_by_id_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -1524,7 +1525,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_deployments_by_id_serialize(
+        _param = self._get_projects_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -1543,7 +1544,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _get_v1_projects_by_slug_deployments_by_id_serialize(
+    def _get_projects_by_slug_deployments_by_id_serialize(
         self,
         slug,
         id,
@@ -1610,7 +1611,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_domains(
+    def get_projects_by_slug_domains(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -1654,7 +1655,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_domains_serialize(
+        _param = self._get_projects_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1677,7 +1678,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_domains_with_http_info(
+    def get_projects_by_slug_domains_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -1721,7 +1722,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_domains_serialize(
+        _param = self._get_projects_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1744,7 +1745,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def get_v1_projects_by_slug_domains_without_preload_content(
+    def get_projects_by_slug_domains_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -1788,7 +1789,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_projects_by_slug_domains_serialize(
+        _param = self._get_projects_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1806,7 +1807,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _get_v1_projects_by_slug_domains_serialize(
+    def _get_projects_by_slug_domains_serialize(
         self,
         slug,
         _request_auth,
@@ -1870,7 +1871,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def patch_v1_projects_by_slug(
+    def patch_projects_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -1917,7 +1918,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_projects_by_slug_serialize(
+        _param = self._patch_projects_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -1941,7 +1942,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def patch_v1_projects_by_slug_with_http_info(
+    def patch_projects_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -1988,7 +1989,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_projects_by_slug_serialize(
+        _param = self._patch_projects_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -2012,7 +2013,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def patch_v1_projects_by_slug_without_preload_content(
+    def patch_projects_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -2059,7 +2060,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_projects_by_slug_serialize(
+        _param = self._patch_projects_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -2078,7 +2079,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _patch_v1_projects_by_slug_serialize(
+    def _patch_projects_by_slug_serialize(
         self,
         slug,
         projects_update,
@@ -2158,7 +2159,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects(
+    def post_projects(
         self,
         projects_create: ProjectsCreate,
         _request_timeout: Union[
@@ -2202,7 +2203,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_serialize(
+        _param = self._post_projects_serialize(
             projects_create=projects_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2225,7 +2226,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_with_http_info(
+    def post_projects_with_http_info(
         self,
         projects_create: ProjectsCreate,
         _request_timeout: Union[
@@ -2269,7 +2270,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_serialize(
+        _param = self._post_projects_serialize(
             projects_create=projects_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2292,7 +2293,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_without_preload_content(
+    def post_projects_without_preload_content(
         self,
         projects_create: ProjectsCreate,
         _request_timeout: Union[
@@ -2336,7 +2337,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_serialize(
+        _param = self._post_projects_serialize(
             projects_create=projects_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2354,7 +2355,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_serialize(
+    def _post_projects_serialize(
         self,
         projects_create,
         _request_auth,
@@ -2431,9 +2432,10 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_deploy(
+    def post_projects_by_slug_deploy(
         self,
         slug: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2446,13 +2448,15 @@ class ProjectsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Deploy a build — upload an archive, or trigger a build from the linked repo
+    ) -> ProjectsDeployment:
+        """Upload a built site as one archive and serve it
 
-        Takes a built site live at `https://<slug>.hanzo.app`. It accepts BOTH shapes on one address and the content type decides which: a `zip` or `tar.gz` archive — raw in the body or as a multipart file part — is uploaded and served immediately, answering 200 with the finished deployment; a JSON body instead queues a build from the project's linked repo and answers 202 with a queued deployment and, where one could be minted, a scoped upload grant for CI to write with. The git path needs a linked repo (400 without one) and is finished later by the completion hook.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site, and a queued build is billed at completion rather than at queue time. A redeploy returns the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured, else 503; an archive that does not walk is a 400 and one over the size cap is a 413.
+        Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
 
         :param slug: (required)
         :type slug: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2475,8 +2479,9 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_deploy_serialize(
+        _param = self._post_projects_by_slug_deploy_serialize(
             slug=slug,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2484,6 +2489,7 @@ class ProjectsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "ProjectsDeployment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2497,9 +2503,10 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_deploy_with_http_info(
+    def post_projects_by_slug_deploy_with_http_info(
         self,
         slug: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2512,13 +2519,15 @@ class ProjectsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Deploy a build — upload an archive, or trigger a build from the linked repo
+    ) -> ApiResponse[ProjectsDeployment]:
+        """Upload a built site as one archive and serve it
 
-        Takes a built site live at `https://<slug>.hanzo.app`. It accepts BOTH shapes on one address and the content type decides which: a `zip` or `tar.gz` archive — raw in the body or as a multipart file part — is uploaded and served immediately, answering 200 with the finished deployment; a JSON body instead queues a build from the project's linked repo and answers 202 with a queued deployment and, where one could be minted, a scoped upload grant for CI to write with. The git path needs a linked repo (400 without one) and is finished later by the completion hook.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site, and a queued build is billed at completion rather than at queue time. A redeploy returns the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured, else 503; an archive that does not walk is a 400 and one over the size cap is a 413.
+        Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
 
         :param slug: (required)
         :type slug: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2541,8 +2550,9 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_deploy_serialize(
+        _param = self._post_projects_by_slug_deploy_serialize(
             slug=slug,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2550,6 +2560,7 @@ class ProjectsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "ProjectsDeployment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2563,9 +2574,10 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_deploy_without_preload_content(
+    def post_projects_by_slug_deploy_without_preload_content(
         self,
         slug: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2579,12 +2591,14 @@ class ProjectsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Deploy a build — upload an archive, or trigger a build from the linked repo
+        """Upload a built site as one archive and serve it
 
-        Takes a built site live at `https://<slug>.hanzo.app`. It accepts BOTH shapes on one address and the content type decides which: a `zip` or `tar.gz` archive — raw in the body or as a multipart file part — is uploaded and served immediately, answering 200 with the finished deployment; a JSON body instead queues a build from the project's linked repo and answers 202 with a queued deployment and, where one could be minted, a scoped upload grant for CI to write with. The git path needs a linked repo (400 without one) and is finished later by the completion hook.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site, and a queued build is billed at completion rather than at queue time. A redeploy returns the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured, else 503; an archive that does not walk is a 400 and one over the size cap is a 413.
+        Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
 
         :param slug: (required)
         :type slug: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2607,8 +2621,9 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_deploy_serialize(
+        _param = self._post_projects_by_slug_deploy_serialize(
             slug=slug,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2616,6 +2631,7 @@ class ProjectsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "ProjectsDeployment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2624,9 +2640,10 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_by_slug_deploy_serialize(
+    def _post_projects_by_slug_deploy_serialize(
         self,
         slug,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -2654,9 +2671,39 @@ class ProjectsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            # convert to byte array if the input is a file name (str)
+            if isinstance(body, str):
+                with open(body, "rb") as _fp:
+                    _body_params = _fp.read()
+            elif isinstance(body, tuple):
+                # drop the filename from the tuple
+                _body_params = body[1]
+            else:
+                _body_params = body
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/octet-stream'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -2681,7 +2728,295 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_deployments_by_id_complete(
+    def post_projects_by_slug_deployments(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the site to deploy, from the path.")],
+        projects_deploy_start: ProjectsDeployStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProjectsDeployment:
+        """Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+
+        Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+
+        :param slug: Slug is the site to deploy, from the path. (required)
+        :type slug: str
+        :param projects_deploy_start: (required)
+        :type projects_deploy_start: ProjectsDeployStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_projects_by_slug_deployments_serialize(
+            slug=slug,
+            projects_deploy_start=projects_deploy_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_projects_by_slug_deployments_with_http_info(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the site to deploy, from the path.")],
+        projects_deploy_start: ProjectsDeployStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProjectsDeployment]:
+        """Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+
+        Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+
+        :param slug: Slug is the site to deploy, from the path. (required)
+        :type slug: str
+        :param projects_deploy_start: (required)
+        :type projects_deploy_start: ProjectsDeployStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_projects_by_slug_deployments_serialize(
+            slug=slug,
+            projects_deploy_start=projects_deploy_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_projects_by_slug_deployments_without_preload_content(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the site to deploy, from the path.")],
+        projects_deploy_start: ProjectsDeployStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+
+        Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+
+        :param slug: Slug is the site to deploy, from the path. (required)
+        :type slug: str
+        :param projects_deploy_start: (required)
+        :type projects_deploy_start: ProjectsDeployStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_projects_by_slug_deployments_serialize(
+            slug=slug,
+            projects_deploy_start=projects_deploy_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_projects_by_slug_deployments_serialize(
+        self,
+        slug,
+        projects_deploy_start,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if slug is not None:
+            _path_params['slug'] = slug
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if projects_deploy_start is not None:
+            _body_params = projects_deploy_start
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/projects/{slug}/deployments',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_projects_by_slug_deployments_by_id_complete(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the queued deployment to complete, from the path.")],
@@ -2731,7 +3066,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_deployments_by_id_complete_serialize(
+        _param = self._post_projects_by_slug_deployments_by_id_complete_serialize(
             slug=slug,
             id=id,
             projects_complete=projects_complete,
@@ -2756,7 +3091,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_deployments_by_id_complete_with_http_info(
+    def post_projects_by_slug_deployments_by_id_complete_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the queued deployment to complete, from the path.")],
@@ -2806,7 +3141,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_deployments_by_id_complete_serialize(
+        _param = self._post_projects_by_slug_deployments_by_id_complete_serialize(
             slug=slug,
             id=id,
             projects_complete=projects_complete,
@@ -2831,7 +3166,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_deployments_by_id_complete_without_preload_content(
+    def post_projects_by_slug_deployments_by_id_complete_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the queued deployment to complete, from the path.")],
@@ -2881,7 +3216,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_deployments_by_id_complete_serialize(
+        _param = self._post_projects_by_slug_deployments_by_id_complete_serialize(
             slug=slug,
             id=id,
             projects_complete=projects_complete,
@@ -2901,7 +3236,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_by_slug_deployments_by_id_complete_serialize(
+    def _post_projects_by_slug_deployments_by_id_complete_serialize(
         self,
         slug,
         id,
@@ -2984,7 +3319,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_domains(
+    def post_projects_by_slug_domains(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -3031,7 +3366,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_domains_serialize(
+        _param = self._post_projects_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -3055,7 +3390,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_domains_with_http_info(
+    def post_projects_by_slug_domains_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -3102,7 +3437,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_domains_serialize(
+        _param = self._post_projects_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -3126,7 +3461,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_domains_without_preload_content(
+    def post_projects_by_slug_domains_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -3173,7 +3508,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_domains_serialize(
+        _param = self._post_projects_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -3192,7 +3527,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_by_slug_domains_serialize(
+    def _post_projects_by_slug_domains_serialize(
         self,
         slug,
         projects_domains_bind,
@@ -3272,7 +3607,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_domains_by_host_verify(
+    def post_projects_by_slug_domains_by_host_verify(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -3319,7 +3654,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_domains_by_host_verify_serialize(
+        _param = self._post_projects_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -3343,7 +3678,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_domains_by_host_verify_with_http_info(
+    def post_projects_by_slug_domains_by_host_verify_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -3390,7 +3725,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_domains_by_host_verify_serialize(
+        _param = self._post_projects_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -3414,7 +3749,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_domains_by_host_verify_without_preload_content(
+    def post_projects_by_slug_domains_by_host_verify_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -3461,7 +3796,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_domains_by_host_verify_serialize(
+        _param = self._post_projects_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -3480,7 +3815,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_by_slug_domains_by_host_verify_serialize(
+    def _post_projects_by_slug_domains_by_host_verify_serialize(
         self,
         slug,
         host,
@@ -3547,7 +3882,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_purge(
+    def post_projects_by_slug_purge(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -3591,7 +3926,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_purge_serialize(
+        _param = self._post_projects_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3614,7 +3949,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_purge_with_http_info(
+    def post_projects_by_slug_purge_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -3658,7 +3993,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_purge_serialize(
+        _param = self._post_projects_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3681,7 +4016,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_by_slug_purge_without_preload_content(
+    def post_projects_by_slug_purge_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -3725,7 +4060,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_by_slug_purge_serialize(
+        _param = self._post_projects_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3743,7 +4078,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_by_slug_purge_serialize(
+    def _post_projects_by_slug_purge_serialize(
         self,
         slug,
         _request_auth,
@@ -3807,7 +4142,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_fork(
+    def post_projects_fork(
         self,
         projects_fork: ProjectsFork,
         _request_timeout: Union[
@@ -3851,7 +4186,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_fork_serialize(
+        _param = self._post_projects_fork_serialize(
             projects_fork=projects_fork,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3874,7 +4209,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_fork_with_http_info(
+    def post_projects_fork_with_http_info(
         self,
         projects_fork: ProjectsFork,
         _request_timeout: Union[
@@ -3918,7 +4253,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_fork_serialize(
+        _param = self._post_projects_fork_serialize(
             projects_fork=projects_fork,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3941,7 +4276,7 @@ class ProjectsApi:
 
 
     @validate_call
-    def post_v1_projects_fork_without_preload_content(
+    def post_projects_fork_without_preload_content(
         self,
         projects_fork: ProjectsFork,
         _request_timeout: Union[
@@ -3985,7 +4320,7 @@ class ProjectsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_projects_fork_serialize(
+        _param = self._post_projects_fork_serialize(
             projects_fork=projects_fork,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4003,7 +4338,7 @@ class ProjectsApi:
         return response_data.response
 
 
-    def _post_v1_projects_fork_serialize(
+    def _post_projects_fork_serialize(
         self,
         projects_fork,
         _request_auth,

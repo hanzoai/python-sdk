@@ -39,7 +39,7 @@ class EnablementApi:
 
 
     @validate_call
-    def get_v1_enablement(
+    def get_enablement(
         self,
         _request_timeout: Union[
             None,
@@ -80,7 +80,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_enablement_serialize(
+        _param = self._get_enablement_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -102,7 +102,7 @@ class EnablementApi:
 
 
     @validate_call
-    def get_v1_enablement_with_http_info(
+    def get_enablement_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -143,7 +143,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_enablement_serialize(
+        _param = self._get_enablement_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -165,7 +165,7 @@ class EnablementApi:
 
 
     @validate_call
-    def get_v1_enablement_without_preload_content(
+    def get_enablement_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -206,7 +206,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_enablement_serialize(
+        _param = self._get_enablement_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -223,7 +223,7 @@ class EnablementApi:
         return response_data.response
 
 
-    def _get_v1_enablement_serialize(
+    def _get_enablement_serialize(
         self,
         _request_auth,
         _content_type,
@@ -284,7 +284,7 @@ class EnablementApi:
 
 
     @validate_call
-    def post_v1_enablement_optin(
+    def post_enablement_optin(
         self,
         enablement_opt_ref: EnablementOptRef,
         _request_timeout: Union[
@@ -328,7 +328,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_enablement_optin_serialize(
+        _param = self._post_enablement_optin_serialize(
             enablement_opt_ref=enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -351,7 +351,7 @@ class EnablementApi:
 
 
     @validate_call
-    def post_v1_enablement_optin_with_http_info(
+    def post_enablement_optin_with_http_info(
         self,
         enablement_opt_ref: EnablementOptRef,
         _request_timeout: Union[
@@ -395,7 +395,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_enablement_optin_serialize(
+        _param = self._post_enablement_optin_serialize(
             enablement_opt_ref=enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -418,7 +418,7 @@ class EnablementApi:
 
 
     @validate_call
-    def post_v1_enablement_optin_without_preload_content(
+    def post_enablement_optin_without_preload_content(
         self,
         enablement_opt_ref: EnablementOptRef,
         _request_timeout: Union[
@@ -462,7 +462,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_enablement_optin_serialize(
+        _param = self._post_enablement_optin_serialize(
             enablement_opt_ref=enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -480,7 +480,7 @@ class EnablementApi:
         return response_data.response
 
 
-    def _post_v1_enablement_optin_serialize(
+    def _post_enablement_optin_serialize(
         self,
         enablement_opt_ref,
         _request_auth,
@@ -557,7 +557,7 @@ class EnablementApi:
 
 
     @validate_call
-    def post_v1_enablement_optout(
+    def post_enablement_optout(
         self,
         enablement_opt_ref: EnablementOptRef,
         _request_timeout: Union[
@@ -601,7 +601,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_enablement_optout_serialize(
+        _param = self._post_enablement_optout_serialize(
             enablement_opt_ref=enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -624,7 +624,7 @@ class EnablementApi:
 
 
     @validate_call
-    def post_v1_enablement_optout_with_http_info(
+    def post_enablement_optout_with_http_info(
         self,
         enablement_opt_ref: EnablementOptRef,
         _request_timeout: Union[
@@ -668,7 +668,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_enablement_optout_serialize(
+        _param = self._post_enablement_optout_serialize(
             enablement_opt_ref=enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -691,7 +691,7 @@ class EnablementApi:
 
 
     @validate_call
-    def post_v1_enablement_optout_without_preload_content(
+    def post_enablement_optout_without_preload_content(
         self,
         enablement_opt_ref: EnablementOptRef,
         _request_timeout: Union[
@@ -735,7 +735,7 @@ class EnablementApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_enablement_optout_serialize(
+        _param = self._post_enablement_optout_serialize(
             enablement_opt_ref=enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -753,7 +753,7 @@ class EnablementApi:
         return response_data.response
 
 
-    def _post_v1_enablement_optout_serialize(
+    def _post_enablement_optout_serialize(
         self,
         enablement_opt_ref,
         _request_auth,

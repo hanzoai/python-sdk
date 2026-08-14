@@ -51,7 +51,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_dataroom_by_dataroomid(
+    def get_dataroom_analytics_dataroom_by_dataroomid(
         self,
         dataroom_id: Annotated[StrictStr, Field(description="DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -95,7 +95,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
+        _param = self._get_dataroom_analytics_dataroom_by_dataroomid_serialize(
             dataroom_id=dataroom_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -118,7 +118,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_dataroom_by_dataroomid_with_http_info(
+    def get_dataroom_analytics_dataroom_by_dataroomid_with_http_info(
         self,
         dataroom_id: Annotated[StrictStr, Field(description="DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -162,7 +162,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
+        _param = self._get_dataroom_analytics_dataroom_by_dataroomid_serialize(
             dataroom_id=dataroom_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -185,7 +185,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_dataroom_by_dataroomid_without_preload_content(
+    def get_dataroom_analytics_dataroom_by_dataroomid_without_preload_content(
         self,
         dataroom_id: Annotated[StrictStr, Field(description="DataroomID is the room to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -229,7 +229,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
+        _param = self._get_dataroom_analytics_dataroom_by_dataroomid_serialize(
             dataroom_id=dataroom_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -247,7 +247,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_analytics_dataroom_by_dataroomid_serialize(
+    def _get_dataroom_analytics_dataroom_by_dataroomid_serialize(
         self,
         dataroom_id,
         _request_auth,
@@ -311,7 +311,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_link_by_linkid(
+    def get_dataroom_analytics_link_by_linkid(
         self,
         link_id: Annotated[StrictStr, Field(description="LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -355,7 +355,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_link_by_linkid_serialize(
+        _param = self._get_dataroom_analytics_link_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -378,7 +378,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_link_by_linkid_with_http_info(
+    def get_dataroom_analytics_link_by_linkid_with_http_info(
         self,
         link_id: Annotated[StrictStr, Field(description="LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -422,7 +422,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_link_by_linkid_serialize(
+        _param = self._get_dataroom_analytics_link_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -445,7 +445,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_analytics_link_by_linkid_without_preload_content(
+    def get_dataroom_analytics_link_by_linkid_without_preload_content(
         self,
         link_id: Annotated[StrictStr, Field(description="LinkID is the link to report on. It is the path segment, resolved in the caller's own tenant store.")],
         _request_timeout: Union[
@@ -489,7 +489,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_analytics_link_by_linkid_serialize(
+        _param = self._get_dataroom_analytics_link_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -507,7 +507,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_analytics_link_by_linkid_serialize(
+    def _get_dataroom_analytics_link_by_linkid_serialize(
         self,
         link_id,
         _request_auth,
@@ -571,7 +571,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms(
+    def get_dataroom_datarooms(
         self,
         _request_timeout: Union[
             None,
@@ -612,7 +612,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_serialize(
+        _param = self._get_dataroom_datarooms_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -634,7 +634,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_with_http_info(
+    def get_dataroom_datarooms_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -675,7 +675,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_serialize(
+        _param = self._get_dataroom_datarooms_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -697,7 +697,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_without_preload_content(
+    def get_dataroom_datarooms_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -738,7 +738,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_serialize(
+        _param = self._get_dataroom_datarooms_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -755,7 +755,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_datarooms_serialize(
+    def _get_dataroom_datarooms_serialize(
         self,
         _request_auth,
         _content_type,
@@ -816,7 +816,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_by_id(
+    def get_dataroom_datarooms_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -860,7 +860,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_by_id_serialize(
+        _param = self._get_dataroom_datarooms_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -883,7 +883,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_by_id_with_http_info(
+    def get_dataroom_datarooms_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -927,7 +927,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_by_id_serialize(
+        _param = self._get_dataroom_datarooms_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -950,7 +950,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_datarooms_by_id_without_preload_content(
+    def get_dataroom_datarooms_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -994,7 +994,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_datarooms_by_id_serialize(
+        _param = self._get_dataroom_datarooms_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1012,7 +1012,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_datarooms_by_id_serialize(
+    def _get_dataroom_datarooms_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1076,7 +1076,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents(
+    def get_dataroom_documents(
         self,
         _request_timeout: Union[
             None,
@@ -1117,7 +1117,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_serialize(
+        _param = self._get_dataroom_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1139,7 +1139,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_with_http_info(
+    def get_dataroom_documents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1180,7 +1180,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_serialize(
+        _param = self._get_dataroom_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1202,7 +1202,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_without_preload_content(
+    def get_dataroom_documents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1243,7 +1243,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_serialize(
+        _param = self._get_dataroom_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1260,7 +1260,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_documents_serialize(
+    def _get_dataroom_documents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1321,7 +1321,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_by_id(
+    def get_dataroom_documents_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -1365,7 +1365,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_by_id_serialize(
+        _param = self._get_dataroom_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1388,7 +1388,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_by_id_with_http_info(
+    def get_dataroom_documents_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -1432,7 +1432,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_by_id_serialize(
+        _param = self._get_dataroom_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1455,7 +1455,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_by_id_without_preload_content(
+    def get_dataroom_documents_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -1499,7 +1499,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_by_id_serialize(
+        _param = self._get_dataroom_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1517,7 +1517,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_documents_by_id_serialize(
+    def _get_dataroom_documents_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1581,7 +1581,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_by_id_file(
+    def get_dataroom_documents_by_id_file(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1625,7 +1625,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_by_id_file_serialize(
+        _param = self._get_dataroom_documents_by_id_file_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1647,7 +1647,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_by_id_file_with_http_info(
+    def get_dataroom_documents_by_id_file_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1691,7 +1691,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_by_id_file_serialize(
+        _param = self._get_dataroom_documents_by_id_file_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1713,7 +1713,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_documents_by_id_file_without_preload_content(
+    def get_dataroom_documents_by_id_file_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1757,7 +1757,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_documents_by_id_file_serialize(
+        _param = self._get_dataroom_documents_by_id_file_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1774,7 +1774,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_documents_by_id_file_serialize(
+    def _get_dataroom_documents_by_id_file_serialize(
         self,
         id,
         _request_auth,
@@ -1831,7 +1831,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_health(
+    def get_dataroom_health(
         self,
         _request_timeout: Union[
             None,
@@ -1872,7 +1872,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_health_serialize(
+        _param = self._get_dataroom_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1893,7 +1893,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_health_with_http_info(
+    def get_dataroom_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1934,7 +1934,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_health_serialize(
+        _param = self._get_dataroom_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1955,7 +1955,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_health_without_preload_content(
+    def get_dataroom_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1996,7 +1996,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_health_serialize(
+        _param = self._get_dataroom_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2012,7 +2012,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_health_serialize(
+    def _get_dataroom_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2066,7 +2066,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_links(
+    def get_dataroom_links(
         self,
         _request_timeout: Union[
             None,
@@ -2107,7 +2107,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_links_serialize(
+        _param = self._get_dataroom_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2129,7 +2129,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_links_with_http_info(
+    def get_dataroom_links_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2170,7 +2170,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_links_serialize(
+        _param = self._get_dataroom_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2192,7 +2192,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_links_without_preload_content(
+    def get_dataroom_links_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2233,7 +2233,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_links_serialize(
+        _param = self._get_dataroom_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2250,7 +2250,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_links_serialize(
+    def _get_dataroom_links_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2311,7 +2311,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_view_by_linkid(
+    def get_dataroom_view_by_linkid(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -2355,7 +2355,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_view_by_linkid_serialize(
+        _param = self._get_dataroom_view_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2377,7 +2377,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_view_by_linkid_with_http_info(
+    def get_dataroom_view_by_linkid_with_http_info(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -2421,7 +2421,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_view_by_linkid_serialize(
+        _param = self._get_dataroom_view_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2443,7 +2443,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_view_by_linkid_without_preload_content(
+    def get_dataroom_view_by_linkid_without_preload_content(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -2487,7 +2487,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_view_by_linkid_serialize(
+        _param = self._get_dataroom_view_by_linkid_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2504,7 +2504,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_view_by_linkid_serialize(
+    def _get_dataroom_view_by_linkid_serialize(
         self,
         link_id,
         _request_auth,
@@ -2561,7 +2561,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_view_by_linkid_document_by_documentid_file(
+    def get_dataroom_view_by_linkid_document_by_documentid_file(
         self,
         link_id: StrictStr,
         document_id: StrictStr,
@@ -2608,7 +2608,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_view_by_linkid_document_by_documentid_file_serialize(
+        _param = self._get_dataroom_view_by_linkid_document_by_documentid_file_serialize(
             link_id=link_id,
             document_id=document_id,
             _request_auth=_request_auth,
@@ -2631,7 +2631,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_view_by_linkid_document_by_documentid_file_with_http_info(
+    def get_dataroom_view_by_linkid_document_by_documentid_file_with_http_info(
         self,
         link_id: StrictStr,
         document_id: StrictStr,
@@ -2678,7 +2678,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_view_by_linkid_document_by_documentid_file_serialize(
+        _param = self._get_dataroom_view_by_linkid_document_by_documentid_file_serialize(
             link_id=link_id,
             document_id=document_id,
             _request_auth=_request_auth,
@@ -2701,7 +2701,7 @@ class DataroomApi:
 
 
     @validate_call
-    def get_v1_dataroom_view_by_linkid_document_by_documentid_file_without_preload_content(
+    def get_dataroom_view_by_linkid_document_by_documentid_file_without_preload_content(
         self,
         link_id: StrictStr,
         document_id: StrictStr,
@@ -2748,7 +2748,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_dataroom_view_by_linkid_document_by_documentid_file_serialize(
+        _param = self._get_dataroom_view_by_linkid_document_by_documentid_file_serialize(
             link_id=link_id,
             document_id=document_id,
             _request_auth=_request_auth,
@@ -2766,7 +2766,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _get_v1_dataroom_view_by_linkid_document_by_documentid_file_serialize(
+    def _get_dataroom_view_by_linkid_document_by_documentid_file_serialize(
         self,
         link_id,
         document_id,
@@ -2826,7 +2826,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms(
+    def post_dataroom_datarooms(
         self,
         dataroom_create: DataroomCreate,
         _request_timeout: Union[
@@ -2870,7 +2870,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_serialize(
+        _param = self._post_dataroom_datarooms_serialize(
             dataroom_create=dataroom_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2893,7 +2893,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_with_http_info(
+    def post_dataroom_datarooms_with_http_info(
         self,
         dataroom_create: DataroomCreate,
         _request_timeout: Union[
@@ -2937,7 +2937,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_serialize(
+        _param = self._post_dataroom_datarooms_serialize(
             dataroom_create=dataroom_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2960,7 +2960,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_without_preload_content(
+    def post_dataroom_datarooms_without_preload_content(
         self,
         dataroom_create: DataroomCreate,
         _request_timeout: Union[
@@ -3004,7 +3004,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_serialize(
+        _param = self._post_dataroom_datarooms_serialize(
             dataroom_create=dataroom_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3022,7 +3022,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_datarooms_serialize(
+    def _post_dataroom_datarooms_serialize(
         self,
         dataroom_create,
         _request_auth,
@@ -3099,7 +3099,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_by_id_documents(
+    def post_dataroom_datarooms_by_id_documents(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         dataroom_add_document: DataroomAddDocument,
@@ -3146,7 +3146,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_by_id_documents_serialize(
+        _param = self._post_dataroom_datarooms_by_id_documents_serialize(
             id=id,
             dataroom_add_document=dataroom_add_document,
             _request_auth=_request_auth,
@@ -3170,7 +3170,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_by_id_documents_with_http_info(
+    def post_dataroom_datarooms_by_id_documents_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         dataroom_add_document: DataroomAddDocument,
@@ -3217,7 +3217,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_by_id_documents_serialize(
+        _param = self._post_dataroom_datarooms_by_id_documents_serialize(
             id=id,
             dataroom_add_document=dataroom_add_document,
             _request_auth=_request_auth,
@@ -3241,7 +3241,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_datarooms_by_id_documents_without_preload_content(
+    def post_dataroom_datarooms_by_id_documents_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to add to. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         dataroom_add_document: DataroomAddDocument,
@@ -3288,7 +3288,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_datarooms_by_id_documents_serialize(
+        _param = self._post_dataroom_datarooms_by_id_documents_serialize(
             id=id,
             dataroom_add_document=dataroom_add_document,
             _request_auth=_request_auth,
@@ -3307,7 +3307,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_datarooms_by_id_documents_serialize(
+    def _post_dataroom_datarooms_by_id_documents_serialize(
         self,
         id,
         dataroom_add_document,
@@ -3387,7 +3387,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_documents(
+    def post_dataroom_documents(
         self,
         _request_timeout: Union[
             None,
@@ -3428,7 +3428,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_documents_serialize(
+        _param = self._post_dataroom_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3449,7 +3449,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_documents_with_http_info(
+    def post_dataroom_documents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3490,7 +3490,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_documents_serialize(
+        _param = self._post_dataroom_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3511,7 +3511,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_documents_without_preload_content(
+    def post_dataroom_documents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3552,7 +3552,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_documents_serialize(
+        _param = self._post_dataroom_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3568,7 +3568,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_documents_serialize(
+    def _post_dataroom_documents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3622,7 +3622,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_links(
+    def post_dataroom_links(
         self,
         dataroom_link_create: DataroomLinkCreate,
         _request_timeout: Union[
@@ -3666,7 +3666,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_links_serialize(
+        _param = self._post_dataroom_links_serialize(
             dataroom_link_create=dataroom_link_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3689,7 +3689,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_links_with_http_info(
+    def post_dataroom_links_with_http_info(
         self,
         dataroom_link_create: DataroomLinkCreate,
         _request_timeout: Union[
@@ -3733,7 +3733,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_links_serialize(
+        _param = self._post_dataroom_links_serialize(
             dataroom_link_create=dataroom_link_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3756,7 +3756,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_links_without_preload_content(
+    def post_dataroom_links_without_preload_content(
         self,
         dataroom_link_create: DataroomLinkCreate,
         _request_timeout: Union[
@@ -3800,7 +3800,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_links_serialize(
+        _param = self._post_dataroom_links_serialize(
             dataroom_link_create=dataroom_link_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3818,7 +3818,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_links_serialize(
+    def _post_dataroom_links_serialize(
         self,
         dataroom_link_create,
         _request_auth,
@@ -3895,7 +3895,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_view_by_linkid_authenticate(
+    def post_dataroom_view_by_linkid_authenticate(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -3939,7 +3939,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_view_by_linkid_authenticate_serialize(
+        _param = self._post_dataroom_view_by_linkid_authenticate_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3961,7 +3961,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_view_by_linkid_authenticate_with_http_info(
+    def post_dataroom_view_by_linkid_authenticate_with_http_info(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -4005,7 +4005,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_view_by_linkid_authenticate_serialize(
+        _param = self._post_dataroom_view_by_linkid_authenticate_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4027,7 +4027,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_view_by_linkid_authenticate_without_preload_content(
+    def post_dataroom_view_by_linkid_authenticate_without_preload_content(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -4071,7 +4071,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_view_by_linkid_authenticate_serialize(
+        _param = self._post_dataroom_view_by_linkid_authenticate_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4088,7 +4088,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_view_by_linkid_authenticate_serialize(
+    def _post_dataroom_view_by_linkid_authenticate_serialize(
         self,
         link_id,
         _request_auth,
@@ -4145,7 +4145,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_view_by_linkid_pageview(
+    def post_dataroom_view_by_linkid_pageview(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -4189,7 +4189,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_view_by_linkid_pageview_serialize(
+        _param = self._post_dataroom_view_by_linkid_pageview_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4211,7 +4211,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_view_by_linkid_pageview_with_http_info(
+    def post_dataroom_view_by_linkid_pageview_with_http_info(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -4255,7 +4255,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_view_by_linkid_pageview_serialize(
+        _param = self._post_dataroom_view_by_linkid_pageview_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4277,7 +4277,7 @@ class DataroomApi:
 
 
     @validate_call
-    def post_v1_dataroom_view_by_linkid_pageview_without_preload_content(
+    def post_dataroom_view_by_linkid_pageview_without_preload_content(
         self,
         link_id: StrictStr,
         _request_timeout: Union[
@@ -4321,7 +4321,7 @@ class DataroomApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_dataroom_view_by_linkid_pageview_serialize(
+        _param = self._post_dataroom_view_by_linkid_pageview_serialize(
             link_id=link_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4338,7 +4338,7 @@ class DataroomApi:
         return response_data.response
 
 
-    def _post_v1_dataroom_view_by_linkid_pageview_serialize(
+    def _post_dataroom_view_by_linkid_pageview_serialize(
         self,
         link_id,
         _request_auth,

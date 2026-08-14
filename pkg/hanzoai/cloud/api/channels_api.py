@@ -46,7 +46,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels(
+    def get_channels(
         self,
         _request_timeout: Union[
             None,
@@ -87,7 +87,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_serialize(
+        _param = self._get_channels_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -109,7 +109,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_with_http_info(
+    def get_channels_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -150,7 +150,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_serialize(
+        _param = self._get_channels_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -172,7 +172,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_without_preload_content(
+    def get_channels_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -213,7 +213,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_serialize(
+        _param = self._get_channels_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -230,7 +230,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _get_v1_channels_serialize(
+    def _get_channels_serialize(
         self,
         _request_auth,
         _content_type,
@@ -291,7 +291,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_allowlist(
+    def get_channels_allowlist(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.")] = None,
         _request_timeout: Union[
@@ -335,7 +335,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_allowlist_serialize(
+        _param = self._get_channels_allowlist_serialize(
             channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -358,7 +358,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_allowlist_with_http_info(
+    def get_channels_allowlist_with_http_info(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.")] = None,
         _request_timeout: Union[
@@ -402,7 +402,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_allowlist_serialize(
+        _param = self._get_channels_allowlist_serialize(
             channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -425,7 +425,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_allowlist_without_preload_content(
+    def get_channels_allowlist_without_preload_content(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.")] = None,
         _request_timeout: Union[
@@ -469,7 +469,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_allowlist_serialize(
+        _param = self._get_channels_allowlist_serialize(
             channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -487,7 +487,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _get_v1_channels_allowlist_serialize(
+    def _get_channels_allowlist_serialize(
         self,
         channel,
         _request_auth,
@@ -553,7 +553,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_inbox(
+    def get_channels_inbox(
         self,
         since: Annotated[Optional[StrictStr], Field(description="Since is the exclusive cursor: only messages with a higher row id come back. Empty starts at the beginning. Must parse as an integer.")] = None,
         limit: Annotated[Optional[StrictStr], Field(description="Limit caps how many messages come back. Empty or 0 uses the store's default page size. Must parse as an integer.")] = None,
@@ -600,7 +600,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_inbox_serialize(
+        _param = self._get_channels_inbox_serialize(
             since=since,
             limit=limit,
             _request_auth=_request_auth,
@@ -624,7 +624,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_inbox_with_http_info(
+    def get_channels_inbox_with_http_info(
         self,
         since: Annotated[Optional[StrictStr], Field(description="Since is the exclusive cursor: only messages with a higher row id come back. Empty starts at the beginning. Must parse as an integer.")] = None,
         limit: Annotated[Optional[StrictStr], Field(description="Limit caps how many messages come back. Empty or 0 uses the store's default page size. Must parse as an integer.")] = None,
@@ -671,7 +671,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_inbox_serialize(
+        _param = self._get_channels_inbox_serialize(
             since=since,
             limit=limit,
             _request_auth=_request_auth,
@@ -695,7 +695,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_inbox_without_preload_content(
+    def get_channels_inbox_without_preload_content(
         self,
         since: Annotated[Optional[StrictStr], Field(description="Since is the exclusive cursor: only messages with a higher row id come back. Empty starts at the beginning. Must parse as an integer.")] = None,
         limit: Annotated[Optional[StrictStr], Field(description="Limit caps how many messages come back. Empty or 0 uses the store's default page size. Must parse as an integer.")] = None,
@@ -742,7 +742,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_inbox_serialize(
+        _param = self._get_channels_inbox_serialize(
             since=since,
             limit=limit,
             _request_auth=_request_auth,
@@ -761,7 +761,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _get_v1_channels_inbox_serialize(
+    def _get_channels_inbox_serialize(
         self,
         since,
         limit,
@@ -832,7 +832,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_pairing(
+    def get_channels_pairing(
         self,
         _request_timeout: Union[
             None,
@@ -873,7 +873,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_pairing_serialize(
+        _param = self._get_channels_pairing_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -895,7 +895,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_pairing_with_http_info(
+    def get_channels_pairing_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -936,7 +936,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_pairing_serialize(
+        _param = self._get_channels_pairing_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -958,7 +958,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def get_v1_channels_pairing_without_preload_content(
+    def get_channels_pairing_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -999,7 +999,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_channels_pairing_serialize(
+        _param = self._get_channels_pairing_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1016,7 +1016,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _get_v1_channels_pairing_serialize(
+    def _get_channels_pairing_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1077,7 +1077,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def post_v1_channels_by_channel_send(
+    def post_channels_by_channel_send(
         self,
         channel: StrictStr,
         _request_timeout: Union[
@@ -1121,7 +1121,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_channels_by_channel_send_serialize(
+        _param = self._post_channels_by_channel_send_serialize(
             channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1143,7 +1143,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def post_v1_channels_by_channel_send_with_http_info(
+    def post_channels_by_channel_send_with_http_info(
         self,
         channel: StrictStr,
         _request_timeout: Union[
@@ -1187,7 +1187,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_channels_by_channel_send_serialize(
+        _param = self._post_channels_by_channel_send_serialize(
             channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1209,7 +1209,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def post_v1_channels_by_channel_send_without_preload_content(
+    def post_channels_by_channel_send_without_preload_content(
         self,
         channel: StrictStr,
         _request_timeout: Union[
@@ -1253,7 +1253,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_channels_by_channel_send_serialize(
+        _param = self._post_channels_by_channel_send_serialize(
             channel=channel,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1270,7 +1270,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _post_v1_channels_by_channel_send_serialize(
+    def _post_channels_by_channel_send_serialize(
         self,
         channel,
         _request_auth,
@@ -1327,7 +1327,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def post_v1_channels_pairing_approve(
+    def post_channels_pairing_approve(
         self,
         approve_pairing_in: ApprovePairingIn,
         _request_timeout: Union[
@@ -1371,7 +1371,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_channels_pairing_approve_serialize(
+        _param = self._post_channels_pairing_approve_serialize(
             approve_pairing_in=approve_pairing_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1394,7 +1394,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def post_v1_channels_pairing_approve_with_http_info(
+    def post_channels_pairing_approve_with_http_info(
         self,
         approve_pairing_in: ApprovePairingIn,
         _request_timeout: Union[
@@ -1438,7 +1438,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_channels_pairing_approve_serialize(
+        _param = self._post_channels_pairing_approve_serialize(
             approve_pairing_in=approve_pairing_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1461,7 +1461,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def post_v1_channels_pairing_approve_without_preload_content(
+    def post_channels_pairing_approve_without_preload_content(
         self,
         approve_pairing_in: ApprovePairingIn,
         _request_timeout: Union[
@@ -1505,7 +1505,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_channels_pairing_approve_serialize(
+        _param = self._post_channels_pairing_approve_serialize(
             approve_pairing_in=approve_pairing_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1523,7 +1523,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _post_v1_channels_pairing_approve_serialize(
+    def _post_channels_pairing_approve_serialize(
         self,
         approve_pairing_in,
         _request_auth,
@@ -1600,7 +1600,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def put_v1_channels_allowlist(
+    def put_channels_allowlist(
         self,
         allowlist_put_in: AllowlistPutIn,
         _request_timeout: Union[
@@ -1644,7 +1644,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_channels_allowlist_serialize(
+        _param = self._put_channels_allowlist_serialize(
             allowlist_put_in=allowlist_put_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1667,7 +1667,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def put_v1_channels_allowlist_with_http_info(
+    def put_channels_allowlist_with_http_info(
         self,
         allowlist_put_in: AllowlistPutIn,
         _request_timeout: Union[
@@ -1711,7 +1711,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_channels_allowlist_serialize(
+        _param = self._put_channels_allowlist_serialize(
             allowlist_put_in=allowlist_put_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1734,7 +1734,7 @@ class ChannelsApi:
 
 
     @validate_call
-    def put_v1_channels_allowlist_without_preload_content(
+    def put_channels_allowlist_without_preload_content(
         self,
         allowlist_put_in: AllowlistPutIn,
         _request_timeout: Union[
@@ -1778,7 +1778,7 @@ class ChannelsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_channels_allowlist_serialize(
+        _param = self._put_channels_allowlist_serialize(
             allowlist_put_in=allowlist_put_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1796,7 +1796,7 @@ class ChannelsApi:
         return response_data.response
 
 
-    def _put_v1_channels_allowlist_serialize(
+    def _put_channels_allowlist_serialize(
         self,
         allowlist_put_in,
         _request_auth,

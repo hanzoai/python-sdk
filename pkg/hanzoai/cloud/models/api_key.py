@@ -28,9 +28,10 @@ class ApiKey(BaseModel):
     """ # noqa: E501
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the key last changed, as IAM records it.", alias="createdAt")
     key: Optional[StrictStr] = Field(default=None, description="Key is the FULL value, and is present for a publishable key only: it is public by construction and useless to its holder if it cannot be read back.")
+    limit: Optional[List[StrictStr]] = Field(default=None, description="Limit is what this key may reach, as `kind:name` entries — `model:zen5`, `project:acme`, `product:commerce`. Absent means the key reaches whatever its holder does, which is what every key minted before limits existed does and must keep doing.")
     prefix: Optional[StrictStr] = Field(default=None, description="Prefix is the recognizable, non-secret head of the key — enough to tell two keys apart, never enough to use one.")
     type: Optional[StrictStr] = Field(default=None, description="Type is the key class: secret (sk-) or publishable (pk-).")
-    __properties: ClassVar[List[str]] = ["createdAt", "key", "prefix", "type"]
+    __properties: ClassVar[List[str]] = ["createdAt", "key", "limit", "prefix", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,6 +86,7 @@ class ApiKey(BaseModel):
         _obj = cls.model_validate({
             "createdAt": obj.get("createdAt"),
             "key": obj.get("key"),
+            "limit": obj.get("limit"),
             "prefix": obj.get("prefix"),
             "type": obj.get("type")
         })

@@ -37,7 +37,7 @@ class MeetApi:
 
 
     @validate_call
-    def get_v1_meet_health(
+    def get_meet_health(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_meet_health_serialize(
+        _param = self._get_meet_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -101,7 +101,7 @@ class MeetApi:
 
 
     @validate_call
-    def get_v1_meet_health_with_http_info(
+    def get_meet_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -142,7 +142,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_meet_health_serialize(
+        _param = self._get_meet_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -165,7 +165,7 @@ class MeetApi:
 
 
     @validate_call
-    def get_v1_meet_health_without_preload_content(
+    def get_meet_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -206,7 +206,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_meet_health_serialize(
+        _param = self._get_meet_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -224,7 +224,7 @@ class MeetApi:
         return response_data.response
 
 
-    def _get_v1_meet_health_serialize(
+    def _get_meet_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -285,7 +285,7 @@ class MeetApi:
 
 
     @validate_call
-    def get_v1_meet_session(
+    def get_meet_session(
         self,
         _request_timeout: Union[
             None,
@@ -326,7 +326,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_meet_session_serialize(
+        _param = self._get_meet_session_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -347,7 +347,7 @@ class MeetApi:
 
 
     @validate_call
-    def get_v1_meet_session_with_http_info(
+    def get_meet_session_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -388,7 +388,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_meet_session_serialize(
+        _param = self._get_meet_session_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -409,7 +409,7 @@ class MeetApi:
 
 
     @validate_call
-    def get_v1_meet_session_without_preload_content(
+    def get_meet_session_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -450,7 +450,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_meet_session_serialize(
+        _param = self._get_meet_session_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -466,7 +466,7 @@ class MeetApi:
         return response_data.response
 
 
-    def _get_v1_meet_session_serialize(
+    def _get_meet_session_serialize(
         self,
         _request_auth,
         _content_type,
@@ -520,7 +520,7 @@ class MeetApi:
 
 
     @validate_call
-    def post_v1_meet_gettoken(
+    def post_meet_gettoken(
         self,
         _request_timeout: Union[
             None,
@@ -561,7 +561,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_meet_gettoken_serialize(
+        _param = self._post_meet_gettoken_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -582,7 +582,7 @@ class MeetApi:
 
 
     @validate_call
-    def post_v1_meet_gettoken_with_http_info(
+    def post_meet_gettoken_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -623,7 +623,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_meet_gettoken_serialize(
+        _param = self._post_meet_gettoken_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -644,7 +644,7 @@ class MeetApi:
 
 
     @validate_call
-    def post_v1_meet_gettoken_without_preload_content(
+    def post_meet_gettoken_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -685,7 +685,7 @@ class MeetApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_meet_gettoken_serialize(
+        _param = self._post_meet_gettoken_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -701,7 +701,7 @@ class MeetApi:
         return response_data.response
 
 
-    def _post_v1_meet_gettoken_serialize(
+    def _post_meet_gettoken_serialize(
         self,
         _request_auth,
         _content_type,

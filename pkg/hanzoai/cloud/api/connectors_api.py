@@ -48,7 +48,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def delete_v1_connectors_by_id(
+    def delete_connectors_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -92,7 +92,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_connectors_by_id_serialize(
+        _param = self._delete_connectors_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -115,7 +115,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def delete_v1_connectors_by_id_with_http_info(
+    def delete_connectors_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -159,7 +159,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_connectors_by_id_serialize(
+        _param = self._delete_connectors_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -182,7 +182,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def delete_v1_connectors_by_id_without_preload_content(
+    def delete_connectors_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -226,7 +226,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_connectors_by_id_serialize(
+        _param = self._delete_connectors_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -244,7 +244,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _delete_v1_connectors_by_id_serialize(
+    def _delete_connectors_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -308,7 +308,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors(
+    def get_connectors(
         self,
         _request_timeout: Union[
             None,
@@ -349,7 +349,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_serialize(
+        _param = self._get_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -371,7 +371,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_with_http_info(
+    def get_connectors_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -412,7 +412,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_serialize(
+        _param = self._get_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -434,7 +434,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_without_preload_content(
+    def get_connectors_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -475,7 +475,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_serialize(
+        _param = self._get_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -492,7 +492,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _get_v1_connectors_serialize(
+    def _get_connectors_serialize(
         self,
         _request_auth,
         _content_type,
@@ -553,7 +553,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_by_id_token(
+    def get_connectors_by_id_token(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -597,7 +597,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_by_id_token_serialize(
+        _param = self._get_connectors_by_id_token_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -620,7 +620,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_by_id_token_with_http_info(
+    def get_connectors_by_id_token_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -664,7 +664,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_by_id_token_serialize(
+        _param = self._get_connectors_by_id_token_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -687,7 +687,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_by_id_token_without_preload_content(
+    def get_connectors_by_id_token_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -731,7 +731,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_by_id_token_serialize(
+        _param = self._get_connectors_by_id_token_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -749,7 +749,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _get_v1_connectors_by_id_token_serialize(
+    def _get_connectors_by_id_token_serialize(
         self,
         id,
         _request_auth,
@@ -813,7 +813,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_providers(
+    def get_connectors_providers(
         self,
         _request_timeout: Union[
             None,
@@ -854,7 +854,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_providers_serialize(
+        _param = self._get_connectors_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -876,7 +876,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_providers_with_http_info(
+    def get_connectors_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -917,7 +917,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_providers_serialize(
+        _param = self._get_connectors_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -939,7 +939,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def get_v1_connectors_providers_without_preload_content(
+    def get_connectors_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -980,7 +980,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_connectors_providers_serialize(
+        _param = self._get_connectors_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -997,7 +997,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _get_v1_connectors_providers_serialize(
+    def _get_connectors_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1058,7 +1058,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_id_refresh(
+    def post_connectors_by_id_refresh(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -1102,7 +1102,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_id_refresh_serialize(
+        _param = self._post_connectors_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1125,7 +1125,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_id_refresh_with_http_info(
+    def post_connectors_by_id_refresh_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -1169,7 +1169,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_id_refresh_serialize(
+        _param = self._post_connectors_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1192,7 +1192,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_id_refresh_without_preload_content(
+    def post_connectors_by_id_refresh_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
@@ -1236,7 +1236,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_id_refresh_serialize(
+        _param = self._post_connectors_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1254,7 +1254,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _post_v1_connectors_by_id_refresh_serialize(
+    def _post_connectors_by_id_refresh_serialize(
         self,
         id,
         _request_auth,
@@ -1318,7 +1318,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_credential(
+    def post_connectors_by_provider_credential(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         credential_in: CredentialIn,
@@ -1365,7 +1365,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_credential_serialize(
+        _param = self._post_connectors_by_provider_credential_serialize(
             provider=provider,
             credential_in=credential_in,
             _request_auth=_request_auth,
@@ -1389,7 +1389,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_credential_with_http_info(
+    def post_connectors_by_provider_credential_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         credential_in: CredentialIn,
@@ -1436,7 +1436,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_credential_serialize(
+        _param = self._post_connectors_by_provider_credential_serialize(
             provider=provider,
             credential_in=credential_in,
             _request_auth=_request_auth,
@@ -1460,7 +1460,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_credential_without_preload_content(
+    def post_connectors_by_provider_credential_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         credential_in: CredentialIn,
@@ -1507,7 +1507,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_credential_serialize(
+        _param = self._post_connectors_by_provider_credential_serialize(
             provider=provider,
             credential_in=credential_in,
             _request_auth=_request_auth,
@@ -1526,7 +1526,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _post_v1_connectors_by_provider_credential_serialize(
+    def _post_connectors_by_provider_credential_serialize(
         self,
         provider,
         credential_in,
@@ -1606,7 +1606,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_device(
+    def post_connectors_by_provider_device(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         device_start_in: DeviceStartIn,
@@ -1653,7 +1653,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_device_serialize(
+        _param = self._post_connectors_by_provider_device_serialize(
             provider=provider,
             device_start_in=device_start_in,
             _request_auth=_request_auth,
@@ -1677,7 +1677,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_device_with_http_info(
+    def post_connectors_by_provider_device_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         device_start_in: DeviceStartIn,
@@ -1724,7 +1724,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_device_serialize(
+        _param = self._post_connectors_by_provider_device_serialize(
             provider=provider,
             device_start_in=device_start_in,
             _request_auth=_request_auth,
@@ -1748,7 +1748,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_device_without_preload_content(
+    def post_connectors_by_provider_device_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         device_start_in: DeviceStartIn,
@@ -1795,7 +1795,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_device_serialize(
+        _param = self._post_connectors_by_provider_device_serialize(
             provider=provider,
             device_start_in=device_start_in,
             _request_auth=_request_auth,
@@ -1814,7 +1814,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _post_v1_connectors_by_provider_device_serialize(
+    def _post_connectors_by_provider_device_serialize(
         self,
         provider,
         device_start_in,
@@ -1894,7 +1894,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_device_by_flow_poll(
+    def post_connectors_by_provider_device_by_flow_poll(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         flow: Annotated[StrictStr, Field(description="Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404.")],
@@ -1941,7 +1941,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_device_by_flow_poll_serialize(
+        _param = self._post_connectors_by_provider_device_by_flow_poll_serialize(
             provider=provider,
             flow=flow,
             _request_auth=_request_auth,
@@ -1965,7 +1965,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_device_by_flow_poll_with_http_info(
+    def post_connectors_by_provider_device_by_flow_poll_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         flow: Annotated[StrictStr, Field(description="Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404.")],
@@ -2012,7 +2012,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_device_by_flow_poll_serialize(
+        _param = self._post_connectors_by_provider_device_by_flow_poll_serialize(
             provider=provider,
             flow=flow,
             _request_auth=_request_auth,
@@ -2036,7 +2036,7 @@ class ConnectorsApi:
 
 
     @validate_call
-    def post_v1_connectors_by_provider_device_by_flow_poll_without_preload_content(
+    def post_connectors_by_provider_device_by_flow_poll_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
         flow: Annotated[StrictStr, Field(description="Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404.")],
@@ -2083,7 +2083,7 @@ class ConnectorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_connectors_by_provider_device_by_flow_poll_serialize(
+        _param = self._post_connectors_by_provider_device_by_flow_poll_serialize(
             provider=provider,
             flow=flow,
             _request_auth=_request_auth,
@@ -2102,7 +2102,7 @@ class ConnectorsApi:
         return response_data.response
 
 
-    def _post_v1_connectors_by_provider_device_by_flow_poll_serialize(
+    def _post_connectors_by_provider_device_by_flow_poll_serialize(
         self,
         provider,
         flow,

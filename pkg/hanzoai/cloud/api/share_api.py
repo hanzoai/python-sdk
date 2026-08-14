@@ -38,7 +38,7 @@ class ShareApi:
 
 
     @validate_call
-    def get_v1_share(
+    def get_share(
         self,
         _request_timeout: Union[
             None,
@@ -79,7 +79,7 @@ class ShareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_share_serialize(
+        _param = self._get_share_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -101,7 +101,7 @@ class ShareApi:
 
 
     @validate_call
-    def get_v1_share_with_http_info(
+    def get_share_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -142,7 +142,7 @@ class ShareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_share_serialize(
+        _param = self._get_share_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -164,7 +164,7 @@ class ShareApi:
 
 
     @validate_call
-    def get_v1_share_without_preload_content(
+    def get_share_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -205,7 +205,7 @@ class ShareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_share_serialize(
+        _param = self._get_share_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -222,7 +222,7 @@ class ShareApi:
         return response_data.response
 
 
-    def _get_v1_share_serialize(
+    def _get_share_serialize(
         self,
         _request_auth,
         _content_type,
@@ -283,7 +283,7 @@ class ShareApi:
 
 
     @validate_call
-    def post_v1_share_enable(
+    def post_share_enable(
         self,
         _request_timeout: Union[
             None,
@@ -324,7 +324,7 @@ class ShareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_share_enable_serialize(
+        _param = self._post_share_enable_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -346,7 +346,7 @@ class ShareApi:
 
 
     @validate_call
-    def post_v1_share_enable_with_http_info(
+    def post_share_enable_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -387,7 +387,7 @@ class ShareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_share_enable_serialize(
+        _param = self._post_share_enable_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -409,7 +409,7 @@ class ShareApi:
 
 
     @validate_call
-    def post_v1_share_enable_without_preload_content(
+    def post_share_enable_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -450,7 +450,7 @@ class ShareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_share_enable_serialize(
+        _param = self._post_share_enable_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -467,7 +467,7 @@ class ShareApi:
         return response_data.response
 
 
-    def _post_v1_share_enable_serialize(
+    def _post_share_enable_serialize(
         self,
         _request_auth,
         _content_type,

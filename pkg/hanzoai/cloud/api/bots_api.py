@@ -39,7 +39,7 @@ class BotsApi:
 
 
     @validate_call
-    def get_v1_bots(
+    def get_bots(
         self,
         _request_timeout: Union[
             None,
@@ -80,7 +80,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bots_serialize(
+        _param = self._get_bots_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -102,7 +102,7 @@ class BotsApi:
 
 
     @validate_call
-    def get_v1_bots_with_http_info(
+    def get_bots_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -143,7 +143,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bots_serialize(
+        _param = self._get_bots_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -165,7 +165,7 @@ class BotsApi:
 
 
     @validate_call
-    def get_v1_bots_without_preload_content(
+    def get_bots_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -206,7 +206,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_bots_serialize(
+        _param = self._get_bots_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -223,7 +223,7 @@ class BotsApi:
         return response_data.response
 
 
-    def _get_v1_bots_serialize(
+    def _get_bots_serialize(
         self,
         _request_auth,
         _content_type,
@@ -284,7 +284,7 @@ class BotsApi:
 
 
     @validate_call
-    def post_v1_bots_by_runid_stop(
+    def post_bots_by_runid_stop(
         self,
         run_id: StrictStr,
         _request_timeout: Union[
@@ -328,7 +328,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bots_by_runid_stop_serialize(
+        _param = self._post_bots_by_runid_stop_serialize(
             run_id=run_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -351,7 +351,7 @@ class BotsApi:
 
 
     @validate_call
-    def post_v1_bots_by_runid_stop_with_http_info(
+    def post_bots_by_runid_stop_with_http_info(
         self,
         run_id: StrictStr,
         _request_timeout: Union[
@@ -395,7 +395,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bots_by_runid_stop_serialize(
+        _param = self._post_bots_by_runid_stop_serialize(
             run_id=run_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -418,7 +418,7 @@ class BotsApi:
 
 
     @validate_call
-    def post_v1_bots_by_runid_stop_without_preload_content(
+    def post_bots_by_runid_stop_without_preload_content(
         self,
         run_id: StrictStr,
         _request_timeout: Union[
@@ -462,7 +462,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bots_by_runid_stop_serialize(
+        _param = self._post_bots_by_runid_stop_serialize(
             run_id=run_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -480,7 +480,7 @@ class BotsApi:
         return response_data.response
 
 
-    def _post_v1_bots_by_runid_stop_serialize(
+    def _post_bots_by_runid_stop_serialize(
         self,
         run_id,
         _request_auth,
@@ -544,7 +544,7 @@ class BotsApi:
 
 
     @validate_call
-    def post_v1_bots_run(
+    def post_bots_run(
         self,
         _request_timeout: Union[
             None,
@@ -585,7 +585,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bots_run_serialize(
+        _param = self._post_bots_run_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -606,7 +606,7 @@ class BotsApi:
 
 
     @validate_call
-    def post_v1_bots_run_with_http_info(
+    def post_bots_run_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -647,7 +647,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bots_run_serialize(
+        _param = self._post_bots_run_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -668,7 +668,7 @@ class BotsApi:
 
 
     @validate_call
-    def post_v1_bots_run_without_preload_content(
+    def post_bots_run_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -709,7 +709,7 @@ class BotsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_bots_run_serialize(
+        _param = self._post_bots_run_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -725,7 +725,7 @@ class BotsApi:
         return response_data.response
 
 
-    def _post_v1_bots_run_serialize(
+    def _post_bots_run_serialize(
         self,
         _request_auth,
         _content_type,

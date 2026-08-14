@@ -37,7 +37,7 @@ class DownloadApi:
 
 
     @validate_call
-    def get_v1_download_by_wildcard1(
+    def get_download_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -81,7 +81,7 @@ class DownloadApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_download_by_wildcard1_serialize(
+        _param = self._get_download_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class DownloadApi:
 
 
     @validate_call
-    def get_v1_download_by_wildcard1_with_http_info(
+    def get_download_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -147,7 +147,7 @@ class DownloadApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_download_by_wildcard1_serialize(
+        _param = self._get_download_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class DownloadApi:
 
 
     @validate_call
-    def get_v1_download_by_wildcard1_without_preload_content(
+    def get_download_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -213,7 +213,7 @@ class DownloadApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_download_by_wildcard1_serialize(
+        _param = self._get_download_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class DownloadApi:
         return response_data.response
 
 
-    def _get_v1_download_by_wildcard1_serialize(
+    def _get_download_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,

@@ -283,7 +283,7 @@ class GatewayApi:
 
 
     @validate_call
-    def get_v1_gateway_config(
+    def get_gateway_config(
         self,
         _request_timeout: Union[
             None,
@@ -324,7 +324,7 @@ class GatewayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_gateway_config_serialize(
+        _param = self._get_gateway_config_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -346,7 +346,7 @@ class GatewayApi:
 
 
     @validate_call
-    def get_v1_gateway_config_with_http_info(
+    def get_gateway_config_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -387,7 +387,7 @@ class GatewayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_gateway_config_serialize(
+        _param = self._get_gateway_config_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -409,7 +409,7 @@ class GatewayApi:
 
 
     @validate_call
-    def get_v1_gateway_config_without_preload_content(
+    def get_gateway_config_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -450,7 +450,7 @@ class GatewayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_gateway_config_serialize(
+        _param = self._get_gateway_config_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -467,7 +467,7 @@ class GatewayApi:
         return response_data.response
 
 
-    def _get_v1_gateway_config_serialize(
+    def _get_gateway_config_serialize(
         self,
         _request_auth,
         _content_type,
@@ -528,7 +528,7 @@ class GatewayApi:
 
 
     @validate_call
-    def put_v1_gateway_config(
+    def put_gateway_config(
         self,
         policy: Policy,
         _request_timeout: Union[
@@ -572,7 +572,7 @@ class GatewayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_gateway_config_serialize(
+        _param = self._put_gateway_config_serialize(
             policy=policy,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -595,7 +595,7 @@ class GatewayApi:
 
 
     @validate_call
-    def put_v1_gateway_config_with_http_info(
+    def put_gateway_config_with_http_info(
         self,
         policy: Policy,
         _request_timeout: Union[
@@ -639,7 +639,7 @@ class GatewayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_gateway_config_serialize(
+        _param = self._put_gateway_config_serialize(
             policy=policy,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -662,7 +662,7 @@ class GatewayApi:
 
 
     @validate_call
-    def put_v1_gateway_config_without_preload_content(
+    def put_gateway_config_without_preload_content(
         self,
         policy: Policy,
         _request_timeout: Union[
@@ -706,7 +706,7 @@ class GatewayApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_gateway_config_serialize(
+        _param = self._put_gateway_config_serialize(
             policy=policy,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -724,7 +724,7 @@ class GatewayApi:
         return response_data.response
 
 
-    def _put_v1_gateway_config_serialize(
+    def _put_gateway_config_serialize(
         self,
         policy,
         _request_auth,

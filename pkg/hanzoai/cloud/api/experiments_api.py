@@ -47,7 +47,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments(
+    def get_experiments(
         self,
         _request_timeout: Union[
             None,
@@ -88,7 +88,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_serialize(
+        _param = self._get_experiments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -110,7 +110,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_with_http_info(
+    def get_experiments_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -151,7 +151,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_serialize(
+        _param = self._get_experiments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -173,7 +173,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_without_preload_content(
+    def get_experiments_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -214,7 +214,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_serialize(
+        _param = self._get_experiments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -231,7 +231,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _get_v1_experiments_serialize(
+    def _get_experiments_serialize(
         self,
         _request_auth,
         _content_type,
@@ -292,7 +292,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_by_id(
+    def get_experiments_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         _request_timeout: Union[
@@ -336,7 +336,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_by_id_serialize(
+        _param = self._get_experiments_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -359,7 +359,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_by_id_with_http_info(
+    def get_experiments_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         _request_timeout: Union[
@@ -403,7 +403,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_by_id_serialize(
+        _param = self._get_experiments_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -426,7 +426,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_by_id_without_preload_content(
+    def get_experiments_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         _request_timeout: Union[
@@ -470,7 +470,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_by_id_serialize(
+        _param = self._get_experiments_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -488,7 +488,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _get_v1_experiments_by_id_serialize(
+    def _get_experiments_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -552,7 +552,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_by_id_assign(
+    def get_experiments_by_id_assign(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         subject: Annotated[StrictStr, Field(description="Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind.")],
@@ -602,7 +602,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_by_id_assign_serialize(
+        _param = self._get_experiments_by_id_assign_serialize(
             id=id,
             subject=subject,
             props=props,
@@ -627,7 +627,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_by_id_assign_with_http_info(
+    def get_experiments_by_id_assign_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         subject: Annotated[StrictStr, Field(description="Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind.")],
@@ -677,7 +677,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_by_id_assign_serialize(
+        _param = self._get_experiments_by_id_assign_serialize(
             id=id,
             subject=subject,
             props=props,
@@ -702,7 +702,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_by_id_assign_without_preload_content(
+    def get_experiments_by_id_assign_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         subject: Annotated[StrictStr, Field(description="Subject is the unit to bucket — a user, org, session or audience key, matching the experiment's subjectKind.")],
@@ -752,7 +752,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_by_id_assign_serialize(
+        _param = self._get_experiments_by_id_assign_serialize(
             id=id,
             subject=subject,
             props=props,
@@ -772,7 +772,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _get_v1_experiments_by_id_assign_serialize(
+    def _get_experiments_by_id_assign_serialize(
         self,
         id,
         subject,
@@ -846,7 +846,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_health(
+    def get_experiments_health(
         self,
         _request_timeout: Union[
             None,
@@ -887,7 +887,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_health_serialize(
+        _param = self._get_experiments_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -909,7 +909,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_health_with_http_info(
+    def get_experiments_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -950,7 +950,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_health_serialize(
+        _param = self._get_experiments_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -972,7 +972,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def get_v1_experiments_health_without_preload_content(
+    def get_experiments_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1013,7 +1013,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_experiments_health_serialize(
+        _param = self._get_experiments_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1030,7 +1030,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _get_v1_experiments_health_serialize(
+    def _get_experiments_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1091,7 +1091,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments(
+    def post_experiments(
         self,
         create_body: CreateBody,
         _request_timeout: Union[
@@ -1135,7 +1135,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_serialize(
+        _param = self._post_experiments_serialize(
             create_body=create_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1158,7 +1158,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_with_http_info(
+    def post_experiments_with_http_info(
         self,
         create_body: CreateBody,
         _request_timeout: Union[
@@ -1202,7 +1202,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_serialize(
+        _param = self._post_experiments_serialize(
             create_body=create_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1225,7 +1225,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_without_preload_content(
+    def post_experiments_without_preload_content(
         self,
         create_body: CreateBody,
         _request_timeout: Union[
@@ -1269,7 +1269,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_serialize(
+        _param = self._post_experiments_serialize(
             create_body=create_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1287,7 +1287,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _post_v1_experiments_serialize(
+    def _post_experiments_serialize(
         self,
         create_body,
         _request_auth,
@@ -1364,7 +1364,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_by_id_analyze(
+    def post_experiments_by_id_analyze(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         analyze_query: AnalyzeQuery,
@@ -1411,7 +1411,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_by_id_analyze_serialize(
+        _param = self._post_experiments_by_id_analyze_serialize(
             id=id,
             analyze_query=analyze_query,
             _request_auth=_request_auth,
@@ -1435,7 +1435,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_by_id_analyze_with_http_info(
+    def post_experiments_by_id_analyze_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         analyze_query: AnalyzeQuery,
@@ -1482,7 +1482,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_by_id_analyze_serialize(
+        _param = self._post_experiments_by_id_analyze_serialize(
             id=id,
             analyze_query=analyze_query,
             _request_auth=_request_auth,
@@ -1506,7 +1506,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_by_id_analyze_without_preload_content(
+    def post_experiments_by_id_analyze_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the experiment the URL names.")],
         analyze_query: AnalyzeQuery,
@@ -1553,7 +1553,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_by_id_analyze_serialize(
+        _param = self._post_experiments_by_id_analyze_serialize(
             id=id,
             analyze_query=analyze_query,
             _request_auth=_request_auth,
@@ -1572,7 +1572,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _post_v1_experiments_by_id_analyze_serialize(
+    def _post_experiments_by_id_analyze_serialize(
         self,
         id,
         analyze_query,
@@ -1652,7 +1652,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_by_id_decide(
+    def post_experiments_by_id_decide(
         self,
         id: StrictStr,
         decide_body: DecideBody,
@@ -1699,7 +1699,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_by_id_decide_serialize(
+        _param = self._post_experiments_by_id_decide_serialize(
             id=id,
             decide_body=decide_body,
             _request_auth=_request_auth,
@@ -1723,7 +1723,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_by_id_decide_with_http_info(
+    def post_experiments_by_id_decide_with_http_info(
         self,
         id: StrictStr,
         decide_body: DecideBody,
@@ -1770,7 +1770,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_by_id_decide_serialize(
+        _param = self._post_experiments_by_id_decide_serialize(
             id=id,
             decide_body=decide_body,
             _request_auth=_request_auth,
@@ -1794,7 +1794,7 @@ class ExperimentsApi:
 
 
     @validate_call
-    def post_v1_experiments_by_id_decide_without_preload_content(
+    def post_experiments_by_id_decide_without_preload_content(
         self,
         id: StrictStr,
         decide_body: DecideBody,
@@ -1841,7 +1841,7 @@ class ExperimentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_experiments_by_id_decide_serialize(
+        _param = self._post_experiments_by_id_decide_serialize(
             id=id,
             decide_body=decide_body,
             _request_auth=_request_auth,
@@ -1860,7 +1860,7 @@ class ExperimentsApi:
         return response_data.response
 
 
-    def _post_v1_experiments_by_id_decide_serialize(
+    def _post_experiments_by_id_decide_serialize(
         self,
         id,
         decide_body,

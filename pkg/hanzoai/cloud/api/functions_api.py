@@ -50,7 +50,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def delete_v1_functions_by_name(
+    def delete_functions_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -94,7 +94,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_functions_by_name_serialize(
+        _param = self._delete_functions_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -117,7 +117,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def delete_v1_functions_by_name_with_http_info(
+    def delete_functions_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -161,7 +161,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_functions_by_name_serialize(
+        _param = self._delete_functions_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -184,7 +184,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def delete_v1_functions_by_name_without_preload_content(
+    def delete_functions_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -228,7 +228,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_functions_by_name_serialize(
+        _param = self._delete_functions_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -246,7 +246,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _delete_v1_functions_by_name_serialize(
+    def _delete_functions_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -310,7 +310,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions(
+    def get_functions(
         self,
         _request_timeout: Union[
             None,
@@ -351,7 +351,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_serialize(
+        _param = self._get_functions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -373,7 +373,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_with_http_info(
+    def get_functions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -414,7 +414,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_serialize(
+        _param = self._get_functions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -436,7 +436,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_without_preload_content(
+    def get_functions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -477,7 +477,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_serialize(
+        _param = self._get_functions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -494,7 +494,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_serialize(
+    def _get_functions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -555,7 +555,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name(
+    def get_functions_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -599,7 +599,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_serialize(
+        _param = self._get_functions_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -622,7 +622,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_with_http_info(
+    def get_functions_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -666,7 +666,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_serialize(
+        _param = self._get_functions_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -689,7 +689,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_without_preload_content(
+    def get_functions_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -733,7 +733,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_serialize(
+        _param = self._get_functions_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -751,7 +751,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_by_name_serialize(
+    def _get_functions_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -815,7 +815,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_invocations(
+    def get_functions_by_name_invocations(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page, defaulting to 100.")] = None,
@@ -862,7 +862,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_invocations_serialize(
+        _param = self._get_functions_by_name_invocations_serialize(
             name=name,
             limit=limit,
             _request_auth=_request_auth,
@@ -886,7 +886,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_invocations_with_http_info(
+    def get_functions_by_name_invocations_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page, defaulting to 100.")] = None,
@@ -933,7 +933,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_invocations_serialize(
+        _param = self._get_functions_by_name_invocations_serialize(
             name=name,
             limit=limit,
             _request_auth=_request_auth,
@@ -957,7 +957,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_invocations_without_preload_content(
+    def get_functions_by_name_invocations_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page, defaulting to 100.")] = None,
@@ -1004,7 +1004,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_invocations_serialize(
+        _param = self._get_functions_by_name_invocations_serialize(
             name=name,
             limit=limit,
             _request_auth=_request_auth,
@@ -1023,7 +1023,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_by_name_invocations_serialize(
+    def _get_functions_by_name_invocations_serialize(
         self,
         name,
         limit,
@@ -1092,7 +1092,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_logs(
+    def get_functions_by_name_logs(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -1136,7 +1136,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_logs_serialize(
+        _param = self._get_functions_by_name_logs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1159,7 +1159,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_logs_with_http_info(
+    def get_functions_by_name_logs_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -1203,7 +1203,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_logs_serialize(
+        _param = self._get_functions_by_name_logs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1226,7 +1226,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_by_name_logs_without_preload_content(
+    def get_functions_by_name_logs_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the function the URL names.")],
         _request_timeout: Union[
@@ -1270,7 +1270,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_by_name_logs_serialize(
+        _param = self._get_functions_by_name_logs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1288,7 +1288,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_by_name_logs_serialize(
+    def _get_functions_by_name_logs_serialize(
         self,
         name,
         _request_auth,
@@ -1352,7 +1352,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_deployments(
+    def get_functions_deployments(
         self,
         _request_timeout: Union[
             None,
@@ -1393,7 +1393,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_deployments_serialize(
+        _param = self._get_functions_deployments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1415,7 +1415,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_deployments_with_http_info(
+    def get_functions_deployments_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1456,7 +1456,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_deployments_serialize(
+        _param = self._get_functions_deployments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1478,7 +1478,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_deployments_without_preload_content(
+    def get_functions_deployments_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1519,7 +1519,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_deployments_serialize(
+        _param = self._get_functions_deployments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1536,7 +1536,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_deployments_serialize(
+    def _get_functions_deployments_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1597,7 +1597,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_metrics(
+    def get_functions_metrics(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.")] = None,
         _request_timeout: Union[
@@ -1641,7 +1641,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_metrics_serialize(
+        _param = self._get_functions_metrics_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1664,7 +1664,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_metrics_with_http_info(
+    def get_functions_metrics_with_http_info(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.")] = None,
         _request_timeout: Union[
@@ -1708,7 +1708,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_metrics_serialize(
+        _param = self._get_functions_metrics_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1731,7 +1731,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_metrics_without_preload_content(
+    def get_functions_metrics_without_preload_content(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is 1H, 6H, 24H (the default), 7D or 30D. Anything else falls back to 24H rather than failing.")] = None,
         _request_timeout: Union[
@@ -1775,7 +1775,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_metrics_serialize(
+        _param = self._get_functions_metrics_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1793,7 +1793,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_metrics_serialize(
+    def _get_functions_metrics_serialize(
         self,
         range,
         _request_auth,
@@ -1859,7 +1859,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_secrets(
+    def get_functions_secrets(
         self,
         _request_timeout: Union[
             None,
@@ -1900,7 +1900,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_secrets_serialize(
+        _param = self._get_functions_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1922,7 +1922,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_secrets_with_http_info(
+    def get_functions_secrets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1963,7 +1963,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_secrets_serialize(
+        _param = self._get_functions_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1985,7 +1985,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_secrets_without_preload_content(
+    def get_functions_secrets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2026,7 +2026,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_secrets_serialize(
+        _param = self._get_functions_secrets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2043,7 +2043,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_secrets_serialize(
+    def _get_functions_secrets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2104,7 +2104,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_triggers(
+    def get_functions_triggers(
         self,
         _request_timeout: Union[
             None,
@@ -2145,7 +2145,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_triggers_serialize(
+        _param = self._get_functions_triggers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2167,7 +2167,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_triggers_with_http_info(
+    def get_functions_triggers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2208,7 +2208,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_triggers_serialize(
+        _param = self._get_functions_triggers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2230,7 +2230,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def get_v1_functions_triggers_without_preload_content(
+    def get_functions_triggers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2271,7 +2271,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_functions_triggers_serialize(
+        _param = self._get_functions_triggers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2288,7 +2288,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _get_v1_functions_triggers_serialize(
+    def _get_functions_triggers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2349,7 +2349,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def post_v1_functions(
+    def post_functions(
         self,
         definition: Definition,
         _request_timeout: Union[
@@ -2393,7 +2393,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_functions_serialize(
+        _param = self._post_functions_serialize(
             definition=definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2416,7 +2416,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def post_v1_functions_with_http_info(
+    def post_functions_with_http_info(
         self,
         definition: Definition,
         _request_timeout: Union[
@@ -2460,7 +2460,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_functions_serialize(
+        _param = self._post_functions_serialize(
             definition=definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2483,7 +2483,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def post_v1_functions_without_preload_content(
+    def post_functions_without_preload_content(
         self,
         definition: Definition,
         _request_timeout: Union[
@@ -2527,7 +2527,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_functions_serialize(
+        _param = self._post_functions_serialize(
             definition=definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2545,7 +2545,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _post_v1_functions_serialize(
+    def _post_functions_serialize(
         self,
         definition,
         _request_auth,
@@ -2622,7 +2622,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def post_v1_functions_by_name_invoke(
+    def post_functions_by_name_invoke(
         self,
         name: StrictStr,
         invoke_req: InvokeReq,
@@ -2669,7 +2669,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_functions_by_name_invoke_serialize(
+        _param = self._post_functions_by_name_invoke_serialize(
             name=name,
             invoke_req=invoke_req,
             _request_auth=_request_auth,
@@ -2695,7 +2695,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def post_v1_functions_by_name_invoke_with_http_info(
+    def post_functions_by_name_invoke_with_http_info(
         self,
         name: StrictStr,
         invoke_req: InvokeReq,
@@ -2742,7 +2742,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_functions_by_name_invoke_serialize(
+        _param = self._post_functions_by_name_invoke_serialize(
             name=name,
             invoke_req=invoke_req,
             _request_auth=_request_auth,
@@ -2768,7 +2768,7 @@ class FunctionsApi:
 
 
     @validate_call
-    def post_v1_functions_by_name_invoke_without_preload_content(
+    def post_functions_by_name_invoke_without_preload_content(
         self,
         name: StrictStr,
         invoke_req: InvokeReq,
@@ -2815,7 +2815,7 @@ class FunctionsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_functions_by_name_invoke_serialize(
+        _param = self._post_functions_by_name_invoke_serialize(
             name=name,
             invoke_req=invoke_req,
             _request_auth=_request_auth,
@@ -2836,7 +2836,7 @@ class FunctionsApi:
         return response_data.response
 
 
-    def _post_v1_functions_by_name_invoke_serialize(
+    def _post_functions_by_name_invoke_serialize(
         self,
         name,
         invoke_req,

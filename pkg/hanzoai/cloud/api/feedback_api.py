@@ -36,7 +36,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def post_v1_feedback(
+    def post_feedback(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class FeedbackApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_feedback_serialize(
+        _param = self._post_feedback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def post_v1_feedback_with_http_info(
+    def post_feedback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class FeedbackApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_feedback_serialize(
+        _param = self._post_feedback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class FeedbackApi:
 
 
     @validate_call
-    def post_v1_feedback_without_preload_content(
+    def post_feedback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class FeedbackApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_feedback_serialize(
+        _param = self._post_feedback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class FeedbackApi:
         return response_data.response
 
 
-    def _post_v1_feedback_serialize(
+    def _post_feedback_serialize(
         self,
         _request_auth,
         _content_type,

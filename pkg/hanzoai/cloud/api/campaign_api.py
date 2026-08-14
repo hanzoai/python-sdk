@@ -46,7 +46,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_by_id(
+    def delete_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -90,7 +90,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_by_id_serialize(
+        _param = self._delete_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -113,7 +113,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_by_id_with_http_info(
+    def delete_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -157,7 +157,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_by_id_serialize(
+        _param = self._delete_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -180,7 +180,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_by_id_without_preload_content(
+    def delete_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -224,7 +224,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_by_id_serialize(
+        _param = self._delete_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -242,7 +242,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _delete_v1_campaign_by_id_serialize(
+    def _delete_campaign_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -299,7 +299,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_by_id_channels_by_kind(
+    def delete_campaign_by_id_channels_by_kind(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign, from the path.")],
         kind: Annotated[StrictStr, Field(description="Kind is the channel to remove: paid, organic or email.")],
@@ -346,7 +346,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_by_id_channels_by_kind_serialize(
+        _param = self._delete_campaign_by_id_channels_by_kind_serialize(
             id=id,
             kind=kind,
             _request_auth=_request_auth,
@@ -370,7 +370,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_by_id_channels_by_kind_with_http_info(
+    def delete_campaign_by_id_channels_by_kind_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign, from the path.")],
         kind: Annotated[StrictStr, Field(description="Kind is the channel to remove: paid, organic or email.")],
@@ -417,7 +417,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_by_id_channels_by_kind_serialize(
+        _param = self._delete_campaign_by_id_channels_by_kind_serialize(
             id=id,
             kind=kind,
             _request_auth=_request_auth,
@@ -441,7 +441,7 @@ class CampaignApi:
 
 
     @validate_call
-    def delete_v1_campaign_by_id_channels_by_kind_without_preload_content(
+    def delete_campaign_by_id_channels_by_kind_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign, from the path.")],
         kind: Annotated[StrictStr, Field(description="Kind is the channel to remove: paid, organic or email.")],
@@ -488,7 +488,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_campaign_by_id_channels_by_kind_serialize(
+        _param = self._delete_campaign_by_id_channels_by_kind_serialize(
             id=id,
             kind=kind,
             _request_auth=_request_auth,
@@ -507,7 +507,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _delete_v1_campaign_by_id_channels_by_kind_serialize(
+    def _delete_campaign_by_id_channels_by_kind_serialize(
         self,
         id,
         kind,
@@ -574,7 +574,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign(
+    def get_campaign(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only campaigns in that state: draft, live, paused or failed. Empty means any.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. 0 or less means the default of 200; anything above 1000 is clamped to 1000.")] = None,
@@ -621,7 +621,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_serialize(
+        _param = self._get_campaign_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -645,7 +645,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_with_http_info(
+    def get_campaign_with_http_info(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only campaigns in that state: draft, live, paused or failed. Empty means any.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. 0 or less means the default of 200; anything above 1000 is clamped to 1000.")] = None,
@@ -692,7 +692,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_serialize(
+        _param = self._get_campaign_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -716,7 +716,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_without_preload_content(
+    def get_campaign_without_preload_content(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only campaigns in that state: draft, live, paused or failed. Empty means any.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. 0 or less means the default of 200; anything above 1000 is clamped to 1000.")] = None,
@@ -763,7 +763,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_serialize(
+        _param = self._get_campaign_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -782,7 +782,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _get_v1_campaign_serialize(
+    def _get_campaign_serialize(
         self,
         status,
         limit,
@@ -853,7 +853,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_by_id(
+    def get_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -897,7 +897,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_by_id_serialize(
+        _param = self._get_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -920,7 +920,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_by_id_with_http_info(
+    def get_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -964,7 +964,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_by_id_serialize(
+        _param = self._get_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -987,7 +987,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_by_id_without_preload_content(
+    def get_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign's server-minted handle, \"cmp_\"-prefixed.")],
         _request_timeout: Union[
@@ -1031,7 +1031,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_by_id_serialize(
+        _param = self._get_campaign_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1049,7 +1049,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _get_v1_campaign_by_id_serialize(
+    def _get_campaign_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1113,7 +1113,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_by_id_metrics(
+    def get_campaign_by_id_metrics(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to report on, from the path.")],
         range: Annotated[Optional[StrictStr], Field(description="Range is the lookback window: 24h, 7d, 30d or 90d. Anything else, including empty, reads as 30d.")] = None,
@@ -1166,7 +1166,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_by_id_metrics_serialize(
+        _param = self._get_campaign_by_id_metrics_serialize(
             id=id,
             range=range,
             start=start,
@@ -1192,7 +1192,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_by_id_metrics_with_http_info(
+    def get_campaign_by_id_metrics_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to report on, from the path.")],
         range: Annotated[Optional[StrictStr], Field(description="Range is the lookback window: 24h, 7d, 30d or 90d. Anything else, including empty, reads as 30d.")] = None,
@@ -1245,7 +1245,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_by_id_metrics_serialize(
+        _param = self._get_campaign_by_id_metrics_serialize(
             id=id,
             range=range,
             start=start,
@@ -1271,7 +1271,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_by_id_metrics_without_preload_content(
+    def get_campaign_by_id_metrics_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to report on, from the path.")],
         range: Annotated[Optional[StrictStr], Field(description="Range is the lookback window: 24h, 7d, 30d or 90d. Anything else, including empty, reads as 30d.")] = None,
@@ -1324,7 +1324,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_by_id_metrics_serialize(
+        _param = self._get_campaign_by_id_metrics_serialize(
             id=id,
             range=range,
             start=start,
@@ -1345,7 +1345,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _get_v1_campaign_by_id_metrics_serialize(
+    def _get_campaign_by_id_metrics_serialize(
         self,
         id,
         range,
@@ -1424,7 +1424,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_summary(
+    def get_campaign_summary(
         self,
         _request_timeout: Union[
             None,
@@ -1465,7 +1465,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_summary_serialize(
+        _param = self._get_campaign_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1487,7 +1487,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_summary_with_http_info(
+    def get_campaign_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1528,7 +1528,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_summary_serialize(
+        _param = self._get_campaign_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1550,7 +1550,7 @@ class CampaignApi:
 
 
     @validate_call
-    def get_v1_campaign_summary_without_preload_content(
+    def get_campaign_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1591,7 +1591,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_campaign_summary_serialize(
+        _param = self._get_campaign_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1608,7 +1608,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _get_v1_campaign_summary_serialize(
+    def _get_campaign_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1669,7 +1669,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign(
+    def post_campaign(
         self,
         campaign_write: CampaignWrite,
         _request_timeout: Union[
@@ -1713,7 +1713,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_serialize(
+        _param = self._post_campaign_serialize(
             campaign_write=campaign_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1736,7 +1736,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_with_http_info(
+    def post_campaign_with_http_info(
         self,
         campaign_write: CampaignWrite,
         _request_timeout: Union[
@@ -1780,7 +1780,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_serialize(
+        _param = self._post_campaign_serialize(
             campaign_write=campaign_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1803,7 +1803,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_without_preload_content(
+    def post_campaign_without_preload_content(
         self,
         campaign_write: CampaignWrite,
         _request_timeout: Union[
@@ -1847,7 +1847,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_serialize(
+        _param = self._post_campaign_serialize(
             campaign_write=campaign_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1865,7 +1865,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _post_v1_campaign_serialize(
+    def _post_campaign_serialize(
         self,
         campaign_write,
         _request_auth,
@@ -1942,7 +1942,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_channels(
+    def post_campaign_by_id_channels(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
         channel_add: ChannelAdd,
@@ -1989,7 +1989,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_channels_serialize(
+        _param = self._post_campaign_by_id_channels_serialize(
             id=id,
             channel_add=channel_add,
             _request_auth=_request_auth,
@@ -2013,7 +2013,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_channels_with_http_info(
+    def post_campaign_by_id_channels_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
         channel_add: ChannelAdd,
@@ -2060,7 +2060,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_channels_serialize(
+        _param = self._post_campaign_by_id_channels_serialize(
             id=id,
             channel_add=channel_add,
             _request_auth=_request_auth,
@@ -2084,7 +2084,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_channels_without_preload_content(
+    def post_campaign_by_id_channels_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
         channel_add: ChannelAdd,
@@ -2131,7 +2131,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_channels_serialize(
+        _param = self._post_campaign_by_id_channels_serialize(
             id=id,
             channel_add=channel_add,
             _request_auth=_request_auth,
@@ -2150,7 +2150,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _post_v1_campaign_by_id_channels_serialize(
+    def _post_campaign_by_id_channels_serialize(
         self,
         id,
         channel_add,
@@ -2230,7 +2230,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_launch(
+    def post_campaign_by_id_launch(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2274,7 +2274,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_launch_serialize(
+        _param = self._post_campaign_by_id_launch_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2296,7 +2296,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_launch_with_http_info(
+    def post_campaign_by_id_launch_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2340,7 +2340,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_launch_serialize(
+        _param = self._post_campaign_by_id_launch_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2362,7 +2362,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_launch_without_preload_content(
+    def post_campaign_by_id_launch_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2406,7 +2406,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_launch_serialize(
+        _param = self._post_campaign_by_id_launch_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2423,7 +2423,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _post_v1_campaign_by_id_launch_serialize(
+    def _post_campaign_by_id_launch_serialize(
         self,
         id,
         _request_auth,
@@ -2480,7 +2480,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_pause(
+    def post_campaign_by_id_pause(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2524,7 +2524,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_pause_serialize(
+        _param = self._post_campaign_by_id_pause_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2546,7 +2546,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_pause_with_http_info(
+    def post_campaign_by_id_pause_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2590,7 +2590,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_pause_serialize(
+        _param = self._post_campaign_by_id_pause_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2612,7 +2612,7 @@ class CampaignApi:
 
 
     @validate_call
-    def post_v1_campaign_by_id_pause_without_preload_content(
+    def post_campaign_by_id_pause_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2656,7 +2656,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_campaign_by_id_pause_serialize(
+        _param = self._post_campaign_by_id_pause_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2673,7 +2673,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _post_v1_campaign_by_id_pause_serialize(
+    def _post_campaign_by_id_pause_serialize(
         self,
         id,
         _request_auth,
@@ -2730,7 +2730,7 @@ class CampaignApi:
 
 
     @validate_call
-    def put_v1_campaign_by_id(
+    def put_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
         campaign_update: CampaignUpdate,
@@ -2777,7 +2777,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_campaign_by_id_serialize(
+        _param = self._put_campaign_by_id_serialize(
             id=id,
             campaign_update=campaign_update,
             _request_auth=_request_auth,
@@ -2801,7 +2801,7 @@ class CampaignApi:
 
 
     @validate_call
-    def put_v1_campaign_by_id_with_http_info(
+    def put_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
         campaign_update: CampaignUpdate,
@@ -2848,7 +2848,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_campaign_by_id_serialize(
+        _param = self._put_campaign_by_id_serialize(
             id=id,
             campaign_update=campaign_update,
             _request_auth=_request_auth,
@@ -2872,7 +2872,7 @@ class CampaignApi:
 
 
     @validate_call
-    def put_v1_campaign_by_id_without_preload_content(
+    def put_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
         campaign_update: CampaignUpdate,
@@ -2919,7 +2919,7 @@ class CampaignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_campaign_by_id_serialize(
+        _param = self._put_campaign_by_id_serialize(
             id=id,
             campaign_update=campaign_update,
             _request_auth=_request_auth,
@@ -2938,7 +2938,7 @@ class CampaignApi:
         return response_data.response
 
 
-    def _put_v1_campaign_by_id_serialize(
+    def _put_campaign_by_id_serialize(
         self,
         id,
         campaign_update,

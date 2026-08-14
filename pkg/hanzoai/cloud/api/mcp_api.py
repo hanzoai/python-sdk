@@ -41,7 +41,7 @@ class McpApi:
 
 
     @validate_call
-    def delete_v1_mcp_servers_by_id(
+    def delete_mcp_servers_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server to deregister, from the path.")],
         _request_timeout: Union[
@@ -85,7 +85,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mcp_servers_by_id_serialize(
+        _param = self._delete_mcp_servers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -108,7 +108,7 @@ class McpApi:
 
 
     @validate_call
-    def delete_v1_mcp_servers_by_id_with_http_info(
+    def delete_mcp_servers_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server to deregister, from the path.")],
         _request_timeout: Union[
@@ -152,7 +152,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mcp_servers_by_id_serialize(
+        _param = self._delete_mcp_servers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -175,7 +175,7 @@ class McpApi:
 
 
     @validate_call
-    def delete_v1_mcp_servers_by_id_without_preload_content(
+    def delete_mcp_servers_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server to deregister, from the path.")],
         _request_timeout: Union[
@@ -219,7 +219,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_mcp_servers_by_id_serialize(
+        _param = self._delete_mcp_servers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -237,7 +237,7 @@ class McpApi:
         return response_data.response
 
 
-    def _delete_v1_mcp_servers_by_id_serialize(
+    def _delete_mcp_servers_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -294,7 +294,7 @@ class McpApi:
 
 
     @validate_call
-    def get_v1_mcp_servers(
+    def get_mcp_servers(
         self,
         _request_timeout: Union[
             None,
@@ -335,7 +335,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mcp_servers_serialize(
+        _param = self._get_mcp_servers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -357,7 +357,7 @@ class McpApi:
 
 
     @validate_call
-    def get_v1_mcp_servers_with_http_info(
+    def get_mcp_servers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -398,7 +398,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mcp_servers_serialize(
+        _param = self._get_mcp_servers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -420,7 +420,7 @@ class McpApi:
 
 
     @validate_call
-    def get_v1_mcp_servers_without_preload_content(
+    def get_mcp_servers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -461,7 +461,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_mcp_servers_serialize(
+        _param = self._get_mcp_servers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -478,7 +478,7 @@ class McpApi:
         return response_data.response
 
 
-    def _get_v1_mcp_servers_serialize(
+    def _get_mcp_servers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -539,7 +539,7 @@ class McpApi:
 
 
     @validate_call
-    def post_v1_mcp_servers(
+    def post_mcp_servers(
         self,
         create_server_req: CreateServerReq,
         _request_timeout: Union[
@@ -583,7 +583,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mcp_servers_serialize(
+        _param = self._post_mcp_servers_serialize(
             create_server_req=create_server_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -606,7 +606,7 @@ class McpApi:
 
 
     @validate_call
-    def post_v1_mcp_servers_with_http_info(
+    def post_mcp_servers_with_http_info(
         self,
         create_server_req: CreateServerReq,
         _request_timeout: Union[
@@ -650,7 +650,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mcp_servers_serialize(
+        _param = self._post_mcp_servers_serialize(
             create_server_req=create_server_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -673,7 +673,7 @@ class McpApi:
 
 
     @validate_call
-    def post_v1_mcp_servers_without_preload_content(
+    def post_mcp_servers_without_preload_content(
         self,
         create_server_req: CreateServerReq,
         _request_timeout: Union[
@@ -717,7 +717,7 @@ class McpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_mcp_servers_serialize(
+        _param = self._post_mcp_servers_serialize(
             create_server_req=create_server_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -735,7 +735,7 @@ class McpApi:
         return response_data.response
 
 
-    def _post_v1_mcp_servers_serialize(
+    def _post_mcp_servers_serialize(
         self,
         create_server_req,
         _request_auth,

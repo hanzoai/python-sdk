@@ -43,7 +43,7 @@ class FlowApi:
 
 
     @validate_call
-    def delete_v1_flow_workflows_by_workflow(
+    def delete_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flow_workflows_by_workflow_serialize(
+        _param = self._delete_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class FlowApi:
 
 
     @validate_call
-    def delete_v1_flow_workflows_by_workflow_with_http_info(
+    def delete_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flow_workflows_by_workflow_serialize(
+        _param = self._delete_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class FlowApi:
 
 
     @validate_call
-    def delete_v1_flow_workflows_by_workflow_without_preload_content(
+    def delete_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_flow_workflows_by_workflow_serialize(
+        _param = self._delete_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _delete_v1_flow_workflows_by_workflow_serialize(
+    def _delete_flow_workflows_by_workflow_serialize(
         self,
         workflow,
         _request_auth,
@@ -303,7 +303,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_runs(
+    def get_flow_runs(
         self,
         workflow: Annotated[Optional[StrictStr], Field(description="Workflow is the UUID of the workflow whose run records to read. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -347,7 +347,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_runs_serialize(
+        _param = self._get_flow_runs_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -370,7 +370,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_runs_with_http_info(
+    def get_flow_runs_with_http_info(
         self,
         workflow: Annotated[Optional[StrictStr], Field(description="Workflow is the UUID of the workflow whose run records to read. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -414,7 +414,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_runs_serialize(
+        _param = self._get_flow_runs_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -437,7 +437,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_runs_without_preload_content(
+    def get_flow_runs_without_preload_content(
         self,
         workflow: Annotated[Optional[StrictStr], Field(description="Workflow is the UUID of the workflow whose run records to read. It rides the query string.")] = None,
         _request_timeout: Union[
@@ -481,7 +481,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_runs_serialize(
+        _param = self._get_flow_runs_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -499,7 +499,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _get_v1_flow_runs_serialize(
+    def _get_flow_runs_serialize(
         self,
         workflow,
         _request_auth,
@@ -565,7 +565,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_status(
+    def get_flow_status(
         self,
         _request_timeout: Union[
             None,
@@ -606,7 +606,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_status_serialize(
+        _param = self._get_flow_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -628,7 +628,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_status_with_http_info(
+    def get_flow_status_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -669,7 +669,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_status_serialize(
+        _param = self._get_flow_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -691,7 +691,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_status_without_preload_content(
+    def get_flow_status_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -732,7 +732,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_status_serialize(
+        _param = self._get_flow_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -749,7 +749,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _get_v1_flow_status_serialize(
+    def _get_flow_status_serialize(
         self,
         _request_auth,
         _content_type,
@@ -810,7 +810,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows(
+    def get_flow_workflows(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of workflows to return.")] = None,
         size: Annotated[Optional[StrictStr], Field(description="Size is how many workflows one page holds (the product caps it at 100).")] = None,
@@ -857,7 +857,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_serialize(
+        _param = self._get_flow_workflows_serialize(
             page=page,
             size=size,
             _request_auth=_request_auth,
@@ -881,7 +881,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_with_http_info(
+    def get_flow_workflows_with_http_info(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of workflows to return.")] = None,
         size: Annotated[Optional[StrictStr], Field(description="Size is how many workflows one page holds (the product caps it at 100).")] = None,
@@ -928,7 +928,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_serialize(
+        _param = self._get_flow_workflows_serialize(
             page=page,
             size=size,
             _request_auth=_request_auth,
@@ -952,7 +952,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_without_preload_content(
+    def get_flow_workflows_without_preload_content(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of workflows to return.")] = None,
         size: Annotated[Optional[StrictStr], Field(description="Size is how many workflows one page holds (the product caps it at 100).")] = None,
@@ -999,7 +999,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_serialize(
+        _param = self._get_flow_workflows_serialize(
             page=page,
             size=size,
             _request_auth=_request_auth,
@@ -1018,7 +1018,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _get_v1_flow_workflows_serialize(
+    def _get_flow_workflows_serialize(
         self,
         page,
         size,
@@ -1089,7 +1089,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_by_workflow(
+    def get_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -1133,7 +1133,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_by_workflow_serialize(
+        _param = self._get_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1156,7 +1156,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_by_workflow_with_http_info(
+    def get_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -1200,7 +1200,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_by_workflow_serialize(
+        _param = self._get_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1223,7 +1223,7 @@ class FlowApi:
 
 
     @validate_call
-    def get_v1_flow_workflows_by_workflow_without_preload_content(
+    def get_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         _request_timeout: Union[
@@ -1267,7 +1267,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_flow_workflows_by_workflow_serialize(
+        _param = self._get_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1285,7 +1285,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _get_v1_flow_workflows_by_workflow_serialize(
+    def _get_flow_workflows_by_workflow_serialize(
         self,
         workflow,
         _request_auth,
@@ -1349,7 +1349,7 @@ class FlowApi:
 
 
     @validate_call
-    def patch_v1_flow_workflows_by_workflow(
+    def patch_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         flow_update: FlowUpdate,
@@ -1396,7 +1396,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_flow_workflows_by_workflow_serialize(
+        _param = self._patch_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             flow_update=flow_update,
             _request_auth=_request_auth,
@@ -1420,7 +1420,7 @@ class FlowApi:
 
 
     @validate_call
-    def patch_v1_flow_workflows_by_workflow_with_http_info(
+    def patch_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         flow_update: FlowUpdate,
@@ -1467,7 +1467,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_flow_workflows_by_workflow_serialize(
+        _param = self._patch_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             flow_update=flow_update,
             _request_auth=_request_auth,
@@ -1491,7 +1491,7 @@ class FlowApi:
 
 
     @validate_call
-    def patch_v1_flow_workflows_by_workflow_without_preload_content(
+    def patch_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
         flow_update: FlowUpdate,
@@ -1538,7 +1538,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_flow_workflows_by_workflow_serialize(
+        _param = self._patch_flow_workflows_by_workflow_serialize(
             workflow=workflow,
             flow_update=flow_update,
             _request_auth=_request_auth,
@@ -1557,7 +1557,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _patch_v1_flow_workflows_by_workflow_serialize(
+    def _patch_flow_workflows_by_workflow_serialize(
         self,
         workflow,
         flow_update,
@@ -1637,7 +1637,7 @@ class FlowApi:
 
 
     @validate_call
-    def post_v1_flow_runs(
+    def post_flow_runs(
         self,
         flow_run: FlowRun,
         _request_timeout: Union[
@@ -1681,7 +1681,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flow_runs_serialize(
+        _param = self._post_flow_runs_serialize(
             flow_run=flow_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1704,7 +1704,7 @@ class FlowApi:
 
 
     @validate_call
-    def post_v1_flow_runs_with_http_info(
+    def post_flow_runs_with_http_info(
         self,
         flow_run: FlowRun,
         _request_timeout: Union[
@@ -1748,7 +1748,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flow_runs_serialize(
+        _param = self._post_flow_runs_serialize(
             flow_run=flow_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1771,7 +1771,7 @@ class FlowApi:
 
 
     @validate_call
-    def post_v1_flow_runs_without_preload_content(
+    def post_flow_runs_without_preload_content(
         self,
         flow_run: FlowRun,
         _request_timeout: Union[
@@ -1815,7 +1815,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flow_runs_serialize(
+        _param = self._post_flow_runs_serialize(
             flow_run=flow_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1833,7 +1833,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _post_v1_flow_runs_serialize(
+    def _post_flow_runs_serialize(
         self,
         flow_run,
         _request_auth,
@@ -1910,7 +1910,7 @@ class FlowApi:
 
 
     @validate_call
-    def post_v1_flow_workflows(
+    def post_flow_workflows(
         self,
         flow_create: FlowCreate,
         _request_timeout: Union[
@@ -1954,7 +1954,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flow_workflows_serialize(
+        _param = self._post_flow_workflows_serialize(
             flow_create=flow_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1977,7 +1977,7 @@ class FlowApi:
 
 
     @validate_call
-    def post_v1_flow_workflows_with_http_info(
+    def post_flow_workflows_with_http_info(
         self,
         flow_create: FlowCreate,
         _request_timeout: Union[
@@ -2021,7 +2021,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flow_workflows_serialize(
+        _param = self._post_flow_workflows_serialize(
             flow_create=flow_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2044,7 +2044,7 @@ class FlowApi:
 
 
     @validate_call
-    def post_v1_flow_workflows_without_preload_content(
+    def post_flow_workflows_without_preload_content(
         self,
         flow_create: FlowCreate,
         _request_timeout: Union[
@@ -2088,7 +2088,7 @@ class FlowApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_flow_workflows_serialize(
+        _param = self._post_flow_workflows_serialize(
             flow_create=flow_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2106,7 +2106,7 @@ class FlowApi:
         return response_data.response
 
 
-    def _post_v1_flow_workflows_serialize(
+    def _post_flow_workflows_serialize(
         self,
         flow_create,
         _request_auth,

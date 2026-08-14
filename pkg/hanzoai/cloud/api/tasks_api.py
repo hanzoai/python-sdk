@@ -37,7 +37,7 @@ class TasksApi:
 
 
     @validate_call
-    def delete_v1_tasks(
+    def delete_tasks(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tasks_serialize(
+        _param = self._delete_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +99,7 @@ class TasksApi:
 
 
     @validate_call
-    def delete_v1_tasks_with_http_info(
+    def delete_tasks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -140,7 +140,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tasks_serialize(
+        _param = self._delete_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -161,7 +161,7 @@ class TasksApi:
 
 
     @validate_call
-    def delete_v1_tasks_without_preload_content(
+    def delete_tasks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -202,7 +202,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tasks_serialize(
+        _param = self._delete_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -218,7 +218,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _delete_v1_tasks_serialize(
+    def _delete_tasks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -272,7 +272,7 @@ class TasksApi:
 
 
     @validate_call
-    def delete_v1_tasks_by_wildcard1(
+    def delete_tasks_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -316,7 +316,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tasks_by_wildcard1_serialize(
+        _param = self._delete_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -338,7 +338,7 @@ class TasksApi:
 
 
     @validate_call
-    def delete_v1_tasks_by_wildcard1_with_http_info(
+    def delete_tasks_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -382,7 +382,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tasks_by_wildcard1_serialize(
+        _param = self._delete_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -404,7 +404,7 @@ class TasksApi:
 
 
     @validate_call
-    def delete_v1_tasks_by_wildcard1_without_preload_content(
+    def delete_tasks_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -448,7 +448,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_tasks_by_wildcard1_serialize(
+        _param = self._delete_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -465,7 +465,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _delete_v1_tasks_by_wildcard1_serialize(
+    def _delete_tasks_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -522,7 +522,7 @@ class TasksApi:
 
 
     @validate_call
-    def get_v1_tasks(
+    def get_tasks(
         self,
         _request_timeout: Union[
             None,
@@ -563,7 +563,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tasks_serialize(
+        _param = self._get_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -584,7 +584,7 @@ class TasksApi:
 
 
     @validate_call
-    def get_v1_tasks_with_http_info(
+    def get_tasks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -625,7 +625,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tasks_serialize(
+        _param = self._get_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -646,7 +646,7 @@ class TasksApi:
 
 
     @validate_call
-    def get_v1_tasks_without_preload_content(
+    def get_tasks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -687,7 +687,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tasks_serialize(
+        _param = self._get_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -703,7 +703,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _get_v1_tasks_serialize(
+    def _get_tasks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -757,7 +757,7 @@ class TasksApi:
 
 
     @validate_call
-    def get_v1_tasks_by_wildcard1(
+    def get_tasks_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -801,7 +801,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tasks_by_wildcard1_serialize(
+        _param = self._get_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -823,7 +823,7 @@ class TasksApi:
 
 
     @validate_call
-    def get_v1_tasks_by_wildcard1_with_http_info(
+    def get_tasks_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -867,7 +867,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tasks_by_wildcard1_serialize(
+        _param = self._get_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -889,7 +889,7 @@ class TasksApi:
 
 
     @validate_call
-    def get_v1_tasks_by_wildcard1_without_preload_content(
+    def get_tasks_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -933,7 +933,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tasks_by_wildcard1_serialize(
+        _param = self._get_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -950,7 +950,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _get_v1_tasks_by_wildcard1_serialize(
+    def _get_tasks_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -1007,7 +1007,7 @@ class TasksApi:
 
 
     @validate_call
-    def patch_v1_tasks(
+    def patch_tasks(
         self,
         _request_timeout: Union[
             None,
@@ -1048,7 +1048,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tasks_serialize(
+        _param = self._patch_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1069,7 +1069,7 @@ class TasksApi:
 
 
     @validate_call
-    def patch_v1_tasks_with_http_info(
+    def patch_tasks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1110,7 +1110,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tasks_serialize(
+        _param = self._patch_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1131,7 +1131,7 @@ class TasksApi:
 
 
     @validate_call
-    def patch_v1_tasks_without_preload_content(
+    def patch_tasks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1172,7 +1172,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tasks_serialize(
+        _param = self._patch_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1188,7 +1188,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _patch_v1_tasks_serialize(
+    def _patch_tasks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1242,7 +1242,7 @@ class TasksApi:
 
 
     @validate_call
-    def patch_v1_tasks_by_wildcard1(
+    def patch_tasks_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1286,7 +1286,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tasks_by_wildcard1_serialize(
+        _param = self._patch_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1308,7 +1308,7 @@ class TasksApi:
 
 
     @validate_call
-    def patch_v1_tasks_by_wildcard1_with_http_info(
+    def patch_tasks_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1352,7 +1352,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tasks_by_wildcard1_serialize(
+        _param = self._patch_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1374,7 +1374,7 @@ class TasksApi:
 
 
     @validate_call
-    def patch_v1_tasks_by_wildcard1_without_preload_content(
+    def patch_tasks_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1418,7 +1418,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tasks_by_wildcard1_serialize(
+        _param = self._patch_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1435,7 +1435,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _patch_v1_tasks_by_wildcard1_serialize(
+    def _patch_tasks_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -1492,7 +1492,7 @@ class TasksApi:
 
 
     @validate_call
-    def post_v1_tasks(
+    def post_tasks(
         self,
         _request_timeout: Union[
             None,
@@ -1533,7 +1533,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tasks_serialize(
+        _param = self._post_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1554,7 +1554,7 @@ class TasksApi:
 
 
     @validate_call
-    def post_v1_tasks_with_http_info(
+    def post_tasks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1595,7 +1595,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tasks_serialize(
+        _param = self._post_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1616,7 +1616,7 @@ class TasksApi:
 
 
     @validate_call
-    def post_v1_tasks_without_preload_content(
+    def post_tasks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1657,7 +1657,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tasks_serialize(
+        _param = self._post_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1673,7 +1673,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _post_v1_tasks_serialize(
+    def _post_tasks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1727,7 +1727,7 @@ class TasksApi:
 
 
     @validate_call
-    def post_v1_tasks_by_wildcard1(
+    def post_tasks_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1771,7 +1771,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tasks_by_wildcard1_serialize(
+        _param = self._post_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1793,7 +1793,7 @@ class TasksApi:
 
 
     @validate_call
-    def post_v1_tasks_by_wildcard1_with_http_info(
+    def post_tasks_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1837,7 +1837,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tasks_by_wildcard1_serialize(
+        _param = self._post_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1859,7 +1859,7 @@ class TasksApi:
 
 
     @validate_call
-    def post_v1_tasks_by_wildcard1_without_preload_content(
+    def post_tasks_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1903,7 +1903,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tasks_by_wildcard1_serialize(
+        _param = self._post_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1920,7 +1920,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _post_v1_tasks_by_wildcard1_serialize(
+    def _post_tasks_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -1977,7 +1977,7 @@ class TasksApi:
 
 
     @validate_call
-    def put_v1_tasks(
+    def put_tasks(
         self,
         _request_timeout: Union[
             None,
@@ -2018,7 +2018,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tasks_serialize(
+        _param = self._put_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2039,7 +2039,7 @@ class TasksApi:
 
 
     @validate_call
-    def put_v1_tasks_with_http_info(
+    def put_tasks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2080,7 +2080,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tasks_serialize(
+        _param = self._put_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2101,7 +2101,7 @@ class TasksApi:
 
 
     @validate_call
-    def put_v1_tasks_without_preload_content(
+    def put_tasks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2142,7 +2142,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tasks_serialize(
+        _param = self._put_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2158,7 +2158,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _put_v1_tasks_serialize(
+    def _put_tasks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2212,7 +2212,7 @@ class TasksApi:
 
 
     @validate_call
-    def put_v1_tasks_by_wildcard1(
+    def put_tasks_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2256,7 +2256,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tasks_by_wildcard1_serialize(
+        _param = self._put_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2278,7 +2278,7 @@ class TasksApi:
 
 
     @validate_call
-    def put_v1_tasks_by_wildcard1_with_http_info(
+    def put_tasks_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2322,7 +2322,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tasks_by_wildcard1_serialize(
+        _param = self._put_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2344,7 +2344,7 @@ class TasksApi:
 
 
     @validate_call
-    def put_v1_tasks_by_wildcard1_without_preload_content(
+    def put_tasks_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2388,7 +2388,7 @@ class TasksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tasks_by_wildcard1_serialize(
+        _param = self._put_tasks_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2405,7 +2405,7 @@ class TasksApi:
         return response_data.response
 
 
-    def _put_v1_tasks_by_wildcard1_serialize(
+    def _put_tasks_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,

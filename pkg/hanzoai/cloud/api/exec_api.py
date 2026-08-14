@@ -38,7 +38,7 @@ class ExecApi:
 
 
     @validate_call
-    def post_v1_exec(
+    def post_exec(
         self,
         code_run: CodeRun,
         _request_timeout: Union[
@@ -82,7 +82,7 @@ class ExecApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_exec_serialize(
+        _param = self._post_exec_serialize(
             code_run=code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -105,7 +105,7 @@ class ExecApi:
 
 
     @validate_call
-    def post_v1_exec_with_http_info(
+    def post_exec_with_http_info(
         self,
         code_run: CodeRun,
         _request_timeout: Union[
@@ -149,7 +149,7 @@ class ExecApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_exec_serialize(
+        _param = self._post_exec_serialize(
             code_run=code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -172,7 +172,7 @@ class ExecApi:
 
 
     @validate_call
-    def post_v1_exec_without_preload_content(
+    def post_exec_without_preload_content(
         self,
         code_run: CodeRun,
         _request_timeout: Union[
@@ -216,7 +216,7 @@ class ExecApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_exec_serialize(
+        _param = self._post_exec_serialize(
             code_run=code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -234,7 +234,7 @@ class ExecApi:
         return response_data.response
 
 
-    def _post_v1_exec_serialize(
+    def _post_exec_serialize(
         self,
         code_run,
         _request_auth,
@@ -311,7 +311,7 @@ class ExecApi:
 
 
     @validate_call
-    def post_v1_exec_programmatic(
+    def post_exec_programmatic(
         self,
         _request_timeout: Union[
             None,
@@ -352,7 +352,7 @@ class ExecApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_exec_programmatic_serialize(
+        _param = self._post_exec_programmatic_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -373,7 +373,7 @@ class ExecApi:
 
 
     @validate_call
-    def post_v1_exec_programmatic_with_http_info(
+    def post_exec_programmatic_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -414,7 +414,7 @@ class ExecApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_exec_programmatic_serialize(
+        _param = self._post_exec_programmatic_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -435,7 +435,7 @@ class ExecApi:
 
 
     @validate_call
-    def post_v1_exec_programmatic_without_preload_content(
+    def post_exec_programmatic_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -476,7 +476,7 @@ class ExecApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_exec_programmatic_serialize(
+        _param = self._post_exec_programmatic_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -492,7 +492,7 @@ class ExecApi:
         return response_data.response
 
 
-    def _post_v1_exec_programmatic_serialize(
+    def _post_exec_programmatic_serialize(
         self,
         _request_auth,
         _content_type,

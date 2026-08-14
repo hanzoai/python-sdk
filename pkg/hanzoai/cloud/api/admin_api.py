@@ -8680,7 +8680,7 @@ class AdminApi:
     ) -> OverviewOut:
         """Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.
 
-        Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  tokens30d is 0 for the same reason /usage has no series: there is no fleet token counter to read yet.
+        Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  The AI tiles — 30-day spend and tokens — come from the AI ledger (ledger.go), the plane that owns \"what was served\". They used to come from the money plane with the token counter hardcoded to zero, so the board read $0.00 and 0 tokens over a month in which the fleet served fifteen thousand requests. Credits still come from commerce, which owns the wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8743,7 +8743,7 @@ class AdminApi:
     ) -> ApiResponse[OverviewOut]:
         """Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.
 
-        Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  tokens30d is 0 for the same reason /usage has no series: there is no fleet token counter to read yet.
+        Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  The AI tiles — 30-day spend and tokens — come from the AI ledger (ledger.go), the plane that owns \"what was served\". They used to come from the money plane with the token counter hardcoded to zero, so the board read $0.00 and 0 tokens over a month in which the fleet served fifteen thousand requests. Credits still come from commerce, which owns the wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8806,7 +8806,7 @@ class AdminApi:
     ) -> RESTResponseType:
         """Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.
 
-        Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  tokens30d is 0 for the same reason /usage has no series: there is no fleet token counter to read yet.
+        Is the Platform Overview tiles: how many orgs and users are in the caller's tenant window, the fleet workload counts, and month-to-date spend and credits.  It ALWAYS answers 200 — a tile board that fails as a whole because one upstream is down is useless. Instead every upstream reports itself in sources[]: ok, degraded, or not-configured. A commerce read that failed for ANY org marks that source degraded, because the spend/credits totals are then an undercount and must not read healthy.  The AI tiles — 30-day spend and tokens — come from the AI ledger (ledger.go), the plane that owns \"what was served\". They used to come from the money plane with the token counter hardcoded to zero, so the board read $0.00 and 0 tokens over a month in which the fleet served fifteen thousand requests. Credits still come from commerce, which owns the wallet.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -14932,7 +14932,7 @@ class AdminApi:
     @validate_call
     def admin_usage(
         self,
-        org: Annotated[Optional[StrictStr], Field(description="Org reads ONE tenant's month-to-date total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org reads ONE tenant's trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\"Daily, last 30 days\"). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14946,11 +14946,11 @@ class AdminApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> UsageOut:
-        """Returns the month-to-date money totals: one org's when org names one, else the fleet sum across every org a SuperAdmin can see.
+        """Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.
 
-        Returns the month-to-date money totals: one org's when org names one, else the fleet sum across every org a SuperAdmin can see.  series and byProduct are ALWAYS empty. A daily trend and a per-product split are not derivable from the commerce billing API — they live in insights/datastore — so this answers with the honest empty arrays rather than fabricating a shape the console would then chart. Same reason tokens and requests are 0: there is no fleet counter to read.
+        Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.  It reads the AI ledger (ledger.go), which is the plane that owns this question. It used to ask the commerce billing API instead, once per org, and answer with a hardcoded empty series, zero tokens and zero requests, on the reasoning that a trend and a split were \"not derivable from the commerce billing API\". They are not — but the question was never commerce's. hanzo.cloud_usage carries a row per served request, so all three fall out of the same window the totals do.
 
-        :param org: Org reads ONE tenant's month-to-date total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.
+        :param org: Org reads ONE tenant's trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\"Daily, last 30 days\"). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove.
         :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -14999,7 +14999,7 @@ class AdminApi:
     @validate_call
     def admin_usage_with_http_info(
         self,
-        org: Annotated[Optional[StrictStr], Field(description="Org reads ONE tenant's month-to-date total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org reads ONE tenant's trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\"Daily, last 30 days\"). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15013,11 +15013,11 @@ class AdminApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[UsageOut]:
-        """Returns the month-to-date money totals: one org's when org names one, else the fleet sum across every org a SuperAdmin can see.
+        """Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.
 
-        Returns the month-to-date money totals: one org's when org names one, else the fleet sum across every org a SuperAdmin can see.  series and byProduct are ALWAYS empty. A daily trend and a per-product split are not derivable from the commerce billing API — they live in insights/datastore — so this answers with the honest empty arrays rather than fabricating a shape the console would then chart. Same reason tokens and requests are 0: there is no fleet counter to read.
+        Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.  It reads the AI ledger (ledger.go), which is the plane that owns this question. It used to ask the commerce billing API instead, once per org, and answer with a hardcoded empty series, zero tokens and zero requests, on the reasoning that a trend and a split were \"not derivable from the commerce billing API\". They are not — but the question was never commerce's. hanzo.cloud_usage carries a row per served request, so all three fall out of the same window the totals do.
 
-        :param org: Org reads ONE tenant's month-to-date total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.
+        :param org: Org reads ONE tenant's trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\"Daily, last 30 days\"). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove.
         :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15066,7 +15066,7 @@ class AdminApi:
     @validate_call
     def admin_usage_without_preload_content(
         self,
-        org: Annotated[Optional[StrictStr], Field(description="Org reads ONE tenant's month-to-date total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org reads ONE tenant's trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\"Daily, last 30 days\"). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15080,11 +15080,11 @@ class AdminApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the month-to-date money totals: one org's when org names one, else the fleet sum across every org a SuperAdmin can see.
+        """Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.
 
-        Returns the month-to-date money totals: one org's when org names one, else the fleet sum across every org a SuperAdmin can see.  series and byProduct are ALWAYS empty. A daily trend and a per-product split are not derivable from the commerce billing API — they live in insights/datastore — so this answers with the honest empty arrays rather than fabricating a shape the console would then chart. Same reason tokens and requests are 0: there is no fleet counter to read.
+        Returns the trailing 30 days of AI usage: one org's when org names one, else the whole fleet's — the spend, the tokens and the requests, the daily curve behind them, and the split by model.  It reads the AI ledger (ledger.go), which is the plane that owns this question. It used to ask the commerce billing API instead, once per org, and answer with a hardcoded empty series, zero tokens and zero requests, on the reasoning that a trend and a split were \"not derivable from the commerce billing API\". They are not — but the question was never commerce's. hanzo.cloud_usage carries a row per served request, so all three fall out of the same window the totals do.
 
-        :param org: Org reads ONE tenant's month-to-date total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.
+        :param org: Org reads ONE tenant's trailing-30-day total instead of the fleet sum. Honoured for a SuperAdmin only — a white-label admin always reads their own org.  The window is the one core.OrgMoney returns, and it is what the operator board beside this already labelled (\"Daily, last 30 days\"). The wire used to say month-to-date while that UI said 30 days; they agree now. This comment is REGENERATED into plugin/admin/openapi.json and openapi.yaml as the ?org parameter description, so a stale word here ships as a contradiction inside one spec file — which is the drift this whole change set exists to remove.
         :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -16598,7 +16598,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_affiliates(
+    def get_admin_affiliates(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. Absent or non-positive means the default of 500; anything above 1000 is clamped to 1000.")] = None,
         _request_timeout: Union[
@@ -16642,7 +16642,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_affiliates_serialize(
+        _param = self._get_admin_affiliates_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16665,7 +16665,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_affiliates_with_http_info(
+    def get_admin_affiliates_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. Absent or non-positive means the default of 500; anything above 1000 is clamped to 1000.")] = None,
         _request_timeout: Union[
@@ -16709,7 +16709,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_affiliates_serialize(
+        _param = self._get_admin_affiliates_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16732,7 +16732,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_affiliates_without_preload_content(
+    def get_admin_affiliates_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. Absent or non-positive means the default of 500; anything above 1000 is clamped to 1000.")] = None,
         _request_timeout: Union[
@@ -16776,7 +16776,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_affiliates_serialize(
+        _param = self._get_admin_affiliates_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16794,7 +16794,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_affiliates_serialize(
+    def _get_admin_affiliates_serialize(
         self,
         limit,
         _request_auth,
@@ -16860,7 +16860,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_authors(
+    def get_admin_authors(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. 0 or less means the default of 500; anything above 1000 is clamped to 1000.")] = None,
         _request_timeout: Union[
@@ -16904,7 +16904,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_authors_serialize(
+        _param = self._get_admin_authors_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16927,7 +16927,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_authors_with_http_info(
+    def get_admin_authors_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. 0 or less means the default of 500; anything above 1000 is clamped to 1000.")] = None,
         _request_timeout: Union[
@@ -16971,7 +16971,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_authors_serialize(
+        _param = self._get_admin_authors_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -16994,7 +16994,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_authors_without_preload_content(
+    def get_admin_authors_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. 0 or less means the default of 500; anything above 1000 is clamped to 1000.")] = None,
         _request_timeout: Union[
@@ -17038,7 +17038,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_authors_serialize(
+        _param = self._get_admin_authors_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -17056,7 +17056,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_authors_serialize(
+    def _get_admin_authors_serialize(
         self,
         limit,
         _request_auth,
@@ -17122,7 +17122,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_authors_by_id_basis(
+    def get_admin_authors_by_id_basis(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author record's handle, from the path.")],
         period: Annotated[Optional[StrictStr], Field(description="Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400.")] = None,
@@ -17169,7 +17169,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_authors_by_id_basis_serialize(
+        _param = self._get_admin_authors_by_id_basis_serialize(
             id=id,
             period=period,
             _request_auth=_request_auth,
@@ -17193,7 +17193,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_authors_by_id_basis_with_http_info(
+    def get_admin_authors_by_id_basis_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author record's handle, from the path.")],
         period: Annotated[Optional[StrictStr], Field(description="Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400.")] = None,
@@ -17240,7 +17240,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_authors_by_id_basis_serialize(
+        _param = self._get_admin_authors_by_id_basis_serialize(
             id=id,
             period=period,
             _request_auth=_request_auth,
@@ -17264,7 +17264,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_authors_by_id_basis_without_preload_content(
+    def get_admin_authors_by_id_basis_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author record's handle, from the path.")],
         period: Annotated[Optional[StrictStr], Field(description="Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400.")] = None,
@@ -17311,7 +17311,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_authors_by_id_basis_serialize(
+        _param = self._get_admin_authors_by_id_basis_serialize(
             id=id,
             period=period,
             _request_auth=_request_auth,
@@ -17330,7 +17330,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_authors_by_id_basis_serialize(
+    def _get_admin_authors_by_id_basis_serialize(
         self,
         id,
         period,
@@ -17399,7 +17399,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_catalog(
+    def get_admin_catalog(
         self,
         _request_timeout: Union[
             None,
@@ -17440,7 +17440,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_catalog_serialize(
+        _param = self._get_admin_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17462,7 +17462,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_catalog_with_http_info(
+    def get_admin_catalog_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -17503,7 +17503,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_catalog_serialize(
+        _param = self._get_admin_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17525,7 +17525,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_catalog_without_preload_content(
+    def get_admin_catalog_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -17566,7 +17566,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_catalog_serialize(
+        _param = self._get_admin_catalog_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17583,7 +17583,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_catalog_serialize(
+    def _get_admin_catalog_serialize(
         self,
         _request_auth,
         _content_type,
@@ -17644,7 +17644,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_enablement(
+    def get_admin_enablement(
         self,
         _request_timeout: Union[
             None,
@@ -17685,7 +17685,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_enablement_serialize(
+        _param = self._get_admin_enablement_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17707,7 +17707,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_enablement_with_http_info(
+    def get_admin_enablement_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -17748,7 +17748,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_enablement_serialize(
+        _param = self._get_admin_enablement_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17770,7 +17770,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_enablement_without_preload_content(
+    def get_admin_enablement_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -17811,7 +17811,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_enablement_serialize(
+        _param = self._get_admin_enablement_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17828,7 +17828,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_enablement_serialize(
+    def _get_admin_enablement_serialize(
         self,
         _request_auth,
         _content_type,
@@ -17889,7 +17889,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_referrals(
+    def get_admin_referrals(
         self,
         _request_timeout: Union[
             None,
@@ -17930,7 +17930,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_referrals_serialize(
+        _param = self._get_admin_referrals_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17952,7 +17952,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_referrals_with_http_info(
+    def get_admin_referrals_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -17993,7 +17993,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_referrals_serialize(
+        _param = self._get_admin_referrals_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18015,7 +18015,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_referrals_without_preload_content(
+    def get_admin_referrals_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -18056,7 +18056,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_referrals_serialize(
+        _param = self._get_admin_referrals_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18073,7 +18073,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_referrals_serialize(
+    def _get_admin_referrals_serialize(
         self,
         _request_auth,
         _content_type,
@@ -18134,7 +18134,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_referrals_bonuses(
+    def get_admin_referrals_bonuses(
         self,
         limit: Annotated[Optional[StrictStr], Field(description="Limit is how many referrals to return, as a decimal string in the `?limit=` query. Absent, unparseable or non-positive means 500; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -18178,7 +18178,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_referrals_bonuses_serialize(
+        _param = self._get_admin_referrals_bonuses_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18201,7 +18201,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_referrals_bonuses_with_http_info(
+    def get_admin_referrals_bonuses_with_http_info(
         self,
         limit: Annotated[Optional[StrictStr], Field(description="Limit is how many referrals to return, as a decimal string in the `?limit=` query. Absent, unparseable or non-positive means 500; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -18245,7 +18245,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_referrals_bonuses_serialize(
+        _param = self._get_admin_referrals_bonuses_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18268,7 +18268,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_referrals_bonuses_without_preload_content(
+    def get_admin_referrals_bonuses_without_preload_content(
         self,
         limit: Annotated[Optional[StrictStr], Field(description="Limit is how many referrals to return, as a decimal string in the `?limit=` query. Absent, unparseable or non-positive means 500; over 1000 is clamped to 1000. It is a string rather than a number because the parse that has always served this route trims surrounding whitespace, and one parse rule is better than two.")] = None,
         _request_timeout: Union[
@@ -18312,7 +18312,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_referrals_bonuses_serialize(
+        _param = self._get_admin_referrals_bonuses_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18330,7 +18330,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_referrals_bonuses_serialize(
+    def _get_admin_referrals_bonuses_serialize(
         self,
         limit,
         _request_auth,
@@ -18396,7 +18396,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_treasury(
+    def get_admin_treasury(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the journal entries returned. Out of range or unparseable takes the default.")] = None,
         _request_timeout: Union[
@@ -18440,7 +18440,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_treasury_serialize(
+        _param = self._get_admin_treasury_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18463,7 +18463,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_treasury_with_http_info(
+    def get_admin_treasury_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the journal entries returned. Out of range or unparseable takes the default.")] = None,
         _request_timeout: Union[
@@ -18507,7 +18507,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_treasury_serialize(
+        _param = self._get_admin_treasury_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18530,7 +18530,7 @@ class AdminApi:
 
 
     @validate_call
-    def get_v1_admin_treasury_without_preload_content(
+    def get_admin_treasury_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the journal entries returned. Out of range or unparseable takes the default.")] = None,
         _request_timeout: Union[
@@ -18574,7 +18574,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_admin_treasury_serialize(
+        _param = self._get_admin_treasury_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18592,7 +18592,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _get_v1_admin_treasury_serialize(
+    def _get_admin_treasury_serialize(
         self,
         limit,
         _request_auth,
@@ -18658,7 +18658,7 @@ class AdminApi:
 
 
     @validate_call
-    def patch_v1_admin_catalog_models_by_wildcard1(
+    def patch_admin_catalog_models_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -18702,7 +18702,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_admin_catalog_models_by_wildcard1_serialize(
+        _param = self._patch_admin_catalog_models_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18724,7 +18724,7 @@ class AdminApi:
 
 
     @validate_call
-    def patch_v1_admin_catalog_models_by_wildcard1_with_http_info(
+    def patch_admin_catalog_models_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -18768,7 +18768,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_admin_catalog_models_by_wildcard1_serialize(
+        _param = self._patch_admin_catalog_models_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18790,7 +18790,7 @@ class AdminApi:
 
 
     @validate_call
-    def patch_v1_admin_catalog_models_by_wildcard1_without_preload_content(
+    def patch_admin_catalog_models_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -18834,7 +18834,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_admin_catalog_models_by_wildcard1_serialize(
+        _param = self._patch_admin_catalog_models_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -18851,7 +18851,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _patch_v1_admin_catalog_models_by_wildcard1_serialize(
+    def _patch_admin_catalog_models_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -18908,7 +18908,7 @@ class AdminApi:
 
 
     @validate_call
-    def patch_v1_admin_catalog_providers_by_name(
+    def patch_admin_catalog_providers_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the provider the overlay belongs to, from the URL.")],
         provider_patch_in: ProviderPatchIn,
@@ -18955,7 +18955,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_admin_catalog_providers_by_name_serialize(
+        _param = self._patch_admin_catalog_providers_by_name_serialize(
             name=name,
             provider_patch_in=provider_patch_in,
             _request_auth=_request_auth,
@@ -18979,7 +18979,7 @@ class AdminApi:
 
 
     @validate_call
-    def patch_v1_admin_catalog_providers_by_name_with_http_info(
+    def patch_admin_catalog_providers_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the provider the overlay belongs to, from the URL.")],
         provider_patch_in: ProviderPatchIn,
@@ -19026,7 +19026,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_admin_catalog_providers_by_name_serialize(
+        _param = self._patch_admin_catalog_providers_by_name_serialize(
             name=name,
             provider_patch_in=provider_patch_in,
             _request_auth=_request_auth,
@@ -19050,7 +19050,7 @@ class AdminApi:
 
 
     @validate_call
-    def patch_v1_admin_catalog_providers_by_name_without_preload_content(
+    def patch_admin_catalog_providers_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the provider the overlay belongs to, from the URL.")],
         provider_patch_in: ProviderPatchIn,
@@ -19097,7 +19097,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_admin_catalog_providers_by_name_serialize(
+        _param = self._patch_admin_catalog_providers_by_name_serialize(
             name=name,
             provider_patch_in=provider_patch_in,
             _request_auth=_request_auth,
@@ -19116,7 +19116,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _patch_v1_admin_catalog_providers_by_name_serialize(
+    def _patch_admin_catalog_providers_by_name_serialize(
         self,
         name,
         provider_patch_in,
@@ -19196,7 +19196,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_approve(
+    def post_admin_affiliates_by_id_approve(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate to approve, from the path.")],
         approval: Approval,
@@ -19243,7 +19243,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_approve_serialize(
+        _param = self._post_admin_affiliates_by_id_approve_serialize(
             id=id,
             approval=approval,
             _request_auth=_request_auth,
@@ -19267,7 +19267,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_approve_with_http_info(
+    def post_admin_affiliates_by_id_approve_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate to approve, from the path.")],
         approval: Approval,
@@ -19314,7 +19314,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_approve_serialize(
+        _param = self._post_admin_affiliates_by_id_approve_serialize(
             id=id,
             approval=approval,
             _request_auth=_request_auth,
@@ -19338,7 +19338,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_approve_without_preload_content(
+    def post_admin_affiliates_by_id_approve_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate to approve, from the path.")],
         approval: Approval,
@@ -19385,7 +19385,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_approve_serialize(
+        _param = self._post_admin_affiliates_by_id_approve_serialize(
             id=id,
             approval=approval,
             _request_auth=_request_auth,
@@ -19404,7 +19404,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_affiliates_by_id_approve_serialize(
+    def _post_admin_affiliates_by_id_approve_serialize(
         self,
         id,
         approval,
@@ -19484,7 +19484,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_payout(
+    def post_admin_affiliates_by_id_payout(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate to pay, from the path.")],
         disbursal: Disbursal,
@@ -19531,7 +19531,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_payout_serialize(
+        _param = self._post_admin_affiliates_by_id_payout_serialize(
             id=id,
             disbursal=disbursal,
             _request_auth=_request_auth,
@@ -19555,7 +19555,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_payout_with_http_info(
+    def post_admin_affiliates_by_id_payout_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate to pay, from the path.")],
         disbursal: Disbursal,
@@ -19602,7 +19602,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_payout_serialize(
+        _param = self._post_admin_affiliates_by_id_payout_serialize(
             id=id,
             disbursal=disbursal,
             _request_auth=_request_auth,
@@ -19626,7 +19626,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_payout_without_preload_content(
+    def post_admin_affiliates_by_id_payout_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate to pay, from the path.")],
         disbursal: Disbursal,
@@ -19673,7 +19673,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_payout_serialize(
+        _param = self._post_admin_affiliates_by_id_payout_serialize(
             id=id,
             disbursal=disbursal,
             _request_auth=_request_auth,
@@ -19692,7 +19692,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_affiliates_by_id_payout_serialize(
+    def _post_admin_affiliates_by_id_payout_serialize(
         self,
         id,
         disbursal,
@@ -19772,7 +19772,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_rate(
+    def post_admin_affiliates_by_id_rate(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate whose direct rate moves, from the path.")],
         rate_set: RateSet,
@@ -19819,7 +19819,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_rate_serialize(
+        _param = self._post_admin_affiliates_by_id_rate_serialize(
             id=id,
             rate_set=rate_set,
             _request_auth=_request_auth,
@@ -19843,7 +19843,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_rate_with_http_info(
+    def post_admin_affiliates_by_id_rate_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate whose direct rate moves, from the path.")],
         rate_set: RateSet,
@@ -19890,7 +19890,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_rate_serialize(
+        _param = self._post_admin_affiliates_by_id_rate_serialize(
             id=id,
             rate_set=rate_set,
             _request_auth=_request_auth,
@@ -19914,7 +19914,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_rate_without_preload_content(
+    def post_admin_affiliates_by_id_rate_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate whose direct rate moves, from the path.")],
         rate_set: RateSet,
@@ -19961,7 +19961,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_rate_serialize(
+        _param = self._post_admin_affiliates_by_id_rate_serialize(
             id=id,
             rate_set=rate_set,
             _request_auth=_request_auth,
@@ -19980,7 +19980,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_affiliates_by_id_rate_serialize(
+    def _post_admin_affiliates_by_id_rate_serialize(
         self,
         id,
         rate_set,
@@ -20060,7 +20060,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_suspend(
+    def post_admin_affiliates_by_id_suspend(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed.")],
         _request_timeout: Union[
@@ -20104,7 +20104,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_suspend_serialize(
+        _param = self._post_admin_affiliates_by_id_suspend_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20127,7 +20127,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_suspend_with_http_info(
+    def post_admin_affiliates_by_id_suspend_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed.")],
         _request_timeout: Union[
@@ -20171,7 +20171,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_suspend_serialize(
+        _param = self._post_admin_affiliates_by_id_suspend_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20194,7 +20194,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_by_id_suspend_without_preload_content(
+    def post_admin_affiliates_by_id_suspend_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the affiliate's server-minted handle, \"aff_\"-prefixed.")],
         _request_timeout: Union[
@@ -20238,7 +20238,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_by_id_suspend_serialize(
+        _param = self._post_admin_affiliates_by_id_suspend_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -20256,7 +20256,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_affiliates_by_id_suspend_serialize(
+    def _post_admin_affiliates_by_id_suspend_serialize(
         self,
         id,
         _request_auth,
@@ -20320,7 +20320,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_sweep(
+    def post_admin_affiliates_sweep(
         self,
         _request_timeout: Union[
             None,
@@ -20361,7 +20361,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_sweep_serialize(
+        _param = self._post_admin_affiliates_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20383,7 +20383,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_sweep_with_http_info(
+    def post_admin_affiliates_sweep_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -20424,7 +20424,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_sweep_serialize(
+        _param = self._post_admin_affiliates_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20446,7 +20446,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_affiliates_sweep_without_preload_content(
+    def post_admin_affiliates_sweep_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -20487,7 +20487,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_affiliates_sweep_serialize(
+        _param = self._post_admin_affiliates_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20504,7 +20504,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_affiliates_sweep_serialize(
+    def _post_admin_affiliates_sweep_serialize(
         self,
         _request_auth,
         _content_type,
@@ -20565,7 +20565,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_approve(
+    def post_admin_authors_by_id_approve(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author to approve, from the path.")],
         approve_request: ApproveRequest,
@@ -20612,7 +20612,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_approve_serialize(
+        _param = self._post_admin_authors_by_id_approve_serialize(
             id=id,
             approve_request=approve_request,
             _request_auth=_request_auth,
@@ -20636,7 +20636,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_approve_with_http_info(
+    def post_admin_authors_by_id_approve_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author to approve, from the path.")],
         approve_request: ApproveRequest,
@@ -20683,7 +20683,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_approve_serialize(
+        _param = self._post_admin_authors_by_id_approve_serialize(
             id=id,
             approve_request=approve_request,
             _request_auth=_request_auth,
@@ -20707,7 +20707,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_approve_without_preload_content(
+    def post_admin_authors_by_id_approve_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author to approve, from the path.")],
         approve_request: ApproveRequest,
@@ -20754,7 +20754,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_approve_serialize(
+        _param = self._post_admin_authors_by_id_approve_serialize(
             id=id,
             approve_request=approve_request,
             _request_auth=_request_auth,
@@ -20773,7 +20773,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_authors_by_id_approve_serialize(
+    def _post_admin_authors_by_id_approve_serialize(
         self,
         id,
         approve_request,
@@ -20853,7 +20853,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_payout(
+    def post_admin_authors_by_id_payout(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author to pay, from the path.")],
         payout_request: PayoutRequest,
@@ -20900,7 +20900,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_payout_serialize(
+        _param = self._post_admin_authors_by_id_payout_serialize(
             id=id,
             payout_request=payout_request,
             _request_auth=_request_auth,
@@ -20924,7 +20924,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_payout_with_http_info(
+    def post_admin_authors_by_id_payout_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author to pay, from the path.")],
         payout_request: PayoutRequest,
@@ -20971,7 +20971,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_payout_serialize(
+        _param = self._post_admin_authors_by_id_payout_serialize(
             id=id,
             payout_request=payout_request,
             _request_auth=_request_auth,
@@ -20995,7 +20995,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_payout_without_preload_content(
+    def post_admin_authors_by_id_payout_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author to pay, from the path.")],
         payout_request: PayoutRequest,
@@ -21042,7 +21042,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_payout_serialize(
+        _param = self._post_admin_authors_by_id_payout_serialize(
             id=id,
             payout_request=payout_request,
             _request_auth=_request_auth,
@@ -21061,7 +21061,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_authors_by_id_payout_serialize(
+    def _post_admin_authors_by_id_payout_serialize(
         self,
         id,
         payout_request,
@@ -21141,7 +21141,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_suspend(
+    def post_admin_authors_by_id_suspend(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author record's handle, \"aut_\"-prefixed.")],
         _request_timeout: Union[
@@ -21185,7 +21185,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_suspend_serialize(
+        _param = self._post_admin_authors_by_id_suspend_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21208,7 +21208,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_suspend_with_http_info(
+    def post_admin_authors_by_id_suspend_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author record's handle, \"aut_\"-prefixed.")],
         _request_timeout: Union[
@@ -21252,7 +21252,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_suspend_serialize(
+        _param = self._post_admin_authors_by_id_suspend_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21275,7 +21275,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_by_id_suspend_without_preload_content(
+    def post_admin_authors_by_id_suspend_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the author record's handle, \"aut_\"-prefixed.")],
         _request_timeout: Union[
@@ -21319,7 +21319,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_by_id_suspend_serialize(
+        _param = self._post_admin_authors_by_id_suspend_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -21337,7 +21337,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_authors_by_id_suspend_serialize(
+    def _post_admin_authors_by_id_suspend_serialize(
         self,
         id,
         _request_auth,
@@ -21401,7 +21401,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_sweep(
+    def post_admin_authors_sweep(
         self,
         _request_timeout: Union[
             None,
@@ -21442,7 +21442,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_sweep_serialize(
+        _param = self._post_admin_authors_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21464,7 +21464,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_sweep_with_http_info(
+    def post_admin_authors_sweep_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21505,7 +21505,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_sweep_serialize(
+        _param = self._post_admin_authors_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21527,7 +21527,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_authors_sweep_without_preload_content(
+    def post_admin_authors_sweep_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21568,7 +21568,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_authors_sweep_serialize(
+        _param = self._post_admin_authors_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21585,7 +21585,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_authors_sweep_serialize(
+    def _post_admin_authors_sweep_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21646,7 +21646,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_referrals_sweep(
+    def post_admin_referrals_sweep(
         self,
         _request_timeout: Union[
             None,
@@ -21687,7 +21687,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_referrals_sweep_serialize(
+        _param = self._post_admin_referrals_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21709,7 +21709,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_referrals_sweep_with_http_info(
+    def post_admin_referrals_sweep_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21750,7 +21750,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_referrals_sweep_serialize(
+        _param = self._post_admin_referrals_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21772,7 +21772,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_referrals_sweep_without_preload_content(
+    def post_admin_referrals_sweep_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21813,7 +21813,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_referrals_sweep_serialize(
+        _param = self._post_admin_referrals_sweep_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21830,7 +21830,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_referrals_sweep_serialize(
+    def _post_admin_referrals_sweep_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21891,7 +21891,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_anchor(
+    def post_admin_treasury_anchor(
         self,
         _request_timeout: Union[
             None,
@@ -21932,7 +21932,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_anchor_serialize(
+        _param = self._post_admin_treasury_anchor_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21954,7 +21954,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_anchor_with_http_info(
+    def post_admin_treasury_anchor_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21995,7 +21995,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_anchor_serialize(
+        _param = self._post_admin_treasury_anchor_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22017,7 +22017,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_anchor_without_preload_content(
+    def post_admin_treasury_anchor_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -22058,7 +22058,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_anchor_serialize(
+        _param = self._post_admin_treasury_anchor_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22075,7 +22075,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_treasury_anchor_serialize(
+    def _post_admin_treasury_anchor_serialize(
         self,
         _request_auth,
         _content_type,
@@ -22136,7 +22136,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_policy(
+    def post_admin_treasury_policy(
         self,
         policy_request: PolicyRequest,
         _request_timeout: Union[
@@ -22180,7 +22180,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_policy_serialize(
+        _param = self._post_admin_treasury_policy_serialize(
             policy_request=policy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22203,7 +22203,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_policy_with_http_info(
+    def post_admin_treasury_policy_with_http_info(
         self,
         policy_request: PolicyRequest,
         _request_timeout: Union[
@@ -22247,7 +22247,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_policy_serialize(
+        _param = self._post_admin_treasury_policy_serialize(
             policy_request=policy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22270,7 +22270,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_policy_without_preload_content(
+    def post_admin_treasury_policy_without_preload_content(
         self,
         policy_request: PolicyRequest,
         _request_timeout: Union[
@@ -22314,7 +22314,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_policy_serialize(
+        _param = self._post_admin_treasury_policy_serialize(
             policy_request=policy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22332,7 +22332,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_treasury_policy_serialize(
+    def _post_admin_treasury_policy_serialize(
         self,
         policy_request,
         _request_auth,
@@ -22409,7 +22409,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_seed(
+    def post_admin_treasury_seed(
         self,
         seed_request: SeedRequest,
         _request_timeout: Union[
@@ -22453,7 +22453,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_seed_serialize(
+        _param = self._post_admin_treasury_seed_serialize(
             seed_request=seed_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22476,7 +22476,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_seed_with_http_info(
+    def post_admin_treasury_seed_with_http_info(
         self,
         seed_request: SeedRequest,
         _request_timeout: Union[
@@ -22520,7 +22520,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_seed_serialize(
+        _param = self._post_admin_treasury_seed_serialize(
             seed_request=seed_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22543,7 +22543,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_seed_without_preload_content(
+    def post_admin_treasury_seed_without_preload_content(
         self,
         seed_request: SeedRequest,
         _request_timeout: Union[
@@ -22587,7 +22587,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_seed_serialize(
+        _param = self._post_admin_treasury_seed_serialize(
             seed_request=seed_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22605,7 +22605,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_treasury_seed_serialize(
+    def _post_admin_treasury_seed_serialize(
         self,
         seed_request,
         _request_auth,
@@ -22682,7 +22682,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_sweep(
+    def post_admin_treasury_sweep(
         self,
         sweep_request: SweepRequest,
         _request_timeout: Union[
@@ -22726,7 +22726,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_sweep_serialize(
+        _param = self._post_admin_treasury_sweep_serialize(
             sweep_request=sweep_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22749,7 +22749,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_sweep_with_http_info(
+    def post_admin_treasury_sweep_with_http_info(
         self,
         sweep_request: SweepRequest,
         _request_timeout: Union[
@@ -22793,7 +22793,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_sweep_serialize(
+        _param = self._post_admin_treasury_sweep_serialize(
             sweep_request=sweep_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22816,7 +22816,7 @@ class AdminApi:
 
 
     @validate_call
-    def post_v1_admin_treasury_sweep_without_preload_content(
+    def post_admin_treasury_sweep_without_preload_content(
         self,
         sweep_request: SweepRequest,
         _request_timeout: Union[
@@ -22860,7 +22860,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_admin_treasury_sweep_serialize(
+        _param = self._post_admin_treasury_sweep_serialize(
             sweep_request=sweep_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -22878,7 +22878,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _post_v1_admin_treasury_sweep_serialize(
+    def _post_admin_treasury_sweep_serialize(
         self,
         sweep_request,
         _request_auth,
@@ -22955,7 +22955,7 @@ class AdminApi:
 
 
     @validate_call
-    def put_v1_admin_enablement(
+    def put_admin_enablement(
         self,
         set_enablement_body: SetEnablementBody,
         _request_timeout: Union[
@@ -22999,7 +22999,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_admin_enablement_serialize(
+        _param = self._put_admin_enablement_serialize(
             set_enablement_body=set_enablement_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23022,7 +23022,7 @@ class AdminApi:
 
 
     @validate_call
-    def put_v1_admin_enablement_with_http_info(
+    def put_admin_enablement_with_http_info(
         self,
         set_enablement_body: SetEnablementBody,
         _request_timeout: Union[
@@ -23066,7 +23066,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_admin_enablement_serialize(
+        _param = self._put_admin_enablement_serialize(
             set_enablement_body=set_enablement_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23089,7 +23089,7 @@ class AdminApi:
 
 
     @validate_call
-    def put_v1_admin_enablement_without_preload_content(
+    def put_admin_enablement_without_preload_content(
         self,
         set_enablement_body: SetEnablementBody,
         _request_timeout: Union[
@@ -23133,7 +23133,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_admin_enablement_serialize(
+        _param = self._put_admin_enablement_serialize(
             set_enablement_body=set_enablement_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -23151,7 +23151,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _put_v1_admin_enablement_serialize(
+    def _put_admin_enablement_serialize(
         self,
         set_enablement_body,
         _request_auth,
@@ -23228,7 +23228,7 @@ class AdminApi:
 
 
     @validate_call
-    def put_v1_admin_treasury_anchor_signer(
+    def put_admin_treasury_anchor_signer(
         self,
         _request_timeout: Union[
             None,
@@ -23269,7 +23269,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_admin_treasury_anchor_signer_serialize(
+        _param = self._put_admin_treasury_anchor_signer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23291,7 +23291,7 @@ class AdminApi:
 
 
     @validate_call
-    def put_v1_admin_treasury_anchor_signer_with_http_info(
+    def put_admin_treasury_anchor_signer_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -23332,7 +23332,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_admin_treasury_anchor_signer_serialize(
+        _param = self._put_admin_treasury_anchor_signer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23354,7 +23354,7 @@ class AdminApi:
 
 
     @validate_call
-    def put_v1_admin_treasury_anchor_signer_without_preload_content(
+    def put_admin_treasury_anchor_signer_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -23395,7 +23395,7 @@ class AdminApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_admin_treasury_anchor_signer_serialize(
+        _param = self._put_admin_treasury_anchor_signer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23412,7 +23412,7 @@ class AdminApi:
         return response_data.response
 
 
-    def _put_v1_admin_treasury_anchor_signer_serialize(
+    def _put_admin_treasury_anchor_signer_serialize(
         self,
         _request_auth,
         _content_type,

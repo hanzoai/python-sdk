@@ -42,7 +42,7 @@ class TranslateApi:
 
 
     @validate_call
-    def get_v1_translate_memory(
+    def get_translate_memory(
         self,
         target: Annotated[Optional[StrictStr], Field(description="Target narrows to one target language tag (BCP-47, e.g. \"es\" or \"pt-BR\").")] = None,
         state: Annotated[Optional[StrictStr], Field(description="State narrows to one position on the review ladder: machine, suggested, approved or published.")] = None,
@@ -92,7 +92,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_translate_memory_serialize(
+        _param = self._get_translate_memory_serialize(
             target=target,
             state=state,
             limit=limit,
@@ -117,7 +117,7 @@ class TranslateApi:
 
 
     @validate_call
-    def get_v1_translate_memory_with_http_info(
+    def get_translate_memory_with_http_info(
         self,
         target: Annotated[Optional[StrictStr], Field(description="Target narrows to one target language tag (BCP-47, e.g. \"es\" or \"pt-BR\").")] = None,
         state: Annotated[Optional[StrictStr], Field(description="State narrows to one position on the review ladder: machine, suggested, approved or published.")] = None,
@@ -167,7 +167,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_translate_memory_serialize(
+        _param = self._get_translate_memory_serialize(
             target=target,
             state=state,
             limit=limit,
@@ -192,7 +192,7 @@ class TranslateApi:
 
 
     @validate_call
-    def get_v1_translate_memory_without_preload_content(
+    def get_translate_memory_without_preload_content(
         self,
         target: Annotated[Optional[StrictStr], Field(description="Target narrows to one target language tag (BCP-47, e.g. \"es\" or \"pt-BR\").")] = None,
         state: Annotated[Optional[StrictStr], Field(description="State narrows to one position on the review ladder: machine, suggested, approved or published.")] = None,
@@ -242,7 +242,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_translate_memory_serialize(
+        _param = self._get_translate_memory_serialize(
             target=target,
             state=state,
             limit=limit,
@@ -262,7 +262,7 @@ class TranslateApi:
         return response_data.response
 
 
-    def _get_v1_translate_memory_serialize(
+    def _get_translate_memory_serialize(
         self,
         target,
         state,
@@ -338,7 +338,7 @@ class TranslateApi:
 
 
     @validate_call
-    def post_v1_translate(
+    def post_translate(
         self,
         _request_timeout: Union[
             None,
@@ -379,7 +379,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_translate_serialize(
+        _param = self._post_translate_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -400,7 +400,7 @@ class TranslateApi:
 
 
     @validate_call
-    def post_v1_translate_with_http_info(
+    def post_translate_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -441,7 +441,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_translate_serialize(
+        _param = self._post_translate_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -462,7 +462,7 @@ class TranslateApi:
 
 
     @validate_call
-    def post_v1_translate_without_preload_content(
+    def post_translate_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -503,7 +503,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_translate_serialize(
+        _param = self._post_translate_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -519,7 +519,7 @@ class TranslateApi:
         return response_data.response
 
 
-    def _post_v1_translate_serialize(
+    def _post_translate_serialize(
         self,
         _request_auth,
         _content_type,
@@ -573,7 +573,7 @@ class TranslateApi:
 
 
     @validate_call
-    def put_v1_translate_memory(
+    def put_translate_memory(
         self,
         review_request: ReviewRequest,
         _request_timeout: Union[
@@ -617,7 +617,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_translate_memory_serialize(
+        _param = self._put_translate_memory_serialize(
             review_request=review_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -640,7 +640,7 @@ class TranslateApi:
 
 
     @validate_call
-    def put_v1_translate_memory_with_http_info(
+    def put_translate_memory_with_http_info(
         self,
         review_request: ReviewRequest,
         _request_timeout: Union[
@@ -684,7 +684,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_translate_memory_serialize(
+        _param = self._put_translate_memory_serialize(
             review_request=review_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -707,7 +707,7 @@ class TranslateApi:
 
 
     @validate_call
-    def put_v1_translate_memory_without_preload_content(
+    def put_translate_memory_without_preload_content(
         self,
         review_request: ReviewRequest,
         _request_timeout: Union[
@@ -751,7 +751,7 @@ class TranslateApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_translate_memory_serialize(
+        _param = self._put_translate_memory_serialize(
             review_request=review_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -769,7 +769,7 @@ class TranslateApi:
         return response_data.response
 
 
-    def _put_v1_translate_memory_serialize(
+    def _put_translate_memory_serialize(
         self,
         review_request,
         _request_auth,

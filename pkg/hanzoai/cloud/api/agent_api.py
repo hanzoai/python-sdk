@@ -37,7 +37,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_conversations(
+    def get_agent_conversations(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_conversations_serialize(
+        _param = self._get_agent_conversations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +99,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_conversations_with_http_info(
+    def get_agent_conversations_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -140,7 +140,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_conversations_serialize(
+        _param = self._get_agent_conversations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -161,7 +161,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_conversations_without_preload_content(
+    def get_agent_conversations_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -202,7 +202,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_conversations_serialize(
+        _param = self._get_agent_conversations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -218,7 +218,7 @@ class AgentApi:
         return response_data.response
 
 
-    def _get_v1_agent_conversations_serialize(
+    def _get_agent_conversations_serialize(
         self,
         _request_auth,
         _content_type,
@@ -272,7 +272,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_conversations_by_id(
+    def get_agent_conversations_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -316,7 +316,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_conversations_by_id_serialize(
+        _param = self._get_agent_conversations_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -338,7 +338,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_conversations_by_id_with_http_info(
+    def get_agent_conversations_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -382,7 +382,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_conversations_by_id_serialize(
+        _param = self._get_agent_conversations_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -404,7 +404,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_conversations_by_id_without_preload_content(
+    def get_agent_conversations_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -448,7 +448,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_conversations_by_id_serialize(
+        _param = self._get_agent_conversations_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -465,7 +465,7 @@ class AgentApi:
         return response_data.response
 
 
-    def _get_v1_agent_conversations_by_id_serialize(
+    def _get_agent_conversations_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -522,7 +522,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_presets(
+    def get_agent_presets(
         self,
         _request_timeout: Union[
             None,
@@ -563,7 +563,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_presets_serialize(
+        _param = self._get_agent_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -584,7 +584,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_presets_with_http_info(
+    def get_agent_presets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -625,7 +625,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_presets_serialize(
+        _param = self._get_agent_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -646,7 +646,7 @@ class AgentApi:
 
 
     @validate_call
-    def get_v1_agent_presets_without_preload_content(
+    def get_agent_presets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -687,7 +687,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agent_presets_serialize(
+        _param = self._get_agent_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -703,7 +703,7 @@ class AgentApi:
         return response_data.response
 
 
-    def _get_v1_agent_presets_serialize(
+    def _get_agent_presets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -757,7 +757,7 @@ class AgentApi:
 
 
     @validate_call
-    def post_v1_agent(
+    def post_agent(
         self,
         _request_timeout: Union[
             None,
@@ -798,7 +798,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agent_serialize(
+        _param = self._post_agent_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -819,7 +819,7 @@ class AgentApi:
 
 
     @validate_call
-    def post_v1_agent_with_http_info(
+    def post_agent_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -860,7 +860,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agent_serialize(
+        _param = self._post_agent_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -881,7 +881,7 @@ class AgentApi:
 
 
     @validate_call
-    def post_v1_agent_without_preload_content(
+    def post_agent_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -922,7 +922,7 @@ class AgentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agent_serialize(
+        _param = self._post_agent_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -938,7 +938,7 @@ class AgentApi:
         return response_data.response
 
 
-    def _post_v1_agent_serialize(
+    def _post_agent_serialize(
         self,
         _request_auth,
         _content_type,

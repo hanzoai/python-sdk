@@ -44,7 +44,7 @@ class SkillsApi:
 
 
     @validate_call
-    def delete_v1_skills_by_id(
+    def delete_skills_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the skill to remove, from the path. It is the skill's name.")],
         _request_timeout: Union[
@@ -88,7 +88,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_skills_by_id_serialize(
+        _param = self._delete_skills_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -111,7 +111,7 @@ class SkillsApi:
 
 
     @validate_call
-    def delete_v1_skills_by_id_with_http_info(
+    def delete_skills_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the skill to remove, from the path. It is the skill's name.")],
         _request_timeout: Union[
@@ -155,7 +155,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_skills_by_id_serialize(
+        _param = self._delete_skills_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -178,7 +178,7 @@ class SkillsApi:
 
 
     @validate_call
-    def delete_v1_skills_by_id_without_preload_content(
+    def delete_skills_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the skill to remove, from the path. It is the skill's name.")],
         _request_timeout: Union[
@@ -222,7 +222,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_skills_by_id_serialize(
+        _param = self._delete_skills_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -240,7 +240,7 @@ class SkillsApi:
         return response_data.response
 
 
-    def _delete_v1_skills_by_id_serialize(
+    def _delete_skills_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -304,7 +304,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_v1_skills(
+    def get_skills(
         self,
         activated: Annotated[Optional[StrictStr], Field(description="Activated keeps only the tools activated for the caller's org and project, and only when it is exactly the string \"true\".")] = None,
         _request_timeout: Union[
@@ -348,7 +348,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_skills_serialize(
+        _param = self._get_skills_serialize(
             activated=activated,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -371,7 +371,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_v1_skills_with_http_info(
+    def get_skills_with_http_info(
         self,
         activated: Annotated[Optional[StrictStr], Field(description="Activated keeps only the tools activated for the caller's org and project, and only when it is exactly the string \"true\".")] = None,
         _request_timeout: Union[
@@ -415,7 +415,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_skills_serialize(
+        _param = self._get_skills_serialize(
             activated=activated,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -438,7 +438,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_v1_skills_without_preload_content(
+    def get_skills_without_preload_content(
         self,
         activated: Annotated[Optional[StrictStr], Field(description="Activated keeps only the tools activated for the caller's org and project, and only when it is exactly the string \"true\".")] = None,
         _request_timeout: Union[
@@ -482,7 +482,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_skills_serialize(
+        _param = self._get_skills_serialize(
             activated=activated,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -500,7 +500,7 @@ class SkillsApi:
         return response_data.response
 
 
-    def _get_v1_skills_serialize(
+    def _get_skills_serialize(
         self,
         activated,
         _request_auth,
@@ -566,7 +566,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_v1_skills_authored(
+    def get_skills_authored(
         self,
         _request_timeout: Union[
             None,
@@ -607,7 +607,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_skills_authored_serialize(
+        _param = self._get_skills_authored_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -629,7 +629,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_v1_skills_authored_with_http_info(
+    def get_skills_authored_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -670,7 +670,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_skills_authored_serialize(
+        _param = self._get_skills_authored_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -692,7 +692,7 @@ class SkillsApi:
 
 
     @validate_call
-    def get_v1_skills_authored_without_preload_content(
+    def get_skills_authored_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -733,7 +733,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_skills_authored_serialize(
+        _param = self._get_skills_authored_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -750,7 +750,7 @@ class SkillsApi:
         return response_data.response
 
 
-    def _get_v1_skills_authored_serialize(
+    def _get_skills_authored_serialize(
         self,
         _request_auth,
         _content_type,
@@ -811,7 +811,7 @@ class SkillsApi:
 
 
     @validate_call
-    def post_v1_skills(
+    def post_skills(
         self,
         skill_in: SkillIn,
         _request_timeout: Union[
@@ -855,7 +855,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_skills_serialize(
+        _param = self._post_skills_serialize(
             skill_in=skill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -878,7 +878,7 @@ class SkillsApi:
 
 
     @validate_call
-    def post_v1_skills_with_http_info(
+    def post_skills_with_http_info(
         self,
         skill_in: SkillIn,
         _request_timeout: Union[
@@ -922,7 +922,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_skills_serialize(
+        _param = self._post_skills_serialize(
             skill_in=skill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -945,7 +945,7 @@ class SkillsApi:
 
 
     @validate_call
-    def post_v1_skills_without_preload_content(
+    def post_skills_without_preload_content(
         self,
         skill_in: SkillIn,
         _request_timeout: Union[
@@ -989,7 +989,7 @@ class SkillsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_skills_serialize(
+        _param = self._post_skills_serialize(
             skill_in=skill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1007,7 +1007,7 @@ class SkillsApi:
         return response_data.response
 
 
-    def _post_v1_skills_serialize(
+    def _post_skills_serialize(
         self,
         skill_in,
         _request_auth,

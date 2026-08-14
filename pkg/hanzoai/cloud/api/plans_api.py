@@ -48,7 +48,7 @@ class PlansApi:
 
 
     @validate_call
-    def delete_v1_plans_entries_by_slug(
+    def delete_plans_entries_by_slug(
         self,
         slug: StrictStr,
         _request_timeout: Union[
@@ -92,7 +92,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plans_entries_by_slug_serialize(
+        _param = self._delete_plans_entries_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -114,7 +114,7 @@ class PlansApi:
 
 
     @validate_call
-    def delete_v1_plans_entries_by_slug_with_http_info(
+    def delete_plans_entries_by_slug_with_http_info(
         self,
         slug: StrictStr,
         _request_timeout: Union[
@@ -158,7 +158,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plans_entries_by_slug_serialize(
+        _param = self._delete_plans_entries_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -180,7 +180,7 @@ class PlansApi:
 
 
     @validate_call
-    def delete_v1_plans_entries_by_slug_without_preload_content(
+    def delete_plans_entries_by_slug_without_preload_content(
         self,
         slug: StrictStr,
         _request_timeout: Union[
@@ -224,7 +224,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_plans_entries_by_slug_serialize(
+        _param = self._delete_plans_entries_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -241,7 +241,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _delete_v1_plans_entries_by_slug_serialize(
+    def _delete_plans_entries_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -298,7 +298,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans(
+    def get_plans(
         self,
         _request_timeout: Union[
             None,
@@ -339,7 +339,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_serialize(
+        _param = self._get_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -361,7 +361,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_with_http_info(
+    def get_plans_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -402,7 +402,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_serialize(
+        _param = self._get_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,7 +424,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_without_preload_content(
+    def get_plans_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -465,7 +465,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_serialize(
+        _param = self._get_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -482,7 +482,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_serialize(
+    def _get_plans_serialize(
         self,
         _request_auth,
         _content_type,
@@ -543,7 +543,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_blockchain(
+    def get_plans_blockchain(
         self,
         _request_timeout: Union[
             None,
@@ -584,7 +584,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_blockchain_serialize(
+        _param = self._get_plans_blockchain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -606,7 +606,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_blockchain_with_http_info(
+    def get_plans_blockchain_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -647,7 +647,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_blockchain_serialize(
+        _param = self._get_plans_blockchain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -669,7 +669,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_blockchain_without_preload_content(
+    def get_plans_blockchain_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -710,7 +710,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_blockchain_serialize(
+        _param = self._get_plans_blockchain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -727,7 +727,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_blockchain_serialize(
+    def _get_plans_blockchain_serialize(
         self,
         _request_auth,
         _content_type,
@@ -788,7 +788,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_cloud(
+    def get_plans_cloud(
         self,
         _request_timeout: Union[
             None,
@@ -829,7 +829,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_cloud_serialize(
+        _param = self._get_plans_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -851,7 +851,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_cloud_with_http_info(
+    def get_plans_cloud_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -892,7 +892,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_cloud_serialize(
+        _param = self._get_plans_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -914,7 +914,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_cloud_without_preload_content(
+    def get_plans_cloud_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -955,7 +955,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_cloud_serialize(
+        _param = self._get_plans_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -972,7 +972,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_cloud_serialize(
+    def _get_plans_cloud_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1033,7 +1033,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_dns(
+    def get_plans_dns(
         self,
         _request_timeout: Union[
             None,
@@ -1074,7 +1074,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_dns_serialize(
+        _param = self._get_plans_dns_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1096,7 +1096,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_dns_with_http_info(
+    def get_plans_dns_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1137,7 +1137,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_dns_serialize(
+        _param = self._get_plans_dns_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1159,7 +1159,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_dns_without_preload_content(
+    def get_plans_dns_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1200,7 +1200,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_dns_serialize(
+        _param = self._get_plans_dns_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1217,7 +1217,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_dns_serialize(
+    def _get_plans_dns_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1278,7 +1278,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entitlements_by_id(
+    def get_plans_entitlements_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -1322,7 +1322,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entitlements_by_id_serialize(
+        _param = self._get_plans_entitlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1345,7 +1345,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entitlements_by_id_with_http_info(
+    def get_plans_entitlements_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -1389,7 +1389,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entitlements_by_id_serialize(
+        _param = self._get_plans_entitlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1412,7 +1412,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entitlements_by_id_without_preload_content(
+    def get_plans_entitlements_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -1456,7 +1456,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entitlements_by_id_serialize(
+        _param = self._get_plans_entitlements_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1474,7 +1474,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_entitlements_by_id_serialize(
+    def _get_plans_entitlements_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1538,7 +1538,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entries(
+    def get_plans_entries(
         self,
         _request_timeout: Union[
             None,
@@ -1579,7 +1579,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entries_serialize(
+        _param = self._get_plans_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1600,7 +1600,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entries_with_http_info(
+    def get_plans_entries_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1641,7 +1641,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entries_serialize(
+        _param = self._get_plans_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1662,7 +1662,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_entries_without_preload_content(
+    def get_plans_entries_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1703,7 +1703,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_entries_serialize(
+        _param = self._get_plans_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1719,7 +1719,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_entries_serialize(
+    def _get_plans_entries_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1773,7 +1773,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_gpu(
+    def get_plans_gpu(
         self,
         _request_timeout: Union[
             None,
@@ -1814,7 +1814,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_gpu_serialize(
+        _param = self._get_plans_gpu_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1836,7 +1836,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_gpu_with_http_info(
+    def get_plans_gpu_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1877,7 +1877,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_gpu_serialize(
+        _param = self._get_plans_gpu_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1899,7 +1899,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_gpu_without_preload_content(
+    def get_plans_gpu_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1940,7 +1940,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_gpu_serialize(
+        _param = self._get_plans_gpu_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1957,7 +1957,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_gpu_serialize(
+    def _get_plans_gpu_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2018,7 +2018,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_health(
+    def get_plans_health(
         self,
         _request_timeout: Union[
             None,
@@ -2059,7 +2059,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_health_serialize(
+        _param = self._get_plans_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2081,7 +2081,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_health_with_http_info(
+    def get_plans_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2122,7 +2122,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_health_serialize(
+        _param = self._get_plans_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2144,7 +2144,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_health_without_preload_content(
+    def get_plans_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2185,7 +2185,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_health_serialize(
+        _param = self._get_plans_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2202,7 +2202,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_health_serialize(
+    def _get_plans_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2263,7 +2263,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_policy(
+    def get_plans_policy(
         self,
         _request_timeout: Union[
             None,
@@ -2304,7 +2304,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_policy_serialize(
+        _param = self._get_plans_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2326,7 +2326,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_policy_with_http_info(
+    def get_plans_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2367,7 +2367,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_policy_serialize(
+        _param = self._get_plans_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2389,7 +2389,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_policy_without_preload_content(
+    def get_plans_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2430,7 +2430,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_policy_serialize(
+        _param = self._get_plans_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2447,7 +2447,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_policy_serialize(
+    def _get_plans_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2508,7 +2508,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_regions(
+    def get_plans_regions(
         self,
         _request_timeout: Union[
             None,
@@ -2549,7 +2549,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_regions_serialize(
+        _param = self._get_plans_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2571,7 +2571,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_regions_with_http_info(
+    def get_plans_regions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2612,7 +2612,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_regions_serialize(
+        _param = self._get_plans_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2634,7 +2634,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_regions_without_preload_content(
+    def get_plans_regions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2675,7 +2675,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_regions_serialize(
+        _param = self._get_plans_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2692,7 +2692,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_regions_serialize(
+    def _get_plans_regions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2753,7 +2753,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_resolve_by_id(
+    def get_plans_resolve_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -2797,7 +2797,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_resolve_by_id_serialize(
+        _param = self._get_plans_resolve_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2820,7 +2820,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_resolve_by_id_with_http_info(
+    def get_plans_resolve_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -2864,7 +2864,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_resolve_by_id_serialize(
+        _param = self._get_plans_resolve_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2887,7 +2887,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_resolve_by_id_without_preload_content(
+    def get_plans_resolve_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the plan's catalog id or slug — \"pro\", \"team\", \"world-enterprise\", \"rpc-growth\". Both are matched, so a slug resolves the plan it names.")],
         _request_timeout: Union[
@@ -2931,7 +2931,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_resolve_by_id_serialize(
+        _param = self._get_plans_resolve_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2949,7 +2949,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_resolve_by_id_serialize(
+    def _get_plans_resolve_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -3013,7 +3013,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_schema(
+    def get_plans_schema(
         self,
         _request_timeout: Union[
             None,
@@ -3054,7 +3054,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_schema_serialize(
+        _param = self._get_plans_schema_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3076,7 +3076,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_schema_with_http_info(
+    def get_plans_schema_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3117,7 +3117,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_schema_serialize(
+        _param = self._get_plans_schema_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3139,7 +3139,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_schema_without_preload_content(
+    def get_plans_schema_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3180,7 +3180,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_schema_serialize(
+        _param = self._get_plans_schema_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3197,7 +3197,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_schema_serialize(
+    def _get_plans_schema_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3258,7 +3258,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_storage(
+    def get_plans_storage(
         self,
         _request_timeout: Union[
             None,
@@ -3299,7 +3299,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_storage_serialize(
+        _param = self._get_plans_storage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3321,7 +3321,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_storage_with_http_info(
+    def get_plans_storage_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3362,7 +3362,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_storage_serialize(
+        _param = self._get_plans_storage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3384,7 +3384,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_storage_without_preload_content(
+    def get_plans_storage_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3425,7 +3425,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_storage_serialize(
+        _param = self._get_plans_storage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3442,7 +3442,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_storage_serialize(
+    def _get_plans_storage_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3503,7 +3503,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_subscriptions(
+    def get_plans_subscriptions(
         self,
         _request_timeout: Union[
             None,
@@ -3544,7 +3544,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_subscriptions_serialize(
+        _param = self._get_plans_subscriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3566,7 +3566,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_subscriptions_with_http_info(
+    def get_plans_subscriptions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3607,7 +3607,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_subscriptions_serialize(
+        _param = self._get_plans_subscriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3629,7 +3629,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_subscriptions_without_preload_content(
+    def get_plans_subscriptions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3670,7 +3670,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_subscriptions_serialize(
+        _param = self._get_plans_subscriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3687,7 +3687,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_subscriptions_serialize(
+    def _get_plans_subscriptions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3748,7 +3748,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_tools(
+    def get_plans_tools(
         self,
         _request_timeout: Union[
             None,
@@ -3789,7 +3789,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_tools_serialize(
+        _param = self._get_plans_tools_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3811,7 +3811,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_tools_with_http_info(
+    def get_plans_tools_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3852,7 +3852,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_tools_serialize(
+        _param = self._get_plans_tools_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3874,7 +3874,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_tools_without_preload_content(
+    def get_plans_tools_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3915,7 +3915,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_tools_serialize(
+        _param = self._get_plans_tools_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3932,7 +3932,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_tools_serialize(
+    def _get_plans_tools_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3993,7 +3993,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_vocab(
+    def get_plans_vocab(
         self,
         _request_timeout: Union[
             None,
@@ -4034,7 +4034,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_vocab_serialize(
+        _param = self._get_plans_vocab_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4056,7 +4056,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_vocab_with_http_info(
+    def get_plans_vocab_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4097,7 +4097,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_vocab_serialize(
+        _param = self._get_plans_vocab_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4119,7 +4119,7 @@ class PlansApi:
 
 
     @validate_call
-    def get_v1_plans_vocab_without_preload_content(
+    def get_plans_vocab_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4160,7 +4160,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_plans_vocab_serialize(
+        _param = self._get_plans_vocab_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4177,7 +4177,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _get_v1_plans_vocab_serialize(
+    def _get_plans_vocab_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4238,7 +4238,7 @@ class PlansApi:
 
 
     @validate_call
-    def post_v1_plans_entries(
+    def post_plans_entries(
         self,
         _request_timeout: Union[
             None,
@@ -4279,7 +4279,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plans_entries_serialize(
+        _param = self._post_plans_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4300,7 +4300,7 @@ class PlansApi:
 
 
     @validate_call
-    def post_v1_plans_entries_with_http_info(
+    def post_plans_entries_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4341,7 +4341,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plans_entries_serialize(
+        _param = self._post_plans_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4362,7 +4362,7 @@ class PlansApi:
 
 
     @validate_call
-    def post_v1_plans_entries_without_preload_content(
+    def post_plans_entries_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4403,7 +4403,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plans_entries_serialize(
+        _param = self._post_plans_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4419,7 +4419,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _post_v1_plans_entries_serialize(
+    def _post_plans_entries_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4473,7 +4473,7 @@ class PlansApi:
 
 
     @validate_call
-    def post_v1_plans_seed(
+    def post_plans_seed(
         self,
         _request_timeout: Union[
             None,
@@ -4514,7 +4514,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plans_seed_serialize(
+        _param = self._post_plans_seed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4535,7 +4535,7 @@ class PlansApi:
 
 
     @validate_call
-    def post_v1_plans_seed_with_http_info(
+    def post_plans_seed_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4576,7 +4576,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plans_seed_serialize(
+        _param = self._post_plans_seed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4597,7 +4597,7 @@ class PlansApi:
 
 
     @validate_call
-    def post_v1_plans_seed_without_preload_content(
+    def post_plans_seed_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4638,7 +4638,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_plans_seed_serialize(
+        _param = self._post_plans_seed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4654,7 +4654,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _post_v1_plans_seed_serialize(
+    def _post_plans_seed_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4708,7 +4708,7 @@ class PlansApi:
 
 
     @validate_call
-    def put_v1_plans_entries_by_slug(
+    def put_plans_entries_by_slug(
         self,
         slug: StrictStr,
         _request_timeout: Union[
@@ -4752,7 +4752,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_plans_entries_by_slug_serialize(
+        _param = self._put_plans_entries_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4774,7 +4774,7 @@ class PlansApi:
 
 
     @validate_call
-    def put_v1_plans_entries_by_slug_with_http_info(
+    def put_plans_entries_by_slug_with_http_info(
         self,
         slug: StrictStr,
         _request_timeout: Union[
@@ -4818,7 +4818,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_plans_entries_by_slug_serialize(
+        _param = self._put_plans_entries_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4840,7 +4840,7 @@ class PlansApi:
 
 
     @validate_call
-    def put_v1_plans_entries_by_slug_without_preload_content(
+    def put_plans_entries_by_slug_without_preload_content(
         self,
         slug: StrictStr,
         _request_timeout: Union[
@@ -4884,7 +4884,7 @@ class PlansApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_plans_entries_by_slug_serialize(
+        _param = self._put_plans_entries_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4901,7 +4901,7 @@ class PlansApi:
         return response_data.response
 
 
-    def _put_v1_plans_entries_by_slug_serialize(
+    def _put_plans_entries_by_slug_serialize(
         self,
         slug,
         _request_auth,

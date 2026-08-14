@@ -25,6 +25,7 @@ __all__ = [
     "AgentsApi",
     "AiApi",
     "AnalyticsApi",
+    "AppearanceApi",
     "AskApi",
     "AudioApi",
     "AuditApi",
@@ -46,6 +47,7 @@ __all__ = [
     "CaptableApi",
     "CartApi",
     "CatalogApi",
+    "ChainsApi",
     "ChannelsApi",
     "ChatApi",
     "CloudApi",
@@ -53,7 +55,6 @@ __all__ = [
     "ClustersApi",
     "CodeApi",
     "CodingApi",
-    "CollectionsApi",
     "CommandsApi",
     "CommerceApi",
     "CompanyApi",
@@ -61,7 +62,6 @@ __all__ = [
     "CompletionsApi",
     "ComplianceApi",
     "ComputeApi",
-    "ConnectorApi",
     "ConnectorsApi",
     "ContentApi",
     "CrawlApi",
@@ -104,6 +104,7 @@ __all__ = [
     "GenerateTextToSpeechAudioApi",
     "GenerateTextToSpeechAudioStreamApi",
     "GitApi",
+    "GitWebhookApi",
     "GpusApi",
     "GuideApi",
     "HealthApi",
@@ -166,6 +167,7 @@ __all__ = [
     "ResponsesApi",
     "RiskApi",
     "RouterApi",
+    "RpcApi",
     "RunApi",
     "RunnerApi",
     "S3Api",
@@ -186,11 +188,14 @@ __all__ = [
     "SyncApi",
     "TagsApi",
     "TasksApi",
+    "TaxonomyApi",
     "TeamApi",
+    "TelApi",
     "TemplatesApi",
+    "TodoApi",
+    "TokensApi",
     "ToolsApi",
     "TracesApi",
-    "TrackerApi",
     "TrafficApi",
     "TranslateApi",
     "UploadApi",
@@ -277,6 +282,7 @@ __all__ = [
     "AiMCPApp",
     "AiMCPSurface",
     "AiMetrics",
+    "AimActorStat",
     "AimEvals",
     "AimLfModelStat",
     "AimModelStat",
@@ -301,6 +307,7 @@ __all__ = [
     "ApiKey",
     "ApiKeyList",
     "AppView",
+    "Appearance",
     "Application",
     "ApplicationConfigOption",
     "ApplicationEvent",
@@ -338,7 +345,6 @@ __all__ = [
     "ArgoTree",
     "Arm",
     "Article",
-    "Artifact",
     "ArtifactOut",
     "ArtifactsOut",
     "AskAnswer",
@@ -376,6 +382,7 @@ __all__ = [
     "Backfilled",
     "BalanceLine",
     "BalanceSheet",
+    "Balances",
     "BankQuestion",
     "BankTally",
     "BankTxnRow",
@@ -437,9 +444,13 @@ __all__ = [
     "BusMessage",
     "BusPublish",
     "BusRequest",
+    "BuyInput",
     "ByoGPU",
     "ByoWorker",
     "CalendarPost",
+    "Call",
+    "CallInput",
+    "CallList",
     "Campaign",
     "CampaignInput",
     "CampaignList",
@@ -496,7 +507,12 @@ __all__ = [
     "CatalogList",
     "CatalogOut",
     "CatalogPage",
+    "Category",
+    "CategoryIn",
     "CategorySpend",
+    "Chain",
+    "ChainList",
+    "ChainStatus",
     "ChallengeView",
     "Channel",
     "ChannelAdd",
@@ -651,6 +667,7 @@ __all__ = [
     "DefRow",
     "Definition",
     "DefsOut",
+    "Deleted",
     "DeletedOut",
     "Delivery",
     "DeliveryList",
@@ -667,7 +684,6 @@ __all__ = [
     "DestinationStatus",
     "DestinationTest",
     "DevicePollOut",
-    "DeviceSignals",
     "DeviceStartIn",
     "DeviceStartOut",
     "DeviceView",
@@ -763,8 +779,6 @@ __all__ = [
     "Finding",
     "FindingList",
     "FindingView",
-    "FingerprintRequest",
-    "FingerprintResponse",
     "FlagsOut",
     "FleetBoard",
     "FleetMetrics",
@@ -799,30 +813,30 @@ __all__ = [
     "GenerateRequest",
     "GenerateResult",
     "Genesis",
-    "GetV1AiActivities200Response",
-    "GetV1AiArticles200Response",
-    "GetV1AiAssets200Response",
-    "GetV1AiChats200Response",
-    "GetV1AiDeployments200Response",
-    "GetV1AiFiles200Response",
-    "GetV1AiForms200Response",
-    "GetV1AiGraphs200Response",
-    "GetV1AiMessages200Response",
-    "GetV1AiNodes200Response",
-    "GetV1AiProviders200Response",
-    "GetV1AiRecords200Response",
-    "GetV1AiRemoteConnections200Response",
-    "GetV1AiRoutes200Response",
-    "GetV1AiScales200Response",
-    "GetV1AiScans200Response",
-    "GetV1AiSigninSessions200Response",
-    "GetV1AiStores200Response",
-    "GetV1AiTasks200Response",
-    "GetV1AiTemplates200Response",
-    "GetV1AiUsages200Response",
-    "GetV1AiVectors200Response",
-    "GetV1AiVideos200Response",
-    "GetV1AiWorkflows200Response",
+    "GetAiActivities200Response",
+    "GetAiArticles200Response",
+    "GetAiAssets200Response",
+    "GetAiChats200Response",
+    "GetAiDeployments200Response",
+    "GetAiFiles200Response",
+    "GetAiForms200Response",
+    "GetAiGraphs200Response",
+    "GetAiMessages200Response",
+    "GetAiNodes200Response",
+    "GetAiProviders200Response",
+    "GetAiRecords200Response",
+    "GetAiRemoteConnections200Response",
+    "GetAiRoutes200Response",
+    "GetAiScales200Response",
+    "GetAiScans200Response",
+    "GetAiSigninSessions200Response",
+    "GetAiStores200Response",
+    "GetAiTasks200Response",
+    "GetAiTemplates200Response",
+    "GetAiUsages200Response",
+    "GetAiVectors200Response",
+    "GetAiVideos200Response",
+    "GetAiWorkflows200Response",
     "GitOpsApp",
     "GitOpsDeploy",
     "GitOpsOperation",
@@ -935,6 +949,7 @@ __all__ = [
     "IamMfaProps",
     "IamMutationResult",
     "IamOrganization",
+    "IamPasswordBody",
     "IamPermission",
     "IamPermissionDeleteResponse",
     "IamPermissionListResponse",
@@ -1031,14 +1046,11 @@ __all__ = [
     "IssueEdit",
     "IssueHit",
     "IssueHits",
-    "IssueRequest",
-    "IssueResponse",
     "IssueView",
     "ItemList",
     "ItemReq",
     "ItemResult",
     "ItemView",
-    "JWK",
     "JobCancel",
     "JobCanceled",
     "JobList",
@@ -1080,6 +1092,22 @@ __all__ = [
     "LegalTemplate",
     "LevelSplit",
     "LevelView",
+    "LicensingDeviceSignals",
+    "LicensingFingerprintRequest",
+    "LicensingFingerprintResponse",
+    "LicensingHealthView",
+    "LicensingIssueRequest",
+    "LicensingIssueResponse",
+    "LicensingJWK",
+    "LicensingPubkeyView",
+    "LicensingRelease",
+    "LicensingReleaseAsset",
+    "LicensingReleaseList",
+    "LicensingRevocationEntry",
+    "LicensingRevokeRequest",
+    "LicensingRevokeResponse",
+    "LicensingVerifyRequest",
+    "LicensingVerifyResponse",
     "LimitsBlock",
     "LimitsView",
     "LineItem",
@@ -1115,6 +1143,8 @@ __all__ = [
     "MeshServiceList",
     "MeshView",
     "Message",
+    "MessageInput",
+    "MessageList",
     "MessagePage",
     "MetricBody",
     "MetricList",
@@ -1125,7 +1155,6 @@ __all__ = [
     "MetricsResponse",
     "MetricsView",
     "Middleware",
-    "MilestoneView",
     "MintedKey",
     "MirrorList",
     "MirrorReq",
@@ -1169,6 +1198,8 @@ __all__ = [
     "NodesView",
     "NotifyHealth",
     "NotifySend",
+    "Number",
+    "NumberList",
     "O11yAWSAccountConfig",
     "O11yAWSCloudWatchLogsSubscription",
     "O11yAWSCloudWatchMetricStreamFilter",
@@ -2042,31 +2073,31 @@ __all__ = [
     "PoolScale",
     "PopulatedFlow",
     "Position",
+    "PostAiArticles200Response",
+    "PostAiAssets200Response",
+    "PostAiChats200Response",
+    "PostAiDeployments200Response",
+    "PostAiFiles200Response",
+    "PostAiForms200Response",
+    "PostAiGraphs200Response",
+    "PostAiMessages200Response",
+    "PostAiNodes200Response",
+    "PostAiProviders200Response",
+    "PostAiRecords200Response",
+    "PostAiRemoteConnections200Response",
+    "PostAiRoutes200Response",
+    "PostAiScales200Response",
+    "PostAiScans200Response",
+    "PostAiSigninSessions200Response",
+    "PostAiStores200Response",
+    "PostAiTasks200Response",
+    "PostAiTemplates200Response",
+    "PostAiTreeFiles200Response",
+    "PostAiVectors200Response",
+    "PostAiVideos200Response",
+    "PostAiWorkflows200Response",
+    "PostEventRequest",
     "PostList",
-    "PostV1AiArticles200Response",
-    "PostV1AiAssets200Response",
-    "PostV1AiChats200Response",
-    "PostV1AiDeployments200Response",
-    "PostV1AiFiles200Response",
-    "PostV1AiForms200Response",
-    "PostV1AiGraphs200Response",
-    "PostV1AiMessages200Response",
-    "PostV1AiNodes200Response",
-    "PostV1AiProviders200Response",
-    "PostV1AiRecords200Response",
-    "PostV1AiRemoteConnections200Response",
-    "PostV1AiRoutes200Response",
-    "PostV1AiScales200Response",
-    "PostV1AiScans200Response",
-    "PostV1AiSigninSessions200Response",
-    "PostV1AiStores200Response",
-    "PostV1AiTasks200Response",
-    "PostV1AiTemplates200Response",
-    "PostV1AiTreeFiles200Response",
-    "PostV1AiVectors200Response",
-    "PostV1AiVideos200Response",
-    "PostV1AiWorkflows200Response",
-    "PostV1EventRequest",
     "Posting",
     "PrefsView",
     "Preset",
@@ -2101,6 +2132,7 @@ __all__ = [
     "ProjectsCreate",
     "ProjectsCreateRepo",
     "ProjectsDeploySite",
+    "ProjectsDeployStart",
     "ProjectsDeployment",
     "ProjectsDomain",
     "ProjectsDomains",
@@ -2141,7 +2173,6 @@ __all__ = [
     "ProvisionResult",
     "ProvisionedResource",
     "ProvisionedSummary",
-    "PubkeyView",
     "PublishInput",
     "PublishKitIn",
     "PublishReq",
@@ -2151,7 +2182,10 @@ __all__ = [
     "Purge",
     "PurgeIn",
     "PurgeOut",
+    "Push",
     "PushFile",
+    "PushPusher",
+    "PushRepository",
     "PushReq",
     "PushResp",
     "Query",
@@ -2214,9 +2248,7 @@ __all__ = [
     "RegistryStatus",
     "RegistryTagList",
     "RegistryToken",
-    "Release",
     "ReleaseBoard",
-    "ReleaseList",
     "ReleaseRow",
     "ReleaseState",
     "ReloadIn",
@@ -2252,10 +2284,7 @@ __all__ = [
     "RevenueOut",
     "ReviewQueue",
     "ReviewRequest",
-    "RevocationEntry",
-    "RevokeRequest",
     "RevokeResp",
-    "RevokeResponse",
     "RevokedKey",
     "RiskAdoptIn",
     "RiskAggregates",
@@ -2321,6 +2350,9 @@ __all__ = [
     "RoutedUsage",
     "RouterList",
     "RouterView",
+    "RpcError",
+    "RpcIn",
+    "RpcOut",
     "Rule",
     "RuleList",
     "RuleView",
@@ -2338,6 +2370,7 @@ __all__ = [
     "RunnerBuildReq",
     "RunnerBuildResp",
     "Runs",
+    "SMS",
     "SaaSCategory",
     "SaaSCustomer",
     "SaaSEvent",
@@ -2524,6 +2557,9 @@ __all__ = [
     "TargetReq",
     "TargetView",
     "Task",
+    "Taxon",
+    "TaxonIn",
+    "Taxonomy",
     "Template",
     "TemplateCatalog",
     "TemplateConfigOption",
@@ -2532,6 +2568,7 @@ __all__ = [
     "TemplateView",
     "TestResult",
     "Timeseries",
+    "TodoProject",
     "Tool",
     "ToolCall",
     "ToolList",
@@ -2543,7 +2580,6 @@ __all__ = [
     "Totals",
     "TraceList",
     "TraceView",
-    "TrackerProject",
     "TrafficCaller",
     "TrafficView",
     "TrailPage",
@@ -2575,7 +2611,7 @@ __all__ = [
     "UsageAnalyticsAccess",
     "UsageAnalyticsGrant",
     "UsageAnalyticsView",
-    "UsageByProduct",
+    "UsageByModel",
     "UsageData",
     "UsageFundingOut",
     "UsageFundingRow",
@@ -2610,7 +2646,6 @@ __all__ = [
     "VerificationTally",
     "VerifyOut",
     "VerifyRequest",
-    "VerifyResponse",
     "VersionMessage",
     "VersionMeta",
     "VersionPage",
@@ -2654,6 +2689,7 @@ from hanzoai.cloud.api.agent_api import AgentApi as AgentApi
 from hanzoai.cloud.api.agents_api import AgentsApi as AgentsApi
 from hanzoai.cloud.api.ai_api import AiApi as AiApi
 from hanzoai.cloud.api.analytics_api import AnalyticsApi as AnalyticsApi
+from hanzoai.cloud.api.appearance_api import AppearanceApi as AppearanceApi
 from hanzoai.cloud.api.ask_api import AskApi as AskApi
 from hanzoai.cloud.api.audio_api import AudioApi as AudioApi
 from hanzoai.cloud.api.audit_api import AuditApi as AuditApi
@@ -2675,6 +2711,7 @@ from hanzoai.cloud.api.campaign_api import CampaignApi as CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi as CaptableApi
 from hanzoai.cloud.api.cart_api import CartApi as CartApi
 from hanzoai.cloud.api.catalog_api import CatalogApi as CatalogApi
+from hanzoai.cloud.api.chains_api import ChainsApi as ChainsApi
 from hanzoai.cloud.api.channels_api import ChannelsApi as ChannelsApi
 from hanzoai.cloud.api.chat_api import ChatApi as ChatApi
 from hanzoai.cloud.api.cloud_api import CloudApi as CloudApi
@@ -2682,7 +2719,6 @@ from hanzoai.cloud.api.cloudflare_api import CloudflareApi as CloudflareApi
 from hanzoai.cloud.api.clusters_api import ClustersApi as ClustersApi
 from hanzoai.cloud.api.code_api import CodeApi as CodeApi
 from hanzoai.cloud.api.coding_api import CodingApi as CodingApi
-from hanzoai.cloud.api.collections_api import CollectionsApi as CollectionsApi
 from hanzoai.cloud.api.commands_api import CommandsApi as CommandsApi
 from hanzoai.cloud.api.commerce_api import CommerceApi as CommerceApi
 from hanzoai.cloud.api.company_api import CompanyApi as CompanyApi
@@ -2690,7 +2726,6 @@ from hanzoai.cloud.api.compat_api import CompatApi as CompatApi
 from hanzoai.cloud.api.completions_api import CompletionsApi as CompletionsApi
 from hanzoai.cloud.api.compliance_api import ComplianceApi as ComplianceApi
 from hanzoai.cloud.api.compute_api import ComputeApi as ComputeApi
-from hanzoai.cloud.api.connector_api import ConnectorApi as ConnectorApi
 from hanzoai.cloud.api.connectors_api import ConnectorsApi as ConnectorsApi
 from hanzoai.cloud.api.content_api import ContentApi as ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi as CrawlApi
@@ -2733,6 +2768,7 @@ from hanzoai.cloud.api.gateway_api import GatewayApi as GatewayApi
 from hanzoai.cloud.api.generate_text_to_speech_audio_api import GenerateTextToSpeechAudioApi as GenerateTextToSpeechAudioApi
 from hanzoai.cloud.api.generate_text_to_speech_audio_stream_api import GenerateTextToSpeechAudioStreamApi as GenerateTextToSpeechAudioStreamApi
 from hanzoai.cloud.api.git_api import GitApi as GitApi
+from hanzoai.cloud.api.git_webhook_api import GitWebhookApi as GitWebhookApi
 from hanzoai.cloud.api.gpus_api import GpusApi as GpusApi
 from hanzoai.cloud.api.guide_api import GuideApi as GuideApi
 from hanzoai.cloud.api.health_api import HealthApi as HealthApi
@@ -2795,6 +2831,7 @@ from hanzoai.cloud.api.research_api import ResearchApi as ResearchApi
 from hanzoai.cloud.api.responses_api import ResponsesApi as ResponsesApi
 from hanzoai.cloud.api.risk_api import RiskApi as RiskApi
 from hanzoai.cloud.api.router_api import RouterApi as RouterApi
+from hanzoai.cloud.api.rpc_api import RpcApi as RpcApi
 from hanzoai.cloud.api.run_api import RunApi as RunApi
 from hanzoai.cloud.api.runner_api import RunnerApi as RunnerApi
 from hanzoai.cloud.api.s3_api import S3Api as S3Api
@@ -2815,11 +2852,14 @@ from hanzoai.cloud.api.summary_api import SummaryApi as SummaryApi
 from hanzoai.cloud.api.sync_api import SyncApi as SyncApi
 from hanzoai.cloud.api.tags_api import TagsApi as TagsApi
 from hanzoai.cloud.api.tasks_api import TasksApi as TasksApi
+from hanzoai.cloud.api.taxonomy_api import TaxonomyApi as TaxonomyApi
 from hanzoai.cloud.api.team_api import TeamApi as TeamApi
+from hanzoai.cloud.api.tel_api import TelApi as TelApi
 from hanzoai.cloud.api.templates_api import TemplatesApi as TemplatesApi
+from hanzoai.cloud.api.todo_api import TodoApi as TodoApi
+from hanzoai.cloud.api.tokens_api import TokensApi as TokensApi
 from hanzoai.cloud.api.tools_api import ToolsApi as ToolsApi
 from hanzoai.cloud.api.traces_api import TracesApi as TracesApi
-from hanzoai.cloud.api.tracker_api import TrackerApi as TrackerApi
 from hanzoai.cloud.api.traffic_api import TrafficApi as TrafficApi
 from hanzoai.cloud.api.translate_api import TranslateApi as TranslateApi
 from hanzoai.cloud.api.upload_api import UploadApi as UploadApi
@@ -2910,6 +2950,7 @@ from hanzoai.cloud.models.agent_view import AgentView as AgentView
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp as AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface as AiMCPSurface
 from hanzoai.cloud.models.ai_metrics import AiMetrics as AiMetrics
+from hanzoai.cloud.models.aim_actor_stat import AimActorStat as AimActorStat
 from hanzoai.cloud.models.aim_evals import AimEvals as AimEvals
 from hanzoai.cloud.models.aim_lf_model_stat import AimLfModelStat as AimLfModelStat
 from hanzoai.cloud.models.aim_model_stat import AimModelStat as AimModelStat
@@ -2934,6 +2975,7 @@ from hanzoai.cloud.models.answer import Answer as Answer
 from hanzoai.cloud.models.api_key import ApiKey as ApiKey
 from hanzoai.cloud.models.api_key_list import ApiKeyList as ApiKeyList
 from hanzoai.cloud.models.app_view import AppView as AppView
+from hanzoai.cloud.models.appearance import Appearance as Appearance
 from hanzoai.cloud.models.application import Application as Application
 from hanzoai.cloud.models.application_config_option import ApplicationConfigOption as ApplicationConfigOption
 from hanzoai.cloud.models.application_event import ApplicationEvent as ApplicationEvent
@@ -2971,7 +3013,6 @@ from hanzoai.cloud.models.argo_sync_windows import ArgoSyncWindows as ArgoSyncWi
 from hanzoai.cloud.models.argo_tree import ArgoTree as ArgoTree
 from hanzoai.cloud.models.arm import Arm as Arm
 from hanzoai.cloud.models.article import Article as Article
-from hanzoai.cloud.models.artifact import Artifact as Artifact
 from hanzoai.cloud.models.artifact_out import ArtifactOut as ArtifactOut
 from hanzoai.cloud.models.artifacts_out import ArtifactsOut as ArtifactsOut
 from hanzoai.cloud.models.ask_answer import AskAnswer as AskAnswer
@@ -3009,6 +3050,7 @@ from hanzoai.cloud.models.backfill_result import BackfillResult as BackfillResul
 from hanzoai.cloud.models.backfilled import Backfilled as Backfilled
 from hanzoai.cloud.models.balance_line import BalanceLine as BalanceLine
 from hanzoai.cloud.models.balance_sheet import BalanceSheet as BalanceSheet
+from hanzoai.cloud.models.balances import Balances as Balances
 from hanzoai.cloud.models.bank_question import BankQuestion as BankQuestion
 from hanzoai.cloud.models.bank_tally import BankTally as BankTally
 from hanzoai.cloud.models.bank_txn_row import BankTxnRow as BankTxnRow
@@ -3070,9 +3112,13 @@ from hanzoai.cloud.models.bus_ack import BusAck as BusAck
 from hanzoai.cloud.models.bus_message import BusMessage as BusMessage
 from hanzoai.cloud.models.bus_publish import BusPublish as BusPublish
 from hanzoai.cloud.models.bus_request import BusRequest as BusRequest
+from hanzoai.cloud.models.buy_input import BuyInput as BuyInput
 from hanzoai.cloud.models.byo_gpu import ByoGPU as ByoGPU
 from hanzoai.cloud.models.byo_worker import ByoWorker as ByoWorker
 from hanzoai.cloud.models.calendar_post import CalendarPost as CalendarPost
+from hanzoai.cloud.models.call import Call as Call
+from hanzoai.cloud.models.call_input import CallInput as CallInput
+from hanzoai.cloud.models.call_list import CallList as CallList
 from hanzoai.cloud.models.campaign import Campaign as Campaign
 from hanzoai.cloud.models.campaign_input import CampaignInput as CampaignInput
 from hanzoai.cloud.models.campaign_list import CampaignList as CampaignList
@@ -3129,7 +3175,12 @@ from hanzoai.cloud.models.catalog_entry import CatalogEntry as CatalogEntry
 from hanzoai.cloud.models.catalog_list import CatalogList as CatalogList
 from hanzoai.cloud.models.catalog_out import CatalogOut as CatalogOut
 from hanzoai.cloud.models.catalog_page import CatalogPage as CatalogPage
+from hanzoai.cloud.models.category import Category as Category
+from hanzoai.cloud.models.category_in import CategoryIn as CategoryIn
 from hanzoai.cloud.models.category_spend import CategorySpend as CategorySpend
+from hanzoai.cloud.models.chain import Chain as Chain
+from hanzoai.cloud.models.chain_list import ChainList as ChainList
+from hanzoai.cloud.models.chain_status import ChainStatus as ChainStatus
 from hanzoai.cloud.models.challenge_view import ChallengeView as ChallengeView
 from hanzoai.cloud.models.channel import Channel as Channel
 from hanzoai.cloud.models.channel_add import ChannelAdd as ChannelAdd
@@ -3284,6 +3335,7 @@ from hanzoai.cloud.models.deck_out import DeckOut as DeckOut
 from hanzoai.cloud.models.def_row import DefRow as DefRow
 from hanzoai.cloud.models.definition import Definition as Definition
 from hanzoai.cloud.models.defs_out import DefsOut as DefsOut
+from hanzoai.cloud.models.deleted import Deleted as Deleted
 from hanzoai.cloud.models.deleted_out import DeletedOut as DeletedOut
 from hanzoai.cloud.models.delivery import Delivery as Delivery
 from hanzoai.cloud.models.delivery_list import DeliveryList as DeliveryList
@@ -3300,7 +3352,6 @@ from hanzoai.cloud.models.destination_list import DestinationList as Destination
 from hanzoai.cloud.models.destination_status import DestinationStatus as DestinationStatus
 from hanzoai.cloud.models.destination_test import DestinationTest as DestinationTest
 from hanzoai.cloud.models.device_poll_out import DevicePollOut as DevicePollOut
-from hanzoai.cloud.models.device_signals import DeviceSignals as DeviceSignals
 from hanzoai.cloud.models.device_start_in import DeviceStartIn as DeviceStartIn
 from hanzoai.cloud.models.device_start_out import DeviceStartOut as DeviceStartOut
 from hanzoai.cloud.models.device_view import DeviceView as DeviceView
@@ -3396,8 +3447,6 @@ from hanzoai.cloud.models.financial_package import FinancialPackage as Financial
 from hanzoai.cloud.models.finding import Finding as Finding
 from hanzoai.cloud.models.finding_list import FindingList as FindingList
 from hanzoai.cloud.models.finding_view import FindingView as FindingView
-from hanzoai.cloud.models.fingerprint_request import FingerprintRequest as FingerprintRequest
-from hanzoai.cloud.models.fingerprint_response import FingerprintResponse as FingerprintResponse
 from hanzoai.cloud.models.flags_out import FlagsOut as FlagsOut
 from hanzoai.cloud.models.fleet_board import FleetBoard as FleetBoard
 from hanzoai.cloud.models.fleet_metrics import FleetMetrics as FleetMetrics
@@ -3432,30 +3481,30 @@ from hanzoai.cloud.models.generate_input import GenerateInput as GenerateInput
 from hanzoai.cloud.models.generate_request import GenerateRequest as GenerateRequest
 from hanzoai.cloud.models.generate_result import GenerateResult as GenerateResult
 from hanzoai.cloud.models.genesis import Genesis as Genesis
-from hanzoai.cloud.models.get_v1_ai_activities200_response import GetV1AiActivities200Response as GetV1AiActivities200Response
-from hanzoai.cloud.models.get_v1_ai_articles200_response import GetV1AiArticles200Response as GetV1AiArticles200Response
-from hanzoai.cloud.models.get_v1_ai_assets200_response import GetV1AiAssets200Response as GetV1AiAssets200Response
-from hanzoai.cloud.models.get_v1_ai_chats200_response import GetV1AiChats200Response as GetV1AiChats200Response
-from hanzoai.cloud.models.get_v1_ai_deployments200_response import GetV1AiDeployments200Response as GetV1AiDeployments200Response
-from hanzoai.cloud.models.get_v1_ai_files200_response import GetV1AiFiles200Response as GetV1AiFiles200Response
-from hanzoai.cloud.models.get_v1_ai_forms200_response import GetV1AiForms200Response as GetV1AiForms200Response
-from hanzoai.cloud.models.get_v1_ai_graphs200_response import GetV1AiGraphs200Response as GetV1AiGraphs200Response
-from hanzoai.cloud.models.get_v1_ai_messages200_response import GetV1AiMessages200Response as GetV1AiMessages200Response
-from hanzoai.cloud.models.get_v1_ai_nodes200_response import GetV1AiNodes200Response as GetV1AiNodes200Response
-from hanzoai.cloud.models.get_v1_ai_providers200_response import GetV1AiProviders200Response as GetV1AiProviders200Response
-from hanzoai.cloud.models.get_v1_ai_records200_response import GetV1AiRecords200Response as GetV1AiRecords200Response
-from hanzoai.cloud.models.get_v1_ai_remote_connections200_response import GetV1AiRemoteConnections200Response as GetV1AiRemoteConnections200Response
-from hanzoai.cloud.models.get_v1_ai_routes200_response import GetV1AiRoutes200Response as GetV1AiRoutes200Response
-from hanzoai.cloud.models.get_v1_ai_scales200_response import GetV1AiScales200Response as GetV1AiScales200Response
-from hanzoai.cloud.models.get_v1_ai_scans200_response import GetV1AiScans200Response as GetV1AiScans200Response
-from hanzoai.cloud.models.get_v1_ai_signin_sessions200_response import GetV1AiSigninSessions200Response as GetV1AiSigninSessions200Response
-from hanzoai.cloud.models.get_v1_ai_stores200_response import GetV1AiStores200Response as GetV1AiStores200Response
-from hanzoai.cloud.models.get_v1_ai_tasks200_response import GetV1AiTasks200Response as GetV1AiTasks200Response
-from hanzoai.cloud.models.get_v1_ai_templates200_response import GetV1AiTemplates200Response as GetV1AiTemplates200Response
-from hanzoai.cloud.models.get_v1_ai_usages200_response import GetV1AiUsages200Response as GetV1AiUsages200Response
-from hanzoai.cloud.models.get_v1_ai_vectors200_response import GetV1AiVectors200Response as GetV1AiVectors200Response
-from hanzoai.cloud.models.get_v1_ai_videos200_response import GetV1AiVideos200Response as GetV1AiVideos200Response
-from hanzoai.cloud.models.get_v1_ai_workflows200_response import GetV1AiWorkflows200Response as GetV1AiWorkflows200Response
+from hanzoai.cloud.models.get_ai_activities200_response import GetAiActivities200Response as GetAiActivities200Response
+from hanzoai.cloud.models.get_ai_articles200_response import GetAiArticles200Response as GetAiArticles200Response
+from hanzoai.cloud.models.get_ai_assets200_response import GetAiAssets200Response as GetAiAssets200Response
+from hanzoai.cloud.models.get_ai_chats200_response import GetAiChats200Response as GetAiChats200Response
+from hanzoai.cloud.models.get_ai_deployments200_response import GetAiDeployments200Response as GetAiDeployments200Response
+from hanzoai.cloud.models.get_ai_files200_response import GetAiFiles200Response as GetAiFiles200Response
+from hanzoai.cloud.models.get_ai_forms200_response import GetAiForms200Response as GetAiForms200Response
+from hanzoai.cloud.models.get_ai_graphs200_response import GetAiGraphs200Response as GetAiGraphs200Response
+from hanzoai.cloud.models.get_ai_messages200_response import GetAiMessages200Response as GetAiMessages200Response
+from hanzoai.cloud.models.get_ai_nodes200_response import GetAiNodes200Response as GetAiNodes200Response
+from hanzoai.cloud.models.get_ai_providers200_response import GetAiProviders200Response as GetAiProviders200Response
+from hanzoai.cloud.models.get_ai_records200_response import GetAiRecords200Response as GetAiRecords200Response
+from hanzoai.cloud.models.get_ai_remote_connections200_response import GetAiRemoteConnections200Response as GetAiRemoteConnections200Response
+from hanzoai.cloud.models.get_ai_routes200_response import GetAiRoutes200Response as GetAiRoutes200Response
+from hanzoai.cloud.models.get_ai_scales200_response import GetAiScales200Response as GetAiScales200Response
+from hanzoai.cloud.models.get_ai_scans200_response import GetAiScans200Response as GetAiScans200Response
+from hanzoai.cloud.models.get_ai_signin_sessions200_response import GetAiSigninSessions200Response as GetAiSigninSessions200Response
+from hanzoai.cloud.models.get_ai_stores200_response import GetAiStores200Response as GetAiStores200Response
+from hanzoai.cloud.models.get_ai_tasks200_response import GetAiTasks200Response as GetAiTasks200Response
+from hanzoai.cloud.models.get_ai_templates200_response import GetAiTemplates200Response as GetAiTemplates200Response
+from hanzoai.cloud.models.get_ai_usages200_response import GetAiUsages200Response as GetAiUsages200Response
+from hanzoai.cloud.models.get_ai_vectors200_response import GetAiVectors200Response as GetAiVectors200Response
+from hanzoai.cloud.models.get_ai_videos200_response import GetAiVideos200Response as GetAiVideos200Response
+from hanzoai.cloud.models.get_ai_workflows200_response import GetAiWorkflows200Response as GetAiWorkflows200Response
 from hanzoai.cloud.models.git_ops_app import GitOpsApp as GitOpsApp
 from hanzoai.cloud.models.git_ops_deploy import GitOpsDeploy as GitOpsDeploy
 from hanzoai.cloud.models.git_ops_operation import GitOpsOperation as GitOpsOperation
@@ -3568,6 +3617,7 @@ from hanzoai.cloud.models.iam_mfa_item import IamMfaItem as IamMfaItem
 from hanzoai.cloud.models.iam_mfa_props import IamMfaProps as IamMfaProps
 from hanzoai.cloud.models.iam_mutation_result import IamMutationResult as IamMutationResult
 from hanzoai.cloud.models.iam_organization import IamOrganization as IamOrganization
+from hanzoai.cloud.models.iam_password_body import IamPasswordBody as IamPasswordBody
 from hanzoai.cloud.models.iam_permission import IamPermission as IamPermission
 from hanzoai.cloud.models.iam_permission_delete_response import IamPermissionDeleteResponse as IamPermissionDeleteResponse
 from hanzoai.cloud.models.iam_permission_list_response import IamPermissionListResponse as IamPermissionListResponse
@@ -3664,14 +3714,11 @@ from hanzoai.cloud.models.invoke_req import InvokeReq as InvokeReq
 from hanzoai.cloud.models.issue_edit import IssueEdit as IssueEdit
 from hanzoai.cloud.models.issue_hit import IssueHit as IssueHit
 from hanzoai.cloud.models.issue_hits import IssueHits as IssueHits
-from hanzoai.cloud.models.issue_request import IssueRequest as IssueRequest
-from hanzoai.cloud.models.issue_response import IssueResponse as IssueResponse
 from hanzoai.cloud.models.issue_view import IssueView as IssueView
 from hanzoai.cloud.models.item_list import ItemList as ItemList
 from hanzoai.cloud.models.item_req import ItemReq as ItemReq
 from hanzoai.cloud.models.item_result import ItemResult as ItemResult
 from hanzoai.cloud.models.item_view import ItemView as ItemView
-from hanzoai.cloud.models.jwk import JWK as JWK
 from hanzoai.cloud.models.job_cancel import JobCancel as JobCancel
 from hanzoai.cloud.models.job_canceled import JobCanceled as JobCanceled
 from hanzoai.cloud.models.job_list import JobList as JobList
@@ -3713,6 +3760,22 @@ from hanzoai.cloud.models.legal_signer import LegalSigner as LegalSigner
 from hanzoai.cloud.models.legal_template import LegalTemplate as LegalTemplate
 from hanzoai.cloud.models.level_split import LevelSplit as LevelSplit
 from hanzoai.cloud.models.level_view import LevelView as LevelView
+from hanzoai.cloud.models.licensing_device_signals import LicensingDeviceSignals as LicensingDeviceSignals
+from hanzoai.cloud.models.licensing_fingerprint_request import LicensingFingerprintRequest as LicensingFingerprintRequest
+from hanzoai.cloud.models.licensing_fingerprint_response import LicensingFingerprintResponse as LicensingFingerprintResponse
+from hanzoai.cloud.models.licensing_health_view import LicensingHealthView as LicensingHealthView
+from hanzoai.cloud.models.licensing_issue_request import LicensingIssueRequest as LicensingIssueRequest
+from hanzoai.cloud.models.licensing_issue_response import LicensingIssueResponse as LicensingIssueResponse
+from hanzoai.cloud.models.licensing_jwk import LicensingJWK as LicensingJWK
+from hanzoai.cloud.models.licensing_pubkey_view import LicensingPubkeyView as LicensingPubkeyView
+from hanzoai.cloud.models.licensing_release import LicensingRelease as LicensingRelease
+from hanzoai.cloud.models.licensing_release_asset import LicensingReleaseAsset as LicensingReleaseAsset
+from hanzoai.cloud.models.licensing_release_list import LicensingReleaseList as LicensingReleaseList
+from hanzoai.cloud.models.licensing_revocation_entry import LicensingRevocationEntry as LicensingRevocationEntry
+from hanzoai.cloud.models.licensing_revoke_request import LicensingRevokeRequest as LicensingRevokeRequest
+from hanzoai.cloud.models.licensing_revoke_response import LicensingRevokeResponse as LicensingRevokeResponse
+from hanzoai.cloud.models.licensing_verify_request import LicensingVerifyRequest as LicensingVerifyRequest
+from hanzoai.cloud.models.licensing_verify_response import LicensingVerifyResponse as LicensingVerifyResponse
 from hanzoai.cloud.models.limits_block import LimitsBlock as LimitsBlock
 from hanzoai.cloud.models.limits_view import LimitsView as LimitsView
 from hanzoai.cloud.models.line_item import LineItem as LineItem
@@ -3748,6 +3811,8 @@ from hanzoai.cloud.models.memory_page import MemoryPage as MemoryPage
 from hanzoai.cloud.models.mesh_service_list import MeshServiceList as MeshServiceList
 from hanzoai.cloud.models.mesh_view import MeshView as MeshView
 from hanzoai.cloud.models.message import Message as Message
+from hanzoai.cloud.models.message_input import MessageInput as MessageInput
+from hanzoai.cloud.models.message_list import MessageList as MessageList
 from hanzoai.cloud.models.message_page import MessagePage as MessagePage
 from hanzoai.cloud.models.metric_body import MetricBody as MetricBody
 from hanzoai.cloud.models.metric_list import MetricList as MetricList
@@ -3758,7 +3823,6 @@ from hanzoai.cloud.models.metrics_out import MetricsOut as MetricsOut
 from hanzoai.cloud.models.metrics_response import MetricsResponse as MetricsResponse
 from hanzoai.cloud.models.metrics_view import MetricsView as MetricsView
 from hanzoai.cloud.models.middleware import Middleware as Middleware
-from hanzoai.cloud.models.milestone_view import MilestoneView as MilestoneView
 from hanzoai.cloud.models.minted_key import MintedKey as MintedKey
 from hanzoai.cloud.models.mirror_list import MirrorList as MirrorList
 from hanzoai.cloud.models.mirror_req import MirrorReq as MirrorReq
@@ -3802,6 +3866,8 @@ from hanzoai.cloud.models.node_view import NodeView as NodeView
 from hanzoai.cloud.models.nodes_view import NodesView as NodesView
 from hanzoai.cloud.models.notify_health import NotifyHealth as NotifyHealth
 from hanzoai.cloud.models.notify_send import NotifySend as NotifySend
+from hanzoai.cloud.models.number import Number as Number
+from hanzoai.cloud.models.number_list import NumberList as NumberList
 from hanzoai.cloud.models.o11y_aws_account_config import O11yAWSAccountConfig as O11yAWSAccountConfig
 from hanzoai.cloud.models.o11y_aws_cloud_watch_logs_subscription import O11yAWSCloudWatchLogsSubscription as O11yAWSCloudWatchLogsSubscription
 from hanzoai.cloud.models.o11y_aws_cloud_watch_metric_stream_filter import O11yAWSCloudWatchMetricStreamFilter as O11yAWSCloudWatchMetricStreamFilter
@@ -4675,31 +4741,31 @@ from hanzoai.cloud.models.pool_create import PoolCreate as PoolCreate
 from hanzoai.cloud.models.pool_scale import PoolScale as PoolScale
 from hanzoai.cloud.models.populated_flow import PopulatedFlow as PopulatedFlow
 from hanzoai.cloud.models.position import Position as Position
+from hanzoai.cloud.models.post_ai_articles200_response import PostAiArticles200Response as PostAiArticles200Response
+from hanzoai.cloud.models.post_ai_assets200_response import PostAiAssets200Response as PostAiAssets200Response
+from hanzoai.cloud.models.post_ai_chats200_response import PostAiChats200Response as PostAiChats200Response
+from hanzoai.cloud.models.post_ai_deployments200_response import PostAiDeployments200Response as PostAiDeployments200Response
+from hanzoai.cloud.models.post_ai_files200_response import PostAiFiles200Response as PostAiFiles200Response
+from hanzoai.cloud.models.post_ai_forms200_response import PostAiForms200Response as PostAiForms200Response
+from hanzoai.cloud.models.post_ai_graphs200_response import PostAiGraphs200Response as PostAiGraphs200Response
+from hanzoai.cloud.models.post_ai_messages200_response import PostAiMessages200Response as PostAiMessages200Response
+from hanzoai.cloud.models.post_ai_nodes200_response import PostAiNodes200Response as PostAiNodes200Response
+from hanzoai.cloud.models.post_ai_providers200_response import PostAiProviders200Response as PostAiProviders200Response
+from hanzoai.cloud.models.post_ai_records200_response import PostAiRecords200Response as PostAiRecords200Response
+from hanzoai.cloud.models.post_ai_remote_connections200_response import PostAiRemoteConnections200Response as PostAiRemoteConnections200Response
+from hanzoai.cloud.models.post_ai_routes200_response import PostAiRoutes200Response as PostAiRoutes200Response
+from hanzoai.cloud.models.post_ai_scales200_response import PostAiScales200Response as PostAiScales200Response
+from hanzoai.cloud.models.post_ai_scans200_response import PostAiScans200Response as PostAiScans200Response
+from hanzoai.cloud.models.post_ai_signin_sessions200_response import PostAiSigninSessions200Response as PostAiSigninSessions200Response
+from hanzoai.cloud.models.post_ai_stores200_response import PostAiStores200Response as PostAiStores200Response
+from hanzoai.cloud.models.post_ai_tasks200_response import PostAiTasks200Response as PostAiTasks200Response
+from hanzoai.cloud.models.post_ai_templates200_response import PostAiTemplates200Response as PostAiTemplates200Response
+from hanzoai.cloud.models.post_ai_tree_files200_response import PostAiTreeFiles200Response as PostAiTreeFiles200Response
+from hanzoai.cloud.models.post_ai_vectors200_response import PostAiVectors200Response as PostAiVectors200Response
+from hanzoai.cloud.models.post_ai_videos200_response import PostAiVideos200Response as PostAiVideos200Response
+from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows200Response as PostAiWorkflows200Response
+from hanzoai.cloud.models.post_event_request import PostEventRequest as PostEventRequest
 from hanzoai.cloud.models.post_list import PostList as PostList
-from hanzoai.cloud.models.post_v1_ai_articles200_response import PostV1AiArticles200Response as PostV1AiArticles200Response
-from hanzoai.cloud.models.post_v1_ai_assets200_response import PostV1AiAssets200Response as PostV1AiAssets200Response
-from hanzoai.cloud.models.post_v1_ai_chats200_response import PostV1AiChats200Response as PostV1AiChats200Response
-from hanzoai.cloud.models.post_v1_ai_deployments200_response import PostV1AiDeployments200Response as PostV1AiDeployments200Response
-from hanzoai.cloud.models.post_v1_ai_files200_response import PostV1AiFiles200Response as PostV1AiFiles200Response
-from hanzoai.cloud.models.post_v1_ai_forms200_response import PostV1AiForms200Response as PostV1AiForms200Response
-from hanzoai.cloud.models.post_v1_ai_graphs200_response import PostV1AiGraphs200Response as PostV1AiGraphs200Response
-from hanzoai.cloud.models.post_v1_ai_messages200_response import PostV1AiMessages200Response as PostV1AiMessages200Response
-from hanzoai.cloud.models.post_v1_ai_nodes200_response import PostV1AiNodes200Response as PostV1AiNodes200Response
-from hanzoai.cloud.models.post_v1_ai_providers200_response import PostV1AiProviders200Response as PostV1AiProviders200Response
-from hanzoai.cloud.models.post_v1_ai_records200_response import PostV1AiRecords200Response as PostV1AiRecords200Response
-from hanzoai.cloud.models.post_v1_ai_remote_connections200_response import PostV1AiRemoteConnections200Response as PostV1AiRemoteConnections200Response
-from hanzoai.cloud.models.post_v1_ai_routes200_response import PostV1AiRoutes200Response as PostV1AiRoutes200Response
-from hanzoai.cloud.models.post_v1_ai_scales200_response import PostV1AiScales200Response as PostV1AiScales200Response
-from hanzoai.cloud.models.post_v1_ai_scans200_response import PostV1AiScans200Response as PostV1AiScans200Response
-from hanzoai.cloud.models.post_v1_ai_signin_sessions200_response import PostV1AiSigninSessions200Response as PostV1AiSigninSessions200Response
-from hanzoai.cloud.models.post_v1_ai_stores200_response import PostV1AiStores200Response as PostV1AiStores200Response
-from hanzoai.cloud.models.post_v1_ai_tasks200_response import PostV1AiTasks200Response as PostV1AiTasks200Response
-from hanzoai.cloud.models.post_v1_ai_templates200_response import PostV1AiTemplates200Response as PostV1AiTemplates200Response
-from hanzoai.cloud.models.post_v1_ai_tree_files200_response import PostV1AiTreeFiles200Response as PostV1AiTreeFiles200Response
-from hanzoai.cloud.models.post_v1_ai_vectors200_response import PostV1AiVectors200Response as PostV1AiVectors200Response
-from hanzoai.cloud.models.post_v1_ai_videos200_response import PostV1AiVideos200Response as PostV1AiVideos200Response
-from hanzoai.cloud.models.post_v1_ai_workflows200_response import PostV1AiWorkflows200Response as PostV1AiWorkflows200Response
-from hanzoai.cloud.models.post_v1_event_request import PostV1EventRequest as PostV1EventRequest
 from hanzoai.cloud.models.posting import Posting as Posting
 from hanzoai.cloud.models.prefs_view import PrefsView as PrefsView
 from hanzoai.cloud.models.preset import Preset as Preset
@@ -4734,6 +4800,7 @@ from hanzoai.cloud.models.projects_complete import ProjectsComplete as ProjectsC
 from hanzoai.cloud.models.projects_create import ProjectsCreate as ProjectsCreate
 from hanzoai.cloud.models.projects_create_repo import ProjectsCreateRepo as ProjectsCreateRepo
 from hanzoai.cloud.models.projects_deploy_site import ProjectsDeploySite as ProjectsDeploySite
+from hanzoai.cloud.models.projects_deploy_start import ProjectsDeployStart as ProjectsDeployStart
 from hanzoai.cloud.models.projects_deployment import ProjectsDeployment as ProjectsDeployment
 from hanzoai.cloud.models.projects_domain import ProjectsDomain as ProjectsDomain
 from hanzoai.cloud.models.projects_domains import ProjectsDomains as ProjectsDomains
@@ -4774,7 +4841,6 @@ from hanzoai.cloud.models.provision_request import ProvisionRequest as Provision
 from hanzoai.cloud.models.provision_result import ProvisionResult as ProvisionResult
 from hanzoai.cloud.models.provisioned_resource import ProvisionedResource as ProvisionedResource
 from hanzoai.cloud.models.provisioned_summary import ProvisionedSummary as ProvisionedSummary
-from hanzoai.cloud.models.pubkey_view import PubkeyView as PubkeyView
 from hanzoai.cloud.models.publish_input import PublishInput as PublishInput
 from hanzoai.cloud.models.publish_kit_in import PublishKitIn as PublishKitIn
 from hanzoai.cloud.models.publish_req import PublishReq as PublishReq
@@ -4784,7 +4850,10 @@ from hanzoai.cloud.models.pull_view import PullView as PullView
 from hanzoai.cloud.models.purge import Purge as Purge
 from hanzoai.cloud.models.purge_in import PurgeIn as PurgeIn
 from hanzoai.cloud.models.purge_out import PurgeOut as PurgeOut
+from hanzoai.cloud.models.push import Push as Push
 from hanzoai.cloud.models.push_file import PushFile as PushFile
+from hanzoai.cloud.models.push_pusher import PushPusher as PushPusher
+from hanzoai.cloud.models.push_repository import PushRepository as PushRepository
 from hanzoai.cloud.models.push_req import PushReq as PushReq
 from hanzoai.cloud.models.push_resp import PushResp as PushResp
 from hanzoai.cloud.models.query import Query as Query
@@ -4847,9 +4916,7 @@ from hanzoai.cloud.models.registry_project_list import RegistryProjectList as Re
 from hanzoai.cloud.models.registry_status import RegistryStatus as RegistryStatus
 from hanzoai.cloud.models.registry_tag_list import RegistryTagList as RegistryTagList
 from hanzoai.cloud.models.registry_token import RegistryToken as RegistryToken
-from hanzoai.cloud.models.release import Release as Release
 from hanzoai.cloud.models.release_board import ReleaseBoard as ReleaseBoard
-from hanzoai.cloud.models.release_list import ReleaseList as ReleaseList
 from hanzoai.cloud.models.release_row import ReleaseRow as ReleaseRow
 from hanzoai.cloud.models.release_state import ReleaseState as ReleaseState
 from hanzoai.cloud.models.reload_in import ReloadIn as ReloadIn
@@ -4885,10 +4952,7 @@ from hanzoai.cloud.models.revenue_data import RevenueData as RevenueData
 from hanzoai.cloud.models.revenue_out import RevenueOut as RevenueOut
 from hanzoai.cloud.models.review_queue import ReviewQueue as ReviewQueue
 from hanzoai.cloud.models.review_request import ReviewRequest as ReviewRequest
-from hanzoai.cloud.models.revocation_entry import RevocationEntry as RevocationEntry
-from hanzoai.cloud.models.revoke_request import RevokeRequest as RevokeRequest
 from hanzoai.cloud.models.revoke_resp import RevokeResp as RevokeResp
-from hanzoai.cloud.models.revoke_response import RevokeResponse as RevokeResponse
 from hanzoai.cloud.models.revoked_key import RevokedKey as RevokedKey
 from hanzoai.cloud.models.risk_adopt_in import RiskAdoptIn as RiskAdoptIn
 from hanzoai.cloud.models.risk_aggregates import RiskAggregates as RiskAggregates
@@ -4954,6 +5018,9 @@ from hanzoai.cloud.models.routed_run_out import RoutedRunOut as RoutedRunOut
 from hanzoai.cloud.models.routed_usage import RoutedUsage as RoutedUsage
 from hanzoai.cloud.models.router_list import RouterList as RouterList
 from hanzoai.cloud.models.router_view import RouterView as RouterView
+from hanzoai.cloud.models.rpc_error import RpcError as RpcError
+from hanzoai.cloud.models.rpc_in import RpcIn as RpcIn
+from hanzoai.cloud.models.rpc_out import RpcOut as RpcOut
 from hanzoai.cloud.models.rule import Rule as Rule
 from hanzoai.cloud.models.rule_list import RuleList as RuleList
 from hanzoai.cloud.models.rule_view import RuleView as RuleView
@@ -4971,6 +5038,7 @@ from hanzoai.cloud.models.run_view import RunView as RunView
 from hanzoai.cloud.models.runner_build_req import RunnerBuildReq as RunnerBuildReq
 from hanzoai.cloud.models.runner_build_resp import RunnerBuildResp as RunnerBuildResp
 from hanzoai.cloud.models.runs import Runs as Runs
+from hanzoai.cloud.models.sms import SMS as SMS
 from hanzoai.cloud.models.saa_s_category import SaaSCategory as SaaSCategory
 from hanzoai.cloud.models.saa_s_customer import SaaSCustomer as SaaSCustomer
 from hanzoai.cloud.models.saa_s_event import SaaSEvent as SaaSEvent
@@ -5157,6 +5225,9 @@ from hanzoai.cloud.models.target_list import TargetList as TargetList
 from hanzoai.cloud.models.target_req import TargetReq as TargetReq
 from hanzoai.cloud.models.target_view import TargetView as TargetView
 from hanzoai.cloud.models.task import Task as Task
+from hanzoai.cloud.models.taxon import Taxon as Taxon
+from hanzoai.cloud.models.taxon_in import TaxonIn as TaxonIn
+from hanzoai.cloud.models.taxonomy import Taxonomy as Taxonomy
 from hanzoai.cloud.models.template import Template as Template
 from hanzoai.cloud.models.template_catalog import TemplateCatalog as TemplateCatalog
 from hanzoai.cloud.models.template_config_option import TemplateConfigOption as TemplateConfigOption
@@ -5165,6 +5236,7 @@ from hanzoai.cloud.models.template_reply import TemplateReply as TemplateReply
 from hanzoai.cloud.models.template_view import TemplateView as TemplateView
 from hanzoai.cloud.models.test_result import TestResult as TestResult
 from hanzoai.cloud.models.timeseries import Timeseries as Timeseries
+from hanzoai.cloud.models.todo_project import TodoProject as TodoProject
 from hanzoai.cloud.models.tool import Tool as Tool
 from hanzoai.cloud.models.tool_call import ToolCall as ToolCall
 from hanzoai.cloud.models.tool_list import ToolList as ToolList
@@ -5176,7 +5248,6 @@ from hanzoai.cloud.models.total_view import TotalView as TotalView
 from hanzoai.cloud.models.totals import Totals as Totals
 from hanzoai.cloud.models.trace_list import TraceList as TraceList
 from hanzoai.cloud.models.trace_view import TraceView as TraceView
-from hanzoai.cloud.models.tracker_project import TrackerProject as TrackerProject
 from hanzoai.cloud.models.traffic_caller import TrafficCaller as TrafficCaller
 from hanzoai.cloud.models.traffic_view import TrafficView as TrafficView
 from hanzoai.cloud.models.trail_page import TrailPage as TrailPage
@@ -5208,7 +5279,7 @@ from hanzoai.cloud.models.usage import Usage as Usage
 from hanzoai.cloud.models.usage_analytics_access import UsageAnalyticsAccess as UsageAnalyticsAccess
 from hanzoai.cloud.models.usage_analytics_grant import UsageAnalyticsGrant as UsageAnalyticsGrant
 from hanzoai.cloud.models.usage_analytics_view import UsageAnalyticsView as UsageAnalyticsView
-from hanzoai.cloud.models.usage_by_product import UsageByProduct as UsageByProduct
+from hanzoai.cloud.models.usage_by_model import UsageByModel as UsageByModel
 from hanzoai.cloud.models.usage_data import UsageData as UsageData
 from hanzoai.cloud.models.usage_funding_out import UsageFundingOut as UsageFundingOut
 from hanzoai.cloud.models.usage_funding_row import UsageFundingRow as UsageFundingRow
@@ -5243,7 +5314,6 @@ from hanzoai.cloud.models.verification_req import VerificationReq as Verificatio
 from hanzoai.cloud.models.verification_tally import VerificationTally as VerificationTally
 from hanzoai.cloud.models.verify_out import VerifyOut as VerifyOut
 from hanzoai.cloud.models.verify_request import VerifyRequest as VerifyRequest
-from hanzoai.cloud.models.verify_response import VerifyResponse as VerifyResponse
 from hanzoai.cloud.models.version_message import VersionMessage as VersionMessage
 from hanzoai.cloud.models.version_meta import VersionMeta as VersionMeta
 from hanzoai.cloud.models.version_page import VersionPage as VersionPage

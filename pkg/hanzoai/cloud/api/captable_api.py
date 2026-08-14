@@ -56,7 +56,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_convertibles_by_id(
+    def delete_captable_convertibles_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the convertible note to delete.")],
         _request_timeout: Union[
@@ -100,7 +100,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_convertibles_by_id_serialize(
+        _param = self._delete_captable_convertibles_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -123,7 +123,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_convertibles_by_id_with_http_info(
+    def delete_captable_convertibles_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the convertible note to delete.")],
         _request_timeout: Union[
@@ -167,7 +167,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_convertibles_by_id_serialize(
+        _param = self._delete_captable_convertibles_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -190,7 +190,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_convertibles_by_id_without_preload_content(
+    def delete_captable_convertibles_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the convertible note to delete.")],
         _request_timeout: Union[
@@ -234,7 +234,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_convertibles_by_id_serialize(
+        _param = self._delete_captable_convertibles_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -252,7 +252,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _delete_v1_captable_convertibles_by_id_serialize(
+    def _delete_captable_convertibles_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -316,7 +316,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_options_by_id(
+    def delete_captable_options_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the option grant to delete.")],
         _request_timeout: Union[
@@ -360,7 +360,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_options_by_id_serialize(
+        _param = self._delete_captable_options_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -383,7 +383,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_options_by_id_with_http_info(
+    def delete_captable_options_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the option grant to delete.")],
         _request_timeout: Union[
@@ -427,7 +427,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_options_by_id_serialize(
+        _param = self._delete_captable_options_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -450,7 +450,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_options_by_id_without_preload_content(
+    def delete_captable_options_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the option grant to delete.")],
         _request_timeout: Union[
@@ -494,7 +494,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_options_by_id_serialize(
+        _param = self._delete_captable_options_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -512,7 +512,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _delete_v1_captable_options_by_id_serialize(
+    def _delete_captable_options_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -576,7 +576,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_safes_by_id(
+    def delete_captable_safes_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the SAFE to delete.")],
         _request_timeout: Union[
@@ -620,7 +620,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_safes_by_id_serialize(
+        _param = self._delete_captable_safes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -643,7 +643,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_safes_by_id_with_http_info(
+    def delete_captable_safes_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the SAFE to delete.")],
         _request_timeout: Union[
@@ -687,7 +687,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_safes_by_id_serialize(
+        _param = self._delete_captable_safes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -710,7 +710,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_safes_by_id_without_preload_content(
+    def delete_captable_safes_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the SAFE to delete.")],
         _request_timeout: Union[
@@ -754,7 +754,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_safes_by_id_serialize(
+        _param = self._delete_captable_safes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -772,7 +772,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _delete_v1_captable_safes_by_id_serialize(
+    def _delete_captable_safes_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -836,7 +836,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_shares_by_id(
+    def delete_captable_shares_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the share certificate to delete.")],
         _request_timeout: Union[
@@ -880,7 +880,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_shares_by_id_serialize(
+        _param = self._delete_captable_shares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -903,7 +903,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_shares_by_id_with_http_info(
+    def delete_captable_shares_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the share certificate to delete.")],
         _request_timeout: Union[
@@ -947,7 +947,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_shares_by_id_serialize(
+        _param = self._delete_captable_shares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -970,7 +970,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_shares_by_id_without_preload_content(
+    def delete_captable_shares_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the share certificate to delete.")],
         _request_timeout: Union[
@@ -1014,7 +1014,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_shares_by_id_serialize(
+        _param = self._delete_captable_shares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1032,7 +1032,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _delete_v1_captable_shares_by_id_serialize(
+    def _delete_captable_shares_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1096,7 +1096,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_stakeholders_by_id(
+    def delete_captable_stakeholders_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to delete.")],
         _request_timeout: Union[
@@ -1140,7 +1140,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_stakeholders_by_id_serialize(
+        _param = self._delete_captable_stakeholders_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1163,7 +1163,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_stakeholders_by_id_with_http_info(
+    def delete_captable_stakeholders_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to delete.")],
         _request_timeout: Union[
@@ -1207,7 +1207,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_stakeholders_by_id_serialize(
+        _param = self._delete_captable_stakeholders_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1230,7 +1230,7 @@ class CaptableApi:
 
 
     @validate_call
-    def delete_v1_captable_stakeholders_by_id_without_preload_content(
+    def delete_captable_stakeholders_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to delete.")],
         _request_timeout: Union[
@@ -1274,7 +1274,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_captable_stakeholders_by_id_serialize(
+        _param = self._delete_captable_stakeholders_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1292,7 +1292,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _delete_v1_captable_stakeholders_by_id_serialize(
+    def _delete_captable_stakeholders_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1356,7 +1356,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_classes(
+    def get_captable_classes(
         self,
         _request_timeout: Union[
             None,
@@ -1397,7 +1397,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_classes_serialize(
+        _param = self._get_captable_classes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1419,7 +1419,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_classes_with_http_info(
+    def get_captable_classes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1460,7 +1460,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_classes_serialize(
+        _param = self._get_captable_classes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1482,7 +1482,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_classes_without_preload_content(
+    def get_captable_classes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1523,7 +1523,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_classes_serialize(
+        _param = self._get_captable_classes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1540,7 +1540,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_classes_serialize(
+    def _get_captable_classes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1601,7 +1601,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_company(
+    def get_captable_company(
         self,
         _request_timeout: Union[
             None,
@@ -1642,7 +1642,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_company_serialize(
+        _param = self._get_captable_company_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1664,7 +1664,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_company_with_http_info(
+    def get_captable_company_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1705,7 +1705,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_company_serialize(
+        _param = self._get_captable_company_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1727,7 +1727,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_company_without_preload_content(
+    def get_captable_company_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1768,7 +1768,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_company_serialize(
+        _param = self._get_captable_company_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1785,7 +1785,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_company_serialize(
+    def _get_captable_company_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1846,7 +1846,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_convertibles(
+    def get_captable_convertibles(
         self,
         _request_timeout: Union[
             None,
@@ -1887,7 +1887,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_convertibles_serialize(
+        _param = self._get_captable_convertibles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1909,7 +1909,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_convertibles_with_http_info(
+    def get_captable_convertibles_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1950,7 +1950,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_convertibles_serialize(
+        _param = self._get_captable_convertibles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1972,7 +1972,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_convertibles_without_preload_content(
+    def get_captable_convertibles_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2013,7 +2013,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_convertibles_serialize(
+        _param = self._get_captable_convertibles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2030,7 +2030,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_convertibles_serialize(
+    def _get_captable_convertibles_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2091,7 +2091,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_investments(
+    def get_captable_investments(
         self,
         _request_timeout: Union[
             None,
@@ -2132,7 +2132,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_investments_serialize(
+        _param = self._get_captable_investments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2154,7 +2154,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_investments_with_http_info(
+    def get_captable_investments_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2195,7 +2195,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_investments_serialize(
+        _param = self._get_captable_investments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2217,7 +2217,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_investments_without_preload_content(
+    def get_captable_investments_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2258,7 +2258,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_investments_serialize(
+        _param = self._get_captable_investments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2275,7 +2275,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_investments_serialize(
+    def _get_captable_investments_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2336,7 +2336,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_options(
+    def get_captable_options(
         self,
         _request_timeout: Union[
             None,
@@ -2377,7 +2377,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_options_serialize(
+        _param = self._get_captable_options_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2399,7 +2399,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_options_with_http_info(
+    def get_captable_options_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2440,7 +2440,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_options_serialize(
+        _param = self._get_captable_options_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2462,7 +2462,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_options_without_preload_content(
+    def get_captable_options_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2503,7 +2503,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_options_serialize(
+        _param = self._get_captable_options_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2520,7 +2520,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_options_serialize(
+    def _get_captable_options_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2581,7 +2581,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_plans(
+    def get_captable_plans(
         self,
         _request_timeout: Union[
             None,
@@ -2622,7 +2622,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_plans_serialize(
+        _param = self._get_captable_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2644,7 +2644,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_plans_with_http_info(
+    def get_captable_plans_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2685,7 +2685,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_plans_serialize(
+        _param = self._get_captable_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2707,7 +2707,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_plans_without_preload_content(
+    def get_captable_plans_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2748,7 +2748,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_plans_serialize(
+        _param = self._get_captable_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2765,7 +2765,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_plans_serialize(
+    def _get_captable_plans_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2826,7 +2826,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_rounds(
+    def get_captable_rounds(
         self,
         _request_timeout: Union[
             None,
@@ -2867,7 +2867,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_rounds_serialize(
+        _param = self._get_captable_rounds_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2889,7 +2889,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_rounds_with_http_info(
+    def get_captable_rounds_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2930,7 +2930,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_rounds_serialize(
+        _param = self._get_captable_rounds_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2952,7 +2952,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_rounds_without_preload_content(
+    def get_captable_rounds_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2993,7 +2993,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_rounds_serialize(
+        _param = self._get_captable_rounds_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3010,7 +3010,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_rounds_serialize(
+    def _get_captable_rounds_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3071,7 +3071,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_rounds_by_id(
+    def get_captable_rounds_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -3115,7 +3115,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_rounds_by_id_serialize(
+        _param = self._get_captable_rounds_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3138,7 +3138,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_rounds_by_id_with_http_info(
+    def get_captable_rounds_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -3182,7 +3182,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_rounds_by_id_serialize(
+        _param = self._get_captable_rounds_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3205,7 +3205,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_rounds_by_id_without_preload_content(
+    def get_captable_rounds_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to read. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         _request_timeout: Union[
@@ -3249,7 +3249,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_rounds_by_id_serialize(
+        _param = self._get_captable_rounds_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3267,7 +3267,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_rounds_by_id_serialize(
+    def _get_captable_rounds_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -3331,7 +3331,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_safes(
+    def get_captable_safes(
         self,
         _request_timeout: Union[
             None,
@@ -3372,7 +3372,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_safes_serialize(
+        _param = self._get_captable_safes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3394,7 +3394,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_safes_with_http_info(
+    def get_captable_safes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3435,7 +3435,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_safes_serialize(
+        _param = self._get_captable_safes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3457,7 +3457,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_safes_without_preload_content(
+    def get_captable_safes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3498,7 +3498,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_safes_serialize(
+        _param = self._get_captable_safes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3515,7 +3515,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_safes_serialize(
+    def _get_captable_safes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3576,7 +3576,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_shares(
+    def get_captable_shares(
         self,
         _request_timeout: Union[
             None,
@@ -3617,7 +3617,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_shares_serialize(
+        _param = self._get_captable_shares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3639,7 +3639,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_shares_with_http_info(
+    def get_captable_shares_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3680,7 +3680,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_shares_serialize(
+        _param = self._get_captable_shares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3702,7 +3702,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_shares_without_preload_content(
+    def get_captable_shares_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3743,7 +3743,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_shares_serialize(
+        _param = self._get_captable_shares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3760,7 +3760,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_shares_serialize(
+    def _get_captable_shares_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3821,7 +3821,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_stakeholders(
+    def get_captable_stakeholders(
         self,
         _request_timeout: Union[
             None,
@@ -3862,7 +3862,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_stakeholders_serialize(
+        _param = self._get_captable_stakeholders_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3884,7 +3884,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_stakeholders_with_http_info(
+    def get_captable_stakeholders_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3925,7 +3925,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_stakeholders_serialize(
+        _param = self._get_captable_stakeholders_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3947,7 +3947,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_stakeholders_without_preload_content(
+    def get_captable_stakeholders_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3988,7 +3988,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_stakeholders_serialize(
+        _param = self._get_captable_stakeholders_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4005,7 +4005,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_stakeholders_serialize(
+    def _get_captable_stakeholders_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4066,7 +4066,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_summary(
+    def get_captable_summary(
         self,
         _request_timeout: Union[
             None,
@@ -4107,7 +4107,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_summary_serialize(
+        _param = self._get_captable_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4129,7 +4129,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_summary_with_http_info(
+    def get_captable_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4170,7 +4170,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_summary_serialize(
+        _param = self._get_captable_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4192,7 +4192,7 @@ class CaptableApi:
 
 
     @validate_call
-    def get_v1_captable_summary_without_preload_content(
+    def get_captable_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4233,7 +4233,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_captable_summary_serialize(
+        _param = self._get_captable_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4250,7 +4250,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _get_v1_captable_summary_serialize(
+    def _get_captable_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4311,7 +4311,7 @@ class CaptableApi:
 
 
     @validate_call
-    def patch_v1_captable_classes_by_id(
+    def patch_captable_classes_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4355,7 +4355,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_captable_classes_by_id_serialize(
+        _param = self._patch_captable_classes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4377,7 +4377,7 @@ class CaptableApi:
 
 
     @validate_call
-    def patch_v1_captable_classes_by_id_with_http_info(
+    def patch_captable_classes_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4421,7 +4421,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_captable_classes_by_id_serialize(
+        _param = self._patch_captable_classes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4443,7 +4443,7 @@ class CaptableApi:
 
 
     @validate_call
-    def patch_v1_captable_classes_by_id_without_preload_content(
+    def patch_captable_classes_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4487,7 +4487,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_captable_classes_by_id_serialize(
+        _param = self._patch_captable_classes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4504,7 +4504,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _patch_v1_captable_classes_by_id_serialize(
+    def _patch_captable_classes_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -4561,7 +4561,7 @@ class CaptableApi:
 
 
     @validate_call
-    def patch_v1_captable_stakeholders_by_id(
+    def patch_captable_stakeholders_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         captable_stakeholder_patch: CaptableStakeholderPatch,
@@ -4608,7 +4608,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_captable_stakeholders_by_id_serialize(
+        _param = self._patch_captable_stakeholders_by_id_serialize(
             id=id,
             captable_stakeholder_patch=captable_stakeholder_patch,
             _request_auth=_request_auth,
@@ -4632,7 +4632,7 @@ class CaptableApi:
 
 
     @validate_call
-    def patch_v1_captable_stakeholders_by_id_with_http_info(
+    def patch_captable_stakeholders_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         captable_stakeholder_patch: CaptableStakeholderPatch,
@@ -4679,7 +4679,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_captable_stakeholders_by_id_serialize(
+        _param = self._patch_captable_stakeholders_by_id_serialize(
             id=id,
             captable_stakeholder_patch=captable_stakeholder_patch,
             _request_auth=_request_auth,
@@ -4703,7 +4703,7 @@ class CaptableApi:
 
 
     @validate_call
-    def patch_v1_captable_stakeholders_by_id_without_preload_content(
+    def patch_captable_stakeholders_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         captable_stakeholder_patch: CaptableStakeholderPatch,
@@ -4750,7 +4750,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_captable_stakeholders_by_id_serialize(
+        _param = self._patch_captable_stakeholders_by_id_serialize(
             id=id,
             captable_stakeholder_patch=captable_stakeholder_patch,
             _request_auth=_request_auth,
@@ -4769,7 +4769,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _patch_v1_captable_stakeholders_by_id_serialize(
+    def _patch_captable_stakeholders_by_id_serialize(
         self,
         id,
         captable_stakeholder_patch,
@@ -4849,7 +4849,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_classes(
+    def post_captable_classes(
         self,
         _request_timeout: Union[
             None,
@@ -4890,7 +4890,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_classes_serialize(
+        _param = self._post_captable_classes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4911,7 +4911,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_classes_with_http_info(
+    def post_captable_classes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4952,7 +4952,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_classes_serialize(
+        _param = self._post_captable_classes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4973,7 +4973,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_classes_without_preload_content(
+    def post_captable_classes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5014,7 +5014,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_classes_serialize(
+        _param = self._post_captable_classes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5030,7 +5030,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_classes_serialize(
+    def _post_captable_classes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5084,7 +5084,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_convertibles(
+    def post_captable_convertibles(
         self,
         _request_timeout: Union[
             None,
@@ -5125,7 +5125,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_convertibles_serialize(
+        _param = self._post_captable_convertibles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5146,7 +5146,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_convertibles_with_http_info(
+    def post_captable_convertibles_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5187,7 +5187,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_convertibles_serialize(
+        _param = self._post_captable_convertibles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5208,7 +5208,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_convertibles_without_preload_content(
+    def post_captable_convertibles_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5249,7 +5249,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_convertibles_serialize(
+        _param = self._post_captable_convertibles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5265,7 +5265,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_convertibles_serialize(
+    def _post_captable_convertibles_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5319,7 +5319,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_options(
+    def post_captable_options(
         self,
         _request_timeout: Union[
             None,
@@ -5360,7 +5360,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_options_serialize(
+        _param = self._post_captable_options_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5381,7 +5381,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_options_with_http_info(
+    def post_captable_options_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5422,7 +5422,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_options_serialize(
+        _param = self._post_captable_options_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5443,7 +5443,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_options_without_preload_content(
+    def post_captable_options_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5484,7 +5484,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_options_serialize(
+        _param = self._post_captable_options_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5500,7 +5500,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_options_serialize(
+    def _post_captable_options_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5554,7 +5554,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_plans(
+    def post_captable_plans(
         self,
         _request_timeout: Union[
             None,
@@ -5595,7 +5595,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_plans_serialize(
+        _param = self._post_captable_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5616,7 +5616,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_plans_with_http_info(
+    def post_captable_plans_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5657,7 +5657,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_plans_serialize(
+        _param = self._post_captable_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5678,7 +5678,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_plans_without_preload_content(
+    def post_captable_plans_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5719,7 +5719,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_plans_serialize(
+        _param = self._post_captable_plans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5735,7 +5735,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_plans_serialize(
+    def _post_captable_plans_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5789,7 +5789,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds(
+    def post_captable_rounds(
         self,
         _request_timeout: Union[
             None,
@@ -5830,7 +5830,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_serialize(
+        _param = self._post_captable_rounds_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5851,7 +5851,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_with_http_info(
+    def post_captable_rounds_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5892,7 +5892,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_serialize(
+        _param = self._post_captable_rounds_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5913,7 +5913,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_without_preload_content(
+    def post_captable_rounds_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5954,7 +5954,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_serialize(
+        _param = self._post_captable_rounds_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5970,7 +5970,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_rounds_serialize(
+    def _post_captable_rounds_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6024,7 +6024,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_by_id_close(
+    def post_captable_rounds_by_id_close(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         captable_round_close_request: CaptableRoundCloseRequest,
@@ -6071,7 +6071,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_by_id_close_serialize(
+        _param = self._post_captable_rounds_by_id_close_serialize(
             id=id,
             captable_round_close_request=captable_round_close_request,
             _request_auth=_request_auth,
@@ -6095,7 +6095,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_by_id_close_with_http_info(
+    def post_captable_rounds_by_id_close_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         captable_round_close_request: CaptableRoundCloseRequest,
@@ -6142,7 +6142,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_by_id_close_serialize(
+        _param = self._post_captable_rounds_by_id_close_serialize(
             id=id,
             captable_round_close_request=captable_round_close_request,
             _request_auth=_request_auth,
@@ -6166,7 +6166,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_by_id_close_without_preload_content(
+    def post_captable_rounds_by_id_close_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
         captable_round_close_request: CaptableRoundCloseRequest,
@@ -6213,7 +6213,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_by_id_close_serialize(
+        _param = self._post_captable_rounds_by_id_close_serialize(
             id=id,
             captable_round_close_request=captable_round_close_request,
             _request_auth=_request_auth,
@@ -6232,7 +6232,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_rounds_by_id_close_serialize(
+    def _post_captable_rounds_by_id_close_serialize(
         self,
         id,
         captable_round_close_request,
@@ -6312,7 +6312,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_by_id_investments(
+    def post_captable_rounds_by_id_investments(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6356,7 +6356,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_by_id_investments_serialize(
+        _param = self._post_captable_rounds_by_id_investments_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6378,7 +6378,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_by_id_investments_with_http_info(
+    def post_captable_rounds_by_id_investments_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6422,7 +6422,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_by_id_investments_serialize(
+        _param = self._post_captable_rounds_by_id_investments_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6444,7 +6444,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_rounds_by_id_investments_without_preload_content(
+    def post_captable_rounds_by_id_investments_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6488,7 +6488,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_rounds_by_id_investments_serialize(
+        _param = self._post_captable_rounds_by_id_investments_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6505,7 +6505,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_rounds_by_id_investments_serialize(
+    def _post_captable_rounds_by_id_investments_serialize(
         self,
         id,
         _request_auth,
@@ -6562,7 +6562,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_safes(
+    def post_captable_safes(
         self,
         _request_timeout: Union[
             None,
@@ -6603,7 +6603,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_safes_serialize(
+        _param = self._post_captable_safes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6624,7 +6624,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_safes_with_http_info(
+    def post_captable_safes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6665,7 +6665,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_safes_serialize(
+        _param = self._post_captable_safes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6686,7 +6686,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_safes_without_preload_content(
+    def post_captable_safes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6727,7 +6727,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_safes_serialize(
+        _param = self._post_captable_safes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6743,7 +6743,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_safes_serialize(
+    def _post_captable_safes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6797,7 +6797,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_shares(
+    def post_captable_shares(
         self,
         _request_timeout: Union[
             None,
@@ -6838,7 +6838,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_shares_serialize(
+        _param = self._post_captable_shares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6859,7 +6859,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_shares_with_http_info(
+    def post_captable_shares_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6900,7 +6900,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_shares_serialize(
+        _param = self._post_captable_shares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6921,7 +6921,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_shares_without_preload_content(
+    def post_captable_shares_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6962,7 +6962,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_shares_serialize(
+        _param = self._post_captable_shares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6978,7 +6978,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_shares_serialize(
+    def _post_captable_shares_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7032,7 +7032,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_shares_transfer(
+    def post_captable_shares_transfer(
         self,
         _request_timeout: Union[
             None,
@@ -7073,7 +7073,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_shares_transfer_serialize(
+        _param = self._post_captable_shares_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7094,7 +7094,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_shares_transfer_with_http_info(
+    def post_captable_shares_transfer_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7135,7 +7135,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_shares_transfer_serialize(
+        _param = self._post_captable_shares_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7156,7 +7156,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_shares_transfer_without_preload_content(
+    def post_captable_shares_transfer_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7197,7 +7197,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_shares_transfer_serialize(
+        _param = self._post_captable_shares_transfer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7213,7 +7213,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_shares_transfer_serialize(
+    def _post_captable_shares_transfer_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7267,7 +7267,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_stakeholders(
+    def post_captable_stakeholders(
         self,
         _request_timeout: Union[
             None,
@@ -7308,7 +7308,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_stakeholders_serialize(
+        _param = self._post_captable_stakeholders_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7329,7 +7329,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_stakeholders_with_http_info(
+    def post_captable_stakeholders_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7370,7 +7370,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_stakeholders_serialize(
+        _param = self._post_captable_stakeholders_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7391,7 +7391,7 @@ class CaptableApi:
 
 
     @validate_call
-    def post_v1_captable_stakeholders_without_preload_content(
+    def post_captable_stakeholders_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7432,7 +7432,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_captable_stakeholders_serialize(
+        _param = self._post_captable_stakeholders_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7448,7 +7448,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _post_v1_captable_stakeholders_serialize(
+    def _post_captable_stakeholders_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7502,7 +7502,7 @@ class CaptableApi:
 
 
     @validate_call
-    def put_v1_captable_company(
+    def put_captable_company(
         self,
         captable_company_update: CaptableCompanyUpdate,
         _request_timeout: Union[
@@ -7546,7 +7546,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_captable_company_serialize(
+        _param = self._put_captable_company_serialize(
             captable_company_update=captable_company_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7569,7 +7569,7 @@ class CaptableApi:
 
 
     @validate_call
-    def put_v1_captable_company_with_http_info(
+    def put_captable_company_with_http_info(
         self,
         captable_company_update: CaptableCompanyUpdate,
         _request_timeout: Union[
@@ -7613,7 +7613,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_captable_company_serialize(
+        _param = self._put_captable_company_serialize(
             captable_company_update=captable_company_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7636,7 +7636,7 @@ class CaptableApi:
 
 
     @validate_call
-    def put_v1_captable_company_without_preload_content(
+    def put_captable_company_without_preload_content(
         self,
         captable_company_update: CaptableCompanyUpdate,
         _request_timeout: Union[
@@ -7680,7 +7680,7 @@ class CaptableApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_captable_company_serialize(
+        _param = self._put_captable_company_serialize(
             captable_company_update=captable_company_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7698,7 +7698,7 @@ class CaptableApi:
         return response_data.response
 
 
-    def _put_v1_captable_company_serialize(
+    def _put_captable_company_serialize(
         self,
         captable_company_update,
         _request_auth,

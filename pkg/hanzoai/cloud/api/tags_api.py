@@ -37,7 +37,7 @@ class TagsApi:
 
 
     @validate_call
-    def get_v1_tags(
+    def get_tags(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class TagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tags_serialize(
+        _param = self._get_tags_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +100,7 @@ class TagsApi:
 
 
     @validate_call
-    def get_v1_tags_with_http_info(
+    def get_tags_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -141,7 +141,7 @@ class TagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tags_serialize(
+        _param = self._get_tags_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -163,7 +163,7 @@ class TagsApi:
 
 
     @validate_call
-    def get_v1_tags_without_preload_content(
+    def get_tags_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -204,7 +204,7 @@ class TagsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tags_serialize(
+        _param = self._get_tags_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -221,7 +221,7 @@ class TagsApi:
         return response_data.response
 
 
-    def _get_v1_tags_serialize(
+    def _get_tags_serialize(
         self,
         _request_auth,
         _content_type,

@@ -50,7 +50,7 @@ class GuideApi:
 
 
     @validate_call
-    def delete_v1_guide_curriculum(
+    def delete_guide_curriculum(
         self,
         _request_timeout: Union[
             None,
@@ -91,7 +91,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_guide_curriculum_serialize(
+        _param = self._delete_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -113,7 +113,7 @@ class GuideApi:
 
 
     @validate_call
-    def delete_v1_guide_curriculum_with_http_info(
+    def delete_guide_curriculum_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -154,7 +154,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_guide_curriculum_serialize(
+        _param = self._delete_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -176,7 +176,7 @@ class GuideApi:
 
 
     @validate_call
-    def delete_v1_guide_curriculum_without_preload_content(
+    def delete_guide_curriculum_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -217,7 +217,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_guide_curriculum_serialize(
+        _param = self._delete_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -234,7 +234,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _delete_v1_guide_curriculum_serialize(
+    def _delete_guide_curriculum_serialize(
         self,
         _request_auth,
         _content_type,
@@ -295,7 +295,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide(
+    def get_guide(
         self,
         _request_timeout: Union[
             None,
@@ -336,7 +336,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_serialize(
+        _param = self._get_guide_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -358,7 +358,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_with_http_info(
+    def get_guide_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -399,7 +399,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_serialize(
+        _param = self._get_guide_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -421,7 +421,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_without_preload_content(
+    def get_guide_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -462,7 +462,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_serialize(
+        _param = self._get_guide_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -479,7 +479,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_serialize(
+    def _get_guide_serialize(
         self,
         _request_auth,
         _content_type,
@@ -540,7 +540,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_actions(
+    def get_guide_actions(
         self,
         _request_timeout: Union[
             None,
@@ -581,7 +581,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_actions_serialize(
+        _param = self._get_guide_actions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -603,7 +603,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_actions_with_http_info(
+    def get_guide_actions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -644,7 +644,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_actions_serialize(
+        _param = self._get_guide_actions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -666,7 +666,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_actions_without_preload_content(
+    def get_guide_actions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -707,7 +707,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_actions_serialize(
+        _param = self._get_guide_actions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -724,7 +724,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_actions_serialize(
+    def _get_guide_actions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -785,7 +785,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_analytics(
+    def get_guide_analytics(
         self,
         _request_timeout: Union[
             None,
@@ -826,7 +826,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_analytics_serialize(
+        _param = self._get_guide_analytics_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -848,7 +848,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_analytics_with_http_info(
+    def get_guide_analytics_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -889,7 +889,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_analytics_serialize(
+        _param = self._get_guide_analytics_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -911,7 +911,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_analytics_without_preload_content(
+    def get_guide_analytics_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -952,7 +952,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_analytics_serialize(
+        _param = self._get_guide_analytics_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -969,7 +969,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_analytics_serialize(
+    def _get_guide_analytics_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1030,7 +1030,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_blueprint(
+    def get_guide_blueprint(
         self,
         _request_timeout: Union[
             None,
@@ -1071,7 +1071,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_blueprint_serialize(
+        _param = self._get_guide_blueprint_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1093,7 +1093,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_blueprint_with_http_info(
+    def get_guide_blueprint_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1134,7 +1134,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_blueprint_serialize(
+        _param = self._get_guide_blueprint_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1156,7 +1156,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_blueprint_without_preload_content(
+    def get_guide_blueprint_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1197,7 +1197,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_blueprint_serialize(
+        _param = self._get_guide_blueprint_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1214,7 +1214,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_blueprint_serialize(
+    def _get_guide_blueprint_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1275,7 +1275,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_blueprint_versions(
+    def get_guide_blueprint_versions(
         self,
         _request_timeout: Union[
             None,
@@ -1316,7 +1316,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_blueprint_versions_serialize(
+        _param = self._get_guide_blueprint_versions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1338,7 +1338,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_blueprint_versions_with_http_info(
+    def get_guide_blueprint_versions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1379,7 +1379,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_blueprint_versions_serialize(
+        _param = self._get_guide_blueprint_versions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1401,7 +1401,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_blueprint_versions_without_preload_content(
+    def get_guide_blueprint_versions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1442,7 +1442,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_blueprint_versions_serialize(
+        _param = self._get_guide_blueprint_versions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1459,7 +1459,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_blueprint_versions_serialize(
+    def _get_guide_blueprint_versions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1520,7 +1520,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_curriculum(
+    def get_guide_curriculum(
         self,
         _request_timeout: Union[
             None,
@@ -1561,7 +1561,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_curriculum_serialize(
+        _param = self._get_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1583,7 +1583,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_curriculum_with_http_info(
+    def get_guide_curriculum_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1624,7 +1624,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_curriculum_serialize(
+        _param = self._get_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1646,7 +1646,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_curriculum_without_preload_content(
+    def get_guide_curriculum_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1687,7 +1687,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_curriculum_serialize(
+        _param = self._get_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1704,7 +1704,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_curriculum_serialize(
+    def _get_guide_curriculum_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1765,7 +1765,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_profile(
+    def get_guide_profile(
         self,
         _request_timeout: Union[
             None,
@@ -1806,7 +1806,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_profile_serialize(
+        _param = self._get_guide_profile_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1828,7 +1828,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_profile_with_http_info(
+    def get_guide_profile_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1869,7 +1869,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_profile_serialize(
+        _param = self._get_guide_profile_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1891,7 +1891,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_profile_without_preload_content(
+    def get_guide_profile_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1932,7 +1932,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_profile_serialize(
+        _param = self._get_guide_profile_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1949,7 +1949,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_profile_serialize(
+    def _get_guide_profile_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2010,7 +2010,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_strategies(
+    def get_guide_strategies(
         self,
         category: Annotated[Optional[StrictStr], Field(description="Category filters to tactics in exactly this category.")] = None,
         stage: Annotated[Optional[StrictStr], Field(description="Stage previews the corpus at a chosen growth stage (research|formed|launched|activated|scaling), overriding the org's observed one. An unknown value is ignored and the observed stage stands.")] = None,
@@ -2060,7 +2060,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_strategies_serialize(
+        _param = self._get_guide_strategies_serialize(
             category=category,
             stage=stage,
             workload=workload,
@@ -2085,7 +2085,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_strategies_with_http_info(
+    def get_guide_strategies_with_http_info(
         self,
         category: Annotated[Optional[StrictStr], Field(description="Category filters to tactics in exactly this category.")] = None,
         stage: Annotated[Optional[StrictStr], Field(description="Stage previews the corpus at a chosen growth stage (research|formed|launched|activated|scaling), overriding the org's observed one. An unknown value is ignored and the observed stage stands.")] = None,
@@ -2135,7 +2135,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_strategies_serialize(
+        _param = self._get_guide_strategies_serialize(
             category=category,
             stage=stage,
             workload=workload,
@@ -2160,7 +2160,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_strategies_without_preload_content(
+    def get_guide_strategies_without_preload_content(
         self,
         category: Annotated[Optional[StrictStr], Field(description="Category filters to tactics in exactly this category.")] = None,
         stage: Annotated[Optional[StrictStr], Field(description="Stage previews the corpus at a chosen growth stage (research|formed|launched|activated|scaling), overriding the org's observed one. An unknown value is ignored and the observed stage stands.")] = None,
@@ -2210,7 +2210,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_strategies_serialize(
+        _param = self._get_guide_strategies_serialize(
             category=category,
             stage=stage,
             workload=workload,
@@ -2230,7 +2230,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_strategies_serialize(
+    def _get_guide_strategies_serialize(
         self,
         category,
         stage,
@@ -2306,7 +2306,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_suggest(
+    def get_guide_suggest(
         self,
         _request_timeout: Union[
             None,
@@ -2347,7 +2347,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_suggest_serialize(
+        _param = self._get_guide_suggest_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2369,7 +2369,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_suggest_with_http_info(
+    def get_guide_suggest_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2410,7 +2410,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_suggest_serialize(
+        _param = self._get_guide_suggest_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2432,7 +2432,7 @@ class GuideApi:
 
 
     @validate_call
-    def get_v1_guide_suggest_without_preload_content(
+    def get_guide_suggest_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2473,7 +2473,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_guide_suggest_serialize(
+        _param = self._get_guide_suggest_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2490,7 +2490,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _get_v1_guide_suggest_serialize(
+    def _get_guide_suggest_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2551,7 +2551,7 @@ class GuideApi:
 
 
     @validate_call
-    def patch_v1_guide_blueprint_by_collection_by_id(
+    def patch_guide_blueprint_by_collection_by_id(
         self,
         collection: StrictStr,
         id: StrictStr,
@@ -2598,7 +2598,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_guide_blueprint_by_collection_by_id_serialize(
+        _param = self._patch_guide_blueprint_by_collection_by_id_serialize(
             collection=collection,
             id=id,
             _request_auth=_request_auth,
@@ -2621,7 +2621,7 @@ class GuideApi:
 
 
     @validate_call
-    def patch_v1_guide_blueprint_by_collection_by_id_with_http_info(
+    def patch_guide_blueprint_by_collection_by_id_with_http_info(
         self,
         collection: StrictStr,
         id: StrictStr,
@@ -2668,7 +2668,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_guide_blueprint_by_collection_by_id_serialize(
+        _param = self._patch_guide_blueprint_by_collection_by_id_serialize(
             collection=collection,
             id=id,
             _request_auth=_request_auth,
@@ -2691,7 +2691,7 @@ class GuideApi:
 
 
     @validate_call
-    def patch_v1_guide_blueprint_by_collection_by_id_without_preload_content(
+    def patch_guide_blueprint_by_collection_by_id_without_preload_content(
         self,
         collection: StrictStr,
         id: StrictStr,
@@ -2738,7 +2738,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_guide_blueprint_by_collection_by_id_serialize(
+        _param = self._patch_guide_blueprint_by_collection_by_id_serialize(
             collection=collection,
             id=id,
             _request_auth=_request_auth,
@@ -2756,7 +2756,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _patch_v1_guide_blueprint_by_collection_by_id_serialize(
+    def _patch_guide_blueprint_by_collection_by_id_serialize(
         self,
         collection,
         id,
@@ -2816,7 +2816,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_chat(
+    def post_guide_chat(
         self,
         chat_request: ChatRequest,
         _request_timeout: Union[
@@ -2860,7 +2860,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_chat_serialize(
+        _param = self._post_guide_chat_serialize(
             chat_request=chat_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2883,7 +2883,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_chat_with_http_info(
+    def post_guide_chat_with_http_info(
         self,
         chat_request: ChatRequest,
         _request_timeout: Union[
@@ -2927,7 +2927,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_chat_serialize(
+        _param = self._post_guide_chat_serialize(
             chat_request=chat_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2950,7 +2950,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_chat_without_preload_content(
+    def post_guide_chat_without_preload_content(
         self,
         chat_request: ChatRequest,
         _request_timeout: Union[
@@ -2994,7 +2994,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_chat_serialize(
+        _param = self._post_guide_chat_serialize(
             chat_request=chat_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3012,7 +3012,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _post_v1_guide_chat_serialize(
+    def _post_guide_chat_serialize(
         self,
         chat_request,
         _request_auth,
@@ -3089,7 +3089,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_do(
+    def post_guide_steps_by_id_do(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3133,7 +3133,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_do_serialize(
+        _param = self._post_guide_steps_by_id_do_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3155,7 +3155,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_do_with_http_info(
+    def post_guide_steps_by_id_do_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3199,7 +3199,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_do_serialize(
+        _param = self._post_guide_steps_by_id_do_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3221,7 +3221,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_do_without_preload_content(
+    def post_guide_steps_by_id_do_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3265,7 +3265,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_do_serialize(
+        _param = self._post_guide_steps_by_id_do_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3282,7 +3282,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _post_v1_guide_steps_by_id_do_serialize(
+    def _post_guide_steps_by_id_do_serialize(
         self,
         id,
         _request_auth,
@@ -3339,7 +3339,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_done(
+    def post_guide_steps_by_id_done(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3383,7 +3383,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_done_serialize(
+        _param = self._post_guide_steps_by_id_done_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3405,7 +3405,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_done_with_http_info(
+    def post_guide_steps_by_id_done_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3449,7 +3449,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_done_serialize(
+        _param = self._post_guide_steps_by_id_done_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3471,7 +3471,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_done_without_preload_content(
+    def post_guide_steps_by_id_done_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3515,7 +3515,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_done_serialize(
+        _param = self._post_guide_steps_by_id_done_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3532,7 +3532,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _post_v1_guide_steps_by_id_done_serialize(
+    def _post_guide_steps_by_id_done_serialize(
         self,
         id,
         _request_auth,
@@ -3589,7 +3589,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_reset(
+    def post_guide_steps_by_id_reset(
         self,
         id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
@@ -3633,7 +3633,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_reset_serialize(
+        _param = self._post_guide_steps_by_id_reset_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3656,7 +3656,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_reset_with_http_info(
+    def post_guide_steps_by_id_reset_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
@@ -3700,7 +3700,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_reset_serialize(
+        _param = self._post_guide_steps_by_id_reset_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3723,7 +3723,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_reset_without_preload_content(
+    def post_guide_steps_by_id_reset_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
@@ -3767,7 +3767,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_reset_serialize(
+        _param = self._post_guide_steps_by_id_reset_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3785,7 +3785,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _post_v1_guide_steps_by_id_reset_serialize(
+    def _post_guide_steps_by_id_reset_serialize(
         self,
         id,
         _request_auth,
@@ -3849,7 +3849,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_skip(
+    def post_guide_steps_by_id_skip(
         self,
         id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
@@ -3893,7 +3893,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_skip_serialize(
+        _param = self._post_guide_steps_by_id_skip_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3916,7 +3916,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_skip_with_http_info(
+    def post_guide_steps_by_id_skip_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
@@ -3960,7 +3960,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_skip_serialize(
+        _param = self._post_guide_steps_by_id_skip_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3983,7 +3983,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_skip_without_preload_content(
+    def post_guide_steps_by_id_skip_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
@@ -4027,7 +4027,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_skip_serialize(
+        _param = self._post_guide_steps_by_id_skip_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4045,7 +4045,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _post_v1_guide_steps_by_id_skip_serialize(
+    def _post_guide_steps_by_id_skip_serialize(
         self,
         id,
         _request_auth,
@@ -4109,7 +4109,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_start(
+    def post_guide_steps_by_id_start(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4153,7 +4153,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_start_serialize(
+        _param = self._post_guide_steps_by_id_start_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4175,7 +4175,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_start_with_http_info(
+    def post_guide_steps_by_id_start_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4219,7 +4219,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_start_serialize(
+        _param = self._post_guide_steps_by_id_start_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4241,7 +4241,7 @@ class GuideApi:
 
 
     @validate_call
-    def post_v1_guide_steps_by_id_start_without_preload_content(
+    def post_guide_steps_by_id_start_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4285,7 +4285,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_guide_steps_by_id_start_serialize(
+        _param = self._post_guide_steps_by_id_start_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4302,7 +4302,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _post_v1_guide_steps_by_id_start_serialize(
+    def _post_guide_steps_by_id_start_serialize(
         self,
         id,
         _request_auth,
@@ -4359,7 +4359,7 @@ class GuideApi:
 
 
     @validate_call
-    def put_v1_guide_blueprint(
+    def put_guide_blueprint(
         self,
         _request_timeout: Union[
             None,
@@ -4400,7 +4400,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_guide_blueprint_serialize(
+        _param = self._put_guide_blueprint_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4421,7 +4421,7 @@ class GuideApi:
 
 
     @validate_call
-    def put_v1_guide_blueprint_with_http_info(
+    def put_guide_blueprint_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4462,7 +4462,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_guide_blueprint_serialize(
+        _param = self._put_guide_blueprint_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4483,7 +4483,7 @@ class GuideApi:
 
 
     @validate_call
-    def put_v1_guide_blueprint_without_preload_content(
+    def put_guide_blueprint_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4524,7 +4524,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_guide_blueprint_serialize(
+        _param = self._put_guide_blueprint_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4540,7 +4540,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _put_v1_guide_blueprint_serialize(
+    def _put_guide_blueprint_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4594,7 +4594,7 @@ class GuideApi:
 
 
     @validate_call
-    def put_v1_guide_curriculum(
+    def put_guide_curriculum(
         self,
         _request_timeout: Union[
             None,
@@ -4635,7 +4635,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_guide_curriculum_serialize(
+        _param = self._put_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4656,7 +4656,7 @@ class GuideApi:
 
 
     @validate_call
-    def put_v1_guide_curriculum_with_http_info(
+    def put_guide_curriculum_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4697,7 +4697,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_guide_curriculum_serialize(
+        _param = self._put_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4718,7 +4718,7 @@ class GuideApi:
 
 
     @validate_call
-    def put_v1_guide_curriculum_without_preload_content(
+    def put_guide_curriculum_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4759,7 +4759,7 @@ class GuideApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_guide_curriculum_serialize(
+        _param = self._put_guide_curriculum_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4775,7 +4775,7 @@ class GuideApi:
         return response_data.response
 
 
-    def _put_v1_guide_curriculum_serialize(
+    def _put_guide_curriculum_serialize(
         self,
         _request_auth,
         _content_type,

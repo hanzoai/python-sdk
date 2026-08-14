@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,11 +26,10 @@ class Summary(BaseModel):
     """
     Summary
     """ # noqa: E501
-    active: Optional[StrictInt] = None
-    budget: Optional[StrictInt] = Field(default=None, description="Budget and Spend are the summed campaign budget and spend, in cents.")
-    campaigns: Optional[StrictInt] = Field(default=None, description="Campaigns is how many campaigns the org has, Active how many are running.")
-    spend: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["active", "budget", "campaigns", "spend"]
+    calls: Optional[StrictInt] = None
+    messages: Optional[StrictInt] = None
+    numbers: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["calls", "messages", "numbers"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,10 +82,9 @@ class Summary(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "active": obj.get("active"),
-            "budget": obj.get("budget"),
-            "campaigns": obj.get("campaigns"),
-            "spend": obj.get("spend")
+            "calls": obj.get("calls"),
+            "messages": obj.get("messages"),
+            "numbers": obj.get("numbers")
         })
         return _obj
 

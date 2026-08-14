@@ -47,7 +47,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_accounts(
+    def get_finance_accounts(
         self,
         scope: Annotated[Optional[StrictStr], Field(description="Scope is \"house\" to read the reserve/revenue/payout house accounts. SuperAdmin only.")] = None,
         org: Annotated[Optional[StrictStr], Field(description="Org names another tenant to read. SuperAdmin only; ignored when scope=house.")] = None,
@@ -94,7 +94,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_accounts_serialize(
+        _param = self._get_finance_accounts_serialize(
             scope=scope,
             org=org,
             _request_auth=_request_auth,
@@ -118,7 +118,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_accounts_with_http_info(
+    def get_finance_accounts_with_http_info(
         self,
         scope: Annotated[Optional[StrictStr], Field(description="Scope is \"house\" to read the reserve/revenue/payout house accounts. SuperAdmin only.")] = None,
         org: Annotated[Optional[StrictStr], Field(description="Org names another tenant to read. SuperAdmin only; ignored when scope=house.")] = None,
@@ -165,7 +165,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_accounts_serialize(
+        _param = self._get_finance_accounts_serialize(
             scope=scope,
             org=org,
             _request_auth=_request_auth,
@@ -189,7 +189,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_accounts_without_preload_content(
+    def get_finance_accounts_without_preload_content(
         self,
         scope: Annotated[Optional[StrictStr], Field(description="Scope is \"house\" to read the reserve/revenue/payout house accounts. SuperAdmin only.")] = None,
         org: Annotated[Optional[StrictStr], Field(description="Org names another tenant to read. SuperAdmin only; ignored when scope=house.")] = None,
@@ -236,7 +236,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_accounts_serialize(
+        _param = self._get_finance_accounts_serialize(
             scope=scope,
             org=org,
             _request_auth=_request_auth,
@@ -255,7 +255,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_accounts_serialize(
+    def _get_finance_accounts_serialize(
         self,
         scope,
         org,
@@ -326,7 +326,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_balance(
+    def get_finance_balance(
         self,
         _request_timeout: Union[
             None,
@@ -367,7 +367,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_balance_serialize(
+        _param = self._get_finance_balance_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -389,7 +389,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_balance_with_http_info(
+    def get_finance_balance_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -430,7 +430,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_balance_serialize(
+        _param = self._get_finance_balance_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_balance_without_preload_content(
+    def get_finance_balance_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -493,7 +493,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_balance_serialize(
+        _param = self._get_finance_balance_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -510,7 +510,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_balance_serialize(
+    def _get_finance_balance_serialize(
         self,
         _request_auth,
         _content_type,
@@ -571,7 +571,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_credits(
+    def get_finance_credits(
         self,
         _request_timeout: Union[
             None,
@@ -612,7 +612,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_credits_serialize(
+        _param = self._get_finance_credits_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -634,7 +634,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_credits_with_http_info(
+    def get_finance_credits_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -675,7 +675,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_credits_serialize(
+        _param = self._get_finance_credits_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -697,7 +697,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_credits_without_preload_content(
+    def get_finance_credits_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -738,7 +738,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_credits_serialize(
+        _param = self._get_finance_credits_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -755,7 +755,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_credits_serialize(
+    def _get_finance_credits_serialize(
         self,
         _request_auth,
         _content_type,
@@ -816,7 +816,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_invoices(
+    def get_finance_invoices(
         self,
         _request_timeout: Union[
             None,
@@ -857,7 +857,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_invoices_serialize(
+        _param = self._get_finance_invoices_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -879,7 +879,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_invoices_with_http_info(
+    def get_finance_invoices_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -920,7 +920,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_invoices_serialize(
+        _param = self._get_finance_invoices_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -942,7 +942,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_invoices_without_preload_content(
+    def get_finance_invoices_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -983,7 +983,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_invoices_serialize(
+        _param = self._get_finance_invoices_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1000,7 +1000,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_invoices_serialize(
+    def _get_finance_invoices_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1061,7 +1061,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_ledger(
+    def get_finance_ledger(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.")] = None,
         _request_timeout: Union[
@@ -1105,7 +1105,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_ledger_serialize(
+        _param = self._get_finance_ledger_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1128,7 +1128,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_ledger_with_http_info(
+    def get_finance_ledger_with_http_info(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.")] = None,
         _request_timeout: Union[
@@ -1172,7 +1172,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_ledger_serialize(
+        _param = self._get_finance_ledger_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1195,7 +1195,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_ledger_without_preload_content(
+    def get_finance_ledger_without_preload_content(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.")] = None,
         _request_timeout: Union[
@@ -1239,7 +1239,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_ledger_serialize(
+        _param = self._get_finance_ledger_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1257,7 +1257,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_ledger_serialize(
+    def _get_finance_ledger_serialize(
         self,
         range,
         _request_auth,
@@ -1323,7 +1323,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_payment_methods(
+    def get_finance_payment_methods(
         self,
         _request_timeout: Union[
             None,
@@ -1364,7 +1364,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_payment_methods_serialize(
+        _param = self._get_finance_payment_methods_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1386,7 +1386,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_payment_methods_with_http_info(
+    def get_finance_payment_methods_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1427,7 +1427,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_payment_methods_serialize(
+        _param = self._get_finance_payment_methods_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1449,7 +1449,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_payment_methods_without_preload_content(
+    def get_finance_payment_methods_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1490,7 +1490,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_payment_methods_serialize(
+        _param = self._get_finance_payment_methods_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1507,7 +1507,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_payment_methods_serialize(
+    def _get_finance_payment_methods_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1568,7 +1568,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_treasury(
+    def get_finance_treasury(
         self,
         _request_timeout: Union[
             None,
@@ -1609,7 +1609,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_treasury_serialize(
+        _param = self._get_finance_treasury_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1631,7 +1631,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_treasury_with_http_info(
+    def get_finance_treasury_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1672,7 +1672,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_treasury_serialize(
+        _param = self._get_finance_treasury_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1694,7 +1694,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_treasury_without_preload_content(
+    def get_finance_treasury_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1735,7 +1735,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_treasury_serialize(
+        _param = self._get_finance_treasury_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1752,7 +1752,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_treasury_serialize(
+    def _get_finance_treasury_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1813,7 +1813,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_usage(
+    def get_finance_usage(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.")] = None,
         _request_timeout: Union[
@@ -1857,7 +1857,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_usage_serialize(
+        _param = self._get_finance_usage_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1880,7 +1880,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_usage_with_http_info(
+    def get_finance_usage_with_http_info(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.")] = None,
         _request_timeout: Union[
@@ -1924,7 +1924,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_usage_serialize(
+        _param = self._get_finance_usage_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1947,7 +1947,7 @@ class FinanceApi:
 
 
     @validate_call
-    def get_v1_finance_usage_without_preload_content(
+    def get_finance_usage_without_preload_content(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.")] = None,
         _request_timeout: Union[
@@ -1991,7 +1991,7 @@ class FinanceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finance_usage_serialize(
+        _param = self._get_finance_usage_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2009,7 +2009,7 @@ class FinanceApi:
         return response_data.response
 
 
-    def _get_v1_finance_usage_serialize(
+    def _get_finance_usage_serialize(
         self,
         range,
         _request_auth,

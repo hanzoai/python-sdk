@@ -36,7 +36,7 @@ class TrafficApi:
 
 
     @validate_call
-    def get_v1_traffic_globe(
+    def get_traffic_globe(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class TrafficApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_traffic_globe_serialize(
+        _param = self._get_traffic_globe_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class TrafficApi:
 
 
     @validate_call
-    def get_v1_traffic_globe_with_http_info(
+    def get_traffic_globe_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class TrafficApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_traffic_globe_serialize(
+        _param = self._get_traffic_globe_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class TrafficApi:
 
 
     @validate_call
-    def get_v1_traffic_globe_without_preload_content(
+    def get_traffic_globe_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class TrafficApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_traffic_globe_serialize(
+        _param = self._get_traffic_globe_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class TrafficApi:
         return response_data.response
 
 
-    def _get_v1_traffic_globe_serialize(
+    def _get_traffic_globe_serialize(
         self,
         _request_auth,
         _content_type,

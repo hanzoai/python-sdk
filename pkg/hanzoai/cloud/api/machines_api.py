@@ -1594,7 +1594,7 @@ class MachinesApi:
 
 
     @validate_call
-    def post_v1_machines(
+    def post_machines(
         self,
         _request_timeout: Union[
             None,
@@ -1635,7 +1635,7 @@ class MachinesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_machines_serialize(
+        _param = self._post_machines_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1656,7 +1656,7 @@ class MachinesApi:
 
 
     @validate_call
-    def post_v1_machines_with_http_info(
+    def post_machines_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1697,7 +1697,7 @@ class MachinesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_machines_serialize(
+        _param = self._post_machines_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1718,7 +1718,7 @@ class MachinesApi:
 
 
     @validate_call
-    def post_v1_machines_without_preload_content(
+    def post_machines_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1759,7 +1759,7 @@ class MachinesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_machines_serialize(
+        _param = self._post_machines_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1775,7 +1775,7 @@ class MachinesApi:
         return response_data.response
 
 
-    def _post_v1_machines_serialize(
+    def _post_machines_serialize(
         self,
         _request_auth,
         _content_type,

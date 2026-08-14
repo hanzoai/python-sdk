@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.usage_by_product import UsageByProduct
+from hanzoai.cloud.models.usage_by_model import UsageByModel
 from hanzoai.cloud.models.usage_point import UsagePoint
 from hanzoai.cloud.models.usage_totals import UsageTotals
 from typing import Optional, Set
@@ -29,10 +29,10 @@ class UsageData(BaseModel):
     """
     UsageData
     """ # noqa: E501
-    by_product: Optional[List[UsageByProduct]] = Field(default=None, alias="byProduct")
+    by_model: Optional[List[UsageByModel]] = Field(default=None, alias="byModel")
     series: Optional[List[UsagePoint]] = None
     totals: Optional[UsageTotals] = None
-    __properties: ClassVar[List[str]] = ["byProduct", "series", "totals"]
+    __properties: ClassVar[List[str]] = ["byModel", "series", "totals"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,13 +73,13 @@ class UsageData(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in by_product (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in by_model (list)
         _items = []
-        if self.by_product:
-            for _item_by_product in self.by_product:
-                if _item_by_product:
-                    _items.append(_item_by_product.to_dict())
-            _dict['byProduct'] = _items
+        if self.by_model:
+            for _item_by_model in self.by_model:
+                if _item_by_model:
+                    _items.append(_item_by_model.to_dict())
+            _dict['byModel'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in series (list)
         _items = []
         if self.series:
@@ -102,7 +102,7 @@ class UsageData(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "byProduct": [UsageByProduct.from_dict(_item) for _item in obj["byProduct"]] if obj.get("byProduct") is not None else None,
+            "byModel": [UsageByModel.from_dict(_item) for _item in obj["byModel"]] if obj.get("byModel") is not None else None,
             "series": [UsagePoint.from_dict(_item) for _item in obj["series"]] if obj.get("series") is not None else None,
             "totals": UsageTotals.from_dict(obj["totals"]) if obj.get("totals") is not None else None
         })

@@ -43,7 +43,7 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_health(
+    def get_analytics_health(
         self,
         _request_timeout: Union[
             None,
@@ -84,7 +84,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_health_serialize(
+        _param = self._get_analytics_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -107,7 +107,7 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_health_with_http_info(
+    def get_analytics_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -148,7 +148,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_health_serialize(
+        _param = self._get_analytics_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -171,7 +171,7 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_health_without_preload_content(
+    def get_analytics_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -212,7 +212,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_health_serialize(
+        _param = self._get_analytics_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -230,7 +230,7 @@ class AnalyticsApi:
         return response_data.response
 
 
-    def _get_v1_analytics_health_serialize(
+    def _get_analytics_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -291,9 +291,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_overview(
+    def get_analytics_overview(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         _request_timeout: Union[
@@ -313,7 +313,7 @@ class AnalyticsApi:
 
         Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -341,7 +341,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_overview_serialize(
+        _param = self._get_analytics_overview_serialize(
             range=range,
             start=start,
             end=end,
@@ -366,9 +366,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_overview_with_http_info(
+    def get_analytics_overview_with_http_info(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         _request_timeout: Union[
@@ -388,7 +388,7 @@ class AnalyticsApi:
 
         Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -416,7 +416,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_overview_serialize(
+        _param = self._get_analytics_overview_serialize(
             range=range,
             start=start,
             end=end,
@@ -441,9 +441,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_overview_without_preload_content(
+    def get_analytics_overview_without_preload_content(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         _request_timeout: Union[
@@ -463,7 +463,7 @@ class AnalyticsApi:
 
         Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -491,7 +491,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_overview_serialize(
+        _param = self._get_analytics_overview_serialize(
             range=range,
             start=start,
             end=end,
@@ -511,7 +511,7 @@ class AnalyticsApi:
         return response_data.response
 
 
-    def _get_v1_analytics_overview_serialize(
+    def _get_analytics_overview_serialize(
         self,
         range,
         start,
@@ -587,9 +587,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_timeseries(
+    def get_analytics_timeseries(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         _request_timeout: Union[
@@ -609,7 +609,7 @@ class AnalyticsApi:
 
         Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -637,7 +637,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_timeseries_serialize(
+        _param = self._get_analytics_timeseries_serialize(
             range=range,
             start=start,
             end=end,
@@ -662,9 +662,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_timeseries_with_http_info(
+    def get_analytics_timeseries_with_http_info(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         _request_timeout: Union[
@@ -684,7 +684,7 @@ class AnalyticsApi:
 
         Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -712,7 +712,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_timeseries_serialize(
+        _param = self._get_analytics_timeseries_serialize(
             range=range,
             start=start,
             end=end,
@@ -737,9 +737,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_timeseries_without_preload_content(
+    def get_analytics_timeseries_without_preload_content(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         _request_timeout: Union[
@@ -759,7 +759,7 @@ class AnalyticsApi:
 
         Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -787,7 +787,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_timeseries_serialize(
+        _param = self._get_analytics_timeseries_serialize(
             range=range,
             start=start,
             end=end,
@@ -807,7 +807,7 @@ class AnalyticsApi:
         return response_data.response
 
 
-    def _get_v1_analytics_timeseries_serialize(
+    def _get_analytics_timeseries_serialize(
         self,
         range,
         start,
@@ -883,9 +883,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_top(
+    def get_analytics_top(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.")] = None,
@@ -906,7 +906,7 @@ class AnalyticsApi:
 
         Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -936,7 +936,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_top_serialize(
+        _param = self._get_analytics_top_serialize(
             range=range,
             start=start,
             end=end,
@@ -962,9 +962,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_top_with_http_info(
+    def get_analytics_top_with_http_info(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.")] = None,
@@ -985,7 +985,7 @@ class AnalyticsApi:
 
         Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -1015,7 +1015,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_top_serialize(
+        _param = self._get_analytics_top_serialize(
             range=range,
             start=start,
             end=end,
@@ -1041,9 +1041,9 @@ class AnalyticsApi:
 
 
     @validate_call
-    def get_v1_analytics_top_without_preload_content(
+    def get_analytics_top_without_preload_content(
         self,
-        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.")] = None,
+        range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.")] = None,
@@ -1064,7 +1064,7 @@ class AnalyticsApi:
 
         Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
-        :param range: Range is a relative window: 24h, 7d or 30d. Default 24h. Ignored when both start and end are given. An unknown value is a 400.
+        :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
         :param start: Start is the inclusive lower bound of a custom window, RFC3339. Requires end.
         :type start: str
@@ -1094,7 +1094,7 @@ class AnalyticsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_analytics_top_serialize(
+        _param = self._get_analytics_top_serialize(
             range=range,
             start=start,
             end=end,
@@ -1115,7 +1115,7 @@ class AnalyticsApi:
         return response_data.response
 
 
-    def _get_v1_analytics_top_serialize(
+    def _get_analytics_top_serialize(
         self,
         range,
         start,
