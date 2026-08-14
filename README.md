@@ -65,7 +65,10 @@ operation and nothing ever reads `access_token`. A client built that way sends n
 `Authorization` header at all: every call goes out anonymous, and the refusal
 that comes back reads like a bad key rather than an unsent header.
 
-Nothing in the client reads the environment. [`examples/client.py`](examples/client.py)
+No generated code reads the environment — not one `os.environ` in all of
+`hanzoai.cloud`, so no variable you export reaches a request on its own. (The
+hand-written `hanzoai.zap` and `hanzoai.config` read `HANZO_ZAP_ENDPOINT` and
+`HANZO_CONFIG_HOME`; neither is a credential.) [`examples/client.py`](examples/client.py)
 is where `HANZO_API_KEY` and `HANZO_BASE_URL` get resolved — one place, for all
 five flows.
 
