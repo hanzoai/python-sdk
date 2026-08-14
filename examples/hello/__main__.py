@@ -1,6 +1,6 @@
 """hello — prove the key works.
 
-``GET /v1/keys`` (operationId ``get_v1_keys``): the caller's own API keys.
+``GET /v1/keys`` (operationId ``get_keys``): the caller's own API keys.
 
 This flow's whole job is to FAIL when the key is bad, so the route has to be one
 that actually checks, and that is decided by probing api.hanzo.ai rather than by
@@ -33,7 +33,7 @@ from examples.client import BASE_URL, client, run
 
 def main() -> None:
     with client() as api:
-        listing = KeysApi(api).get_v1_keys()
+        listing = KeysApi(api).get_keys()
 
     keys = listing.keys or []
     print(f"hello from {BASE_URL}")

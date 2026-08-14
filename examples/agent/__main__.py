@@ -1,8 +1,8 @@
 """agent — define one, run it, read the run back.
 
-    POST /v1/agents            post_v1_agents
-    POST /v1/agents/{ref}/run  post_v1_agents_by_ref_run
-    GET  /v1/agents/{ref}/runs get_v1_agents_ref_runs
+    POST /v1/agents            post_agents
+    POST /v1/agents/{ref}/run  post_agents_by_ref_run
+    GET  /v1/agents/{ref}/runs get_agents_by_ref_runs
 
 ``ref`` is the agent's public id (``agent_...``) OR its org-unique name, which
 is why the run and the read below can both use the name we just created without
@@ -29,7 +29,7 @@ def main() -> None:
     with client() as api:
         agents = AgentsApi(api)
 
-        created = agents.post_v1_agents(
+        created = agents.post_agents(
             CreateAgentIn(
                 name=NAME,
                 model=MODEL,
@@ -39,10 +39,10 @@ def main() -> None:
         )
         print(f"created {created.name} ({created.id}) on {created.model}")
 
-        agents.post_v1_agents_by_ref_run(NAME)
+        agents.post_agents_by_ref_run(NAME)
         print("run started")
 
-        runs = agents.get_v1_agents_ref_runs(NAME, limit=5)
+        runs = agents.get_agents_by_ref_runs(NAME, limit=5)
         entries = runs.runs or []
         print(f"{len(entries)} run(s):")
         for entry in entries:
