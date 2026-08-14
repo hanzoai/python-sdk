@@ -1,242 +1,155 @@
-<p align="center"><img src=".github/hero.svg" alt="Hanzo Python SDK" width="880"></p>
-
 # Hanzo Python SDK
 
-**The flagship Python SDK for the Open AI Cloud — models, agents, tools, memory, and MCP in one install.**
+`hanzoai` is the Python client for the Hanzo API, generated from the API's own
+OpenAPI document — 1814 paths, 2479 operations, 192 API classes over 2460 models.
+Every `/v1` route is in it, and the names it exposes are the document's operation
+ids rather than a hand-picked subset. [`.spec-lock`](.spec-lock) names the commit
+and sha256 of the document this tree was cut from.
 
-[![CI](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/hanzoai/python-sdk/actions/workflows/ci.yml)
 [![PyPI](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
-[![Python Version](https://img.shields.io/pypi/pyversions/hanzoai.svg)](https://pypi.org/project/hanzoai/)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
-
-This is the most complete Hanzo SDK — a `uv` workspace of 60+ composable packages
-covering the full AI surface: the typed cloud client, an agent framework, the
-Model Context Protocol server and tools, persistent memory + RAG, distributed
-compute, and a batteries-included CLI. If you build AI in Python, start here.
+[![Python](https://img.shields.io/pypi/pyversions/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 
 ## Install
 
 ```bash
-pip install hanzoai        # the typed cloud API client
-pip install hanzo          # orchestration helpers, agents, MCP
-pip install "hanzo[all]"   # everything, including optional extras
+uv pip install "hanzoai @ git+https://github.com/hanzoai/python-sdk"
 ```
 
-The `hanzo` **command** is not a Python package — it is a native binary:
+Install from source, not from PyPI, until this version reaches it. PyPI serves
+**3.2.1**; this tree is **3.2.11**, and in between the API document dropped the
+default version from its operation ids. 3.2.1's methods are `get_v1_keys` and
+`get_v1_tools`; the current ones are `get_keys` and `get_tools`, so
+`pip install hanzoai` gets you a client that works and a set of names that
+matches nothing below.
 
-```bash
-curl -fsSL https://hanzo.sh | sh
-hanzo auth login
+Check the install without a key — `GET /v1/models` is public:
+
+```python
+import json
+from hanzoai.cloud import ApiClient, Configuration, ModelsApi
+
+body = ModelsApi(ApiClient(Configuration())).get_models_without_preload_content().read()
+print(len(json.loads(body)["data"]), "models")     # e.g. 112 models
 ```
 
 ## Quickstart
 
 ```python
-from hanzoai.cloud import ApiClient, Configuration, ChatApi
+import os
+from hanzoai.cloud import ApiClient, Configuration, KeysApi
 
-config = Configuration(host="https://api.hanzo.ai", access_token="sk-...")
+client = ApiClient(
+    Configuration(host="https://api.hanzo.ai"),
+    "Authorization", f"Bearer {os.environ['HANZO_API_KEY']}",
+)
 
-with ApiClient(config) as client:
-    print(ChatApi(client).post_v1_chat_completions())
+with client as api:
+    for key in KeysApi(api).get_keys().keys or []:
+        print(key.prefix, key.type, key.created_at)
 ```
 
-`hanzoai.cloud` is the client, and it is the only one. Method and class names are
-the document's operation ids, so they move when the document does — that is what
-makes the client checkable against a release instead of against memory.
+Every route follows that shape: one `*Api` class per tag, one method per
+operation, typed models in and out. Keys come from
+[cloud.hanzo.ai](https://cloud.hanzo.ai) or `hanzo login`, in two shapes —
+`pk-` to read, `sk-` to write.
 
-Every route is `https://api.hanzo.ai/v1/<service>/*`. Models come from the **Zen**
-family (our own models) plus any provider you connect — one typed client, no proxy
-in the middle.
+## Auth
 
-## Examples — the six canonical flows
+The header is `Authorization: Bearer <key>`, and you set it on the `ApiClient` as
+above — **not** through `Configuration(access_token=…)`. The document declares no
+security scheme, so the generator wrote an empty `auth_settings` into every
+operation and nothing ever reads `access_token`. A client built that way sends no
+`Authorization` header at all: every call goes out anonymous, and the refusal
+that comes back reads like a bad key rather than an unsent header.
 
-`examples/` carries one directory per flow. These are the same six in every
-Hanzo SDK, so a reader who knows one language's set can navigate another's.
+Nothing in the client reads the environment. [`examples/client.py`](examples/client.py)
+is where `HANZO_API_KEY` and `HANZO_BASE_URL` get resolved — one place, for all
+five flows.
+
+## Examples
+
+`examples/` carries one directory per flow. Each is a whole path through one part
+of the API. On every push CI imports all five and resolves every method name they
+call against the client, which is what keeps them from rotting into pseudocode.
 
 | flow | what it does | routes |
 |---|---|---|
-| [`hello`](examples/hello) | identity — prove the key works | `GET /v1/bot/auth/me` |
-| [`chat`](examples/chat) | one completion | `POST /v1/chat/completions` |
+| [`hello`](examples/hello) | prove the key works | `GET /v1/keys` |
 | [`money`](examples/money) | balance + usage | `GET /v1/billing/balance`, `GET /v1/billing/usage` |
 | [`store`](examples/store) | KV round-trip | `POST /v1/kv`, `GET`/`DELETE /v1/kv/{name}` |
-| [`agent`](examples/agent) | create + run + read | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}/runs` |
-| [`tools`](examples/tools) | tool catalog | `GET /v1/tools` |
-
-Each reads `HANZO_API_KEY` from the environment and talks to
-`https://api.hanzo.ai` unless `HANZO_BASE_URL` says otherwise:
+| [`agent`](examples/agent) | create, run, read the runs | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}/runs` |
+| [`tools`](examples/tools) | the tool catalog | `GET /v1/tools` |
 
 ```bash
 export HANZO_API_KEY=sk-...
-uv run python -m examples.hello
+python -m examples.hello
 ```
 
-They import from **`hanzoai.cloud`** — the client generated from
-`https://api.hanzo.ai/v1/openapi.json`, which is where new work goes.
-`examples/client.py` is the single place a base URL or an env var is resolved.
-CI imports all six on every push, which is what keeps them from rotting into
-pseudocode.
+There is no `chat` flow because there is nothing to generate one from:
+`POST /v1/chat/completions` is declared with no `requestBody` and no `responses`,
+so the method takes no arguments and returns `None`. Hand-rolling the request
+inside a generated client is the drift these SDKs exist to prevent. It comes back
+the day the document describes the body.
 
-## Packages
+The same gap shows up in `money`, which reads its two payloads through the
+generated `*_without_preload_content` variant: of 2479 operations, 716 declare no
+`responses` and another 118 declare no response content, so 834 of them model no
+body to deserialize. Those become ordinary typed calls when the schemas land, and
+nothing else about them changes.
 
-The workspace splits cleanly by concern. The headline packages:
+Reference for the routes themselves: [api.hanzo.ai/docs](https://api.hanzo.ai/docs),
+served from the same document — [api.hanzo.ai/v1/openapi.json](https://api.hanzo.ai/v1/openapi.json).
 
-| Package | Purpose |
-|---------|---------|
-| `hanzoai` | Typed cloud API client (generated from the Hanzo OpenAPI surface). |
-| `hanzo` | Orchestration helpers and the older Python CLI (console script `hanzo-py`). |
-| `hanzo-mcp` | Model Context Protocol server — discovers tools via entry points. |
-| `hanzo-agents` / `hanzo-agent` | Agent framework — build and orchestrate agents and swarms. |
-| `hanzo-network` | Distributed AI compute and node orchestration. |
-| `hanzo-memory` | Persistent memory + RAG (SQLite, optional vector backends). |
-| `hanzo-tools-*` | 60+ single-concern tool packages (`shell`, `browser`, `fs`, `code`, `vector`, `iam`, …), each exposing a `TOOLS` list. |
+## The rest of the repo
 
-```
-python-sdk/
-└── pkg/
-    ├── hanzoai/          # typed cloud client (OpenAPI-generated)
-    ├── hanzo/            # orchestration helpers + legacy Python CLI
-    ├── hanzo-mcp/        # MCP server (entry-point tool discovery)
-    ├── hanzo-agents/     # agent framework
-    ├── hanzo-network/    # distributed compute
-    ├── hanzo-memory/     # memory + RAG
-    └── hanzo-tools-*/    # composable tool packages
-```
+This is a `uv` workspace. `pkg/hanzoai` is the client above; the other 64
+packages are hand-written, ship separately, and mostly carry their own README:
 
-## CLI
+| Package | Install | Purpose |
+|---|---|---|
+| `pkg/hanzoai` | `hanzoai` | the client above |
+| `pkg/hanzo-mcp` | `hanzo-mcp` | Model Context Protocol server |
+| `pkg/hanzo-agent` | `hanzo-agent` | agent framework (import path `agents`) |
+| `pkg/hanzo-agents` | `hanzo-agents` | agent networks and swarms |
+| `pkg/hanzo-memory` | `hanzo-memory` | persistent memory + RAG over SQLite |
+| `pkg/hanzo-network` | `hanzo-network` | distributed compute nodes |
+| `pkg/hanzo-tools-*` | one each | 37 single-concern tool packages, each registering a `TOOLS` list under the `hanzo.tools` entry point, which is how `hanzo-mcp` finds them |
 
-The Hanzo CLI is a native binary, not a Python package:
-
-```bash
-curl -fsSL https://hanzo.sh | sh
-hanzo auth login
-hanzo models list
-hanzo "fix the failing test"
-```
-
-It carries one command group per Hanzo Cloud product, generated from the same
-contract this SDK is generated from. `hanzo --help` prints the tree.
-
-`pip install hanzo` still ships the older Python CLI as **`hanzo-py`**. It is
-named that way on purpose: two programs called `hanzo` on one PATH is how
-`hanzo login` came to mean different things to different people.
-
-## Model Context Protocol (`hanzo-mcp`)
-
-`hanzo-mcp` hosts the MCP server and discovers tools through
-`[project.entry-points."hanzo.tools"]`, so any installed `hanzo-tools-*` package
-lights up automatically.
-
-```python
-from hanzo_mcp import create_mcp_server
-
-server = create_mcp_server()
-server.register_tool(my_tool)
-server.start()
-```
-
-## Agents (`hanzo-agents`)
-
-```python
-from hanzo_agents import Agent, Swarm
-
-agent = Agent(
-    name="researcher",
-    model="zen5-coder",
-    instructions="You are a research assistant.",
-)
-
-swarm = Swarm([agent])
-result = await swarm.run("Research quantum computing.")
-```
-
-## Network (`hanzo-network`)
-
-```python
-from hanzo_network import LocalComputeNode, DistributedNetwork
-
-node = LocalComputeNode(node_id="node-001")
-network = DistributedNetwork()
-network.register_node(node)
-```
-
-## Memory (`hanzo-memory`)
-
-Persistent memory and RAG backed by SQLite, with optional vector search
-(`sqlite-vec`, `lancedb`, `kuzu`). Global state lives in `~/.hanzo/`; per-project
-state in `.hanzo/`.
-
-```python
-from hanzo_memory import MemoryService
-
-memory = MemoryService()
-await memory.store("key", "value")
-result = await memory.retrieve("key")
-```
+The `hanzo` **command** is a native binary, not a Python package:
+`curl -fsSL https://hanzo.sh | sh`. `pip install hanzo` ships the older Python CLI
+under the name `hanzo-py`, so the two never fight over one name on a PATH.
 
 ## Development
 
-This is a `uv` workspace.
+```bash
+git clone https://github.com/hanzoai/python-sdk && cd python-sdk
+uv sync --all-packages
+uv run pytest tests/ -v
+```
+
+`pkg/hanzoai/cloud/` is generated and is never edited by hand — a regeneration
+does `rmtree` then `copytree`, so an edit there is gone on the next run. It comes
+from [hanzoai/openapi](https://github.com/hanzoai/openapi):
 
 ```bash
-git clone https://github.com/hanzoai/python-sdk.git
-cd python-sdk
-uv sync --all-packages       # install the whole workspace
-
-uv run pytest tests/ -v      # run tests
-make lint                    # ruff lint
-make format                  # ruff format
-make type-check              # mypy / pyright
+cd ../openapi && uv run --with pyyaml python3 generate.py python \
+  --repo ../python-sdk --spec ../cloud/openapi.yaml
 ```
 
-Per-package work:
-
-```bash
-uv run pytest pkg/hanzo-mcp -v
-cd pkg/hanzo && uv build
-```
-
-## Configuration
-
-```bash
-HANZO_API_KEY=your-api-key
-HANZO_BASE_URL=https://api.hanzo.ai
-HANZO_LOG_LEVEL=INFO
-```
-
-Or `~/.hanzo/config.yaml`:
-
-```yaml
-api:
-  key: your-api-key
-  base_url: https://api.hanzo.ai
-logging:
-  level: INFO
-```
-
-## Security
-
-- Transport is TLS 1.3+. Secrets belong in a KMS, never in source or plaintext.
-- SOC 2 audit in progress; HIPAA BAA available.
-
-Report vulnerabilities to **security@hanzo.ai**. See [SECURITY.md](SECURITY.md).
-
-## Contributing
-
-Contributions welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Use type hints,
-add tests for new behavior, and run `make lint` before opening a PR.
+A defect found in generated code is fixed in the document, where every other
+language gets the fix too. See [LLM.md](LLM.md) for how the lane works.
 
 ## License
 
-Apache License 2.0 — see [LICENSE](LICENSE).
-
-## Support
-
-- Docs: [docs.hanzo.ai](https://docs.hanzo.ai)
-- Issues: [github.com/hanzoai/python-sdk/issues](https://github.com/hanzoai/python-sdk/issues)
-- Email: support@hanzo.ai
+Apache 2.0 — see [LICENSE](LICENSE). Report vulnerabilities to security@hanzo.ai
+([SECURITY.md](SECURITY.md)).
 
 ## Hanzo — the Open AI Cloud
 
-Open source · every language · on-chain settlement. [hanzo.ai](https://hanzo.ai) · [docs.hanzo.ai](https://docs.hanzo.ai)
-
-**SDKs in every language** — [Python](https://github.com/hanzoai/python-sdk) (flagship) · [TypeScript](https://github.com/hanzo-js/sdk) · [Go](https://github.com/hanzo-go/sdk) · [Rust](https://github.com/hanzo-rs/sdk) · [C++](https://github.com/hanzo-cpp/sdk) · [Swift](https://github.com/hanzo-swift/sdk) · [Kotlin](https://github.com/hanzo-kt/sdk) · [umbrella](https://github.com/hanzoai/sdk)
+[hanzo.ai](https://hanzo.ai) · [docs.hanzo.ai](https://docs.hanzo.ai) ·
+same client in other languages:
+[TypeScript](https://github.com/hanzoai/js-sdk) ·
+[Go](https://github.com/hanzoai/go-sdk) ·
+[Java](https://github.com/hanzoai/java-sdk) ·
+[Kotlin](https://github.com/hanzoai/kotlin-sdk) ·
+[umbrella](https://github.com/hanzoai/sdk)

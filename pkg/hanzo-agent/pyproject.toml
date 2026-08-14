@@ -61,7 +61,7 @@ cli = [
 
 # All extensions
 full = [
-    "hanzoai[web3,tee,marketplace,cli]",
+    "hanzo-agent[web3,tee,marketplace,cli]",
 ]
 
 [dependency-groups]
