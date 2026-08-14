@@ -4,8 +4,13 @@ import sys
 
 from openai import OpenAI
 
-# Use the same API key from the script
-api_key = "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"
+import os
+
+# The credential is read from the environment. A key in a source file is a key
+# in every clone of it.
+api_key = os.environ.get("OPENROUTER_API_KEY")
+if not api_key:
+    sys.exit("set OPENROUTER_API_KEY")
 
 
 def check_api_connection():
