@@ -16,13 +16,42 @@ def test_client_constructs():
     assert cfg.host == "https://api.hanzo.ai"
 
 
+def test_the_bearer_comes_from_the_client_not_the_configuration():
+    """`Configuration(access_token=…)` sends nothing, and callers must know it.
+
+    The document declares no security scheme, so every generated operation got
+    an empty `auth_settings` and `update_params_for_auth` returns before it can
+    read `access_token`. A caller who sets it — the obvious thing to do — calls
+    anonymously and reads the refusal as a bad key. The examples set the header
+    on `ApiClient`, which merges `default_headers` into every request.
+
+    When cloud's emission grows the scheme, the first assertion fails. That is
+    the point: `access_token` starts working that day and the header moves back
+    into `Configuration`, in one place, for good.
+    """
+    cfg = hanzoai.cloud.Configuration(host="https://api.hanzo.ai", access_token="sk-test")
+    assert cfg.auth_settings() == {}
+    assert "Authorization" not in hanzoai.cloud.ApiClient(cfg).default_headers
+
+    keyed = hanzoai.cloud.ApiClient(cfg, "Authorization", "Bearer sk-test")
+    assert keyed.default_headers["Authorization"] == "Bearer sk-test"
+
+
 def test_product_apis_present():
-    from hanzoai.cloud.api.tracker_api import TrackerApi
+    """Whole products, not just the AI routes, reach the SDK.
+
+    This asked for `TrackerApi` until the document stopped carrying a `tracker`
+    tag — no `/v1/tracker` path is emitted at all now — so it named a module the
+    client does not have and failed on the import. `analytics` is the surviving
+    surface next door (`/v1/analytics/{health,overview,timeseries,top}`), read
+    off the client rather than guessed.
+    """
+    from hanzoai.cloud.api.analytics_api import AnalyticsApi
     from hanzoai.cloud.api.chat_api import ChatApi
     from hanzoai.cloud.api.crm_api import CrmApi
 
     client = hanzoai.cloud.ApiClient(hanzoai.cloud.Configuration(host="https://api.hanzo.ai"))
-    for cls in (TrackerApi, ChatApi, CrmApi):
+    for cls in (AnalyticsApi, ChatApi, CrmApi):
         assert cls(client) is not None
 
 

@@ -1,7 +1,7 @@
 """The one place an example learns where the API is and who it is.
 
 Every flow imports this and nothing else builds a client, so there is a single
-answer to "which base URL?" and "which env var?" across all six.
+answer to "which base URL?" and "which env var?" across all five.
 
 Run any flow from the repo root::
 
@@ -37,12 +37,22 @@ def api_key() -> str:
 
 
 def client() -> ApiClient:
-    """An ApiClient bound to the configured host and bearer key.
+    """An ApiClient bound to the configured host, carrying the key as a bearer.
 
-    ``access_token`` becomes ``Authorization: Bearer <key>``, which is the only
-    scheme the spec declares.
+    The header is set here rather than through ``Configuration(access_token=…)``,
+    and that is a correction, not a preference. The document declares no security
+    scheme, so the generator wrote an empty ``auth_settings`` into every
+    operation, ``Configuration.auth_settings()`` returns ``{}``, and
+    ``access_token`` is read by nothing. Measured on this tree: serializing
+    ``get_keys`` from a Configuration built with ``access_token="sk-test"``
+    produces a request with no ``Authorization`` header at all. Every flow built
+    that way calls anonymously and collects a 403 that reads like a key problem.
+
+    ``header_name``/``header_value`` is the generated client's own way to send a
+    header the document did not describe, so it stays the one way here until the
+    document carries the scheme.
     """
-    return ApiClient(Configuration(host=BASE_URL, access_token=api_key()))
+    return ApiClient(Configuration(host=BASE_URL), "Authorization", f"Bearer {api_key()}")
 
 
 def run(main) -> None:

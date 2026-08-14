@@ -8,11 +8,13 @@ Neither call takes an org: both derive the tenant SERVER-side from the token's
 argument to pass.
 
 Both are declared with a ``default`` response and no ``content``, so the typed
-methods return None even though the server sends JSON. That is a spec gap, not
-an SDK one — 696 of 2425 operations currently model no response body — so this
-example reads the raw payload through the generated ``*_without_preload_content``
-variant rather than pretending a type it was not given. When the schemas land,
-these become ordinary typed calls and nothing else about them changes.
+methods return None even though the server sends JSON. That is a document gap,
+not an SDK one — 834 of the document's 2479 operations model no response body
+(716 declare no ``responses`` at all, 118 declare responses with no ``content``)
+— so this example reads the raw payload through the generated
+``*_without_preload_content`` variant rather than pretending a type it was not
+given. When the schemas land, these become ordinary typed calls and nothing else
+about them changes.
 
     python -m examples.money
 """

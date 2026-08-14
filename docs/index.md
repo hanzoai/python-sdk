@@ -1,23 +1,40 @@
 # Hanzo Python SDK
 
-The complete Python SDK for building AI applications with Hanzo AI infrastructure.
+A workspace of 65 packages. Two things live here that people usually arrive for:
+the API client, and the MCP server.
 
-## Overview
+## The API client (`hanzoai`)
 
-The Hanzo Python SDK provides:
+Generated from the Hanzo API's own OpenAPI document — 1814 paths, 2479
+operations, 192 API classes over 2460 models. It is documented in the
+[repository README](https://github.com/hanzoai/python-sdk#readme), which carries
+the install line, the quickstart and the five runnable flows in `examples/`.
 
-- **Agent SDK** (`hanzo-agent`) - Build agentic AI applications with a lightweight, production-ready framework
-- **MCP Server** (`hanzo-mcp`) - Model Context Protocol server with 30+ tools for AI code assistants
-- **Tool Packages** (`hanzo-tools-*`) - Modular tool packages for file operations, shell commands, browser automation, and more
+```python
+import os
+from hanzoai.cloud import ApiClient, Configuration, KeysApi
+
+client = ApiClient(
+    Configuration(host="https://api.hanzo.ai"),
+    "Authorization", f"Bearer {os.environ['HANZO_API_KEY']}",
+)
+
+with client as api:
+    for key in KeysApi(api).get_keys().keys or []:
+        print(key.prefix, key.type, key.created_at)
+```
+
+The rest of this site is the MCP server, the agent framework and the tool
+packages.
 
 ## Installation
 
-=== "Full Install"
+=== "MCP server"
     ```bash
-    pip install hanzo-mcp[tools-all]
+    pip install hanzo-mcp
     ```
 
-=== "Agent SDK Only"
+=== "Agent SDK"
     ```bash
     pip install hanzo-agent
     ```

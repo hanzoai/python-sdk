@@ -138,10 +138,13 @@ docs(network): update API documentation
 
 ## Package-Specific Guidelines
 
-### Core SDK (`pkg/hanzoai`)
-- Maintain OpenAI compatibility
-- Preserve backward compatibility
-- Document breaking changes
+### The client (`pkg/hanzoai/cloud`)
+- Generated. Never edit it by hand — a regeneration is `rmtree` + `copytree`, so
+  the edit is gone and CI's `generate.py --check` fails the run before that.
+- A defect you find in generated code is fixed in the API document, where every
+  other language SDK gets the same fix.
+- Method and class names are the document's operation ids, so they move when it
+  does. Note the rename in the commit; do not add an alias for the old name.
 
 ### CLI (`pkg/hanzo`)
 - Keep commands intuitive

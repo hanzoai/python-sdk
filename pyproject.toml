@@ -3,7 +3,7 @@ name = "hanzoai"
 version = "3.2.11"
 description = "The official Python library for the Hanzo API"
 dynamic = ["readme"]
-license = "BSD-3-Clause"
+license = "Apache-2.0"
 authors = [
 { name = "Hanzo", email = "dev@hanzo.ai" },
 ]
@@ -27,7 +27,7 @@ classifiers = [
   "Operating System :: POSIX :: Linux",
   "Operating System :: Microsoft :: Windows",
   "Topic :: Software Development :: Libraries :: Python Modules",
-  "License :: OSI Approved :: BSD License"
+  "License :: OSI Approved :: Apache Software License"
 ]
 
 [project.optional-dependencies]
