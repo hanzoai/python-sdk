@@ -5,10 +5,10 @@
     DELETE /v1/kv/{name}   delete_kv_by_name  tear down
 
 This is the PROVISIONING plane. The per-key data plane the spec also describes
-(``/v1/kv/keys/{key}``) is not mounted anywhere — GET 404s and PUT/DELETE 405 at
+(``/v1/kv/keys/{key}``) is not mounted anywhere — every verb 404s at
 api.hanzo.ai, and kv.hanzo.ai 404s the whole prefix — so a set/get/delete
-round-trip on keys would be an example that cannot run. These three all answer
-403 unauthenticated, i.e. routed and gated.
+round-trip on keys would be an example that cannot run. These three answer 403
+"a validated principal is required" unauthenticated, i.e. routed and gated.
 
 The delete runs in ``finally``, so a failed read still tears the store down
 rather than leaving it billable for the next run to collide with.
