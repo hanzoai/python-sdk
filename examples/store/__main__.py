@@ -1,8 +1,8 @@
 """store — a KV round-trip: provision a store, read it back, delete it.
 
-    POST   /v1/kv          post_v1_kv         provision
-    GET    /v1/kv/{name}   get_v1_kv_name     read back
-    DELETE /v1/kv/{name}   delete_v1_kv_name  tear down
+    POST   /v1/kv          post_kv         provision
+    GET    /v1/kv/{name}   get_kv_by_name     read back
+    DELETE /v1/kv/{name}   delete_kv_by_name  tear down
 
 This is the PROVISIONING plane. The per-key data plane the spec also describes
 (``/v1/kv/keys/{key}``) is not mounted anywhere — GET 404s and PUT/DELETE 405 at
@@ -29,15 +29,15 @@ def main() -> None:
     with client() as api:
         kv = KvApi(api)
 
-        kv.post_v1_kv(ProvisionRequest(name=NAME))
+        kv.post_kv(ProvisionRequest(name=NAME))
         print(f"provisioned {NAME}")
 
         try:
-            store = kv.get_v1_kv_name(NAME)
+            store = kv.get_kv_by_name(NAME)
             print(f"read back: {store.name} · {store.kind} · status {store.status}")
             print(f"  host {store.host}:{store.port}")
         finally:
-            kv.delete_v1_kv_name(NAME)
+            kv.delete_kv_by_name(NAME)
             print(f"deleted {NAME}")
 
 

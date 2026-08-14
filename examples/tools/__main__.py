@@ -1,6 +1,6 @@
 """tools — list the tools this key can reach.
 
-``GET /v1/tools`` (operationId ``get_v1_tools``), the catalog behind the
+``GET /v1/tools`` (operationId ``get_tools``), the catalog behind the
 MCP surface: each entry is a tool name, its description and its input schema.
 
 A note on the MCP door, because it is easy to pick the wrong one. There is a
@@ -22,7 +22,7 @@ from examples.client import client, run
 
 def main() -> None:
     with client() as api:
-        catalog = ToolsApi(api).get_v1_tools()
+        catalog = ToolsApi(api).get_tools()
 
     tools = catalog.tools or []
     print(f"{len(tools)} tools")
