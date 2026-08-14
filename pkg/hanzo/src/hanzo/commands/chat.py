@@ -109,8 +109,8 @@ async def ask_once(
                 console.print(
                     "[yellow]No local AI server running.[/yellow]\n"
                     "Start one of:\n"
-                    "  • Hanzo router: hanzo router start\n"
-                    "  • Local node: hanzo serve"
+                    "  • The cloud: hanzo up\n"
+                    "  • One model: hanzo engine serve <model>"
                 )
                 return
 
