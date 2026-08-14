@@ -8,9 +8,9 @@ Covers two guarantees:
    `hanzo_zap.CloudClient.call(...)` — asserting the derived method, forwarded auth,
    and body — using a mock CloudClient, so no network and no `hanzo-zap` install.
 
-This file used to lock the STAINLESS surface — `Hanzo`, `AsyncHanzo`, `Client`,
-`Stream`, `HanzoError`, … — and import `Hanzo` at module scope. Every one of those
-18 names was deleted by 648e7354 ("retire Stainless"), which replaced
+This file used to lock the hand-written surface that preceded generation —
+`Hanzo`, `AsyncHanzo`, `Client`, `Stream`, `HanzoError`, … — and import `Hanzo` at
+module scope. All 18 of those names went away at 648e7354, which replaced
 `pkg/hanzoai` with openapi-generator output whose entry point is `ApiClient` +
 `Configuration`. The import therefore raised at COLLECTION, so pytest reported an
 error and ran none of the transport tests below — which is how the whole suite

@@ -50,8 +50,11 @@ with client as api:
 
 Every route follows that shape: one `*Api` class per tag, one method per
 operation, typed models in and out. Keys come from
-[cloud.hanzo.ai](https://cloud.hanzo.ai) or `hanzo login`, in two shapes —
-`pk-` to read, `sk-` to write.
+[cloud.hanzo.ai](https://cloud.hanzo.ai) or `hanzo login` in two shapes, and only
+one of them works here. Use an `sk-`: it carries a principal, which every call
+above needs. A `pk-` is publishable — it is safe in a browser bundle precisely
+because it names an org and authenticates nobody, so cloud refuses it at the
+identity boundary and it reads nothing.
 
 ## Auth
 

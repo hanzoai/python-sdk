@@ -134,6 +134,23 @@ short-term shape, but the real fix belongs upstream: when cloud's emission
 declares a bearer scheme, `access_token` starts working, and the header should
 move back into `Configuration` in one edit. Until then, one place sets it.
 
+## A `pk-` is not a read key
+
+`cloud.APIKeyPrefixes` is `{"pk-", "sk-"}`, and it is tempting to read that pair
+as a permission split — publishable for reads, secret for writes. It is not one.
+`middleware_identity.go` returns nil for **any** `pk-` before it ever consults the
+key store: "a key meant for a browser bundle must not read … resolvable, not
+authenticating". A `pk-` resolves to an org so an analytics beacon can be
+attributed to a tenant, and that is the whole of it.
+
+So every route these examples use refuses a valid `pk-` exactly as it refuses no
+key at all — `/v1/tools` says why in as many words, `"a validated principal is
+required"` — and the 403 that comes back reads like a revoked key rather than the
+wrong shape of key. `examples/client.py` rejects a `pk-` up front for that reason,
+which is the same argument as the `access_token` note above: an unsendable
+credential and an unauthenticating one produce the same misleading refusal, so
+both are caught before the request goes out.
+
 **Two spec defects were found and fixed upstream while regenerating at 3.1.5.** Neither was
 patched here; both are in `hanzoai/openapi` main:
 - `fc0c17a` — 35 `/v1/platform` operations carried no `responses`. OAS 3.x requires it and
