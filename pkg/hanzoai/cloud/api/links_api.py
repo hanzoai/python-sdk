@@ -50,7 +50,7 @@ class LinksApi:
 
 
     @validate_call
-    def delete_v1_links_by_id(
+    def delete_links_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the link to act on, from the path. It is scoped to the caller, so another user's or org's id is a 404.")],
         _request_timeout: Union[
@@ -94,7 +94,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_links_by_id_serialize(
+        _param = self._delete_links_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -117,7 +117,7 @@ class LinksApi:
 
 
     @validate_call
-    def delete_v1_links_by_id_with_http_info(
+    def delete_links_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the link to act on, from the path. It is scoped to the caller, so another user's or org's id is a 404.")],
         _request_timeout: Union[
@@ -161,7 +161,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_links_by_id_serialize(
+        _param = self._delete_links_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -184,7 +184,7 @@ class LinksApi:
 
 
     @validate_call
-    def delete_v1_links_by_id_without_preload_content(
+    def delete_links_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the link to act on, from the path. It is scoped to the caller, so another user's or org's id is a 404.")],
         _request_timeout: Union[
@@ -228,7 +228,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_links_by_id_serialize(
+        _param = self._delete_links_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -246,7 +246,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _delete_v1_links_by_id_serialize(
+    def _delete_links_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -310,7 +310,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links(
+    def get_links(
         self,
         _request_timeout: Union[
             None,
@@ -351,7 +351,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_serialize(
+        _param = self._get_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -373,7 +373,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_with_http_info(
+    def get_links_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -414,7 +414,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_serialize(
+        _param = self._get_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -436,7 +436,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_without_preload_content(
+    def get_links_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -477,7 +477,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_serialize(
+        _param = self._get_links_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -494,7 +494,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_serialize(
+    def _get_links_serialize(
         self,
         _request_auth,
         _content_type,
@@ -555,7 +555,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_by_id(
+    def get_links_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the link to act on, from the path. It is scoped to the caller, so another user's or org's id is a 404.")],
         _request_timeout: Union[
@@ -599,7 +599,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_by_id_serialize(
+        _param = self._get_links_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -622,7 +622,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_by_id_with_http_info(
+    def get_links_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the link to act on, from the path. It is scoped to the caller, so another user's or org's id is a 404.")],
         _request_timeout: Union[
@@ -666,7 +666,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_by_id_serialize(
+        _param = self._get_links_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -689,7 +689,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_by_id_without_preload_content(
+    def get_links_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the link to act on, from the path. It is scoped to the caller, so another user's or org's id is a 404.")],
         _request_timeout: Union[
@@ -733,7 +733,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_by_id_serialize(
+        _param = self._get_links_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -751,7 +751,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_by_id_serialize(
+    def _get_links_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -815,7 +815,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_devices_by_machine(
+    def get_links_devices_by_machine(
         self,
         machine: Annotated[StrictStr, Field(description="Machine is the machine to act on, from the path. It is scoped to the caller, so a machine with none of the caller's accounts is a 404.")],
         _request_timeout: Union[
@@ -859,7 +859,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_devices_by_machine_serialize(
+        _param = self._get_links_devices_by_machine_serialize(
             machine=machine,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -882,7 +882,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_devices_by_machine_with_http_info(
+    def get_links_devices_by_machine_with_http_info(
         self,
         machine: Annotated[StrictStr, Field(description="Machine is the machine to act on, from the path. It is scoped to the caller, so a machine with none of the caller's accounts is a 404.")],
         _request_timeout: Union[
@@ -926,7 +926,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_devices_by_machine_serialize(
+        _param = self._get_links_devices_by_machine_serialize(
             machine=machine,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -949,7 +949,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_devices_by_machine_without_preload_content(
+    def get_links_devices_by_machine_without_preload_content(
         self,
         machine: Annotated[StrictStr, Field(description="Machine is the machine to act on, from the path. It is scoped to the caller, so a machine with none of the caller's accounts is a 404.")],
         _request_timeout: Union[
@@ -993,7 +993,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_devices_by_machine_serialize(
+        _param = self._get_links_devices_by_machine_serialize(
             machine=machine,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1011,7 +1011,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_devices_by_machine_serialize(
+    def _get_links_devices_by_machine_serialize(
         self,
         machine,
         _request_auth,
@@ -1075,7 +1075,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_route(
+    def get_links_route(
         self,
         _request_timeout: Union[
             None,
@@ -1116,7 +1116,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_route_serialize(
+        _param = self._get_links_route_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1138,7 +1138,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_route_with_http_info(
+    def get_links_route_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1179,7 +1179,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_route_serialize(
+        _param = self._get_links_route_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1201,7 +1201,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_route_without_preload_content(
+    def get_links_route_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1242,7 +1242,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_route_serialize(
+        _param = self._get_links_route_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1259,7 +1259,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_route_serialize(
+    def _get_links_route_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1320,7 +1320,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage(
+    def get_links_usage(
         self,
         provider: Annotated[Optional[StrictStr], Field(description="Provider is the provider whose meter to read. Required.")] = None,
         account: Annotated[Optional[StrictStr], Field(description="Account narrows to one account when a user has several with the provider.")] = None,
@@ -1373,7 +1373,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_serialize(
+        _param = self._get_links_usage_serialize(
             provider=provider,
             account=account,
             window=window,
@@ -1399,7 +1399,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_with_http_info(
+    def get_links_usage_with_http_info(
         self,
         provider: Annotated[Optional[StrictStr], Field(description="Provider is the provider whose meter to read. Required.")] = None,
         account: Annotated[Optional[StrictStr], Field(description="Account narrows to one account when a user has several with the provider.")] = None,
@@ -1452,7 +1452,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_serialize(
+        _param = self._get_links_usage_serialize(
             provider=provider,
             account=account,
             window=window,
@@ -1478,7 +1478,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_without_preload_content(
+    def get_links_usage_without_preload_content(
         self,
         provider: Annotated[Optional[StrictStr], Field(description="Provider is the provider whose meter to read. Required.")] = None,
         account: Annotated[Optional[StrictStr], Field(description="Account narrows to one account when a user has several with the provider.")] = None,
@@ -1531,7 +1531,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_serialize(
+        _param = self._get_links_usage_serialize(
             provider=provider,
             account=account,
             window=window,
@@ -1552,7 +1552,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_usage_serialize(
+    def _get_links_usage_serialize(
         self,
         provider,
         account,
@@ -1633,7 +1633,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_accounts(
+    def get_links_usage_accounts(
         self,
         _request_timeout: Union[
             None,
@@ -1674,7 +1674,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_accounts_serialize(
+        _param = self._get_links_usage_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1696,7 +1696,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_accounts_with_http_info(
+    def get_links_usage_accounts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1737,7 +1737,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_accounts_serialize(
+        _param = self._get_links_usage_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1759,7 +1759,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_accounts_without_preload_content(
+    def get_links_usage_accounts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1800,7 +1800,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_accounts_serialize(
+        _param = self._get_links_usage_accounts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1817,7 +1817,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_usage_accounts_serialize(
+    def _get_links_usage_accounts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1878,7 +1878,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_summary(
+    def get_links_usage_summary(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the period, one of 1h, 24h, 7d or 30d; empty means 24h, and an unknown label is 400, never a silent substitution.")] = None,
         _request_timeout: Union[
@@ -1922,7 +1922,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_summary_serialize(
+        _param = self._get_links_usage_summary_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1945,7 +1945,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_summary_with_http_info(
+    def get_links_usage_summary_with_http_info(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the period, one of 1h, 24h, 7d or 30d; empty means 24h, and an unknown label is 400, never a silent substitution.")] = None,
         _request_timeout: Union[
@@ -1989,7 +1989,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_summary_serialize(
+        _param = self._get_links_usage_summary_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2012,7 +2012,7 @@ class LinksApi:
 
 
     @validate_call
-    def get_v1_links_usage_summary_without_preload_content(
+    def get_links_usage_summary_without_preload_content(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the period, one of 1h, 24h, 7d or 30d; empty means 24h, and an unknown label is 400, never a silent substitution.")] = None,
         _request_timeout: Union[
@@ -2056,7 +2056,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_links_usage_summary_serialize(
+        _param = self._get_links_usage_summary_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2074,7 +2074,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _get_v1_links_usage_summary_serialize(
+    def _get_links_usage_summary_serialize(
         self,
         range,
         _request_auth,
@@ -2140,7 +2140,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links(
+    def post_links(
         self,
         enroll_req: EnrollReq,
         _request_timeout: Union[
@@ -2184,7 +2184,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_serialize(
+        _param = self._post_links_serialize(
             enroll_req=enroll_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2207,7 +2207,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_with_http_info(
+    def post_links_with_http_info(
         self,
         enroll_req: EnrollReq,
         _request_timeout: Union[
@@ -2251,7 +2251,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_serialize(
+        _param = self._post_links_serialize(
             enroll_req=enroll_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2274,7 +2274,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_without_preload_content(
+    def post_links_without_preload_content(
         self,
         enroll_req: EnrollReq,
         _request_timeout: Union[
@@ -2318,7 +2318,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_serialize(
+        _param = self._post_links_serialize(
             enroll_req=enroll_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2336,7 +2336,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _post_v1_links_serialize(
+    def _post_links_serialize(
         self,
         enroll_req,
         _request_auth,
@@ -2413,7 +2413,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_devices_by_machine_revoke(
+    def post_links_devices_by_machine_revoke(
         self,
         machine: Annotated[StrictStr, Field(description="Machine is the machine to act on, from the path. It is scoped to the caller, so a machine with none of the caller's accounts is a 404.")],
         _request_timeout: Union[
@@ -2457,7 +2457,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_devices_by_machine_revoke_serialize(
+        _param = self._post_links_devices_by_machine_revoke_serialize(
             machine=machine,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2480,7 +2480,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_devices_by_machine_revoke_with_http_info(
+    def post_links_devices_by_machine_revoke_with_http_info(
         self,
         machine: Annotated[StrictStr, Field(description="Machine is the machine to act on, from the path. It is scoped to the caller, so a machine with none of the caller's accounts is a 404.")],
         _request_timeout: Union[
@@ -2524,7 +2524,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_devices_by_machine_revoke_serialize(
+        _param = self._post_links_devices_by_machine_revoke_serialize(
             machine=machine,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2547,7 +2547,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_devices_by_machine_revoke_without_preload_content(
+    def post_links_devices_by_machine_revoke_without_preload_content(
         self,
         machine: Annotated[StrictStr, Field(description="Machine is the machine to act on, from the path. It is scoped to the caller, so a machine with none of the caller's accounts is a 404.")],
         _request_timeout: Union[
@@ -2591,7 +2591,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_devices_by_machine_revoke_serialize(
+        _param = self._post_links_devices_by_machine_revoke_serialize(
             machine=machine,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2609,7 +2609,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _post_v1_links_devices_by_machine_revoke_serialize(
+    def _post_links_devices_by_machine_revoke_serialize(
         self,
         machine,
         _request_auth,
@@ -2673,7 +2673,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_usage(
+    def post_links_usage(
         self,
         ingest_req: IngestReq,
         _request_timeout: Union[
@@ -2717,7 +2717,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_usage_serialize(
+        _param = self._post_links_usage_serialize(
             ingest_req=ingest_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2740,7 +2740,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_usage_with_http_info(
+    def post_links_usage_with_http_info(
         self,
         ingest_req: IngestReq,
         _request_timeout: Union[
@@ -2784,7 +2784,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_usage_serialize(
+        _param = self._post_links_usage_serialize(
             ingest_req=ingest_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2807,7 +2807,7 @@ class LinksApi:
 
 
     @validate_call
-    def post_v1_links_usage_without_preload_content(
+    def post_links_usage_without_preload_content(
         self,
         ingest_req: IngestReq,
         _request_timeout: Union[
@@ -2851,7 +2851,7 @@ class LinksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_links_usage_serialize(
+        _param = self._post_links_usage_serialize(
             ingest_req=ingest_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2869,7 +2869,7 @@ class LinksApi:
         return response_data.response
 
 
-    def _post_v1_links_usage_serialize(
+    def _post_links_usage_serialize(
         self,
         ingest_req,
         _request_auth,

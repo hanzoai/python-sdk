@@ -41,7 +41,7 @@ class OrgsApi:
 
 
     @validate_call
-    def get_v1_orgs_by_org_entitlements(
+    def get_orgs_by_org_entitlements(
         self,
         org: StrictStr,
         _request_timeout: Union[
@@ -85,7 +85,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_orgs_by_org_entitlements_serialize(
+        _param = self._get_orgs_by_org_entitlements_serialize(
             org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -108,7 +108,7 @@ class OrgsApi:
 
 
     @validate_call
-    def get_v1_orgs_by_org_entitlements_with_http_info(
+    def get_orgs_by_org_entitlements_with_http_info(
         self,
         org: StrictStr,
         _request_timeout: Union[
@@ -152,7 +152,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_orgs_by_org_entitlements_serialize(
+        _param = self._get_orgs_by_org_entitlements_serialize(
             org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -175,7 +175,7 @@ class OrgsApi:
 
 
     @validate_call
-    def get_v1_orgs_by_org_entitlements_without_preload_content(
+    def get_orgs_by_org_entitlements_without_preload_content(
         self,
         org: StrictStr,
         _request_timeout: Union[
@@ -219,7 +219,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_orgs_by_org_entitlements_serialize(
+        _param = self._get_orgs_by_org_entitlements_serialize(
             org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -237,7 +237,7 @@ class OrgsApi:
         return response_data.response
 
 
-    def _get_v1_orgs_by_org_entitlements_serialize(
+    def _get_orgs_by_org_entitlements_serialize(
         self,
         org,
         _request_auth,
@@ -301,7 +301,7 @@ class OrgsApi:
 
 
     @validate_call
-    def post_v1_orgs(
+    def post_orgs(
         self,
         onboard_req: OnboardReq,
         _request_timeout: Union[
@@ -345,7 +345,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_orgs_serialize(
+        _param = self._post_orgs_serialize(
             onboard_req=onboard_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -368,7 +368,7 @@ class OrgsApi:
 
 
     @validate_call
-    def post_v1_orgs_with_http_info(
+    def post_orgs_with_http_info(
         self,
         onboard_req: OnboardReq,
         _request_timeout: Union[
@@ -412,7 +412,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_orgs_serialize(
+        _param = self._post_orgs_serialize(
             onboard_req=onboard_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -435,7 +435,7 @@ class OrgsApi:
 
 
     @validate_call
-    def post_v1_orgs_without_preload_content(
+    def post_orgs_without_preload_content(
         self,
         onboard_req: OnboardReq,
         _request_timeout: Union[
@@ -479,7 +479,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_orgs_serialize(
+        _param = self._post_orgs_serialize(
             onboard_req=onboard_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -497,7 +497,7 @@ class OrgsApi:
         return response_data.response
 
 
-    def _post_v1_orgs_serialize(
+    def _post_orgs_serialize(
         self,
         onboard_req,
         _request_auth,
@@ -574,7 +574,7 @@ class OrgsApi:
 
 
     @validate_call
-    def post_v1_orgs_by_org_entitlements(
+    def post_orgs_by_org_entitlements(
         self,
         org: StrictStr,
         mutate_req: MutateReq,
@@ -621,7 +621,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_orgs_by_org_entitlements_serialize(
+        _param = self._post_orgs_by_org_entitlements_serialize(
             org=org,
             mutate_req=mutate_req,
             _request_auth=_request_auth,
@@ -645,7 +645,7 @@ class OrgsApi:
 
 
     @validate_call
-    def post_v1_orgs_by_org_entitlements_with_http_info(
+    def post_orgs_by_org_entitlements_with_http_info(
         self,
         org: StrictStr,
         mutate_req: MutateReq,
@@ -692,7 +692,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_orgs_by_org_entitlements_serialize(
+        _param = self._post_orgs_by_org_entitlements_serialize(
             org=org,
             mutate_req=mutate_req,
             _request_auth=_request_auth,
@@ -716,7 +716,7 @@ class OrgsApi:
 
 
     @validate_call
-    def post_v1_orgs_by_org_entitlements_without_preload_content(
+    def post_orgs_by_org_entitlements_without_preload_content(
         self,
         org: StrictStr,
         mutate_req: MutateReq,
@@ -763,7 +763,7 @@ class OrgsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_orgs_by_org_entitlements_serialize(
+        _param = self._post_orgs_by_org_entitlements_serialize(
             org=org,
             mutate_req=mutate_req,
             _request_auth=_request_auth,
@@ -782,7 +782,7 @@ class OrgsApi:
         return response_data.response
 
 
-    def _post_v1_orgs_by_org_entitlements_serialize(
+    def _post_orgs_by_org_entitlements_serialize(
         self,
         org,
         mutate_req,

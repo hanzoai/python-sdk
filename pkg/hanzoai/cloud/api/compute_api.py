@@ -553,7 +553,7 @@ class ComputeApi:
 
 
     @validate_call
-    def get_v1_compute_regions(
+    def get_compute_regions(
         self,
         _request_timeout: Union[
             None,
@@ -594,7 +594,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compute_regions_serialize(
+        _param = self._get_compute_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -615,7 +615,7 @@ class ComputeApi:
 
 
     @validate_call
-    def get_v1_compute_regions_with_http_info(
+    def get_compute_regions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -656,7 +656,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compute_regions_serialize(
+        _param = self._get_compute_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -677,7 +677,7 @@ class ComputeApi:
 
 
     @validate_call
-    def get_v1_compute_regions_without_preload_content(
+    def get_compute_regions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -718,7 +718,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compute_regions_serialize(
+        _param = self._get_compute_regions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -734,7 +734,7 @@ class ComputeApi:
         return response_data.response
 
 
-    def _get_v1_compute_regions_serialize(
+    def _get_compute_regions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -788,7 +788,7 @@ class ComputeApi:
 
 
     @validate_call
-    def get_v1_compute_sizes(
+    def get_compute_sizes(
         self,
         _request_timeout: Union[
             None,
@@ -829,7 +829,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compute_sizes_serialize(
+        _param = self._get_compute_sizes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -850,7 +850,7 @@ class ComputeApi:
 
 
     @validate_call
-    def get_v1_compute_sizes_with_http_info(
+    def get_compute_sizes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -891,7 +891,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compute_sizes_serialize(
+        _param = self._get_compute_sizes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -912,7 +912,7 @@ class ComputeApi:
 
 
     @validate_call
-    def get_v1_compute_sizes_without_preload_content(
+    def get_compute_sizes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -953,7 +953,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compute_sizes_serialize(
+        _param = self._get_compute_sizes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -969,7 +969,7 @@ class ComputeApi:
         return response_data.response
 
 
-    def _get_v1_compute_sizes_serialize(
+    def _get_compute_sizes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1268,7 +1268,7 @@ class ComputeApi:
 
 
     @validate_call
-    def post_v1_compute_bots_by_id_by_action(
+    def post_compute_bots_by_id_by_action(
         self,
         id: StrictStr,
         action: StrictStr,
@@ -1315,7 +1315,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compute_bots_by_id_by_action_serialize(
+        _param = self._post_compute_bots_by_id_by_action_serialize(
             id=id,
             action=action,
             _request_auth=_request_auth,
@@ -1338,7 +1338,7 @@ class ComputeApi:
 
 
     @validate_call
-    def post_v1_compute_bots_by_id_by_action_with_http_info(
+    def post_compute_bots_by_id_by_action_with_http_info(
         self,
         id: StrictStr,
         action: StrictStr,
@@ -1385,7 +1385,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compute_bots_by_id_by_action_serialize(
+        _param = self._post_compute_bots_by_id_by_action_serialize(
             id=id,
             action=action,
             _request_auth=_request_auth,
@@ -1408,7 +1408,7 @@ class ComputeApi:
 
 
     @validate_call
-    def post_v1_compute_bots_by_id_by_action_without_preload_content(
+    def post_compute_bots_by_id_by_action_without_preload_content(
         self,
         id: StrictStr,
         action: StrictStr,
@@ -1455,7 +1455,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compute_bots_by_id_by_action_serialize(
+        _param = self._post_compute_bots_by_id_by_action_serialize(
             id=id,
             action=action,
             _request_auth=_request_auth,
@@ -1473,7 +1473,7 @@ class ComputeApi:
         return response_data.response
 
 
-    def _post_v1_compute_bots_by_id_by_action_serialize(
+    def _post_compute_bots_by_id_by_action_serialize(
         self,
         id,
         action,
@@ -1533,7 +1533,7 @@ class ComputeApi:
 
 
     @validate_call
-    def post_v1_compute_bots_launch(
+    def post_compute_bots_launch(
         self,
         _request_timeout: Union[
             None,
@@ -1574,7 +1574,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compute_bots_launch_serialize(
+        _param = self._post_compute_bots_launch_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1595,7 +1595,7 @@ class ComputeApi:
 
 
     @validate_call
-    def post_v1_compute_bots_launch_with_http_info(
+    def post_compute_bots_launch_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1636,7 +1636,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compute_bots_launch_serialize(
+        _param = self._post_compute_bots_launch_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1657,7 +1657,7 @@ class ComputeApi:
 
 
     @validate_call
-    def post_v1_compute_bots_launch_without_preload_content(
+    def post_compute_bots_launch_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1698,7 +1698,7 @@ class ComputeApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compute_bots_launch_serialize(
+        _param = self._post_compute_bots_launch_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1714,7 +1714,7 @@ class ComputeApi:
         return response_data.response
 
 
-    def _post_v1_compute_bots_launch_serialize(
+    def _post_compute_bots_launch_serialize(
         self,
         _request_auth,
         _content_type,

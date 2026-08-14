@@ -48,7 +48,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_by_doctype_by_name(
+    def delete_framework_by_doctype_by_name(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -95,7 +95,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_by_doctype_by_name_serialize(
+        _param = self._delete_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -119,7 +119,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_by_doctype_by_name_with_http_info(
+    def delete_framework_by_doctype_by_name_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -166,7 +166,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_by_doctype_by_name_serialize(
+        _param = self._delete_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -190,7 +190,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_by_doctype_by_name_without_preload_content(
+    def delete_framework_by_doctype_by_name_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -237,7 +237,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_by_doctype_by_name_serialize(
+        _param = self._delete_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -256,7 +256,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _delete_v1_framework_by_doctype_by_name_serialize(
+    def _delete_framework_by_doctype_by_name_serialize(
         self,
         doctype,
         name,
@@ -316,7 +316,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctypes_by_name(
+    def delete_framework_doctypes_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -360,7 +360,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctypes_by_name_serialize(
+        _param = self._delete_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -383,7 +383,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctypes_by_name_with_http_info(
+    def delete_framework_doctypes_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -427,7 +427,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctypes_by_name_serialize(
+        _param = self._delete_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -450,7 +450,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_doctypes_by_name_without_preload_content(
+    def delete_framework_doctypes_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -494,7 +494,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_doctypes_by_name_serialize(
+        _param = self._delete_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -512,7 +512,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _delete_v1_framework_doctypes_by_name_serialize(
+    def _delete_framework_doctypes_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -569,7 +569,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_roles_by_user_by_role(
+    def delete_framework_roles_by_user_by_role(
         self,
         user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
         role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
@@ -616,7 +616,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_roles_by_user_by_role_serialize(
+        _param = self._delete_framework_roles_by_user_by_role_serialize(
             user=user,
             role=role,
             _request_auth=_request_auth,
@@ -640,7 +640,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_roles_by_user_by_role_with_http_info(
+    def delete_framework_roles_by_user_by_role_with_http_info(
         self,
         user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
         role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
@@ -687,7 +687,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_roles_by_user_by_role_serialize(
+        _param = self._delete_framework_roles_by_user_by_role_serialize(
             user=user,
             role=role,
             _request_auth=_request_auth,
@@ -711,7 +711,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_v1_framework_roles_by_user_by_role_without_preload_content(
+    def delete_framework_roles_by_user_by_role_without_preload_content(
         self,
         user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
         role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
@@ -758,7 +758,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_framework_roles_by_user_by_role_serialize(
+        _param = self._delete_framework_roles_by_user_by_role_serialize(
             user=user,
             role=role,
             _request_auth=_request_auth,
@@ -777,7 +777,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _delete_v1_framework_roles_by_user_by_role_serialize(
+    def _delete_framework_roles_by_user_by_role_serialize(
         self,
         user,
         role,
@@ -837,7 +837,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_by_doctype(
+    def get_framework_by_doctype(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
@@ -893,7 +893,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_by_doctype_serialize(
+        _param = self._get_framework_by_doctype_serialize(
             doctype=doctype,
             filters=filters,
             fields=fields,
@@ -920,7 +920,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_by_doctype_with_http_info(
+    def get_framework_by_doctype_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
@@ -976,7 +976,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_by_doctype_serialize(
+        _param = self._get_framework_by_doctype_serialize(
             doctype=doctype,
             filters=filters,
             fields=fields,
@@ -1003,7 +1003,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_by_doctype_without_preload_content(
+    def get_framework_by_doctype_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
@@ -1059,7 +1059,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_by_doctype_serialize(
+        _param = self._get_framework_by_doctype_serialize(
             doctype=doctype,
             filters=filters,
             fields=fields,
@@ -1081,7 +1081,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_by_doctype_serialize(
+    def _get_framework_by_doctype_serialize(
         self,
         doctype,
         filters,
@@ -1165,7 +1165,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_by_doctype_by_name(
+    def get_framework_by_doctype_by_name(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -1212,7 +1212,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_by_doctype_by_name_serialize(
+        _param = self._get_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -1236,7 +1236,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_by_doctype_by_name_with_http_info(
+    def get_framework_by_doctype_by_name_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -1283,7 +1283,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_by_doctype_by_name_serialize(
+        _param = self._get_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -1307,7 +1307,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_by_doctype_by_name_without_preload_content(
+    def get_framework_by_doctype_by_name_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -1354,7 +1354,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_by_doctype_by_name_serialize(
+        _param = self._get_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -1373,7 +1373,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_by_doctype_by_name_serialize(
+    def _get_framework_by_doctype_by_name_serialize(
         self,
         doctype,
         name,
@@ -1440,7 +1440,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes(
+    def get_framework_doctypes(
         self,
         _request_timeout: Union[
             None,
@@ -1481,7 +1481,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_serialize(
+        _param = self._get_framework_doctypes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1503,7 +1503,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_with_http_info(
+    def get_framework_doctypes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1544,7 +1544,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_serialize(
+        _param = self._get_framework_doctypes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1566,7 +1566,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_without_preload_content(
+    def get_framework_doctypes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1607,7 +1607,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_serialize(
+        _param = self._get_framework_doctypes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1624,7 +1624,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_doctypes_serialize(
+    def _get_framework_doctypes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1685,7 +1685,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_by_name(
+    def get_framework_doctypes_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -1729,7 +1729,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_by_name_serialize(
+        _param = self._get_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1752,7 +1752,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_by_name_with_http_info(
+    def get_framework_doctypes_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -1796,7 +1796,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_by_name_serialize(
+        _param = self._get_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1819,7 +1819,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_doctypes_by_name_without_preload_content(
+    def get_framework_doctypes_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
@@ -1863,7 +1863,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_doctypes_by_name_serialize(
+        _param = self._get_framework_doctypes_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1881,7 +1881,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_doctypes_by_name_serialize(
+    def _get_framework_doctypes_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -1945,7 +1945,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules(
+    def get_framework_modules(
         self,
         _request_timeout: Union[
             None,
@@ -1986,7 +1986,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_serialize(
+        _param = self._get_framework_modules_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2008,7 +2008,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_with_http_info(
+    def get_framework_modules_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2049,7 +2049,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_serialize(
+        _param = self._get_framework_modules_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2071,7 +2071,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_without_preload_content(
+    def get_framework_modules_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2112,7 +2112,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_serialize(
+        _param = self._get_framework_modules_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2129,7 +2129,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_modules_serialize(
+    def _get_framework_modules_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2190,7 +2190,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_by_module(
+    def get_framework_modules_by_module(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -2234,7 +2234,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_by_module_serialize(
+        _param = self._get_framework_modules_by_module_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2257,7 +2257,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_by_module_with_http_info(
+    def get_framework_modules_by_module_with_http_info(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -2301,7 +2301,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_by_module_serialize(
+        _param = self._get_framework_modules_by_module_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2324,7 +2324,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_modules_by_module_without_preload_content(
+    def get_framework_modules_by_module_without_preload_content(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -2368,7 +2368,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_modules_by_module_serialize(
+        _param = self._get_framework_modules_by_module_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2386,7 +2386,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_modules_by_module_serialize(
+    def _get_framework_modules_by_module_serialize(
         self,
         module,
         _request_auth,
@@ -2450,7 +2450,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_roles(
+    def get_framework_roles(
         self,
         _request_timeout: Union[
             None,
@@ -2491,7 +2491,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_roles_serialize(
+        _param = self._get_framework_roles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2513,7 +2513,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_roles_with_http_info(
+    def get_framework_roles_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2554,7 +2554,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_roles_serialize(
+        _param = self._get_framework_roles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2576,7 +2576,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_roles_without_preload_content(
+    def get_framework_roles_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2617,7 +2617,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_roles_serialize(
+        _param = self._get_framework_roles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2634,7 +2634,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_roles_serialize(
+    def _get_framework_roles_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2695,7 +2695,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_summary(
+    def get_framework_summary(
         self,
         _request_timeout: Union[
             None,
@@ -2736,7 +2736,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_summary_serialize(
+        _param = self._get_framework_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2758,7 +2758,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_summary_with_http_info(
+    def get_framework_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2799,7 +2799,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_summary_serialize(
+        _param = self._get_framework_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2821,7 +2821,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_v1_framework_summary_without_preload_content(
+    def get_framework_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2862,7 +2862,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_framework_summary_serialize(
+        _param = self._get_framework_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2879,7 +2879,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _get_v1_framework_summary_serialize(
+    def _get_framework_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2940,7 +2940,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype(
+    def post_framework_by_doctype(
         self,
         doctype: StrictStr,
         _request_timeout: Union[
@@ -2984,7 +2984,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_serialize(
+        _param = self._post_framework_by_doctype_serialize(
             doctype=doctype,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3006,7 +3006,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_with_http_info(
+    def post_framework_by_doctype_with_http_info(
         self,
         doctype: StrictStr,
         _request_timeout: Union[
@@ -3050,7 +3050,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_serialize(
+        _param = self._post_framework_by_doctype_serialize(
             doctype=doctype,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3072,7 +3072,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_without_preload_content(
+    def post_framework_by_doctype_without_preload_content(
         self,
         doctype: StrictStr,
         _request_timeout: Union[
@@ -3116,7 +3116,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_serialize(
+        _param = self._post_framework_by_doctype_serialize(
             doctype=doctype,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3133,7 +3133,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_by_doctype_serialize(
+    def _post_framework_by_doctype_serialize(
         self,
         doctype,
         _request_auth,
@@ -3190,7 +3190,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_by_name_cancel(
+    def post_framework_by_doctype_by_name_cancel(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3237,7 +3237,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_by_name_cancel_serialize(
+        _param = self._post_framework_by_doctype_by_name_cancel_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3261,7 +3261,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_by_name_cancel_with_http_info(
+    def post_framework_by_doctype_by_name_cancel_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3308,7 +3308,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_by_name_cancel_serialize(
+        _param = self._post_framework_by_doctype_by_name_cancel_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3332,7 +3332,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_by_name_cancel_without_preload_content(
+    def post_framework_by_doctype_by_name_cancel_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3379,7 +3379,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_by_name_cancel_serialize(
+        _param = self._post_framework_by_doctype_by_name_cancel_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3398,7 +3398,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_by_doctype_by_name_cancel_serialize(
+    def _post_framework_by_doctype_by_name_cancel_serialize(
         self,
         doctype,
         name,
@@ -3465,7 +3465,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_by_name_submit(
+    def post_framework_by_doctype_by_name_submit(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3512,7 +3512,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_by_name_submit_serialize(
+        _param = self._post_framework_by_doctype_by_name_submit_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3536,7 +3536,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_by_name_submit_with_http_info(
+    def post_framework_by_doctype_by_name_submit_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3583,7 +3583,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_by_name_submit_serialize(
+        _param = self._post_framework_by_doctype_by_name_submit_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3607,7 +3607,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_by_doctype_by_name_submit_without_preload_content(
+    def post_framework_by_doctype_by_name_submit_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
@@ -3654,7 +3654,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_by_doctype_by_name_submit_serialize(
+        _param = self._post_framework_by_doctype_by_name_submit_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -3673,7 +3673,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_by_doctype_by_name_submit_serialize(
+    def _post_framework_by_doctype_by_name_submit_serialize(
         self,
         doctype,
         name,
@@ -3740,7 +3740,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctypes(
+    def post_framework_doctypes(
         self,
         doc_type: DocType,
         _request_timeout: Union[
@@ -3784,7 +3784,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctypes_serialize(
+        _param = self._post_framework_doctypes_serialize(
             doc_type=doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3807,7 +3807,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctypes_with_http_info(
+    def post_framework_doctypes_with_http_info(
         self,
         doc_type: DocType,
         _request_timeout: Union[
@@ -3851,7 +3851,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctypes_serialize(
+        _param = self._post_framework_doctypes_serialize(
             doc_type=doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3874,7 +3874,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_doctypes_without_preload_content(
+    def post_framework_doctypes_without_preload_content(
         self,
         doc_type: DocType,
         _request_timeout: Union[
@@ -3918,7 +3918,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_doctypes_serialize(
+        _param = self._post_framework_doctypes_serialize(
             doc_type=doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3936,7 +3936,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_doctypes_serialize(
+    def _post_framework_doctypes_serialize(
         self,
         doc_type,
         _request_auth,
@@ -4013,7 +4013,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_modules_by_module_install(
+    def post_framework_modules_by_module_install(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -4057,7 +4057,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_modules_by_module_install_serialize(
+        _param = self._post_framework_modules_by_module_install_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4080,7 +4080,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_modules_by_module_install_with_http_info(
+    def post_framework_modules_by_module_install_with_http_info(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -4124,7 +4124,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_modules_by_module_install_serialize(
+        _param = self._post_framework_modules_by_module_install_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4147,7 +4147,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_modules_by_module_install_without_preload_content(
+    def post_framework_modules_by_module_install_without_preload_content(
         self,
         module: Annotated[StrictStr, Field(description="Module is the lane's registered name (\"cms\", \"erp\"), from the path.")],
         _request_timeout: Union[
@@ -4191,7 +4191,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_modules_by_module_install_serialize(
+        _param = self._post_framework_modules_by_module_install_serialize(
             module=module,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4209,7 +4209,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_modules_by_module_install_serialize(
+    def _post_framework_modules_by_module_install_serialize(
         self,
         module,
         _request_auth,
@@ -4273,7 +4273,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_roles(
+    def post_framework_roles(
         self,
         role_assignment: RoleAssignment,
         _request_timeout: Union[
@@ -4317,7 +4317,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_roles_serialize(
+        _param = self._post_framework_roles_serialize(
             role_assignment=role_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4340,7 +4340,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_roles_with_http_info(
+    def post_framework_roles_with_http_info(
         self,
         role_assignment: RoleAssignment,
         _request_timeout: Union[
@@ -4384,7 +4384,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_roles_serialize(
+        _param = self._post_framework_roles_serialize(
             role_assignment=role_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4407,7 +4407,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def post_v1_framework_roles_without_preload_content(
+    def post_framework_roles_without_preload_content(
         self,
         role_assignment: RoleAssignment,
         _request_timeout: Union[
@@ -4451,7 +4451,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_framework_roles_serialize(
+        _param = self._post_framework_roles_serialize(
             role_assignment=role_assignment,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4469,7 +4469,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _post_v1_framework_roles_serialize(
+    def _post_framework_roles_serialize(
         self,
         role_assignment,
         _request_auth,
@@ -4546,7 +4546,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_by_doctype_by_name(
+    def put_framework_by_doctype_by_name(
         self,
         doctype: StrictStr,
         name: StrictStr,
@@ -4593,7 +4593,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_by_doctype_by_name_serialize(
+        _param = self._put_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -4616,7 +4616,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_by_doctype_by_name_with_http_info(
+    def put_framework_by_doctype_by_name_with_http_info(
         self,
         doctype: StrictStr,
         name: StrictStr,
@@ -4663,7 +4663,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_by_doctype_by_name_serialize(
+        _param = self._put_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -4686,7 +4686,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_by_doctype_by_name_without_preload_content(
+    def put_framework_by_doctype_by_name_without_preload_content(
         self,
         doctype: StrictStr,
         name: StrictStr,
@@ -4733,7 +4733,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_by_doctype_by_name_serialize(
+        _param = self._put_framework_by_doctype_by_name_serialize(
             doctype=doctype,
             name=name,
             _request_auth=_request_auth,
@@ -4751,7 +4751,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _put_v1_framework_by_doctype_by_name_serialize(
+    def _put_framework_by_doctype_by_name_serialize(
         self,
         doctype,
         name,
@@ -4811,7 +4811,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_doctypes_by_name(
+    def put_framework_doctypes_by_name(
         self,
         name: StrictStr,
         doc_type: DocType,
@@ -4858,7 +4858,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_doctypes_by_name_serialize(
+        _param = self._put_framework_doctypes_by_name_serialize(
             name=name,
             doc_type=doc_type,
             _request_auth=_request_auth,
@@ -4882,7 +4882,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_doctypes_by_name_with_http_info(
+    def put_framework_doctypes_by_name_with_http_info(
         self,
         name: StrictStr,
         doc_type: DocType,
@@ -4929,7 +4929,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_doctypes_by_name_serialize(
+        _param = self._put_framework_doctypes_by_name_serialize(
             name=name,
             doc_type=doc_type,
             _request_auth=_request_auth,
@@ -4953,7 +4953,7 @@ class FrameworkApi:
 
 
     @validate_call
-    def put_v1_framework_doctypes_by_name_without_preload_content(
+    def put_framework_doctypes_by_name_without_preload_content(
         self,
         name: StrictStr,
         doc_type: DocType,
@@ -5000,7 +5000,7 @@ class FrameworkApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_framework_doctypes_by_name_serialize(
+        _param = self._put_framework_doctypes_by_name_serialize(
             name=name,
             doc_type=doc_type,
             _request_auth=_request_auth,
@@ -5019,7 +5019,7 @@ class FrameworkApi:
         return response_data.response
 
 
-    def _put_v1_framework_doctypes_by_name_serialize(
+    def _put_framework_doctypes_by_name_serialize(
         self,
         name,
         doc_type,

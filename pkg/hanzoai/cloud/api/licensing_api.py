@@ -18,19 +18,19 @@ from typing_extensions import Annotated
 
 from pydantic import StrictStr
 from typing import Optional
-from hanzoai.cloud.models.artifact import Artifact
-from hanzoai.cloud.models.fingerprint_request import FingerprintRequest
-from hanzoai.cloud.models.fingerprint_response import FingerprintResponse
-from hanzoai.cloud.models.health_view import HealthView
-from hanzoai.cloud.models.issue_request import IssueRequest
-from hanzoai.cloud.models.issue_response import IssueResponse
-from hanzoai.cloud.models.pubkey_view import PubkeyView
-from hanzoai.cloud.models.release import Release
-from hanzoai.cloud.models.release_list import ReleaseList
-from hanzoai.cloud.models.revoke_request import RevokeRequest
-from hanzoai.cloud.models.revoke_response import RevokeResponse
-from hanzoai.cloud.models.verify_request import VerifyRequest
-from hanzoai.cloud.models.verify_response import VerifyResponse
+from hanzoai.cloud.models.licensing_fingerprint_request import LicensingFingerprintRequest
+from hanzoai.cloud.models.licensing_fingerprint_response import LicensingFingerprintResponse
+from hanzoai.cloud.models.licensing_health_view import LicensingHealthView
+from hanzoai.cloud.models.licensing_issue_request import LicensingIssueRequest
+from hanzoai.cloud.models.licensing_issue_response import LicensingIssueResponse
+from hanzoai.cloud.models.licensing_pubkey_view import LicensingPubkeyView
+from hanzoai.cloud.models.licensing_release import LicensingRelease
+from hanzoai.cloud.models.licensing_release_asset import LicensingReleaseAsset
+from hanzoai.cloud.models.licensing_release_list import LicensingReleaseList
+from hanzoai.cloud.models.licensing_revoke_request import LicensingRevokeRequest
+from hanzoai.cloud.models.licensing_revoke_response import LicensingRevokeResponse
+from hanzoai.cloud.models.licensing_verify_request import LicensingVerifyRequest
+from hanzoai.cloud.models.licensing_verify_response import LicensingVerifyResponse
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -51,9 +51,10 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_download_by_release(
+    def get_licensing_download_by_release(
         self,
         release: StrictStr,
+        x_license_token: Optional[StrictStr] = None,
         token: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -67,13 +68,15 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Artifact:
+    ) -> LicensingReleaseAsset:
         """Download resolves a release to its artifact, gated on a valid license.
 
         Download resolves a release to its artifact, gated on a valid license.  The gate is the LICENSE token, not the IAM bearer: being signed in is not permission to download a paid binary — holding a good license for it is. The token must verify against this deployment's public key, be unrevoked, be scoped to the release's app, and carry every feature the release requires. Present it as the `X-License-Token` header (preferred, since a header does not land in proxy logs) or as `?token=`.  The response pairs the artifact URL with its cosign signature so the client verifies the binary BEFORE trusting it: a signed URL alone proves where the bytes came from, not what they are. A yanked release is 410 Gone.
 
         :param release: (required)
         :type release: str
+        :param x_license_token:
+        :type x_license_token: str
         :param token:
         :type token: str
         :param _request_timeout: timeout setting for this request. If one
@@ -98,8 +101,9 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_download_by_release_serialize(
+        _param = self._get_licensing_download_by_release_serialize(
             release=release,
+            x_license_token=x_license_token,
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -108,7 +112,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Artifact",
+            '200': "LicensingReleaseAsset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -122,9 +126,10 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_download_by_release_with_http_info(
+    def get_licensing_download_by_release_with_http_info(
         self,
         release: StrictStr,
+        x_license_token: Optional[StrictStr] = None,
         token: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -138,13 +143,15 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Artifact]:
+    ) -> ApiResponse[LicensingReleaseAsset]:
         """Download resolves a release to its artifact, gated on a valid license.
 
         Download resolves a release to its artifact, gated on a valid license.  The gate is the LICENSE token, not the IAM bearer: being signed in is not permission to download a paid binary — holding a good license for it is. The token must verify against this deployment's public key, be unrevoked, be scoped to the release's app, and carry every feature the release requires. Present it as the `X-License-Token` header (preferred, since a header does not land in proxy logs) or as `?token=`.  The response pairs the artifact URL with its cosign signature so the client verifies the binary BEFORE trusting it: a signed URL alone proves where the bytes came from, not what they are. A yanked release is 410 Gone.
 
         :param release: (required)
         :type release: str
+        :param x_license_token:
+        :type x_license_token: str
         :param token:
         :type token: str
         :param _request_timeout: timeout setting for this request. If one
@@ -169,8 +176,9 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_download_by_release_serialize(
+        _param = self._get_licensing_download_by_release_serialize(
             release=release,
+            x_license_token=x_license_token,
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -179,7 +187,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Artifact",
+            '200': "LicensingReleaseAsset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -193,9 +201,10 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_download_by_release_without_preload_content(
+    def get_licensing_download_by_release_without_preload_content(
         self,
         release: StrictStr,
+        x_license_token: Optional[StrictStr] = None,
         token: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -216,6 +225,8 @@ class LicensingApi:
 
         :param release: (required)
         :type release: str
+        :param x_license_token:
+        :type x_license_token: str
         :param token:
         :type token: str
         :param _request_timeout: timeout setting for this request. If one
@@ -240,8 +251,9 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_download_by_release_serialize(
+        _param = self._get_licensing_download_by_release_serialize(
             release=release,
+            x_license_token=x_license_token,
             token=token,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -250,7 +262,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Artifact",
+            '200': "LicensingReleaseAsset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -259,9 +271,10 @@ class LicensingApi:
         return response_data.response
 
 
-    def _get_v1_licensing_download_by_release_serialize(
+    def _get_licensing_download_by_release_serialize(
         self,
         release,
+        x_license_token,
         token,
         _request_auth,
         _content_type,
@@ -292,6 +305,8 @@ class LicensingApi:
             _query_params.append(('token', token))
             
         # process the header parameters
+        if x_license_token is not None:
+            _header_params['X-License-Token'] = x_license_token
         # process the form parameters
         # process the body parameter
 
@@ -328,7 +343,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_healthz(
+    def get_licensing_healthz(
         self,
         _request_timeout: Union[
             None,
@@ -342,7 +357,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HealthView:
+    ) -> LicensingHealthView:
         """Health reports which signer this deployment mints with, and in which env.
 
         Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since the KMS is reached only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
@@ -369,7 +384,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_healthz_serialize(
+        _param = self._get_licensing_healthz_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -377,7 +392,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthView",
+            '200': "LicensingHealthView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -391,7 +406,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_healthz_with_http_info(
+    def get_licensing_healthz_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -405,7 +420,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HealthView]:
+    ) -> ApiResponse[LicensingHealthView]:
         """Health reports which signer this deployment mints with, and in which env.
 
         Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since the KMS is reached only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
@@ -432,7 +447,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_healthz_serialize(
+        _param = self._get_licensing_healthz_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -440,7 +455,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthView",
+            '200': "LicensingHealthView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -454,7 +469,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_healthz_without_preload_content(
+    def get_licensing_healthz_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -495,7 +510,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_healthz_serialize(
+        _param = self._get_licensing_healthz_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -503,7 +518,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthView",
+            '200': "LicensingHealthView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -512,7 +527,7 @@ class LicensingApi:
         return response_data.response
 
 
-    def _get_v1_licensing_healthz_serialize(
+    def _get_licensing_healthz_serialize(
         self,
         _request_auth,
         _content_type,
@@ -573,7 +588,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_jwks(
+    def get_licensing_jwks(
         self,
         _request_timeout: Union[
             None,
@@ -587,7 +602,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PubkeyView:
+    ) -> LicensingPubkeyView:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
         Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
@@ -614,7 +629,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_jwks_serialize(
+        _param = self._get_licensing_jwks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -622,7 +637,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PubkeyView",
+            '200': "LicensingPubkeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -636,7 +651,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_jwks_with_http_info(
+    def get_licensing_jwks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -650,7 +665,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PubkeyView]:
+    ) -> ApiResponse[LicensingPubkeyView]:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
         Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
@@ -677,7 +692,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_jwks_serialize(
+        _param = self._get_licensing_jwks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -685,7 +700,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PubkeyView",
+            '200': "LicensingPubkeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -699,7 +714,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_jwks_without_preload_content(
+    def get_licensing_jwks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -740,7 +755,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_jwks_serialize(
+        _param = self._get_licensing_jwks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -748,7 +763,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PubkeyView",
+            '200': "LicensingPubkeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -757,7 +772,7 @@ class LicensingApi:
         return response_data.response
 
 
-    def _get_v1_licensing_jwks_serialize(
+    def _get_licensing_jwks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -818,7 +833,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_pubkey(
+    def get_licensing_pubkey(
         self,
         _request_timeout: Union[
             None,
@@ -832,7 +847,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PubkeyView:
+    ) -> LicensingPubkeyView:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
         Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
@@ -859,7 +874,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_pubkey_serialize(
+        _param = self._get_licensing_pubkey_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -867,7 +882,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PubkeyView",
+            '200': "LicensingPubkeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -881,7 +896,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_pubkey_with_http_info(
+    def get_licensing_pubkey_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -895,7 +910,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PubkeyView]:
+    ) -> ApiResponse[LicensingPubkeyView]:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
         Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
@@ -922,7 +937,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_pubkey_serialize(
+        _param = self._get_licensing_pubkey_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -930,7 +945,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PubkeyView",
+            '200': "LicensingPubkeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -944,7 +959,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_pubkey_without_preload_content(
+    def get_licensing_pubkey_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -985,7 +1000,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_pubkey_serialize(
+        _param = self._get_licensing_pubkey_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -993,7 +1008,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PubkeyView",
+            '200': "LicensingPubkeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1002,7 +1017,7 @@ class LicensingApi:
         return response_data.response
 
 
-    def _get_v1_licensing_pubkey_serialize(
+    def _get_licensing_pubkey_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1063,7 +1078,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_releases(
+    def get_licensing_releases(
         self,
         _request_timeout: Union[
             None,
@@ -1077,7 +1092,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReleaseList:
+    ) -> LicensingReleaseList:
         """Lists the signed binary releases this deployment can serve.
 
         Lists the signed binary releases this deployment can serve.  Metadata only, and no download URL: the artifact is behind GET /v1/licensing/download/{release}, which is gated on a valid license token. Knowing that a release exists is not permission to run it, which is why this list needs no license of its own.
@@ -1104,7 +1119,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_releases_serialize(
+        _param = self._get_licensing_releases_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1112,7 +1127,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReleaseList",
+            '200': "LicensingReleaseList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1126,7 +1141,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_releases_with_http_info(
+    def get_licensing_releases_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1140,7 +1155,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReleaseList]:
+    ) -> ApiResponse[LicensingReleaseList]:
         """Lists the signed binary releases this deployment can serve.
 
         Lists the signed binary releases this deployment can serve.  Metadata only, and no download URL: the artifact is behind GET /v1/licensing/download/{release}, which is gated on a valid license token. Knowing that a release exists is not permission to run it, which is why this list needs no license of its own.
@@ -1167,7 +1182,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_releases_serialize(
+        _param = self._get_licensing_releases_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1175,7 +1190,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReleaseList",
+            '200': "LicensingReleaseList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1189,7 +1204,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_releases_without_preload_content(
+    def get_licensing_releases_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1230,7 +1245,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_releases_serialize(
+        _param = self._get_licensing_releases_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1238,7 +1253,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReleaseList",
+            '200': "LicensingReleaseList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1247,7 +1262,7 @@ class LicensingApi:
         return response_data.response
 
 
-    def _get_v1_licensing_releases_serialize(
+    def _get_licensing_releases_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1308,7 +1323,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_releases_by_release(
+    def get_licensing_releases_by_release(
         self,
         release: StrictStr,
         _request_timeout: Union[
@@ -1323,7 +1338,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Release:
+    ) -> LicensingRelease:
         """Reads one release's metadata: its product, version, platform and the cosign material a client verifies the binary against.
 
         Reads one release's metadata: its product, version, platform and the cosign material a client verifies the binary against.  An unknown id is 404. Like the list, this is metadata only — the bytes are behind the license-gated download.
@@ -1352,7 +1367,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_releases_by_release_serialize(
+        _param = self._get_licensing_releases_by_release_serialize(
             release=release,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1361,7 +1376,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Release",
+            '200': "LicensingRelease",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1375,7 +1390,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_releases_by_release_with_http_info(
+    def get_licensing_releases_by_release_with_http_info(
         self,
         release: StrictStr,
         _request_timeout: Union[
@@ -1390,7 +1405,7 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Release]:
+    ) -> ApiResponse[LicensingRelease]:
         """Reads one release's metadata: its product, version, platform and the cosign material a client verifies the binary against.
 
         Reads one release's metadata: its product, version, platform and the cosign material a client verifies the binary against.  An unknown id is 404. Like the list, this is metadata only — the bytes are behind the license-gated download.
@@ -1419,7 +1434,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_releases_by_release_serialize(
+        _param = self._get_licensing_releases_by_release_serialize(
             release=release,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1428,7 +1443,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Release",
+            '200': "LicensingRelease",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1442,7 +1457,7 @@ class LicensingApi:
 
 
     @validate_call
-    def get_v1_licensing_releases_by_release_without_preload_content(
+    def get_licensing_releases_by_release_without_preload_content(
         self,
         release: StrictStr,
         _request_timeout: Union[
@@ -1486,7 +1501,7 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_licensing_releases_by_release_serialize(
+        _param = self._get_licensing_releases_by_release_serialize(
             release=release,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1495,7 +1510,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Release",
+            '200': "LicensingRelease",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1504,7 +1519,7 @@ class LicensingApi:
         return response_data.response
 
 
-    def _get_v1_licensing_releases_by_release_serialize(
+    def _get_licensing_releases_by_release_serialize(
         self,
         release,
         _request_auth,
@@ -1568,9 +1583,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_fingerprint(
+    def post_licensing_fingerprint(
         self,
-        fingerprint_request: FingerprintRequest,
+        licensing_fingerprint_request: LicensingFingerprintRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1583,13 +1598,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FingerprintResponse:
+    ) -> LicensingFingerprintResponse:
         """Fingerprint turns raw device signals into the opaque value that binds a license to one machine.
 
         Fingerprint turns raw device signals into the opaque value that binds a license to one machine.  This is the anti-copy step: the value returned here is folded into the signed token, so a token minted with it runs only on the device it was bound to. The derivation is one-way and salted — the signals are never stored and never echoed back — so the response is safe to persist client-side and pass to issue. Signals too weak to identify a machine (a hostname alone) are refused rather than turned into a binding that would collide with other machines.
 
-        :param fingerprint_request: (required)
-        :type fingerprint_request: FingerprintRequest
+        :param licensing_fingerprint_request: (required)
+        :type licensing_fingerprint_request: LicensingFingerprintRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1612,8 +1627,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_fingerprint_serialize(
-            fingerprint_request=fingerprint_request,
+        _param = self._post_licensing_fingerprint_serialize(
+            licensing_fingerprint_request=licensing_fingerprint_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1621,7 +1636,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FingerprintResponse",
+            '200': "LicensingFingerprintResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1635,9 +1650,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_fingerprint_with_http_info(
+    def post_licensing_fingerprint_with_http_info(
         self,
-        fingerprint_request: FingerprintRequest,
+        licensing_fingerprint_request: LicensingFingerprintRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1650,13 +1665,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FingerprintResponse]:
+    ) -> ApiResponse[LicensingFingerprintResponse]:
         """Fingerprint turns raw device signals into the opaque value that binds a license to one machine.
 
         Fingerprint turns raw device signals into the opaque value that binds a license to one machine.  This is the anti-copy step: the value returned here is folded into the signed token, so a token minted with it runs only on the device it was bound to. The derivation is one-way and salted — the signals are never stored and never echoed back — so the response is safe to persist client-side and pass to issue. Signals too weak to identify a machine (a hostname alone) are refused rather than turned into a binding that would collide with other machines.
 
-        :param fingerprint_request: (required)
-        :type fingerprint_request: FingerprintRequest
+        :param licensing_fingerprint_request: (required)
+        :type licensing_fingerprint_request: LicensingFingerprintRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1679,8 +1694,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_fingerprint_serialize(
-            fingerprint_request=fingerprint_request,
+        _param = self._post_licensing_fingerprint_serialize(
+            licensing_fingerprint_request=licensing_fingerprint_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1688,7 +1703,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FingerprintResponse",
+            '200': "LicensingFingerprintResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1702,9 +1717,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_fingerprint_without_preload_content(
+    def post_licensing_fingerprint_without_preload_content(
         self,
-        fingerprint_request: FingerprintRequest,
+        licensing_fingerprint_request: LicensingFingerprintRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1722,8 +1737,8 @@ class LicensingApi:
 
         Fingerprint turns raw device signals into the opaque value that binds a license to one machine.  This is the anti-copy step: the value returned here is folded into the signed token, so a token minted with it runs only on the device it was bound to. The derivation is one-way and salted — the signals are never stored and never echoed back — so the response is safe to persist client-side and pass to issue. Signals too weak to identify a machine (a hostname alone) are refused rather than turned into a binding that would collide with other machines.
 
-        :param fingerprint_request: (required)
-        :type fingerprint_request: FingerprintRequest
+        :param licensing_fingerprint_request: (required)
+        :type licensing_fingerprint_request: LicensingFingerprintRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1746,8 +1761,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_fingerprint_serialize(
-            fingerprint_request=fingerprint_request,
+        _param = self._post_licensing_fingerprint_serialize(
+            licensing_fingerprint_request=licensing_fingerprint_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1755,7 +1770,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FingerprintResponse",
+            '200': "LicensingFingerprintResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1764,9 +1779,9 @@ class LicensingApi:
         return response_data.response
 
 
-    def _post_v1_licensing_fingerprint_serialize(
+    def _post_licensing_fingerprint_serialize(
         self,
-        fingerprint_request,
+        licensing_fingerprint_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1792,8 +1807,8 @@ class LicensingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if fingerprint_request is not None:
-            _body_params = fingerprint_request
+        if licensing_fingerprint_request is not None:
+            _body_params = licensing_fingerprint_request
 
 
         # set the HTTP header `Accept`
@@ -1841,9 +1856,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_issue(
+    def post_licensing_issue(
         self,
-        issue_request: IssueRequest,
+        licensing_issue_request: LicensingIssueRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1856,13 +1871,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IssueResponse:
+    ) -> LicensingIssueResponse:
         """Issue mints a signed license token for a product the caller's org already pays for.
 
         Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed — by the KMS, never by key material in this process. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
 
-        :param issue_request: (required)
-        :type issue_request: IssueRequest
+        :param licensing_issue_request: (required)
+        :type licensing_issue_request: LicensingIssueRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1885,8 +1900,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_issue_serialize(
-            issue_request=issue_request,
+        _param = self._post_licensing_issue_serialize(
+            licensing_issue_request=licensing_issue_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1894,7 +1909,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IssueResponse",
+            '200': "LicensingIssueResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1908,9 +1923,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_issue_with_http_info(
+    def post_licensing_issue_with_http_info(
         self,
-        issue_request: IssueRequest,
+        licensing_issue_request: LicensingIssueRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1923,13 +1938,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IssueResponse]:
+    ) -> ApiResponse[LicensingIssueResponse]:
         """Issue mints a signed license token for a product the caller's org already pays for.
 
         Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed — by the KMS, never by key material in this process. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
 
-        :param issue_request: (required)
-        :type issue_request: IssueRequest
+        :param licensing_issue_request: (required)
+        :type licensing_issue_request: LicensingIssueRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1952,8 +1967,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_issue_serialize(
-            issue_request=issue_request,
+        _param = self._post_licensing_issue_serialize(
+            licensing_issue_request=licensing_issue_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1961,7 +1976,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IssueResponse",
+            '200': "LicensingIssueResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1975,9 +1990,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_issue_without_preload_content(
+    def post_licensing_issue_without_preload_content(
         self,
-        issue_request: IssueRequest,
+        licensing_issue_request: LicensingIssueRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1995,8 +2010,8 @@ class LicensingApi:
 
         Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed — by the KMS, never by key material in this process. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
 
-        :param issue_request: (required)
-        :type issue_request: IssueRequest
+        :param licensing_issue_request: (required)
+        :type licensing_issue_request: LicensingIssueRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2019,8 +2034,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_issue_serialize(
-            issue_request=issue_request,
+        _param = self._post_licensing_issue_serialize(
+            licensing_issue_request=licensing_issue_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2028,7 +2043,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IssueResponse",
+            '200': "LicensingIssueResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2037,9 +2052,9 @@ class LicensingApi:
         return response_data.response
 
 
-    def _post_v1_licensing_issue_serialize(
+    def _post_licensing_issue_serialize(
         self,
-        issue_request,
+        licensing_issue_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2065,8 +2080,8 @@ class LicensingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if issue_request is not None:
-            _body_params = issue_request
+        if licensing_issue_request is not None:
+            _body_params = licensing_issue_request
 
 
         # set the HTTP header `Accept`
@@ -2114,9 +2129,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_releases(
+    def post_licensing_releases(
         self,
-        release: Release,
+        licensing_release: LicensingRelease,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2129,13 +2144,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Release:
+    ) -> LicensingRelease:
         """Publishes a signed binary release, answering 201 Created.
 
         Publishes a signed binary release, answering 201 Created.  Outside dev a release MUST carry its cosign signature: this is how a binary becomes downloadable, so accepting an unsigned one would let an unverifiable artifact into the distribution path. Org-admin only — publishing is an operator action, not something a licensee does.
 
-        :param release: (required)
-        :type release: Release
+        :param licensing_release: (required)
+        :type licensing_release: LicensingRelease
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2158,8 +2173,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_releases_serialize(
-            release=release,
+        _param = self._post_licensing_releases_serialize(
+            licensing_release=licensing_release,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2167,7 +2182,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Release",
+            '201': "LicensingRelease",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2181,9 +2196,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_releases_with_http_info(
+    def post_licensing_releases_with_http_info(
         self,
-        release: Release,
+        licensing_release: LicensingRelease,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2196,13 +2211,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Release]:
+    ) -> ApiResponse[LicensingRelease]:
         """Publishes a signed binary release, answering 201 Created.
 
         Publishes a signed binary release, answering 201 Created.  Outside dev a release MUST carry its cosign signature: this is how a binary becomes downloadable, so accepting an unsigned one would let an unverifiable artifact into the distribution path. Org-admin only — publishing is an operator action, not something a licensee does.
 
-        :param release: (required)
-        :type release: Release
+        :param licensing_release: (required)
+        :type licensing_release: LicensingRelease
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2225,8 +2240,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_releases_serialize(
-            release=release,
+        _param = self._post_licensing_releases_serialize(
+            licensing_release=licensing_release,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2234,7 +2249,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Release",
+            '201': "LicensingRelease",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2248,9 +2263,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_releases_without_preload_content(
+    def post_licensing_releases_without_preload_content(
         self,
-        release: Release,
+        licensing_release: LicensingRelease,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2268,8 +2283,8 @@ class LicensingApi:
 
         Publishes a signed binary release, answering 201 Created.  Outside dev a release MUST carry its cosign signature: this is how a binary becomes downloadable, so accepting an unsigned one would let an unverifiable artifact into the distribution path. Org-admin only — publishing is an operator action, not something a licensee does.
 
-        :param release: (required)
-        :type release: Release
+        :param licensing_release: (required)
+        :type licensing_release: LicensingRelease
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2292,8 +2307,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_releases_serialize(
-            release=release,
+        _param = self._post_licensing_releases_serialize(
+            licensing_release=licensing_release,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2301,7 +2316,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Release",
+            '201': "LicensingRelease",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2310,9 +2325,9 @@ class LicensingApi:
         return response_data.response
 
 
-    def _post_v1_licensing_releases_serialize(
+    def _post_licensing_releases_serialize(
         self,
-        release,
+        licensing_release,
         _request_auth,
         _content_type,
         _headers,
@@ -2338,8 +2353,8 @@ class LicensingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if release is not None:
-            _body_params = release
+        if licensing_release is not None:
+            _body_params = licensing_release
 
 
         # set the HTTP header `Accept`
@@ -2387,9 +2402,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_revoke(
+    def post_licensing_revoke(
         self,
-        revoke_request: RevokeRequest,
+        licensing_revoke_request: LicensingRevokeRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2402,13 +2417,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RevokeResponse:
+    ) -> LicensingRevokeResponse:
         """Revoke turns off tokens that have already been issued.
 
         Revoke turns off tokens that have already been issued.  A signed token cannot be un-signed, so revocation is the only way to withdraw one: this appends an entry that verify and the license-gated download both consult. It is a POST rather than a DELETE because it APPENDS a durable, attributed record — the entry names the admin who recorded it and when — rather than removing one.  Org-admin only. Scope it as narrowly as the incident allows: \"nonce\" for one leaked token, \"holder\" for one compromised account, \"fingerprint\" for one stolen machine, \"release\" when a whole build is bad.
 
-        :param revoke_request: (required)
-        :type revoke_request: RevokeRequest
+        :param licensing_revoke_request: (required)
+        :type licensing_revoke_request: LicensingRevokeRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2431,8 +2446,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_revoke_serialize(
-            revoke_request=revoke_request,
+        _param = self._post_licensing_revoke_serialize(
+            licensing_revoke_request=licensing_revoke_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2440,7 +2455,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResponse",
+            '200': "LicensingRevokeResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2454,9 +2469,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_revoke_with_http_info(
+    def post_licensing_revoke_with_http_info(
         self,
-        revoke_request: RevokeRequest,
+        licensing_revoke_request: LicensingRevokeRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2469,13 +2484,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RevokeResponse]:
+    ) -> ApiResponse[LicensingRevokeResponse]:
         """Revoke turns off tokens that have already been issued.
 
         Revoke turns off tokens that have already been issued.  A signed token cannot be un-signed, so revocation is the only way to withdraw one: this appends an entry that verify and the license-gated download both consult. It is a POST rather than a DELETE because it APPENDS a durable, attributed record — the entry names the admin who recorded it and when — rather than removing one.  Org-admin only. Scope it as narrowly as the incident allows: \"nonce\" for one leaked token, \"holder\" for one compromised account, \"fingerprint\" for one stolen machine, \"release\" when a whole build is bad.
 
-        :param revoke_request: (required)
-        :type revoke_request: RevokeRequest
+        :param licensing_revoke_request: (required)
+        :type licensing_revoke_request: LicensingRevokeRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2498,8 +2513,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_revoke_serialize(
-            revoke_request=revoke_request,
+        _param = self._post_licensing_revoke_serialize(
+            licensing_revoke_request=licensing_revoke_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2507,7 +2522,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResponse",
+            '200': "LicensingRevokeResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2521,9 +2536,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_revoke_without_preload_content(
+    def post_licensing_revoke_without_preload_content(
         self,
-        revoke_request: RevokeRequest,
+        licensing_revoke_request: LicensingRevokeRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2541,8 +2556,8 @@ class LicensingApi:
 
         Revoke turns off tokens that have already been issued.  A signed token cannot be un-signed, so revocation is the only way to withdraw one: this appends an entry that verify and the license-gated download both consult. It is a POST rather than a DELETE because it APPENDS a durable, attributed record — the entry names the admin who recorded it and when — rather than removing one.  Org-admin only. Scope it as narrowly as the incident allows: \"nonce\" for one leaked token, \"holder\" for one compromised account, \"fingerprint\" for one stolen machine, \"release\" when a whole build is bad.
 
-        :param revoke_request: (required)
-        :type revoke_request: RevokeRequest
+        :param licensing_revoke_request: (required)
+        :type licensing_revoke_request: LicensingRevokeRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2565,8 +2580,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_revoke_serialize(
-            revoke_request=revoke_request,
+        _param = self._post_licensing_revoke_serialize(
+            licensing_revoke_request=licensing_revoke_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2574,7 +2589,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResponse",
+            '200': "LicensingRevokeResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2583,9 +2598,9 @@ class LicensingApi:
         return response_data.response
 
 
-    def _post_v1_licensing_revoke_serialize(
+    def _post_licensing_revoke_serialize(
         self,
-        revoke_request,
+        licensing_revoke_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2611,8 +2626,8 @@ class LicensingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if revoke_request is not None:
-            _body_params = revoke_request
+        if licensing_revoke_request is not None:
+            _body_params = licensing_revoke_request
 
 
         # set the HTTP header `Accept`
@@ -2660,9 +2675,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_verify(
+    def post_licensing_verify(
         self,
-        verify_request: VerifyRequest,
+        licensing_verify_request: LicensingVerifyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2675,13 +2690,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> VerifyResponse:
+    ) -> LicensingVerifyResponse:
         """Verify checks a license token online: signature, schema, expiry, app_id and the revocation list.
 
         Verify checks a license token online: signature, schema, expiry, app_id and the revocation list.  It is UNAUTHENTICATED and always answers 200 — a bad token is `valid:false` with a reason rather than an error status, because \"is this token good\" is a question anyone may ask about a credential they already hold and the answer is the same either way. It is also OPTIONAL: the engine verifies OFFLINE against the published public key (GET /v1/licensing/pubkey) and needs this endpoint only to learn about revocation, so an outage here never stops a paid customer working.
 
-        :param verify_request: (required)
-        :type verify_request: VerifyRequest
+        :param licensing_verify_request: (required)
+        :type licensing_verify_request: LicensingVerifyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2704,8 +2719,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_verify_serialize(
-            verify_request=verify_request,
+        _param = self._post_licensing_verify_serialize(
+            licensing_verify_request=licensing_verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2713,7 +2728,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VerifyResponse",
+            '200': "LicensingVerifyResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2727,9 +2742,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_verify_with_http_info(
+    def post_licensing_verify_with_http_info(
         self,
-        verify_request: VerifyRequest,
+        licensing_verify_request: LicensingVerifyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2742,13 +2757,13 @@ class LicensingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[VerifyResponse]:
+    ) -> ApiResponse[LicensingVerifyResponse]:
         """Verify checks a license token online: signature, schema, expiry, app_id and the revocation list.
 
         Verify checks a license token online: signature, schema, expiry, app_id and the revocation list.  It is UNAUTHENTICATED and always answers 200 — a bad token is `valid:false` with a reason rather than an error status, because \"is this token good\" is a question anyone may ask about a credential they already hold and the answer is the same either way. It is also OPTIONAL: the engine verifies OFFLINE against the published public key (GET /v1/licensing/pubkey) and needs this endpoint only to learn about revocation, so an outage here never stops a paid customer working.
 
-        :param verify_request: (required)
-        :type verify_request: VerifyRequest
+        :param licensing_verify_request: (required)
+        :type licensing_verify_request: LicensingVerifyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2771,8 +2786,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_verify_serialize(
-            verify_request=verify_request,
+        _param = self._post_licensing_verify_serialize(
+            licensing_verify_request=licensing_verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2780,7 +2795,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VerifyResponse",
+            '200': "LicensingVerifyResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2794,9 +2809,9 @@ class LicensingApi:
 
 
     @validate_call
-    def post_v1_licensing_verify_without_preload_content(
+    def post_licensing_verify_without_preload_content(
         self,
-        verify_request: VerifyRequest,
+        licensing_verify_request: LicensingVerifyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2814,8 +2829,8 @@ class LicensingApi:
 
         Verify checks a license token online: signature, schema, expiry, app_id and the revocation list.  It is UNAUTHENTICATED and always answers 200 — a bad token is `valid:false` with a reason rather than an error status, because \"is this token good\" is a question anyone may ask about a credential they already hold and the answer is the same either way. It is also OPTIONAL: the engine verifies OFFLINE against the published public key (GET /v1/licensing/pubkey) and needs this endpoint only to learn about revocation, so an outage here never stops a paid customer working.
 
-        :param verify_request: (required)
-        :type verify_request: VerifyRequest
+        :param licensing_verify_request: (required)
+        :type licensing_verify_request: LicensingVerifyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2838,8 +2853,8 @@ class LicensingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_licensing_verify_serialize(
-            verify_request=verify_request,
+        _param = self._post_licensing_verify_serialize(
+            licensing_verify_request=licensing_verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2847,7 +2862,7 @@ class LicensingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VerifyResponse",
+            '200': "LicensingVerifyResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2856,9 +2871,9 @@ class LicensingApi:
         return response_data.response
 
 
-    def _post_v1_licensing_verify_serialize(
+    def _post_licensing_verify_serialize(
         self,
-        verify_request,
+        licensing_verify_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2884,8 +2899,8 @@ class LicensingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if verify_request is not None:
-            _body_params = verify_request
+        if licensing_verify_request is not None:
+            _body_params = licensing_verify_request
 
 
         # set the HTTP header `Accept`

@@ -44,7 +44,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world(
+    def get_world(
         self,
         _request_timeout: Union[
             None,
@@ -85,7 +85,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_serialize(
+        _param = self._get_world_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -107,7 +107,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_with_http_info(
+    def get_world_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -148,7 +148,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_serialize(
+        _param = self._get_world_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -170,7 +170,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_without_preload_content(
+    def get_world_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -211,7 +211,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_serialize(
+        _param = self._get_world_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -228,7 +228,7 @@ class WorldApi:
         return response_data.response
 
 
-    def _get_v1_world_serialize(
+    def _get_world_serialize(
         self,
         _request_auth,
         _content_type,
@@ -289,7 +289,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_limits(
+    def get_world_limits(
         self,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is a World plan id from the live @hanzo/plans catalog, e.g. world-pro. Empty means world-free, and so does an id the catalog does not know — this never fails on an unknown plan.")] = None,
         _request_timeout: Union[
@@ -333,7 +333,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_limits_serialize(
+        _param = self._get_world_limits_serialize(
             plan=plan,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -356,7 +356,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_limits_with_http_info(
+    def get_world_limits_with_http_info(
         self,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is a World plan id from the live @hanzo/plans catalog, e.g. world-pro. Empty means world-free, and so does an id the catalog does not know — this never fails on an unknown plan.")] = None,
         _request_timeout: Union[
@@ -400,7 +400,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_limits_serialize(
+        _param = self._get_world_limits_serialize(
             plan=plan,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -423,7 +423,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_limits_without_preload_content(
+    def get_world_limits_without_preload_content(
         self,
         plan: Annotated[Optional[StrictStr], Field(description="Plan is a World plan id from the live @hanzo/plans catalog, e.g. world-pro. Empty means world-free, and so does an id the catalog does not know — this never fails on an unknown plan.")] = None,
         _request_timeout: Union[
@@ -467,7 +467,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_limits_serialize(
+        _param = self._get_world_limits_serialize(
             plan=plan,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -485,7 +485,7 @@ class WorldApi:
         return response_data.response
 
 
-    def _get_v1_world_limits_serialize(
+    def _get_world_limits_serialize(
         self,
         plan,
         _request_auth,
@@ -551,7 +551,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_news(
+    def get_world_news(
         self,
         _request_timeout: Union[
             None,
@@ -592,7 +592,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_news_serialize(
+        _param = self._get_world_news_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -614,7 +614,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_news_with_http_info(
+    def get_world_news_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -655,7 +655,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_news_serialize(
+        _param = self._get_world_news_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -677,7 +677,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_news_without_preload_content(
+    def get_world_news_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -718,7 +718,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_news_serialize(
+        _param = self._get_world_news_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -735,7 +735,7 @@ class WorldApi:
         return response_data.response
 
 
-    def _get_v1_world_news_serialize(
+    def _get_world_news_serialize(
         self,
         _request_auth,
         _content_type,
@@ -796,7 +796,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_pipeline(
+    def get_world_pipeline(
         self,
         _request_timeout: Union[
             None,
@@ -837,7 +837,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_pipeline_serialize(
+        _param = self._get_world_pipeline_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -859,7 +859,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_pipeline_with_http_info(
+    def get_world_pipeline_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -900,7 +900,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_pipeline_serialize(
+        _param = self._get_world_pipeline_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,7 +922,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_pipeline_without_preload_content(
+    def get_world_pipeline_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -963,7 +963,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_pipeline_serialize(
+        _param = self._get_world_pipeline_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -980,7 +980,7 @@ class WorldApi:
         return response_data.response
 
 
-    def _get_v1_world_pipeline_serialize(
+    def _get_world_pipeline_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1041,7 +1041,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_stream(
+    def get_world_stream(
         self,
         _request_timeout: Union[
             None,
@@ -1082,7 +1082,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_stream_serialize(
+        _param = self._get_world_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1103,7 +1103,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_stream_with_http_info(
+    def get_world_stream_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1144,7 +1144,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_stream_serialize(
+        _param = self._get_world_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1165,7 +1165,7 @@ class WorldApi:
 
 
     @validate_call
-    def get_v1_world_stream_without_preload_content(
+    def get_world_stream_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1206,7 +1206,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_world_stream_serialize(
+        _param = self._get_world_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1222,7 +1222,7 @@ class WorldApi:
         return response_data.response
 
 
-    def _get_v1_world_stream_serialize(
+    def _get_world_stream_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1276,7 +1276,7 @@ class WorldApi:
 
 
     @validate_call
-    def put_v1_world_pipeline(
+    def put_world_pipeline(
         self,
         pipeline_req: PipelineReq,
         _request_timeout: Union[
@@ -1320,7 +1320,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_world_pipeline_serialize(
+        _param = self._put_world_pipeline_serialize(
             pipeline_req=pipeline_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1343,7 +1343,7 @@ class WorldApi:
 
 
     @validate_call
-    def put_v1_world_pipeline_with_http_info(
+    def put_world_pipeline_with_http_info(
         self,
         pipeline_req: PipelineReq,
         _request_timeout: Union[
@@ -1387,7 +1387,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_world_pipeline_serialize(
+        _param = self._put_world_pipeline_serialize(
             pipeline_req=pipeline_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1410,7 +1410,7 @@ class WorldApi:
 
 
     @validate_call
-    def put_v1_world_pipeline_without_preload_content(
+    def put_world_pipeline_without_preload_content(
         self,
         pipeline_req: PipelineReq,
         _request_timeout: Union[
@@ -1454,7 +1454,7 @@ class WorldApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_world_pipeline_serialize(
+        _param = self._put_world_pipeline_serialize(
             pipeline_req=pipeline_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1472,7 +1472,7 @@ class WorldApi:
         return response_data.response
 
 
-    def _put_v1_world_pipeline_serialize(
+    def _put_world_pipeline_serialize(
         self,
         pipeline_req,
         _request_auth,

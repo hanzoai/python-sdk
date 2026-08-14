@@ -38,7 +38,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def delete_v1_websearch_search(
+    def delete_websearch_search(
         self,
         _request_timeout: Union[
             None,
@@ -79,7 +79,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_websearch_search_serialize(
+        _param = self._delete_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +100,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def delete_v1_websearch_search_with_http_info(
+    def delete_websearch_search_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -141,7 +141,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_websearch_search_serialize(
+        _param = self._delete_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -162,7 +162,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def delete_v1_websearch_search_without_preload_content(
+    def delete_websearch_search_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -203,7 +203,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_websearch_search_serialize(
+        _param = self._delete_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -219,7 +219,7 @@ class WebsearchApi:
         return response_data.response
 
 
-    def _delete_v1_websearch_search_serialize(
+    def _delete_websearch_search_serialize(
         self,
         _request_auth,
         _content_type,
@@ -273,7 +273,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def get_v1_websearch_search(
+    def get_websearch_search(
         self,
         _request_timeout: Union[
             None,
@@ -314,7 +314,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_websearch_search_serialize(
+        _param = self._get_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -335,7 +335,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def get_v1_websearch_search_with_http_info(
+    def get_websearch_search_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -376,7 +376,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_websearch_search_serialize(
+        _param = self._get_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -397,7 +397,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def get_v1_websearch_search_without_preload_content(
+    def get_websearch_search_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -438,7 +438,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_websearch_search_serialize(
+        _param = self._get_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -454,7 +454,7 @@ class WebsearchApi:
         return response_data.response
 
 
-    def _get_v1_websearch_search_serialize(
+    def _get_websearch_search_serialize(
         self,
         _request_auth,
         _content_type,
@@ -508,7 +508,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def patch_v1_websearch_search(
+    def patch_websearch_search(
         self,
         _request_timeout: Union[
             None,
@@ -549,7 +549,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_websearch_search_serialize(
+        _param = self._patch_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -570,7 +570,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def patch_v1_websearch_search_with_http_info(
+    def patch_websearch_search_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -611,7 +611,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_websearch_search_serialize(
+        _param = self._patch_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -632,7 +632,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def patch_v1_websearch_search_without_preload_content(
+    def patch_websearch_search_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -673,7 +673,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_websearch_search_serialize(
+        _param = self._patch_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -689,7 +689,7 @@ class WebsearchApi:
         return response_data.response
 
 
-    def _patch_v1_websearch_search_serialize(
+    def _patch_websearch_search_serialize(
         self,
         _request_auth,
         _content_type,
@@ -743,7 +743,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def post_v1_websearch_search(
+    def post_websearch_search(
         self,
         _request_timeout: Union[
             None,
@@ -784,7 +784,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_websearch_search_serialize(
+        _param = self._post_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -805,7 +805,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def post_v1_websearch_search_with_http_info(
+    def post_websearch_search_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -846,7 +846,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_websearch_search_serialize(
+        _param = self._post_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -867,7 +867,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def post_v1_websearch_search_without_preload_content(
+    def post_websearch_search_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -908,7 +908,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_websearch_search_serialize(
+        _param = self._post_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -924,7 +924,7 @@ class WebsearchApi:
         return response_data.response
 
 
-    def _post_v1_websearch_search_serialize(
+    def _post_websearch_search_serialize(
         self,
         _request_auth,
         _content_type,
@@ -978,7 +978,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def put_v1_websearch_search(
+    def put_websearch_search(
         self,
         _request_timeout: Union[
             None,
@@ -1019,7 +1019,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_websearch_search_serialize(
+        _param = self._put_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1040,7 +1040,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def put_v1_websearch_search_with_http_info(
+    def put_websearch_search_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1081,7 +1081,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_websearch_search_serialize(
+        _param = self._put_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1102,7 +1102,7 @@ class WebsearchApi:
 
 
     @validate_call
-    def put_v1_websearch_search_without_preload_content(
+    def put_websearch_search_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1143,7 +1143,7 @@ class WebsearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_websearch_search_serialize(
+        _param = self._put_websearch_search_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1159,7 +1159,7 @@ class WebsearchApi:
         return response_data.response
 
 
-    def _put_v1_websearch_search_serialize(
+    def _put_websearch_search_serialize(
         self,
         _request_auth,
         _content_type,

@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-from typing import List, Optional
+from pydantic import Field, StrictBytes, StrictStr
+from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.add_domain_req import AddDomainReq
 from hanzoai.cloud.models.app_view import AppView
@@ -31,7 +31,9 @@ from hanzoai.cloud.models.preview_req import PreviewReq
 from hanzoai.cloud.models.preview_view import PreviewView
 from hanzoai.cloud.models.project_view import ProjectView
 from hanzoai.cloud.models.projects_bound_domains import ProjectsBoundDomains
+from hanzoai.cloud.models.projects_complete import ProjectsComplete
 from hanzoai.cloud.models.projects_create import ProjectsCreate
+from hanzoai.cloud.models.projects_deploy_start import ProjectsDeployStart
 from hanzoai.cloud.models.projects_deployment import ProjectsDeployment
 from hanzoai.cloud.models.projects_domain import ProjectsDomain
 from hanzoai.cloud.models.projects_domains import ProjectsDomains
@@ -66,7 +68,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_by_project_apps_by_app(
+    def delete_platform_projects_by_project_apps_by_app(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -113,7 +115,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_by_project_apps_by_app_serialize(
+        _param = self._delete_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -137,7 +139,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_by_project_apps_by_app_with_http_info(
+    def delete_platform_projects_by_project_apps_by_app_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -184,7 +186,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_by_project_apps_by_app_serialize(
+        _param = self._delete_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -208,7 +210,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_by_project_apps_by_app_without_preload_content(
+    def delete_platform_projects_by_project_apps_by_app_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -255,7 +257,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_by_project_apps_by_app_serialize(
+        _param = self._delete_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -274,7 +276,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_projects_by_project_apps_by_app_serialize(
+    def _delete_platform_projects_by_project_apps_by_app_serialize(
         self,
         project,
         app,
@@ -334,7 +336,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_by_project_apps_by_app_domains_by_host(
+    def delete_platform_projects_by_project_apps_by_app_domains_by_host(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -384,7 +386,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
+        _param = self._delete_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
             project=project,
             app=app,
             host=host,
@@ -409,7 +411,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_with_http_info(
+    def delete_platform_projects_by_project_apps_by_app_domains_by_host_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -459,7 +461,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
+        _param = self._delete_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
             project=project,
             app=app,
             host=host,
@@ -484,7 +486,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_without_preload_content(
+    def delete_platform_projects_by_project_apps_by_app_domains_by_host_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -534,7 +536,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
+        _param = self._delete_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
             project=project,
             app=app,
             host=host,
@@ -554,7 +556,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
+    def _delete_platform_projects_by_project_apps_by_app_domains_by_host_serialize(
         self,
         project,
         app,
@@ -617,7 +619,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_by_slug(
+    def delete_platform_sites_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -635,7 +637,7 @@ class PlatformApi:
     ) -> None:
         """Deletes a project and takes its site off the internet.
 
-        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
 
         :param slug: Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404. (required)
         :type slug: str
@@ -661,7 +663,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_by_slug_serialize(
+        _param = self._delete_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -684,7 +686,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_by_slug_with_http_info(
+    def delete_platform_sites_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -702,7 +704,7 @@ class PlatformApi:
     ) -> ApiResponse[None]:
         """Deletes a project and takes its site off the internet.
 
-        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
 
         :param slug: Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404. (required)
         :type slug: str
@@ -728,7 +730,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_by_slug_serialize(
+        _param = self._delete_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -751,7 +753,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_by_slug_without_preload_content(
+    def delete_platform_sites_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -769,7 +771,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Deletes a project and takes its site off the internet.
 
-        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
+        Deletes a project and takes its site off the internet.  The metadata delete is authoritative and everything after it is best-effort, in this order: the public `<slug>` subdomain binding is released so the slug is free to reclaim, the release rows are dropped so a reclaimed slug never inherits the previous owner's rollback menu, the git source is retired on every copy it has so a reclaimed slug never adopts a repository left behind (visibility.go), the S3 origin is purged under BOTH `<org>/<slug>/` and the site's sibling release space, and the edge cache-tag is flushed. A failure in any of those is logged and the delete still answers 204 — resurrecting a project because a purge missed would be worse than a leaked prefix.  Scope: a validated principal is required (403 without one) and the project is resolved within that principal's org, so another tenant's slug is a 404 and nothing of theirs is touched.
 
         :param slug: Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404. (required)
         :type slug: str
@@ -795,7 +797,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_by_slug_serialize(
+        _param = self._delete_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -813,7 +815,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_sites_by_slug_serialize(
+    def _delete_platform_sites_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -870,7 +872,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_by_slug_domains_by_host(
+    def delete_platform_sites_by_slug_domains_by_host(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -917,7 +919,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_by_slug_domains_by_host_serialize(
+        _param = self._delete_platform_sites_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -941,7 +943,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_by_slug_domains_by_host_with_http_info(
+    def delete_platform_sites_by_slug_domains_by_host_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -988,7 +990,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_by_slug_domains_by_host_serialize(
+        _param = self._delete_platform_sites_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -1012,7 +1014,7 @@ class PlatformApi:
 
 
     @validate_call
-    def delete_v1_platform_sites_by_slug_domains_by_host_without_preload_content(
+    def delete_platform_sites_by_slug_domains_by_host_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -1059,7 +1061,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_platform_sites_by_slug_domains_by_host_serialize(
+        _param = self._delete_platform_sites_by_slug_domains_by_host_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -1078,7 +1080,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _delete_v1_platform_sites_by_slug_domains_by_host_serialize(
+    def _delete_platform_sites_by_slug_domains_by_host_serialize(
         self,
         slug,
         host,
@@ -1138,7 +1140,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps(
+    def get_platform_apps(
         self,
         _request_timeout: Union[
             None,
@@ -1179,7 +1181,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_serialize(
+        _param = self._get_platform_apps_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1200,7 +1202,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_with_http_info(
+    def get_platform_apps_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1241,7 +1243,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_serialize(
+        _param = self._get_platform_apps_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1262,7 +1264,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_without_preload_content(
+    def get_platform_apps_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1303,7 +1305,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_serialize(
+        _param = self._get_platform_apps_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1319,7 +1321,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_apps_serialize(
+    def _get_platform_apps_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1373,7 +1375,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_by_app(
+    def get_platform_apps_by_app(
         self,
         app: StrictStr,
         _request_timeout: Union[
@@ -1417,7 +1419,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_by_app_serialize(
+        _param = self._get_platform_apps_by_app_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1439,7 +1441,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_by_app_with_http_info(
+    def get_platform_apps_by_app_with_http_info(
         self,
         app: StrictStr,
         _request_timeout: Union[
@@ -1483,7 +1485,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_by_app_serialize(
+        _param = self._get_platform_apps_by_app_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1505,7 +1507,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_by_app_without_preload_content(
+    def get_platform_apps_by_app_without_preload_content(
         self,
         app: StrictStr,
         _request_timeout: Union[
@@ -1549,7 +1551,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_by_app_serialize(
+        _param = self._get_platform_apps_by_app_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1566,7 +1568,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_apps_by_app_serialize(
+    def _get_platform_apps_by_app_serialize(
         self,
         app,
         _request_auth,
@@ -1623,7 +1625,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_by_app_cd(
+    def get_platform_apps_by_app_cd(
         self,
         app: StrictStr,
         _request_timeout: Union[
@@ -1667,7 +1669,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_by_app_cd_serialize(
+        _param = self._get_platform_apps_by_app_cd_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1689,7 +1691,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_by_app_cd_with_http_info(
+    def get_platform_apps_by_app_cd_with_http_info(
         self,
         app: StrictStr,
         _request_timeout: Union[
@@ -1733,7 +1735,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_by_app_cd_serialize(
+        _param = self._get_platform_apps_by_app_cd_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1755,7 +1757,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_apps_by_app_cd_without_preload_content(
+    def get_platform_apps_by_app_cd_without_preload_content(
         self,
         app: StrictStr,
         _request_timeout: Union[
@@ -1799,7 +1801,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_apps_by_app_cd_serialize(
+        _param = self._get_platform_apps_by_app_cd_serialize(
             app=app,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1816,7 +1818,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_apps_by_app_cd_serialize(
+    def _get_platform_apps_by_app_cd_serialize(
         self,
         app,
         _request_auth,
@@ -1873,7 +1875,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_cd(
+    def get_platform_cd(
         self,
         _request_timeout: Union[
             None,
@@ -1914,7 +1916,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_cd_serialize(
+        _param = self._get_platform_cd_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1935,7 +1937,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_cd_with_http_info(
+    def get_platform_cd_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1976,7 +1978,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_cd_serialize(
+        _param = self._get_platform_cd_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1997,7 +1999,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_cd_without_preload_content(
+    def get_platform_cd_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2038,7 +2040,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_cd_serialize(
+        _param = self._get_platform_cd_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2054,7 +2056,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_cd_serialize(
+    def _get_platform_cd_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2108,7 +2110,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_ci(
+    def get_platform_ci(
         self,
         _request_timeout: Union[
             None,
@@ -2149,7 +2151,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_ci_serialize(
+        _param = self._get_platform_ci_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2170,7 +2172,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_ci_with_http_info(
+    def get_platform_ci_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2211,7 +2213,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_ci_serialize(
+        _param = self._get_platform_ci_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2232,7 +2234,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_ci_without_preload_content(
+    def get_platform_ci_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2273,7 +2275,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_ci_serialize(
+        _param = self._get_platform_ci_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2289,7 +2291,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_ci_serialize(
+    def _get_platform_ci_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2343,7 +2345,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet(
+    def get_platform_fleet(
         self,
         env: Annotated[Optional[StrictStr], Field(description="Env narrows to one lifecycle env: main, test or dev.")] = None,
         health: Annotated[Optional[StrictStr], Field(description="Health narrows to one health colour: green, yellow or red.")] = None,
@@ -2396,7 +2398,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_serialize(
+        _param = self._get_platform_fleet_serialize(
             env=env,
             health=health,
             org=org,
@@ -2422,7 +2424,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_with_http_info(
+    def get_platform_fleet_with_http_info(
         self,
         env: Annotated[Optional[StrictStr], Field(description="Env narrows to one lifecycle env: main, test or dev.")] = None,
         health: Annotated[Optional[StrictStr], Field(description="Health narrows to one health colour: green, yellow or red.")] = None,
@@ -2475,7 +2477,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_serialize(
+        _param = self._get_platform_fleet_serialize(
             env=env,
             health=health,
             org=org,
@@ -2501,7 +2503,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_without_preload_content(
+    def get_platform_fleet_without_preload_content(
         self,
         env: Annotated[Optional[StrictStr], Field(description="Env narrows to one lifecycle env: main, test or dev.")] = None,
         health: Annotated[Optional[StrictStr], Field(description="Health narrows to one health colour: green, yellow or red.")] = None,
@@ -2554,7 +2556,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_serialize(
+        _param = self._get_platform_fleet_serialize(
             env=env,
             health=health,
             org=org,
@@ -2575,7 +2577,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_fleet_serialize(
+    def _get_platform_fleet_serialize(
         self,
         env,
         health,
@@ -2656,7 +2658,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_by_app(
+    def get_platform_fleet_by_app(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         env: Annotated[Optional[StrictStr], Field(description="Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION.")] = None,
@@ -2703,7 +2705,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_by_app_serialize(
+        _param = self._get_platform_fleet_by_app_serialize(
             app=app,
             env=env,
             _request_auth=_request_auth,
@@ -2727,7 +2729,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_by_app_with_http_info(
+    def get_platform_fleet_by_app_with_http_info(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         env: Annotated[Optional[StrictStr], Field(description="Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION.")] = None,
@@ -2774,7 +2776,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_by_app_serialize(
+        _param = self._get_platform_fleet_by_app_serialize(
             app=app,
             env=env,
             _request_auth=_request_auth,
@@ -2798,7 +2800,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_fleet_by_app_without_preload_content(
+    def get_platform_fleet_by_app_without_preload_content(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         env: Annotated[Optional[StrictStr], Field(description="Env narrows the scan to one lifecycle env: main, test or dev. Omitted, the namespaces are scanned in lifecycle order and the first match wins, so a bare name resolves to PRODUCTION.")] = None,
@@ -2845,7 +2847,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_fleet_by_app_serialize(
+        _param = self._get_platform_fleet_by_app_serialize(
             app=app,
             env=env,
             _request_auth=_request_auth,
@@ -2864,7 +2866,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_fleet_by_app_serialize(
+    def _get_platform_fleet_by_app_serialize(
         self,
         app,
         env,
@@ -2933,7 +2935,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_health(
+    def get_platform_health(
         self,
         _request_timeout: Union[
             None,
@@ -2974,7 +2976,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_health_serialize(
+        _param = self._get_platform_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2997,7 +2999,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_health_with_http_info(
+    def get_platform_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3038,7 +3040,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_health_serialize(
+        _param = self._get_platform_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3061,7 +3063,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_health_without_preload_content(
+    def get_platform_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3102,7 +3104,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_health_serialize(
+        _param = self._get_platform_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3120,7 +3122,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_health_serialize(
+    def _get_platform_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3181,7 +3183,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects(
+    def get_platform_projects(
         self,
         _request_timeout: Union[
             None,
@@ -3222,7 +3224,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_serialize(
+        _param = self._get_platform_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3244,7 +3246,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_with_http_info(
+    def get_platform_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3285,7 +3287,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_serialize(
+        _param = self._get_platform_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3307,7 +3309,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_without_preload_content(
+    def get_platform_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3348,7 +3350,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_serialize(
+        _param = self._get_platform_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3365,7 +3367,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_serialize(
+    def _get_platform_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3426,7 +3428,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project(
+    def get_platform_projects_by_project(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -3470,7 +3472,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_serialize(
+        _param = self._get_platform_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3493,7 +3495,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_with_http_info(
+    def get_platform_projects_by_project_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -3537,7 +3539,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_serialize(
+        _param = self._get_platform_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3560,7 +3562,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_without_preload_content(
+    def get_platform_projects_by_project_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -3604,7 +3606,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_serialize(
+        _param = self._get_platform_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3622,7 +3624,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_serialize(
+    def _get_platform_projects_by_project_serialize(
         self,
         project,
         _request_auth,
@@ -3686,7 +3688,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps(
+    def get_platform_projects_by_project_apps(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -3730,7 +3732,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_serialize(
+        _param = self._get_platform_projects_by_project_apps_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3753,7 +3755,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_with_http_info(
+    def get_platform_projects_by_project_apps_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -3797,7 +3799,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_serialize(
+        _param = self._get_platform_projects_by_project_apps_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3820,7 +3822,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_without_preload_content(
+    def get_platform_projects_by_project_apps_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
         _request_timeout: Union[
@@ -3864,7 +3866,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_serialize(
+        _param = self._get_platform_projects_by_project_apps_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3882,7 +3884,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_apps_serialize(
+    def _get_platform_projects_by_project_apps_serialize(
         self,
         project,
         _request_auth,
@@ -3946,7 +3948,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app(
+    def get_platform_projects_by_project_apps_by_app(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -3993,7 +3995,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4017,7 +4019,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_with_http_info(
+    def get_platform_projects_by_project_apps_by_app_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4064,7 +4066,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4088,7 +4090,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_without_preload_content(
+    def get_platform_projects_by_project_apps_by_app_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4135,7 +4137,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4154,7 +4156,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_apps_by_app_serialize(
+    def _get_platform_projects_by_project_apps_by_app_serialize(
         self,
         project,
         app,
@@ -4221,7 +4223,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments(
+    def get_platform_projects_by_project_apps_by_app_deployments(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4268,7 +4270,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4292,7 +4294,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_with_http_info(
+    def get_platform_projects_by_project_apps_by_app_deployments_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4339,7 +4341,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4363,7 +4365,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_without_preload_content(
+    def get_platform_projects_by_project_apps_by_app_deployments_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4410,7 +4412,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -4429,7 +4431,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_apps_by_app_deployments_serialize(
+    def _get_platform_projects_by_project_apps_by_app_deployments_serialize(
         self,
         project,
         app,
@@ -4496,7 +4498,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id(
+    def get_platform_projects_by_project_apps_by_app_deployments_by_id(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4546,7 +4548,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
             project=project,
             app=app,
             id=id,
@@ -4571,7 +4573,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_with_http_info(
+    def get_platform_projects_by_project_apps_by_app_deployments_by_id_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4621,7 +4623,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
             project=project,
             app=app,
             id=id,
@@ -4646,7 +4648,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_without_preload_content(
+    def get_platform_projects_by_project_apps_by_app_deployments_by_id_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4696,7 +4698,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
             project=project,
             app=app,
             id=id,
@@ -4716,7 +4718,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
+    def _get_platform_projects_by_project_apps_by_app_deployments_by_id_serialize(
         self,
         project,
         app,
@@ -4786,7 +4788,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs(
+    def get_platform_projects_by_project_apps_by_app_deployments_by_id_logs(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4836,7 +4838,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
             project=project,
             app=app,
             id=id,
@@ -4861,7 +4863,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_with_http_info(
+    def get_platform_projects_by_project_apps_by_app_deployments_by_id_logs_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4911,7 +4913,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
             project=project,
             app=app,
             id=id,
@@ -4936,7 +4938,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_without_preload_content(
+    def get_platform_projects_by_project_apps_by_app_deployments_by_id_logs_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -4986,7 +4988,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
             project=project,
             app=app,
             id=id,
@@ -5006,7 +5008,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
+    def _get_platform_projects_by_project_apps_by_app_deployments_by_id_logs_serialize(
         self,
         project,
         app,
@@ -5076,7 +5078,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_domains(
+    def get_platform_projects_by_project_apps_by_app_domains(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -5123,7 +5125,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -5147,7 +5149,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_domains_with_http_info(
+    def get_platform_projects_by_project_apps_by_app_domains_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -5194,7 +5196,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -5218,7 +5220,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_projects_by_project_apps_by_app_domains_without_preload_content(
+    def get_platform_projects_by_project_apps_by_app_domains_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -5265,7 +5267,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+        _param = self._get_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -5284,7 +5286,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+    def _get_platform_projects_by_project_apps_by_app_domains_serialize(
         self,
         project,
         app,
@@ -5351,7 +5353,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites(
+    def get_platform_sites(
         self,
         _request_timeout: Union[
             None,
@@ -5392,7 +5394,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_serialize(
+        _param = self._get_platform_sites_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5414,7 +5416,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_with_http_info(
+    def get_platform_sites_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5455,7 +5457,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_serialize(
+        _param = self._get_platform_sites_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5477,7 +5479,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_without_preload_content(
+    def get_platform_sites_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5518,7 +5520,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_serialize(
+        _param = self._get_platform_sites_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5535,7 +5537,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_serialize(
+    def _get_platform_sites_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5596,7 +5598,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug(
+    def get_platform_sites_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5640,7 +5642,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_serialize(
+        _param = self._get_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5663,7 +5665,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_with_http_info(
+    def get_platform_sites_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5707,7 +5709,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_serialize(
+        _param = self._get_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5730,7 +5732,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_without_preload_content(
+    def get_platform_sites_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5774,7 +5776,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_serialize(
+        _param = self._get_platform_sites_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5792,7 +5794,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_by_slug_serialize(
+    def _get_platform_sites_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -5856,7 +5858,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_deployments(
+    def get_platform_sites_by_slug_deployments(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5900,7 +5902,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_deployments_serialize(
+        _param = self._get_platform_sites_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5923,7 +5925,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_deployments_with_http_info(
+    def get_platform_sites_by_slug_deployments_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -5967,7 +5969,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_deployments_serialize(
+        _param = self._get_platform_sites_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5990,7 +5992,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_deployments_without_preload_content(
+    def get_platform_sites_by_slug_deployments_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6034,7 +6036,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_deployments_serialize(
+        _param = self._get_platform_sites_by_slug_deployments_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6052,7 +6054,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_by_slug_deployments_serialize(
+    def _get_platform_sites_by_slug_deployments_serialize(
         self,
         slug,
         _request_auth,
@@ -6116,7 +6118,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_deployments_by_id(
+    def get_platform_sites_by_slug_deployments_by_id(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -6163,7 +6165,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_deployments_by_id_serialize(
+        _param = self._get_platform_sites_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -6187,7 +6189,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_deployments_by_id_with_http_info(
+    def get_platform_sites_by_slug_deployments_by_id_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -6234,7 +6236,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_deployments_by_id_serialize(
+        _param = self._get_platform_sites_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -6258,7 +6260,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_deployments_by_id_without_preload_content(
+    def get_platform_sites_by_slug_deployments_by_id_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
         id: Annotated[StrictStr, Field(description="ID is the deployment id, from the path. A deployment of another project — or of another tenant's project — is not found.")],
@@ -6305,7 +6307,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_deployments_by_id_serialize(
+        _param = self._get_platform_sites_by_slug_deployments_by_id_serialize(
             slug=slug,
             id=id,
             _request_auth=_request_auth,
@@ -6324,7 +6326,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_by_slug_deployments_by_id_serialize(
+    def _get_platform_sites_by_slug_deployments_by_id_serialize(
         self,
         slug,
         id,
@@ -6391,7 +6393,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_domains(
+    def get_platform_sites_by_slug_domains(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6435,7 +6437,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_domains_serialize(
+        _param = self._get_platform_sites_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6458,7 +6460,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_domains_with_http_info(
+    def get_platform_sites_by_slug_domains_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6502,7 +6504,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_domains_serialize(
+        _param = self._get_platform_sites_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6525,7 +6527,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_domains_without_preload_content(
+    def get_platform_sites_by_slug_domains_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6569,7 +6571,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_domains_serialize(
+        _param = self._get_platform_sites_by_slug_domains_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6587,7 +6589,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_by_slug_domains_serialize(
+    def _get_platform_sites_by_slug_domains_serialize(
         self,
         slug,
         _request_auth,
@@ -6651,7 +6653,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_releases(
+    def get_platform_sites_by_slug_releases(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6695,7 +6697,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_releases_serialize(
+        _param = self._get_platform_sites_by_slug_releases_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6718,7 +6720,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_releases_with_http_info(
+    def get_platform_sites_by_slug_releases_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6762,7 +6764,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_releases_serialize(
+        _param = self._get_platform_sites_by_slug_releases_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6785,7 +6787,7 @@ class PlatformApi:
 
 
     @validate_call
-    def get_v1_platform_sites_by_slug_releases_without_preload_content(
+    def get_platform_sites_by_slug_releases_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -6829,7 +6831,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_platform_sites_by_slug_releases_serialize(
+        _param = self._get_platform_sites_by_slug_releases_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6847,7 +6849,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _get_v1_platform_sites_by_slug_releases_serialize(
+    def _get_platform_sites_by_slug_releases_serialize(
         self,
         slug,
         _request_auth,
@@ -6911,7 +6913,7 @@ class PlatformApi:
 
 
     @validate_call
-    def patch_v1_platform_sites_by_slug(
+    def patch_platform_sites_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -6958,7 +6960,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_platform_sites_by_slug_serialize(
+        _param = self._patch_platform_sites_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -6982,7 +6984,7 @@ class PlatformApi:
 
 
     @validate_call
-    def patch_v1_platform_sites_by_slug_with_http_info(
+    def patch_platform_sites_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -7029,7 +7031,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_platform_sites_by_slug_serialize(
+        _param = self._patch_platform_sites_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -7053,7 +7055,7 @@ class PlatformApi:
 
 
     @validate_call
-    def patch_v1_platform_sites_by_slug_without_preload_content(
+    def patch_platform_sites_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to update, from the path. The URL is the addressing authority — a `slug` in the body cannot move the write to another project.")],
         projects_update: ProjectsUpdate,
@@ -7100,7 +7102,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_platform_sites_by_slug_serialize(
+        _param = self._patch_platform_sites_by_slug_serialize(
             slug=slug,
             projects_update=projects_update,
             _request_auth=_request_auth,
@@ -7119,7 +7121,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _patch_v1_platform_sites_by_slug_serialize(
+    def _patch_platform_sites_by_slug_serialize(
         self,
         slug,
         projects_update,
@@ -7199,7 +7201,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_apps(
+    def post_platform_apps(
         self,
         _request_timeout: Union[
             None,
@@ -7240,7 +7242,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_apps_serialize(
+        _param = self._post_platform_apps_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7261,7 +7263,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_apps_with_http_info(
+    def post_platform_apps_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7302,7 +7304,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_apps_serialize(
+        _param = self._post_platform_apps_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7323,7 +7325,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_apps_without_preload_content(
+    def post_platform_apps_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7364,7 +7366,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_apps_serialize(
+        _param = self._post_platform_apps_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7380,7 +7382,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_apps_serialize(
+    def _post_platform_apps_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7434,7 +7436,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_fleet_by_app_deploy(
+    def post_platform_fleet_by_app_deploy(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         restart_ref: RestartRef,
@@ -7481,7 +7483,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_fleet_by_app_deploy_serialize(
+        _param = self._post_platform_fleet_by_app_deploy_serialize(
             app=app,
             restart_ref=restart_ref,
             _request_auth=_request_auth,
@@ -7505,7 +7507,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_fleet_by_app_deploy_with_http_info(
+    def post_platform_fleet_by_app_deploy_with_http_info(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         restart_ref: RestartRef,
@@ -7552,7 +7554,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_fleet_by_app_deploy_serialize(
+        _param = self._post_platform_fleet_by_app_deploy_serialize(
             app=app,
             restart_ref=restart_ref,
             _request_auth=_request_auth,
@@ -7576,7 +7578,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_fleet_by_app_deploy_without_preload_content(
+    def post_platform_fleet_by_app_deploy_without_preload_content(
         self,
         app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
         restart_ref: RestartRef,
@@ -7623,7 +7625,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_fleet_by_app_deploy_serialize(
+        _param = self._post_platform_fleet_by_app_deploy_serialize(
             app=app,
             restart_ref=restart_ref,
             _request_auth=_request_auth,
@@ -7642,7 +7644,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_fleet_by_app_deploy_serialize(
+    def _post_platform_fleet_by_app_deploy_serialize(
         self,
         app,
         restart_ref,
@@ -7722,7 +7724,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps(
+    def post_platform_projects_by_project_apps(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
         create_app_req: CreateAppReq,
@@ -7769,7 +7771,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_serialize(
+        _param = self._post_platform_projects_by_project_apps_serialize(
             project=project,
             create_app_req=create_app_req,
             _request_auth=_request_auth,
@@ -7793,7 +7795,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_with_http_info(
+    def post_platform_projects_by_project_apps_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
         create_app_req: CreateAppReq,
@@ -7840,7 +7842,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_serialize(
+        _param = self._post_platform_projects_by_project_apps_serialize(
             project=project,
             create_app_req=create_app_req,
             _request_auth=_request_auth,
@@ -7864,7 +7866,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_without_preload_content(
+    def post_platform_projects_by_project_apps_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
         create_app_req: CreateAppReq,
@@ -7911,7 +7913,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_serialize(
+        _param = self._post_platform_projects_by_project_apps_serialize(
             project=project,
             create_app_req=create_app_req,
             _request_auth=_request_auth,
@@ -7930,7 +7932,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_serialize(
+    def _post_platform_projects_by_project_apps_serialize(
         self,
         project,
         create_app_req,
@@ -8010,7 +8012,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_deploy(
+    def post_platform_projects_by_project_apps_by_app_deploy(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8060,7 +8062,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
             deploy_req=deploy_req,
@@ -8085,7 +8087,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_deploy_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_deploy_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8135,7 +8137,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
             deploy_req=deploy_req,
@@ -8160,7 +8162,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_deploy_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_deploy_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8210,7 +8212,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
             deploy_req=deploy_req,
@@ -8230,7 +8232,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_deploy_serialize(
+    def _post_platform_projects_by_project_apps_by_app_deploy_serialize(
         self,
         project,
         app,
@@ -8313,7 +8315,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_domains(
+    def post_platform_projects_by_project_apps_by_app_domains(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8363,7 +8365,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             add_domain_req=add_domain_req,
@@ -8389,7 +8391,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_domains_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_domains_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8439,7 +8441,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             add_domain_req=add_domain_req,
@@ -8465,7 +8467,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_domains_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_domains_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8515,7 +8517,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
             add_domain_req=add_domain_req,
@@ -8536,7 +8538,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_domains_serialize(
+    def _post_platform_projects_by_project_apps_by_app_domains_serialize(
         self,
         project,
         app,
@@ -8619,7 +8621,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify(
+    def post_platform_projects_by_project_apps_by_app_domains_by_host_verify(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8669,7 +8671,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
             project=project,
             app=app,
             host=host,
@@ -8694,7 +8696,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_domains_by_host_verify_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8744,7 +8746,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
             project=project,
             app=app,
             host=host,
@@ -8769,7 +8771,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_domains_by_host_verify_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -8819,7 +8821,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
             project=project,
             app=app,
             host=host,
@@ -8839,7 +8841,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
+    def _post_platform_projects_by_project_apps_by_app_domains_by_host_verify_serialize(
         self,
         project,
         app,
@@ -8909,7 +8911,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_preview(
+    def post_platform_projects_by_project_apps_by_app_preview(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
@@ -8959,7 +8961,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
             preview_req=preview_req,
@@ -8984,7 +8986,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_preview_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_preview_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
@@ -9034,7 +9036,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
             preview_req=preview_req,
@@ -9059,7 +9061,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_preview_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_preview_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
@@ -9109,7 +9111,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
             preview_req=preview_req,
@@ -9129,7 +9131,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_preview_serialize(
+    def _post_platform_projects_by_project_apps_by_app_preview_serialize(
         self,
         project,
         app,
@@ -9212,7 +9214,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_promote(
+    def post_platform_projects_by_project_apps_by_app_promote(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9262,7 +9264,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
             promote_req=promote_req,
@@ -9287,7 +9289,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_promote_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_promote_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9337,7 +9339,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
             promote_req=promote_req,
@@ -9362,7 +9364,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_promote_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_promote_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9412,7 +9414,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
             promote_req=promote_req,
@@ -9432,7 +9434,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_promote_serialize(
+    def _post_platform_projects_by_project_apps_by_app_promote_serialize(
         self,
         project,
         app,
@@ -9515,7 +9517,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_rollback(
+    def post_platform_projects_by_project_apps_by_app_rollback(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9565,7 +9567,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
             rollback_req=rollback_req,
@@ -9590,7 +9592,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_rollback_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_rollback_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9640,7 +9642,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
             rollback_req=rollback_req,
@@ -9665,7 +9667,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_rollback_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_rollback_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9715,7 +9717,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
             rollback_req=rollback_req,
@@ -9735,7 +9737,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_rollback_serialize(
+    def _post_platform_projects_by_project_apps_by_app_rollback_serialize(
         self,
         project,
         app,
@@ -9818,7 +9820,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_start(
+    def post_platform_projects_by_project_apps_by_app_start(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9865,7 +9867,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_start_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_start_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -9889,7 +9891,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_start_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_start_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -9936,7 +9938,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_start_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_start_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -9960,7 +9962,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_start_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_start_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -10007,7 +10009,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_start_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_start_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -10026,7 +10028,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_start_serialize(
+    def _post_platform_projects_by_project_apps_by_app_start_serialize(
         self,
         project,
         app,
@@ -10093,7 +10095,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_stop(
+    def post_platform_projects_by_project_apps_by_app_stop(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -10140,7 +10142,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_stop_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -10164,7 +10166,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_stop_with_http_info(
+    def post_platform_projects_by_project_apps_by_app_stop_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -10211,7 +10213,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_stop_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -10235,7 +10237,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_projects_by_project_apps_by_app_stop_without_preload_content(
+    def post_platform_projects_by_project_apps_by_app_stop_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -10282,7 +10284,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
+        _param = self._post_platform_projects_by_project_apps_by_app_stop_serialize(
             project=project,
             app=app,
             _request_auth=_request_auth,
@@ -10301,7 +10303,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_projects_by_project_apps_by_app_stop_serialize(
+    def _post_platform_projects_by_project_apps_by_app_stop_serialize(
         self,
         project,
         app,
@@ -10368,7 +10370,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites(
+    def post_platform_sites(
         self,
         projects_create: ProjectsCreate,
         _request_timeout: Union[
@@ -10412,7 +10414,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_serialize(
+        _param = self._post_platform_sites_serialize(
             projects_create=projects_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10435,7 +10437,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_with_http_info(
+    def post_platform_sites_with_http_info(
         self,
         projects_create: ProjectsCreate,
         _request_timeout: Union[
@@ -10479,7 +10481,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_serialize(
+        _param = self._post_platform_sites_serialize(
             projects_create=projects_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10502,7 +10504,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_without_preload_content(
+    def post_platform_sites_without_preload_content(
         self,
         projects_create: ProjectsCreate,
         _request_timeout: Union[
@@ -10546,7 +10548,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_serialize(
+        _param = self._post_platform_sites_serialize(
             projects_create=projects_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10564,7 +10566,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_serialize(
+    def _post_platform_sites_serialize(
         self,
         projects_create,
         _request_auth,
@@ -10641,9 +10643,10 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_deploy(
+    def post_platform_sites_by_slug_deploy(
         self,
         slug: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10656,13 +10659,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Upload a built site — this is where a zip goes live
+    ) -> ProjectsDeployment:
+        """Upload a built site as one archive and serve it
 
-        Takes a built site live at `https://<slug>.hanzo.app`. The content type decides the shape: a `zip` or `tar.gz` — raw in the body or as a multipart file part, which is what the platform's upload UI posts — is stored and served immediately, answering 200 with the finished deployment; a JSON body instead queues a build from the site's linked repo and answers 202 with a queued deployment plus, where one could be minted, a scoped upload grant for CI. The git path requires a linked repo (400 without one).  The hosting gate is fail-closed and runs first, before anything is parsed or uploaded: 402 for an unfunded org, 503 for unreachable commerce, nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
+        Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
 
         :param slug: (required)
         :type slug: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10685,8 +10690,9 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_deploy_serialize(
+        _param = self._post_platform_sites_by_slug_deploy_serialize(
             slug=slug,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10694,6 +10700,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "ProjectsDeployment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10707,9 +10714,10 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_deploy_with_http_info(
+    def post_platform_sites_by_slug_deploy_with_http_info(
         self,
         slug: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10722,13 +10730,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Upload a built site — this is where a zip goes live
+    ) -> ApiResponse[ProjectsDeployment]:
+        """Upload a built site as one archive and serve it
 
-        Takes a built site live at `https://<slug>.hanzo.app`. The content type decides the shape: a `zip` or `tar.gz` — raw in the body or as a multipart file part, which is what the platform's upload UI posts — is stored and served immediately, answering 200 with the finished deployment; a JSON body instead queues a build from the site's linked repo and answers 202 with a queued deployment plus, where one could be minted, a scoped upload grant for CI. The git path requires a linked repo (400 without one).  The hosting gate is fail-closed and runs first, before anything is parsed or uploaded: 402 for an unfunded org, 503 for unreachable commerce, nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
+        Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
 
         :param slug: (required)
         :type slug: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10751,8 +10761,9 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_deploy_serialize(
+        _param = self._post_platform_sites_by_slug_deploy_serialize(
             slug=slug,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10760,6 +10771,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "ProjectsDeployment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10773,9 +10785,10 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_deploy_without_preload_content(
+    def post_platform_sites_by_slug_deploy_without_preload_content(
         self,
         slug: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10789,12 +10802,14 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Upload a built site — this is where a zip goes live
+        """Upload a built site as one archive and serve it
 
-        Takes a built site live at `https://<slug>.hanzo.app`. The content type decides the shape: a `zip` or `tar.gz` — raw in the body or as a multipart file part, which is what the platform's upload UI posts — is stored and served immediately, answering 200 with the finished deployment; a JSON body instead queues a build from the site's linked repo and answers 202 with a queued deployment plus, where one could be minted, a scoped upload grant for CI. The git path requires a linked repo (400 without one).  The hosting gate is fail-closed and runs first, before anything is parsed or uploaded: 402 for an unfunded org, 503 for unreachable commerce, nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
+        Takes a built site live at `https://<slug>.hanzo.app` in one call. The body is the site itself — a `zip` or `tar.gz` holding `index.html` at its root (or a single wrapper directory that does), sent raw or as a multipart file part. It is unpacked to the site's own storage prefix and served immediately, answering the finished deployment.  It is bounded by the edge body limit (16 MiB by default), and that bound is the whole reason the other path exists: an oversized POST is refused by the server BEFORE any handler runs and surfaces as an opaque `400 Error when parsing request` that reads like a malformed payload rather than a size cap. A site too large for one archive opens a deployment with `POST /v1/sites/{slug}/deployments` instead and writes its files straight to storage against the scoped grant that answers with — no body limit, and no bytes through this API at all.  Billing is fail-closed and fails FIRST: the hosting gate runs before anything is parsed or uploaded, so an unfunded org is 402 and an unreachable commerce is 503 with nothing written. The debit lands only on success — a failed upload is never billed and never flips the live site — and a redeploy answers the SAME URL, because slug and apex are stable.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404. Object storage must be configured (503); an archive that does not walk is a 400 and one over the size cap is a 413.
 
         :param slug: (required)
         :type slug: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10817,8 +10832,9 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_deploy_serialize(
+        _param = self._post_platform_sites_by_slug_deploy_serialize(
             slug=slug,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10826,6 +10842,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "ProjectsDeployment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10834,9 +10851,10 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_deploy_serialize(
+    def _post_platform_sites_by_slug_deploy_serialize(
         self,
         slug,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -10864,9 +10882,39 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            # convert to byte array if the input is a file name (str)
+            if isinstance(body, str):
+                with open(body, "rb") as _fp:
+                    _body_params = _fp.read()
+            elif isinstance(body, tuple):
+                # drop the filename from the tuple
+                _body_params = body[1]
+            else:
+                _body_params = body
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/octet-stream'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -10891,7 +10939,598 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_domains(
+    def post_platform_sites_by_slug_deployments(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the site to deploy, from the path.")],
+        projects_deploy_start: ProjectsDeployStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProjectsDeployment:
+        """Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+
+        Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+
+        :param slug: Slug is the site to deploy, from the path. (required)
+        :type slug: str
+        :param projects_deploy_start: (required)
+        :type projects_deploy_start: ProjectsDeployStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_sites_by_slug_deployments_serialize(
+            slug=slug,
+            projects_deploy_start=projects_deploy_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_platform_sites_by_slug_deployments_with_http_info(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the site to deploy, from the path.")],
+        projects_deploy_start: ProjectsDeployStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProjectsDeployment]:
+        """Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+
+        Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+
+        :param slug: Slug is the site to deploy, from the path. (required)
+        :type slug: str
+        :param projects_deploy_start: (required)
+        :type projects_deploy_start: ProjectsDeployStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_sites_by_slug_deployments_serialize(
+            slug=slug,
+            projects_deploy_start=projects_deploy_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_platform_sites_by_slug_deployments_without_preload_content(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the site to deploy, from the path.")],
+        projects_deploy_start: ProjectsDeployStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage.
+
+        Opens a deployment and hands back a short-lived, prefix-scoped grant to write its bytes straight to object storage. Answers 202.  This is the path for a site too large to send as one archive: a real export is hundreds of megabytes against a 16 MiB body limit, so the bytes deliberately do NOT pass through the API. The answer carries `bucket`, `prefix` and `upload` — a presigned POST policy that S3 itself confines to this site's prefix (starts-with `<org>/<slug>/`), expires in 30 minutes and bounds each object. So a build writes its own files and holds no standing bucket credential; there is nothing to rotate and nothing that leaks between tenants. Never guess the prefix — it is server-derived, and a guessed one lands where nothing is served.  The deployment is `queued` until POST .../deployments/{id}/complete flips it live (or error). That completion is also where DELETION happens: the grant authorizes writes only, so a build cannot remove a file, and cloud reconciles the prefix against the `keys` manifest the completion carries. A build that dies before completing leaves the deployment queued rather than a half-live site.  The grant is on the 202 and NOWHERE else — it is never stored and never replayed on a later read, so it cannot outlive the build it was minted for. A deployment whose grant could not be minted is still created and still completable; it simply carries no `upload`, and a caller with no other way to write should treat that as the failure it is.  Billing: the hosting gate runs BEFORE anything is created (402 unfunded, 503 commerce unreachable), and the debit lands on the completion that goes live — never on a queued or failed build.  Scope: a validated principal is required (403 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+
+        :param slug: Slug is the site to deploy, from the path. (required)
+        :type slug: str
+        :param projects_deploy_start: (required)
+        :type projects_deploy_start: ProjectsDeployStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_sites_by_slug_deployments_serialize(
+            slug=slug,
+            projects_deploy_start=projects_deploy_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_platform_sites_by_slug_deployments_serialize(
+        self,
+        slug,
+        projects_deploy_start,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if slug is not None:
+            _path_params['slug'] = slug
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if projects_deploy_start is not None:
+            _body_params = projects_deploy_start
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/platform/sites/{slug}/deployments',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_platform_sites_by_slug_deployments_by_id_complete(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the queued deployment to complete, from the path.")],
+        projects_complete: ProjectsComplete,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProjectsDeployment:
+        """CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
+
+        CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.  `status` must be `live` or `error`. On a LIVE completion the public host is claimed FIRST, so the deployment reports the URL it actually OWNS — a CI-supplied `liveUrl` is a hint that can refine that URL but can never assert a subdomain another tenant holds. `keys` is the manifest CI just uploaded, relative to the deployment prefix: cloud reconciles the prefix against it so a page deleted from the build actually stops serving. Omit `keys` and nothing is deleted — the prefix only grows. Reconciliation runs only on a live completion (pruning against a failed build's manifest would delete the site the last good build is still serving) and is best-effort, so a stale leftover never turns a successful deploy into a 500. A live completion is also the one billable moment on the git path; an error completion bills nothing.  Scope: a validated principal is required (403 without one). CI authenticates with an org-scoped token through the gateway, so the deployment is resolved within that principal's org and another tenant's slug or deployment id is a 404.
+
+        :param slug: Slug is the project the deployment belongs to, from the path. (required)
+        :type slug: str
+        :param id: ID is the queued deployment to complete, from the path. (required)
+        :type id: str
+        :param projects_complete: (required)
+        :type projects_complete: ProjectsComplete
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_sites_by_slug_deployments_by_id_complete_serialize(
+            slug=slug,
+            id=id,
+            projects_complete=projects_complete,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_platform_sites_by_slug_deployments_by_id_complete_with_http_info(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the queued deployment to complete, from the path.")],
+        projects_complete: ProjectsComplete,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProjectsDeployment]:
+        """CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
+
+        CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.  `status` must be `live` or `error`. On a LIVE completion the public host is claimed FIRST, so the deployment reports the URL it actually OWNS — a CI-supplied `liveUrl` is a hint that can refine that URL but can never assert a subdomain another tenant holds. `keys` is the manifest CI just uploaded, relative to the deployment prefix: cloud reconciles the prefix against it so a page deleted from the build actually stops serving. Omit `keys` and nothing is deleted — the prefix only grows. Reconciliation runs only on a live completion (pruning against a failed build's manifest would delete the site the last good build is still serving) and is best-effort, so a stale leftover never turns a successful deploy into a 500. A live completion is also the one billable moment on the git path; an error completion bills nothing.  Scope: a validated principal is required (403 without one). CI authenticates with an org-scoped token through the gateway, so the deployment is resolved within that principal's org and another tenant's slug or deployment id is a 404.
+
+        :param slug: Slug is the project the deployment belongs to, from the path. (required)
+        :type slug: str
+        :param id: ID is the queued deployment to complete, from the path. (required)
+        :type id: str
+        :param projects_complete: (required)
+        :type projects_complete: ProjectsComplete
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_sites_by_slug_deployments_by_id_complete_serialize(
+            slug=slug,
+            id=id,
+            projects_complete=projects_complete,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_platform_sites_by_slug_deployments_by_id_complete_without_preload_content(
+        self,
+        slug: Annotated[StrictStr, Field(description="Slug is the project the deployment belongs to, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the queued deployment to complete, from the path.")],
+        projects_complete: ProjectsComplete,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.
+
+        CompleteDeployment is the CI completion hook that flips a queued git deployment to live (or error) once CI has synced the built site to S3.  `status` must be `live` or `error`. On a LIVE completion the public host is claimed FIRST, so the deployment reports the URL it actually OWNS — a CI-supplied `liveUrl` is a hint that can refine that URL but can never assert a subdomain another tenant holds. `keys` is the manifest CI just uploaded, relative to the deployment prefix: cloud reconciles the prefix against it so a page deleted from the build actually stops serving. Omit `keys` and nothing is deleted — the prefix only grows. Reconciliation runs only on a live completion (pruning against a failed build's manifest would delete the site the last good build is still serving) and is best-effort, so a stale leftover never turns a successful deploy into a 500. A live completion is also the one billable moment on the git path; an error completion bills nothing.  Scope: a validated principal is required (403 without one). CI authenticates with an org-scoped token through the gateway, so the deployment is resolved within that principal's org and another tenant's slug or deployment id is a 404.
+
+        :param slug: Slug is the project the deployment belongs to, from the path. (required)
+        :type slug: str
+        :param id: ID is the queued deployment to complete, from the path. (required)
+        :type id: str
+        :param projects_complete: (required)
+        :type projects_complete: ProjectsComplete
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_sites_by_slug_deployments_by_id_complete_serialize(
+            slug=slug,
+            id=id,
+            projects_complete=projects_complete,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProjectsDeployment",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_platform_sites_by_slug_deployments_by_id_complete_serialize(
+        self,
+        slug,
+        id,
+        projects_complete,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if slug is not None:
+            _path_params['slug'] = slug
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if projects_complete is not None:
+            _body_params = projects_complete
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/platform/sites/{slug}/deployments/{id}/complete',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_platform_sites_by_slug_domains(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -10938,7 +11577,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_domains_serialize(
+        _param = self._post_platform_sites_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -10962,7 +11601,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_domains_with_http_info(
+    def post_platform_sites_by_slug_domains_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -11009,7 +11648,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_domains_serialize(
+        _param = self._post_platform_sites_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -11033,7 +11672,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_domains_without_preload_content(
+    def post_platform_sites_by_slug_domains_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the hosts attach to, from the path.")],
         projects_domains_bind: ProjectsDomainsBind,
@@ -11080,7 +11719,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_domains_serialize(
+        _param = self._post_platform_sites_by_slug_domains_serialize(
             slug=slug,
             projects_domains_bind=projects_domains_bind,
             _request_auth=_request_auth,
@@ -11099,7 +11738,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_domains_serialize(
+    def _post_platform_sites_by_slug_domains_serialize(
         self,
         slug,
         projects_domains_bind,
@@ -11179,7 +11818,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_domains_by_host_verify(
+    def post_platform_sites_by_slug_domains_by_host_verify(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -11226,7 +11865,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
+        _param = self._post_platform_sites_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -11250,7 +11889,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_domains_by_host_verify_with_http_info(
+    def post_platform_sites_by_slug_domains_by_host_verify_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -11297,7 +11936,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
+        _param = self._post_platform_sites_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -11321,7 +11960,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_domains_by_host_verify_without_preload_content(
+    def post_platform_sites_by_slug_domains_by_host_verify_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project the host is attached to, from the path.")],
         host: Annotated[StrictStr, Field(description="Host is the custom hostname, from the path. It is cleaned to its canonical form (lowercased, trailing dot dropped) before anything is looked up.")],
@@ -11368,7 +12007,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
+        _param = self._post_platform_sites_by_slug_domains_by_host_verify_serialize(
             slug=slug,
             host=host,
             _request_auth=_request_auth,
@@ -11387,7 +12026,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_domains_by_host_verify_serialize(
+    def _post_platform_sites_by_slug_domains_by_host_verify_serialize(
         self,
         slug,
         host,
@@ -11454,7 +12093,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_publish(
+    def post_platform_sites_by_slug_publish(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -11501,7 +12140,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_publish_serialize(
+        _param = self._post_platform_sites_by_slug_publish_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -11525,7 +12164,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_publish_with_http_info(
+    def post_platform_sites_by_slug_publish_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -11572,7 +12211,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_publish_serialize(
+        _param = self._post_platform_sites_by_slug_publish_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -11596,7 +12235,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_publish_without_preload_content(
+    def post_platform_sites_by_slug_publish_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -11643,7 +12282,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_publish_serialize(
+        _param = self._post_platform_sites_by_slug_publish_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -11662,7 +12301,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_publish_serialize(
+    def _post_platform_sites_by_slug_publish_serialize(
         self,
         slug,
         projects_publish,
@@ -11742,7 +12381,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_purge(
+    def post_platform_sites_by_slug_purge(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -11786,7 +12425,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_purge_serialize(
+        _param = self._post_platform_sites_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11809,7 +12448,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_purge_with_http_info(
+    def post_platform_sites_by_slug_purge_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -11853,7 +12492,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_purge_serialize(
+        _param = self._post_platform_sites_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11876,7 +12515,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_purge_without_preload_content(
+    def post_platform_sites_by_slug_purge_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the project to act on, from the path. It is unique within the caller's org and nowhere else, so another tenant's slug is a 404.")],
         _request_timeout: Union[
@@ -11920,7 +12559,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_purge_serialize(
+        _param = self._post_platform_sites_by_slug_purge_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11938,7 +12577,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_purge_serialize(
+    def _post_platform_sites_by_slug_purge_serialize(
         self,
         slug,
         _request_auth,
@@ -12002,7 +12641,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_releases(
+    def post_platform_sites_by_slug_releases(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -12049,7 +12688,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_releases_serialize(
+        _param = self._post_platform_sites_by_slug_releases_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -12073,7 +12712,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_releases_with_http_info(
+    def post_platform_sites_by_slug_releases_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -12120,7 +12759,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_releases_serialize(
+        _param = self._post_platform_sites_by_slug_releases_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -12144,7 +12783,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_releases_without_preload_content(
+    def post_platform_sites_by_slug_releases_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site to publish, from the path.")],
         projects_publish: ProjectsPublish,
@@ -12191,7 +12830,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_releases_serialize(
+        _param = self._post_platform_sites_by_slug_releases_serialize(
             slug=slug,
             projects_publish=projects_publish,
             _request_auth=_request_auth,
@@ -12210,7 +12849,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_releases_serialize(
+    def _post_platform_sites_by_slug_releases_serialize(
         self,
         slug,
         projects_publish,
@@ -12290,7 +12929,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_releases_by_release_activate(
+    def post_platform_sites_by_slug_releases_by_release_activate(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the release belongs to, from the path.")],
         release: Annotated[StrictStr, Field(description="Release is the content-addressed release id (\"rel_\" + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix.")],
@@ -12337,7 +12976,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
+        _param = self._post_platform_sites_by_slug_releases_by_release_activate_serialize(
             slug=slug,
             release=release,
             _request_auth=_request_auth,
@@ -12361,7 +13000,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_releases_by_release_activate_with_http_info(
+    def post_platform_sites_by_slug_releases_by_release_activate_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the release belongs to, from the path.")],
         release: Annotated[StrictStr, Field(description="Release is the content-addressed release id (\"rel_\" + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix.")],
@@ -12408,7 +13047,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
+        _param = self._post_platform_sites_by_slug_releases_by_release_activate_serialize(
             slug=slug,
             release=release,
             _request_auth=_request_auth,
@@ -12432,7 +13071,7 @@ class PlatformApi:
 
 
     @validate_call
-    def post_v1_platform_sites_by_slug_releases_by_release_activate_without_preload_content(
+    def post_platform_sites_by_slug_releases_by_release_activate_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the site the release belongs to, from the path.")],
         release: Annotated[StrictStr, Field(description="Release is the content-addressed release id (\"rel_\" + 32 hex chars), from the path. Anything that is not that shape is not found, rather than being interpolated into a storage prefix.")],
@@ -12479,7 +13118,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
+        _param = self._post_platform_sites_by_slug_releases_by_release_activate_serialize(
             slug=slug,
             release=release,
             _request_auth=_request_auth,
@@ -12498,7 +13137,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_v1_platform_sites_by_slug_releases_by_release_activate_serialize(
+    def _post_platform_sites_by_slug_releases_by_release_activate_serialize(
         self,
         slug,
         release,
@@ -12565,7 +13204,7 @@ class PlatformApi:
 
 
     @validate_call
-    def put_v1_platform_projects_by_project_apps_by_app_env(
+    def put_platform_projects_by_project_apps_by_app_env(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -12615,7 +13254,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_platform_projects_by_project_apps_by_app_env_serialize(
+        _param = self._put_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
             set_env_req=set_env_req,
@@ -12640,7 +13279,7 @@ class PlatformApi:
 
 
     @validate_call
-    def put_v1_platform_projects_by_project_apps_by_app_env_with_http_info(
+    def put_platform_projects_by_project_apps_by_app_env_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -12690,7 +13329,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_platform_projects_by_project_apps_by_app_env_serialize(
+        _param = self._put_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
             set_env_req=set_env_req,
@@ -12715,7 +13354,7 @@ class PlatformApi:
 
 
     @validate_call
-    def put_v1_platform_projects_by_project_apps_by_app_env_without_preload_content(
+    def put_platform_projects_by_project_apps_by_app_env_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
@@ -12765,7 +13404,7 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_platform_projects_by_project_apps_by_app_env_serialize(
+        _param = self._put_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
             set_env_req=set_env_req,
@@ -12785,7 +13424,7 @@ class PlatformApi:
         return response_data.response
 
 
-    def _put_v1_platform_projects_by_project_apps_by_app_env_serialize(
+    def _put_platform_projects_by_project_apps_by_app_env_serialize(
         self,
         project,
         app,

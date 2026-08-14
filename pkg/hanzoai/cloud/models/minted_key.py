@@ -28,8 +28,9 @@ class MintedKey(BaseModel):
     """ # noqa: E501
     access_key: Optional[StrictStr] = Field(default=None, description="AccessKey is the same value under its predecessor name, carried so callers written against the older field keep working. One value, two names.", alias="accessKey")
     key: Optional[StrictStr] = Field(default=None, description="Key is the credential, returned ONCE — a secret key is unreadable afterwards.")
+    limit: Optional[List[StrictStr]] = Field(default=None, description="Limit is what the minted key may reach, echoed back so the caller can see the narrowing took. Absent means unrestricted.")
     type: Optional[StrictStr] = Field(default=None, description="Type is the class of key that was minted.")
-    __properties: ClassVar[List[str]] = ["accessKey", "key", "type"]
+    __properties: ClassVar[List[str]] = ["accessKey", "key", "limit", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +85,7 @@ class MintedKey(BaseModel):
         _obj = cls.model_validate({
             "accessKey": obj.get("accessKey"),
             "key": obj.get("key"),
+            "limit": obj.get("limit"),
             "type": obj.get("type")
         })
         return _obj

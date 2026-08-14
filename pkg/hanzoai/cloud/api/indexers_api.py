@@ -37,7 +37,7 @@ class IndexersApi:
 
 
     @validate_call
-    def get_v1_indexers(
+    def get_indexers(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class IndexersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_indexers_serialize(
+        _param = self._get_indexers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,7 +100,7 @@ class IndexersApi:
 
 
     @validate_call
-    def get_v1_indexers_with_http_info(
+    def get_indexers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -141,7 +141,7 @@ class IndexersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_indexers_serialize(
+        _param = self._get_indexers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -163,7 +163,7 @@ class IndexersApi:
 
 
     @validate_call
-    def get_v1_indexers_without_preload_content(
+    def get_indexers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -204,7 +204,7 @@ class IndexersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_indexers_serialize(
+        _param = self._get_indexers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -221,7 +221,7 @@ class IndexersApi:
         return response_data.response
 
 
-    def _get_v1_indexers_serialize(
+    def _get_indexers_serialize(
         self,
         _request_auth,
         _content_type,

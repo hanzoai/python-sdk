@@ -48,7 +48,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools(
+    def get_tools(
         self,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps only tools from one source — connector, function, zap-service, agent, skill or mcp. Empty keeps every source.")] = None,
         activated: Annotated[Optional[StrictStr], Field(description="Activated keeps only the tools activated for the caller's org and project, and only when it is exactly the string \"true\".")] = None,
@@ -95,7 +95,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_serialize(
+        _param = self._get_tools_serialize(
             source=source,
             activated=activated,
             _request_auth=_request_auth,
@@ -119,7 +119,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_with_http_info(
+    def get_tools_with_http_info(
         self,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps only tools from one source — connector, function, zap-service, agent, skill or mcp. Empty keeps every source.")] = None,
         activated: Annotated[Optional[StrictStr], Field(description="Activated keeps only the tools activated for the caller's org and project, and only when it is exactly the string \"true\".")] = None,
@@ -166,7 +166,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_serialize(
+        _param = self._get_tools_serialize(
             source=source,
             activated=activated,
             _request_auth=_request_auth,
@@ -190,7 +190,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_without_preload_content(
+    def get_tools_without_preload_content(
         self,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps only tools from one source — connector, function, zap-service, agent, skill or mcp. Empty keeps every source.")] = None,
         activated: Annotated[Optional[StrictStr], Field(description="Activated keeps only the tools activated for the caller's org and project, and only when it is exactly the string \"true\".")] = None,
@@ -237,7 +237,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_serialize(
+        _param = self._get_tools_serialize(
             source=source,
             activated=activated,
             _request_auth=_request_auth,
@@ -256,7 +256,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _get_v1_tools_serialize(
+    def _get_tools_serialize(
         self,
         source,
         activated,
@@ -327,7 +327,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_activation(
+    def get_tools_activation(
         self,
         _request_timeout: Union[
             None,
@@ -368,7 +368,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_activation_serialize(
+        _param = self._get_tools_activation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -390,7 +390,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_activation_with_http_info(
+    def get_tools_activation_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -431,7 +431,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_activation_serialize(
+        _param = self._get_tools_activation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -453,7 +453,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_activation_without_preload_content(
+    def get_tools_activation_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -494,7 +494,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_activation_serialize(
+        _param = self._get_tools_activation_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -511,7 +511,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _get_v1_tools_activation_serialize(
+    def _get_tools_activation_serialize(
         self,
         _request_auth,
         _content_type,
@@ -572,7 +572,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog(
+    def get_tools_catalog(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q matches the name, title or description, case-insensitively.")] = None,
         featured: Annotated[Optional[StrictStr], Field(description="Featured keeps only the listings we put on the front of the shelf, and only when it is exactly the string \"true\".")] = None,
@@ -628,7 +628,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_serialize(
+        _param = self._get_tools_catalog_serialize(
             q=q,
             featured=featured,
             official=official,
@@ -655,7 +655,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_with_http_info(
+    def get_tools_catalog_with_http_info(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q matches the name, title or description, case-insensitively.")] = None,
         featured: Annotated[Optional[StrictStr], Field(description="Featured keeps only the listings we put on the front of the shelf, and only when it is exactly the string \"true\".")] = None,
@@ -711,7 +711,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_serialize(
+        _param = self._get_tools_catalog_serialize(
             q=q,
             featured=featured,
             official=official,
@@ -738,7 +738,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_without_preload_content(
+    def get_tools_catalog_without_preload_content(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q matches the name, title or description, case-insensitively.")] = None,
         featured: Annotated[Optional[StrictStr], Field(description="Featured keeps only the listings we put on the front of the shelf, and only when it is exactly the string \"true\".")] = None,
@@ -794,7 +794,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_serialize(
+        _param = self._get_tools_catalog_serialize(
             q=q,
             featured=featured,
             official=official,
@@ -816,7 +816,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _get_v1_tools_catalog_serialize(
+    def _get_tools_catalog_serialize(
         self,
         q,
         featured,
@@ -902,7 +902,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_by_id(
+    def get_tools_catalog_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\".")],
         _request_timeout: Union[
@@ -946,7 +946,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_by_id_serialize(
+        _param = self._get_tools_catalog_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -969,7 +969,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_by_id_with_http_info(
+    def get_tools_catalog_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\".")],
         _request_timeout: Union[
@@ -1013,7 +1013,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_by_id_serialize(
+        _param = self._get_tools_catalog_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1036,7 +1036,7 @@ class ToolsApi:
 
 
     @validate_call
-    def get_v1_tools_catalog_by_id_without_preload_content(
+    def get_tools_catalog_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\".")],
         _request_timeout: Union[
@@ -1080,7 +1080,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_tools_catalog_by_id_serialize(
+        _param = self._get_tools_catalog_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1098,7 +1098,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _get_v1_tools_catalog_by_id_serialize(
+    def _get_tools_catalog_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1162,7 +1162,7 @@ class ToolsApi:
 
 
     @validate_call
-    def patch_v1_tools_catalog_by_id(
+    def patch_tools_catalog_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
         curate_req: CurateReq,
@@ -1209,7 +1209,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tools_catalog_by_id_serialize(
+        _param = self._patch_tools_catalog_by_id_serialize(
             id=id,
             curate_req=curate_req,
             _request_auth=_request_auth,
@@ -1233,7 +1233,7 @@ class ToolsApi:
 
 
     @validate_call
-    def patch_v1_tools_catalog_by_id_with_http_info(
+    def patch_tools_catalog_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
         curate_req: CurateReq,
@@ -1280,7 +1280,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tools_catalog_by_id_serialize(
+        _param = self._patch_tools_catalog_by_id_serialize(
             id=id,
             curate_req=curate_req,
             _request_auth=_request_auth,
@@ -1304,7 +1304,7 @@ class ToolsApi:
 
 
     @validate_call
-    def patch_v1_tools_catalog_by_id_without_preload_content(
+    def patch_tools_catalog_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
         curate_req: CurateReq,
@@ -1351,7 +1351,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_tools_catalog_by_id_serialize(
+        _param = self._patch_tools_catalog_by_id_serialize(
             id=id,
             curate_req=curate_req,
             _request_auth=_request_auth,
@@ -1370,7 +1370,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _patch_v1_tools_catalog_by_id_serialize(
+    def _patch_tools_catalog_by_id_serialize(
         self,
         id,
         curate_req,
@@ -1450,7 +1450,7 @@ class ToolsApi:
 
 
     @validate_call
-    def post_v1_tools_call(
+    def post_tools_call(
         self,
         tool_call: ToolCall,
         _request_timeout: Union[
@@ -1494,7 +1494,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tools_call_serialize(
+        _param = self._post_tools_call_serialize(
             tool_call=tool_call,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1517,7 +1517,7 @@ class ToolsApi:
 
 
     @validate_call
-    def post_v1_tools_call_with_http_info(
+    def post_tools_call_with_http_info(
         self,
         tool_call: ToolCall,
         _request_timeout: Union[
@@ -1561,7 +1561,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tools_call_serialize(
+        _param = self._post_tools_call_serialize(
             tool_call=tool_call,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1584,7 +1584,7 @@ class ToolsApi:
 
 
     @validate_call
-    def post_v1_tools_call_without_preload_content(
+    def post_tools_call_without_preload_content(
         self,
         tool_call: ToolCall,
         _request_timeout: Union[
@@ -1628,7 +1628,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tools_call_serialize(
+        _param = self._post_tools_call_serialize(
             tool_call=tool_call,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1646,7 +1646,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _post_v1_tools_call_serialize(
+    def _post_tools_call_serialize(
         self,
         tool_call,
         _request_auth,
@@ -1723,7 +1723,7 @@ class ToolsApi:
 
 
     @validate_call
-    def post_v1_tools_catalog_sync(
+    def post_tools_catalog_sync(
         self,
         _request_timeout: Union[
             None,
@@ -1764,7 +1764,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tools_catalog_sync_serialize(
+        _param = self._post_tools_catalog_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1786,7 +1786,7 @@ class ToolsApi:
 
 
     @validate_call
-    def post_v1_tools_catalog_sync_with_http_info(
+    def post_tools_catalog_sync_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1827,7 +1827,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tools_catalog_sync_serialize(
+        _param = self._post_tools_catalog_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1849,7 +1849,7 @@ class ToolsApi:
 
 
     @validate_call
-    def post_v1_tools_catalog_sync_without_preload_content(
+    def post_tools_catalog_sync_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1890,7 +1890,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_tools_catalog_sync_serialize(
+        _param = self._post_tools_catalog_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1907,7 +1907,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _post_v1_tools_catalog_sync_serialize(
+    def _post_tools_catalog_sync_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1968,7 +1968,7 @@ class ToolsApi:
 
 
     @validate_call
-    def put_v1_tools_activation(
+    def put_tools_activation(
         self,
         activation_req: ActivationReq,
         _request_timeout: Union[
@@ -2012,7 +2012,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tools_activation_serialize(
+        _param = self._put_tools_activation_serialize(
             activation_req=activation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2035,7 +2035,7 @@ class ToolsApi:
 
 
     @validate_call
-    def put_v1_tools_activation_with_http_info(
+    def put_tools_activation_with_http_info(
         self,
         activation_req: ActivationReq,
         _request_timeout: Union[
@@ -2079,7 +2079,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tools_activation_serialize(
+        _param = self._put_tools_activation_serialize(
             activation_req=activation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2102,7 +2102,7 @@ class ToolsApi:
 
 
     @validate_call
-    def put_v1_tools_activation_without_preload_content(
+    def put_tools_activation_without_preload_content(
         self,
         activation_req: ActivationReq,
         _request_timeout: Union[
@@ -2146,7 +2146,7 @@ class ToolsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_tools_activation_serialize(
+        _param = self._put_tools_activation_serialize(
             activation_req=activation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2164,7 +2164,7 @@ class ToolsApi:
         return response_data.response
 
 
-    def _put_v1_tools_activation_serialize(
+    def _put_tools_activation_serialize(
         self,
         activation_req,
         _request_auth,

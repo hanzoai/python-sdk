@@ -51,7 +51,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_documents(
+    def get_legal_documents(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. Absent or unparseable means the store's own default.")] = None,
         _request_timeout: Union[
@@ -95,7 +95,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_documents_serialize(
+        _param = self._get_legal_documents_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -118,7 +118,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_documents_with_http_info(
+    def get_legal_documents_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. Absent or unparseable means the store's own default.")] = None,
         _request_timeout: Union[
@@ -162,7 +162,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_documents_serialize(
+        _param = self._get_legal_documents_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -185,7 +185,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_documents_without_preload_content(
+    def get_legal_documents_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. Absent or unparseable means the store's own default.")] = None,
         _request_timeout: Union[
@@ -229,7 +229,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_documents_serialize(
+        _param = self._get_legal_documents_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -247,7 +247,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _get_v1_legal_documents_serialize(
+    def _get_legal_documents_serialize(
         self,
         limit,
         _request_auth,
@@ -313,7 +313,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_documents_by_id(
+    def get_legal_documents_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document's server-minted handle, \"doc_\"-prefixed.")],
         _request_timeout: Union[
@@ -357,7 +357,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_documents_by_id_serialize(
+        _param = self._get_legal_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -380,7 +380,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_documents_by_id_with_http_info(
+    def get_legal_documents_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document's server-minted handle, \"doc_\"-prefixed.")],
         _request_timeout: Union[
@@ -424,7 +424,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_documents_by_id_serialize(
+        _param = self._get_legal_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -447,7 +447,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_documents_by_id_without_preload_content(
+    def get_legal_documents_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document's server-minted handle, \"doc_\"-prefixed.")],
         _request_timeout: Union[
@@ -491,7 +491,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_documents_by_id_serialize(
+        _param = self._get_legal_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -509,7 +509,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _get_v1_legal_documents_by_id_serialize(
+    def _get_legal_documents_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -573,7 +573,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_filings(
+    def get_legal_filings(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. Absent or unparseable means the store's own default.")] = None,
         _request_timeout: Union[
@@ -617,7 +617,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_filings_serialize(
+        _param = self._get_legal_filings_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -640,7 +640,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_filings_with_http_info(
+    def get_legal_filings_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. Absent or unparseable means the store's own default.")] = None,
         _request_timeout: Union[
@@ -684,7 +684,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_filings_serialize(
+        _param = self._get_legal_filings_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -707,7 +707,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_filings_without_preload_content(
+    def get_legal_filings_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page. Absent or unparseable means the store's own default.")] = None,
         _request_timeout: Union[
@@ -751,7 +751,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_filings_serialize(
+        _param = self._get_legal_filings_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -769,7 +769,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _get_v1_legal_filings_serialize(
+    def _get_legal_filings_serialize(
         self,
         limit,
         _request_auth,
@@ -835,7 +835,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_health(
+    def get_legal_health(
         self,
         _request_timeout: Union[
             None,
@@ -876,7 +876,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_health_serialize(
+        _param = self._get_legal_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -898,7 +898,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_health_with_http_info(
+    def get_legal_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -939,7 +939,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_health_serialize(
+        _param = self._get_legal_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -961,7 +961,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_health_without_preload_content(
+    def get_legal_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1002,7 +1002,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_health_serialize(
+        _param = self._get_legal_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1019,7 +1019,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _get_v1_legal_health_serialize(
+    def _get_legal_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1080,7 +1080,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_templates(
+    def get_legal_templates(
         self,
         _request_timeout: Union[
             None,
@@ -1121,7 +1121,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_templates_serialize(
+        _param = self._get_legal_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1143,7 +1143,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_templates_with_http_info(
+    def get_legal_templates_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1184,7 +1184,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_templates_serialize(
+        _param = self._get_legal_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1206,7 +1206,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_templates_without_preload_content(
+    def get_legal_templates_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1247,7 +1247,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_templates_serialize(
+        _param = self._get_legal_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1264,7 +1264,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _get_v1_legal_templates_serialize(
+    def _get_legal_templates_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1325,7 +1325,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_templates_by_id(
+    def get_legal_templates_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template's stable id, e.g. \"nda\" or \"safe\".")],
         _request_timeout: Union[
@@ -1369,7 +1369,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_templates_by_id_serialize(
+        _param = self._get_legal_templates_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1392,7 +1392,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_templates_by_id_with_http_info(
+    def get_legal_templates_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template's stable id, e.g. \"nda\" or \"safe\".")],
         _request_timeout: Union[
@@ -1436,7 +1436,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_templates_by_id_serialize(
+        _param = self._get_legal_templates_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1459,7 +1459,7 @@ class LegalApi:
 
 
     @validate_call
-    def get_v1_legal_templates_by_id_without_preload_content(
+    def get_legal_templates_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template's stable id, e.g. \"nda\" or \"safe\".")],
         _request_timeout: Union[
@@ -1503,7 +1503,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_legal_templates_by_id_serialize(
+        _param = self._get_legal_templates_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1521,7 +1521,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _get_v1_legal_templates_by_id_serialize(
+    def _get_legal_templates_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1585,7 +1585,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents(
+    def post_legal_documents(
         self,
         generate_request: GenerateRequest,
         _request_timeout: Union[
@@ -1629,7 +1629,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_serialize(
+        _param = self._post_legal_documents_serialize(
             generate_request=generate_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1652,7 +1652,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_with_http_info(
+    def post_legal_documents_with_http_info(
         self,
         generate_request: GenerateRequest,
         _request_timeout: Union[
@@ -1696,7 +1696,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_serialize(
+        _param = self._post_legal_documents_serialize(
             generate_request=generate_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1719,7 +1719,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_without_preload_content(
+    def post_legal_documents_without_preload_content(
         self,
         generate_request: GenerateRequest,
         _request_timeout: Union[
@@ -1763,7 +1763,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_serialize(
+        _param = self._post_legal_documents_serialize(
             generate_request=generate_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1781,7 +1781,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _post_v1_legal_documents_serialize(
+    def _post_legal_documents_serialize(
         self,
         generate_request,
         _request_auth,
@@ -1858,7 +1858,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_by_id_sign(
+    def post_legal_documents_by_id_sign(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to send for signature, from the path.")],
         sign_request: SignRequest,
@@ -1905,7 +1905,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_by_id_sign_serialize(
+        _param = self._post_legal_documents_by_id_sign_serialize(
             id=id,
             sign_request=sign_request,
             _request_auth=_request_auth,
@@ -1929,7 +1929,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_by_id_sign_with_http_info(
+    def post_legal_documents_by_id_sign_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to send for signature, from the path.")],
         sign_request: SignRequest,
@@ -1976,7 +1976,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_by_id_sign_serialize(
+        _param = self._post_legal_documents_by_id_sign_serialize(
             id=id,
             sign_request=sign_request,
             _request_auth=_request_auth,
@@ -2000,7 +2000,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_by_id_sign_without_preload_content(
+    def post_legal_documents_by_id_sign_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to send for signature, from the path.")],
         sign_request: SignRequest,
@@ -2047,7 +2047,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_by_id_sign_serialize(
+        _param = self._post_legal_documents_by_id_sign_serialize(
             id=id,
             sign_request=sign_request,
             _request_auth=_request_auth,
@@ -2066,7 +2066,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _post_v1_legal_documents_by_id_sign_serialize(
+    def _post_legal_documents_by_id_sign_serialize(
         self,
         id,
         sign_request,
@@ -2146,7 +2146,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_by_id_sign_complete(
+    def post_legal_documents_by_id_sign_complete(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2190,7 +2190,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_by_id_sign_complete_serialize(
+        _param = self._post_legal_documents_by_id_sign_complete_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2212,7 +2212,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_by_id_sign_complete_with_http_info(
+    def post_legal_documents_by_id_sign_complete_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2256,7 +2256,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_by_id_sign_complete_serialize(
+        _param = self._post_legal_documents_by_id_sign_complete_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2278,7 +2278,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_documents_by_id_sign_complete_without_preload_content(
+    def post_legal_documents_by_id_sign_complete_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2322,7 +2322,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_documents_by_id_sign_complete_serialize(
+        _param = self._post_legal_documents_by_id_sign_complete_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2339,7 +2339,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _post_v1_legal_documents_by_id_sign_complete_serialize(
+    def _post_legal_documents_by_id_sign_complete_serialize(
         self,
         id,
         _request_auth,
@@ -2396,7 +2396,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_filings(
+    def post_legal_filings(
         self,
         filing_request: FilingRequest,
         _request_timeout: Union[
@@ -2440,7 +2440,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_filings_serialize(
+        _param = self._post_legal_filings_serialize(
             filing_request=filing_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2463,7 +2463,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_filings_with_http_info(
+    def post_legal_filings_with_http_info(
         self,
         filing_request: FilingRequest,
         _request_timeout: Union[
@@ -2507,7 +2507,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_filings_serialize(
+        _param = self._post_legal_filings_serialize(
             filing_request=filing_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2530,7 +2530,7 @@ class LegalApi:
 
 
     @validate_call
-    def post_v1_legal_filings_without_preload_content(
+    def post_legal_filings_without_preload_content(
         self,
         filing_request: FilingRequest,
         _request_timeout: Union[
@@ -2574,7 +2574,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_legal_filings_serialize(
+        _param = self._post_legal_filings_serialize(
             filing_request=filing_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2592,7 +2592,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _post_v1_legal_filings_serialize(
+    def _post_legal_filings_serialize(
         self,
         filing_request,
         _request_auth,
@@ -2669,7 +2669,7 @@ class LegalApi:
 
 
     @validate_call
-    def put_v1_legal_templates_by_id(
+    def put_legal_templates_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture.")],
         template_override: TemplateOverride,
@@ -2716,7 +2716,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_legal_templates_by_id_serialize(
+        _param = self._put_legal_templates_by_id_serialize(
             id=id,
             template_override=template_override,
             _request_auth=_request_auth,
@@ -2740,7 +2740,7 @@ class LegalApi:
 
 
     @validate_call
-    def put_v1_legal_templates_by_id_with_http_info(
+    def put_legal_templates_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture.")],
         template_override: TemplateOverride,
@@ -2787,7 +2787,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_legal_templates_by_id_serialize(
+        _param = self._put_legal_templates_by_id_serialize(
             id=id,
             template_override=template_override,
             _request_auth=_request_auth,
@@ -2811,7 +2811,7 @@ class LegalApi:
 
 
     @validate_call
-    def put_v1_legal_templates_by_id_without_preload_content(
+    def put_legal_templates_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture.")],
         template_override: TemplateOverride,
@@ -2858,7 +2858,7 @@ class LegalApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_legal_templates_by_id_serialize(
+        _param = self._put_legal_templates_by_id_serialize(
             id=id,
             template_override=template_override,
             _request_auth=_request_auth,
@@ -2877,7 +2877,7 @@ class LegalApi:
         return response_data.response
 
 
-    def _put_v1_legal_templates_by_id_serialize(
+    def _put_legal_templates_by_id_serialize(
         self,
         id,
         template_override,

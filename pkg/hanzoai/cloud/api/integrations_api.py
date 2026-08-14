@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
+from typing import Any, Dict, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.authorize_out import AuthorizeOut
 from hanzoai.cloud.models.connect_in import ConnectIn
@@ -63,7 +64,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def delete_v1_integrations_github_repos_by_repo_pages(
+    def delete_integrations_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -107,7 +108,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._delete_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -130,7 +131,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def delete_v1_integrations_github_repos_by_repo_pages_with_http_info(
+    def delete_integrations_github_repos_by_repo_pages_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -174,7 +175,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._delete_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -197,7 +198,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def delete_v1_integrations_github_repos_by_repo_pages_without_preload_content(
+    def delete_integrations_github_repos_by_repo_pages_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -241,7 +242,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._delete_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -259,7 +260,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _delete_v1_integrations_github_repos_by_repo_pages_serialize(
+    def _delete_integrations_github_repos_by_repo_pages_serialize(
         self,
         repo,
         _request_auth,
@@ -323,7 +324,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations(
+    def get_integrations(
         self,
         _request_timeout: Union[
             None,
@@ -364,7 +365,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_serialize(
+        _param = self._get_integrations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -386,7 +387,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_with_http_info(
+    def get_integrations_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -427,7 +428,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_serialize(
+        _param = self._get_integrations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -449,7 +450,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_without_preload_content(
+    def get_integrations_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -490,7 +491,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_serialize(
+        _param = self._get_integrations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -507,7 +508,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_serialize(
+    def _get_integrations_serialize(
         self,
         _request_auth,
         _content_type,
@@ -568,7 +569,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_by_provider(
+    def get_integrations_by_provider(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -612,7 +613,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_by_provider_serialize(
+        _param = self._get_integrations_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -635,7 +636,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_by_provider_with_http_info(
+    def get_integrations_by_provider_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -679,7 +680,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_by_provider_serialize(
+        _param = self._get_integrations_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -702,7 +703,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_by_provider_without_preload_content(
+    def get_integrations_by_provider_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -746,7 +747,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_by_provider_serialize(
+        _param = self._get_integrations_by_provider_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -764,7 +765,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_by_provider_serialize(
+    def _get_integrations_by_provider_serialize(
         self,
         provider,
         _request_auth,
@@ -828,7 +829,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_by_provider_callback(
+    def get_integrations_by_provider_callback(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -872,7 +873,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_by_provider_callback_serialize(
+        _param = self._get_integrations_by_provider_callback_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -894,7 +895,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_by_provider_callback_with_http_info(
+    def get_integrations_by_provider_callback_with_http_info(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -938,7 +939,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_by_provider_callback_serialize(
+        _param = self._get_integrations_by_provider_callback_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -960,7 +961,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_by_provider_callback_without_preload_content(
+    def get_integrations_by_provider_callback_without_preload_content(
         self,
         provider: StrictStr,
         _request_timeout: Union[
@@ -1004,7 +1005,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_by_provider_callback_serialize(
+        _param = self._get_integrations_by_provider_callback_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1021,7 +1022,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_by_provider_callback_serialize(
+    def _get_integrations_by_provider_callback_serialize(
         self,
         provider,
         _request_auth,
@@ -1078,7 +1079,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link(
+    def get_integrations_discord_link(
         self,
         _request_timeout: Union[
             None,
@@ -1119,7 +1120,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_serialize(
+        _param = self._get_integrations_discord_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1140,7 +1141,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_with_http_info(
+    def get_integrations_discord_link_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1181,7 +1182,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_serialize(
+        _param = self._get_integrations_discord_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1202,7 +1203,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_without_preload_content(
+    def get_integrations_discord_link_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1243,7 +1244,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_serialize(
+        _param = self._get_integrations_discord_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1259,7 +1260,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_discord_link_serialize(
+    def _get_integrations_discord_link_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1313,7 +1314,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_callback(
+    def get_integrations_discord_link_callback(
         self,
         _request_timeout: Union[
             None,
@@ -1354,7 +1355,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_callback_serialize(
+        _param = self._get_integrations_discord_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1375,7 +1376,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_callback_with_http_info(
+    def get_integrations_discord_link_callback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1416,7 +1417,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_callback_serialize(
+        _param = self._get_integrations_discord_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1437,7 +1438,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_callback_without_preload_content(
+    def get_integrations_discord_link_callback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1478,7 +1479,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_callback_serialize(
+        _param = self._get_integrations_discord_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1494,7 +1495,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_discord_link_callback_serialize(
+    def _get_integrations_discord_link_callback_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1548,7 +1549,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_discord(
+    def get_integrations_discord_link_discord(
         self,
         _request_timeout: Union[
             None,
@@ -1589,7 +1590,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_discord_serialize(
+        _param = self._get_integrations_discord_link_discord_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1610,7 +1611,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_discord_with_http_info(
+    def get_integrations_discord_link_discord_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1651,7 +1652,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_discord_serialize(
+        _param = self._get_integrations_discord_link_discord_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1672,7 +1673,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_discord_link_discord_without_preload_content(
+    def get_integrations_discord_link_discord_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1713,7 +1714,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_discord_link_discord_serialize(
+        _param = self._get_integrations_discord_link_discord_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1729,7 +1730,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_discord_link_discord_serialize(
+    def _get_integrations_discord_link_discord_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1783,7 +1784,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_installations(
+    def get_integrations_github_installations(
         self,
         _request_timeout: Union[
             None,
@@ -1824,7 +1825,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_installations_serialize(
+        _param = self._get_integrations_github_installations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1846,7 +1847,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_installations_with_http_info(
+    def get_integrations_github_installations_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1887,7 +1888,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_installations_serialize(
+        _param = self._get_integrations_github_installations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1909,7 +1910,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_installations_without_preload_content(
+    def get_integrations_github_installations_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1950,7 +1951,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_installations_serialize(
+        _param = self._get_integrations_github_installations_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1967,7 +1968,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_github_installations_serialize(
+    def _get_integrations_github_installations_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2028,7 +2029,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_repos(
+    def get_integrations_github_repos(
         self,
         _request_timeout: Union[
             None,
@@ -2069,7 +2070,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_repos_serialize(
+        _param = self._get_integrations_github_repos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2091,7 +2092,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_repos_with_http_info(
+    def get_integrations_github_repos_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2132,7 +2133,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_repos_serialize(
+        _param = self._get_integrations_github_repos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2154,7 +2155,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_repos_without_preload_content(
+    def get_integrations_github_repos_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2195,7 +2196,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_repos_serialize(
+        _param = self._get_integrations_github_repos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2212,7 +2213,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_github_repos_serialize(
+    def _get_integrations_github_repos_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2273,7 +2274,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_repos_by_repo_pages(
+    def get_integrations_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2317,7 +2318,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._get_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2340,7 +2341,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_repos_by_repo_pages_with_http_info(
+    def get_integrations_github_repos_by_repo_pages_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2384,7 +2385,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._get_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2407,7 +2408,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_github_repos_by_repo_pages_without_preload_content(
+    def get_integrations_github_repos_by_repo_pages_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2451,7 +2452,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._get_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2469,7 +2470,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_github_repos_by_repo_pages_serialize(
+    def _get_integrations_github_repos_by_repo_pages_serialize(
         self,
         repo,
         _request_auth,
@@ -2533,7 +2534,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_install(
+    def get_integrations_slack_install(
         self,
         _request_timeout: Union[
             None,
@@ -2574,7 +2575,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_install_serialize(
+        _param = self._get_integrations_slack_install_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2595,7 +2596,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_install_with_http_info(
+    def get_integrations_slack_install_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2636,7 +2637,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_install_serialize(
+        _param = self._get_integrations_slack_install_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2657,7 +2658,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_install_without_preload_content(
+    def get_integrations_slack_install_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2698,7 +2699,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_install_serialize(
+        _param = self._get_integrations_slack_install_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2714,7 +2715,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_slack_install_serialize(
+    def _get_integrations_slack_install_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2768,7 +2769,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link(
+    def get_integrations_slack_link(
         self,
         _request_timeout: Union[
             None,
@@ -2809,7 +2810,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_serialize(
+        _param = self._get_integrations_slack_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2830,7 +2831,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_with_http_info(
+    def get_integrations_slack_link_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2871,7 +2872,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_serialize(
+        _param = self._get_integrations_slack_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2892,7 +2893,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_without_preload_content(
+    def get_integrations_slack_link_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2933,7 +2934,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_serialize(
+        _param = self._get_integrations_slack_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2949,7 +2950,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_slack_link_serialize(
+    def _get_integrations_slack_link_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3003,7 +3004,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_callback(
+    def get_integrations_slack_link_callback(
         self,
         _request_timeout: Union[
             None,
@@ -3044,7 +3045,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_callback_serialize(
+        _param = self._get_integrations_slack_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3065,7 +3066,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_callback_with_http_info(
+    def get_integrations_slack_link_callback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3106,7 +3107,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_callback_serialize(
+        _param = self._get_integrations_slack_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3127,7 +3128,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_callback_without_preload_content(
+    def get_integrations_slack_link_callback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3168,7 +3169,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_callback_serialize(
+        _param = self._get_integrations_slack_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3184,7 +3185,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_slack_link_callback_serialize(
+    def _get_integrations_slack_link_callback_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3238,7 +3239,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_slack(
+    def get_integrations_slack_link_slack(
         self,
         _request_timeout: Union[
             None,
@@ -3279,7 +3280,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_slack_serialize(
+        _param = self._get_integrations_slack_link_slack_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3300,7 +3301,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_slack_with_http_info(
+    def get_integrations_slack_link_slack_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3341,7 +3342,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_slack_serialize(
+        _param = self._get_integrations_slack_link_slack_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3362,7 +3363,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_slack_link_slack_without_preload_content(
+    def get_integrations_slack_link_slack_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3403,7 +3404,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_slack_link_slack_serialize(
+        _param = self._get_integrations_slack_link_slack_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3419,7 +3420,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_slack_link_slack_serialize(
+    def _get_integrations_slack_link_slack_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3473,7 +3474,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link(
+    def get_integrations_teams_link(
         self,
         _request_timeout: Union[
             None,
@@ -3514,7 +3515,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_serialize(
+        _param = self._get_integrations_teams_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3535,7 +3536,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_with_http_info(
+    def get_integrations_teams_link_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3576,7 +3577,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_serialize(
+        _param = self._get_integrations_teams_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3597,7 +3598,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_without_preload_content(
+    def get_integrations_teams_link_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3638,7 +3639,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_serialize(
+        _param = self._get_integrations_teams_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3654,7 +3655,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_teams_link_serialize(
+    def _get_integrations_teams_link_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3708,7 +3709,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_aad(
+    def get_integrations_teams_link_aad(
         self,
         _request_timeout: Union[
             None,
@@ -3749,7 +3750,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_aad_serialize(
+        _param = self._get_integrations_teams_link_aad_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3770,7 +3771,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_aad_with_http_info(
+    def get_integrations_teams_link_aad_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3811,7 +3812,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_aad_serialize(
+        _param = self._get_integrations_teams_link_aad_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3832,7 +3833,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_aad_without_preload_content(
+    def get_integrations_teams_link_aad_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3873,7 +3874,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_aad_serialize(
+        _param = self._get_integrations_teams_link_aad_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3889,7 +3890,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_teams_link_aad_serialize(
+    def _get_integrations_teams_link_aad_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3943,7 +3944,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_callback(
+    def get_integrations_teams_link_callback(
         self,
         _request_timeout: Union[
             None,
@@ -3984,7 +3985,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_callback_serialize(
+        _param = self._get_integrations_teams_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4005,7 +4006,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_callback_with_http_info(
+    def get_integrations_teams_link_callback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4046,7 +4047,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_callback_serialize(
+        _param = self._get_integrations_teams_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4067,7 +4068,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_teams_link_callback_without_preload_content(
+    def get_integrations_teams_link_callback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4108,7 +4109,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_teams_link_callback_serialize(
+        _param = self._get_integrations_teams_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4124,7 +4125,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_teams_link_callback_serialize(
+    def _get_integrations_teams_link_callback_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4178,7 +4179,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link(
+    def get_integrations_telegram_link(
         self,
         _request_timeout: Union[
             None,
@@ -4219,7 +4220,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_serialize(
+        _param = self._get_integrations_telegram_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4240,7 +4241,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_with_http_info(
+    def get_integrations_telegram_link_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4281,7 +4282,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_serialize(
+        _param = self._get_integrations_telegram_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4302,7 +4303,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_without_preload_content(
+    def get_integrations_telegram_link_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4343,7 +4344,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_serialize(
+        _param = self._get_integrations_telegram_link_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4359,7 +4360,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_telegram_link_serialize(
+    def _get_integrations_telegram_link_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4413,7 +4414,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_auth(
+    def get_integrations_telegram_link_auth(
         self,
         _request_timeout: Union[
             None,
@@ -4454,7 +4455,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_auth_serialize(
+        _param = self._get_integrations_telegram_link_auth_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4475,7 +4476,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_auth_with_http_info(
+    def get_integrations_telegram_link_auth_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4516,7 +4517,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_auth_serialize(
+        _param = self._get_integrations_telegram_link_auth_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4537,7 +4538,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_auth_without_preload_content(
+    def get_integrations_telegram_link_auth_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4578,7 +4579,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_auth_serialize(
+        _param = self._get_integrations_telegram_link_auth_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4594,7 +4595,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_telegram_link_auth_serialize(
+    def _get_integrations_telegram_link_auth_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4648,7 +4649,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_callback(
+    def get_integrations_telegram_link_callback(
         self,
         _request_timeout: Union[
             None,
@@ -4689,7 +4690,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_callback_serialize(
+        _param = self._get_integrations_telegram_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4710,7 +4711,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_callback_with_http_info(
+    def get_integrations_telegram_link_callback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4751,7 +4752,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_callback_serialize(
+        _param = self._get_integrations_telegram_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4772,7 +4773,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def get_v1_integrations_telegram_link_callback_without_preload_content(
+    def get_integrations_telegram_link_callback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4813,7 +4814,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_integrations_telegram_link_callback_serialize(
+        _param = self._get_integrations_telegram_link_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4829,7 +4830,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _get_v1_integrations_telegram_link_callback_serialize(
+    def _get_integrations_telegram_link_callback_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4883,7 +4884,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_connect(
+    def post_integrations_by_provider_connect(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
         connect_in: ConnectIn,
@@ -4930,7 +4931,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_connect_serialize(
+        _param = self._post_integrations_by_provider_connect_serialize(
             provider=provider,
             connect_in=connect_in,
             _request_auth=_request_auth,
@@ -4954,7 +4955,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_connect_with_http_info(
+    def post_integrations_by_provider_connect_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
         connect_in: ConnectIn,
@@ -5001,7 +5002,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_connect_serialize(
+        _param = self._post_integrations_by_provider_connect_serialize(
             provider=provider,
             connect_in=connect_in,
             _request_auth=_request_auth,
@@ -5025,7 +5026,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_connect_without_preload_content(
+    def post_integrations_by_provider_connect_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
         connect_in: ConnectIn,
@@ -5072,7 +5073,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_connect_serialize(
+        _param = self._post_integrations_by_provider_connect_serialize(
             provider=provider,
             connect_in=connect_in,
             _request_auth=_request_auth,
@@ -5091,7 +5092,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_by_provider_connect_serialize(
+    def _post_integrations_by_provider_connect_serialize(
         self,
         provider,
         connect_in,
@@ -5171,7 +5172,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_disconnect(
+    def post_integrations_by_provider_disconnect(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -5215,7 +5216,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_disconnect_serialize(
+        _param = self._post_integrations_by_provider_disconnect_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5238,7 +5239,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_disconnect_with_http_info(
+    def post_integrations_by_provider_disconnect_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -5282,7 +5283,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_disconnect_serialize(
+        _param = self._post_integrations_by_provider_disconnect_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5305,7 +5306,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_disconnect_without_preload_content(
+    def post_integrations_by_provider_disconnect_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -5349,7 +5350,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_disconnect_serialize(
+        _param = self._post_integrations_by_provider_disconnect_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5367,7 +5368,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_by_provider_disconnect_serialize(
+    def _post_integrations_by_provider_disconnect_serialize(
         self,
         provider,
         _request_auth,
@@ -5431,7 +5432,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_verify(
+    def post_integrations_by_provider_verify(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -5475,7 +5476,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_verify_serialize(
+        _param = self._post_integrations_by_provider_verify_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5498,7 +5499,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_verify_with_http_info(
+    def post_integrations_by_provider_verify_with_http_info(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -5542,7 +5543,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_verify_serialize(
+        _param = self._post_integrations_by_provider_verify_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5565,7 +5566,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_by_provider_verify_without_preload_content(
+    def post_integrations_by_provider_verify_without_preload_content(
         self,
         provider: Annotated[StrictStr, Field(description="Provider is the registry id of the connector — \"slack\", \"github\", \"cloudflare\". Unknown ids are 404, as are the user-plane (/v1/connectors) providers, which this surface never resolves.")],
         _request_timeout: Union[
@@ -5609,7 +5610,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_by_provider_verify_serialize(
+        _param = self._post_integrations_by_provider_verify_serialize(
             provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5627,7 +5628,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_by_provider_verify_serialize(
+    def _post_integrations_by_provider_verify_serialize(
         self,
         provider,
         _request_auth,
@@ -5691,7 +5692,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_discord_interactions(
+    def post_integrations_discord_interactions(
         self,
         _request_timeout: Union[
             None,
@@ -5732,7 +5733,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_discord_interactions_serialize(
+        _param = self._post_integrations_discord_interactions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5753,7 +5754,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_discord_interactions_with_http_info(
+    def post_integrations_discord_interactions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5794,7 +5795,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_discord_interactions_serialize(
+        _param = self._post_integrations_discord_interactions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5815,7 +5816,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_discord_interactions_without_preload_content(
+    def post_integrations_discord_interactions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5856,7 +5857,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_discord_interactions_serialize(
+        _param = self._post_integrations_discord_interactions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5872,7 +5873,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_discord_interactions_serialize(
+    def _post_integrations_discord_interactions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5926,7 +5927,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_claim(
+    def post_integrations_github_claim(
         self,
         github_claim_in: GithubClaimIn,
         _request_timeout: Union[
@@ -5970,7 +5971,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_claim_serialize(
+        _param = self._post_integrations_github_claim_serialize(
             github_claim_in=github_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5993,7 +5994,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_claim_with_http_info(
+    def post_integrations_github_claim_with_http_info(
         self,
         github_claim_in: GithubClaimIn,
         _request_timeout: Union[
@@ -6037,7 +6038,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_claim_serialize(
+        _param = self._post_integrations_github_claim_serialize(
             github_claim_in=github_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6060,7 +6061,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_claim_without_preload_content(
+    def post_integrations_github_claim_without_preload_content(
         self,
         github_claim_in: GithubClaimIn,
         _request_timeout: Union[
@@ -6104,7 +6105,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_claim_serialize(
+        _param = self._post_integrations_github_claim_serialize(
             github_claim_in=github_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6122,7 +6123,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_claim_serialize(
+    def _post_integrations_github_claim_serialize(
         self,
         github_claim_in,
         _request_auth,
@@ -6199,7 +6200,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_fork(
+    def post_integrations_github_fork(
         self,
         github_fork_req: GithubForkReq,
         _request_timeout: Union[
@@ -6243,7 +6244,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_fork_serialize(
+        _param = self._post_integrations_github_fork_serialize(
             github_fork_req=github_fork_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6266,7 +6267,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_fork_with_http_info(
+    def post_integrations_github_fork_with_http_info(
         self,
         github_fork_req: GithubForkReq,
         _request_timeout: Union[
@@ -6310,7 +6311,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_fork_serialize(
+        _param = self._post_integrations_github_fork_serialize(
             github_fork_req=github_fork_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6333,7 +6334,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_fork_without_preload_content(
+    def post_integrations_github_fork_without_preload_content(
         self,
         github_fork_req: GithubForkReq,
         _request_timeout: Union[
@@ -6377,7 +6378,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_fork_serialize(
+        _param = self._post_integrations_github_fork_serialize(
             github_fork_req=github_fork_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6395,7 +6396,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_fork_serialize(
+    def _post_integrations_github_fork_serialize(
         self,
         github_fork_req,
         _request_auth,
@@ -6472,7 +6473,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_issues_backfill(
+    def post_integrations_github_issues_backfill(
         self,
         github_backfill_in: GithubBackfillIn,
         _request_timeout: Union[
@@ -6488,9 +6489,9 @@ class IntegrationsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> GithubBackfillResult:
-        """Seeds the native tracker with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
+        """Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
 
-        Seeds the native tracker with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
+        Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
 
         :param github_backfill_in: (required)
         :type github_backfill_in: GithubBackfillIn
@@ -6516,7 +6517,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_issues_backfill_serialize(
+        _param = self._post_integrations_github_issues_backfill_serialize(
             github_backfill_in=github_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6539,7 +6540,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_issues_backfill_with_http_info(
+    def post_integrations_github_issues_backfill_with_http_info(
         self,
         github_backfill_in: GithubBackfillIn,
         _request_timeout: Union[
@@ -6555,9 +6556,9 @@ class IntegrationsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[GithubBackfillResult]:
-        """Seeds the native tracker with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
+        """Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
 
-        Seeds the native tracker with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
+        Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
 
         :param github_backfill_in: (required)
         :type github_backfill_in: GithubBackfillIn
@@ -6583,7 +6584,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_issues_backfill_serialize(
+        _param = self._post_integrations_github_issues_backfill_serialize(
             github_backfill_in=github_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6606,7 +6607,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_issues_backfill_without_preload_content(
+    def post_integrations_github_issues_backfill_without_preload_content(
         self,
         github_backfill_in: GithubBackfillIn,
         _request_timeout: Union[
@@ -6622,9 +6623,9 @@ class IntegrationsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Seeds the native tracker with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
+        """Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
 
-        Seeds the native tracker with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
+        Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
 
         :param github_backfill_in: (required)
         :type github_backfill_in: GithubBackfillIn
@@ -6650,7 +6651,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_issues_backfill_serialize(
+        _param = self._post_integrations_github_issues_backfill_serialize(
             github_backfill_in=github_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6668,7 +6669,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_issues_backfill_serialize(
+    def _post_integrations_github_issues_backfill_serialize(
         self,
         github_backfill_in,
         _request_auth,
@@ -6745,7 +6746,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_by_repo_pages(
+    def post_integrations_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
         github_pages_enable_req: GithubPagesEnableReq,
@@ -6792,7 +6793,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._post_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             github_pages_enable_req=github_pages_enable_req,
             _request_auth=_request_auth,
@@ -6816,7 +6817,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_by_repo_pages_with_http_info(
+    def post_integrations_github_repos_by_repo_pages_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
         github_pages_enable_req: GithubPagesEnableReq,
@@ -6863,7 +6864,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._post_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             github_pages_enable_req=github_pages_enable_req,
             _request_auth=_request_auth,
@@ -6887,7 +6888,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_by_repo_pages_without_preload_content(
+    def post_integrations_github_repos_by_repo_pages_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
         github_pages_enable_req: GithubPagesEnableReq,
@@ -6934,7 +6935,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._post_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             github_pages_enable_req=github_pages_enable_req,
             _request_auth=_request_auth,
@@ -6953,7 +6954,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_repos_by_repo_pages_serialize(
+    def _post_integrations_github_repos_by_repo_pages_serialize(
         self,
         repo,
         github_pages_enable_req,
@@ -7033,7 +7034,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_by_repo_pages_builds(
+    def post_integrations_github_repos_by_repo_pages_builds(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7077,7 +7078,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_by_repo_pages_builds_serialize(
+        _param = self._post_integrations_github_repos_by_repo_pages_builds_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7100,7 +7101,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_by_repo_pages_builds_with_http_info(
+    def post_integrations_github_repos_by_repo_pages_builds_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7144,7 +7145,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_by_repo_pages_builds_serialize(
+        _param = self._post_integrations_github_repos_by_repo_pages_builds_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7167,7 +7168,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_by_repo_pages_builds_without_preload_content(
+    def post_integrations_github_repos_by_repo_pages_builds_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7211,7 +7212,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_by_repo_pages_builds_serialize(
+        _param = self._post_integrations_github_repos_by_repo_pages_builds_serialize(
             repo=repo,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7229,7 +7230,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_repos_by_repo_pages_builds_serialize(
+    def _post_integrations_github_repos_by_repo_pages_builds_serialize(
         self,
         repo,
         _request_auth,
@@ -7293,7 +7294,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_import(
+    def post_integrations_github_repos_import(
         self,
         github_import_in: GithubImportIn,
         _request_timeout: Union[
@@ -7337,7 +7338,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_import_serialize(
+        _param = self._post_integrations_github_repos_import_serialize(
             github_import_in=github_import_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7360,7 +7361,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_import_with_http_info(
+    def post_integrations_github_repos_import_with_http_info(
         self,
         github_import_in: GithubImportIn,
         _request_timeout: Union[
@@ -7404,7 +7405,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_import_serialize(
+        _param = self._post_integrations_github_repos_import_serialize(
             github_import_in=github_import_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7427,7 +7428,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_repos_import_without_preload_content(
+    def post_integrations_github_repos_import_without_preload_content(
         self,
         github_import_in: GithubImportIn,
         _request_timeout: Union[
@@ -7471,7 +7472,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_repos_import_serialize(
+        _param = self._post_integrations_github_repos_import_serialize(
             github_import_in=github_import_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7489,7 +7490,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_repos_import_serialize(
+    def _post_integrations_github_repos_import_serialize(
         self,
         github_import_in,
         _request_auth,
@@ -7566,7 +7567,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_search(
+    def post_integrations_github_search(
         self,
         github_search_req: GithubSearchReq,
         _request_timeout: Union[
@@ -7610,7 +7611,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_search_serialize(
+        _param = self._post_integrations_github_search_serialize(
             github_search_req=github_search_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7633,7 +7634,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_search_with_http_info(
+    def post_integrations_github_search_with_http_info(
         self,
         github_search_req: GithubSearchReq,
         _request_timeout: Union[
@@ -7677,7 +7678,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_search_serialize(
+        _param = self._post_integrations_github_search_serialize(
             github_search_req=github_search_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7700,7 +7701,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_github_search_without_preload_content(
+    def post_integrations_github_search_without_preload_content(
         self,
         github_search_req: GithubSearchReq,
         _request_timeout: Union[
@@ -7744,7 +7745,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_github_search_serialize(
+        _param = self._post_integrations_github_search_serialize(
             github_search_req=github_search_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7762,7 +7763,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_github_search_serialize(
+    def _post_integrations_github_search_serialize(
         self,
         github_search_req,
         _request_auth,
@@ -7839,7 +7840,515 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_slack_commands(
+    def post_integrations_github_webhook(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """GitHub App webhook
+
+        The address the GitHub App delivers events to. A push is handed to the repository sync engine, and an issue or issue-comment event is mirrored into the native todo — idempotently, so the same issue re-syncs to one row however many times it is edited, closed or reopened.  It answers a benign 200 for everything it does not act on — the ping, other event types, an unknown installation — deliberately, so GitHub does not enter a retry storm over events that were never going to do anything. Only a bad signature and a genuine sync failure are non-200, and an oversized payload is refused outright.  Two sync rules are worth stating because neither is guessable. EVERY ref syncs, tags as well as branches, because releases are cut by tag and filtering them would stop publishing with nothing reporting a failure. And a delete is NEVER propagated: the native side is canonical, so an inbound delete never removes a native ref.  The payload is verified by HMAC against the webhook secret before it is parsed.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_integrations_github_webhook_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_integrations_github_webhook_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """GitHub App webhook
+
+        The address the GitHub App delivers events to. A push is handed to the repository sync engine, and an issue or issue-comment event is mirrored into the native todo — idempotently, so the same issue re-syncs to one row however many times it is edited, closed or reopened.  It answers a benign 200 for everything it does not act on — the ping, other event types, an unknown installation — deliberately, so GitHub does not enter a retry storm over events that were never going to do anything. Only a bad signature and a genuine sync failure are non-200, and an oversized payload is refused outright.  Two sync rules are worth stating because neither is guessable. EVERY ref syncs, tags as well as branches, because releases are cut by tag and filtering them would stop publishing with nothing reporting a failure. And a delete is NEVER propagated: the native side is canonical, so an inbound delete never removes a native ref.  The payload is verified by HMAC against the webhook secret before it is parsed.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_integrations_github_webhook_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_integrations_github_webhook_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """GitHub App webhook
+
+        The address the GitHub App delivers events to. A push is handed to the repository sync engine, and an issue or issue-comment event is mirrored into the native todo — idempotently, so the same issue re-syncs to one row however many times it is edited, closed or reopened.  It answers a benign 200 for everything it does not act on — the ping, other event types, an unknown installation — deliberately, so GitHub does not enter a retry storm over events that were never going to do anything. Only a bad signature and a genuine sync failure are non-200, and an oversized payload is refused outright.  Two sync rules are worth stating because neither is guessable. EVERY ref syncs, tags as well as branches, because releases are cut by tag and filtering them would stop publishing with nothing reporting a failure. And a delete is NEVER propagated: the native side is canonical, so an inbound delete never removes a native ref.  The payload is verified by HMAC against the webhook secret before it is parsed.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_integrations_github_webhook_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_integrations_github_webhook_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/integrations/github/webhook',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_integrations_openrouter_webhook(
+        self,
+        request_body: Optional[Dict[str, Any]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> Dict[str, object]:
+        """Receive OpenRouter Broadcast traces as usage rows
+
+        OpenRouter's spend is invisible to every Hanzo money lens because those lenses read hanzo.cloud_usage and OpenRouter meters keys of its own. Point a Broadcast destination (Settings ▸ Observability ▸ Webhook) at this door and each generation span becomes ONE row in that same ledger with provider `openrouter`, so one query answers what we spend everywhere. Enable the Cost and Identity field categories: cost is the money and identity carries `openrouter.api_key_name`, which is what says WHICH key spent it — it lands in `account` as openrouter/<key name>.  AUTHENTICATION IS A HANZO KEY. Broadcast signs nothing; its only authentication is the destination's Headers map, so send a key as `Authorization: Bearer pk-…` and it is admitted exactly as /v1/event admits a beacon's: a project key resolves through the project that minted it, an IAM-issued key through IAM. That key names the org every row is filed under; it can write and cannot read. No key, or a key that names no org, is 401 and nothing is stored.  The body is OTLP/JSON — `{resourceSpans:[{scopeSpans:[{spans:[…]}]}]}` — exactly as OpenTelemetry defines it; the model, tokens and cost are read from each span's `gen_ai.*` attributes and the key name from `openrouter.api_key_name`. The answer is `{stored, dropped}`: how many generations became rows, and how many spans named no model. Those are OpenRouter's trace and span parents — they carry no cost to meter. An empty payload stores nothing and answers 200, which is what makes Test Connection pass. A warehouse that cannot take the rows answers 503 so the delivery shows red and can be replayed: a row is keyed by its span id, so a redelivery collapses rather than double-counting.
+
+        :param request_body:
+        :type request_body: Dict[str, object]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_integrations_openrouter_webhook_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "Dict[str, object]",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_integrations_openrouter_webhook_with_http_info(
+        self,
+        request_body: Optional[Dict[str, Any]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[Dict[str, object]]:
+        """Receive OpenRouter Broadcast traces as usage rows
+
+        OpenRouter's spend is invisible to every Hanzo money lens because those lenses read hanzo.cloud_usage and OpenRouter meters keys of its own. Point a Broadcast destination (Settings ▸ Observability ▸ Webhook) at this door and each generation span becomes ONE row in that same ledger with provider `openrouter`, so one query answers what we spend everywhere. Enable the Cost and Identity field categories: cost is the money and identity carries `openrouter.api_key_name`, which is what says WHICH key spent it — it lands in `account` as openrouter/<key name>.  AUTHENTICATION IS A HANZO KEY. Broadcast signs nothing; its only authentication is the destination's Headers map, so send a key as `Authorization: Bearer pk-…` and it is admitted exactly as /v1/event admits a beacon's: a project key resolves through the project that minted it, an IAM-issued key through IAM. That key names the org every row is filed under; it can write and cannot read. No key, or a key that names no org, is 401 and nothing is stored.  The body is OTLP/JSON — `{resourceSpans:[{scopeSpans:[{spans:[…]}]}]}` — exactly as OpenTelemetry defines it; the model, tokens and cost are read from each span's `gen_ai.*` attributes and the key name from `openrouter.api_key_name`. The answer is `{stored, dropped}`: how many generations became rows, and how many spans named no model. Those are OpenRouter's trace and span parents — they carry no cost to meter. An empty payload stores nothing and answers 200, which is what makes Test Connection pass. A warehouse that cannot take the rows answers 503 so the delivery shows red and can be replayed: a row is keyed by its span id, so a redelivery collapses rather than double-counting.
+
+        :param request_body:
+        :type request_body: Dict[str, object]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_integrations_openrouter_webhook_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "Dict[str, object]",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_integrations_openrouter_webhook_without_preload_content(
+        self,
+        request_body: Optional[Dict[str, Any]] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Receive OpenRouter Broadcast traces as usage rows
+
+        OpenRouter's spend is invisible to every Hanzo money lens because those lenses read hanzo.cloud_usage and OpenRouter meters keys of its own. Point a Broadcast destination (Settings ▸ Observability ▸ Webhook) at this door and each generation span becomes ONE row in that same ledger with provider `openrouter`, so one query answers what we spend everywhere. Enable the Cost and Identity field categories: cost is the money and identity carries `openrouter.api_key_name`, which is what says WHICH key spent it — it lands in `account` as openrouter/<key name>.  AUTHENTICATION IS A HANZO KEY. Broadcast signs nothing; its only authentication is the destination's Headers map, so send a key as `Authorization: Bearer pk-…` and it is admitted exactly as /v1/event admits a beacon's: a project key resolves through the project that minted it, an IAM-issued key through IAM. That key names the org every row is filed under; it can write and cannot read. No key, or a key that names no org, is 401 and nothing is stored.  The body is OTLP/JSON — `{resourceSpans:[{scopeSpans:[{spans:[…]}]}]}` — exactly as OpenTelemetry defines it; the model, tokens and cost are read from each span's `gen_ai.*` attributes and the key name from `openrouter.api_key_name`. The answer is `{stored, dropped}`: how many generations became rows, and how many spans named no model. Those are OpenRouter's trace and span parents — they carry no cost to meter. An empty payload stores nothing and answers 200, which is what makes Test Connection pass. A warehouse that cannot take the rows answers 503 so the delivery shows red and can be replayed: a row is keyed by its span id, so a redelivery collapses rather than double-counting.
+
+        :param request_body:
+        :type request_body: Dict[str, object]
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_integrations_openrouter_webhook_serialize(
+            request_body=request_body,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "Dict[str, object]",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_integrations_openrouter_webhook_serialize(
+        self,
+        request_body,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if request_body is not None:
+            _body_params = request_body
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/integrations/openrouter/webhook',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_integrations_slack_commands(
         self,
         _request_timeout: Union[
             None,
@@ -7880,7 +8389,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_slack_commands_serialize(
+        _param = self._post_integrations_slack_commands_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7901,7 +8410,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_slack_commands_with_http_info(
+    def post_integrations_slack_commands_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7942,7 +8451,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_slack_commands_serialize(
+        _param = self._post_integrations_slack_commands_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7963,7 +8472,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_slack_commands_without_preload_content(
+    def post_integrations_slack_commands_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8004,7 +8513,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_slack_commands_serialize(
+        _param = self._post_integrations_slack_commands_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8020,7 +8529,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_slack_commands_serialize(
+    def _post_integrations_slack_commands_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8074,7 +8583,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_slack_events(
+    def post_integrations_slack_events(
         self,
         _request_timeout: Union[
             None,
@@ -8091,7 +8600,7 @@ class IntegrationsApi:
     ) -> None:
         """Slack Events API webhook
 
-        The address a Slack app posts workspace events to. It answers Slack's url_verification handshake with the challenge, and routes an @mention or a direct message to an agent turn that replies in the same thread. A prompt beginning with `code:` is routed to the coding flow instead, which runs under its own pool.  The raw body and its timestamp are verified against the app's signing secret before anything is read from them. Hanzo's own bot messages are dropped, so a reply cannot trigger another reply.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.  The answer is acknowledged immediately and the work happens afterwards, because every one of these platforms times out a slow webhook. Duplicate deliveries are absorbed durably, so a platform retry of an event that already ran never runs it a second time or bills for it twice. When the agent pool is full nothing at all is recorded and the delivery is refused as retriable, so the message is re-delivered later rather than being lost or half-processed.
+        The address a Slack app posts workspace events to. It answers Slack's url_verification handshake with the challenge, and routes an @mention or a direct message to an agent turn that replies in the same thread. The turn holds the product's own tools, so a request to change code starts a sandbox run because the model chose to — there is no prefix and no second path.  The raw body and its timestamp are verified against the app's signing secret before anything is read from them. Hanzo's own bot messages are dropped, so a reply cannot trigger another reply.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.  The answer is acknowledged immediately and the work happens afterwards, because every one of these platforms times out a slow webhook. Duplicate deliveries are absorbed durably, so a platform retry of an event that already ran never runs it a second time or bills for it twice. When the agent pool is full nothing at all is recorded and the delivery is refused as retriable, so the message is re-delivered later rather than being lost or half-processed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8115,7 +8624,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_slack_events_serialize(
+        _param = self._post_integrations_slack_events_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8136,7 +8645,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_slack_events_with_http_info(
+    def post_integrations_slack_events_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8153,7 +8662,7 @@ class IntegrationsApi:
     ) -> ApiResponse[None]:
         """Slack Events API webhook
 
-        The address a Slack app posts workspace events to. It answers Slack's url_verification handshake with the challenge, and routes an @mention or a direct message to an agent turn that replies in the same thread. A prompt beginning with `code:` is routed to the coding flow instead, which runs under its own pool.  The raw body and its timestamp are verified against the app's signing secret before anything is read from them. Hanzo's own bot messages are dropped, so a reply cannot trigger another reply.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.  The answer is acknowledged immediately and the work happens afterwards, because every one of these platforms times out a slow webhook. Duplicate deliveries are absorbed durably, so a platform retry of an event that already ran never runs it a second time or bills for it twice. When the agent pool is full nothing at all is recorded and the delivery is refused as retriable, so the message is re-delivered later rather than being lost or half-processed.
+        The address a Slack app posts workspace events to. It answers Slack's url_verification handshake with the challenge, and routes an @mention or a direct message to an agent turn that replies in the same thread. The turn holds the product's own tools, so a request to change code starts a sandbox run because the model chose to — there is no prefix and no second path.  The raw body and its timestamp are verified against the app's signing secret before anything is read from them. Hanzo's own bot messages are dropped, so a reply cannot trigger another reply.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.  The answer is acknowledged immediately and the work happens afterwards, because every one of these platforms times out a slow webhook. Duplicate deliveries are absorbed durably, so a platform retry of an event that already ran never runs it a second time or bills for it twice. When the agent pool is full nothing at all is recorded and the delivery is refused as retriable, so the message is re-delivered later rather than being lost or half-processed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8177,7 +8686,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_slack_events_serialize(
+        _param = self._post_integrations_slack_events_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8198,7 +8707,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_slack_events_without_preload_content(
+    def post_integrations_slack_events_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8215,7 +8724,7 @@ class IntegrationsApi:
     ) -> RESTResponseType:
         """Slack Events API webhook
 
-        The address a Slack app posts workspace events to. It answers Slack's url_verification handshake with the challenge, and routes an @mention or a direct message to an agent turn that replies in the same thread. A prompt beginning with `code:` is routed to the coding flow instead, which runs under its own pool.  The raw body and its timestamp are verified against the app's signing secret before anything is read from them. Hanzo's own bot messages are dropped, so a reply cannot trigger another reply.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.  The answer is acknowledged immediately and the work happens afterwards, because every one of these platforms times out a slow webhook. Duplicate deliveries are absorbed durably, so a platform retry of an event that already ran never runs it a second time or bills for it twice. When the agent pool is full nothing at all is recorded and the delivery is refused as retriable, so the message is re-delivered later rather than being lost or half-processed.
+        The address a Slack app posts workspace events to. It answers Slack's url_verification handshake with the challenge, and routes an @mention or a direct message to an agent turn that replies in the same thread. The turn holds the product's own tools, so a request to change code starts a sandbox run because the model chose to — there is no prefix and no second path.  The raw body and its timestamp are verified against the app's signing secret before anything is read from them. Hanzo's own bot messages are dropped, so a reply cannot trigger another reply.  The caller here is the PLATFORM, not a Hanzo tenant, so there is no bearer and no principal. The signature check IS the authentication, and it fails closed. The tenant is never read from the payload either: it is resolved from the verified platform identifier through the connection map, so an event from a workspace nobody connected does nothing. Refusals are written with their own status rather than being flattened to a 500, so a rejected signature reads as 401 and a malformed body as 400.  The answer is acknowledged immediately and the work happens afterwards, because every one of these platforms times out a slow webhook. Duplicate deliveries are absorbed durably, so a platform retry of an event that already ran never runs it a second time or bills for it twice. When the agent pool is full nothing at all is recorded and the delivery is refused as retriable, so the message is re-delivered later rather than being lost or half-processed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8239,7 +8748,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_slack_events_serialize(
+        _param = self._post_integrations_slack_events_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8255,7 +8764,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_slack_events_serialize(
+    def _post_integrations_slack_events_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8309,7 +8818,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_teams_events(
+    def post_integrations_teams_events(
         self,
         _request_timeout: Union[
             None,
@@ -8350,7 +8859,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_teams_events_serialize(
+        _param = self._post_integrations_teams_events_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8371,7 +8880,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_teams_events_with_http_info(
+    def post_integrations_teams_events_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8412,7 +8921,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_teams_events_serialize(
+        _param = self._post_integrations_teams_events_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8433,7 +8942,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_teams_events_without_preload_content(
+    def post_integrations_teams_events_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8474,7 +8983,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_teams_events_serialize(
+        _param = self._post_integrations_teams_events_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8490,7 +8999,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_teams_events_serialize(
+    def _post_integrations_teams_events_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8544,7 +9053,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_telegram_connect(
+    def post_integrations_telegram_connect(
         self,
         _request_timeout: Union[
             None,
@@ -8585,7 +9094,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_telegram_connect_serialize(
+        _param = self._post_integrations_telegram_connect_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8607,7 +9116,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_telegram_connect_with_http_info(
+    def post_integrations_telegram_connect_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8648,7 +9157,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_telegram_connect_serialize(
+        _param = self._post_integrations_telegram_connect_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8670,7 +9179,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_telegram_connect_without_preload_content(
+    def post_integrations_telegram_connect_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8711,7 +9220,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_telegram_connect_serialize(
+        _param = self._post_integrations_telegram_connect_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8728,7 +9237,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_telegram_connect_serialize(
+    def _post_integrations_telegram_connect_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8789,7 +9298,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_telegram_webhook(
+    def post_integrations_telegram_webhook(
         self,
         _request_timeout: Union[
             None,
@@ -8830,7 +9339,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_telegram_webhook_serialize(
+        _param = self._post_integrations_telegram_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8851,7 +9360,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_telegram_webhook_with_http_info(
+    def post_integrations_telegram_webhook_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8892,7 +9401,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_telegram_webhook_serialize(
+        _param = self._post_integrations_telegram_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8913,7 +9422,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def post_v1_integrations_telegram_webhook_without_preload_content(
+    def post_integrations_telegram_webhook_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8954,7 +9463,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_integrations_telegram_webhook_serialize(
+        _param = self._post_integrations_telegram_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8970,7 +9479,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _post_v1_integrations_telegram_webhook_serialize(
+    def _post_integrations_telegram_webhook_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9024,7 +9533,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def put_v1_integrations_github_repos_by_repo_pages(
+    def put_integrations_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
         github_pages_update_req: GithubPagesUpdateReq,
@@ -9071,7 +9580,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._put_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             github_pages_update_req=github_pages_update_req,
             _request_auth=_request_auth,
@@ -9095,7 +9604,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def put_v1_integrations_github_repos_by_repo_pages_with_http_info(
+    def put_integrations_github_repos_by_repo_pages_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
         github_pages_update_req: GithubPagesUpdateReq,
@@ -9142,7 +9651,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._put_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             github_pages_update_req=github_pages_update_req,
             _request_auth=_request_auth,
@@ -9166,7 +9675,7 @@ class IntegrationsApi:
 
 
     @validate_call
-    def put_v1_integrations_github_repos_by_repo_pages_without_preload_content(
+    def put_integrations_github_repos_by_repo_pages_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
         github_pages_update_req: GithubPagesUpdateReq,
@@ -9213,7 +9722,7 @@ class IntegrationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_integrations_github_repos_by_repo_pages_serialize(
+        _param = self._put_integrations_github_repos_by_repo_pages_serialize(
             repo=repo,
             github_pages_update_req=github_pages_update_req,
             _request_auth=_request_auth,
@@ -9232,7 +9741,7 @@ class IntegrationsApi:
         return response_data.response
 
 
-    def _put_v1_integrations_github_repos_by_repo_pages_serialize(
+    def _put_integrations_github_repos_by_repo_pages_serialize(
         self,
         repo,
         github_pages_update_req,

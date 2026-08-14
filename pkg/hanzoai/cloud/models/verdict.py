@@ -17,9 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.drift_flag import DriftFlag
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,9 +26,14 @@ class Verdict(BaseModel):
     """
     Verdict
     """ # noqa: E501
-    flags: Optional[List[DriftFlag]] = None
-    severity: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["flags", "severity"]
+    builds: Optional[StrictInt] = None
+    commit: Optional[StrictStr] = None
+    fired: Optional[StrictBool] = None
+    org: Optional[StrictStr] = None
+    reason: Optional[StrictStr] = None
+    ref: Optional[StrictStr] = None
+    repo: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["builds", "commit", "fired", "org", "reason", "ref", "repo"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -70,13 +74,6 @@ class Verdict(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in flags (list)
-        _items = []
-        if self.flags:
-            for _item_flags in self.flags:
-                if _item_flags:
-                    _items.append(_item_flags.to_dict())
-            _dict['flags'] = _items
         return _dict
 
     @classmethod
@@ -89,8 +86,13 @@ class Verdict(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "flags": [DriftFlag.from_dict(_item) for _item in obj["flags"]] if obj.get("flags") is not None else None,
-            "severity": obj.get("severity")
+            "builds": obj.get("builds"),
+            "commit": obj.get("commit"),
+            "fired": obj.get("fired"),
+            "org": obj.get("org"),
+            "reason": obj.get("reason"),
+            "ref": obj.get("ref"),
+            "repo": obj.get("repo")
         })
         return _obj
 

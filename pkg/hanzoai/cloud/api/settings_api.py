@@ -40,7 +40,7 @@ class SettingsApi:
 
 
     @validate_call
-    def get_v1_settings_by_product(
+    def get_settings_by_product(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the path. Must match ^[a-z0-9][a-z0-9._-]{0,62}$.")],
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class SettingsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_settings_by_product_serialize(
+        _param = self._get_settings_by_product_serialize(
             product=product,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -107,7 +107,7 @@ class SettingsApi:
 
 
     @validate_call
-    def get_v1_settings_by_product_with_http_info(
+    def get_settings_by_product_with_http_info(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the path. Must match ^[a-z0-9][a-z0-9._-]{0,62}$.")],
         _request_timeout: Union[
@@ -151,7 +151,7 @@ class SettingsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_settings_by_product_serialize(
+        _param = self._get_settings_by_product_serialize(
             product=product,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -174,7 +174,7 @@ class SettingsApi:
 
 
     @validate_call
-    def get_v1_settings_by_product_without_preload_content(
+    def get_settings_by_product_without_preload_content(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the path. Must match ^[a-z0-9][a-z0-9._-]{0,62}$.")],
         _request_timeout: Union[
@@ -218,7 +218,7 @@ class SettingsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_settings_by_product_serialize(
+        _param = self._get_settings_by_product_serialize(
             product=product,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -236,7 +236,7 @@ class SettingsApi:
         return response_data.response
 
 
-    def _get_v1_settings_by_product_serialize(
+    def _get_settings_by_product_serialize(
         self,
         product,
         _request_auth,
@@ -300,7 +300,7 @@ class SettingsApi:
 
 
     @validate_call
-    def put_v1_settings_by_product(
+    def put_settings_by_product(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims.")],
         settings_req: SettingsReq,
@@ -347,7 +347,7 @@ class SettingsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_settings_by_product_serialize(
+        _param = self._put_settings_by_product_serialize(
             product=product,
             settings_req=settings_req,
             _request_auth=_request_auth,
@@ -371,7 +371,7 @@ class SettingsApi:
 
 
     @validate_call
-    def put_v1_settings_by_product_with_http_info(
+    def put_settings_by_product_with_http_info(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims.")],
         settings_req: SettingsReq,
@@ -418,7 +418,7 @@ class SettingsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_settings_by_product_serialize(
+        _param = self._put_settings_by_product_serialize(
             product=product,
             settings_req=settings_req,
             _request_auth=_request_auth,
@@ -442,7 +442,7 @@ class SettingsApi:
 
 
     @validate_call
-    def put_v1_settings_by_product_without_preload_content(
+    def put_settings_by_product_without_preload_content(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims.")],
         settings_req: SettingsReq,
@@ -489,7 +489,7 @@ class SettingsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_settings_by_product_serialize(
+        _param = self._put_settings_by_product_serialize(
             product=product,
             settings_req=settings_req,
             _request_auth=_request_auth,
@@ -508,7 +508,7 @@ class SettingsApi:
         return response_data.response
 
 
-    def _put_v1_settings_by_product_serialize(
+    def _put_settings_by_product_serialize(
         self,
         product,
         settings_req,

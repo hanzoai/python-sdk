@@ -67,7 +67,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_keys_by_id(
+    def delete_git_keys_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
         _request_timeout: Union[
@@ -111,7 +111,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_keys_by_id_serialize(
+        _param = self._delete_git_keys_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -134,7 +134,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_keys_by_id_with_http_info(
+    def delete_git_keys_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
         _request_timeout: Union[
@@ -178,7 +178,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_keys_by_id_serialize(
+        _param = self._delete_git_keys_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -201,7 +201,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_keys_by_id_without_preload_content(
+    def delete_git_keys_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
         _request_timeout: Union[
@@ -245,7 +245,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_keys_by_id_serialize(
+        _param = self._delete_git_keys_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -263,7 +263,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_keys_by_id_serialize(
+    def _delete_git_keys_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -320,7 +320,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name(
+    def delete_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -364,7 +364,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_serialize(
+        _param = self._delete_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -387,7 +387,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_with_http_info(
+    def delete_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -431,7 +431,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_serialize(
+        _param = self._delete_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -454,7 +454,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_without_preload_content(
+    def delete_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -498,7 +498,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_serialize(
+        _param = self._delete_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -516,7 +516,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_repos_by_name_serialize(
+    def _delete_git_repos_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -573,7 +573,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_mirrors_by_id(
+    def delete_git_repos_by_name_mirrors_by_id(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -620,7 +620,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_mirrors_by_id_serialize(
+        _param = self._delete_git_repos_by_name_mirrors_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -644,7 +644,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_mirrors_by_id_with_http_info(
+    def delete_git_repos_by_name_mirrors_by_id_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -691,7 +691,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_mirrors_by_id_serialize(
+        _param = self._delete_git_repos_by_name_mirrors_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -715,7 +715,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_mirrors_by_id_without_preload_content(
+    def delete_git_repos_by_name_mirrors_by_id_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -762,7 +762,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_mirrors_by_id_serialize(
+        _param = self._delete_git_repos_by_name_mirrors_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -781,7 +781,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_repos_by_name_mirrors_by_id_serialize(
+    def _delete_git_repos_by_name_mirrors_by_id_serialize(
         self,
         name,
         id,
@@ -841,7 +841,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_subscriptions_by_id(
+    def delete_git_repos_by_name_subscriptions_by_id(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -888,7 +888,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
+        _param = self._delete_git_repos_by_name_subscriptions_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -912,7 +912,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_subscriptions_by_id_with_http_info(
+    def delete_git_repos_by_name_subscriptions_by_id_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -959,7 +959,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
+        _param = self._delete_git_repos_by_name_subscriptions_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -983,7 +983,7 @@ class GitApi:
 
 
     @validate_call
-    def delete_v1_git_repos_by_name_subscriptions_by_id_without_preload_content(
+    def delete_git_repos_by_name_subscriptions_by_id_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         id: Annotated[StrictStr, Field(description="ID is the row to remove, from the :id path segment.")],
@@ -1030,7 +1030,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
+        _param = self._delete_git_repos_by_name_subscriptions_by_id_serialize(
             name=name,
             id=id,
             _request_auth=_request_auth,
@@ -1049,7 +1049,7 @@ class GitApi:
         return response_data.response
 
 
-    def _delete_v1_git_repos_by_name_subscriptions_by_id_serialize(
+    def _delete_git_repos_by_name_subscriptions_by_id_serialize(
         self,
         name,
         id,
@@ -1109,7 +1109,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_by_org_by_project_by_repo_info_refs(
+    def get_git_by_org_by_project_by_repo_info_refs(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -1159,7 +1159,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_by_org_by_project_by_repo_info_refs_serialize(
+        _param = self._get_git_by_org_by_project_by_repo_info_refs_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -1183,7 +1183,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_by_org_by_project_by_repo_info_refs_with_http_info(
+    def get_git_by_org_by_project_by_repo_info_refs_with_http_info(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -1233,7 +1233,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_by_org_by_project_by_repo_info_refs_serialize(
+        _param = self._get_git_by_org_by_project_by_repo_info_refs_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -1257,7 +1257,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_by_org_by_project_by_repo_info_refs_without_preload_content(
+    def get_git_by_org_by_project_by_repo_info_refs_without_preload_content(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -1307,7 +1307,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_by_org_by_project_by_repo_info_refs_serialize(
+        _param = self._get_git_by_org_by_project_by_repo_info_refs_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -1326,7 +1326,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_by_org_by_project_by_repo_info_refs_serialize(
+    def _get_git_by_org_by_project_by_repo_info_refs_serialize(
         self,
         org,
         project,
@@ -1389,7 +1389,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_by_org_by_repo_info_refs(
+    def get_git_by_org_by_repo_info_refs(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -1436,7 +1436,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_by_org_by_repo_info_refs_serialize(
+        _param = self._get_git_by_org_by_repo_info_refs_serialize(
             org=org,
             repo=repo,
             _request_auth=_request_auth,
@@ -1459,7 +1459,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_by_org_by_repo_info_refs_with_http_info(
+    def get_git_by_org_by_repo_info_refs_with_http_info(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -1506,7 +1506,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_by_org_by_repo_info_refs_serialize(
+        _param = self._get_git_by_org_by_repo_info_refs_serialize(
             org=org,
             repo=repo,
             _request_auth=_request_auth,
@@ -1529,7 +1529,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_by_org_by_repo_info_refs_without_preload_content(
+    def get_git_by_org_by_repo_info_refs_without_preload_content(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -1576,7 +1576,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_by_org_by_repo_info_refs_serialize(
+        _param = self._get_git_by_org_by_repo_info_refs_serialize(
             org=org,
             repo=repo,
             _request_auth=_request_auth,
@@ -1594,7 +1594,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_by_org_by_repo_info_refs_serialize(
+    def _get_git_by_org_by_repo_info_refs_serialize(
         self,
         org,
         repo,
@@ -1654,7 +1654,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_keys(
+    def get_git_keys(
         self,
         _request_timeout: Union[
             None,
@@ -1695,7 +1695,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_keys_serialize(
+        _param = self._get_git_keys_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1717,7 +1717,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_keys_with_http_info(
+    def get_git_keys_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1758,7 +1758,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_keys_serialize(
+        _param = self._get_git_keys_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1780,7 +1780,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_keys_without_preload_content(
+    def get_git_keys_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1821,7 +1821,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_keys_serialize(
+        _param = self._get_git_keys_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1838,7 +1838,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_keys_serialize(
+    def _get_git_keys_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1899,7 +1899,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos(
+    def get_git_repos(
         self,
         _request_timeout: Union[
             None,
@@ -1940,7 +1940,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_serialize(
+        _param = self._get_git_repos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1962,7 +1962,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_with_http_info(
+    def get_git_repos_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2003,7 +2003,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_serialize(
+        _param = self._get_git_repos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2025,7 +2025,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_without_preload_content(
+    def get_git_repos_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2066,7 +2066,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_serialize(
+        _param = self._get_git_repos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2083,7 +2083,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_serialize(
+    def _get_git_repos_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2144,7 +2144,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name(
+    def get_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2188,7 +2188,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_serialize(
+        _param = self._get_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2211,7 +2211,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_with_http_info(
+    def get_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2255,7 +2255,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_serialize(
+        _param = self._get_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2278,7 +2278,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_without_preload_content(
+    def get_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -2322,7 +2322,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_serialize(
+        _param = self._get_git_repos_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2340,7 +2340,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_serialize(
+    def _get_git_repos_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -2404,7 +2404,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_blob(
+    def get_git_repos_by_name_blob(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -2454,7 +2454,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_blob_serialize(
+        _param = self._get_git_repos_by_name_blob_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2479,7 +2479,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_blob_with_http_info(
+    def get_git_repos_by_name_blob_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -2529,7 +2529,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_blob_serialize(
+        _param = self._get_git_repos_by_name_blob_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2554,7 +2554,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_blob_without_preload_content(
+    def get_git_repos_by_name_blob_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -2604,7 +2604,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_blob_serialize(
+        _param = self._get_git_repos_by_name_blob_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2624,7 +2624,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_blob_serialize(
+    def _get_git_repos_by_name_blob_serialize(
         self,
         name,
         ref,
@@ -2698,7 +2698,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_commits(
+    def get_git_repos_by_name_commits(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch, tag or commit to walk back from; empty means HEAD.")] = None,
@@ -2751,7 +2751,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_commits_serialize(
+        _param = self._get_git_repos_by_name_commits_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2777,7 +2777,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_commits_with_http_info(
+    def get_git_repos_by_name_commits_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch, tag or commit to walk back from; empty means HEAD.")] = None,
@@ -2830,7 +2830,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_commits_serialize(
+        _param = self._get_git_repos_by_name_commits_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2856,7 +2856,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_commits_without_preload_content(
+    def get_git_repos_by_name_commits_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is the branch, tag or commit to walk back from; empty means HEAD.")] = None,
@@ -2909,7 +2909,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_commits_serialize(
+        _param = self._get_git_repos_by_name_commits_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -2930,7 +2930,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_commits_serialize(
+    def _get_git_repos_by_name_commits_serialize(
         self,
         name,
         ref,
@@ -3009,7 +3009,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_files(
+    def get_git_repos_by_name_files(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3059,7 +3059,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_files_serialize(
+        _param = self._get_git_repos_by_name_files_serialize(
             name=name,
             ref=ref,
             glob=glob,
@@ -3084,7 +3084,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_files_with_http_info(
+    def get_git_repos_by_name_files_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3134,7 +3134,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_files_serialize(
+        _param = self._get_git_repos_by_name_files_serialize(
             name=name,
             ref=ref,
             glob=glob,
@@ -3159,7 +3159,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_files_without_preload_content(
+    def get_git_repos_by_name_files_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -3209,7 +3209,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_files_serialize(
+        _param = self._get_git_repos_by_name_files_serialize(
             name=name,
             ref=ref,
             glob=glob,
@@ -3229,7 +3229,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_files_serialize(
+    def _get_git_repos_by_name_files_serialize(
         self,
         name,
         ref,
@@ -3303,7 +3303,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_mirrors(
+    def get_git_repos_by_name_mirrors(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3347,7 +3347,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_mirrors_serialize(
+        _param = self._get_git_repos_by_name_mirrors_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3370,7 +3370,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_mirrors_with_http_info(
+    def get_git_repos_by_name_mirrors_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3414,7 +3414,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_mirrors_serialize(
+        _param = self._get_git_repos_by_name_mirrors_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3437,7 +3437,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_mirrors_without_preload_content(
+    def get_git_repos_by_name_mirrors_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -3481,7 +3481,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_mirrors_serialize(
+        _param = self._get_git_repos_by_name_mirrors_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3499,7 +3499,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_mirrors_serialize(
+    def _get_git_repos_by_name_mirrors_serialize(
         self,
         name,
         _request_auth,
@@ -3563,7 +3563,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_pulls(
+    def get_git_repos_by_name_pulls(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         state: Annotated[Optional[StrictStr], Field(description="State narrows the list to \"open\" or \"merged\". Omit it for every proposal.")] = None,
@@ -3610,7 +3610,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_pulls_serialize(
+        _param = self._get_git_repos_by_name_pulls_serialize(
             name=name,
             state=state,
             _request_auth=_request_auth,
@@ -3634,7 +3634,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_pulls_with_http_info(
+    def get_git_repos_by_name_pulls_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         state: Annotated[Optional[StrictStr], Field(description="State narrows the list to \"open\" or \"merged\". Omit it for every proposal.")] = None,
@@ -3681,7 +3681,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_pulls_serialize(
+        _param = self._get_git_repos_by_name_pulls_serialize(
             name=name,
             state=state,
             _request_auth=_request_auth,
@@ -3705,7 +3705,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_pulls_without_preload_content(
+    def get_git_repos_by_name_pulls_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         state: Annotated[Optional[StrictStr], Field(description="State narrows the list to \"open\" or \"merged\". Omit it for every proposal.")] = None,
@@ -3752,7 +3752,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_pulls_serialize(
+        _param = self._get_git_repos_by_name_pulls_serialize(
             name=name,
             state=state,
             _request_auth=_request_auth,
@@ -3771,7 +3771,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_pulls_serialize(
+    def _get_git_repos_by_name_pulls_serialize(
         self,
         name,
         state,
@@ -3840,7 +3840,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_pulls_by_number(
+    def get_git_repos_by_name_pulls_by_number(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
@@ -3887,7 +3887,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_pulls_by_number_serialize(
+        _param = self._get_git_repos_by_name_pulls_by_number_serialize(
             name=name,
             number=number,
             _request_auth=_request_auth,
@@ -3911,7 +3911,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_pulls_by_number_with_http_info(
+    def get_git_repos_by_name_pulls_by_number_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
@@ -3958,7 +3958,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_pulls_by_number_serialize(
+        _param = self._get_git_repos_by_name_pulls_by_number_serialize(
             name=name,
             number=number,
             _request_auth=_request_auth,
@@ -3982,7 +3982,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_pulls_by_number_without_preload_content(
+    def get_git_repos_by_name_pulls_by_number_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
@@ -4029,7 +4029,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_pulls_by_number_serialize(
+        _param = self._get_git_repos_by_name_pulls_by_number_serialize(
             name=name,
             number=number,
             _request_auth=_request_auth,
@@ -4048,7 +4048,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_pulls_by_number_serialize(
+    def _get_git_repos_by_name_pulls_by_number_serialize(
         self,
         name,
         number,
@@ -4115,7 +4115,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_readme(
+    def get_git_repos_by_name_readme(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4162,7 +4162,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_readme_serialize(
+        _param = self._get_git_repos_by_name_readme_serialize(
             name=name,
             ref=ref,
             _request_auth=_request_auth,
@@ -4186,7 +4186,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_readme_with_http_info(
+    def get_git_repos_by_name_readme_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4233,7 +4233,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_readme_serialize(
+        _param = self._get_git_repos_by_name_readme_serialize(
             name=name,
             ref=ref,
             _request_auth=_request_auth,
@@ -4257,7 +4257,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_readme_without_preload_content(
+    def get_git_repos_by_name_readme_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4304,7 +4304,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_readme_serialize(
+        _param = self._get_git_repos_by_name_readme_serialize(
             name=name,
             ref=ref,
             _request_auth=_request_auth,
@@ -4323,7 +4323,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_readme_serialize(
+    def _get_git_repos_by_name_readme_serialize(
         self,
         name,
         ref,
@@ -4392,7 +4392,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_refs(
+    def get_git_repos_by_name_refs(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4436,7 +4436,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_refs_serialize(
+        _param = self._get_git_repos_by_name_refs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4459,7 +4459,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_refs_with_http_info(
+    def get_git_repos_by_name_refs_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4503,7 +4503,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_refs_serialize(
+        _param = self._get_git_repos_by_name_refs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4526,7 +4526,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_refs_without_preload_content(
+    def get_git_repos_by_name_refs_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4570,7 +4570,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_refs_serialize(
+        _param = self._get_git_repos_by_name_refs_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4588,7 +4588,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_refs_serialize(
+    def _get_git_repos_by_name_refs_serialize(
         self,
         name,
         _request_auth,
@@ -4652,7 +4652,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_subscriptions(
+    def get_git_repos_by_name_subscriptions(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4696,7 +4696,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_subscriptions_serialize(
+        _param = self._get_git_repos_by_name_subscriptions_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4719,7 +4719,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_subscriptions_with_http_info(
+    def get_git_repos_by_name_subscriptions_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4763,7 +4763,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_subscriptions_serialize(
+        _param = self._get_git_repos_by_name_subscriptions_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4786,7 +4786,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_subscriptions_without_preload_content(
+    def get_git_repos_by_name_subscriptions_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -4830,7 +4830,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_subscriptions_serialize(
+        _param = self._get_git_repos_by_name_subscriptions_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4848,7 +4848,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_subscriptions_serialize(
+    def _get_git_repos_by_name_subscriptions_serialize(
         self,
         name,
         _request_auth,
@@ -4912,7 +4912,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_tree(
+    def get_git_repos_by_name_tree(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -4962,7 +4962,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_tree_serialize(
+        _param = self._get_git_repos_by_name_tree_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -4987,7 +4987,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_tree_with_http_info(
+    def get_git_repos_by_name_tree_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -5037,7 +5037,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_tree_serialize(
+        _param = self._get_git_repos_by_name_tree_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -5062,7 +5062,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_repos_by_name_tree_without_preload_content(
+    def get_git_repos_by_name_tree_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to read, from the :name path segment.")],
         ref: Annotated[Optional[StrictStr], Field(description="Ref is a branch, tag or commit; empty means the repo's HEAD.")] = None,
@@ -5112,7 +5112,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_repos_by_name_tree_serialize(
+        _param = self._get_git_repos_by_name_tree_serialize(
             name=name,
             ref=ref,
             path=path,
@@ -5132,7 +5132,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_repos_by_name_tree_serialize(
+    def _get_git_repos_by_name_tree_serialize(
         self,
         name,
         ref,
@@ -5206,7 +5206,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_usage(
+    def get_git_usage(
         self,
         _request_timeout: Union[
             None,
@@ -5247,7 +5247,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_usage_serialize(
+        _param = self._get_git_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5269,7 +5269,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_usage_with_http_info(
+    def get_git_usage_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5310,7 +5310,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_usage_serialize(
+        _param = self._get_git_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5332,7 +5332,7 @@ class GitApi:
 
 
     @validate_call
-    def get_v1_git_usage_without_preload_content(
+    def get_git_usage_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5373,7 +5373,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_git_usage_serialize(
+        _param = self._get_git_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5390,7 +5390,7 @@ class GitApi:
         return response_data.response
 
 
-    def _get_v1_git_usage_serialize(
+    def _get_git_usage_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5451,7 +5451,7 @@ class GitApi:
 
 
     @validate_call
-    def patch_v1_git_repos_by_name(
+    def patch_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
         patch_in: PatchIn,
@@ -5498,7 +5498,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_git_repos_by_name_serialize(
+        _param = self._patch_git_repos_by_name_serialize(
             name=name,
             patch_in=patch_in,
             _request_auth=_request_auth,
@@ -5522,7 +5522,7 @@ class GitApi:
 
 
     @validate_call
-    def patch_v1_git_repos_by_name_with_http_info(
+    def patch_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
         patch_in: PatchIn,
@@ -5569,7 +5569,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_git_repos_by_name_serialize(
+        _param = self._patch_git_repos_by_name_serialize(
             name=name,
             patch_in=patch_in,
             _request_auth=_request_auth,
@@ -5593,7 +5593,7 @@ class GitApi:
 
 
     @validate_call
-    def patch_v1_git_repos_by_name_without_preload_content(
+    def patch_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
         patch_in: PatchIn,
@@ -5640,7 +5640,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_git_repos_by_name_serialize(
+        _param = self._patch_git_repos_by_name_serialize(
             name=name,
             patch_in=patch_in,
             _request_auth=_request_auth,
@@ -5659,7 +5659,7 @@ class GitApi:
         return response_data.response
 
 
-    def _patch_v1_git_repos_by_name_serialize(
+    def _patch_git_repos_by_name_serialize(
         self,
         name,
         patch_in,
@@ -5739,7 +5739,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_project_by_repo_git_receive_pack(
+    def post_git_by_org_by_project_by_repo_git_receive_pack(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -5792,7 +5792,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_project_by_repo_git_receive_pack_serialize(
+        _param = self._post_git_by_org_by_project_by_repo_git_receive_pack_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -5817,7 +5817,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_project_by_repo_git_receive_pack_with_http_info(
+    def post_git_by_org_by_project_by_repo_git_receive_pack_with_http_info(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -5870,7 +5870,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_project_by_repo_git_receive_pack_serialize(
+        _param = self._post_git_by_org_by_project_by_repo_git_receive_pack_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -5895,7 +5895,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_project_by_repo_git_receive_pack_without_preload_content(
+    def post_git_by_org_by_project_by_repo_git_receive_pack_without_preload_content(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -5948,7 +5948,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_project_by_repo_git_receive_pack_serialize(
+        _param = self._post_git_by_org_by_project_by_repo_git_receive_pack_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -5968,7 +5968,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_by_org_by_project_by_repo_git_receive_pack_serialize(
+    def _post_git_by_org_by_project_by_repo_git_receive_pack_serialize(
         self,
         org,
         project,
@@ -6055,7 +6055,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_project_by_repo_git_upload_pack(
+    def post_git_by_org_by_project_by_repo_git_upload_pack(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -6108,7 +6108,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_project_by_repo_git_upload_pack_serialize(
+        _param = self._post_git_by_org_by_project_by_repo_git_upload_pack_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -6133,7 +6133,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_project_by_repo_git_upload_pack_with_http_info(
+    def post_git_by_org_by_project_by_repo_git_upload_pack_with_http_info(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -6186,7 +6186,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_project_by_repo_git_upload_pack_serialize(
+        _param = self._post_git_by_org_by_project_by_repo_git_upload_pack_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -6211,7 +6211,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_project_by_repo_git_upload_pack_without_preload_content(
+    def post_git_by_org_by_project_by_repo_git_upload_pack_without_preload_content(
         self,
         org: StrictStr,
         project: StrictStr,
@@ -6264,7 +6264,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_project_by_repo_git_upload_pack_serialize(
+        _param = self._post_git_by_org_by_project_by_repo_git_upload_pack_serialize(
             org=org,
             project=project,
             repo=repo,
@@ -6284,7 +6284,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_by_org_by_project_by_repo_git_upload_pack_serialize(
+    def _post_git_by_org_by_project_by_repo_git_upload_pack_serialize(
         self,
         org,
         project,
@@ -6371,7 +6371,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_repo_git_receive_pack(
+    def post_git_by_org_by_repo_git_receive_pack(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -6421,7 +6421,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_repo_git_receive_pack_serialize(
+        _param = self._post_git_by_org_by_repo_git_receive_pack_serialize(
             org=org,
             repo=repo,
             body=body,
@@ -6445,7 +6445,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_repo_git_receive_pack_with_http_info(
+    def post_git_by_org_by_repo_git_receive_pack_with_http_info(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -6495,7 +6495,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_repo_git_receive_pack_serialize(
+        _param = self._post_git_by_org_by_repo_git_receive_pack_serialize(
             org=org,
             repo=repo,
             body=body,
@@ -6519,7 +6519,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_repo_git_receive_pack_without_preload_content(
+    def post_git_by_org_by_repo_git_receive_pack_without_preload_content(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -6569,7 +6569,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_repo_git_receive_pack_serialize(
+        _param = self._post_git_by_org_by_repo_git_receive_pack_serialize(
             org=org,
             repo=repo,
             body=body,
@@ -6588,7 +6588,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_by_org_by_repo_git_receive_pack_serialize(
+    def _post_git_by_org_by_repo_git_receive_pack_serialize(
         self,
         org,
         repo,
@@ -6672,7 +6672,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_repo_git_upload_pack(
+    def post_git_by_org_by_repo_git_upload_pack(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -6722,7 +6722,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_repo_git_upload_pack_serialize(
+        _param = self._post_git_by_org_by_repo_git_upload_pack_serialize(
             org=org,
             repo=repo,
             body=body,
@@ -6746,7 +6746,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_repo_git_upload_pack_with_http_info(
+    def post_git_by_org_by_repo_git_upload_pack_with_http_info(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -6796,7 +6796,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_repo_git_upload_pack_serialize(
+        _param = self._post_git_by_org_by_repo_git_upload_pack_serialize(
             org=org,
             repo=repo,
             body=body,
@@ -6820,7 +6820,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_by_org_by_repo_git_upload_pack_without_preload_content(
+    def post_git_by_org_by_repo_git_upload_pack_without_preload_content(
         self,
         org: StrictStr,
         repo: StrictStr,
@@ -6870,7 +6870,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_by_org_by_repo_git_upload_pack_serialize(
+        _param = self._post_git_by_org_by_repo_git_upload_pack_serialize(
             org=org,
             repo=repo,
             body=body,
@@ -6889,7 +6889,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_by_org_by_repo_git_upload_pack_serialize(
+    def _post_git_by_org_by_repo_git_upload_pack_serialize(
         self,
         org,
         repo,
@@ -6973,7 +6973,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_keys(
+    def post_git_keys(
         self,
         register_key_req: RegisterKeyReq,
         _request_timeout: Union[
@@ -7017,7 +7017,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_keys_serialize(
+        _param = self._post_git_keys_serialize(
             register_key_req=register_key_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7040,7 +7040,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_keys_with_http_info(
+    def post_git_keys_with_http_info(
         self,
         register_key_req: RegisterKeyReq,
         _request_timeout: Union[
@@ -7084,7 +7084,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_keys_serialize(
+        _param = self._post_git_keys_serialize(
             register_key_req=register_key_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7107,7 +7107,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_keys_without_preload_content(
+    def post_git_keys_without_preload_content(
         self,
         register_key_req: RegisterKeyReq,
         _request_timeout: Union[
@@ -7151,7 +7151,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_keys_serialize(
+        _param = self._post_git_keys_serialize(
             register_key_req=register_key_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7169,7 +7169,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_keys_serialize(
+    def _post_git_keys_serialize(
         self,
         register_key_req,
         _request_auth,
@@ -7246,7 +7246,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos(
+    def post_git_repos(
         self,
         create_req: CreateReq,
         _request_timeout: Union[
@@ -7290,7 +7290,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_serialize(
+        _param = self._post_git_repos_serialize(
             create_req=create_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7313,7 +7313,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_with_http_info(
+    def post_git_repos_with_http_info(
         self,
         create_req: CreateReq,
         _request_timeout: Union[
@@ -7357,7 +7357,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_serialize(
+        _param = self._post_git_repos_serialize(
             create_req=create_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7380,7 +7380,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_without_preload_content(
+    def post_git_repos_without_preload_content(
         self,
         create_req: CreateReq,
         _request_timeout: Union[
@@ -7424,7 +7424,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_serialize(
+        _param = self._post_git_repos_serialize(
             create_req=create_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7442,7 +7442,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_serialize(
+    def _post_git_repos_serialize(
         self,
         create_req,
         _request_auth,
@@ -7519,7 +7519,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_gc(
+    def post_git_repos_by_name_gc(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7563,7 +7563,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_gc_serialize(
+        _param = self._post_git_repos_by_name_gc_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7586,7 +7586,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_gc_with_http_info(
+    def post_git_repos_by_name_gc_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7630,7 +7630,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_gc_serialize(
+        _param = self._post_git_repos_by_name_gc_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7653,7 +7653,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_gc_without_preload_content(
+    def post_git_repos_by_name_gc_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo's org-unique handle, from the :name path segment. A trailing \".git\" is stripped.")],
         _request_timeout: Union[
@@ -7697,7 +7697,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_gc_serialize(
+        _param = self._post_git_repos_by_name_gc_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7715,7 +7715,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_gc_serialize(
+    def _post_git_repos_by_name_gc_serialize(
         self,
         name,
         _request_auth,
@@ -7779,7 +7779,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_mirror(
+    def post_git_repos_by_name_mirror(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
         mirror_req: MirrorReq,
@@ -7826,7 +7826,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_mirror_serialize(
+        _param = self._post_git_repos_by_name_mirror_serialize(
             name=name,
             mirror_req=mirror_req,
             _request_auth=_request_auth,
@@ -7850,7 +7850,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_mirror_with_http_info(
+    def post_git_repos_by_name_mirror_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
         mirror_req: MirrorReq,
@@ -7897,7 +7897,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_mirror_serialize(
+        _param = self._post_git_repos_by_name_mirror_serialize(
             name=name,
             mirror_req=mirror_req,
             _request_auth=_request_auth,
@@ -7921,7 +7921,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_mirror_without_preload_content(
+    def post_git_repos_by_name_mirror_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
         mirror_req: MirrorReq,
@@ -7968,7 +7968,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_mirror_serialize(
+        _param = self._post_git_repos_by_name_mirror_serialize(
             name=name,
             mirror_req=mirror_req,
             _request_auth=_request_auth,
@@ -7987,7 +7987,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_mirror_serialize(
+    def _post_git_repos_by_name_mirror_serialize(
         self,
         name,
         mirror_req,
@@ -8067,7 +8067,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_mirrors(
+    def post_git_repos_by_name_mirrors(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
         mirror_target_req: MirrorTargetReq,
@@ -8114,7 +8114,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_mirrors_serialize(
+        _param = self._post_git_repos_by_name_mirrors_serialize(
             name=name,
             mirror_target_req=mirror_target_req,
             _request_auth=_request_auth,
@@ -8138,7 +8138,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_mirrors_with_http_info(
+    def post_git_repos_by_name_mirrors_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
         mirror_target_req: MirrorTargetReq,
@@ -8185,7 +8185,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_mirrors_serialize(
+        _param = self._post_git_repos_by_name_mirrors_serialize(
             name=name,
             mirror_target_req=mirror_target_req,
             _request_auth=_request_auth,
@@ -8209,7 +8209,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_mirrors_without_preload_content(
+    def post_git_repos_by_name_mirrors_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
         mirror_target_req: MirrorTargetReq,
@@ -8256,7 +8256,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_mirrors_serialize(
+        _param = self._post_git_repos_by_name_mirrors_serialize(
             name=name,
             mirror_target_req=mirror_target_req,
             _request_auth=_request_auth,
@@ -8275,7 +8275,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_mirrors_serialize(
+    def _post_git_repos_by_name_mirrors_serialize(
         self,
         name,
         mirror_target_req,
@@ -8355,7 +8355,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_pulls(
+    def post_git_repos_by_name_pulls(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
         open_req: OpenReq,
@@ -8402,7 +8402,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_pulls_serialize(
+        _param = self._post_git_repos_by_name_pulls_serialize(
             name=name,
             open_req=open_req,
             _request_auth=_request_auth,
@@ -8426,7 +8426,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_pulls_with_http_info(
+    def post_git_repos_by_name_pulls_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
         open_req: OpenReq,
@@ -8473,7 +8473,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_pulls_serialize(
+        _param = self._post_git_repos_by_name_pulls_serialize(
             name=name,
             open_req=open_req,
             _request_auth=_request_auth,
@@ -8497,7 +8497,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_pulls_without_preload_content(
+    def post_git_repos_by_name_pulls_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
         open_req: OpenReq,
@@ -8544,7 +8544,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_pulls_serialize(
+        _param = self._post_git_repos_by_name_pulls_serialize(
             name=name,
             open_req=open_req,
             _request_auth=_request_auth,
@@ -8563,7 +8563,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_pulls_serialize(
+    def _post_git_repos_by_name_pulls_serialize(
         self,
         name,
         open_req,
@@ -8643,7 +8643,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_pulls_by_number_merge(
+    def post_git_repos_by_name_pulls_by_number_merge(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
@@ -8690,7 +8690,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+        _param = self._post_git_repos_by_name_pulls_by_number_merge_serialize(
             name=name,
             number=number,
             _request_auth=_request_auth,
@@ -8714,7 +8714,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_pulls_by_number_merge_with_http_info(
+    def post_git_repos_by_name_pulls_by_number_merge_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
@@ -8761,7 +8761,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+        _param = self._post_git_repos_by_name_pulls_by_number_merge_serialize(
             name=name,
             number=number,
             _request_auth=_request_auth,
@@ -8785,7 +8785,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_pulls_by_number_merge_without_preload_content(
+    def post_git_repos_by_name_pulls_by_number_merge_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo, from the :name path segment.")],
         number: Annotated[StrictInt, Field(description="Number is the proposal's per-repo number, from the :number path segment.")],
@@ -8832,7 +8832,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+        _param = self._post_git_repos_by_name_pulls_by_number_merge_serialize(
             name=name,
             number=number,
             _request_auth=_request_auth,
@@ -8851,7 +8851,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_pulls_by_number_merge_serialize(
+    def _post_git_repos_by_name_pulls_by_number_merge_serialize(
         self,
         name,
         number,
@@ -8918,7 +8918,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_push(
+    def post_git_repos_by_name_push(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
         push_req: PushReq,
@@ -8965,7 +8965,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_push_serialize(
+        _param = self._post_git_repos_by_name_push_serialize(
             name=name,
             push_req=push_req,
             _request_auth=_request_auth,
@@ -8989,7 +8989,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_push_with_http_info(
+    def post_git_repos_by_name_push_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
         push_req: PushReq,
@@ -9036,7 +9036,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_push_serialize(
+        _param = self._post_git_repos_by_name_push_serialize(
             name=name,
             push_req=push_req,
             _request_auth=_request_auth,
@@ -9060,7 +9060,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_push_without_preload_content(
+    def post_git_repos_by_name_push_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
         push_req: PushReq,
@@ -9107,7 +9107,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_push_serialize(
+        _param = self._post_git_repos_by_name_push_serialize(
             name=name,
             push_req=push_req,
             _request_auth=_request_auth,
@@ -9126,7 +9126,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_push_serialize(
+    def _post_git_repos_by_name_push_serialize(
         self,
         name,
         push_req,
@@ -9206,7 +9206,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_subscriptions(
+    def post_git_repos_by_name_subscriptions(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
         subscribe_req: SubscribeReq,
@@ -9253,7 +9253,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_subscriptions_serialize(
+        _param = self._post_git_repos_by_name_subscriptions_serialize(
             name=name,
             subscribe_req=subscribe_req,
             _request_auth=_request_auth,
@@ -9277,7 +9277,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_subscriptions_with_http_info(
+    def post_git_repos_by_name_subscriptions_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
         subscribe_req: SubscribeReq,
@@ -9324,7 +9324,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_subscriptions_serialize(
+        _param = self._post_git_repos_by_name_subscriptions_serialize(
             name=name,
             subscribe_req=subscribe_req,
             _request_auth=_request_auth,
@@ -9348,7 +9348,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_repos_by_name_subscriptions_without_preload_content(
+    def post_git_repos_by_name_subscriptions_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
         subscribe_req: SubscribeReq,
@@ -9395,7 +9395,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_repos_by_name_subscriptions_serialize(
+        _param = self._post_git_repos_by_name_subscriptions_serialize(
             name=name,
             subscribe_req=subscribe_req,
             _request_auth=_request_auth,
@@ -9414,7 +9414,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_repos_by_name_subscriptions_serialize(
+    def _post_git_repos_by_name_subscriptions_serialize(
         self,
         name,
         subscribe_req,
@@ -9494,7 +9494,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_webhook(
+    def post_git_webhook(
         self,
         _request_timeout: Union[
             None,
@@ -9535,7 +9535,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_webhook_serialize(
+        _param = self._post_git_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9556,7 +9556,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_webhook_with_http_info(
+    def post_git_webhook_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -9597,7 +9597,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_webhook_serialize(
+        _param = self._post_git_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9618,7 +9618,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_webhook_without_preload_content(
+    def post_git_webhook_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -9659,7 +9659,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_webhook_serialize(
+        _param = self._post_git_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9675,7 +9675,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_webhook_serialize(
+    def _post_git_webhook_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9729,7 +9729,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_createrepo(
+    def post_git_zap_createrepo(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -9773,7 +9773,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_createrepo_serialize(
+        _param = self._post_git_zap_createrepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9795,7 +9795,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_createrepo_with_http_info(
+    def post_git_zap_createrepo_with_http_info(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -9839,7 +9839,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_createrepo_serialize(
+        _param = self._post_git_zap_createrepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9861,7 +9861,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_createrepo_without_preload_content(
+    def post_git_zap_createrepo_without_preload_content(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -9905,7 +9905,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_createrepo_serialize(
+        _param = self._post_git_zap_createrepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -9922,7 +9922,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_zap_createrepo_serialize(
+    def _post_git_zap_createrepo_serialize(
         self,
         zap_proc_req,
         _request_auth,
@@ -9992,7 +9992,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_deleterepo(
+    def post_git_zap_deleterepo(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -10036,7 +10036,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_deleterepo_serialize(
+        _param = self._post_git_zap_deleterepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10058,7 +10058,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_deleterepo_with_http_info(
+    def post_git_zap_deleterepo_with_http_info(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -10102,7 +10102,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_deleterepo_serialize(
+        _param = self._post_git_zap_deleterepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10124,7 +10124,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_deleterepo_without_preload_content(
+    def post_git_zap_deleterepo_without_preload_content(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -10168,7 +10168,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_deleterepo_serialize(
+        _param = self._post_git_zap_deleterepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10185,7 +10185,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_zap_deleterepo_serialize(
+    def _post_git_zap_deleterepo_serialize(
         self,
         zap_proc_req,
         _request_auth,
@@ -10255,7 +10255,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_getrepo(
+    def post_git_zap_getrepo(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -10299,7 +10299,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_getrepo_serialize(
+        _param = self._post_git_zap_getrepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10321,7 +10321,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_getrepo_with_http_info(
+    def post_git_zap_getrepo_with_http_info(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -10365,7 +10365,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_getrepo_serialize(
+        _param = self._post_git_zap_getrepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10387,7 +10387,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_getrepo_without_preload_content(
+    def post_git_zap_getrepo_without_preload_content(
         self,
         zap_proc_req: Optional[ZapProcReq] = None,
         _request_timeout: Union[
@@ -10431,7 +10431,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_getrepo_serialize(
+        _param = self._post_git_zap_getrepo_serialize(
             zap_proc_req=zap_proc_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10448,7 +10448,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_zap_getrepo_serialize(
+    def _post_git_zap_getrepo_serialize(
         self,
         zap_proc_req,
         _request_auth,
@@ -10518,7 +10518,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_listrepos(
+    def post_git_zap_listrepos(
         self,
         _request_timeout: Union[
             None,
@@ -10559,7 +10559,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_listrepos_serialize(
+        _param = self._post_git_zap_listrepos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10580,7 +10580,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_listrepos_with_http_info(
+    def post_git_zap_listrepos_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10621,7 +10621,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_listrepos_serialize(
+        _param = self._post_git_zap_listrepos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10642,7 +10642,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_listrepos_without_preload_content(
+    def post_git_zap_listrepos_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10683,7 +10683,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_listrepos_serialize(
+        _param = self._post_git_zap_listrepos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10699,7 +10699,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_zap_listrepos_serialize(
+    def _post_git_zap_listrepos_serialize(
         self,
         _request_auth,
         _content_type,
@@ -10753,7 +10753,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_usage(
+    def post_git_zap_usage(
         self,
         _request_timeout: Union[
             None,
@@ -10794,7 +10794,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_usage_serialize(
+        _param = self._post_git_zap_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10815,7 +10815,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_usage_with_http_info(
+    def post_git_zap_usage_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10856,7 +10856,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_usage_serialize(
+        _param = self._post_git_zap_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10877,7 +10877,7 @@ class GitApi:
 
 
     @validate_call
-    def post_v1_git_zap_usage_without_preload_content(
+    def post_git_zap_usage_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10918,7 +10918,7 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_git_zap_usage_serialize(
+        _param = self._post_git_zap_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10934,7 +10934,7 @@ class GitApi:
         return response_data.response
 
 
-    def _post_v1_git_zap_usage_serialize(
+    def _post_git_zap_usage_serialize(
         self,
         _request_auth,
         _content_type,

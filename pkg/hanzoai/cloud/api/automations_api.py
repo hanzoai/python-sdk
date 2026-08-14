@@ -52,7 +52,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def delete_v1_automations_flows_by_id(
+    def delete_automations_flows_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -96,7 +96,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_automations_flows_by_id_serialize(
+        _param = self._delete_automations_flows_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -119,7 +119,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def delete_v1_automations_flows_by_id_with_http_info(
+    def delete_automations_flows_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -163,7 +163,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_automations_flows_by_id_serialize(
+        _param = self._delete_automations_flows_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -186,7 +186,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def delete_v1_automations_flows_by_id_without_preload_content(
+    def delete_automations_flows_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -230,7 +230,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_automations_flows_by_id_serialize(
+        _param = self._delete_automations_flows_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -248,7 +248,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _delete_v1_automations_flows_by_id_serialize(
+    def _delete_automations_flows_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -305,7 +305,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_connectors(
+    def get_automations_connectors(
         self,
         _request_timeout: Union[
             None,
@@ -346,7 +346,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_connectors_serialize(
+        _param = self._get_automations_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -368,7 +368,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_connectors_with_http_info(
+    def get_automations_connectors_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -409,7 +409,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_connectors_serialize(
+        _param = self._get_automations_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -431,7 +431,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_connectors_without_preload_content(
+    def get_automations_connectors_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -472,7 +472,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_connectors_serialize(
+        _param = self._get_automations_connectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -489,7 +489,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_connectors_serialize(
+    def _get_automations_connectors_serialize(
         self,
         _request_auth,
         _content_type,
@@ -550,7 +550,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows(
+    def get_automations_flows(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
         _request_timeout: Union[
@@ -594,7 +594,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_serialize(
+        _param = self._get_automations_flows_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -617,7 +617,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_with_http_info(
+    def get_automations_flows_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
         _request_timeout: Union[
@@ -661,7 +661,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_serialize(
+        _param = self._get_automations_flows_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -684,7 +684,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_without_preload_content(
+    def get_automations_flows_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
         _request_timeout: Union[
@@ -728,7 +728,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_serialize(
+        _param = self._get_automations_flows_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -746,7 +746,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_flows_serialize(
+    def _get_automations_flows_serialize(
         self,
         limit,
         _request_auth,
@@ -812,7 +812,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_by_id(
+    def get_automations_flows_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -856,7 +856,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_by_id_serialize(
+        _param = self._get_automations_flows_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -879,7 +879,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_by_id_with_http_info(
+    def get_automations_flows_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -923,7 +923,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_by_id_serialize(
+        _param = self._get_automations_flows_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -946,7 +946,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_by_id_without_preload_content(
+    def get_automations_flows_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -990,7 +990,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_by_id_serialize(
+        _param = self._get_automations_flows_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1008,7 +1008,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_flows_by_id_serialize(
+    def _get_automations_flows_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1072,7 +1072,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_by_id_versions(
+    def get_automations_flows_by_id_versions(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow whose versions to list, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
@@ -1119,7 +1119,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_by_id_versions_serialize(
+        _param = self._get_automations_flows_by_id_versions_serialize(
             id=id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1143,7 +1143,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_by_id_versions_with_http_info(
+    def get_automations_flows_by_id_versions_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow whose versions to list, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
@@ -1190,7 +1190,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_by_id_versions_serialize(
+        _param = self._get_automations_flows_by_id_versions_serialize(
             id=id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1214,7 +1214,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_flows_by_id_versions_without_preload_content(
+    def get_automations_flows_by_id_versions_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow whose versions to list, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
@@ -1261,7 +1261,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_flows_by_id_versions_serialize(
+        _param = self._get_automations_flows_by_id_versions_serialize(
             id=id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1280,7 +1280,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_flows_by_id_versions_serialize(
+    def _get_automations_flows_by_id_versions_serialize(
         self,
         id,
         limit,
@@ -1349,7 +1349,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_pieces(
+    def get_automations_pieces(
         self,
         _request_timeout: Union[
             None,
@@ -1390,7 +1390,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_pieces_serialize(
+        _param = self._get_automations_pieces_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1412,7 +1412,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_pieces_with_http_info(
+    def get_automations_pieces_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1453,7 +1453,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_pieces_serialize(
+        _param = self._get_automations_pieces_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1475,7 +1475,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_pieces_without_preload_content(
+    def get_automations_pieces_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1516,7 +1516,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_pieces_serialize(
+        _param = self._get_automations_pieces_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1533,7 +1533,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_pieces_serialize(
+    def _get_automations_pieces_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1594,7 +1594,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_runs(
+    def get_automations_runs(
         self,
         flow_id: Annotated[Optional[StrictStr], Field(description="FlowID narrows the history to one flow. Omit it for the whole org's runs.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
@@ -1641,7 +1641,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_runs_serialize(
+        _param = self._get_automations_runs_serialize(
             flow_id=flow_id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1665,7 +1665,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_runs_with_http_info(
+    def get_automations_runs_with_http_info(
         self,
         flow_id: Annotated[Optional[StrictStr], Field(description="FlowID narrows the history to one flow. Omit it for the whole org's runs.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
@@ -1712,7 +1712,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_runs_serialize(
+        _param = self._get_automations_runs_serialize(
             flow_id=flow_id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1736,7 +1736,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_runs_without_preload_content(
+    def get_automations_runs_without_preload_content(
         self,
         flow_id: Annotated[Optional[StrictStr], Field(description="FlowID narrows the history to one flow. Omit it for the whole org's runs.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds the page (default 200, maximum 1000).")] = None,
@@ -1783,7 +1783,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_runs_serialize(
+        _param = self._get_automations_runs_serialize(
             flow_id=flow_id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1802,7 +1802,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_runs_serialize(
+    def _get_automations_runs_serialize(
         self,
         flow_id,
         limit,
@@ -1873,7 +1873,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_runs_by_id(
+    def get_automations_runs_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the run to read, from the path.")],
         _request_timeout: Union[
@@ -1917,7 +1917,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_runs_by_id_serialize(
+        _param = self._get_automations_runs_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1940,7 +1940,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_runs_by_id_with_http_info(
+    def get_automations_runs_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the run to read, from the path.")],
         _request_timeout: Union[
@@ -1984,7 +1984,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_runs_by_id_serialize(
+        _param = self._get_automations_runs_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2007,7 +2007,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def get_v1_automations_runs_by_id_without_preload_content(
+    def get_automations_runs_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the run to read, from the path.")],
         _request_timeout: Union[
@@ -2051,7 +2051,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_automations_runs_by_id_serialize(
+        _param = self._get_automations_runs_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2069,7 +2069,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _get_v1_automations_runs_by_id_serialize(
+    def _get_automations_runs_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2133,7 +2133,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def patch_v1_automations_flows_by_id(
+    def patch_automations_flows_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to update, from the path.")],
         patch_flow_in: PatchFlowIn,
@@ -2180,7 +2180,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_automations_flows_by_id_serialize(
+        _param = self._patch_automations_flows_by_id_serialize(
             id=id,
             patch_flow_in=patch_flow_in,
             _request_auth=_request_auth,
@@ -2204,7 +2204,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def patch_v1_automations_flows_by_id_with_http_info(
+    def patch_automations_flows_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to update, from the path.")],
         patch_flow_in: PatchFlowIn,
@@ -2251,7 +2251,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_automations_flows_by_id_serialize(
+        _param = self._patch_automations_flows_by_id_serialize(
             id=id,
             patch_flow_in=patch_flow_in,
             _request_auth=_request_auth,
@@ -2275,7 +2275,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def patch_v1_automations_flows_by_id_without_preload_content(
+    def patch_automations_flows_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to update, from the path.")],
         patch_flow_in: PatchFlowIn,
@@ -2322,7 +2322,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_automations_flows_by_id_serialize(
+        _param = self._patch_automations_flows_by_id_serialize(
             id=id,
             patch_flow_in=patch_flow_in,
             _request_auth=_request_auth,
@@ -2341,7 +2341,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _patch_v1_automations_flows_by_id_serialize(
+    def _patch_automations_flows_by_id_serialize(
         self,
         id,
         patch_flow_in,
@@ -2421,7 +2421,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_connectors_by_id_run(
+    def post_automations_connectors_by_id_run(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector to run, from the path.")],
         run_in: RunIn,
@@ -2468,7 +2468,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_connectors_by_id_run_serialize(
+        _param = self._post_automations_connectors_by_id_run_serialize(
             id=id,
             run_in=run_in,
             _request_auth=_request_auth,
@@ -2492,7 +2492,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_connectors_by_id_run_with_http_info(
+    def post_automations_connectors_by_id_run_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector to run, from the path.")],
         run_in: RunIn,
@@ -2539,7 +2539,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_connectors_by_id_run_serialize(
+        _param = self._post_automations_connectors_by_id_run_serialize(
             id=id,
             run_in=run_in,
             _request_auth=_request_auth,
@@ -2563,7 +2563,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_connectors_by_id_run_without_preload_content(
+    def post_automations_connectors_by_id_run_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the connector to run, from the path.")],
         run_in: RunIn,
@@ -2610,7 +2610,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_connectors_by_id_run_serialize(
+        _param = self._post_automations_connectors_by_id_run_serialize(
             id=id,
             run_in=run_in,
             _request_auth=_request_auth,
@@ -2629,7 +2629,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_connectors_by_id_run_serialize(
+    def _post_automations_connectors_by_id_run_serialize(
         self,
         id,
         run_in,
@@ -2709,7 +2709,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows(
+    def post_automations_flows(
         self,
         create_flow_req: CreateFlowReq,
         _request_timeout: Union[
@@ -2753,7 +2753,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_serialize(
+        _param = self._post_automations_flows_serialize(
             create_flow_req=create_flow_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2776,7 +2776,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_with_http_info(
+    def post_automations_flows_with_http_info(
         self,
         create_flow_req: CreateFlowReq,
         _request_timeout: Union[
@@ -2820,7 +2820,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_serialize(
+        _param = self._post_automations_flows_serialize(
             create_flow_req=create_flow_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2843,7 +2843,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_without_preload_content(
+    def post_automations_flows_without_preload_content(
         self,
         create_flow_req: CreateFlowReq,
         _request_timeout: Union[
@@ -2887,7 +2887,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_serialize(
+        _param = self._post_automations_flows_serialize(
             create_flow_req=create_flow_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2905,7 +2905,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_flows_serialize(
+    def _post_automations_flows_serialize(
         self,
         create_flow_req,
         _request_auth,
@@ -2982,7 +2982,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_disable(
+    def post_automations_flows_by_id_disable(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3026,7 +3026,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_disable_serialize(
+        _param = self._post_automations_flows_by_id_disable_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3049,7 +3049,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_disable_with_http_info(
+    def post_automations_flows_by_id_disable_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3093,7 +3093,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_disable_serialize(
+        _param = self._post_automations_flows_by_id_disable_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3116,7 +3116,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_disable_without_preload_content(
+    def post_automations_flows_by_id_disable_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3160,7 +3160,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_disable_serialize(
+        _param = self._post_automations_flows_by_id_disable_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3178,7 +3178,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_flows_by_id_disable_serialize(
+    def _post_automations_flows_by_id_disable_serialize(
         self,
         id,
         _request_auth,
@@ -3242,7 +3242,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_enable(
+    def post_automations_flows_by_id_enable(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3286,7 +3286,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_enable_serialize(
+        _param = self._post_automations_flows_by_id_enable_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3309,7 +3309,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_enable_with_http_info(
+    def post_automations_flows_by_id_enable_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3353,7 +3353,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_enable_serialize(
+        _param = self._post_automations_flows_by_id_enable_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3376,7 +3376,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_enable_without_preload_content(
+    def post_automations_flows_by_id_enable_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3420,7 +3420,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_enable_serialize(
+        _param = self._post_automations_flows_by_id_enable_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3438,7 +3438,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_flows_by_id_enable_serialize(
+    def _post_automations_flows_by_id_enable_serialize(
         self,
         id,
         _request_auth,
@@ -3502,7 +3502,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_operations(
+    def post_automations_flows_by_id_operations(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3546,7 +3546,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_operations_serialize(
+        _param = self._post_automations_flows_by_id_operations_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3568,7 +3568,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_operations_with_http_info(
+    def post_automations_flows_by_id_operations_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3612,7 +3612,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_operations_serialize(
+        _param = self._post_automations_flows_by_id_operations_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3634,7 +3634,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_operations_without_preload_content(
+    def post_automations_flows_by_id_operations_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -3678,7 +3678,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_operations_serialize(
+        _param = self._post_automations_flows_by_id_operations_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3695,7 +3695,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_flows_by_id_operations_serialize(
+    def _post_automations_flows_by_id_operations_serialize(
         self,
         id,
         _request_auth,
@@ -3752,7 +3752,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_run(
+    def post_automations_flows_by_id_run(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3796,7 +3796,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_run_serialize(
+        _param = self._post_automations_flows_by_id_run_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3819,7 +3819,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_run_with_http_info(
+    def post_automations_flows_by_id_run_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3863,7 +3863,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_run_serialize(
+        _param = self._post_automations_flows_by_id_run_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3886,7 +3886,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_run_without_preload_content(
+    def post_automations_flows_by_id_run_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to act on, from the path.")],
         _request_timeout: Union[
@@ -3930,7 +3930,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_run_serialize(
+        _param = self._post_automations_flows_by_id_run_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3948,7 +3948,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_flows_by_id_run_serialize(
+    def _post_automations_flows_by_id_run_serialize(
         self,
         id,
         _request_auth,
@@ -4012,7 +4012,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_versions(
+    def post_automations_flows_by_id_versions(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to add a version to, from the path.")],
         create_version_in: CreateVersionIn,
@@ -4059,7 +4059,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_versions_serialize(
+        _param = self._post_automations_flows_by_id_versions_serialize(
             id=id,
             create_version_in=create_version_in,
             _request_auth=_request_auth,
@@ -4083,7 +4083,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_versions_with_http_info(
+    def post_automations_flows_by_id_versions_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to add a version to, from the path.")],
         create_version_in: CreateVersionIn,
@@ -4130,7 +4130,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_versions_serialize(
+        _param = self._post_automations_flows_by_id_versions_serialize(
             id=id,
             create_version_in=create_version_in,
             _request_auth=_request_auth,
@@ -4154,7 +4154,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_flows_by_id_versions_without_preload_content(
+    def post_automations_flows_by_id_versions_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to add a version to, from the path.")],
         create_version_in: CreateVersionIn,
@@ -4201,7 +4201,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_flows_by_id_versions_serialize(
+        _param = self._post_automations_flows_by_id_versions_serialize(
             id=id,
             create_version_in=create_version_in,
             _request_auth=_request_auth,
@@ -4220,7 +4220,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_flows_by_id_versions_serialize(
+    def _post_automations_flows_by_id_versions_serialize(
         self,
         id,
         create_version_in,
@@ -4300,7 +4300,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_hooks_by_source_by_event(
+    def post_automations_hooks_by_source_by_event(
         self,
         source: StrictStr,
         event: StrictStr,
@@ -4347,7 +4347,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_hooks_by_source_by_event_serialize(
+        _param = self._post_automations_hooks_by_source_by_event_serialize(
             source=source,
             event=event,
             _request_auth=_request_auth,
@@ -4370,7 +4370,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_hooks_by_source_by_event_with_http_info(
+    def post_automations_hooks_by_source_by_event_with_http_info(
         self,
         source: StrictStr,
         event: StrictStr,
@@ -4417,7 +4417,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_hooks_by_source_by_event_serialize(
+        _param = self._post_automations_hooks_by_source_by_event_serialize(
             source=source,
             event=event,
             _request_auth=_request_auth,
@@ -4440,7 +4440,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_hooks_by_source_by_event_without_preload_content(
+    def post_automations_hooks_by_source_by_event_without_preload_content(
         self,
         source: StrictStr,
         event: StrictStr,
@@ -4487,7 +4487,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_hooks_by_source_by_event_serialize(
+        _param = self._post_automations_hooks_by_source_by_event_serialize(
             source=source,
             event=event,
             _request_auth=_request_auth,
@@ -4505,7 +4505,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_hooks_by_source_by_event_serialize(
+    def _post_automations_hooks_by_source_by_event_serialize(
         self,
         source,
         event,
@@ -4565,7 +4565,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_runs_by_id_resume(
+    def post_automations_runs_by_id_resume(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4609,7 +4609,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_runs_by_id_resume_serialize(
+        _param = self._post_automations_runs_by_id_resume_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4631,7 +4631,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_runs_by_id_resume_with_http_info(
+    def post_automations_runs_by_id_resume_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4675,7 +4675,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_runs_by_id_resume_serialize(
+        _param = self._post_automations_runs_by_id_resume_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4697,7 +4697,7 @@ class AutomationsApi:
 
 
     @validate_call
-    def post_v1_automations_runs_by_id_resume_without_preload_content(
+    def post_automations_runs_by_id_resume_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -4741,7 +4741,7 @@ class AutomationsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_automations_runs_by_id_resume_serialize(
+        _param = self._post_automations_runs_by_id_resume_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4758,7 +4758,7 @@ class AutomationsApi:
         return response_data.response
 
 
-    def _post_v1_automations_runs_by_id_resume_serialize(
+    def _post_automations_runs_by_id_resume_serialize(
         self,
         id,
         _request_auth,

@@ -49,7 +49,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_account_can_iby_wildcard1(
+    def get_deploy_account_can_iby_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -93,7 +93,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_account_can_iby_wildcard1_serialize(
+        _param = self._get_deploy_account_can_iby_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -115,7 +115,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_account_can_iby_wildcard1_with_http_info(
+    def get_deploy_account_can_iby_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -159,7 +159,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_account_can_iby_wildcard1_serialize(
+        _param = self._get_deploy_account_can_iby_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -181,7 +181,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_account_can_iby_wildcard1_without_preload_content(
+    def get_deploy_account_can_iby_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -225,7 +225,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_account_can_iby_wildcard1_serialize(
+        _param = self._get_deploy_account_can_iby_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -242,7 +242,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_account_can_iby_wildcard1_serialize(
+    def _get_deploy_account_can_iby_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -299,7 +299,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications(
+    def get_deploy_applications(
         self,
         _request_timeout: Union[
             None,
@@ -340,7 +340,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_serialize(
+        _param = self._get_deploy_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -362,7 +362,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_with_http_info(
+    def get_deploy_applications_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -403,7 +403,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_serialize(
+        _param = self._get_deploy_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -425,7 +425,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_without_preload_content(
+    def get_deploy_applications_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -466,7 +466,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_serialize(
+        _param = self._get_deploy_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -483,7 +483,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_serialize(
+    def _get_deploy_applications_serialize(
         self,
         _request_auth,
         _content_type,
@@ -544,7 +544,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name(
+    def get_deploy_applications_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -588,7 +588,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_serialize(
+        _param = self._get_deploy_applications_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -611,7 +611,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_with_http_info(
+    def get_deploy_applications_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -655,7 +655,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_serialize(
+        _param = self._get_deploy_applications_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -678,7 +678,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_without_preload_content(
+    def get_deploy_applications_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -722,7 +722,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_serialize(
+        _param = self._get_deploy_applications_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -740,7 +740,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_by_name_serialize(
+    def _get_deploy_applications_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -804,7 +804,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_resource_tree(
+    def get_deploy_applications_by_name_resource_tree(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -848,7 +848,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_resource_tree_serialize(
+        _param = self._get_deploy_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -871,7 +871,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_resource_tree_with_http_info(
+    def get_deploy_applications_by_name_resource_tree_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -915,7 +915,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_resource_tree_serialize(
+        _param = self._get_deploy_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -938,7 +938,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_resource_tree_without_preload_content(
+    def get_deploy_applications_by_name_resource_tree_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -982,7 +982,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_resource_tree_serialize(
+        _param = self._get_deploy_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1000,7 +1000,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_by_name_resource_tree_serialize(
+    def _get_deploy_applications_by_name_resource_tree_serialize(
         self,
         name,
         _request_auth,
@@ -1064,7 +1064,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_revisions_by_revision_metadata(
+    def get_deploy_applications_by_name_revisions_by_revision_metadata(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label.")],
         revision: Annotated[StrictStr, Field(description="Revision is the revision to describe, from the path. The empty revision and \"HEAD\" both mean \"whatever this application currently declares\".")],
@@ -1111,7 +1111,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
+        _param = self._get_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
             name=name,
             revision=revision,
             _request_auth=_request_auth,
@@ -1135,7 +1135,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_revisions_by_revision_metadata_with_http_info(
+    def get_deploy_applications_by_name_revisions_by_revision_metadata_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label.")],
         revision: Annotated[StrictStr, Field(description="Revision is the revision to describe, from the path. The empty revision and \"HEAD\" both mean \"whatever this application currently declares\".")],
@@ -1182,7 +1182,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
+        _param = self._get_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
             name=name,
             revision=revision,
             _request_auth=_request_auth,
@@ -1206,7 +1206,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_revisions_by_revision_metadata_without_preload_content(
+    def get_deploy_applications_by_name_revisions_by_revision_metadata_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label.")],
         revision: Annotated[StrictStr, Field(description="Revision is the revision to describe, from the path. The empty revision and \"HEAD\" both mean \"whatever this application currently declares\".")],
@@ -1253,7 +1253,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
+        _param = self._get_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
             name=name,
             revision=revision,
             _request_auth=_request_auth,
@@ -1272,7 +1272,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
+    def _get_deploy_applications_by_name_revisions_by_revision_metadata_serialize(
         self,
         name,
         revision,
@@ -1339,7 +1339,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_syncwindows(
+    def get_deploy_applications_by_name_syncwindows(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -1383,7 +1383,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_syncwindows_serialize(
+        _param = self._get_deploy_applications_by_name_syncwindows_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1406,7 +1406,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_syncwindows_with_http_info(
+    def get_deploy_applications_by_name_syncwindows_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -1450,7 +1450,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_syncwindows_serialize(
+        _param = self._get_deploy_applications_by_name_syncwindows_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1473,7 +1473,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_applications_by_name_syncwindows_without_preload_content(
+    def get_deploy_applications_by_name_syncwindows_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the application to read, from the path. It must be a DNS-1123 label (lowercase alphanumerics and hyphens, starting and ending alphanumeric) — every operator App CR's metadata.name satisfies that, and anything else is a 400 rather than a lookup.")],
         _request_timeout: Union[
@@ -1517,7 +1517,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_applications_by_name_syncwindows_serialize(
+        _param = self._get_deploy_applications_by_name_syncwindows_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1535,7 +1535,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_applications_by_name_syncwindows_serialize(
+    def _get_deploy_applications_by_name_syncwindows_serialize(
         self,
         name,
         _request_auth,
@@ -1599,7 +1599,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_callback(
+    def get_deploy_callback(
         self,
         _request_timeout: Union[
             None,
@@ -1640,7 +1640,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_callback_serialize(
+        _param = self._get_deploy_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1661,7 +1661,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_callback_with_http_info(
+    def get_deploy_callback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1702,7 +1702,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_callback_serialize(
+        _param = self._get_deploy_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1723,7 +1723,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_callback_without_preload_content(
+    def get_deploy_callback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1764,7 +1764,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_callback_serialize(
+        _param = self._get_deploy_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1780,7 +1780,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_callback_serialize(
+    def _get_deploy_callback_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1834,7 +1834,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_clusters(
+    def get_deploy_clusters(
         self,
         _request_timeout: Union[
             None,
@@ -1875,7 +1875,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_clusters_serialize(
+        _param = self._get_deploy_clusters_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1897,7 +1897,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_clusters_with_http_info(
+    def get_deploy_clusters_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1938,7 +1938,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_clusters_serialize(
+        _param = self._get_deploy_clusters_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1960,7 +1960,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_clusters_without_preload_content(
+    def get_deploy_clusters_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2001,7 +2001,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_clusters_serialize(
+        _param = self._get_deploy_clusters_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2018,7 +2018,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_clusters_serialize(
+    def _get_deploy_clusters_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2079,7 +2079,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_gitops(
+    def get_deploy_gitops(
         self,
         _request_timeout: Union[
             None,
@@ -2120,7 +2120,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_gitops_serialize(
+        _param = self._get_deploy_gitops_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2142,7 +2142,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_gitops_with_http_info(
+    def get_deploy_gitops_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2183,7 +2183,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_gitops_serialize(
+        _param = self._get_deploy_gitops_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2205,7 +2205,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_gitops_without_preload_content(
+    def get_deploy_gitops_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2246,7 +2246,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_gitops_serialize(
+        _param = self._get_deploy_gitops_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2263,7 +2263,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_gitops_serialize(
+    def _get_deploy_gitops_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2324,7 +2324,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_health(
+    def get_deploy_health(
         self,
         _request_timeout: Union[
             None,
@@ -2365,7 +2365,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_health_serialize(
+        _param = self._get_deploy_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2386,7 +2386,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_health_with_http_info(
+    def get_deploy_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2427,7 +2427,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_health_serialize(
+        _param = self._get_deploy_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2448,7 +2448,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_health_without_preload_content(
+    def get_deploy_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2489,7 +2489,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_health_serialize(
+        _param = self._get_deploy_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2505,7 +2505,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_health_serialize(
+    def _get_deploy_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2559,7 +2559,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_login(
+    def get_deploy_login(
         self,
         _request_timeout: Union[
             None,
@@ -2600,7 +2600,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_login_serialize(
+        _param = self._get_deploy_login_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2621,7 +2621,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_login_with_http_info(
+    def get_deploy_login_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2662,7 +2662,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_login_serialize(
+        _param = self._get_deploy_login_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2683,7 +2683,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_login_without_preload_content(
+    def get_deploy_login_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2724,7 +2724,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_login_serialize(
+        _param = self._get_deploy_login_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2740,7 +2740,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_login_serialize(
+    def _get_deploy_login_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2794,7 +2794,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_projects(
+    def get_deploy_projects(
         self,
         _request_timeout: Union[
             None,
@@ -2835,7 +2835,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_projects_serialize(
+        _param = self._get_deploy_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2857,7 +2857,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_projects_with_http_info(
+    def get_deploy_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2898,7 +2898,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_projects_serialize(
+        _param = self._get_deploy_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2920,7 +2920,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_projects_without_preload_content(
+    def get_deploy_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2961,7 +2961,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_projects_serialize(
+        _param = self._get_deploy_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2978,7 +2978,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_projects_serialize(
+    def _get_deploy_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3039,7 +3039,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_session_userinfo(
+    def get_deploy_session_userinfo(
         self,
         _request_timeout: Union[
             None,
@@ -3080,7 +3080,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_session_userinfo_serialize(
+        _param = self._get_deploy_session_userinfo_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3102,7 +3102,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_session_userinfo_with_http_info(
+    def get_deploy_session_userinfo_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3143,7 +3143,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_session_userinfo_serialize(
+        _param = self._get_deploy_session_userinfo_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3165,7 +3165,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_session_userinfo_without_preload_content(
+    def get_deploy_session_userinfo_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3206,7 +3206,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_session_userinfo_serialize(
+        _param = self._get_deploy_session_userinfo_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3223,7 +3223,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_session_userinfo_serialize(
+    def _get_deploy_session_userinfo_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3284,7 +3284,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_settings(
+    def get_deploy_settings(
         self,
         _request_timeout: Union[
             None,
@@ -3325,7 +3325,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_settings_serialize(
+        _param = self._get_deploy_settings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3347,7 +3347,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_settings_with_http_info(
+    def get_deploy_settings_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3388,7 +3388,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_settings_serialize(
+        _param = self._get_deploy_settings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3410,7 +3410,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_settings_without_preload_content(
+    def get_deploy_settings_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3451,7 +3451,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_settings_serialize(
+        _param = self._get_deploy_settings_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3468,7 +3468,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_settings_serialize(
+    def _get_deploy_settings_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3529,7 +3529,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_stream_applications(
+    def get_deploy_stream_applications(
         self,
         _request_timeout: Union[
             None,
@@ -3570,7 +3570,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_stream_applications_serialize(
+        _param = self._get_deploy_stream_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3591,7 +3591,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_stream_applications_with_http_info(
+    def get_deploy_stream_applications_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3632,7 +3632,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_stream_applications_serialize(
+        _param = self._get_deploy_stream_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3653,7 +3653,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_stream_applications_without_preload_content(
+    def get_deploy_stream_applications_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3694,7 +3694,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_stream_applications_serialize(
+        _param = self._get_deploy_stream_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3710,7 +3710,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_stream_applications_serialize(
+    def _get_deploy_stream_applications_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3764,7 +3764,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_stream_applications_by_name_resource_tree(
+    def get_deploy_stream_applications_by_name_resource_tree(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -3808,7 +3808,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_stream_applications_by_name_resource_tree_serialize(
+        _param = self._get_deploy_stream_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3830,7 +3830,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_stream_applications_by_name_resource_tree_with_http_info(
+    def get_deploy_stream_applications_by_name_resource_tree_with_http_info(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -3874,7 +3874,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_stream_applications_by_name_resource_tree_serialize(
+        _param = self._get_deploy_stream_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3896,7 +3896,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_stream_applications_by_name_resource_tree_without_preload_content(
+    def get_deploy_stream_applications_by_name_resource_tree_without_preload_content(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -3940,7 +3940,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_stream_applications_by_name_resource_tree_serialize(
+        _param = self._get_deploy_stream_applications_by_name_resource_tree_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3957,7 +3957,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_stream_applications_by_name_resource_tree_serialize(
+    def _get_deploy_stream_applications_by_name_resource_tree_serialize(
         self,
         name,
         _request_auth,
@@ -4014,7 +4014,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_version(
+    def get_deploy_version(
         self,
         _request_timeout: Union[
             None,
@@ -4055,7 +4055,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_version_serialize(
+        _param = self._get_deploy_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4077,7 +4077,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_version_with_http_info(
+    def get_deploy_version_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4118,7 +4118,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_version_serialize(
+        _param = self._get_deploy_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4140,7 +4140,7 @@ class DeployApi:
 
 
     @validate_call
-    def get_v1_deploy_version_without_preload_content(
+    def get_deploy_version_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4181,7 +4181,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_deploy_version_serialize(
+        _param = self._get_deploy_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4198,7 +4198,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _get_v1_deploy_version_serialize(
+    def _get_deploy_version_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4259,7 +4259,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_applications_by_name_rollback(
+    def post_deploy_applications_by_name_rollback(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -4303,7 +4303,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_applications_by_name_rollback_serialize(
+        _param = self._post_deploy_applications_by_name_rollback_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4325,7 +4325,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_applications_by_name_rollback_with_http_info(
+    def post_deploy_applications_by_name_rollback_with_http_info(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -4369,7 +4369,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_applications_by_name_rollback_serialize(
+        _param = self._post_deploy_applications_by_name_rollback_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4391,7 +4391,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_applications_by_name_rollback_without_preload_content(
+    def post_deploy_applications_by_name_rollback_without_preload_content(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -4435,7 +4435,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_applications_by_name_rollback_serialize(
+        _param = self._post_deploy_applications_by_name_rollback_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4452,7 +4452,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _post_v1_deploy_applications_by_name_rollback_serialize(
+    def _post_deploy_applications_by_name_rollback_serialize(
         self,
         name,
         _request_auth,
@@ -4509,7 +4509,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_applications_by_name_sync(
+    def post_deploy_applications_by_name_sync(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -4553,7 +4553,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_applications_by_name_sync_serialize(
+        _param = self._post_deploy_applications_by_name_sync_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4575,7 +4575,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_applications_by_name_sync_with_http_info(
+    def post_deploy_applications_by_name_sync_with_http_info(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -4619,7 +4619,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_applications_by_name_sync_serialize(
+        _param = self._post_deploy_applications_by_name_sync_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4641,7 +4641,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_applications_by_name_sync_without_preload_content(
+    def post_deploy_applications_by_name_sync_without_preload_content(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -4685,7 +4685,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_applications_by_name_sync_serialize(
+        _param = self._post_deploy_applications_by_name_sync_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4702,7 +4702,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _post_v1_deploy_applications_by_name_sync_serialize(
+    def _post_deploy_applications_by_name_sync_serialize(
         self,
         name,
         _request_auth,
@@ -4759,7 +4759,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_logout(
+    def post_deploy_logout(
         self,
         _request_timeout: Union[
             None,
@@ -4800,7 +4800,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_logout_serialize(
+        _param = self._post_deploy_logout_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4821,7 +4821,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_logout_with_http_info(
+    def post_deploy_logout_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4862,7 +4862,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_logout_serialize(
+        _param = self._post_deploy_logout_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4883,7 +4883,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_logout_without_preload_content(
+    def post_deploy_logout_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4924,7 +4924,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_logout_serialize(
+        _param = self._post_deploy_logout_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4940,7 +4940,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _post_v1_deploy_logout_serialize(
+    def _post_deploy_logout_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4994,7 +4994,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_reconcile(
+    def post_deploy_reconcile(
         self,
         _request_timeout: Union[
             None,
@@ -5035,7 +5035,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_reconcile_serialize(
+        _param = self._post_deploy_reconcile_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5056,7 +5056,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_reconcile_with_http_info(
+    def post_deploy_reconcile_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5097,7 +5097,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_reconcile_serialize(
+        _param = self._post_deploy_reconcile_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5118,7 +5118,7 @@ class DeployApi:
 
 
     @validate_call
-    def post_v1_deploy_reconcile_without_preload_content(
+    def post_deploy_reconcile_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5159,7 +5159,7 @@ class DeployApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_deploy_reconcile_serialize(
+        _param = self._post_deploy_reconcile_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5175,7 +5175,7 @@ class DeployApi:
         return response_data.response
 
 
-    def _post_v1_deploy_reconcile_serialize(
+    def _post_deploy_reconcile_serialize(
         self,
         _request_auth,
         _content_type,

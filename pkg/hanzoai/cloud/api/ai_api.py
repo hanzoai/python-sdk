@@ -21,53 +21,53 @@ from typing import Any, Dict, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
 from hanzoai.cloud.models.envelope import Envelope
-from hanzoai.cloud.models.get_v1_ai_activities200_response import GetV1AiActivities200Response
-from hanzoai.cloud.models.get_v1_ai_articles200_response import GetV1AiArticles200Response
-from hanzoai.cloud.models.get_v1_ai_assets200_response import GetV1AiAssets200Response
-from hanzoai.cloud.models.get_v1_ai_chats200_response import GetV1AiChats200Response
-from hanzoai.cloud.models.get_v1_ai_deployments200_response import GetV1AiDeployments200Response
-from hanzoai.cloud.models.get_v1_ai_files200_response import GetV1AiFiles200Response
-from hanzoai.cloud.models.get_v1_ai_forms200_response import GetV1AiForms200Response
-from hanzoai.cloud.models.get_v1_ai_graphs200_response import GetV1AiGraphs200Response
-from hanzoai.cloud.models.get_v1_ai_messages200_response import GetV1AiMessages200Response
-from hanzoai.cloud.models.get_v1_ai_nodes200_response import GetV1AiNodes200Response
-from hanzoai.cloud.models.get_v1_ai_providers200_response import GetV1AiProviders200Response
-from hanzoai.cloud.models.get_v1_ai_records200_response import GetV1AiRecords200Response
-from hanzoai.cloud.models.get_v1_ai_remote_connections200_response import GetV1AiRemoteConnections200Response
-from hanzoai.cloud.models.get_v1_ai_routes200_response import GetV1AiRoutes200Response
-from hanzoai.cloud.models.get_v1_ai_scales200_response import GetV1AiScales200Response
-from hanzoai.cloud.models.get_v1_ai_scans200_response import GetV1AiScans200Response
-from hanzoai.cloud.models.get_v1_ai_signin_sessions200_response import GetV1AiSigninSessions200Response
-from hanzoai.cloud.models.get_v1_ai_stores200_response import GetV1AiStores200Response
-from hanzoai.cloud.models.get_v1_ai_tasks200_response import GetV1AiTasks200Response
-from hanzoai.cloud.models.get_v1_ai_templates200_response import GetV1AiTemplates200Response
-from hanzoai.cloud.models.get_v1_ai_usages200_response import GetV1AiUsages200Response
-from hanzoai.cloud.models.get_v1_ai_vectors200_response import GetV1AiVectors200Response
-from hanzoai.cloud.models.get_v1_ai_videos200_response import GetV1AiVideos200Response
-from hanzoai.cloud.models.get_v1_ai_workflows200_response import GetV1AiWorkflows200Response
-from hanzoai.cloud.models.post_v1_ai_articles200_response import PostV1AiArticles200Response
-from hanzoai.cloud.models.post_v1_ai_assets200_response import PostV1AiAssets200Response
-from hanzoai.cloud.models.post_v1_ai_chats200_response import PostV1AiChats200Response
-from hanzoai.cloud.models.post_v1_ai_deployments200_response import PostV1AiDeployments200Response
-from hanzoai.cloud.models.post_v1_ai_files200_response import PostV1AiFiles200Response
-from hanzoai.cloud.models.post_v1_ai_forms200_response import PostV1AiForms200Response
-from hanzoai.cloud.models.post_v1_ai_graphs200_response import PostV1AiGraphs200Response
-from hanzoai.cloud.models.post_v1_ai_messages200_response import PostV1AiMessages200Response
-from hanzoai.cloud.models.post_v1_ai_nodes200_response import PostV1AiNodes200Response
-from hanzoai.cloud.models.post_v1_ai_providers200_response import PostV1AiProviders200Response
-from hanzoai.cloud.models.post_v1_ai_records200_response import PostV1AiRecords200Response
-from hanzoai.cloud.models.post_v1_ai_remote_connections200_response import PostV1AiRemoteConnections200Response
-from hanzoai.cloud.models.post_v1_ai_routes200_response import PostV1AiRoutes200Response
-from hanzoai.cloud.models.post_v1_ai_scales200_response import PostV1AiScales200Response
-from hanzoai.cloud.models.post_v1_ai_scans200_response import PostV1AiScans200Response
-from hanzoai.cloud.models.post_v1_ai_signin_sessions200_response import PostV1AiSigninSessions200Response
-from hanzoai.cloud.models.post_v1_ai_stores200_response import PostV1AiStores200Response
-from hanzoai.cloud.models.post_v1_ai_tasks200_response import PostV1AiTasks200Response
-from hanzoai.cloud.models.post_v1_ai_templates200_response import PostV1AiTemplates200Response
-from hanzoai.cloud.models.post_v1_ai_tree_files200_response import PostV1AiTreeFiles200Response
-from hanzoai.cloud.models.post_v1_ai_vectors200_response import PostV1AiVectors200Response
-from hanzoai.cloud.models.post_v1_ai_videos200_response import PostV1AiVideos200Response
-from hanzoai.cloud.models.post_v1_ai_workflows200_response import PostV1AiWorkflows200Response
+from hanzoai.cloud.models.get_ai_activities200_response import GetAiActivities200Response
+from hanzoai.cloud.models.get_ai_articles200_response import GetAiArticles200Response
+from hanzoai.cloud.models.get_ai_assets200_response import GetAiAssets200Response
+from hanzoai.cloud.models.get_ai_chats200_response import GetAiChats200Response
+from hanzoai.cloud.models.get_ai_deployments200_response import GetAiDeployments200Response
+from hanzoai.cloud.models.get_ai_files200_response import GetAiFiles200Response
+from hanzoai.cloud.models.get_ai_forms200_response import GetAiForms200Response
+from hanzoai.cloud.models.get_ai_graphs200_response import GetAiGraphs200Response
+from hanzoai.cloud.models.get_ai_messages200_response import GetAiMessages200Response
+from hanzoai.cloud.models.get_ai_nodes200_response import GetAiNodes200Response
+from hanzoai.cloud.models.get_ai_providers200_response import GetAiProviders200Response
+from hanzoai.cloud.models.get_ai_records200_response import GetAiRecords200Response
+from hanzoai.cloud.models.get_ai_remote_connections200_response import GetAiRemoteConnections200Response
+from hanzoai.cloud.models.get_ai_routes200_response import GetAiRoutes200Response
+from hanzoai.cloud.models.get_ai_scales200_response import GetAiScales200Response
+from hanzoai.cloud.models.get_ai_scans200_response import GetAiScans200Response
+from hanzoai.cloud.models.get_ai_signin_sessions200_response import GetAiSigninSessions200Response
+from hanzoai.cloud.models.get_ai_stores200_response import GetAiStores200Response
+from hanzoai.cloud.models.get_ai_tasks200_response import GetAiTasks200Response
+from hanzoai.cloud.models.get_ai_templates200_response import GetAiTemplates200Response
+from hanzoai.cloud.models.get_ai_usages200_response import GetAiUsages200Response
+from hanzoai.cloud.models.get_ai_vectors200_response import GetAiVectors200Response
+from hanzoai.cloud.models.get_ai_videos200_response import GetAiVideos200Response
+from hanzoai.cloud.models.get_ai_workflows200_response import GetAiWorkflows200Response
+from hanzoai.cloud.models.post_ai_articles200_response import PostAiArticles200Response
+from hanzoai.cloud.models.post_ai_assets200_response import PostAiAssets200Response
+from hanzoai.cloud.models.post_ai_chats200_response import PostAiChats200Response
+from hanzoai.cloud.models.post_ai_deployments200_response import PostAiDeployments200Response
+from hanzoai.cloud.models.post_ai_files200_response import PostAiFiles200Response
+from hanzoai.cloud.models.post_ai_forms200_response import PostAiForms200Response
+from hanzoai.cloud.models.post_ai_graphs200_response import PostAiGraphs200Response
+from hanzoai.cloud.models.post_ai_messages200_response import PostAiMessages200Response
+from hanzoai.cloud.models.post_ai_nodes200_response import PostAiNodes200Response
+from hanzoai.cloud.models.post_ai_providers200_response import PostAiProviders200Response
+from hanzoai.cloud.models.post_ai_records200_response import PostAiRecords200Response
+from hanzoai.cloud.models.post_ai_remote_connections200_response import PostAiRemoteConnections200Response
+from hanzoai.cloud.models.post_ai_routes200_response import PostAiRoutes200Response
+from hanzoai.cloud.models.post_ai_scales200_response import PostAiScales200Response
+from hanzoai.cloud.models.post_ai_scans200_response import PostAiScans200Response
+from hanzoai.cloud.models.post_ai_signin_sessions200_response import PostAiSigninSessions200Response
+from hanzoai.cloud.models.post_ai_stores200_response import PostAiStores200Response
+from hanzoai.cloud.models.post_ai_tasks200_response import PostAiTasks200Response
+from hanzoai.cloud.models.post_ai_templates200_response import PostAiTemplates200Response
+from hanzoai.cloud.models.post_ai_tree_files200_response import PostAiTreeFiles200Response
+from hanzoai.cloud.models.post_ai_vectors200_response import PostAiVectors200Response
+from hanzoai.cloud.models.post_ai_videos200_response import PostAiVideos200Response
+from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows200Response
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -350,7 +350,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_articles_by_owner_by_name(
+    def delete_ai_articles_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -366,7 +366,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiArticles200Response:
+    ) -> PostAiArticles200Response:
         """Delete a article
 
         Delete one article.
@@ -397,7 +397,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._delete_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -407,7 +407,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -423,7 +423,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_articles_by_owner_by_name_with_http_info(
+    def delete_ai_articles_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -439,7 +439,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiArticles200Response]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Delete a article
 
         Delete one article.
@@ -470,7 +470,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._delete_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -480,7 +480,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -496,7 +496,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_articles_by_owner_by_name_without_preload_content(
+    def delete_ai_articles_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -543,7 +543,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._delete_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -553,7 +553,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -564,7 +564,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_articles_by_owner_by_name_serialize(
+    def _delete_ai_articles_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -631,7 +631,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_assets_by_owner_by_name(
+    def delete_ai_assets_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -647,7 +647,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiAssets200Response:
+    ) -> PostAiAssets200Response:
         """Delete a asset
 
         Delete one asset.
@@ -678,7 +678,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._delete_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -688,7 +688,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -704,7 +704,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_assets_by_owner_by_name_with_http_info(
+    def delete_ai_assets_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -720,7 +720,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiAssets200Response]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Delete a asset
 
         Delete one asset.
@@ -751,7 +751,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._delete_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -761,7 +761,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -777,7 +777,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_assets_by_owner_by_name_without_preload_content(
+    def delete_ai_assets_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -824,7 +824,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._delete_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -834,7 +834,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -845,7 +845,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_assets_by_owner_by_name_serialize(
+    def _delete_ai_assets_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -912,7 +912,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_chats_by_owner_by_name(
+    def delete_ai_chats_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -928,7 +928,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiChats200Response:
+    ) -> PostAiChats200Response:
         """Delete a chat
 
         Delete one chat.
@@ -959,7 +959,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._delete_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -969,7 +969,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -985,7 +985,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_chats_by_owner_by_name_with_http_info(
+    def delete_ai_chats_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1001,7 +1001,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiChats200Response]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Delete a chat
 
         Delete one chat.
@@ -1032,7 +1032,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._delete_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1042,7 +1042,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -1058,7 +1058,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_chats_by_owner_by_name_without_preload_content(
+    def delete_ai_chats_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1105,7 +1105,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._delete_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1115,7 +1115,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -1126,7 +1126,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_chats_by_owner_by_name_serialize(
+    def _delete_ai_chats_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -1193,7 +1193,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_connections_by_provider(
+    def delete_ai_connections_by_provider(
         self,
         _request_timeout: Union[
             None,
@@ -1234,7 +1234,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_connections_by_provider_serialize(
+        _param = self._delete_ai_connections_by_provider_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1255,7 +1255,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_connections_by_provider_with_http_info(
+    def delete_ai_connections_by_provider_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1296,7 +1296,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_connections_by_provider_serialize(
+        _param = self._delete_ai_connections_by_provider_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1317,7 +1317,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_connections_by_provider_without_preload_content(
+    def delete_ai_connections_by_provider_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1358,7 +1358,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_connections_by_provider_serialize(
+        _param = self._delete_ai_connections_by_provider_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1374,7 +1374,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_connections_by_provider_serialize(
+    def _delete_ai_connections_by_provider_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1428,7 +1428,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_deployments_by_owner_by_name(
+    def delete_ai_deployments_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1444,7 +1444,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiDeployments200Response:
+    ) -> PostAiDeployments200Response:
         """Delete a application
 
         Delete one application.
@@ -1475,7 +1475,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._delete_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1485,7 +1485,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -1501,7 +1501,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_deployments_by_owner_by_name_with_http_info(
+    def delete_ai_deployments_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1517,7 +1517,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiDeployments200Response]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Delete a application
 
         Delete one application.
@@ -1548,7 +1548,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._delete_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1558,7 +1558,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -1574,7 +1574,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_deployments_by_owner_by_name_without_preload_content(
+    def delete_ai_deployments_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1621,7 +1621,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._delete_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1631,7 +1631,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -1642,7 +1642,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_deployments_by_owner_by_name_serialize(
+    def _delete_ai_deployments_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -1709,7 +1709,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_files_by_owner_by_name(
+    def delete_ai_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1725,7 +1725,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiFiles200Response:
+    ) -> PostAiFiles200Response:
         """Delete a file
 
         Delete one file.
@@ -1756,7 +1756,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._delete_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1766,7 +1766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -1782,7 +1782,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_files_by_owner_by_name_with_http_info(
+    def delete_ai_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1798,7 +1798,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiFiles200Response]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Delete a file
 
         Delete one file.
@@ -1829,7 +1829,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._delete_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1839,7 +1839,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -1855,7 +1855,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_files_by_owner_by_name_without_preload_content(
+    def delete_ai_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -1902,7 +1902,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._delete_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -1912,7 +1912,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -1923,7 +1923,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_files_by_owner_by_name_serialize(
+    def _delete_ai_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -1990,7 +1990,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_forms_by_owner_by_name(
+    def delete_ai_forms_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2006,7 +2006,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiForms200Response:
+    ) -> PostAiForms200Response:
         """Delete a form
 
         Delete one form.
@@ -2037,7 +2037,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._delete_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2047,7 +2047,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -2063,7 +2063,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_forms_by_owner_by_name_with_http_info(
+    def delete_ai_forms_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2079,7 +2079,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiForms200Response]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Delete a form
 
         Delete one form.
@@ -2110,7 +2110,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._delete_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2120,7 +2120,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -2136,7 +2136,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_forms_by_owner_by_name_without_preload_content(
+    def delete_ai_forms_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2183,7 +2183,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._delete_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2193,7 +2193,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -2204,7 +2204,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_forms_by_owner_by_name_serialize(
+    def _delete_ai_forms_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -2271,7 +2271,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_graphs_by_owner_by_name(
+    def delete_ai_graphs_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2287,7 +2287,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiGraphs200Response:
+    ) -> PostAiGraphs200Response:
         """Delete a graph
 
         Delete one graph.
@@ -2318,7 +2318,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._delete_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2328,7 +2328,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -2344,7 +2344,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_graphs_by_owner_by_name_with_http_info(
+    def delete_ai_graphs_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2360,7 +2360,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiGraphs200Response]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Delete a graph
 
         Delete one graph.
@@ -2391,7 +2391,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._delete_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2401,7 +2401,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -2417,7 +2417,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_graphs_by_owner_by_name_without_preload_content(
+    def delete_ai_graphs_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2464,7 +2464,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._delete_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2474,7 +2474,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -2485,7 +2485,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_graphs_by_owner_by_name_serialize(
+    def _delete_ai_graphs_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -2552,7 +2552,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_messages_by_owner_by_name(
+    def delete_ai_messages_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2568,7 +2568,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiMessages200Response:
+    ) -> PostAiMessages200Response:
         """Delete a message
 
         Delete one message.
@@ -2599,7 +2599,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._delete_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2609,7 +2609,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -2625,7 +2625,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_messages_by_owner_by_name_with_http_info(
+    def delete_ai_messages_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2641,7 +2641,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiMessages200Response]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Delete a message
 
         Delete one message.
@@ -2672,7 +2672,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._delete_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2682,7 +2682,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -2698,7 +2698,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_messages_by_owner_by_name_without_preload_content(
+    def delete_ai_messages_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -2745,7 +2745,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._delete_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -2755,7 +2755,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -2766,7 +2766,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_messages_by_owner_by_name_serialize(
+    def _delete_ai_messages_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -2833,7 +2833,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_messages_welcome(
+    def delete_ai_messages_welcome(
         self,
         _request_timeout: Union[
             None,
@@ -2873,7 +2873,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_messages_welcome_serialize(
+        _param = self._delete_ai_messages_welcome_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2897,7 +2897,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_messages_welcome_with_http_info(
+    def delete_ai_messages_welcome_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2937,7 +2937,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_messages_welcome_serialize(
+        _param = self._delete_ai_messages_welcome_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2961,7 +2961,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_messages_welcome_without_preload_content(
+    def delete_ai_messages_welcome_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3001,7 +3001,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_messages_welcome_serialize(
+        _param = self._delete_ai_messages_welcome_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3020,7 +3020,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_messages_welcome_serialize(
+    def _delete_ai_messages_welcome_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3081,7 +3081,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_nodes_by_owner_by_name(
+    def delete_ai_nodes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3097,7 +3097,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiNodes200Response:
+    ) -> PostAiNodes200Response:
         """Delete a node
 
         Delete one node.
@@ -3128,7 +3128,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._delete_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3138,7 +3138,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -3154,7 +3154,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_nodes_by_owner_by_name_with_http_info(
+    def delete_ai_nodes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3170,7 +3170,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiNodes200Response]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Delete a node
 
         Delete one node.
@@ -3201,7 +3201,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._delete_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3211,7 +3211,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -3227,7 +3227,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_nodes_by_owner_by_name_without_preload_content(
+    def delete_ai_nodes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3274,7 +3274,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._delete_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3284,7 +3284,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -3295,7 +3295,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_nodes_by_owner_by_name_serialize(
+    def _delete_ai_nodes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -3362,7 +3362,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_providers_by_owner_by_name(
+    def delete_ai_providers_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3378,7 +3378,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiProviders200Response:
+    ) -> PostAiProviders200Response:
         """Delete a provider
 
         Delete one provider.
@@ -3409,7 +3409,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._delete_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3419,7 +3419,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -3435,7 +3435,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_providers_by_owner_by_name_with_http_info(
+    def delete_ai_providers_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3451,7 +3451,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiProviders200Response]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Delete a provider
 
         Delete one provider.
@@ -3482,7 +3482,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._delete_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3492,7 +3492,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -3508,7 +3508,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_providers_by_owner_by_name_without_preload_content(
+    def delete_ai_providers_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3555,7 +3555,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._delete_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3565,7 +3565,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -3576,7 +3576,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_providers_by_owner_by_name_serialize(
+    def _delete_ai_providers_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -3643,7 +3643,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_records_by_owner_by_name(
+    def delete_ai_records_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3659,7 +3659,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRecords200Response:
+    ) -> PostAiRecords200Response:
         """Delete a record
 
         Delete one record.
@@ -3690,7 +3690,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._delete_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3700,7 +3700,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -3716,7 +3716,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_records_by_owner_by_name_with_http_info(
+    def delete_ai_records_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3732,7 +3732,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRecords200Response]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Delete a record
 
         Delete one record.
@@ -3763,7 +3763,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._delete_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3773,7 +3773,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -3789,7 +3789,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_records_by_owner_by_name_without_preload_content(
+    def delete_ai_records_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3836,7 +3836,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._delete_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3846,7 +3846,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -3857,7 +3857,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_records_by_owner_by_name_serialize(
+    def _delete_ai_records_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -3924,7 +3924,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_remote_connections_by_owner_by_name(
+    def delete_ai_remote_connections_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -3940,7 +3940,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRemoteConnections200Response:
+    ) -> PostAiRemoteConnections200Response:
         """Delete a connection
 
         Delete one connection.
@@ -3971,7 +3971,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._delete_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -3981,7 +3981,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -3997,7 +3997,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_remote_connections_by_owner_by_name_with_http_info(
+    def delete_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4013,7 +4013,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Delete a connection
 
         Delete one connection.
@@ -4044,7 +4044,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._delete_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4054,7 +4054,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -4070,7 +4070,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_remote_connections_by_owner_by_name_without_preload_content(
+    def delete_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4117,7 +4117,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._delete_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4127,7 +4127,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -4138,7 +4138,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_remote_connections_by_owner_by_name_serialize(
+    def _delete_ai_remote_connections_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -4205,7 +4205,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_routes_by_owner_by_name(
+    def delete_ai_routes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4221,7 +4221,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRoutes200Response:
+    ) -> PostAiRoutes200Response:
         """Delete a model-route
 
         Delete one model-route.
@@ -4252,7 +4252,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._delete_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4262,7 +4262,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -4278,7 +4278,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_routes_by_owner_by_name_with_http_info(
+    def delete_ai_routes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4294,7 +4294,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRoutes200Response]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Delete a model-route
 
         Delete one model-route.
@@ -4325,7 +4325,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._delete_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4335,7 +4335,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -4351,7 +4351,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_routes_by_owner_by_name_without_preload_content(
+    def delete_ai_routes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4398,7 +4398,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._delete_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4408,7 +4408,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -4419,7 +4419,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_routes_by_owner_by_name_serialize(
+    def _delete_ai_routes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -4486,7 +4486,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_scales_by_owner_by_name(
+    def delete_ai_scales_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4502,7 +4502,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScales200Response:
+    ) -> PostAiScales200Response:
         """Delete a scale
 
         Delete one scale.
@@ -4533,7 +4533,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._delete_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4543,7 +4543,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -4559,7 +4559,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_scales_by_owner_by_name_with_http_info(
+    def delete_ai_scales_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4575,7 +4575,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScales200Response]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Delete a scale
 
         Delete one scale.
@@ -4606,7 +4606,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._delete_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4616,7 +4616,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -4632,7 +4632,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_scales_by_owner_by_name_without_preload_content(
+    def delete_ai_scales_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4679,7 +4679,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._delete_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4689,7 +4689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -4700,7 +4700,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_scales_by_owner_by_name_serialize(
+    def _delete_ai_scales_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -4767,7 +4767,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_scans_by_owner_by_name(
+    def delete_ai_scans_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4783,7 +4783,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScans200Response:
+    ) -> PostAiScans200Response:
         """Delete a scan
 
         Delete one scan.
@@ -4814,7 +4814,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._delete_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4824,7 +4824,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -4840,7 +4840,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_scans_by_owner_by_name_with_http_info(
+    def delete_ai_scans_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4856,7 +4856,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScans200Response]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Delete a scan
 
         Delete one scan.
@@ -4887,7 +4887,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._delete_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4897,7 +4897,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -4913,7 +4913,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_scans_by_owner_by_name_without_preload_content(
+    def delete_ai_scans_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -4960,7 +4960,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._delete_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -4970,7 +4970,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -4981,7 +4981,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_scans_by_owner_by_name_serialize(
+    def _delete_ai_scans_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -5048,7 +5048,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_signin_sessions_by_owner_by_name(
+    def delete_ai_signin_sessions_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5064,7 +5064,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiSigninSessions200Response:
+    ) -> PostAiSigninSessions200Response:
         """Delete a session
 
         Delete one session.
@@ -5095,7 +5095,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._delete_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5105,7 +5105,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -5121,7 +5121,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_signin_sessions_by_owner_by_name_with_http_info(
+    def delete_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5137,7 +5137,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Delete a session
 
         Delete one session.
@@ -5168,7 +5168,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._delete_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5178,7 +5178,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -5194,7 +5194,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_signin_sessions_by_owner_by_name_without_preload_content(
+    def delete_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5241,7 +5241,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._delete_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5251,7 +5251,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -5262,7 +5262,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_signin_sessions_by_owner_by_name_serialize(
+    def _delete_ai_signin_sessions_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -5329,7 +5329,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_stores_by_owner_by_name(
+    def delete_ai_stores_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5345,7 +5345,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiStores200Response:
+    ) -> PostAiStores200Response:
         """Delete a store
 
         Delete one store.
@@ -5376,7 +5376,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._delete_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5386,7 +5386,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -5402,7 +5402,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_stores_by_owner_by_name_with_http_info(
+    def delete_ai_stores_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5418,7 +5418,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiStores200Response]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Delete a store
 
         Delete one store.
@@ -5449,7 +5449,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._delete_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5459,7 +5459,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -5475,7 +5475,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_stores_by_owner_by_name_without_preload_content(
+    def delete_ai_stores_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5522,7 +5522,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._delete_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5532,7 +5532,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -5543,7 +5543,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_stores_by_owner_by_name_serialize(
+    def _delete_ai_stores_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -5610,7 +5610,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_tasks_by_owner_by_name(
+    def delete_ai_tasks_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5626,7 +5626,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTasks200Response:
+    ) -> PostAiTasks200Response:
         """Delete a task
 
         Delete one task.
@@ -5657,7 +5657,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._delete_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5667,7 +5667,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -5683,7 +5683,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_tasks_by_owner_by_name_with_http_info(
+    def delete_ai_tasks_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5699,7 +5699,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTasks200Response]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Delete a task
 
         Delete one task.
@@ -5730,7 +5730,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._delete_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5740,7 +5740,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -5756,7 +5756,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_tasks_by_owner_by_name_without_preload_content(
+    def delete_ai_tasks_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5803,7 +5803,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._delete_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5813,7 +5813,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -5824,7 +5824,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_tasks_by_owner_by_name_serialize(
+    def _delete_ai_tasks_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -5891,7 +5891,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_templates_by_owner_by_name(
+    def delete_ai_templates_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5907,7 +5907,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTemplates200Response:
+    ) -> PostAiTemplates200Response:
         """Delete a template
 
         Delete one template.
@@ -5938,7 +5938,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._delete_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -5948,7 +5948,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -5964,7 +5964,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_templates_by_owner_by_name_with_http_info(
+    def delete_ai_templates_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -5980,7 +5980,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTemplates200Response]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Delete a template
 
         Delete one template.
@@ -6011,7 +6011,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._delete_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6021,7 +6021,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -6037,7 +6037,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_templates_by_owner_by_name_without_preload_content(
+    def delete_ai_templates_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6084,7 +6084,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._delete_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6094,7 +6094,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -6105,7 +6105,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_templates_by_owner_by_name_serialize(
+    def _delete_ai_templates_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -6172,7 +6172,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_tree_files_by_owner_by_name(
+    def delete_ai_tree_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6188,7 +6188,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTreeFiles200Response:
+    ) -> PostAiTreeFiles200Response:
         """Delete a tree-file
 
         Delete one tree-file.
@@ -6219,7 +6219,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._delete_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6229,7 +6229,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -6245,7 +6245,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_tree_files_by_owner_by_name_with_http_info(
+    def delete_ai_tree_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6261,7 +6261,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Delete a tree-file
 
         Delete one tree-file.
@@ -6292,7 +6292,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._delete_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6302,7 +6302,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -6318,7 +6318,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_tree_files_by_owner_by_name_without_preload_content(
+    def delete_ai_tree_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6365,7 +6365,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._delete_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6375,7 +6375,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -6386,7 +6386,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_tree_files_by_owner_by_name_serialize(
+    def _delete_ai_tree_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -6453,7 +6453,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_vectors_all(
+    def delete_ai_vectors_all(
         self,
         _request_timeout: Union[
             None,
@@ -6493,7 +6493,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_vectors_all_serialize(
+        _param = self._delete_ai_vectors_all_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6517,7 +6517,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_vectors_all_with_http_info(
+    def delete_ai_vectors_all_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6557,7 +6557,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_vectors_all_serialize(
+        _param = self._delete_ai_vectors_all_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6581,7 +6581,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_vectors_all_without_preload_content(
+    def delete_ai_vectors_all_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6621,7 +6621,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_vectors_all_serialize(
+        _param = self._delete_ai_vectors_all_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6640,7 +6640,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_vectors_all_serialize(
+    def _delete_ai_vectors_all_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6701,7 +6701,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_vectors_by_owner_by_name(
+    def delete_ai_vectors_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6717,7 +6717,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVectors200Response:
+    ) -> PostAiVectors200Response:
         """Delete a vector
 
         Delete one vector.
@@ -6748,7 +6748,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._delete_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6758,7 +6758,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -6774,7 +6774,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_vectors_by_owner_by_name_with_http_info(
+    def delete_ai_vectors_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6790,7 +6790,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVectors200Response]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Delete a vector
 
         Delete one vector.
@@ -6821,7 +6821,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._delete_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6831,7 +6831,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -6847,7 +6847,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_vectors_by_owner_by_name_without_preload_content(
+    def delete_ai_vectors_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6894,7 +6894,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._delete_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -6904,7 +6904,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -6915,7 +6915,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_vectors_by_owner_by_name_serialize(
+    def _delete_ai_vectors_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -6982,7 +6982,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_videos_by_owner_by_name(
+    def delete_ai_videos_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -6998,7 +6998,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVideos200Response:
+    ) -> PostAiVideos200Response:
         """Delete a video
 
         Delete one video.
@@ -7029,7 +7029,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._delete_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -7039,7 +7039,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -7055,7 +7055,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_videos_by_owner_by_name_with_http_info(
+    def delete_ai_videos_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -7071,7 +7071,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVideos200Response]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Delete a video
 
         Delete one video.
@@ -7102,7 +7102,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._delete_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -7112,7 +7112,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -7128,7 +7128,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_videos_by_owner_by_name_without_preload_content(
+    def delete_ai_videos_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -7175,7 +7175,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._delete_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -7185,7 +7185,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -7196,7 +7196,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_videos_by_owner_by_name_serialize(
+    def _delete_ai_videos_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -7263,7 +7263,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_workflows_by_owner_by_name(
+    def delete_ai_workflows_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -7279,7 +7279,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiWorkflows200Response:
+    ) -> PostAiWorkflows200Response:
         """Delete a workflow
 
         Delete one workflow.
@@ -7310,7 +7310,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._delete_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -7320,7 +7320,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -7336,7 +7336,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_workflows_by_owner_by_name_with_http_info(
+    def delete_ai_workflows_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -7352,7 +7352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiWorkflows200Response]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Delete a workflow
 
         Delete one workflow.
@@ -7383,7 +7383,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._delete_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -7393,7 +7393,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -7409,7 +7409,7 @@ class AiApi:
 
 
     @validate_call
-    def delete_v1_ai_workflows_by_owner_by_name_without_preload_content(
+    def delete_ai_workflows_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -7456,7 +7456,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._delete_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -7466,7 +7466,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -7477,7 +7477,7 @@ class AiApi:
         return response_data.response
 
 
-    def _delete_v1_ai_workflows_by_owner_by_name_serialize(
+    def _delete_ai_workflows_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -7544,7 +7544,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_account(
+    def get_ai_account(
         self,
         _request_timeout: Union[
             None,
@@ -7584,7 +7584,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_account_serialize(
+        _param = self._get_ai_account_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7608,7 +7608,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_account_with_http_info(
+    def get_ai_account_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7648,7 +7648,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_account_serialize(
+        _param = self._get_ai_account_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7672,7 +7672,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_account_without_preload_content(
+    def get_ai_account_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7712,7 +7712,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_account_serialize(
+        _param = self._get_ai_account_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7731,7 +7731,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_account_serialize(
+    def _get_ai_account_serialize(
         self,
         _request_auth,
         _content_type,
@@ -7792,7 +7792,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_activities(
+    def get_ai_activities(
         self,
         _request_timeout: Union[
             None,
@@ -7806,7 +7806,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiActivities200Response:
+    ) -> GetAiActivities200Response:
         """List activities
 
         List the caller's activities.
@@ -7833,7 +7833,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_activities_serialize(
+        _param = self._get_ai_activities_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7841,7 +7841,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiActivities200Response",
+            '200': "GetAiActivities200Response",
             '401': None,
             '403': None,
         }
@@ -7857,7 +7857,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_activities_with_http_info(
+    def get_ai_activities_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -7871,7 +7871,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiActivities200Response]:
+    ) -> ApiResponse[GetAiActivities200Response]:
         """List activities
 
         List the caller's activities.
@@ -7898,7 +7898,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_activities_serialize(
+        _param = self._get_ai_activities_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7906,7 +7906,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiActivities200Response",
+            '200': "GetAiActivities200Response",
             '401': None,
             '403': None,
         }
@@ -7922,7 +7922,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_activities_without_preload_content(
+    def get_ai_activities_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7963,7 +7963,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_activities_serialize(
+        _param = self._get_ai_activities_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7971,7 +7971,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiActivities200Response",
+            '200': "GetAiActivities200Response",
             '401': None,
             '403': None,
         }
@@ -7982,7 +7982,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_activities_serialize(
+    def _get_ai_activities_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8043,7 +8043,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_answer(
+    def get_ai_answer(
         self,
         _request_timeout: Union[
             None,
@@ -8083,7 +8083,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_answer_serialize(
+        _param = self._get_ai_answer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8107,7 +8107,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_answer_with_http_info(
+    def get_ai_answer_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8147,7 +8147,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_answer_serialize(
+        _param = self._get_ai_answer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8171,7 +8171,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_answer_without_preload_content(
+    def get_ai_answer_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8211,7 +8211,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_answer_serialize(
+        _param = self._get_ai_answer_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8230,7 +8230,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_answer_serialize(
+    def _get_ai_answer_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8291,7 +8291,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles(
+    def get_ai_articles(
         self,
         _request_timeout: Union[
             None,
@@ -8305,7 +8305,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiArticles200Response:
+    ) -> GetAiArticles200Response:
         """List articles
 
         List the caller's articles.
@@ -8332,7 +8332,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_serialize(
+        _param = self._get_ai_articles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8340,7 +8340,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiArticles200Response",
+            '200': "GetAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8356,7 +8356,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_with_http_info(
+    def get_ai_articles_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8370,7 +8370,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiArticles200Response]:
+    ) -> ApiResponse[GetAiArticles200Response]:
         """List articles
 
         List the caller's articles.
@@ -8397,7 +8397,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_serialize(
+        _param = self._get_ai_articles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8405,7 +8405,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiArticles200Response",
+            '200': "GetAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8421,7 +8421,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_without_preload_content(
+    def get_ai_articles_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8462,7 +8462,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_serialize(
+        _param = self._get_ai_articles_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8470,7 +8470,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiArticles200Response",
+            '200': "GetAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8481,7 +8481,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_articles_serialize(
+    def _get_ai_articles_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8542,7 +8542,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_by_owner_by_name(
+    def get_ai_articles_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -8558,7 +8558,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiArticles200Response:
+    ) -> PostAiArticles200Response:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
@@ -8589,7 +8589,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._get_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -8599,7 +8599,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8615,7 +8615,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_by_owner_by_name_with_http_info(
+    def get_ai_articles_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -8631,7 +8631,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiArticles200Response]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
@@ -8662,7 +8662,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._get_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -8672,7 +8672,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8688,7 +8688,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_by_owner_by_name_without_preload_content(
+    def get_ai_articles_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -8735,7 +8735,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._get_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -8745,7 +8745,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8756,7 +8756,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_articles_by_owner_by_name_serialize(
+    def _get_ai_articles_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -8823,7 +8823,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_global(
+    def get_ai_articles_global(
         self,
         _request_timeout: Union[
             None,
@@ -8837,7 +8837,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiArticles200Response:
+    ) -> GetAiArticles200Response:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -8864,7 +8864,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_global_serialize(
+        _param = self._get_ai_articles_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8872,7 +8872,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiArticles200Response",
+            '200': "GetAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8888,7 +8888,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_global_with_http_info(
+    def get_ai_articles_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8902,7 +8902,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiArticles200Response]:
+    ) -> ApiResponse[GetAiArticles200Response]:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -8929,7 +8929,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_global_serialize(
+        _param = self._get_ai_articles_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8937,7 +8937,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiArticles200Response",
+            '200': "GetAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -8953,7 +8953,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_articles_global_without_preload_content(
+    def get_ai_articles_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8994,7 +8994,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_articles_global_serialize(
+        _param = self._get_ai_articles_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9002,7 +9002,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiArticles200Response",
+            '200': "GetAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -9013,7 +9013,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_articles_global_serialize(
+    def _get_ai_articles_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9074,7 +9074,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_assets(
+    def get_ai_assets(
         self,
         _request_timeout: Union[
             None,
@@ -9088,7 +9088,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiAssets200Response:
+    ) -> GetAiAssets200Response:
         """List assets
 
         List the caller's assets.
@@ -9115,7 +9115,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_assets_serialize(
+        _param = self._get_ai_assets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9123,7 +9123,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiAssets200Response",
+            '200': "GetAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9139,7 +9139,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_assets_with_http_info(
+    def get_ai_assets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -9153,7 +9153,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiAssets200Response]:
+    ) -> ApiResponse[GetAiAssets200Response]:
         """List assets
 
         List the caller's assets.
@@ -9180,7 +9180,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_assets_serialize(
+        _param = self._get_ai_assets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9188,7 +9188,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiAssets200Response",
+            '200': "GetAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9204,7 +9204,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_assets_without_preload_content(
+    def get_ai_assets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -9245,7 +9245,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_assets_serialize(
+        _param = self._get_ai_assets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9253,7 +9253,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiAssets200Response",
+            '200': "GetAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9264,7 +9264,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_assets_serialize(
+    def _get_ai_assets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9325,7 +9325,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_assets_by_owner_by_name(
+    def get_ai_assets_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -9341,7 +9341,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiAssets200Response:
+    ) -> PostAiAssets200Response:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
@@ -9372,7 +9372,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._get_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -9382,7 +9382,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9398,7 +9398,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_assets_by_owner_by_name_with_http_info(
+    def get_ai_assets_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -9414,7 +9414,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiAssets200Response]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
@@ -9445,7 +9445,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._get_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -9455,7 +9455,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9471,7 +9471,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_assets_by_owner_by_name_without_preload_content(
+    def get_ai_assets_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -9518,7 +9518,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._get_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -9528,7 +9528,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -9539,7 +9539,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_assets_by_owner_by_name_serialize(
+    def _get_ai_assets_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -9606,7 +9606,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats(
+    def get_ai_chats(
         self,
         _request_timeout: Union[
             None,
@@ -9620,7 +9620,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiChats200Response:
+    ) -> GetAiChats200Response:
         """List chats
 
         List the caller's chats.
@@ -9647,7 +9647,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_serialize(
+        _param = self._get_ai_chats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9655,7 +9655,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiChats200Response",
+            '200': "GetAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9671,7 +9671,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_with_http_info(
+    def get_ai_chats_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -9685,7 +9685,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiChats200Response]:
+    ) -> ApiResponse[GetAiChats200Response]:
         """List chats
 
         List the caller's chats.
@@ -9712,7 +9712,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_serialize(
+        _param = self._get_ai_chats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9720,7 +9720,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiChats200Response",
+            '200': "GetAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9736,7 +9736,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_without_preload_content(
+    def get_ai_chats_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -9777,7 +9777,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_serialize(
+        _param = self._get_ai_chats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9785,7 +9785,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiChats200Response",
+            '200': "GetAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9796,7 +9796,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_chats_serialize(
+    def _get_ai_chats_serialize(
         self,
         _request_auth,
         _content_type,
@@ -9857,7 +9857,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_by_owner_by_name(
+    def get_ai_chats_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -9873,7 +9873,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiChats200Response:
+    ) -> PostAiChats200Response:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
@@ -9904,7 +9904,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._get_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -9914,7 +9914,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -9930,7 +9930,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_by_owner_by_name_with_http_info(
+    def get_ai_chats_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -9946,7 +9946,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiChats200Response]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
@@ -9977,7 +9977,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._get_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -9987,7 +9987,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10003,7 +10003,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_by_owner_by_name_without_preload_content(
+    def get_ai_chats_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -10050,7 +10050,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._get_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -10060,7 +10060,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10071,7 +10071,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_chats_by_owner_by_name_serialize(
+    def _get_ai_chats_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -10138,7 +10138,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_global(
+    def get_ai_chats_global(
         self,
         _request_timeout: Union[
             None,
@@ -10152,7 +10152,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiChats200Response:
+    ) -> GetAiChats200Response:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10179,7 +10179,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_global_serialize(
+        _param = self._get_ai_chats_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10187,7 +10187,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiChats200Response",
+            '200': "GetAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10203,7 +10203,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_global_with_http_info(
+    def get_ai_chats_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10217,7 +10217,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiChats200Response]:
+    ) -> ApiResponse[GetAiChats200Response]:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10244,7 +10244,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_global_serialize(
+        _param = self._get_ai_chats_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10252,7 +10252,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiChats200Response",
+            '200': "GetAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10268,7 +10268,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_chats_global_without_preload_content(
+    def get_ai_chats_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10309,7 +10309,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_chats_global_serialize(
+        _param = self._get_ai_chats_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10317,7 +10317,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiChats200Response",
+            '200': "GetAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -10328,7 +10328,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_chats_global_serialize(
+    def _get_ai_chats_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -10389,7 +10389,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections(
+    def get_ai_connections(
         self,
         _request_timeout: Union[
             None,
@@ -10430,7 +10430,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_serialize(
+        _param = self._get_ai_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10451,7 +10451,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_with_http_info(
+    def get_ai_connections_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10492,7 +10492,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_serialize(
+        _param = self._get_ai_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10513,7 +10513,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_without_preload_content(
+    def get_ai_connections_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10554,7 +10554,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_serialize(
+        _param = self._get_ai_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10570,7 +10570,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_connections_serialize(
+    def _get_ai_connections_serialize(
         self,
         _request_auth,
         _content_type,
@@ -10624,7 +10624,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_authorize(
+    def get_ai_connections_by_provider_authorize(
         self,
         _request_timeout: Union[
             None,
@@ -10665,7 +10665,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_authorize_serialize(
+        _param = self._get_ai_connections_by_provider_authorize_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10686,7 +10686,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_authorize_with_http_info(
+    def get_ai_connections_by_provider_authorize_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10727,7 +10727,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_authorize_serialize(
+        _param = self._get_ai_connections_by_provider_authorize_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10748,7 +10748,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_authorize_without_preload_content(
+    def get_ai_connections_by_provider_authorize_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -10789,7 +10789,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_authorize_serialize(
+        _param = self._get_ai_connections_by_provider_authorize_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10805,7 +10805,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_connections_by_provider_authorize_serialize(
+    def _get_ai_connections_by_provider_authorize_serialize(
         self,
         _request_auth,
         _content_type,
@@ -10859,7 +10859,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_callback(
+    def get_ai_connections_by_provider_callback(
         self,
         _request_timeout: Union[
             None,
@@ -10900,7 +10900,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_callback_serialize(
+        _param = self._get_ai_connections_by_provider_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10921,7 +10921,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_callback_with_http_info(
+    def get_ai_connections_by_provider_callback_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -10962,7 +10962,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_callback_serialize(
+        _param = self._get_ai_connections_by_provider_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10983,7 +10983,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_callback_without_preload_content(
+    def get_ai_connections_by_provider_callback_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11024,7 +11024,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_callback_serialize(
+        _param = self._get_ai_connections_by_provider_callback_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11040,7 +11040,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_connections_by_provider_callback_serialize(
+    def _get_ai_connections_by_provider_callback_serialize(
         self,
         _request_auth,
         _content_type,
@@ -11094,7 +11094,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_usage(
+    def get_ai_connections_by_provider_usage(
         self,
         _request_timeout: Union[
             None,
@@ -11135,7 +11135,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_usage_serialize(
+        _param = self._get_ai_connections_by_provider_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11156,7 +11156,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_usage_with_http_info(
+    def get_ai_connections_by_provider_usage_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -11197,7 +11197,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_usage_serialize(
+        _param = self._get_ai_connections_by_provider_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11218,7 +11218,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_connections_by_provider_usage_without_preload_content(
+    def get_ai_connections_by_provider_usage_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11259,7 +11259,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_connections_by_provider_usage_serialize(
+        _param = self._get_ai_connections_by_provider_usage_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11275,7 +11275,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_connections_by_provider_usage_serialize(
+    def _get_ai_connections_by_provider_usage_serialize(
         self,
         _request_auth,
         _content_type,
@@ -11329,7 +11329,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_dashboards_agents(
+    def get_ai_dashboards_agents(
         self,
         _request_timeout: Union[
             None,
@@ -11369,7 +11369,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_dashboards_agents_serialize(
+        _param = self._get_ai_dashboards_agents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11393,7 +11393,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_dashboards_agents_with_http_info(
+    def get_ai_dashboards_agents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -11433,7 +11433,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_dashboards_agents_serialize(
+        _param = self._get_ai_dashboards_agents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11457,7 +11457,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_dashboards_agents_without_preload_content(
+    def get_ai_dashboards_agents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11497,7 +11497,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_dashboards_agents_serialize(
+        _param = self._get_ai_dashboards_agents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11516,7 +11516,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_dashboards_agents_serialize(
+    def _get_ai_dashboards_agents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -11577,7 +11577,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_dashboards_vm(
+    def get_ai_dashboards_vm(
         self,
         _request_timeout: Union[
             None,
@@ -11617,7 +11617,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_dashboards_vm_serialize(
+        _param = self._get_ai_dashboards_vm_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11641,7 +11641,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_dashboards_vm_with_http_info(
+    def get_ai_dashboards_vm_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -11681,7 +11681,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_dashboards_vm_serialize(
+        _param = self._get_ai_dashboards_vm_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11705,7 +11705,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_dashboards_vm_without_preload_content(
+    def get_ai_dashboards_vm_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11745,7 +11745,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_dashboards_vm_serialize(
+        _param = self._get_ai_dashboards_vm_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11764,7 +11764,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_dashboards_vm_serialize(
+    def _get_ai_dashboards_vm_serialize(
         self,
         _request_auth,
         _content_type,
@@ -11825,7 +11825,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_deployments(
+    def get_ai_deployments(
         self,
         _request_timeout: Union[
             None,
@@ -11839,7 +11839,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiDeployments200Response:
+    ) -> GetAiDeployments200Response:
         """List deployments
 
         List the caller's deployments.
@@ -11866,7 +11866,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_deployments_serialize(
+        _param = self._get_ai_deployments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11874,7 +11874,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiDeployments200Response",
+            '200': "GetAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -11890,7 +11890,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_deployments_with_http_info(
+    def get_ai_deployments_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -11904,7 +11904,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiDeployments200Response]:
+    ) -> ApiResponse[GetAiDeployments200Response]:
         """List deployments
 
         List the caller's deployments.
@@ -11931,7 +11931,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_deployments_serialize(
+        _param = self._get_ai_deployments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11939,7 +11939,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiDeployments200Response",
+            '200': "GetAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -11955,7 +11955,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_deployments_without_preload_content(
+    def get_ai_deployments_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -11996,7 +11996,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_deployments_serialize(
+        _param = self._get_ai_deployments_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12004,7 +12004,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiDeployments200Response",
+            '200': "GetAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12015,7 +12015,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_deployments_serialize(
+    def _get_ai_deployments_serialize(
         self,
         _request_auth,
         _content_type,
@@ -12076,7 +12076,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_deployments_by_owner_by_name(
+    def get_ai_deployments_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -12092,7 +12092,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiDeployments200Response:
+    ) -> PostAiDeployments200Response:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
@@ -12123,7 +12123,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._get_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -12133,7 +12133,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12149,7 +12149,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_deployments_by_owner_by_name_with_http_info(
+    def get_ai_deployments_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -12165,7 +12165,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiDeployments200Response]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
@@ -12196,7 +12196,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._get_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -12206,7 +12206,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12222,7 +12222,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_deployments_by_owner_by_name_without_preload_content(
+    def get_ai_deployments_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -12269,7 +12269,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._get_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -12279,7 +12279,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -12290,7 +12290,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_deployments_by_owner_by_name_serialize(
+    def _get_ai_deployments_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -12357,7 +12357,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files(
+    def get_ai_files(
         self,
         _request_timeout: Union[
             None,
@@ -12371,7 +12371,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiFiles200Response:
+    ) -> GetAiFiles200Response:
         """List files
 
         List the caller's files.
@@ -12398,7 +12398,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_serialize(
+        _param = self._get_ai_files_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12406,7 +12406,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiFiles200Response",
+            '200': "GetAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12422,7 +12422,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_with_http_info(
+    def get_ai_files_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -12436,7 +12436,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiFiles200Response]:
+    ) -> ApiResponse[GetAiFiles200Response]:
         """List files
 
         List the caller's files.
@@ -12463,7 +12463,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_serialize(
+        _param = self._get_ai_files_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12471,7 +12471,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiFiles200Response",
+            '200': "GetAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12487,7 +12487,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_without_preload_content(
+    def get_ai_files_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -12528,7 +12528,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_serialize(
+        _param = self._get_ai_files_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12536,7 +12536,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiFiles200Response",
+            '200': "GetAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12547,7 +12547,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_files_serialize(
+    def _get_ai_files_serialize(
         self,
         _request_auth,
         _content_type,
@@ -12608,7 +12608,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_active(
+    def get_ai_files_active(
         self,
         _request_timeout: Union[
             None,
@@ -12648,7 +12648,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_active_serialize(
+        _param = self._get_ai_files_active_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12672,7 +12672,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_active_with_http_info(
+    def get_ai_files_active_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -12712,7 +12712,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_active_serialize(
+        _param = self._get_ai_files_active_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12736,7 +12736,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_active_without_preload_content(
+    def get_ai_files_active_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -12776,7 +12776,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_active_serialize(
+        _param = self._get_ai_files_active_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12795,7 +12795,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_files_active_serialize(
+    def _get_ai_files_active_serialize(
         self,
         _request_auth,
         _content_type,
@@ -12856,7 +12856,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_by_owner_by_name(
+    def get_ai_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -12872,7 +12872,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiFiles200Response:
+    ) -> PostAiFiles200Response:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
@@ -12903,7 +12903,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._get_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -12913,7 +12913,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -12929,7 +12929,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_by_owner_by_name_with_http_info(
+    def get_ai_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -12945,7 +12945,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiFiles200Response]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
@@ -12976,7 +12976,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._get_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -12986,7 +12986,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13002,7 +13002,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_by_owner_by_name_without_preload_content(
+    def get_ai_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -13049,7 +13049,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._get_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -13059,7 +13059,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13070,7 +13070,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_files_by_owner_by_name_serialize(
+    def _get_ai_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -13137,7 +13137,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_global(
+    def get_ai_files_global(
         self,
         _request_timeout: Union[
             None,
@@ -13151,7 +13151,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiFiles200Response:
+    ) -> GetAiFiles200Response:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -13178,7 +13178,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_global_serialize(
+        _param = self._get_ai_files_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13186,7 +13186,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiFiles200Response",
+            '200': "GetAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13202,7 +13202,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_global_with_http_info(
+    def get_ai_files_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -13216,7 +13216,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiFiles200Response]:
+    ) -> ApiResponse[GetAiFiles200Response]:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -13243,7 +13243,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_global_serialize(
+        _param = self._get_ai_files_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13251,7 +13251,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiFiles200Response",
+            '200': "GetAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13267,7 +13267,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_files_global_without_preload_content(
+    def get_ai_files_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -13308,7 +13308,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_files_global_serialize(
+        _param = self._get_ai_files_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13316,7 +13316,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiFiles200Response",
+            '200': "GetAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -13327,7 +13327,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_files_global_serialize(
+    def _get_ai_files_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -13388,7 +13388,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms(
+    def get_ai_forms(
         self,
         _request_timeout: Union[
             None,
@@ -13402,7 +13402,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiForms200Response:
+    ) -> GetAiForms200Response:
         """List forms
 
         List the caller's forms.
@@ -13429,7 +13429,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_serialize(
+        _param = self._get_ai_forms_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13437,7 +13437,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiForms200Response",
+            '200': "GetAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13453,7 +13453,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_with_http_info(
+    def get_ai_forms_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -13467,7 +13467,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiForms200Response]:
+    ) -> ApiResponse[GetAiForms200Response]:
         """List forms
 
         List the caller's forms.
@@ -13494,7 +13494,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_serialize(
+        _param = self._get_ai_forms_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13502,7 +13502,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiForms200Response",
+            '200': "GetAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13518,7 +13518,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_without_preload_content(
+    def get_ai_forms_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -13559,7 +13559,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_serialize(
+        _param = self._get_ai_forms_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13567,7 +13567,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiForms200Response",
+            '200': "GetAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13578,7 +13578,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_forms_serialize(
+    def _get_ai_forms_serialize(
         self,
         _request_auth,
         _content_type,
@@ -13639,7 +13639,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_by_owner_by_name(
+    def get_ai_forms_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -13655,7 +13655,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiForms200Response:
+    ) -> PostAiForms200Response:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
@@ -13686,7 +13686,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._get_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -13696,7 +13696,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13712,7 +13712,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_by_owner_by_name_with_http_info(
+    def get_ai_forms_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -13728,7 +13728,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiForms200Response]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
@@ -13759,7 +13759,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._get_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -13769,7 +13769,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13785,7 +13785,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_by_owner_by_name_without_preload_content(
+    def get_ai_forms_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -13832,7 +13832,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._get_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -13842,7 +13842,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -13853,7 +13853,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_forms_by_owner_by_name_serialize(
+    def _get_ai_forms_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -13920,7 +13920,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_data(
+    def get_ai_forms_data(
         self,
         _request_timeout: Union[
             None,
@@ -13960,7 +13960,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_data_serialize(
+        _param = self._get_ai_forms_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13984,7 +13984,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_data_with_http_info(
+    def get_ai_forms_data_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -14024,7 +14024,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_data_serialize(
+        _param = self._get_ai_forms_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14048,7 +14048,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_data_without_preload_content(
+    def get_ai_forms_data_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -14088,7 +14088,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_data_serialize(
+        _param = self._get_ai_forms_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14107,7 +14107,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_forms_data_serialize(
+    def _get_ai_forms_data_serialize(
         self,
         _request_auth,
         _content_type,
@@ -14168,7 +14168,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_global(
+    def get_ai_forms_global(
         self,
         _request_timeout: Union[
             None,
@@ -14182,7 +14182,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiForms200Response:
+    ) -> GetAiForms200Response:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14209,7 +14209,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_global_serialize(
+        _param = self._get_ai_forms_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14217,7 +14217,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiForms200Response",
+            '200': "GetAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -14233,7 +14233,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_global_with_http_info(
+    def get_ai_forms_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -14247,7 +14247,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiForms200Response]:
+    ) -> ApiResponse[GetAiForms200Response]:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14274,7 +14274,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_global_serialize(
+        _param = self._get_ai_forms_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14282,7 +14282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiForms200Response",
+            '200': "GetAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -14298,7 +14298,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_forms_global_without_preload_content(
+    def get_ai_forms_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -14339,7 +14339,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_forms_global_serialize(
+        _param = self._get_ai_forms_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14347,7 +14347,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiForms200Response",
+            '200': "GetAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -14358,7 +14358,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_forms_global_serialize(
+    def _get_ai_forms_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -14419,7 +14419,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs(
+    def get_ai_graphs(
         self,
         _request_timeout: Union[
             None,
@@ -14433,7 +14433,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiGraphs200Response:
+    ) -> GetAiGraphs200Response:
         """List graphs
 
         List the caller's graphs.
@@ -14460,7 +14460,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_serialize(
+        _param = self._get_ai_graphs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14468,7 +14468,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiGraphs200Response",
+            '200': "GetAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14484,7 +14484,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_with_http_info(
+    def get_ai_graphs_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -14498,7 +14498,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiGraphs200Response]:
+    ) -> ApiResponse[GetAiGraphs200Response]:
         """List graphs
 
         List the caller's graphs.
@@ -14525,7 +14525,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_serialize(
+        _param = self._get_ai_graphs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14533,7 +14533,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiGraphs200Response",
+            '200': "GetAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14549,7 +14549,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_without_preload_content(
+    def get_ai_graphs_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -14590,7 +14590,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_serialize(
+        _param = self._get_ai_graphs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14598,7 +14598,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiGraphs200Response",
+            '200': "GetAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14609,7 +14609,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_graphs_serialize(
+    def _get_ai_graphs_serialize(
         self,
         _request_auth,
         _content_type,
@@ -14670,7 +14670,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_by_owner_by_name(
+    def get_ai_graphs_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -14686,7 +14686,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiGraphs200Response:
+    ) -> PostAiGraphs200Response:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
@@ -14717,7 +14717,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._get_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -14727,7 +14727,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14743,7 +14743,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_by_owner_by_name_with_http_info(
+    def get_ai_graphs_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -14759,7 +14759,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiGraphs200Response]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
@@ -14790,7 +14790,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._get_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -14800,7 +14800,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14816,7 +14816,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_by_owner_by_name_without_preload_content(
+    def get_ai_graphs_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -14863,7 +14863,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._get_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -14873,7 +14873,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -14884,7 +14884,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_graphs_by_owner_by_name_serialize(
+    def _get_ai_graphs_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -14951,7 +14951,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_global(
+    def get_ai_graphs_global(
         self,
         _request_timeout: Union[
             None,
@@ -14965,7 +14965,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiGraphs200Response:
+    ) -> GetAiGraphs200Response:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14992,7 +14992,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_global_serialize(
+        _param = self._get_ai_graphs_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15000,7 +15000,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiGraphs200Response",
+            '200': "GetAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -15016,7 +15016,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_global_with_http_info(
+    def get_ai_graphs_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -15030,7 +15030,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiGraphs200Response]:
+    ) -> ApiResponse[GetAiGraphs200Response]:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -15057,7 +15057,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_global_serialize(
+        _param = self._get_ai_graphs_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15065,7 +15065,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiGraphs200Response",
+            '200': "GetAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -15081,7 +15081,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_graphs_global_without_preload_content(
+    def get_ai_graphs_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -15122,7 +15122,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_graphs_global_serialize(
+        _param = self._get_ai_graphs_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15130,7 +15130,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiGraphs200Response",
+            '200': "GetAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -15141,7 +15141,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_graphs_global_serialize(
+    def _get_ai_graphs_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -15202,7 +15202,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_k8s_status(
+    def get_ai_k8s_status(
         self,
         _request_timeout: Union[
             None,
@@ -15242,7 +15242,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_k8s_status_serialize(
+        _param = self._get_ai_k8s_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15266,7 +15266,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_k8s_status_with_http_info(
+    def get_ai_k8s_status_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -15306,7 +15306,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_k8s_status_serialize(
+        _param = self._get_ai_k8s_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15330,7 +15330,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_k8s_status_without_preload_content(
+    def get_ai_k8s_status_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -15370,7 +15370,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_k8s_status_serialize(
+        _param = self._get_ai_k8s_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15389,7 +15389,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_k8s_status_serialize(
+    def _get_ai_k8s_status_serialize(
         self,
         _request_auth,
         _content_type,
@@ -15450,7 +15450,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages(
+    def get_ai_messages(
         self,
         _request_timeout: Union[
             None,
@@ -15464,7 +15464,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiMessages200Response:
+    ) -> GetAiMessages200Response:
         """List messages
 
         List the caller's messages.
@@ -15491,7 +15491,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_serialize(
+        _param = self._get_ai_messages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15499,7 +15499,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiMessages200Response",
+            '200': "GetAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15515,7 +15515,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_with_http_info(
+    def get_ai_messages_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -15529,7 +15529,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiMessages200Response]:
+    ) -> ApiResponse[GetAiMessages200Response]:
         """List messages
 
         List the caller's messages.
@@ -15556,7 +15556,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_serialize(
+        _param = self._get_ai_messages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15564,7 +15564,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiMessages200Response",
+            '200': "GetAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15580,7 +15580,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_without_preload_content(
+    def get_ai_messages_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -15621,7 +15621,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_serialize(
+        _param = self._get_ai_messages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -15629,7 +15629,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiMessages200Response",
+            '200': "GetAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15640,7 +15640,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_messages_serialize(
+    def _get_ai_messages_serialize(
         self,
         _request_auth,
         _content_type,
@@ -15701,7 +15701,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_by_owner_by_name(
+    def get_ai_messages_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -15717,7 +15717,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiMessages200Response:
+    ) -> PostAiMessages200Response:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
@@ -15748,7 +15748,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._get_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -15758,7 +15758,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15774,7 +15774,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_by_owner_by_name_with_http_info(
+    def get_ai_messages_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -15790,7 +15790,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiMessages200Response]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
@@ -15821,7 +15821,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._get_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -15831,7 +15831,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15847,7 +15847,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_by_owner_by_name_without_preload_content(
+    def get_ai_messages_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -15894,7 +15894,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._get_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -15904,7 +15904,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -15915,7 +15915,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_messages_by_owner_by_name_serialize(
+    def _get_ai_messages_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -15982,7 +15982,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_by_owner_by_name_answer(
+    def get_ai_messages_by_owner_by_name_answer(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -16028,7 +16028,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_by_owner_by_name_answer_serialize(
+        _param = self._get_ai_messages_by_owner_by_name_answer_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -16054,7 +16054,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_by_owner_by_name_answer_with_http_info(
+    def get_ai_messages_by_owner_by_name_answer_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -16100,7 +16100,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_by_owner_by_name_answer_serialize(
+        _param = self._get_ai_messages_by_owner_by_name_answer_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -16126,7 +16126,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_by_owner_by_name_answer_without_preload_content(
+    def get_ai_messages_by_owner_by_name_answer_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -16172,7 +16172,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_by_owner_by_name_answer_serialize(
+        _param = self._get_ai_messages_by_owner_by_name_answer_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -16193,7 +16193,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_messages_by_owner_by_name_answer_serialize(
+    def _get_ai_messages_by_owner_by_name_answer_serialize(
         self,
         owner,
         name,
@@ -16260,7 +16260,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_global(
+    def get_ai_messages_global(
         self,
         _request_timeout: Union[
             None,
@@ -16274,7 +16274,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiMessages200Response:
+    ) -> GetAiMessages200Response:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16301,7 +16301,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_global_serialize(
+        _param = self._get_ai_messages_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -16309,7 +16309,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiMessages200Response",
+            '200': "GetAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16325,7 +16325,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_global_with_http_info(
+    def get_ai_messages_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -16339,7 +16339,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiMessages200Response]:
+    ) -> ApiResponse[GetAiMessages200Response]:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16366,7 +16366,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_global_serialize(
+        _param = self._get_ai_messages_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -16374,7 +16374,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiMessages200Response",
+            '200': "GetAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16390,7 +16390,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_messages_global_without_preload_content(
+    def get_ai_messages_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -16431,7 +16431,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_messages_global_serialize(
+        _param = self._get_ai_messages_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -16439,7 +16439,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiMessages200Response",
+            '200': "GetAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -16450,7 +16450,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_messages_global_serialize(
+    def _get_ai_messages_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -16511,7 +16511,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes(
+    def get_ai_nodes(
         self,
         _request_timeout: Union[
             None,
@@ -16525,7 +16525,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiNodes200Response:
+    ) -> GetAiNodes200Response:
         """List nodes
 
         List the caller's nodes.
@@ -16552,7 +16552,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_serialize(
+        _param = self._get_ai_nodes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -16560,7 +16560,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiNodes200Response",
+            '200': "GetAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16576,7 +16576,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_with_http_info(
+    def get_ai_nodes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -16590,7 +16590,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiNodes200Response]:
+    ) -> ApiResponse[GetAiNodes200Response]:
         """List nodes
 
         List the caller's nodes.
@@ -16617,7 +16617,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_serialize(
+        _param = self._get_ai_nodes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -16625,7 +16625,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiNodes200Response",
+            '200': "GetAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16641,7 +16641,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_without_preload_content(
+    def get_ai_nodes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -16682,7 +16682,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_serialize(
+        _param = self._get_ai_nodes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -16690,7 +16690,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiNodes200Response",
+            '200': "GetAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16701,7 +16701,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_nodes_serialize(
+    def _get_ai_nodes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -16762,7 +16762,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_by_owner_by_name(
+    def get_ai_nodes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -16778,7 +16778,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiNodes200Response:
+    ) -> PostAiNodes200Response:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
@@ -16809,7 +16809,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._get_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -16819,7 +16819,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16835,7 +16835,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_by_owner_by_name_with_http_info(
+    def get_ai_nodes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -16851,7 +16851,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiNodes200Response]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
@@ -16882,7 +16882,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._get_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -16892,7 +16892,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16908,7 +16908,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_by_owner_by_name_without_preload_content(
+    def get_ai_nodes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -16955,7 +16955,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._get_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -16965,7 +16965,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -16976,7 +16976,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_nodes_by_owner_by_name_serialize(
+    def _get_ai_nodes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -17043,7 +17043,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_by_owner_by_name_tunnel(
+    def get_ai_nodes_by_owner_by_name_tunnel(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -17089,7 +17089,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+        _param = self._get_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -17115,7 +17115,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_by_owner_by_name_tunnel_with_http_info(
+    def get_ai_nodes_by_owner_by_name_tunnel_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -17161,7 +17161,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+        _param = self._get_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -17187,7 +17187,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_nodes_by_owner_by_name_tunnel_without_preload_content(
+    def get_ai_nodes_by_owner_by_name_tunnel_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -17233,7 +17233,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+        _param = self._get_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -17254,7 +17254,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+    def _get_ai_nodes_by_owner_by_name_tunnel_serialize(
         self,
         owner,
         name,
@@ -17321,7 +17321,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_prometheus(
+    def get_ai_prometheus(
         self,
         _request_timeout: Union[
             None,
@@ -17361,7 +17361,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_prometheus_serialize(
+        _param = self._get_ai_prometheus_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17385,7 +17385,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_prometheus_with_http_info(
+    def get_ai_prometheus_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -17425,7 +17425,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_prometheus_serialize(
+        _param = self._get_ai_prometheus_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17449,7 +17449,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_prometheus_without_preload_content(
+    def get_ai_prometheus_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -17489,7 +17489,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_prometheus_serialize(
+        _param = self._get_ai_prometheus_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17508,7 +17508,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_prometheus_serialize(
+    def _get_ai_prometheus_serialize(
         self,
         _request_auth,
         _content_type,
@@ -17569,7 +17569,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers(
+    def get_ai_providers(
         self,
         _request_timeout: Union[
             None,
@@ -17583,7 +17583,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiProviders200Response:
+    ) -> GetAiProviders200Response:
         """List providers
 
         List the caller's providers.
@@ -17610,7 +17610,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_serialize(
+        _param = self._get_ai_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17618,7 +17618,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiProviders200Response",
+            '200': "GetAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17634,7 +17634,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_with_http_info(
+    def get_ai_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -17648,7 +17648,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiProviders200Response]:
+    ) -> ApiResponse[GetAiProviders200Response]:
         """List providers
 
         List the caller's providers.
@@ -17675,7 +17675,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_serialize(
+        _param = self._get_ai_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17683,7 +17683,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiProviders200Response",
+            '200': "GetAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17699,7 +17699,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_without_preload_content(
+    def get_ai_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -17740,7 +17740,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_serialize(
+        _param = self._get_ai_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -17748,7 +17748,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiProviders200Response",
+            '200': "GetAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17759,7 +17759,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_providers_serialize(
+    def _get_ai_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -17820,7 +17820,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_by_owner_by_name(
+    def get_ai_providers_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -17836,7 +17836,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiProviders200Response:
+    ) -> PostAiProviders200Response:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
@@ -17867,7 +17867,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._get_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -17877,7 +17877,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17893,7 +17893,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_by_owner_by_name_with_http_info(
+    def get_ai_providers_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -17909,7 +17909,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiProviders200Response]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
@@ -17940,7 +17940,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._get_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -17950,7 +17950,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -17966,7 +17966,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_by_owner_by_name_without_preload_content(
+    def get_ai_providers_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -18013,7 +18013,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._get_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -18023,7 +18023,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18034,7 +18034,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_providers_by_owner_by_name_serialize(
+    def _get_ai_providers_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -18101,7 +18101,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_global(
+    def get_ai_providers_global(
         self,
         _request_timeout: Union[
             None,
@@ -18115,7 +18115,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiProviders200Response:
+    ) -> GetAiProviders200Response:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -18142,7 +18142,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_global_serialize(
+        _param = self._get_ai_providers_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18150,7 +18150,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiProviders200Response",
+            '200': "GetAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18166,7 +18166,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_global_with_http_info(
+    def get_ai_providers_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -18180,7 +18180,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiProviders200Response]:
+    ) -> ApiResponse[GetAiProviders200Response]:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -18207,7 +18207,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_global_serialize(
+        _param = self._get_ai_providers_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18215,7 +18215,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiProviders200Response",
+            '200': "GetAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18231,7 +18231,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_providers_global_without_preload_content(
+    def get_ai_providers_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -18272,7 +18272,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_providers_global_serialize(
+        _param = self._get_ai_providers_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18280,7 +18280,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiProviders200Response",
+            '200': "GetAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -18291,7 +18291,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_providers_global_serialize(
+    def _get_ai_providers_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -18352,7 +18352,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records(
+    def get_ai_records(
         self,
         _request_timeout: Union[
             None,
@@ -18366,7 +18366,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiRecords200Response:
+    ) -> GetAiRecords200Response:
         """List records
 
         List the caller's records.
@@ -18393,7 +18393,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_serialize(
+        _param = self._get_ai_records_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18401,7 +18401,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRecords200Response",
+            '200': "GetAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18417,7 +18417,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_with_http_info(
+    def get_ai_records_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -18431,7 +18431,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiRecords200Response]:
+    ) -> ApiResponse[GetAiRecords200Response]:
         """List records
 
         List the caller's records.
@@ -18458,7 +18458,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_serialize(
+        _param = self._get_ai_records_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18466,7 +18466,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRecords200Response",
+            '200': "GetAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18482,7 +18482,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_without_preload_content(
+    def get_ai_records_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -18523,7 +18523,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_serialize(
+        _param = self._get_ai_records_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18531,7 +18531,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRecords200Response",
+            '200': "GetAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18542,7 +18542,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_records_serialize(
+    def _get_ai_records_serialize(
         self,
         _request_auth,
         _content_type,
@@ -18603,7 +18603,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_by_owner_by_name(
+    def get_ai_records_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -18619,7 +18619,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRecords200Response:
+    ) -> PostAiRecords200Response:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
@@ -18650,7 +18650,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._get_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -18660,7 +18660,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18676,7 +18676,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_by_owner_by_name_with_http_info(
+    def get_ai_records_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -18692,7 +18692,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRecords200Response]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
@@ -18723,7 +18723,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._get_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -18733,7 +18733,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18749,7 +18749,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_by_owner_by_name_without_preload_content(
+    def get_ai_records_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -18796,7 +18796,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._get_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -18806,7 +18806,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -18817,7 +18817,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_records_by_owner_by_name_serialize(
+    def _get_ai_records_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -18884,7 +18884,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_query(
+    def get_ai_records_query(
         self,
         _request_timeout: Union[
             None,
@@ -18924,7 +18924,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_query_serialize(
+        _param = self._get_ai_records_query_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -18948,7 +18948,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_query_with_http_info(
+    def get_ai_records_query_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -18988,7 +18988,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_query_serialize(
+        _param = self._get_ai_records_query_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19012,7 +19012,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_query_without_preload_content(
+    def get_ai_records_query_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -19052,7 +19052,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_query_serialize(
+        _param = self._get_ai_records_query_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19071,7 +19071,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_records_query_serialize(
+    def _get_ai_records_query_serialize(
         self,
         _request_auth,
         _content_type,
@@ -19132,7 +19132,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_query_second(
+    def get_ai_records_query_second(
         self,
         _request_timeout: Union[
             None,
@@ -19172,7 +19172,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_query_second_serialize(
+        _param = self._get_ai_records_query_second_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19196,7 +19196,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_query_second_with_http_info(
+    def get_ai_records_query_second_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -19236,7 +19236,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_query_second_serialize(
+        _param = self._get_ai_records_query_second_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19260,7 +19260,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_records_query_second_without_preload_content(
+    def get_ai_records_query_second_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -19300,7 +19300,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_records_query_second_serialize(
+        _param = self._get_ai_records_query_second_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19319,7 +19319,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_records_query_second_serialize(
+    def _get_ai_records_query_second_serialize(
         self,
         _request_auth,
         _content_type,
@@ -19380,7 +19380,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_remote_connections(
+    def get_ai_remote_connections(
         self,
         _request_timeout: Union[
             None,
@@ -19394,7 +19394,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiRemoteConnections200Response:
+    ) -> GetAiRemoteConnections200Response:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -19421,7 +19421,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_remote_connections_serialize(
+        _param = self._get_ai_remote_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19429,7 +19429,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRemoteConnections200Response",
+            '200': "GetAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19445,7 +19445,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_remote_connections_with_http_info(
+    def get_ai_remote_connections_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -19459,7 +19459,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiRemoteConnections200Response]:
+    ) -> ApiResponse[GetAiRemoteConnections200Response]:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -19486,7 +19486,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_remote_connections_serialize(
+        _param = self._get_ai_remote_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19494,7 +19494,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRemoteConnections200Response",
+            '200': "GetAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19510,7 +19510,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_remote_connections_without_preload_content(
+    def get_ai_remote_connections_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -19551,7 +19551,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_remote_connections_serialize(
+        _param = self._get_ai_remote_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19559,7 +19559,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRemoteConnections200Response",
+            '200': "GetAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19570,7 +19570,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_remote_connections_serialize(
+    def _get_ai_remote_connections_serialize(
         self,
         _request_auth,
         _content_type,
@@ -19631,7 +19631,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_remote_connections_by_owner_by_name(
+    def get_ai_remote_connections_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -19647,7 +19647,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRemoteConnections200Response:
+    ) -> PostAiRemoteConnections200Response:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
@@ -19678,7 +19678,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._get_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -19688,7 +19688,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19704,7 +19704,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_remote_connections_by_owner_by_name_with_http_info(
+    def get_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -19720,7 +19720,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
@@ -19751,7 +19751,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._get_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -19761,7 +19761,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19777,7 +19777,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_remote_connections_by_owner_by_name_without_preload_content(
+    def get_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -19824,7 +19824,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._get_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -19834,7 +19834,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -19845,7 +19845,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_remote_connections_by_owner_by_name_serialize(
+    def _get_ai_remote_connections_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -19912,7 +19912,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_routes(
+    def get_ai_routes(
         self,
         _request_timeout: Union[
             None,
@@ -19926,7 +19926,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiRoutes200Response:
+    ) -> GetAiRoutes200Response:
         """List routes
 
         List the caller's routes.
@@ -19953,7 +19953,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_routes_serialize(
+        _param = self._get_ai_routes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -19961,7 +19961,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRoutes200Response",
+            '200': "GetAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -19977,7 +19977,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_routes_with_http_info(
+    def get_ai_routes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -19991,7 +19991,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiRoutes200Response]:
+    ) -> ApiResponse[GetAiRoutes200Response]:
         """List routes
 
         List the caller's routes.
@@ -20018,7 +20018,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_routes_serialize(
+        _param = self._get_ai_routes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20026,7 +20026,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRoutes200Response",
+            '200': "GetAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20042,7 +20042,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_routes_without_preload_content(
+    def get_ai_routes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -20083,7 +20083,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_routes_serialize(
+        _param = self._get_ai_routes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20091,7 +20091,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiRoutes200Response",
+            '200': "GetAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20102,7 +20102,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_routes_serialize(
+    def _get_ai_routes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -20163,7 +20163,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_routes_by_owner_by_name(
+    def get_ai_routes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -20179,7 +20179,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRoutes200Response:
+    ) -> PostAiRoutes200Response:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
@@ -20210,7 +20210,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._get_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -20220,7 +20220,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20236,7 +20236,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_routes_by_owner_by_name_with_http_info(
+    def get_ai_routes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -20252,7 +20252,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRoutes200Response]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
@@ -20283,7 +20283,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._get_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -20293,7 +20293,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20309,7 +20309,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_routes_by_owner_by_name_without_preload_content(
+    def get_ai_routes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -20356,7 +20356,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._get_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -20366,7 +20366,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -20377,7 +20377,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_routes_by_owner_by_name_serialize(
+    def _get_ai_routes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -20444,7 +20444,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales(
+    def get_ai_scales(
         self,
         _request_timeout: Union[
             None,
@@ -20458,7 +20458,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiScales200Response:
+    ) -> GetAiScales200Response:
         """List scales
 
         List the caller's scales.
@@ -20485,7 +20485,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_serialize(
+        _param = self._get_ai_scales_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20493,7 +20493,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScales200Response",
+            '200': "GetAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20509,7 +20509,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_with_http_info(
+    def get_ai_scales_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -20523,7 +20523,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiScales200Response]:
+    ) -> ApiResponse[GetAiScales200Response]:
         """List scales
 
         List the caller's scales.
@@ -20550,7 +20550,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_serialize(
+        _param = self._get_ai_scales_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20558,7 +20558,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScales200Response",
+            '200': "GetAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20574,7 +20574,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_without_preload_content(
+    def get_ai_scales_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -20615,7 +20615,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_serialize(
+        _param = self._get_ai_scales_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -20623,7 +20623,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScales200Response",
+            '200': "GetAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20634,7 +20634,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_scales_serialize(
+    def _get_ai_scales_serialize(
         self,
         _request_auth,
         _content_type,
@@ -20695,7 +20695,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_by_owner_by_name(
+    def get_ai_scales_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -20711,7 +20711,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScales200Response:
+    ) -> PostAiScales200Response:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
@@ -20742,7 +20742,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._get_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -20752,7 +20752,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20768,7 +20768,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_by_owner_by_name_with_http_info(
+    def get_ai_scales_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -20784,7 +20784,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScales200Response]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
@@ -20815,7 +20815,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._get_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -20825,7 +20825,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20841,7 +20841,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_by_owner_by_name_without_preload_content(
+    def get_ai_scales_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -20888,7 +20888,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._get_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -20898,7 +20898,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -20909,7 +20909,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_scales_by_owner_by_name_serialize(
+    def _get_ai_scales_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -20976,7 +20976,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_global(
+    def get_ai_scales_global(
         self,
         _request_timeout: Union[
             None,
@@ -20990,7 +20990,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiScales200Response:
+    ) -> GetAiScales200Response:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21017,7 +21017,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_global_serialize(
+        _param = self._get_ai_scales_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21025,7 +21025,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScales200Response",
+            '200': "GetAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21041,7 +21041,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_global_with_http_info(
+    def get_ai_scales_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21055,7 +21055,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiScales200Response]:
+    ) -> ApiResponse[GetAiScales200Response]:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21082,7 +21082,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_global_serialize(
+        _param = self._get_ai_scales_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21090,7 +21090,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScales200Response",
+            '200': "GetAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21106,7 +21106,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_global_without_preload_content(
+    def get_ai_scales_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21147,7 +21147,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_global_serialize(
+        _param = self._get_ai_scales_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21155,7 +21155,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScales200Response",
+            '200': "GetAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -21166,7 +21166,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_scales_global_serialize(
+    def _get_ai_scales_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21227,7 +21227,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_public(
+    def get_ai_scales_public(
         self,
         _request_timeout: Union[
             None,
@@ -21267,7 +21267,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_public_serialize(
+        _param = self._get_ai_scales_public_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21291,7 +21291,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_public_with_http_info(
+    def get_ai_scales_public_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21331,7 +21331,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_public_serialize(
+        _param = self._get_ai_scales_public_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21355,7 +21355,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scales_public_without_preload_content(
+    def get_ai_scales_public_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21395,7 +21395,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scales_public_serialize(
+        _param = self._get_ai_scales_public_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21414,7 +21414,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_scales_public_serialize(
+    def _get_ai_scales_public_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21475,7 +21475,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scans(
+    def get_ai_scans(
         self,
         _request_timeout: Union[
             None,
@@ -21489,7 +21489,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiScans200Response:
+    ) -> GetAiScans200Response:
         """List scans
 
         List the caller's scans.
@@ -21516,7 +21516,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scans_serialize(
+        _param = self._get_ai_scans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21524,7 +21524,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScans200Response",
+            '200': "GetAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21540,7 +21540,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scans_with_http_info(
+    def get_ai_scans_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -21554,7 +21554,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiScans200Response]:
+    ) -> ApiResponse[GetAiScans200Response]:
         """List scans
 
         List the caller's scans.
@@ -21581,7 +21581,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scans_serialize(
+        _param = self._get_ai_scans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21589,7 +21589,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScans200Response",
+            '200': "GetAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21605,7 +21605,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scans_without_preload_content(
+    def get_ai_scans_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -21646,7 +21646,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scans_serialize(
+        _param = self._get_ai_scans_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -21654,7 +21654,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiScans200Response",
+            '200': "GetAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21665,7 +21665,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_scans_serialize(
+    def _get_ai_scans_serialize(
         self,
         _request_auth,
         _content_type,
@@ -21726,7 +21726,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scans_by_owner_by_name(
+    def get_ai_scans_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -21742,7 +21742,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScans200Response:
+    ) -> PostAiScans200Response:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
@@ -21773,7 +21773,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._get_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -21783,7 +21783,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21799,7 +21799,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scans_by_owner_by_name_with_http_info(
+    def get_ai_scans_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -21815,7 +21815,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScans200Response]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
@@ -21846,7 +21846,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._get_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -21856,7 +21856,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21872,7 +21872,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_scans_by_owner_by_name_without_preload_content(
+    def get_ai_scans_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -21919,7 +21919,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._get_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -21929,7 +21929,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -21940,7 +21940,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_scans_by_owner_by_name_serialize(
+    def _get_ai_scans_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -22007,7 +22007,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions(
+    def get_ai_signin_sessions(
         self,
         _request_timeout: Union[
             None,
@@ -22021,7 +22021,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiSigninSessions200Response:
+    ) -> GetAiSigninSessions200Response:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -22048,7 +22048,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_serialize(
+        _param = self._get_ai_signin_sessions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22056,7 +22056,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiSigninSessions200Response",
+            '200': "GetAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22072,7 +22072,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_with_http_info(
+    def get_ai_signin_sessions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -22086,7 +22086,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiSigninSessions200Response]:
+    ) -> ApiResponse[GetAiSigninSessions200Response]:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -22113,7 +22113,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_serialize(
+        _param = self._get_ai_signin_sessions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22121,7 +22121,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiSigninSessions200Response",
+            '200': "GetAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22137,7 +22137,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_without_preload_content(
+    def get_ai_signin_sessions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -22178,7 +22178,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_serialize(
+        _param = self._get_ai_signin_sessions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22186,7 +22186,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiSigninSessions200Response",
+            '200': "GetAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22197,7 +22197,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_signin_sessions_serialize(
+    def _get_ai_signin_sessions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -22258,7 +22258,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_by_owner_by_name(
+    def get_ai_signin_sessions_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -22274,7 +22274,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiSigninSessions200Response:
+    ) -> PostAiSigninSessions200Response:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
@@ -22305,7 +22305,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._get_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -22315,7 +22315,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22331,7 +22331,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_by_owner_by_name_with_http_info(
+    def get_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -22347,7 +22347,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
@@ -22378,7 +22378,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._get_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -22388,7 +22388,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22404,7 +22404,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_by_owner_by_name_without_preload_content(
+    def get_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -22451,7 +22451,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._get_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -22461,7 +22461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -22472,7 +22472,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_signin_sessions_by_owner_by_name_serialize(
+    def _get_ai_signin_sessions_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -22539,7 +22539,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_duplicated(
+    def get_ai_signin_sessions_duplicated(
         self,
         _request_timeout: Union[
             None,
@@ -22579,7 +22579,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_duplicated_serialize(
+        _param = self._get_ai_signin_sessions_duplicated_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22603,7 +22603,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_duplicated_with_http_info(
+    def get_ai_signin_sessions_duplicated_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -22643,7 +22643,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_duplicated_serialize(
+        _param = self._get_ai_signin_sessions_duplicated_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22667,7 +22667,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_signin_sessions_duplicated_without_preload_content(
+    def get_ai_signin_sessions_duplicated_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -22707,7 +22707,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_signin_sessions_duplicated_serialize(
+        _param = self._get_ai_signin_sessions_duplicated_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22726,7 +22726,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_signin_sessions_duplicated_serialize(
+    def _get_ai_signin_sessions_duplicated_serialize(
         self,
         _request_auth,
         _content_type,
@@ -22787,7 +22787,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores(
+    def get_ai_stores(
         self,
         _request_timeout: Union[
             None,
@@ -22801,7 +22801,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiStores200Response:
+    ) -> GetAiStores200Response:
         """List stores
 
         List the caller's stores.
@@ -22828,7 +22828,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_serialize(
+        _param = self._get_ai_stores_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22836,7 +22836,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiStores200Response",
+            '200': "GetAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -22852,7 +22852,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_with_http_info(
+    def get_ai_stores_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -22866,7 +22866,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiStores200Response]:
+    ) -> ApiResponse[GetAiStores200Response]:
         """List stores
 
         List the caller's stores.
@@ -22893,7 +22893,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_serialize(
+        _param = self._get_ai_stores_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22901,7 +22901,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiStores200Response",
+            '200': "GetAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -22917,7 +22917,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_without_preload_content(
+    def get_ai_stores_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -22958,7 +22958,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_serialize(
+        _param = self._get_ai_stores_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -22966,7 +22966,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiStores200Response",
+            '200': "GetAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -22977,7 +22977,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_stores_serialize(
+    def _get_ai_stores_serialize(
         self,
         _request_auth,
         _content_type,
@@ -23038,7 +23038,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_by_owner_by_name(
+    def get_ai_stores_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -23054,7 +23054,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiStores200Response:
+    ) -> PostAiStores200Response:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
@@ -23085,7 +23085,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._get_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -23095,7 +23095,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23111,7 +23111,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_by_owner_by_name_with_http_info(
+    def get_ai_stores_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -23127,7 +23127,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiStores200Response]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
@@ -23158,7 +23158,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._get_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -23168,7 +23168,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23184,7 +23184,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_by_owner_by_name_without_preload_content(
+    def get_ai_stores_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -23231,7 +23231,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._get_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -23241,7 +23241,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23252,7 +23252,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_stores_by_owner_by_name_serialize(
+    def _get_ai_stores_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -23319,7 +23319,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_global(
+    def get_ai_stores_global(
         self,
         _request_timeout: Union[
             None,
@@ -23333,7 +23333,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiStores200Response:
+    ) -> GetAiStores200Response:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -23360,7 +23360,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_global_serialize(
+        _param = self._get_ai_stores_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23368,7 +23368,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiStores200Response",
+            '200': "GetAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23384,7 +23384,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_global_with_http_info(
+    def get_ai_stores_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -23398,7 +23398,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiStores200Response]:
+    ) -> ApiResponse[GetAiStores200Response]:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -23425,7 +23425,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_global_serialize(
+        _param = self._get_ai_stores_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23433,7 +23433,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiStores200Response",
+            '200': "GetAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23449,7 +23449,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_global_without_preload_content(
+    def get_ai_stores_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -23490,7 +23490,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_global_serialize(
+        _param = self._get_ai_stores_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23498,7 +23498,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiStores200Response",
+            '200': "GetAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -23509,7 +23509,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_stores_global_serialize(
+    def _get_ai_stores_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -23570,7 +23570,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_names(
+    def get_ai_stores_names(
         self,
         _request_timeout: Union[
             None,
@@ -23610,7 +23610,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_names_serialize(
+        _param = self._get_ai_stores_names_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23634,7 +23634,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_names_with_http_info(
+    def get_ai_stores_names_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -23674,7 +23674,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_names_serialize(
+        _param = self._get_ai_stores_names_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23698,7 +23698,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_names_without_preload_content(
+    def get_ai_stores_names_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -23738,7 +23738,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_names_serialize(
+        _param = self._get_ai_stores_names_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23757,7 +23757,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_stores_names_serialize(
+    def _get_ai_stores_names_serialize(
         self,
         _request_auth,
         _content_type,
@@ -23818,7 +23818,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_providers(
+    def get_ai_stores_providers(
         self,
         _request_timeout: Union[
             None,
@@ -23858,7 +23858,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_providers_serialize(
+        _param = self._get_ai_stores_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23882,7 +23882,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_providers_with_http_info(
+    def get_ai_stores_providers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -23922,7 +23922,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_providers_serialize(
+        _param = self._get_ai_stores_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -23946,7 +23946,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_stores_providers_without_preload_content(
+    def get_ai_stores_providers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -23986,7 +23986,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_stores_providers_serialize(
+        _param = self._get_ai_stores_providers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24005,7 +24005,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_stores_providers_serialize(
+    def _get_ai_stores_providers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -24066,7 +24066,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_system(
+    def get_ai_system(
         self,
         _request_timeout: Union[
             None,
@@ -24106,7 +24106,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_system_serialize(
+        _param = self._get_ai_system_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24130,7 +24130,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_system_with_http_info(
+    def get_ai_system_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -24170,7 +24170,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_system_serialize(
+        _param = self._get_ai_system_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24194,7 +24194,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_system_without_preload_content(
+    def get_ai_system_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -24234,7 +24234,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_system_serialize(
+        _param = self._get_ai_system_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24253,7 +24253,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_system_serialize(
+    def _get_ai_system_serialize(
         self,
         _request_auth,
         _content_type,
@@ -24314,7 +24314,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks(
+    def get_ai_tasks(
         self,
         _request_timeout: Union[
             None,
@@ -24328,7 +24328,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiTasks200Response:
+    ) -> GetAiTasks200Response:
         """List tasks
 
         List the caller's tasks.
@@ -24355,7 +24355,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_serialize(
+        _param = self._get_ai_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24363,7 +24363,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTasks200Response",
+            '200': "GetAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24379,7 +24379,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_with_http_info(
+    def get_ai_tasks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -24393,7 +24393,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiTasks200Response]:
+    ) -> ApiResponse[GetAiTasks200Response]:
         """List tasks
 
         List the caller's tasks.
@@ -24420,7 +24420,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_serialize(
+        _param = self._get_ai_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24428,7 +24428,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTasks200Response",
+            '200': "GetAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24444,7 +24444,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_without_preload_content(
+    def get_ai_tasks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -24485,7 +24485,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_serialize(
+        _param = self._get_ai_tasks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24493,7 +24493,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTasks200Response",
+            '200': "GetAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24504,7 +24504,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_tasks_serialize(
+    def _get_ai_tasks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -24565,7 +24565,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_by_owner_by_name(
+    def get_ai_tasks_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -24581,7 +24581,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTasks200Response:
+    ) -> PostAiTasks200Response:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
@@ -24612,7 +24612,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._get_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -24622,7 +24622,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24638,7 +24638,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_by_owner_by_name_with_http_info(
+    def get_ai_tasks_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -24654,7 +24654,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTasks200Response]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
@@ -24685,7 +24685,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._get_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -24695,7 +24695,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24711,7 +24711,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_by_owner_by_name_without_preload_content(
+    def get_ai_tasks_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -24758,7 +24758,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._get_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -24768,7 +24768,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24779,7 +24779,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_tasks_by_owner_by_name_serialize(
+    def _get_ai_tasks_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -24846,7 +24846,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_global(
+    def get_ai_tasks_global(
         self,
         _request_timeout: Union[
             None,
@@ -24860,7 +24860,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiTasks200Response:
+    ) -> GetAiTasks200Response:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -24887,7 +24887,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_global_serialize(
+        _param = self._get_ai_tasks_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24895,7 +24895,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTasks200Response",
+            '200': "GetAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24911,7 +24911,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_global_with_http_info(
+    def get_ai_tasks_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -24925,7 +24925,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiTasks200Response]:
+    ) -> ApiResponse[GetAiTasks200Response]:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -24952,7 +24952,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_global_serialize(
+        _param = self._get_ai_tasks_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24960,7 +24960,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTasks200Response",
+            '200': "GetAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -24976,7 +24976,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_tasks_global_without_preload_content(
+    def get_ai_tasks_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -25017,7 +25017,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_tasks_global_serialize(
+        _param = self._get_ai_tasks_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25025,7 +25025,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTasks200Response",
+            '200': "GetAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -25036,7 +25036,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_tasks_global_serialize(
+    def _get_ai_tasks_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -25097,7 +25097,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_templates(
+    def get_ai_templates(
         self,
         _request_timeout: Union[
             None,
@@ -25111,7 +25111,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiTemplates200Response:
+    ) -> GetAiTemplates200Response:
         """List templates
 
         List the caller's templates.
@@ -25138,7 +25138,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_templates_serialize(
+        _param = self._get_ai_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25146,7 +25146,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTemplates200Response",
+            '200': "GetAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25162,7 +25162,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_templates_with_http_info(
+    def get_ai_templates_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -25176,7 +25176,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiTemplates200Response]:
+    ) -> ApiResponse[GetAiTemplates200Response]:
         """List templates
 
         List the caller's templates.
@@ -25203,7 +25203,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_templates_serialize(
+        _param = self._get_ai_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25211,7 +25211,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTemplates200Response",
+            '200': "GetAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25227,7 +25227,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_templates_without_preload_content(
+    def get_ai_templates_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -25268,7 +25268,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_templates_serialize(
+        _param = self._get_ai_templates_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25276,7 +25276,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiTemplates200Response",
+            '200': "GetAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25287,7 +25287,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_templates_serialize(
+    def _get_ai_templates_serialize(
         self,
         _request_auth,
         _content_type,
@@ -25348,7 +25348,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_templates_by_owner_by_name(
+    def get_ai_templates_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -25364,7 +25364,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTemplates200Response:
+    ) -> PostAiTemplates200Response:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
@@ -25395,7 +25395,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._get_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -25405,7 +25405,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25421,7 +25421,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_templates_by_owner_by_name_with_http_info(
+    def get_ai_templates_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -25437,7 +25437,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTemplates200Response]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
@@ -25468,7 +25468,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._get_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -25478,7 +25478,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25494,7 +25494,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_templates_by_owner_by_name_without_preload_content(
+    def get_ai_templates_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -25541,7 +25541,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._get_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -25551,7 +25551,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -25562,7 +25562,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_templates_by_owner_by_name_serialize(
+    def _get_ai_templates_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -25629,7 +25629,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_training_contribution(
+    def get_ai_training_contribution(
         self,
         _request_timeout: Union[
             None,
@@ -25669,7 +25669,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_training_contribution_serialize(
+        _param = self._get_ai_training_contribution_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25693,7 +25693,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_training_contribution_with_http_info(
+    def get_ai_training_contribution_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -25733,7 +25733,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_training_contribution_serialize(
+        _param = self._get_ai_training_contribution_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25757,7 +25757,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_training_contribution_without_preload_content(
+    def get_ai_training_contribution_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -25797,7 +25797,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_training_contribution_serialize(
+        _param = self._get_ai_training_contribution_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25816,7 +25816,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_training_contribution_serialize(
+    def _get_ai_training_contribution_serialize(
         self,
         _request_auth,
         _content_type,
@@ -25877,7 +25877,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages(
+    def get_ai_usages(
         self,
         _request_timeout: Union[
             None,
@@ -25891,7 +25891,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiUsages200Response:
+    ) -> GetAiUsages200Response:
         """List usages
 
         List the caller's usages.
@@ -25918,7 +25918,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_serialize(
+        _param = self._get_ai_usages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25926,7 +25926,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiUsages200Response",
+            '200': "GetAiUsages200Response",
             '401': None,
             '403': None,
         }
@@ -25942,7 +25942,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_with_http_info(
+    def get_ai_usages_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -25956,7 +25956,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiUsages200Response]:
+    ) -> ApiResponse[GetAiUsages200Response]:
         """List usages
 
         List the caller's usages.
@@ -25983,7 +25983,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_serialize(
+        _param = self._get_ai_usages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -25991,7 +25991,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiUsages200Response",
+            '200': "GetAiUsages200Response",
             '401': None,
             '403': None,
         }
@@ -26007,7 +26007,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_without_preload_content(
+    def get_ai_usages_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -26048,7 +26048,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_serialize(
+        _param = self._get_ai_usages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26056,7 +26056,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiUsages200Response",
+            '200': "GetAiUsages200Response",
             '401': None,
             '403': None,
         }
@@ -26067,7 +26067,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_usages_serialize(
+    def _get_ai_usages_serialize(
         self,
         _request_auth,
         _content_type,
@@ -26128,7 +26128,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_by_user(
+    def get_ai_usages_by_user(
         self,
         _request_timeout: Union[
             None,
@@ -26168,7 +26168,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_by_user_serialize(
+        _param = self._get_ai_usages_by_user_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26192,7 +26192,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_by_user_with_http_info(
+    def get_ai_usages_by_user_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -26232,7 +26232,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_by_user_serialize(
+        _param = self._get_ai_usages_by_user_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26256,7 +26256,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_by_user_without_preload_content(
+    def get_ai_usages_by_user_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -26296,7 +26296,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_by_user_serialize(
+        _param = self._get_ai_usages_by_user_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26315,7 +26315,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_usages_by_user_serialize(
+    def _get_ai_usages_by_user_serialize(
         self,
         _request_auth,
         _content_type,
@@ -26376,7 +26376,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_cloud(
+    def get_ai_usages_cloud(
         self,
         _request_timeout: Union[
             None,
@@ -26416,7 +26416,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_cloud_serialize(
+        _param = self._get_ai_usages_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26440,7 +26440,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_cloud_with_http_info(
+    def get_ai_usages_cloud_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -26480,7 +26480,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_cloud_serialize(
+        _param = self._get_ai_usages_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26504,7 +26504,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_cloud_without_preload_content(
+    def get_ai_usages_cloud_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -26544,7 +26544,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_cloud_serialize(
+        _param = self._get_ai_usages_cloud_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26563,7 +26563,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_usages_cloud_serialize(
+    def _get_ai_usages_cloud_serialize(
         self,
         _request_auth,
         _content_type,
@@ -26624,7 +26624,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_range(
+    def get_ai_usages_range(
         self,
         _request_timeout: Union[
             None,
@@ -26664,7 +26664,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_range_serialize(
+        _param = self._get_ai_usages_range_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26688,7 +26688,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_range_with_http_info(
+    def get_ai_usages_range_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -26728,7 +26728,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_range_serialize(
+        _param = self._get_ai_usages_range_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26752,7 +26752,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_range_without_preload_content(
+    def get_ai_usages_range_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -26792,7 +26792,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_range_serialize(
+        _param = self._get_ai_usages_range_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26811,7 +26811,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_usages_range_serialize(
+    def _get_ai_usages_range_serialize(
         self,
         _request_auth,
         _content_type,
@@ -26872,7 +26872,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_user_names(
+    def get_ai_usages_user_names(
         self,
         _request_timeout: Union[
             None,
@@ -26912,7 +26912,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_user_names_serialize(
+        _param = self._get_ai_usages_user_names_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -26936,7 +26936,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_user_names_with_http_info(
+    def get_ai_usages_user_names_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -26976,7 +26976,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_user_names_serialize(
+        _param = self._get_ai_usages_user_names_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27000,7 +27000,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_usages_user_names_without_preload_content(
+    def get_ai_usages_user_names_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -27040,7 +27040,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_usages_user_names_serialize(
+        _param = self._get_ai_usages_user_names_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27059,7 +27059,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_usages_user_names_serialize(
+    def _get_ai_usages_user_names_serialize(
         self,
         _request_auth,
         _content_type,
@@ -27120,7 +27120,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors(
+    def get_ai_vectors(
         self,
         _request_timeout: Union[
             None,
@@ -27134,7 +27134,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiVectors200Response:
+    ) -> GetAiVectors200Response:
         """List vectors
 
         List the caller's vectors.
@@ -27161,7 +27161,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_serialize(
+        _param = self._get_ai_vectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27169,7 +27169,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVectors200Response",
+            '200': "GetAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27185,7 +27185,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_with_http_info(
+    def get_ai_vectors_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -27199,7 +27199,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiVectors200Response]:
+    ) -> ApiResponse[GetAiVectors200Response]:
         """List vectors
 
         List the caller's vectors.
@@ -27226,7 +27226,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_serialize(
+        _param = self._get_ai_vectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27234,7 +27234,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVectors200Response",
+            '200': "GetAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27250,7 +27250,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_without_preload_content(
+    def get_ai_vectors_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -27291,7 +27291,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_serialize(
+        _param = self._get_ai_vectors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27299,7 +27299,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVectors200Response",
+            '200': "GetAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27310,7 +27310,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_vectors_serialize(
+    def _get_ai_vectors_serialize(
         self,
         _request_auth,
         _content_type,
@@ -27371,7 +27371,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_by_owner_by_name(
+    def get_ai_vectors_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -27387,7 +27387,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVectors200Response:
+    ) -> PostAiVectors200Response:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
@@ -27418,7 +27418,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._get_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -27428,7 +27428,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27444,7 +27444,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_by_owner_by_name_with_http_info(
+    def get_ai_vectors_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -27460,7 +27460,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVectors200Response]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
@@ -27491,7 +27491,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._get_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -27501,7 +27501,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27517,7 +27517,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_by_owner_by_name_without_preload_content(
+    def get_ai_vectors_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -27564,7 +27564,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._get_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -27574,7 +27574,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27585,7 +27585,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_vectors_by_owner_by_name_serialize(
+    def _get_ai_vectors_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -27652,7 +27652,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_global(
+    def get_ai_vectors_global(
         self,
         _request_timeout: Union[
             None,
@@ -27666,7 +27666,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiVectors200Response:
+    ) -> GetAiVectors200Response:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27693,7 +27693,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_global_serialize(
+        _param = self._get_ai_vectors_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27701,7 +27701,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVectors200Response",
+            '200': "GetAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27717,7 +27717,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_global_with_http_info(
+    def get_ai_vectors_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -27731,7 +27731,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiVectors200Response]:
+    ) -> ApiResponse[GetAiVectors200Response]:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27758,7 +27758,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_global_serialize(
+        _param = self._get_ai_vectors_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27766,7 +27766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVectors200Response",
+            '200': "GetAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27782,7 +27782,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_vectors_global_without_preload_content(
+    def get_ai_vectors_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -27823,7 +27823,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_vectors_global_serialize(
+        _param = self._get_ai_vectors_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27831,7 +27831,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVectors200Response",
+            '200': "GetAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -27842,7 +27842,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_vectors_global_serialize(
+    def _get_ai_vectors_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -27903,7 +27903,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_version(
+    def get_ai_version(
         self,
         _request_timeout: Union[
             None,
@@ -27943,7 +27943,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_version_serialize(
+        _param = self._get_ai_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -27967,7 +27967,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_version_with_http_info(
+    def get_ai_version_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -28007,7 +28007,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_version_serialize(
+        _param = self._get_ai_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28031,7 +28031,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_version_without_preload_content(
+    def get_ai_version_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -28071,7 +28071,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_version_serialize(
+        _param = self._get_ai_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28090,7 +28090,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_version_serialize(
+    def _get_ai_version_serialize(
         self,
         _request_auth,
         _content_type,
@@ -28151,7 +28151,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos(
+    def get_ai_videos(
         self,
         _request_timeout: Union[
             None,
@@ -28165,7 +28165,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiVideos200Response:
+    ) -> GetAiVideos200Response:
         """List videos
 
         List the caller's videos.
@@ -28192,7 +28192,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_serialize(
+        _param = self._get_ai_videos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28200,7 +28200,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVideos200Response",
+            '200': "GetAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28216,7 +28216,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_with_http_info(
+    def get_ai_videos_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -28230,7 +28230,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiVideos200Response]:
+    ) -> ApiResponse[GetAiVideos200Response]:
         """List videos
 
         List the caller's videos.
@@ -28257,7 +28257,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_serialize(
+        _param = self._get_ai_videos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28265,7 +28265,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVideos200Response",
+            '200': "GetAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28281,7 +28281,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_without_preload_content(
+    def get_ai_videos_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -28322,7 +28322,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_serialize(
+        _param = self._get_ai_videos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28330,7 +28330,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVideos200Response",
+            '200': "GetAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28341,7 +28341,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_videos_serialize(
+    def _get_ai_videos_serialize(
         self,
         _request_auth,
         _content_type,
@@ -28402,7 +28402,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_by_owner_by_name(
+    def get_ai_videos_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -28418,7 +28418,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVideos200Response:
+    ) -> PostAiVideos200Response:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
@@ -28449,7 +28449,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._get_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -28459,7 +28459,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28475,7 +28475,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_by_owner_by_name_with_http_info(
+    def get_ai_videos_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -28491,7 +28491,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVideos200Response]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
@@ -28522,7 +28522,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._get_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -28532,7 +28532,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28548,7 +28548,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_by_owner_by_name_without_preload_content(
+    def get_ai_videos_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -28595,7 +28595,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._get_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -28605,7 +28605,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28616,7 +28616,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_videos_by_owner_by_name_serialize(
+    def _get_ai_videos_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -28683,7 +28683,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_global(
+    def get_ai_videos_global(
         self,
         _request_timeout: Union[
             None,
@@ -28697,7 +28697,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiVideos200Response:
+    ) -> GetAiVideos200Response:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -28724,7 +28724,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_global_serialize(
+        _param = self._get_ai_videos_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28732,7 +28732,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVideos200Response",
+            '200': "GetAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28748,7 +28748,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_global_with_http_info(
+    def get_ai_videos_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -28762,7 +28762,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiVideos200Response]:
+    ) -> ApiResponse[GetAiVideos200Response]:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -28789,7 +28789,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_global_serialize(
+        _param = self._get_ai_videos_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28797,7 +28797,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVideos200Response",
+            '200': "GetAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28813,7 +28813,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_videos_global_without_preload_content(
+    def get_ai_videos_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -28854,7 +28854,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_videos_global_serialize(
+        _param = self._get_ai_videos_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28862,7 +28862,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiVideos200Response",
+            '200': "GetAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -28873,7 +28873,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_videos_global_serialize(
+    def _get_ai_videos_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -28934,7 +28934,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows(
+    def get_ai_workflows(
         self,
         _request_timeout: Union[
             None,
@@ -28948,7 +28948,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiWorkflows200Response:
+    ) -> GetAiWorkflows200Response:
         """List workflows
 
         List the caller's workflows.
@@ -28975,7 +28975,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_serialize(
+        _param = self._get_ai_workflows_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -28983,7 +28983,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiWorkflows200Response",
+            '200': "GetAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -28999,7 +28999,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_with_http_info(
+    def get_ai_workflows_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -29013,7 +29013,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiWorkflows200Response]:
+    ) -> ApiResponse[GetAiWorkflows200Response]:
         """List workflows
 
         List the caller's workflows.
@@ -29040,7 +29040,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_serialize(
+        _param = self._get_ai_workflows_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29048,7 +29048,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiWorkflows200Response",
+            '200': "GetAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29064,7 +29064,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_without_preload_content(
+    def get_ai_workflows_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -29105,7 +29105,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_serialize(
+        _param = self._get_ai_workflows_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29113,7 +29113,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiWorkflows200Response",
+            '200': "GetAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29124,7 +29124,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_workflows_serialize(
+    def _get_ai_workflows_serialize(
         self,
         _request_auth,
         _content_type,
@@ -29185,7 +29185,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_by_owner_by_name(
+    def get_ai_workflows_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -29201,7 +29201,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiWorkflows200Response:
+    ) -> PostAiWorkflows200Response:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
@@ -29232,7 +29232,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._get_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -29242,7 +29242,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29258,7 +29258,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_by_owner_by_name_with_http_info(
+    def get_ai_workflows_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -29274,7 +29274,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiWorkflows200Response]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
@@ -29305,7 +29305,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._get_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -29315,7 +29315,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29331,7 +29331,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_by_owner_by_name_without_preload_content(
+    def get_ai_workflows_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -29378,7 +29378,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._get_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             _request_auth=_request_auth,
@@ -29388,7 +29388,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29399,7 +29399,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_workflows_by_owner_by_name_serialize(
+    def _get_ai_workflows_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -29466,7 +29466,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_global(
+    def get_ai_workflows_global(
         self,
         _request_timeout: Union[
             None,
@@ -29480,7 +29480,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetV1AiWorkflows200Response:
+    ) -> GetAiWorkflows200Response:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29507,7 +29507,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_global_serialize(
+        _param = self._get_ai_workflows_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29515,7 +29515,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiWorkflows200Response",
+            '200': "GetAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29531,7 +29531,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_global_with_http_info(
+    def get_ai_workflows_global_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -29545,7 +29545,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetV1AiWorkflows200Response]:
+    ) -> ApiResponse[GetAiWorkflows200Response]:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29572,7 +29572,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_global_serialize(
+        _param = self._get_ai_workflows_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29580,7 +29580,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiWorkflows200Response",
+            '200': "GetAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29596,7 +29596,7 @@ class AiApi:
 
 
     @validate_call
-    def get_v1_ai_workflows_global_without_preload_content(
+    def get_ai_workflows_global_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -29637,7 +29637,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ai_workflows_global_serialize(
+        _param = self._get_ai_workflows_global_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29645,7 +29645,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetV1AiWorkflows200Response",
+            '200': "GetAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -29656,7 +29656,7 @@ class AiApi:
         return response_data.response
 
 
-    def _get_v1_ai_workflows_global_serialize(
+    def _get_ai_workflows_global_serialize(
         self,
         _request_auth,
         _content_type,
@@ -29717,7 +29717,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_articles_by_owner_by_name(
+    def patch_ai_articles_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -29734,7 +29734,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiArticles200Response:
+    ) -> PostAiArticles200Response:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -29767,7 +29767,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -29778,7 +29778,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -29794,7 +29794,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_articles_by_owner_by_name_with_http_info(
+    def patch_ai_articles_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -29811,7 +29811,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiArticles200Response]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -29844,7 +29844,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -29855,7 +29855,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -29871,7 +29871,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_articles_by_owner_by_name_without_preload_content(
+    def patch_ai_articles_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -29921,7 +29921,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -29932,7 +29932,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -29943,7 +29943,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_articles_by_owner_by_name_serialize(
+    def _patch_ai_articles_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -30026,7 +30026,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_assets_by_owner_by_name(
+    def patch_ai_assets_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30043,7 +30043,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiAssets200Response:
+    ) -> PostAiAssets200Response:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30076,7 +30076,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30087,7 +30087,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -30103,7 +30103,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_assets_by_owner_by_name_with_http_info(
+    def patch_ai_assets_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30120,7 +30120,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiAssets200Response]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30153,7 +30153,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30164,7 +30164,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -30180,7 +30180,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_assets_by_owner_by_name_without_preload_content(
+    def patch_ai_assets_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30230,7 +30230,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30241,7 +30241,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -30252,7 +30252,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_assets_by_owner_by_name_serialize(
+    def _patch_ai_assets_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -30335,7 +30335,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_chats_by_owner_by_name(
+    def patch_ai_chats_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30352,7 +30352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiChats200Response:
+    ) -> PostAiChats200Response:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30385,7 +30385,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30396,7 +30396,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -30412,7 +30412,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_chats_by_owner_by_name_with_http_info(
+    def patch_ai_chats_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30429,7 +30429,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiChats200Response]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30462,7 +30462,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30473,7 +30473,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -30489,7 +30489,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_chats_by_owner_by_name_without_preload_content(
+    def patch_ai_chats_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30539,7 +30539,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30550,7 +30550,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -30561,7 +30561,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_chats_by_owner_by_name_serialize(
+    def _patch_ai_chats_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -30644,7 +30644,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_deployments_by_owner_by_name(
+    def patch_ai_deployments_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30661,7 +30661,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiDeployments200Response:
+    ) -> PostAiDeployments200Response:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30694,7 +30694,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30705,7 +30705,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -30721,7 +30721,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_deployments_by_owner_by_name_with_http_info(
+    def patch_ai_deployments_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30738,7 +30738,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiDeployments200Response]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -30771,7 +30771,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30782,7 +30782,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -30798,7 +30798,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_deployments_by_owner_by_name_without_preload_content(
+    def patch_ai_deployments_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30848,7 +30848,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -30859,7 +30859,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -30870,7 +30870,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_deployments_by_owner_by_name_serialize(
+    def _patch_ai_deployments_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -30953,7 +30953,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_files_by_owner_by_name(
+    def patch_ai_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -30970,7 +30970,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiFiles200Response:
+    ) -> PostAiFiles200Response:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31003,7 +31003,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31014,7 +31014,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -31030,7 +31030,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_files_by_owner_by_name_with_http_info(
+    def patch_ai_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31047,7 +31047,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiFiles200Response]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31080,7 +31080,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31091,7 +31091,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -31107,7 +31107,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_files_by_owner_by_name_without_preload_content(
+    def patch_ai_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31157,7 +31157,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31168,7 +31168,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -31179,7 +31179,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_files_by_owner_by_name_serialize(
+    def _patch_ai_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -31262,7 +31262,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_forms_by_owner_by_name(
+    def patch_ai_forms_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31279,7 +31279,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiForms200Response:
+    ) -> PostAiForms200Response:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31312,7 +31312,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31323,7 +31323,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -31339,7 +31339,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_forms_by_owner_by_name_with_http_info(
+    def patch_ai_forms_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31356,7 +31356,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiForms200Response]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31389,7 +31389,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31400,7 +31400,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -31416,7 +31416,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_forms_by_owner_by_name_without_preload_content(
+    def patch_ai_forms_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31466,7 +31466,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31477,7 +31477,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -31488,7 +31488,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_forms_by_owner_by_name_serialize(
+    def _patch_ai_forms_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -31571,7 +31571,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_graphs_by_owner_by_name(
+    def patch_ai_graphs_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31588,7 +31588,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiGraphs200Response:
+    ) -> PostAiGraphs200Response:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31621,7 +31621,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31632,7 +31632,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -31648,7 +31648,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_graphs_by_owner_by_name_with_http_info(
+    def patch_ai_graphs_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31665,7 +31665,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiGraphs200Response]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31698,7 +31698,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31709,7 +31709,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -31725,7 +31725,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_graphs_by_owner_by_name_without_preload_content(
+    def patch_ai_graphs_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31775,7 +31775,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31786,7 +31786,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -31797,7 +31797,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_graphs_by_owner_by_name_serialize(
+    def _patch_ai_graphs_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -31880,7 +31880,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_messages_by_owner_by_name(
+    def patch_ai_messages_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31897,7 +31897,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiMessages200Response:
+    ) -> PostAiMessages200Response:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -31930,7 +31930,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -31941,7 +31941,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -31957,7 +31957,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_messages_by_owner_by_name_with_http_info(
+    def patch_ai_messages_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -31974,7 +31974,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiMessages200Response]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32007,7 +32007,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32018,7 +32018,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -32034,7 +32034,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_messages_by_owner_by_name_without_preload_content(
+    def patch_ai_messages_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32084,7 +32084,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32095,7 +32095,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -32106,7 +32106,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_messages_by_owner_by_name_serialize(
+    def _patch_ai_messages_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -32189,7 +32189,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_nodes_by_owner_by_name(
+    def patch_ai_nodes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32206,7 +32206,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiNodes200Response:
+    ) -> PostAiNodes200Response:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32239,7 +32239,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32250,7 +32250,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -32266,7 +32266,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_nodes_by_owner_by_name_with_http_info(
+    def patch_ai_nodes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32283,7 +32283,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiNodes200Response]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32316,7 +32316,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32327,7 +32327,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -32343,7 +32343,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_nodes_by_owner_by_name_without_preload_content(
+    def patch_ai_nodes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32393,7 +32393,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32404,7 +32404,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -32415,7 +32415,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_nodes_by_owner_by_name_serialize(
+    def _patch_ai_nodes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -32498,7 +32498,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_preferences(
+    def patch_ai_preferences(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -32541,7 +32541,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_preferences_serialize(
+        _param = self._patch_ai_preferences_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -32566,7 +32566,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_preferences_with_http_info(
+    def patch_ai_preferences_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -32609,7 +32609,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_preferences_serialize(
+        _param = self._patch_ai_preferences_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -32634,7 +32634,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_preferences_without_preload_content(
+    def patch_ai_preferences_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -32677,7 +32677,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_preferences_serialize(
+        _param = self._patch_ai_preferences_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -32697,7 +32697,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_preferences_serialize(
+    def _patch_ai_preferences_serialize(
         self,
         body,
         _request_auth,
@@ -32774,7 +32774,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_providers_by_owner_by_name(
+    def patch_ai_providers_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32791,7 +32791,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiProviders200Response:
+    ) -> PostAiProviders200Response:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32824,7 +32824,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32835,7 +32835,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -32851,7 +32851,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_providers_by_owner_by_name_with_http_info(
+    def patch_ai_providers_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32868,7 +32868,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiProviders200Response]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -32901,7 +32901,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32912,7 +32912,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -32928,7 +32928,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_providers_by_owner_by_name_without_preload_content(
+    def patch_ai_providers_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -32978,7 +32978,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -32989,7 +32989,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -33000,7 +33000,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_providers_by_owner_by_name_serialize(
+    def _patch_ai_providers_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -33083,7 +33083,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_records_by_owner_by_name(
+    def patch_ai_records_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33100,7 +33100,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRecords200Response:
+    ) -> PostAiRecords200Response:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33133,7 +33133,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33144,7 +33144,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -33160,7 +33160,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_records_by_owner_by_name_with_http_info(
+    def patch_ai_records_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33177,7 +33177,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRecords200Response]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33210,7 +33210,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33221,7 +33221,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -33237,7 +33237,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_records_by_owner_by_name_without_preload_content(
+    def patch_ai_records_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33287,7 +33287,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33298,7 +33298,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -33309,7 +33309,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_records_by_owner_by_name_serialize(
+    def _patch_ai_records_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -33392,7 +33392,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_remote_connections_by_owner_by_name(
+    def patch_ai_remote_connections_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33409,7 +33409,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRemoteConnections200Response:
+    ) -> PostAiRemoteConnections200Response:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33442,7 +33442,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33453,7 +33453,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -33469,7 +33469,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_remote_connections_by_owner_by_name_with_http_info(
+    def patch_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33486,7 +33486,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33519,7 +33519,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33530,7 +33530,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -33546,7 +33546,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_remote_connections_by_owner_by_name_without_preload_content(
+    def patch_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33596,7 +33596,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33607,7 +33607,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -33618,7 +33618,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_remote_connections_by_owner_by_name_serialize(
+    def _patch_ai_remote_connections_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -33701,7 +33701,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_routes_by_owner_by_name(
+    def patch_ai_routes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33718,7 +33718,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRoutes200Response:
+    ) -> PostAiRoutes200Response:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33751,7 +33751,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33762,7 +33762,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -33778,7 +33778,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_routes_by_owner_by_name_with_http_info(
+    def patch_ai_routes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33795,7 +33795,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRoutes200Response]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -33828,7 +33828,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33839,7 +33839,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -33855,7 +33855,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_routes_by_owner_by_name_without_preload_content(
+    def patch_ai_routes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -33905,7 +33905,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -33916,7 +33916,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -33927,7 +33927,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_routes_by_owner_by_name_serialize(
+    def _patch_ai_routes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -34010,7 +34010,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_scales_by_owner_by_name(
+    def patch_ai_scales_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34027,7 +34027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScales200Response:
+    ) -> PostAiScales200Response:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34060,7 +34060,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34071,7 +34071,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -34087,7 +34087,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_scales_by_owner_by_name_with_http_info(
+    def patch_ai_scales_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34104,7 +34104,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScales200Response]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34137,7 +34137,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34148,7 +34148,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -34164,7 +34164,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_scales_by_owner_by_name_without_preload_content(
+    def patch_ai_scales_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34214,7 +34214,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34225,7 +34225,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -34236,7 +34236,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_scales_by_owner_by_name_serialize(
+    def _patch_ai_scales_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -34319,7 +34319,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_scans_by_owner_by_name(
+    def patch_ai_scans_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34336,7 +34336,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScans200Response:
+    ) -> PostAiScans200Response:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34369,7 +34369,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34380,7 +34380,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -34396,7 +34396,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_scans_by_owner_by_name_with_http_info(
+    def patch_ai_scans_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34413,7 +34413,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScans200Response]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34446,7 +34446,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34457,7 +34457,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -34473,7 +34473,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_scans_by_owner_by_name_without_preload_content(
+    def patch_ai_scans_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34523,7 +34523,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34534,7 +34534,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -34545,7 +34545,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_scans_by_owner_by_name_serialize(
+    def _patch_ai_scans_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -34628,7 +34628,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_signin_sessions_by_owner_by_name(
+    def patch_ai_signin_sessions_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34645,7 +34645,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiSigninSessions200Response:
+    ) -> PostAiSigninSessions200Response:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34678,7 +34678,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34689,7 +34689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -34705,7 +34705,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_signin_sessions_by_owner_by_name_with_http_info(
+    def patch_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34722,7 +34722,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34755,7 +34755,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34766,7 +34766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -34782,7 +34782,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_signin_sessions_by_owner_by_name_without_preload_content(
+    def patch_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34832,7 +34832,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34843,7 +34843,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -34854,7 +34854,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_signin_sessions_by_owner_by_name_serialize(
+    def _patch_ai_signin_sessions_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -34937,7 +34937,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_stores_by_owner_by_name(
+    def patch_ai_stores_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -34954,7 +34954,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiStores200Response:
+    ) -> PostAiStores200Response:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -34987,7 +34987,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -34998,7 +34998,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -35014,7 +35014,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_stores_by_owner_by_name_with_http_info(
+    def patch_ai_stores_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35031,7 +35031,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiStores200Response]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35064,7 +35064,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35075,7 +35075,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -35091,7 +35091,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_stores_by_owner_by_name_without_preload_content(
+    def patch_ai_stores_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35141,7 +35141,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35152,7 +35152,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -35163,7 +35163,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_stores_by_owner_by_name_serialize(
+    def _patch_ai_stores_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -35246,7 +35246,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_tasks_by_owner_by_name(
+    def patch_ai_tasks_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35263,7 +35263,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTasks200Response:
+    ) -> PostAiTasks200Response:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35296,7 +35296,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35307,7 +35307,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -35323,7 +35323,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_tasks_by_owner_by_name_with_http_info(
+    def patch_ai_tasks_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35340,7 +35340,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTasks200Response]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35373,7 +35373,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35384,7 +35384,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -35400,7 +35400,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_tasks_by_owner_by_name_without_preload_content(
+    def patch_ai_tasks_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35450,7 +35450,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35461,7 +35461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -35472,7 +35472,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_tasks_by_owner_by_name_serialize(
+    def _patch_ai_tasks_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -35555,7 +35555,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_templates_by_owner_by_name(
+    def patch_ai_templates_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35572,7 +35572,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTemplates200Response:
+    ) -> PostAiTemplates200Response:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35605,7 +35605,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35616,7 +35616,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -35632,7 +35632,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_templates_by_owner_by_name_with_http_info(
+    def patch_ai_templates_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35649,7 +35649,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTemplates200Response]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -35682,7 +35682,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35693,7 +35693,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -35709,7 +35709,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_templates_by_owner_by_name_without_preload_content(
+    def patch_ai_templates_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -35759,7 +35759,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -35770,7 +35770,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -35781,7 +35781,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_templates_by_owner_by_name_serialize(
+    def _patch_ai_templates_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -35864,7 +35864,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_training_contribution(
+    def patch_ai_training_contribution(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -35907,7 +35907,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_training_contribution_serialize(
+        _param = self._patch_ai_training_contribution_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -35932,7 +35932,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_training_contribution_with_http_info(
+    def patch_ai_training_contribution_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -35975,7 +35975,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_training_contribution_serialize(
+        _param = self._patch_ai_training_contribution_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -36000,7 +36000,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_training_contribution_without_preload_content(
+    def patch_ai_training_contribution_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -36043,7 +36043,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_training_contribution_serialize(
+        _param = self._patch_ai_training_contribution_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -36063,7 +36063,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_training_contribution_serialize(
+    def _patch_ai_training_contribution_serialize(
         self,
         body,
         _request_auth,
@@ -36140,7 +36140,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_tree_files_by_owner_by_name(
+    def patch_ai_tree_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36157,7 +36157,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTreeFiles200Response:
+    ) -> PostAiTreeFiles200Response:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36190,7 +36190,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36201,7 +36201,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -36217,7 +36217,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_tree_files_by_owner_by_name_with_http_info(
+    def patch_ai_tree_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36234,7 +36234,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36267,7 +36267,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36278,7 +36278,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -36294,7 +36294,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_tree_files_by_owner_by_name_without_preload_content(
+    def patch_ai_tree_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36344,7 +36344,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36355,7 +36355,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -36366,7 +36366,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_tree_files_by_owner_by_name_serialize(
+    def _patch_ai_tree_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -36449,7 +36449,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_vectors_by_owner_by_name(
+    def patch_ai_vectors_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36466,7 +36466,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVectors200Response:
+    ) -> PostAiVectors200Response:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36499,7 +36499,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36510,7 +36510,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -36526,7 +36526,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_vectors_by_owner_by_name_with_http_info(
+    def patch_ai_vectors_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36543,7 +36543,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVectors200Response]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36576,7 +36576,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36587,7 +36587,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -36603,7 +36603,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_vectors_by_owner_by_name_without_preload_content(
+    def patch_ai_vectors_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36653,7 +36653,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36664,7 +36664,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -36675,7 +36675,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_vectors_by_owner_by_name_serialize(
+    def _patch_ai_vectors_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -36758,7 +36758,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_videos_by_owner_by_name(
+    def patch_ai_videos_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36775,7 +36775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVideos200Response:
+    ) -> PostAiVideos200Response:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36808,7 +36808,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36819,7 +36819,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -36835,7 +36835,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_videos_by_owner_by_name_with_http_info(
+    def patch_ai_videos_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36852,7 +36852,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVideos200Response]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36885,7 +36885,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36896,7 +36896,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -36912,7 +36912,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_videos_by_owner_by_name_without_preload_content(
+    def patch_ai_videos_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -36962,7 +36962,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -36973,7 +36973,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -36984,7 +36984,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_videos_by_owner_by_name_serialize(
+    def _patch_ai_videos_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -37067,7 +37067,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_workflows_by_owner_by_name(
+    def patch_ai_workflows_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -37084,7 +37084,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiWorkflows200Response:
+    ) -> PostAiWorkflows200Response:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37117,7 +37117,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -37128,7 +37128,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -37144,7 +37144,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_workflows_by_owner_by_name_with_http_info(
+    def patch_ai_workflows_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -37161,7 +37161,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiWorkflows200Response]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37194,7 +37194,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -37205,7 +37205,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -37221,7 +37221,7 @@ class AiApi:
 
 
     @validate_call
-    def patch_v1_ai_workflows_by_owner_by_name_without_preload_content(
+    def patch_ai_workflows_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -37271,7 +37271,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -37282,7 +37282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -37293,7 +37293,7 @@ class AiApi:
         return response_data.response
 
 
-    def _patch_v1_ai_workflows_by_owner_by_name_serialize(
+    def _patch_ai_workflows_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -37376,7 +37376,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_articles(
+    def post_ai_articles(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -37391,7 +37391,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiArticles200Response:
+    ) -> PostAiArticles200Response:
         """Create a article
 
         Create one article.
@@ -37420,7 +37420,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_articles_serialize(
+        _param = self._post_ai_articles_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -37429,7 +37429,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -37445,7 +37445,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_articles_with_http_info(
+    def post_ai_articles_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -37460,7 +37460,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiArticles200Response]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Create a article
 
         Create one article.
@@ -37489,7 +37489,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_articles_serialize(
+        _param = self._post_ai_articles_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -37498,7 +37498,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -37514,7 +37514,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_articles_without_preload_content(
+    def post_ai_articles_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -37558,7 +37558,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_articles_serialize(
+        _param = self._post_ai_articles_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -37567,7 +37567,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -37578,7 +37578,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_articles_serialize(
+    def _post_ai_articles_serialize(
         self,
         body,
         _request_auth,
@@ -37655,7 +37655,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets(
+    def post_ai_assets(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -37670,7 +37670,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiAssets200Response:
+    ) -> PostAiAssets200Response:
         """Create a asset
 
         Create one asset.
@@ -37699,7 +37699,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_serialize(
+        _param = self._post_ai_assets_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -37708,7 +37708,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -37724,7 +37724,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_with_http_info(
+    def post_ai_assets_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -37739,7 +37739,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiAssets200Response]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Create a asset
 
         Create one asset.
@@ -37768,7 +37768,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_serialize(
+        _param = self._post_ai_assets_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -37777,7 +37777,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -37793,7 +37793,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_without_preload_content(
+    def post_ai_assets_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -37837,7 +37837,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_serialize(
+        _param = self._post_ai_assets_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -37846,7 +37846,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -37857,7 +37857,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_assets_serialize(
+    def _post_ai_assets_serialize(
         self,
         body,
         _request_auth,
@@ -37934,7 +37934,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_by_owner_by_name_scan(
+    def post_ai_assets_by_owner_by_name_scan(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -37983,7 +37983,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_by_owner_by_name_scan_serialize(
+        _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -38010,7 +38010,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_by_owner_by_name_scan_with_http_info(
+    def post_ai_assets_by_owner_by_name_scan_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -38059,7 +38059,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_by_owner_by_name_scan_serialize(
+        _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -38086,7 +38086,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_by_owner_by_name_scan_without_preload_content(
+    def post_ai_assets_by_owner_by_name_scan_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -38135,7 +38135,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_by_owner_by_name_scan_serialize(
+        _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -38157,7 +38157,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_assets_by_owner_by_name_scan_serialize(
+    def _post_ai_assets_by_owner_by_name_scan_serialize(
         self,
         owner,
         name,
@@ -38240,7 +38240,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_scan(
+    def post_ai_assets_scan(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -38283,7 +38283,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_scan_serialize(
+        _param = self._post_ai_assets_scan_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -38308,7 +38308,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_scan_with_http_info(
+    def post_ai_assets_scan_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -38351,7 +38351,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_scan_serialize(
+        _param = self._post_ai_assets_scan_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -38376,7 +38376,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_assets_scan_without_preload_content(
+    def post_ai_assets_scan_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -38419,7 +38419,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_assets_scan_serialize(
+        _param = self._post_ai_assets_scan_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -38439,7 +38439,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_assets_scan_serialize(
+    def _post_ai_assets_scan_serialize(
         self,
         body,
         _request_auth,
@@ -38516,7 +38516,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_chats(
+    def post_ai_chats(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -38531,7 +38531,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiChats200Response:
+    ) -> PostAiChats200Response:
         """Create a chat
 
         Create one chat.
@@ -38560,7 +38560,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_chats_serialize(
+        _param = self._post_ai_chats_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -38569,7 +38569,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -38585,7 +38585,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_chats_with_http_info(
+    def post_ai_chats_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -38600,7 +38600,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiChats200Response]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Create a chat
 
         Create one chat.
@@ -38629,7 +38629,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_chats_serialize(
+        _param = self._post_ai_chats_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -38638,7 +38638,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -38654,7 +38654,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_chats_without_preload_content(
+    def post_ai_chats_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -38698,7 +38698,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_chats_serialize(
+        _param = self._post_ai_chats_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -38707,7 +38707,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -38718,7 +38718,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_chats_serialize(
+    def _post_ai_chats_serialize(
         self,
         body,
         _request_auth,
@@ -38795,7 +38795,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_connections(
+    def post_ai_connections(
         self,
         _request_timeout: Union[
             None,
@@ -38836,7 +38836,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_connections_serialize(
+        _param = self._post_ai_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38857,7 +38857,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_connections_with_http_info(
+    def post_ai_connections_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -38898,7 +38898,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_connections_serialize(
+        _param = self._post_ai_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38919,7 +38919,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_connections_without_preload_content(
+    def post_ai_connections_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -38960,7 +38960,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_connections_serialize(
+        _param = self._post_ai_connections_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38976,7 +38976,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_connections_serialize(
+    def _post_ai_connections_serialize(
         self,
         _request_auth,
         _content_type,
@@ -39030,7 +39030,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_connections_by_provider(
+    def post_ai_connections_by_provider(
         self,
         _request_timeout: Union[
             None,
@@ -39071,7 +39071,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_connections_by_provider_serialize(
+        _param = self._post_ai_connections_by_provider_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39092,7 +39092,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_connections_by_provider_with_http_info(
+    def post_ai_connections_by_provider_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -39133,7 +39133,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_connections_by_provider_serialize(
+        _param = self._post_ai_connections_by_provider_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39154,7 +39154,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_connections_by_provider_without_preload_content(
+    def post_ai_connections_by_provider_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -39195,7 +39195,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_connections_by_provider_serialize(
+        _param = self._post_ai_connections_by_provider_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39211,7 +39211,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_connections_by_provider_serialize(
+    def _post_ai_connections_by_provider_serialize(
         self,
         _request_auth,
         _content_type,
@@ -39265,7 +39265,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments(
+    def post_ai_deployments(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -39280,7 +39280,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiDeployments200Response:
+    ) -> PostAiDeployments200Response:
         """Create a application
 
         Create one application.
@@ -39309,7 +39309,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_serialize(
+        _param = self._post_ai_deployments_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -39318,7 +39318,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -39334,7 +39334,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_with_http_info(
+    def post_ai_deployments_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -39349,7 +39349,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiDeployments200Response]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Create a application
 
         Create one application.
@@ -39378,7 +39378,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_serialize(
+        _param = self._post_ai_deployments_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -39387,7 +39387,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -39403,7 +39403,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_without_preload_content(
+    def post_ai_deployments_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -39447,7 +39447,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_serialize(
+        _param = self._post_ai_deployments_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -39456,7 +39456,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -39467,7 +39467,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_deployments_serialize(
+    def _post_ai_deployments_serialize(
         self,
         body,
         _request_auth,
@@ -39544,7 +39544,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_by_owner_by_name_deploy(
+    def post_ai_deployments_by_owner_by_name_deploy(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -39593,7 +39593,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_by_owner_by_name_deploy_serialize(
+        _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -39620,7 +39620,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_by_owner_by_name_deploy_with_http_info(
+    def post_ai_deployments_by_owner_by_name_deploy_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -39669,7 +39669,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_by_owner_by_name_deploy_serialize(
+        _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -39696,7 +39696,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_by_owner_by_name_deploy_without_preload_content(
+    def post_ai_deployments_by_owner_by_name_deploy_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -39745,7 +39745,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_by_owner_by_name_deploy_serialize(
+        _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -39767,7 +39767,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_deployments_by_owner_by_name_deploy_serialize(
+    def _post_ai_deployments_by_owner_by_name_deploy_serialize(
         self,
         owner,
         name,
@@ -39850,7 +39850,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_by_owner_by_name_undeploy(
+    def post_ai_deployments_by_owner_by_name_undeploy(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -39899,7 +39899,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_by_owner_by_name_undeploy_serialize(
+        _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -39926,7 +39926,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_by_owner_by_name_undeploy_with_http_info(
+    def post_ai_deployments_by_owner_by_name_undeploy_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -39975,7 +39975,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_by_owner_by_name_undeploy_serialize(
+        _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -40002,7 +40002,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_deployments_by_owner_by_name_undeploy_without_preload_content(
+    def post_ai_deployments_by_owner_by_name_undeploy_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -40051,7 +40051,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_deployments_by_owner_by_name_undeploy_serialize(
+        _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -40073,7 +40073,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_deployments_by_owner_by_name_undeploy_serialize(
+    def _post_ai_deployments_by_owner_by_name_undeploy_serialize(
         self,
         owner,
         name,
@@ -40156,7 +40156,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files(
+    def post_ai_files(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -40171,7 +40171,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiFiles200Response:
+    ) -> PostAiFiles200Response:
         """Create a file
 
         Create one file.
@@ -40200,7 +40200,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_serialize(
+        _param = self._post_ai_files_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40209,7 +40209,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -40225,7 +40225,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_with_http_info(
+    def post_ai_files_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -40240,7 +40240,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiFiles200Response]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Create a file
 
         Create one file.
@@ -40269,7 +40269,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_serialize(
+        _param = self._post_ai_files_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40278,7 +40278,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -40294,7 +40294,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_without_preload_content(
+    def post_ai_files_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -40338,7 +40338,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_serialize(
+        _param = self._post_ai_files_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40347,7 +40347,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -40358,7 +40358,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_files_serialize(
+    def _post_ai_files_serialize(
         self,
         body,
         _request_auth,
@@ -40435,7 +40435,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_activate(
+    def post_ai_files_activate(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -40478,7 +40478,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_activate_serialize(
+        _param = self._post_ai_files_activate_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40503,7 +40503,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_activate_with_http_info(
+    def post_ai_files_activate_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -40546,7 +40546,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_activate_serialize(
+        _param = self._post_ai_files_activate_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40571,7 +40571,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_activate_without_preload_content(
+    def post_ai_files_activate_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -40614,7 +40614,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_activate_serialize(
+        _param = self._post_ai_files_activate_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -40634,7 +40634,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_files_activate_serialize(
+    def _post_ai_files_activate_serialize(
         self,
         body,
         _request_auth,
@@ -40711,7 +40711,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_by_owner_by_name_vectors(
+    def post_ai_files_by_owner_by_name_vectors(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -40760,7 +40760,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_by_owner_by_name_vectors_serialize(
+        _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -40787,7 +40787,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_by_owner_by_name_vectors_with_http_info(
+    def post_ai_files_by_owner_by_name_vectors_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -40836,7 +40836,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_by_owner_by_name_vectors_serialize(
+        _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -40863,7 +40863,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_by_owner_by_name_vectors_without_preload_content(
+    def post_ai_files_by_owner_by_name_vectors_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -40912,7 +40912,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_by_owner_by_name_vectors_serialize(
+        _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -40934,7 +40934,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_files_by_owner_by_name_vectors_serialize(
+    def _post_ai_files_by_owner_by_name_vectors_serialize(
         self,
         owner,
         name,
@@ -41017,7 +41017,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_upload(
+    def post_ai_files_upload(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41060,7 +41060,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_upload_serialize(
+        _param = self._post_ai_files_upload_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41085,7 +41085,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_upload_with_http_info(
+    def post_ai_files_upload_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41128,7 +41128,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_upload_serialize(
+        _param = self._post_ai_files_upload_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41153,7 +41153,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_files_upload_without_preload_content(
+    def post_ai_files_upload_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41196,7 +41196,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_files_upload_serialize(
+        _param = self._post_ai_files_upload_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41216,7 +41216,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_files_upload_serialize(
+    def _post_ai_files_upload_serialize(
         self,
         body,
         _request_auth,
@@ -41293,7 +41293,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_forms(
+    def post_ai_forms(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41308,7 +41308,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiForms200Response:
+    ) -> PostAiForms200Response:
         """Create a form
 
         Create one form.
@@ -41337,7 +41337,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_forms_serialize(
+        _param = self._post_ai_forms_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41346,7 +41346,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -41362,7 +41362,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_forms_with_http_info(
+    def post_ai_forms_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41377,7 +41377,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiForms200Response]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Create a form
 
         Create one form.
@@ -41406,7 +41406,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_forms_serialize(
+        _param = self._post_ai_forms_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41415,7 +41415,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -41431,7 +41431,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_forms_without_preload_content(
+    def post_ai_forms_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41475,7 +41475,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_forms_serialize(
+        _param = self._post_ai_forms_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41484,7 +41484,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -41495,7 +41495,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_forms_serialize(
+    def _post_ai_forms_serialize(
         self,
         body,
         _request_auth,
@@ -41572,7 +41572,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_graphs(
+    def post_ai_graphs(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41587,7 +41587,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiGraphs200Response:
+    ) -> PostAiGraphs200Response:
         """Create a graph
 
         Create one graph.
@@ -41616,7 +41616,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_graphs_serialize(
+        _param = self._post_ai_graphs_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41625,7 +41625,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -41641,7 +41641,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_graphs_with_http_info(
+    def post_ai_graphs_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41656,7 +41656,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiGraphs200Response]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Create a graph
 
         Create one graph.
@@ -41685,7 +41685,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_graphs_serialize(
+        _param = self._post_ai_graphs_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41694,7 +41694,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -41710,7 +41710,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_graphs_without_preload_content(
+    def post_ai_graphs_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41754,7 +41754,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_graphs_serialize(
+        _param = self._post_ai_graphs_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41763,7 +41763,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -41774,7 +41774,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_graphs_serialize(
+    def _post_ai_graphs_serialize(
         self,
         body,
         _request_auth,
@@ -41851,7 +41851,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_messages(
+    def post_ai_messages(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41866,7 +41866,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiMessages200Response:
+    ) -> PostAiMessages200Response:
         """Create a message
 
         Create one message.
@@ -41895,7 +41895,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_messages_serialize(
+        _param = self._post_ai_messages_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41904,7 +41904,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -41920,7 +41920,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_messages_with_http_info(
+    def post_ai_messages_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -41935,7 +41935,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiMessages200Response]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Create a message
 
         Create one message.
@@ -41964,7 +41964,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_messages_serialize(
+        _param = self._post_ai_messages_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -41973,7 +41973,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -41989,7 +41989,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_messages_without_preload_content(
+    def post_ai_messages_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42033,7 +42033,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_messages_serialize(
+        _param = self._post_ai_messages_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42042,7 +42042,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -42053,7 +42053,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_messages_serialize(
+    def _post_ai_messages_serialize(
         self,
         body,
         _request_auth,
@@ -42130,7 +42130,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_nodes(
+    def post_ai_nodes(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42145,7 +42145,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiNodes200Response:
+    ) -> PostAiNodes200Response:
         """Create a node
 
         Create one node.
@@ -42174,7 +42174,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_nodes_serialize(
+        _param = self._post_ai_nodes_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42183,7 +42183,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -42199,7 +42199,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_nodes_with_http_info(
+    def post_ai_nodes_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42214,7 +42214,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiNodes200Response]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Create a node
 
         Create one node.
@@ -42243,7 +42243,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_nodes_serialize(
+        _param = self._post_ai_nodes_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42252,7 +42252,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -42268,7 +42268,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_nodes_without_preload_content(
+    def post_ai_nodes_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42312,7 +42312,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_nodes_serialize(
+        _param = self._post_ai_nodes_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42321,7 +42321,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -42332,7 +42332,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_nodes_serialize(
+    def _post_ai_nodes_serialize(
         self,
         body,
         _request_auth,
@@ -42409,7 +42409,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_nodes_by_owner_by_name_tunnel(
+    def post_ai_nodes_by_owner_by_name_tunnel(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -42458,7 +42458,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+        _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -42485,7 +42485,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_nodes_by_owner_by_name_tunnel_with_http_info(
+    def post_ai_nodes_by_owner_by_name_tunnel_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -42534,7 +42534,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+        _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -42561,7 +42561,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_nodes_by_owner_by_name_tunnel_without_preload_content(
+    def post_ai_nodes_by_owner_by_name_tunnel_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -42610,7 +42610,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+        _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -42632,7 +42632,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_nodes_by_owner_by_name_tunnel_serialize(
+    def _post_ai_nodes_by_owner_by_name_tunnel_serialize(
         self,
         owner,
         name,
@@ -42715,7 +42715,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_providers(
+    def post_ai_providers(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42730,7 +42730,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiProviders200Response:
+    ) -> PostAiProviders200Response:
         """Create a provider
 
         Create one provider.
@@ -42759,7 +42759,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_providers_serialize(
+        _param = self._post_ai_providers_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42768,7 +42768,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -42784,7 +42784,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_providers_with_http_info(
+    def post_ai_providers_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42799,7 +42799,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiProviders200Response]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Create a provider
 
         Create one provider.
@@ -42828,7 +42828,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_providers_serialize(
+        _param = self._post_ai_providers_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42837,7 +42837,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -42853,7 +42853,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_providers_without_preload_content(
+    def post_ai_providers_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -42897,7 +42897,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_providers_serialize(
+        _param = self._post_ai_providers_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -42906,7 +42906,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -42917,7 +42917,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_providers_serialize(
+    def _post_ai_providers_serialize(
         self,
         body,
         _request_auth,
@@ -42994,7 +42994,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_providers_mcp_tools(
+    def post_ai_providers_mcp_tools(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43037,7 +43037,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_providers_mcp_tools_serialize(
+        _param = self._post_ai_providers_mcp_tools_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43062,7 +43062,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_providers_mcp_tools_with_http_info(
+    def post_ai_providers_mcp_tools_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43105,7 +43105,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_providers_mcp_tools_serialize(
+        _param = self._post_ai_providers_mcp_tools_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43130,7 +43130,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_providers_mcp_tools_without_preload_content(
+    def post_ai_providers_mcp_tools_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43173,7 +43173,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_providers_mcp_tools_serialize(
+        _param = self._post_ai_providers_mcp_tools_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43193,7 +43193,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_providers_mcp_tools_serialize(
+    def _post_ai_providers_mcp_tools_serialize(
         self,
         body,
         _request_auth,
@@ -43270,7 +43270,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records(
+    def post_ai_records(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43285,7 +43285,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRecords200Response:
+    ) -> PostAiRecords200Response:
         """Create a record
 
         Create one record.
@@ -43314,7 +43314,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_serialize(
+        _param = self._post_ai_records_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43323,7 +43323,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -43339,7 +43339,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_with_http_info(
+    def post_ai_records_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43354,7 +43354,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRecords200Response]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Create a record
 
         Create one record.
@@ -43383,7 +43383,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_serialize(
+        _param = self._post_ai_records_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43392,7 +43392,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -43408,7 +43408,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_without_preload_content(
+    def post_ai_records_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43452,7 +43452,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_serialize(
+        _param = self._post_ai_records_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43461,7 +43461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -43472,7 +43472,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_records_serialize(
+    def _post_ai_records_serialize(
         self,
         body,
         _request_auth,
@@ -43549,7 +43549,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_batch(
+    def post_ai_records_batch(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43592,7 +43592,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_batch_serialize(
+        _param = self._post_ai_records_batch_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43617,7 +43617,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_batch_with_http_info(
+    def post_ai_records_batch_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43660,7 +43660,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_batch_serialize(
+        _param = self._post_ai_records_batch_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43685,7 +43685,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_batch_without_preload_content(
+    def post_ai_records_batch_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43728,7 +43728,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_batch_serialize(
+        _param = self._post_ai_records_batch_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43748,7 +43748,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_records_batch_serialize(
+    def _post_ai_records_batch_serialize(
         self,
         body,
         _request_auth,
@@ -43825,7 +43825,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_commit(
+    def post_ai_records_commit(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43868,7 +43868,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_commit_serialize(
+        _param = self._post_ai_records_commit_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43893,7 +43893,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_commit_with_http_info(
+    def post_ai_records_commit_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -43936,7 +43936,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_commit_serialize(
+        _param = self._post_ai_records_commit_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -43961,7 +43961,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_commit_without_preload_content(
+    def post_ai_records_commit_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44004,7 +44004,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_commit_serialize(
+        _param = self._post_ai_records_commit_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44024,7 +44024,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_records_commit_serialize(
+    def _post_ai_records_commit_serialize(
         self,
         body,
         _request_auth,
@@ -44101,7 +44101,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_commit_second(
+    def post_ai_records_commit_second(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44144,7 +44144,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_commit_second_serialize(
+        _param = self._post_ai_records_commit_second_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44169,7 +44169,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_commit_second_with_http_info(
+    def post_ai_records_commit_second_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44212,7 +44212,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_commit_second_serialize(
+        _param = self._post_ai_records_commit_second_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44237,7 +44237,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_records_commit_second_without_preload_content(
+    def post_ai_records_commit_second_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44280,7 +44280,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_records_commit_second_serialize(
+        _param = self._post_ai_records_commit_second_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44300,7 +44300,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_records_commit_second_serialize(
+    def _post_ai_records_commit_second_serialize(
         self,
         body,
         _request_auth,
@@ -44377,7 +44377,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections(
+    def post_ai_remote_connections(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44392,7 +44392,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRemoteConnections200Response:
+    ) -> PostAiRemoteConnections200Response:
         """Create a connection
 
         Create one connection.
@@ -44421,7 +44421,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_serialize(
+        _param = self._post_ai_remote_connections_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44430,7 +44430,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -44446,7 +44446,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_with_http_info(
+    def post_ai_remote_connections_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44461,7 +44461,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Create a connection
 
         Create one connection.
@@ -44490,7 +44490,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_serialize(
+        _param = self._post_ai_remote_connections_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44499,7 +44499,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -44515,7 +44515,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_without_preload_content(
+    def post_ai_remote_connections_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -44559,7 +44559,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_serialize(
+        _param = self._post_ai_remote_connections_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -44568,7 +44568,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -44579,7 +44579,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_remote_connections_serialize(
+    def _post_ai_remote_connections_serialize(
         self,
         body,
         _request_auth,
@@ -44656,7 +44656,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_by_owner_by_name_start(
+    def post_ai_remote_connections_by_owner_by_name_start(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -44705,7 +44705,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_by_owner_by_name_start_serialize(
+        _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -44732,7 +44732,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_by_owner_by_name_start_with_http_info(
+    def post_ai_remote_connections_by_owner_by_name_start_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -44781,7 +44781,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_by_owner_by_name_start_serialize(
+        _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -44808,7 +44808,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_by_owner_by_name_start_without_preload_content(
+    def post_ai_remote_connections_by_owner_by_name_start_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -44857,7 +44857,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_by_owner_by_name_start_serialize(
+        _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -44879,7 +44879,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_remote_connections_by_owner_by_name_start_serialize(
+    def _post_ai_remote_connections_by_owner_by_name_start_serialize(
         self,
         owner,
         name,
@@ -44962,7 +44962,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_by_owner_by_name_stop(
+    def post_ai_remote_connections_by_owner_by_name_stop(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -45011,7 +45011,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_by_owner_by_name_stop_serialize(
+        _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -45038,7 +45038,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_by_owner_by_name_stop_with_http_info(
+    def post_ai_remote_connections_by_owner_by_name_stop_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -45087,7 +45087,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_by_owner_by_name_stop_serialize(
+        _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -45114,7 +45114,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_remote_connections_by_owner_by_name_stop_without_preload_content(
+    def post_ai_remote_connections_by_owner_by_name_stop_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -45163,7 +45163,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_remote_connections_by_owner_by_name_stop_serialize(
+        _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -45185,7 +45185,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_remote_connections_by_owner_by_name_stop_serialize(
+    def _post_ai_remote_connections_by_owner_by_name_stop_serialize(
         self,
         owner,
         name,
@@ -45268,7 +45268,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_routes(
+    def post_ai_routes(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45283,7 +45283,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRoutes200Response:
+    ) -> PostAiRoutes200Response:
         """Create a model-route
 
         Create one model-route.
@@ -45312,7 +45312,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_routes_serialize(
+        _param = self._post_ai_routes_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45321,7 +45321,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -45337,7 +45337,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_routes_with_http_info(
+    def post_ai_routes_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45352,7 +45352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRoutes200Response]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Create a model-route
 
         Create one model-route.
@@ -45381,7 +45381,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_routes_serialize(
+        _param = self._post_ai_routes_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45390,7 +45390,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -45406,7 +45406,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_routes_without_preload_content(
+    def post_ai_routes_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45450,7 +45450,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_routes_serialize(
+        _param = self._post_ai_routes_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45459,7 +45459,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -45470,7 +45470,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_routes_serialize(
+    def _post_ai_routes_serialize(
         self,
         body,
         _request_auth,
@@ -45547,7 +45547,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_scales(
+    def post_ai_scales(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45562,7 +45562,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScales200Response:
+    ) -> PostAiScales200Response:
         """Create a scale
 
         Create one scale.
@@ -45591,7 +45591,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_scales_serialize(
+        _param = self._post_ai_scales_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45600,7 +45600,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -45616,7 +45616,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_scales_with_http_info(
+    def post_ai_scales_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45631,7 +45631,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScales200Response]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Create a scale
 
         Create one scale.
@@ -45660,7 +45660,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_scales_serialize(
+        _param = self._post_ai_scales_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45669,7 +45669,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -45685,7 +45685,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_scales_without_preload_content(
+    def post_ai_scales_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45729,7 +45729,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_scales_serialize(
+        _param = self._post_ai_scales_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45738,7 +45738,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -45749,7 +45749,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_scales_serialize(
+    def _post_ai_scales_serialize(
         self,
         body,
         _request_auth,
@@ -45826,7 +45826,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_scans(
+    def post_ai_scans(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45841,7 +45841,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScans200Response:
+    ) -> PostAiScans200Response:
         """Create a scan
 
         Create one scan.
@@ -45870,7 +45870,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_scans_serialize(
+        _param = self._post_ai_scans_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45879,7 +45879,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -45895,7 +45895,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_scans_with_http_info(
+    def post_ai_scans_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -45910,7 +45910,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScans200Response]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Create a scan
 
         Create one scan.
@@ -45939,7 +45939,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_scans_serialize(
+        _param = self._post_ai_scans_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -45948,7 +45948,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -45964,7 +45964,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_scans_without_preload_content(
+    def post_ai_scans_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46008,7 +46008,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_scans_serialize(
+        _param = self._post_ai_scans_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46017,7 +46017,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -46028,7 +46028,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_scans_serialize(
+    def _post_ai_scans_serialize(
         self,
         body,
         _request_auth,
@@ -46105,7 +46105,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signin(
+    def post_ai_signin(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46148,7 +46148,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signin_serialize(
+        _param = self._post_ai_signin_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46173,7 +46173,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signin_with_http_info(
+    def post_ai_signin_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46216,7 +46216,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signin_serialize(
+        _param = self._post_ai_signin_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46241,7 +46241,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signin_without_preload_content(
+    def post_ai_signin_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46284,7 +46284,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signin_serialize(
+        _param = self._post_ai_signin_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46304,7 +46304,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_signin_serialize(
+    def _post_ai_signin_serialize(
         self,
         body,
         _request_auth,
@@ -46381,7 +46381,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signin_sessions(
+    def post_ai_signin_sessions(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46396,7 +46396,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiSigninSessions200Response:
+    ) -> PostAiSigninSessions200Response:
         """Create a session
 
         Create one session.
@@ -46425,7 +46425,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signin_sessions_serialize(
+        _param = self._post_ai_signin_sessions_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46434,7 +46434,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -46450,7 +46450,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signin_sessions_with_http_info(
+    def post_ai_signin_sessions_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46465,7 +46465,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Create a session
 
         Create one session.
@@ -46494,7 +46494,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signin_sessions_serialize(
+        _param = self._post_ai_signin_sessions_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46503,7 +46503,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -46519,7 +46519,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signin_sessions_without_preload_content(
+    def post_ai_signin_sessions_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46563,7 +46563,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signin_sessions_serialize(
+        _param = self._post_ai_signin_sessions_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46572,7 +46572,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -46583,7 +46583,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_signin_sessions_serialize(
+    def _post_ai_signin_sessions_serialize(
         self,
         body,
         _request_auth,
@@ -46660,7 +46660,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signout(
+    def post_ai_signout(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46703,7 +46703,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signout_serialize(
+        _param = self._post_ai_signout_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46728,7 +46728,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signout_with_http_info(
+    def post_ai_signout_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46771,7 +46771,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signout_serialize(
+        _param = self._post_ai_signout_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46796,7 +46796,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_signout_without_preload_content(
+    def post_ai_signout_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46839,7 +46839,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_signout_serialize(
+        _param = self._post_ai_signout_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46859,7 +46859,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_signout_serialize(
+    def _post_ai_signout_serialize(
         self,
         body,
         _request_auth,
@@ -46936,7 +46936,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_stores(
+    def post_ai_stores(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -46951,7 +46951,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiStores200Response:
+    ) -> PostAiStores200Response:
         """Create a store
 
         Create one store.
@@ -46980,7 +46980,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_stores_serialize(
+        _param = self._post_ai_stores_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -46989,7 +46989,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -47005,7 +47005,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_stores_with_http_info(
+    def post_ai_stores_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -47020,7 +47020,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiStores200Response]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Create a store
 
         Create one store.
@@ -47049,7 +47049,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_stores_serialize(
+        _param = self._post_ai_stores_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47058,7 +47058,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -47074,7 +47074,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_stores_without_preload_content(
+    def post_ai_stores_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -47118,7 +47118,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_stores_serialize(
+        _param = self._post_ai_stores_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47127,7 +47127,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -47138,7 +47138,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_stores_serialize(
+    def _post_ai_stores_serialize(
         self,
         body,
         _request_auth,
@@ -47215,7 +47215,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_stores_by_owner_by_name_vectors(
+    def post_ai_stores_by_owner_by_name_vectors(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -47264,7 +47264,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_stores_by_owner_by_name_vectors_serialize(
+        _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -47291,7 +47291,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_stores_by_owner_by_name_vectors_with_http_info(
+    def post_ai_stores_by_owner_by_name_vectors_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -47340,7 +47340,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_stores_by_owner_by_name_vectors_serialize(
+        _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -47367,7 +47367,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_stores_by_owner_by_name_vectors_without_preload_content(
+    def post_ai_stores_by_owner_by_name_vectors_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -47416,7 +47416,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_stores_by_owner_by_name_vectors_serialize(
+        _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -47438,7 +47438,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_stores_by_owner_by_name_vectors_serialize(
+    def _post_ai_stores_by_owner_by_name_vectors_serialize(
         self,
         owner,
         name,
@@ -47521,7 +47521,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks(
+    def post_ai_tasks(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -47536,7 +47536,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTasks200Response:
+    ) -> PostAiTasks200Response:
         """Create a task
 
         Create one task.
@@ -47565,7 +47565,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_serialize(
+        _param = self._post_ai_tasks_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47574,7 +47574,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -47590,7 +47590,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_with_http_info(
+    def post_ai_tasks_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -47605,7 +47605,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTasks200Response]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Create a task
 
         Create one task.
@@ -47634,7 +47634,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_serialize(
+        _param = self._post_ai_tasks_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47643,7 +47643,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -47659,7 +47659,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_without_preload_content(
+    def post_ai_tasks_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -47703,7 +47703,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_serialize(
+        _param = self._post_ai_tasks_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -47712,7 +47712,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -47723,7 +47723,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_tasks_serialize(
+    def _post_ai_tasks_serialize(
         self,
         body,
         _request_auth,
@@ -47800,7 +47800,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_by_owner_by_name_analyze(
+    def post_ai_tasks_by_owner_by_name_analyze(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -47849,7 +47849,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_by_owner_by_name_analyze_serialize(
+        _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -47876,7 +47876,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_by_owner_by_name_analyze_with_http_info(
+    def post_ai_tasks_by_owner_by_name_analyze_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -47925,7 +47925,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_by_owner_by_name_analyze_serialize(
+        _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -47952,7 +47952,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_by_owner_by_name_analyze_without_preload_content(
+    def post_ai_tasks_by_owner_by_name_analyze_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -48001,7 +48001,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_by_owner_by_name_analyze_serialize(
+        _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -48023,7 +48023,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_tasks_by_owner_by_name_analyze_serialize(
+    def _post_ai_tasks_by_owner_by_name_analyze_serialize(
         self,
         owner,
         name,
@@ -48106,7 +48106,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_by_owner_by_name_document(
+    def post_ai_tasks_by_owner_by_name_document(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -48155,7 +48155,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_by_owner_by_name_document_serialize(
+        _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -48182,7 +48182,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_by_owner_by_name_document_with_http_info(
+    def post_ai_tasks_by_owner_by_name_document_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -48231,7 +48231,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_by_owner_by_name_document_serialize(
+        _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -48258,7 +48258,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tasks_by_owner_by_name_document_without_preload_content(
+    def post_ai_tasks_by_owner_by_name_document_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -48307,7 +48307,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tasks_by_owner_by_name_document_serialize(
+        _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -48329,7 +48329,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_tasks_by_owner_by_name_document_serialize(
+    def _post_ai_tasks_by_owner_by_name_document_serialize(
         self,
         owner,
         name,
@@ -48412,7 +48412,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_templates(
+    def post_ai_templates(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48427,7 +48427,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTemplates200Response:
+    ) -> PostAiTemplates200Response:
         """Create a template
 
         Create one template.
@@ -48456,7 +48456,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_templates_serialize(
+        _param = self._post_ai_templates_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -48465,7 +48465,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -48481,7 +48481,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_templates_with_http_info(
+    def post_ai_templates_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48496,7 +48496,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTemplates200Response]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Create a template
 
         Create one template.
@@ -48525,7 +48525,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_templates_serialize(
+        _param = self._post_ai_templates_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -48534,7 +48534,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -48550,7 +48550,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_templates_without_preload_content(
+    def post_ai_templates_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48594,7 +48594,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_templates_serialize(
+        _param = self._post_ai_templates_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -48603,7 +48603,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -48614,7 +48614,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_templates_serialize(
+    def _post_ai_templates_serialize(
         self,
         body,
         _request_auth,
@@ -48691,7 +48691,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tree_files(
+    def post_ai_tree_files(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48706,7 +48706,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTreeFiles200Response:
+    ) -> PostAiTreeFiles200Response:
         """Create a tree-file
 
         Create one tree-file.
@@ -48735,7 +48735,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tree_files_serialize(
+        _param = self._post_ai_tree_files_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -48744,7 +48744,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -48760,7 +48760,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tree_files_with_http_info(
+    def post_ai_tree_files_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48775,7 +48775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Create a tree-file
 
         Create one tree-file.
@@ -48804,7 +48804,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tree_files_serialize(
+        _param = self._post_ai_tree_files_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -48813,7 +48813,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -48829,7 +48829,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_tree_files_without_preload_content(
+    def post_ai_tree_files_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48873,7 +48873,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_tree_files_serialize(
+        _param = self._post_ai_tree_files_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -48882,7 +48882,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -48893,7 +48893,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_tree_files_serialize(
+    def _post_ai_tree_files_serialize(
         self,
         body,
         _request_auth,
@@ -48970,7 +48970,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_vectors(
+    def post_ai_vectors(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -48985,7 +48985,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVectors200Response:
+    ) -> PostAiVectors200Response:
         """Create a vector
 
         Create one vector.
@@ -49014,7 +49014,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_vectors_serialize(
+        _param = self._post_ai_vectors_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49023,7 +49023,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -49039,7 +49039,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_vectors_with_http_info(
+    def post_ai_vectors_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49054,7 +49054,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVectors200Response]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Create a vector
 
         Create one vector.
@@ -49083,7 +49083,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_vectors_serialize(
+        _param = self._post_ai_vectors_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49092,7 +49092,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -49108,7 +49108,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_vectors_without_preload_content(
+    def post_ai_vectors_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49152,7 +49152,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_vectors_serialize(
+        _param = self._post_ai_vectors_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49161,7 +49161,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -49172,7 +49172,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_vectors_serialize(
+    def _post_ai_vectors_serialize(
         self,
         body,
         _request_auth,
@@ -49249,7 +49249,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_videos(
+    def post_ai_videos(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49264,7 +49264,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVideos200Response:
+    ) -> PostAiVideos200Response:
         """Create a video
 
         Create one video.
@@ -49293,7 +49293,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_videos_serialize(
+        _param = self._post_ai_videos_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49302,7 +49302,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -49318,7 +49318,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_videos_with_http_info(
+    def post_ai_videos_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49333,7 +49333,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVideos200Response]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Create a video
 
         Create one video.
@@ -49362,7 +49362,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_videos_serialize(
+        _param = self._post_ai_videos_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49371,7 +49371,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -49387,7 +49387,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_videos_without_preload_content(
+    def post_ai_videos_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49431,7 +49431,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_videos_serialize(
+        _param = self._post_ai_videos_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49440,7 +49440,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -49451,7 +49451,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_videos_serialize(
+    def _post_ai_videos_serialize(
         self,
         body,
         _request_auth,
@@ -49528,7 +49528,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_videos_upload(
+    def post_ai_videos_upload(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49571,7 +49571,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_videos_upload_serialize(
+        _param = self._post_ai_videos_upload_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49596,7 +49596,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_videos_upload_with_http_info(
+    def post_ai_videos_upload_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49639,7 +49639,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_videos_upload_serialize(
+        _param = self._post_ai_videos_upload_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49664,7 +49664,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_videos_upload_without_preload_content(
+    def post_ai_videos_upload_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49707,7 +49707,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_videos_upload_serialize(
+        _param = self._post_ai_videos_upload_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49727,7 +49727,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_videos_upload_serialize(
+    def _post_ai_videos_upload_serialize(
         self,
         body,
         _request_auth,
@@ -49804,7 +49804,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_workflows(
+    def post_ai_workflows(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49819,7 +49819,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiWorkflows200Response:
+    ) -> PostAiWorkflows200Response:
         """Create a workflow
 
         Create one workflow.
@@ -49848,7 +49848,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_workflows_serialize(
+        _param = self._post_ai_workflows_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49857,7 +49857,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -49873,7 +49873,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_workflows_with_http_info(
+    def post_ai_workflows_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49888,7 +49888,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiWorkflows200Response]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Create a workflow
 
         Create one workflow.
@@ -49917,7 +49917,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_workflows_serialize(
+        _param = self._post_ai_workflows_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49926,7 +49926,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -49942,7 +49942,7 @@ class AiApi:
 
 
     @validate_call
-    def post_v1_ai_workflows_without_preload_content(
+    def post_ai_workflows_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -49986,7 +49986,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ai_workflows_serialize(
+        _param = self._post_ai_workflows_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -49995,7 +49995,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -50006,7 +50006,7 @@ class AiApi:
         return response_data.response
 
 
-    def _post_v1_ai_workflows_serialize(
+    def _post_ai_workflows_serialize(
         self,
         body,
         _request_auth,
@@ -50083,7 +50083,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_articles_by_owner_by_name(
+    def put_ai_articles_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50100,7 +50100,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiArticles200Response:
+    ) -> PostAiArticles200Response:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50133,7 +50133,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50144,7 +50144,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -50160,7 +50160,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_articles_by_owner_by_name_with_http_info(
+    def put_ai_articles_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50177,7 +50177,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiArticles200Response]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50210,7 +50210,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50221,7 +50221,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -50237,7 +50237,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_articles_by_owner_by_name_without_preload_content(
+    def put_ai_articles_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50287,7 +50287,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_articles_by_owner_by_name_serialize(
+        _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50298,7 +50298,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiArticles200Response",
+            '200': "PostAiArticles200Response",
             '401': None,
             '403': None,
         }
@@ -50309,7 +50309,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_articles_by_owner_by_name_serialize(
+    def _put_ai_articles_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -50392,7 +50392,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_assets_by_owner_by_name(
+    def put_ai_assets_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50409,7 +50409,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiAssets200Response:
+    ) -> PostAiAssets200Response:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50442,7 +50442,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50453,7 +50453,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -50469,7 +50469,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_assets_by_owner_by_name_with_http_info(
+    def put_ai_assets_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50486,7 +50486,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiAssets200Response]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50519,7 +50519,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50530,7 +50530,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -50546,7 +50546,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_assets_by_owner_by_name_without_preload_content(
+    def put_ai_assets_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50596,7 +50596,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_assets_by_owner_by_name_serialize(
+        _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50607,7 +50607,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiAssets200Response",
+            '200': "PostAiAssets200Response",
             '401': None,
             '403': None,
         }
@@ -50618,7 +50618,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_assets_by_owner_by_name_serialize(
+    def _put_ai_assets_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -50701,7 +50701,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_chats_by_owner_by_name(
+    def put_ai_chats_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50718,7 +50718,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiChats200Response:
+    ) -> PostAiChats200Response:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50751,7 +50751,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50762,7 +50762,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -50778,7 +50778,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_chats_by_owner_by_name_with_http_info(
+    def put_ai_chats_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50795,7 +50795,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiChats200Response]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -50828,7 +50828,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50839,7 +50839,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -50855,7 +50855,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_chats_by_owner_by_name_without_preload_content(
+    def put_ai_chats_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -50905,7 +50905,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_chats_by_owner_by_name_serialize(
+        _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -50916,7 +50916,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiChats200Response",
+            '200': "PostAiChats200Response",
             '401': None,
             '403': None,
         }
@@ -50927,7 +50927,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_chats_by_owner_by_name_serialize(
+    def _put_ai_chats_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -51010,7 +51010,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_deployments_by_owner_by_name(
+    def put_ai_deployments_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51027,7 +51027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiDeployments200Response:
+    ) -> PostAiDeployments200Response:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51060,7 +51060,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51071,7 +51071,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -51087,7 +51087,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_deployments_by_owner_by_name_with_http_info(
+    def put_ai_deployments_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51104,7 +51104,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiDeployments200Response]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51137,7 +51137,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51148,7 +51148,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -51164,7 +51164,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_deployments_by_owner_by_name_without_preload_content(
+    def put_ai_deployments_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51214,7 +51214,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_deployments_by_owner_by_name_serialize(
+        _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51225,7 +51225,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiDeployments200Response",
+            '200': "PostAiDeployments200Response",
             '401': None,
             '403': None,
         }
@@ -51236,7 +51236,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_deployments_by_owner_by_name_serialize(
+    def _put_ai_deployments_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -51319,7 +51319,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_files_by_owner_by_name(
+    def put_ai_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51336,7 +51336,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiFiles200Response:
+    ) -> PostAiFiles200Response:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51369,7 +51369,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51380,7 +51380,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -51396,7 +51396,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_files_by_owner_by_name_with_http_info(
+    def put_ai_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51413,7 +51413,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiFiles200Response]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51446,7 +51446,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51457,7 +51457,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -51473,7 +51473,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_files_by_owner_by_name_without_preload_content(
+    def put_ai_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51523,7 +51523,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_files_by_owner_by_name_serialize(
+        _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51534,7 +51534,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiFiles200Response",
+            '200': "PostAiFiles200Response",
             '401': None,
             '403': None,
         }
@@ -51545,7 +51545,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_files_by_owner_by_name_serialize(
+    def _put_ai_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -51628,7 +51628,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_forms_by_owner_by_name(
+    def put_ai_forms_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51645,7 +51645,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiForms200Response:
+    ) -> PostAiForms200Response:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51678,7 +51678,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51689,7 +51689,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -51705,7 +51705,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_forms_by_owner_by_name_with_http_info(
+    def put_ai_forms_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51722,7 +51722,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiForms200Response]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51755,7 +51755,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51766,7 +51766,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -51782,7 +51782,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_forms_by_owner_by_name_without_preload_content(
+    def put_ai_forms_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51832,7 +51832,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_forms_by_owner_by_name_serialize(
+        _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51843,7 +51843,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiForms200Response",
+            '200': "PostAiForms200Response",
             '401': None,
             '403': None,
         }
@@ -51854,7 +51854,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_forms_by_owner_by_name_serialize(
+    def _put_ai_forms_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -51937,7 +51937,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_graphs_by_owner_by_name(
+    def put_ai_graphs_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -51954,7 +51954,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiGraphs200Response:
+    ) -> PostAiGraphs200Response:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -51987,7 +51987,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -51998,7 +51998,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -52014,7 +52014,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_graphs_by_owner_by_name_with_http_info(
+    def put_ai_graphs_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52031,7 +52031,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiGraphs200Response]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52064,7 +52064,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52075,7 +52075,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -52091,7 +52091,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_graphs_by_owner_by_name_without_preload_content(
+    def put_ai_graphs_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52141,7 +52141,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_graphs_by_owner_by_name_serialize(
+        _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52152,7 +52152,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiGraphs200Response",
+            '200': "PostAiGraphs200Response",
             '401': None,
             '403': None,
         }
@@ -52163,7 +52163,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_graphs_by_owner_by_name_serialize(
+    def _put_ai_graphs_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -52246,7 +52246,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_messages_by_owner_by_name(
+    def put_ai_messages_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52263,7 +52263,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiMessages200Response:
+    ) -> PostAiMessages200Response:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52296,7 +52296,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52307,7 +52307,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -52323,7 +52323,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_messages_by_owner_by_name_with_http_info(
+    def put_ai_messages_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52340,7 +52340,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiMessages200Response]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52373,7 +52373,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52384,7 +52384,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -52400,7 +52400,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_messages_by_owner_by_name_without_preload_content(
+    def put_ai_messages_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52450,7 +52450,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_messages_by_owner_by_name_serialize(
+        _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52461,7 +52461,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiMessages200Response",
+            '200': "PostAiMessages200Response",
             '401': None,
             '403': None,
         }
@@ -52472,7 +52472,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_messages_by_owner_by_name_serialize(
+    def _put_ai_messages_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -52555,7 +52555,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_nodes_by_owner_by_name(
+    def put_ai_nodes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52572,7 +52572,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiNodes200Response:
+    ) -> PostAiNodes200Response:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52605,7 +52605,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52616,7 +52616,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -52632,7 +52632,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_nodes_by_owner_by_name_with_http_info(
+    def put_ai_nodes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52649,7 +52649,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiNodes200Response]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -52682,7 +52682,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52693,7 +52693,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -52709,7 +52709,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_nodes_by_owner_by_name_without_preload_content(
+    def put_ai_nodes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -52759,7 +52759,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_nodes_by_owner_by_name_serialize(
+        _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -52770,7 +52770,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiNodes200Response",
+            '200': "PostAiNodes200Response",
             '401': None,
             '403': None,
         }
@@ -52781,7 +52781,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_nodes_by_owner_by_name_serialize(
+    def _put_ai_nodes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -52864,7 +52864,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_preferences(
+    def put_ai_preferences(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -52907,7 +52907,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_preferences_serialize(
+        _param = self._put_ai_preferences_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -52932,7 +52932,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_preferences_with_http_info(
+    def put_ai_preferences_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -52975,7 +52975,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_preferences_serialize(
+        _param = self._put_ai_preferences_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -53000,7 +53000,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_preferences_without_preload_content(
+    def put_ai_preferences_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -53043,7 +53043,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_preferences_serialize(
+        _param = self._put_ai_preferences_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -53063,7 +53063,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_preferences_serialize(
+    def _put_ai_preferences_serialize(
         self,
         body,
         _request_auth,
@@ -53140,7 +53140,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_providers_by_owner_by_name(
+    def put_ai_providers_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53157,7 +53157,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiProviders200Response:
+    ) -> PostAiProviders200Response:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53190,7 +53190,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53201,7 +53201,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -53217,7 +53217,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_providers_by_owner_by_name_with_http_info(
+    def put_ai_providers_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53234,7 +53234,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiProviders200Response]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53267,7 +53267,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53278,7 +53278,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -53294,7 +53294,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_providers_by_owner_by_name_without_preload_content(
+    def put_ai_providers_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53344,7 +53344,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_providers_by_owner_by_name_serialize(
+        _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53355,7 +53355,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiProviders200Response",
+            '200': "PostAiProviders200Response",
             '401': None,
             '403': None,
         }
@@ -53366,7 +53366,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_providers_by_owner_by_name_serialize(
+    def _put_ai_providers_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -53449,7 +53449,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_records_by_owner_by_name(
+    def put_ai_records_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53466,7 +53466,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRecords200Response:
+    ) -> PostAiRecords200Response:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53499,7 +53499,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53510,7 +53510,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -53526,7 +53526,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_records_by_owner_by_name_with_http_info(
+    def put_ai_records_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53543,7 +53543,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRecords200Response]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53576,7 +53576,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53587,7 +53587,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -53603,7 +53603,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_records_by_owner_by_name_without_preload_content(
+    def put_ai_records_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53653,7 +53653,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_records_by_owner_by_name_serialize(
+        _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53664,7 +53664,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRecords200Response",
+            '200': "PostAiRecords200Response",
             '401': None,
             '403': None,
         }
@@ -53675,7 +53675,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_records_by_owner_by_name_serialize(
+    def _put_ai_records_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -53758,7 +53758,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_remote_connections_by_owner_by_name(
+    def put_ai_remote_connections_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53775,7 +53775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRemoteConnections200Response:
+    ) -> PostAiRemoteConnections200Response:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53808,7 +53808,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53819,7 +53819,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -53835,7 +53835,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_remote_connections_by_owner_by_name_with_http_info(
+    def put_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53852,7 +53852,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRemoteConnections200Response]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -53885,7 +53885,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53896,7 +53896,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -53912,7 +53912,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_remote_connections_by_owner_by_name_without_preload_content(
+    def put_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -53962,7 +53962,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_remote_connections_by_owner_by_name_serialize(
+        _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -53973,7 +53973,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRemoteConnections200Response",
+            '200': "PostAiRemoteConnections200Response",
             '401': None,
             '403': None,
         }
@@ -53984,7 +53984,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_remote_connections_by_owner_by_name_serialize(
+    def _put_ai_remote_connections_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -54067,7 +54067,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_routes_by_owner_by_name(
+    def put_ai_routes_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54084,7 +54084,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiRoutes200Response:
+    ) -> PostAiRoutes200Response:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54117,7 +54117,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54128,7 +54128,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -54144,7 +54144,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_routes_by_owner_by_name_with_http_info(
+    def put_ai_routes_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54161,7 +54161,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiRoutes200Response]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54194,7 +54194,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54205,7 +54205,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -54221,7 +54221,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_routes_by_owner_by_name_without_preload_content(
+    def put_ai_routes_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54271,7 +54271,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_routes_by_owner_by_name_serialize(
+        _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54282,7 +54282,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiRoutes200Response",
+            '200': "PostAiRoutes200Response",
             '401': None,
             '403': None,
         }
@@ -54293,7 +54293,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_routes_by_owner_by_name_serialize(
+    def _put_ai_routes_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -54376,7 +54376,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_scales_by_owner_by_name(
+    def put_ai_scales_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54393,7 +54393,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScales200Response:
+    ) -> PostAiScales200Response:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54426,7 +54426,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54437,7 +54437,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -54453,7 +54453,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_scales_by_owner_by_name_with_http_info(
+    def put_ai_scales_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54470,7 +54470,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScales200Response]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54503,7 +54503,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54514,7 +54514,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -54530,7 +54530,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_scales_by_owner_by_name_without_preload_content(
+    def put_ai_scales_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54580,7 +54580,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_scales_by_owner_by_name_serialize(
+        _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54591,7 +54591,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScales200Response",
+            '200': "PostAiScales200Response",
             '401': None,
             '403': None,
         }
@@ -54602,7 +54602,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_scales_by_owner_by_name_serialize(
+    def _put_ai_scales_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -54685,7 +54685,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_scans_by_owner_by_name(
+    def put_ai_scans_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54702,7 +54702,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiScans200Response:
+    ) -> PostAiScans200Response:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54735,7 +54735,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54746,7 +54746,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -54762,7 +54762,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_scans_by_owner_by_name_with_http_info(
+    def put_ai_scans_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54779,7 +54779,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiScans200Response]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -54812,7 +54812,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54823,7 +54823,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -54839,7 +54839,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_scans_by_owner_by_name_without_preload_content(
+    def put_ai_scans_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -54889,7 +54889,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_scans_by_owner_by_name_serialize(
+        _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -54900,7 +54900,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiScans200Response",
+            '200': "PostAiScans200Response",
             '401': None,
             '403': None,
         }
@@ -54911,7 +54911,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_scans_by_owner_by_name_serialize(
+    def _put_ai_scans_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -54994,7 +54994,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_signin_sessions_by_owner_by_name(
+    def put_ai_signin_sessions_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55011,7 +55011,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiSigninSessions200Response:
+    ) -> PostAiSigninSessions200Response:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55044,7 +55044,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55055,7 +55055,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -55071,7 +55071,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_signin_sessions_by_owner_by_name_with_http_info(
+    def put_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55088,7 +55088,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiSigninSessions200Response]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55121,7 +55121,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55132,7 +55132,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -55148,7 +55148,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_signin_sessions_by_owner_by_name_without_preload_content(
+    def put_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55198,7 +55198,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_signin_sessions_by_owner_by_name_serialize(
+        _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55209,7 +55209,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiSigninSessions200Response",
+            '200': "PostAiSigninSessions200Response",
             '401': None,
             '403': None,
         }
@@ -55220,7 +55220,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_signin_sessions_by_owner_by_name_serialize(
+    def _put_ai_signin_sessions_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -55303,7 +55303,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_stores_by_owner_by_name(
+    def put_ai_stores_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55320,7 +55320,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiStores200Response:
+    ) -> PostAiStores200Response:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55353,7 +55353,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55364,7 +55364,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -55380,7 +55380,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_stores_by_owner_by_name_with_http_info(
+    def put_ai_stores_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55397,7 +55397,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiStores200Response]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55430,7 +55430,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55441,7 +55441,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -55457,7 +55457,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_stores_by_owner_by_name_without_preload_content(
+    def put_ai_stores_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55507,7 +55507,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_stores_by_owner_by_name_serialize(
+        _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55518,7 +55518,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiStores200Response",
+            '200': "PostAiStores200Response",
             '401': None,
             '403': None,
         }
@@ -55529,7 +55529,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_stores_by_owner_by_name_serialize(
+    def _put_ai_stores_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -55612,7 +55612,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_tasks_by_owner_by_name(
+    def put_ai_tasks_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55629,7 +55629,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTasks200Response:
+    ) -> PostAiTasks200Response:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55662,7 +55662,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55673,7 +55673,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -55689,7 +55689,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_tasks_by_owner_by_name_with_http_info(
+    def put_ai_tasks_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55706,7 +55706,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTasks200Response]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55739,7 +55739,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55750,7 +55750,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -55766,7 +55766,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_tasks_by_owner_by_name_without_preload_content(
+    def put_ai_tasks_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55816,7 +55816,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_tasks_by_owner_by_name_serialize(
+        _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55827,7 +55827,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTasks200Response",
+            '200': "PostAiTasks200Response",
             '401': None,
             '403': None,
         }
@@ -55838,7 +55838,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_tasks_by_owner_by_name_serialize(
+    def _put_ai_tasks_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -55921,7 +55921,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_templates_by_owner_by_name(
+    def put_ai_templates_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -55938,7 +55938,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTemplates200Response:
+    ) -> PostAiTemplates200Response:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -55971,7 +55971,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -55982,7 +55982,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -55998,7 +55998,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_templates_by_owner_by_name_with_http_info(
+    def put_ai_templates_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56015,7 +56015,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTemplates200Response]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56048,7 +56048,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56059,7 +56059,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -56075,7 +56075,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_templates_by_owner_by_name_without_preload_content(
+    def put_ai_templates_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56125,7 +56125,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_templates_by_owner_by_name_serialize(
+        _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56136,7 +56136,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTemplates200Response",
+            '200': "PostAiTemplates200Response",
             '401': None,
             '403': None,
         }
@@ -56147,7 +56147,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_templates_by_owner_by_name_serialize(
+    def _put_ai_templates_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -56230,7 +56230,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_training_contribution(
+    def put_ai_training_contribution(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -56273,7 +56273,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_training_contribution_serialize(
+        _param = self._put_ai_training_contribution_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -56298,7 +56298,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_training_contribution_with_http_info(
+    def put_ai_training_contribution_with_http_info(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -56341,7 +56341,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_training_contribution_serialize(
+        _param = self._put_ai_training_contribution_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -56366,7 +56366,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_training_contribution_without_preload_content(
+    def put_ai_training_contribution_without_preload_content(
         self,
         body: Dict[str, Any],
         _request_timeout: Union[
@@ -56409,7 +56409,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_training_contribution_serialize(
+        _param = self._put_ai_training_contribution_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -56429,7 +56429,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_training_contribution_serialize(
+    def _put_ai_training_contribution_serialize(
         self,
         body,
         _request_auth,
@@ -56506,7 +56506,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_tree_files_by_owner_by_name(
+    def put_ai_tree_files_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56523,7 +56523,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiTreeFiles200Response:
+    ) -> PostAiTreeFiles200Response:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56556,7 +56556,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56567,7 +56567,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -56583,7 +56583,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_tree_files_by_owner_by_name_with_http_info(
+    def put_ai_tree_files_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56600,7 +56600,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiTreeFiles200Response]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56633,7 +56633,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56644,7 +56644,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -56660,7 +56660,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_tree_files_by_owner_by_name_without_preload_content(
+    def put_ai_tree_files_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56710,7 +56710,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_tree_files_by_owner_by_name_serialize(
+        _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56721,7 +56721,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiTreeFiles200Response",
+            '200': "PostAiTreeFiles200Response",
             '401': None,
             '403': None,
         }
@@ -56732,7 +56732,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_tree_files_by_owner_by_name_serialize(
+    def _put_ai_tree_files_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -56815,7 +56815,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_vectors_by_owner_by_name(
+    def put_ai_vectors_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56832,7 +56832,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVectors200Response:
+    ) -> PostAiVectors200Response:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56865,7 +56865,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56876,7 +56876,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -56892,7 +56892,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_vectors_by_owner_by_name_with_http_info(
+    def put_ai_vectors_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -56909,7 +56909,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVectors200Response]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -56942,7 +56942,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -56953,7 +56953,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -56969,7 +56969,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_vectors_by_owner_by_name_without_preload_content(
+    def put_ai_vectors_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57019,7 +57019,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_vectors_by_owner_by_name_serialize(
+        _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57030,7 +57030,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVectors200Response",
+            '200': "PostAiVectors200Response",
             '401': None,
             '403': None,
         }
@@ -57041,7 +57041,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_vectors_by_owner_by_name_serialize(
+    def _put_ai_vectors_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -57124,7 +57124,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_videos_by_owner_by_name(
+    def put_ai_videos_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57141,7 +57141,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiVideos200Response:
+    ) -> PostAiVideos200Response:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57174,7 +57174,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57185,7 +57185,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -57201,7 +57201,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_videos_by_owner_by_name_with_http_info(
+    def put_ai_videos_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57218,7 +57218,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiVideos200Response]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57251,7 +57251,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57262,7 +57262,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -57278,7 +57278,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_videos_by_owner_by_name_without_preload_content(
+    def put_ai_videos_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57328,7 +57328,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_videos_by_owner_by_name_serialize(
+        _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57339,7 +57339,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiVideos200Response",
+            '200': "PostAiVideos200Response",
             '401': None,
             '403': None,
         }
@@ -57350,7 +57350,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_videos_by_owner_by_name_serialize(
+    def _put_ai_videos_by_owner_by_name_serialize(
         self,
         owner,
         name,
@@ -57433,7 +57433,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_workflows_by_owner_by_name(
+    def put_ai_workflows_by_owner_by_name(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57450,7 +57450,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostV1AiWorkflows200Response:
+    ) -> PostAiWorkflows200Response:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57483,7 +57483,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57494,7 +57494,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -57510,7 +57510,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_workflows_by_owner_by_name_with_http_info(
+    def put_ai_workflows_by_owner_by_name_with_http_info(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57527,7 +57527,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostV1AiWorkflows200Response]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -57560,7 +57560,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57571,7 +57571,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -57587,7 +57587,7 @@ class AiApi:
 
 
     @validate_call
-    def put_v1_ai_workflows_by_owner_by_name_without_preload_content(
+    def put_ai_workflows_by_owner_by_name_without_preload_content(
         self,
         owner: Annotated[StrictStr, Field(description="Owning organization.")],
         name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
@@ -57637,7 +57637,7 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ai_workflows_by_owner_by_name_serialize(
+        _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
             body=body,
@@ -57648,7 +57648,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostV1AiWorkflows200Response",
+            '200': "PostAiWorkflows200Response",
             '401': None,
             '403': None,
         }
@@ -57659,7 +57659,7 @@ class AiApi:
         return response_data.response
 
 
-    def _put_v1_ai_workflows_by_owner_by_name_serialize(
+    def _put_ai_workflows_by_owner_by_name_serialize(
         self,
         owner,
         name,

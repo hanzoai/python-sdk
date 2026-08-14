@@ -37,7 +37,7 @@ class IndexApi:
 
 
     @validate_call
-    def delete_v1_index_indexes_by_uid(
+    def delete_index_indexes_by_uid(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -81,7 +81,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_index_indexes_by_uid_serialize(
+        _param = self._delete_index_indexes_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class IndexApi:
 
 
     @validate_call
-    def delete_v1_index_indexes_by_uid_with_http_info(
+    def delete_index_indexes_by_uid_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -147,7 +147,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_index_indexes_by_uid_serialize(
+        _param = self._delete_index_indexes_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class IndexApi:
 
 
     @validate_call
-    def delete_v1_index_indexes_by_uid_without_preload_content(
+    def delete_index_indexes_by_uid_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -213,7 +213,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_index_indexes_by_uid_serialize(
+        _param = self._delete_index_indexes_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _delete_v1_index_indexes_by_uid_serialize(
+    def _delete_index_indexes_by_uid_serialize(
         self,
         uid,
         _request_auth,
@@ -287,7 +287,7 @@ class IndexApi:
 
 
     @validate_call
-    def delete_v1_index_indexes_by_uid_documents_by_id(
+    def delete_index_indexes_by_uid_documents_by_id(
         self,
         uid: StrictStr,
         id: StrictStr,
@@ -334,7 +334,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_index_indexes_by_uid_documents_by_id_serialize(
+        _param = self._delete_index_indexes_by_uid_documents_by_id_serialize(
             uid=uid,
             id=id,
             _request_auth=_request_auth,
@@ -357,7 +357,7 @@ class IndexApi:
 
 
     @validate_call
-    def delete_v1_index_indexes_by_uid_documents_by_id_with_http_info(
+    def delete_index_indexes_by_uid_documents_by_id_with_http_info(
         self,
         uid: StrictStr,
         id: StrictStr,
@@ -404,7 +404,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_index_indexes_by_uid_documents_by_id_serialize(
+        _param = self._delete_index_indexes_by_uid_documents_by_id_serialize(
             uid=uid,
             id=id,
             _request_auth=_request_auth,
@@ -427,7 +427,7 @@ class IndexApi:
 
 
     @validate_call
-    def delete_v1_index_indexes_by_uid_documents_by_id_without_preload_content(
+    def delete_index_indexes_by_uid_documents_by_id_without_preload_content(
         self,
         uid: StrictStr,
         id: StrictStr,
@@ -474,7 +474,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_index_indexes_by_uid_documents_by_id_serialize(
+        _param = self._delete_index_indexes_by_uid_documents_by_id_serialize(
             uid=uid,
             id=id,
             _request_auth=_request_auth,
@@ -492,7 +492,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _delete_v1_index_indexes_by_uid_documents_by_id_serialize(
+    def _delete_index_indexes_by_uid_documents_by_id_serialize(
         self,
         uid,
         id,
@@ -552,7 +552,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_health(
+    def get_index_health(
         self,
         _request_timeout: Union[
             None,
@@ -593,7 +593,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_health_serialize(
+        _param = self._get_index_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -614,7 +614,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_health_with_http_info(
+    def get_index_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -655,7 +655,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_health_serialize(
+        _param = self._get_index_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -676,7 +676,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_health_without_preload_content(
+    def get_index_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -717,7 +717,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_health_serialize(
+        _param = self._get_index_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -733,7 +733,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_health_serialize(
+    def _get_index_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -787,7 +787,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes(
+    def get_index_indexes(
         self,
         _request_timeout: Union[
             None,
@@ -828,7 +828,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_serialize(
+        _param = self._get_index_indexes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -849,7 +849,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_with_http_info(
+    def get_index_indexes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -890,7 +890,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_serialize(
+        _param = self._get_index_indexes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -911,7 +911,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_without_preload_content(
+    def get_index_indexes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -952,7 +952,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_serialize(
+        _param = self._get_index_indexes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -968,7 +968,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_indexes_serialize(
+    def _get_index_indexes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1022,7 +1022,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid(
+    def get_index_indexes_by_uid(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1066,7 +1066,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_serialize(
+        _param = self._get_index_indexes_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1088,7 +1088,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_with_http_info(
+    def get_index_indexes_by_uid_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1132,7 +1132,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_serialize(
+        _param = self._get_index_indexes_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1154,7 +1154,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_without_preload_content(
+    def get_index_indexes_by_uid_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1198,7 +1198,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_serialize(
+        _param = self._get_index_indexes_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1215,7 +1215,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_indexes_by_uid_serialize(
+    def _get_index_indexes_by_uid_serialize(
         self,
         uid,
         _request_auth,
@@ -1272,7 +1272,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_documents(
+    def get_index_indexes_by_uid_documents(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1316,7 +1316,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._get_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1338,7 +1338,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_documents_with_http_info(
+    def get_index_indexes_by_uid_documents_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1382,7 +1382,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._get_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1404,7 +1404,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_documents_without_preload_content(
+    def get_index_indexes_by_uid_documents_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1448,7 +1448,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._get_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1465,7 +1465,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_indexes_by_uid_documents_serialize(
+    def _get_index_indexes_by_uid_documents_serialize(
         self,
         uid,
         _request_auth,
@@ -1522,7 +1522,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_documents_by_id(
+    def get_index_indexes_by_uid_documents_by_id(
         self,
         uid: StrictStr,
         id: StrictStr,
@@ -1569,7 +1569,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_documents_by_id_serialize(
+        _param = self._get_index_indexes_by_uid_documents_by_id_serialize(
             uid=uid,
             id=id,
             _request_auth=_request_auth,
@@ -1592,7 +1592,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_documents_by_id_with_http_info(
+    def get_index_indexes_by_uid_documents_by_id_with_http_info(
         self,
         uid: StrictStr,
         id: StrictStr,
@@ -1639,7 +1639,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_documents_by_id_serialize(
+        _param = self._get_index_indexes_by_uid_documents_by_id_serialize(
             uid=uid,
             id=id,
             _request_auth=_request_auth,
@@ -1662,7 +1662,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_documents_by_id_without_preload_content(
+    def get_index_indexes_by_uid_documents_by_id_without_preload_content(
         self,
         uid: StrictStr,
         id: StrictStr,
@@ -1709,7 +1709,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_documents_by_id_serialize(
+        _param = self._get_index_indexes_by_uid_documents_by_id_serialize(
             uid=uid,
             id=id,
             _request_auth=_request_auth,
@@ -1727,7 +1727,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_indexes_by_uid_documents_by_id_serialize(
+    def _get_index_indexes_by_uid_documents_by_id_serialize(
         self,
         uid,
         id,
@@ -1787,7 +1787,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_settings(
+    def get_index_indexes_by_uid_settings(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1831,7 +1831,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_settings_serialize(
+        _param = self._get_index_indexes_by_uid_settings_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1853,7 +1853,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_settings_with_http_info(
+    def get_index_indexes_by_uid_settings_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1897,7 +1897,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_settings_serialize(
+        _param = self._get_index_indexes_by_uid_settings_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1919,7 +1919,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_indexes_by_uid_settings_without_preload_content(
+    def get_index_indexes_by_uid_settings_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -1963,7 +1963,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_indexes_by_uid_settings_serialize(
+        _param = self._get_index_indexes_by_uid_settings_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1980,7 +1980,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_indexes_by_uid_settings_serialize(
+    def _get_index_indexes_by_uid_settings_serialize(
         self,
         uid,
         _request_auth,
@@ -2037,7 +2037,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_stats(
+    def get_index_stats(
         self,
         _request_timeout: Union[
             None,
@@ -2078,7 +2078,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_stats_serialize(
+        _param = self._get_index_stats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2099,7 +2099,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_stats_with_http_info(
+    def get_index_stats_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2140,7 +2140,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_stats_serialize(
+        _param = self._get_index_stats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2161,7 +2161,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_stats_without_preload_content(
+    def get_index_stats_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2202,7 +2202,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_stats_serialize(
+        _param = self._get_index_stats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2218,7 +2218,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_stats_serialize(
+    def _get_index_stats_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2272,7 +2272,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_tasks_by_uid(
+    def get_index_tasks_by_uid(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -2316,7 +2316,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_tasks_by_uid_serialize(
+        _param = self._get_index_tasks_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2338,7 +2338,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_tasks_by_uid_with_http_info(
+    def get_index_tasks_by_uid_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -2382,7 +2382,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_tasks_by_uid_serialize(
+        _param = self._get_index_tasks_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2404,7 +2404,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_tasks_by_uid_without_preload_content(
+    def get_index_tasks_by_uid_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -2448,7 +2448,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_tasks_by_uid_serialize(
+        _param = self._get_index_tasks_by_uid_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2465,7 +2465,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_tasks_by_uid_serialize(
+    def _get_index_tasks_by_uid_serialize(
         self,
         uid,
         _request_auth,
@@ -2522,7 +2522,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_version(
+    def get_index_version(
         self,
         _request_timeout: Union[
             None,
@@ -2563,7 +2563,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_version_serialize(
+        _param = self._get_index_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2584,7 +2584,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_version_with_http_info(
+    def get_index_version_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2625,7 +2625,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_version_serialize(
+        _param = self._get_index_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2646,7 +2646,7 @@ class IndexApi:
 
 
     @validate_call
-    def get_v1_index_version_without_preload_content(
+    def get_index_version_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2687,7 +2687,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_index_version_serialize(
+        _param = self._get_index_version_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2703,7 +2703,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _get_v1_index_version_serialize(
+    def _get_index_version_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2757,7 +2757,7 @@ class IndexApi:
 
 
     @validate_call
-    def patch_v1_index_indexes_by_uid_settings(
+    def patch_index_indexes_by_uid_settings(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -2801,7 +2801,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_index_indexes_by_uid_settings_serialize(
+        _param = self._patch_index_indexes_by_uid_settings_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2823,7 +2823,7 @@ class IndexApi:
 
 
     @validate_call
-    def patch_v1_index_indexes_by_uid_settings_with_http_info(
+    def patch_index_indexes_by_uid_settings_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -2867,7 +2867,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_index_indexes_by_uid_settings_serialize(
+        _param = self._patch_index_indexes_by_uid_settings_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2889,7 +2889,7 @@ class IndexApi:
 
 
     @validate_call
-    def patch_v1_index_indexes_by_uid_settings_without_preload_content(
+    def patch_index_indexes_by_uid_settings_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -2933,7 +2933,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_index_indexes_by_uid_settings_serialize(
+        _param = self._patch_index_indexes_by_uid_settings_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2950,7 +2950,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _patch_v1_index_indexes_by_uid_settings_serialize(
+    def _patch_index_indexes_by_uid_settings_serialize(
         self,
         uid,
         _request_auth,
@@ -3007,7 +3007,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes(
+    def post_index_indexes(
         self,
         _request_timeout: Union[
             None,
@@ -3048,7 +3048,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_serialize(
+        _param = self._post_index_indexes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3069,7 +3069,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_with_http_info(
+    def post_index_indexes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3110,7 +3110,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_serialize(
+        _param = self._post_index_indexes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3131,7 +3131,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_without_preload_content(
+    def post_index_indexes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3172,7 +3172,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_serialize(
+        _param = self._post_index_indexes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3188,7 +3188,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _post_v1_index_indexes_serialize(
+    def _post_index_indexes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3242,7 +3242,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_documents(
+    def post_index_indexes_by_uid_documents(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3286,7 +3286,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._post_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3308,7 +3308,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_documents_with_http_info(
+    def post_index_indexes_by_uid_documents_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3352,7 +3352,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._post_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3374,7 +3374,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_documents_without_preload_content(
+    def post_index_indexes_by_uid_documents_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3418,7 +3418,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._post_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3435,7 +3435,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _post_v1_index_indexes_by_uid_documents_serialize(
+    def _post_index_indexes_by_uid_documents_serialize(
         self,
         uid,
         _request_auth,
@@ -3492,7 +3492,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_documents_delete_batch(
+    def post_index_indexes_by_uid_documents_delete_batch(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3536,7 +3536,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_documents_delete_batch_serialize(
+        _param = self._post_index_indexes_by_uid_documents_delete_batch_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3558,7 +3558,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_documents_delete_batch_with_http_info(
+    def post_index_indexes_by_uid_documents_delete_batch_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3602,7 +3602,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_documents_delete_batch_serialize(
+        _param = self._post_index_indexes_by_uid_documents_delete_batch_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3624,7 +3624,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_documents_delete_batch_without_preload_content(
+    def post_index_indexes_by_uid_documents_delete_batch_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3668,7 +3668,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_documents_delete_batch_serialize(
+        _param = self._post_index_indexes_by_uid_documents_delete_batch_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3685,7 +3685,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _post_v1_index_indexes_by_uid_documents_delete_batch_serialize(
+    def _post_index_indexes_by_uid_documents_delete_batch_serialize(
         self,
         uid,
         _request_auth,
@@ -3742,7 +3742,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_search(
+    def post_index_indexes_by_uid_search(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3786,7 +3786,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_search_serialize(
+        _param = self._post_index_indexes_by_uid_search_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3808,7 +3808,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_search_with_http_info(
+    def post_index_indexes_by_uid_search_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3852,7 +3852,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_search_serialize(
+        _param = self._post_index_indexes_by_uid_search_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3874,7 +3874,7 @@ class IndexApi:
 
 
     @validate_call
-    def post_v1_index_indexes_by_uid_search_without_preload_content(
+    def post_index_indexes_by_uid_search_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -3918,7 +3918,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_index_indexes_by_uid_search_serialize(
+        _param = self._post_index_indexes_by_uid_search_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3935,7 +3935,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _post_v1_index_indexes_by_uid_search_serialize(
+    def _post_index_indexes_by_uid_search_serialize(
         self,
         uid,
         _request_auth,
@@ -3992,7 +3992,7 @@ class IndexApi:
 
 
     @validate_call
-    def put_v1_index_indexes_by_uid_documents(
+    def put_index_indexes_by_uid_documents(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -4036,7 +4036,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._put_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4058,7 +4058,7 @@ class IndexApi:
 
 
     @validate_call
-    def put_v1_index_indexes_by_uid_documents_with_http_info(
+    def put_index_indexes_by_uid_documents_with_http_info(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -4102,7 +4102,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._put_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4124,7 +4124,7 @@ class IndexApi:
 
 
     @validate_call
-    def put_v1_index_indexes_by_uid_documents_without_preload_content(
+    def put_index_indexes_by_uid_documents_without_preload_content(
         self,
         uid: StrictStr,
         _request_timeout: Union[
@@ -4168,7 +4168,7 @@ class IndexApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_index_indexes_by_uid_documents_serialize(
+        _param = self._put_index_indexes_by_uid_documents_serialize(
             uid=uid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4185,7 +4185,7 @@ class IndexApi:
         return response_data.response
 
 
-    def _put_v1_index_indexes_by_uid_documents_serialize(
+    def _put_index_indexes_by_uid_documents_serialize(
         self,
         uid,
         _request_auth,

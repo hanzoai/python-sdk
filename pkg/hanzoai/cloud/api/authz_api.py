@@ -36,7 +36,7 @@ class AuthzApi:
 
 
     @validate_call
-    def get_v1_authz_health(
+    def get_authz_health(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authz_health_serialize(
+        _param = self._get_authz_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class AuthzApi:
 
 
     @validate_call
-    def get_v1_authz_health_with_http_info(
+    def get_authz_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authz_health_serialize(
+        _param = self._get_authz_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class AuthzApi:
 
 
     @validate_call
-    def get_v1_authz_health_without_preload_content(
+    def get_authz_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authz_health_serialize(
+        _param = self._get_authz_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class AuthzApi:
         return response_data.response
 
 
-    def _get_v1_authz_health_serialize(
+    def _get_authz_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class AuthzApi:
 
 
     @validate_call
-    def get_v1_authz_readyz(
+    def get_authz_readyz(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authz_readyz_serialize(
+        _param = self._get_authz_readyz_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class AuthzApi:
 
 
     @validate_call
-    def get_v1_authz_readyz_with_http_info(
+    def get_authz_readyz_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authz_readyz_serialize(
+        _param = self._get_authz_readyz_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class AuthzApi:
 
 
     @validate_call
-    def get_v1_authz_readyz_without_preload_content(
+    def get_authz_readyz_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authz_readyz_serialize(
+        _param = self._get_authz_readyz_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class AuthzApi:
         return response_data.response
 
 
-    def _get_v1_authz_readyz_serialize(
+    def _get_authz_readyz_serialize(
         self,
         _request_auth,
         _content_type,
@@ -506,7 +506,7 @@ class AuthzApi:
 
 
     @validate_call
-    def post_v1_authz_check(
+    def post_authz_check(
         self,
         _request_timeout: Union[
             None,
@@ -547,7 +547,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authz_check_serialize(
+        _param = self._post_authz_check_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -568,7 +568,7 @@ class AuthzApi:
 
 
     @validate_call
-    def post_v1_authz_check_with_http_info(
+    def post_authz_check_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -609,7 +609,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authz_check_serialize(
+        _param = self._post_authz_check_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -630,7 +630,7 @@ class AuthzApi:
 
 
     @validate_call
-    def post_v1_authz_check_without_preload_content(
+    def post_authz_check_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -671,7 +671,7 @@ class AuthzApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authz_check_serialize(
+        _param = self._post_authz_check_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -687,7 +687,7 @@ class AuthzApi:
         return response_data.response
 
 
-    def _post_v1_authz_check_serialize(
+    def _post_authz_check_serialize(
         self,
         _request_auth,
         _content_type,

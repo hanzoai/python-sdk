@@ -50,7 +50,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_d1_databases_by_database(
+    def delete_cloudflare_d1_databases_by_database(
         self,
         database: Annotated[StrictStr, Field(description="Database is the Cloudflare D1 database id or name.")],
         _request_timeout: Union[
@@ -94,7 +94,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_d1_databases_by_database_serialize(
+        _param = self._delete_cloudflare_d1_databases_by_database_serialize(
             database=database,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -117,7 +117,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_d1_databases_by_database_with_http_info(
+    def delete_cloudflare_d1_databases_by_database_with_http_info(
         self,
         database: Annotated[StrictStr, Field(description="Database is the Cloudflare D1 database id or name.")],
         _request_timeout: Union[
@@ -161,7 +161,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_d1_databases_by_database_serialize(
+        _param = self._delete_cloudflare_d1_databases_by_database_serialize(
             database=database,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -184,7 +184,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_d1_databases_by_database_without_preload_content(
+    def delete_cloudflare_d1_databases_by_database_without_preload_content(
         self,
         database: Annotated[StrictStr, Field(description="Database is the Cloudflare D1 database id or name.")],
         _request_timeout: Union[
@@ -228,7 +228,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_d1_databases_by_database_serialize(
+        _param = self._delete_cloudflare_d1_databases_by_database_serialize(
             database=database,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -246,7 +246,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_d1_databases_by_database_serialize(
+    def _delete_cloudflare_d1_databases_by_database_serialize(
         self,
         database,
         _request_auth,
@@ -310,7 +310,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_kv_namespaces_by_namespace(
+    def delete_cloudflare_kv_namespaces_by_namespace(
         self,
         namespace: Annotated[StrictStr, Field(description="Namespace is the Cloudflare KV namespace id.")],
         _request_timeout: Union[
@@ -354,7 +354,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_kv_namespaces_by_namespace_serialize(
+        _param = self._delete_cloudflare_kv_namespaces_by_namespace_serialize(
             namespace=namespace,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -377,7 +377,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_kv_namespaces_by_namespace_with_http_info(
+    def delete_cloudflare_kv_namespaces_by_namespace_with_http_info(
         self,
         namespace: Annotated[StrictStr, Field(description="Namespace is the Cloudflare KV namespace id.")],
         _request_timeout: Union[
@@ -421,7 +421,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_kv_namespaces_by_namespace_serialize(
+        _param = self._delete_cloudflare_kv_namespaces_by_namespace_serialize(
             namespace=namespace,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -444,7 +444,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_kv_namespaces_by_namespace_without_preload_content(
+    def delete_cloudflare_kv_namespaces_by_namespace_without_preload_content(
         self,
         namespace: Annotated[StrictStr, Field(description="Namespace is the Cloudflare KV namespace id.")],
         _request_timeout: Union[
@@ -488,7 +488,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_kv_namespaces_by_namespace_serialize(
+        _param = self._delete_cloudflare_kv_namespaces_by_namespace_serialize(
             namespace=namespace,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -506,7 +506,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_kv_namespaces_by_namespace_serialize(
+    def _delete_cloudflare_kv_namespaces_by_namespace_serialize(
         self,
         namespace,
         _request_auth,
@@ -570,7 +570,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key(
+    def delete_cloudflare_kv_namespaces_by_namespace_values_by_key(
         self,
         namespace: Annotated[StrictStr, Field(description="Namespace is the Cloudflare KV namespace id.")],
         key: Annotated[StrictStr, Field(description="Key is the key within that namespace. KV keys are broad (up to 512 bytes), so this one is escaped rather than charset-restricted.")],
@@ -617,7 +617,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._delete_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -641,7 +641,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_with_http_info(
+    def delete_cloudflare_kv_namespaces_by_namespace_values_by_key_with_http_info(
         self,
         namespace: Annotated[StrictStr, Field(description="Namespace is the Cloudflare KV namespace id.")],
         key: Annotated[StrictStr, Field(description="Key is the key within that namespace. KV keys are broad (up to 512 bytes), so this one is escaped rather than charset-restricted.")],
@@ -688,7 +688,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._delete_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -712,7 +712,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_without_preload_content(
+    def delete_cloudflare_kv_namespaces_by_namespace_values_by_key_without_preload_content(
         self,
         namespace: Annotated[StrictStr, Field(description="Namespace is the Cloudflare KV namespace id.")],
         key: Annotated[StrictStr, Field(description="Key is the key within that namespace. KV keys are broad (up to 512 bytes), so this one is escaped rather than charset-restricted.")],
@@ -759,7 +759,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._delete_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -778,7 +778,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+    def _delete_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
         self,
         namespace,
         key,
@@ -845,7 +845,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_pages_projects_by_project(
+    def delete_cloudflare_pages_projects_by_project(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         _request_timeout: Union[
@@ -889,7 +889,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_pages_projects_by_project_serialize(
+        _param = self._delete_cloudflare_pages_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -912,7 +912,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_pages_projects_by_project_with_http_info(
+    def delete_cloudflare_pages_projects_by_project_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         _request_timeout: Union[
@@ -956,7 +956,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_pages_projects_by_project_serialize(
+        _param = self._delete_cloudflare_pages_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -979,7 +979,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_pages_projects_by_project_without_preload_content(
+    def delete_cloudflare_pages_projects_by_project_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         _request_timeout: Union[
@@ -1023,7 +1023,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_pages_projects_by_project_serialize(
+        _param = self._delete_cloudflare_pages_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1041,7 +1041,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_pages_projects_by_project_serialize(
+    def _delete_cloudflare_pages_projects_by_project_serialize(
         self,
         project,
         _request_auth,
@@ -1105,7 +1105,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_pages_projects_by_project_domains_by_domain(
+    def delete_cloudflare_pages_projects_by_project_domains_by_domain(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         domain: Annotated[StrictStr, Field(description="Domain is the attached custom domain to detach.")],
@@ -1152,7 +1152,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
+        _param = self._delete_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
             project=project,
             domain=domain,
             _request_auth=_request_auth,
@@ -1176,7 +1176,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_pages_projects_by_project_domains_by_domain_with_http_info(
+    def delete_cloudflare_pages_projects_by_project_domains_by_domain_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         domain: Annotated[StrictStr, Field(description="Domain is the attached custom domain to detach.")],
@@ -1223,7 +1223,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
+        _param = self._delete_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
             project=project,
             domain=domain,
             _request_auth=_request_auth,
@@ -1247,7 +1247,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_pages_projects_by_project_domains_by_domain_without_preload_content(
+    def delete_cloudflare_pages_projects_by_project_domains_by_domain_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         domain: Annotated[StrictStr, Field(description="Domain is the attached custom domain to detach.")],
@@ -1294,7 +1294,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
+        _param = self._delete_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
             project=project,
             domain=domain,
             _request_auth=_request_auth,
@@ -1313,7 +1313,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
+    def _delete_cloudflare_pages_projects_by_project_domains_by_domain_serialize(
         self,
         project,
         domain,
@@ -1380,7 +1380,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_r2_buckets_by_bucket(
+    def delete_cloudflare_r2_buckets_by_bucket(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the R2 bucket name.")],
         _request_timeout: Union[
@@ -1424,7 +1424,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_r2_buckets_by_bucket_serialize(
+        _param = self._delete_cloudflare_r2_buckets_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1447,7 +1447,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_r2_buckets_by_bucket_with_http_info(
+    def delete_cloudflare_r2_buckets_by_bucket_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the R2 bucket name.")],
         _request_timeout: Union[
@@ -1491,7 +1491,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_r2_buckets_by_bucket_serialize(
+        _param = self._delete_cloudflare_r2_buckets_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1514,7 +1514,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_r2_buckets_by_bucket_without_preload_content(
+    def delete_cloudflare_r2_buckets_by_bucket_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the R2 bucket name.")],
         _request_timeout: Union[
@@ -1558,7 +1558,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_r2_buckets_by_bucket_serialize(
+        _param = self._delete_cloudflare_r2_buckets_by_bucket_serialize(
             bucket=bucket,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1576,7 +1576,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_r2_buckets_by_bucket_serialize(
+    def _delete_cloudflare_r2_buckets_by_bucket_serialize(
         self,
         bucket,
         _request_auth,
@@ -1640,7 +1640,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_workers_scripts_by_script(
+    def delete_cloudflare_workers_scripts_by_script(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name.")],
         _request_timeout: Union[
@@ -1684,7 +1684,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_workers_scripts_by_script_serialize(
+        _param = self._delete_cloudflare_workers_scripts_by_script_serialize(
             script=script,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1707,7 +1707,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_workers_scripts_by_script_with_http_info(
+    def delete_cloudflare_workers_scripts_by_script_with_http_info(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name.")],
         _request_timeout: Union[
@@ -1751,7 +1751,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_workers_scripts_by_script_serialize(
+        _param = self._delete_cloudflare_workers_scripts_by_script_serialize(
             script=script,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1774,7 +1774,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_workers_scripts_by_script_without_preload_content(
+    def delete_cloudflare_workers_scripts_by_script_without_preload_content(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name.")],
         _request_timeout: Union[
@@ -1818,7 +1818,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_workers_scripts_by_script_serialize(
+        _param = self._delete_cloudflare_workers_scripts_by_script_serialize(
             script=script,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1836,7 +1836,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_workers_scripts_by_script_serialize(
+    def _delete_cloudflare_workers_scripts_by_script_serialize(
         self,
         script,
         _request_auth,
@@ -1900,7 +1900,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_workers_zones_by_zone_routes_by_route(
+    def delete_cloudflare_workers_zones_by_zone_routes_by_route(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         route: Annotated[StrictStr, Field(description="Route is the 32-hex Cloudflare route id.")],
@@ -1947,7 +1947,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
+        _param = self._delete_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
             zone=zone,
             route=route,
             _request_auth=_request_auth,
@@ -1971,7 +1971,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_workers_zones_by_zone_routes_by_route_with_http_info(
+    def delete_cloudflare_workers_zones_by_zone_routes_by_route_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         route: Annotated[StrictStr, Field(description="Route is the 32-hex Cloudflare route id.")],
@@ -2018,7 +2018,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
+        _param = self._delete_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
             zone=zone,
             route=route,
             _request_auth=_request_auth,
@@ -2042,7 +2042,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def delete_v1_cloudflare_workers_zones_by_zone_routes_by_route_without_preload_content(
+    def delete_cloudflare_workers_zones_by_zone_routes_by_route_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         route: Annotated[StrictStr, Field(description="Route is the 32-hex Cloudflare route id.")],
@@ -2089,7 +2089,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
+        _param = self._delete_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
             zone=zone,
             route=route,
             _request_auth=_request_auth,
@@ -2108,7 +2108,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _delete_v1_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
+    def _delete_cloudflare_workers_zones_by_zone_routes_by_route_serialize(
         self,
         zone,
         route,
@@ -2175,7 +2175,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_d1_databases(
+    def get_cloudflare_d1_databases(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of databases to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many databases one page holds.")] = None,
@@ -2225,7 +2225,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_d1_databases_serialize(
+        _param = self._get_cloudflare_d1_databases_serialize(
             page=page,
             per_page=per_page,
             name=name,
@@ -2250,7 +2250,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_d1_databases_with_http_info(
+    def get_cloudflare_d1_databases_with_http_info(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of databases to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many databases one page holds.")] = None,
@@ -2300,7 +2300,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_d1_databases_serialize(
+        _param = self._get_cloudflare_d1_databases_serialize(
             page=page,
             per_page=per_page,
             name=name,
@@ -2325,7 +2325,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_d1_databases_without_preload_content(
+    def get_cloudflare_d1_databases_without_preload_content(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of databases to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many databases one page holds.")] = None,
@@ -2375,7 +2375,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_d1_databases_serialize(
+        _param = self._get_cloudflare_d1_databases_serialize(
             page=page,
             per_page=per_page,
             name=name,
@@ -2395,7 +2395,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_d1_databases_serialize(
+    def _get_cloudflare_d1_databases_serialize(
         self,
         page,
         per_page,
@@ -2471,7 +2471,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_kv_namespaces(
+    def get_cloudflare_kv_namespaces(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of namespaces to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many namespaces one page holds.")] = None,
@@ -2524,7 +2524,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_kv_namespaces_serialize(
+        _param = self._get_cloudflare_kv_namespaces_serialize(
             page=page,
             per_page=per_page,
             order=order,
@@ -2550,7 +2550,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_kv_namespaces_with_http_info(
+    def get_cloudflare_kv_namespaces_with_http_info(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of namespaces to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many namespaces one page holds.")] = None,
@@ -2603,7 +2603,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_kv_namespaces_serialize(
+        _param = self._get_cloudflare_kv_namespaces_serialize(
             page=page,
             per_page=per_page,
             order=order,
@@ -2629,7 +2629,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_kv_namespaces_without_preload_content(
+    def get_cloudflare_kv_namespaces_without_preload_content(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of namespaces to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many namespaces one page holds.")] = None,
@@ -2682,7 +2682,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_kv_namespaces_serialize(
+        _param = self._get_cloudflare_kv_namespaces_serialize(
             page=page,
             per_page=per_page,
             order=order,
@@ -2703,7 +2703,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_kv_namespaces_serialize(
+    def _get_cloudflare_kv_namespaces_serialize(
         self,
         page,
         per_page,
@@ -2784,7 +2784,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key(
+    def get_cloudflare_kv_namespaces_by_namespace_values_by_key(
         self,
         namespace: StrictStr,
         key: StrictStr,
@@ -2831,7 +2831,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._get_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -2854,7 +2854,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_with_http_info(
+    def get_cloudflare_kv_namespaces_by_namespace_values_by_key_with_http_info(
         self,
         namespace: StrictStr,
         key: StrictStr,
@@ -2901,7 +2901,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._get_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -2924,7 +2924,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_without_preload_content(
+    def get_cloudflare_kv_namespaces_by_namespace_values_by_key_without_preload_content(
         self,
         namespace: StrictStr,
         key: StrictStr,
@@ -2971,7 +2971,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._get_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -2989,7 +2989,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+    def _get_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
         self,
         namespace,
         key,
@@ -3049,7 +3049,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_pages_projects(
+    def get_cloudflare_pages_projects(
         self,
         _request_timeout: Union[
             None,
@@ -3090,7 +3090,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_pages_projects_serialize(
+        _param = self._get_cloudflare_pages_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3112,7 +3112,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_pages_projects_with_http_info(
+    def get_cloudflare_pages_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3153,7 +3153,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_pages_projects_serialize(
+        _param = self._get_cloudflare_pages_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3175,7 +3175,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_pages_projects_without_preload_content(
+    def get_cloudflare_pages_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3216,7 +3216,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_pages_projects_serialize(
+        _param = self._get_cloudflare_pages_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3233,7 +3233,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_pages_projects_serialize(
+    def _get_cloudflare_pages_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3294,7 +3294,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_pages_projects_by_project(
+    def get_cloudflare_pages_projects_by_project(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         _request_timeout: Union[
@@ -3338,7 +3338,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_pages_projects_by_project_serialize(
+        _param = self._get_cloudflare_pages_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3361,7 +3361,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_pages_projects_by_project_with_http_info(
+    def get_cloudflare_pages_projects_by_project_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         _request_timeout: Union[
@@ -3405,7 +3405,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_pages_projects_by_project_serialize(
+        _param = self._get_cloudflare_pages_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3428,7 +3428,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_pages_projects_by_project_without_preload_content(
+    def get_cloudflare_pages_projects_by_project_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name.")],
         _request_timeout: Union[
@@ -3472,7 +3472,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_pages_projects_by_project_serialize(
+        _param = self._get_cloudflare_pages_projects_by_project_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3490,7 +3490,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_pages_projects_by_project_serialize(
+    def _get_cloudflare_pages_projects_by_project_serialize(
         self,
         project,
         _request_auth,
@@ -3554,7 +3554,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_r2_buckets(
+    def get_cloudflare_r2_buckets(
         self,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many buckets one page holds.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from the position a previous page returned.")] = None,
@@ -3610,7 +3610,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_r2_buckets_serialize(
+        _param = self._get_cloudflare_r2_buckets_serialize(
             per_page=per_page,
             cursor=cursor,
             name_contains=name_contains,
@@ -3637,7 +3637,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_r2_buckets_with_http_info(
+    def get_cloudflare_r2_buckets_with_http_info(
         self,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many buckets one page holds.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from the position a previous page returned.")] = None,
@@ -3693,7 +3693,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_r2_buckets_serialize(
+        _param = self._get_cloudflare_r2_buckets_serialize(
             per_page=per_page,
             cursor=cursor,
             name_contains=name_contains,
@@ -3720,7 +3720,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_r2_buckets_without_preload_content(
+    def get_cloudflare_r2_buckets_without_preload_content(
         self,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many buckets one page holds.")] = None,
         cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from the position a previous page returned.")] = None,
@@ -3776,7 +3776,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_r2_buckets_serialize(
+        _param = self._get_cloudflare_r2_buckets_serialize(
             per_page=per_page,
             cursor=cursor,
             name_contains=name_contains,
@@ -3798,7 +3798,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_r2_buckets_serialize(
+    def _get_cloudflare_r2_buckets_serialize(
         self,
         per_page,
         cursor,
@@ -3884,7 +3884,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_scripts(
+    def get_cloudflare_workers_scripts(
         self,
         _request_timeout: Union[
             None,
@@ -3925,7 +3925,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_scripts_serialize(
+        _param = self._get_cloudflare_workers_scripts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3947,7 +3947,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_scripts_with_http_info(
+    def get_cloudflare_workers_scripts_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3988,7 +3988,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_scripts_serialize(
+        _param = self._get_cloudflare_workers_scripts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4010,7 +4010,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_scripts_without_preload_content(
+    def get_cloudflare_workers_scripts_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4051,7 +4051,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_scripts_serialize(
+        _param = self._get_cloudflare_workers_scripts_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4068,7 +4068,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_workers_scripts_serialize(
+    def _get_cloudflare_workers_scripts_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4129,7 +4129,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_subdomain(
+    def get_cloudflare_workers_subdomain(
         self,
         _request_timeout: Union[
             None,
@@ -4170,7 +4170,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_subdomain_serialize(
+        _param = self._get_cloudflare_workers_subdomain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4192,7 +4192,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_subdomain_with_http_info(
+    def get_cloudflare_workers_subdomain_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4233,7 +4233,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_subdomain_serialize(
+        _param = self._get_cloudflare_workers_subdomain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4255,7 +4255,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_subdomain_without_preload_content(
+    def get_cloudflare_workers_subdomain_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4296,7 +4296,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_subdomain_serialize(
+        _param = self._get_cloudflare_workers_subdomain_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4313,7 +4313,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_workers_subdomain_serialize(
+    def _get_cloudflare_workers_subdomain_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4374,7 +4374,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_zones_by_zone_routes(
+    def get_cloudflare_workers_zones_by_zone_routes(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         _request_timeout: Union[
@@ -4418,7 +4418,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+        _param = self._get_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4441,7 +4441,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_zones_by_zone_routes_with_http_info(
+    def get_cloudflare_workers_zones_by_zone_routes_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         _request_timeout: Union[
@@ -4485,7 +4485,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+        _param = self._get_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4508,7 +4508,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_workers_zones_by_zone_routes_without_preload_content(
+    def get_cloudflare_workers_zones_by_zone_routes_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         _request_timeout: Union[
@@ -4552,7 +4552,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+        _param = self._get_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4570,7 +4570,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+    def _get_cloudflare_workers_zones_by_zone_routes_serialize(
         self,
         zone,
         _request_auth,
@@ -4634,7 +4634,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones(
+    def get_cloudflare_zones(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of zones to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many zones one page holds.")] = None,
@@ -4693,7 +4693,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_serialize(
+        _param = self._get_cloudflare_zones_serialize(
             page=page,
             per_page=per_page,
             name=name,
@@ -4721,7 +4721,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_with_http_info(
+    def get_cloudflare_zones_with_http_info(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of zones to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many zones one page holds.")] = None,
@@ -4780,7 +4780,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_serialize(
+        _param = self._get_cloudflare_zones_serialize(
             page=page,
             per_page=per_page,
             name=name,
@@ -4808,7 +4808,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_without_preload_content(
+    def get_cloudflare_zones_without_preload_content(
         self,
         page: Annotated[Optional[StrictStr], Field(description="Page is the 1-based page of zones to return.")] = None,
         per_page: Annotated[Optional[StrictStr], Field(description="PerPage is how many zones one page holds.")] = None,
@@ -4867,7 +4867,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_serialize(
+        _param = self._get_cloudflare_zones_serialize(
             page=page,
             per_page=per_page,
             name=name,
@@ -4890,7 +4890,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_zones_serialize(
+    def _get_cloudflare_zones_serialize(
         self,
         page,
         per_page,
@@ -4981,7 +4981,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_by_zone(
+    def get_cloudflare_zones_by_zone(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         _request_timeout: Union[
@@ -5025,7 +5025,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_by_zone_serialize(
+        _param = self._get_cloudflare_zones_by_zone_serialize(
             zone=zone,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5048,7 +5048,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_by_zone_with_http_info(
+    def get_cloudflare_zones_by_zone_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         _request_timeout: Union[
@@ -5092,7 +5092,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_by_zone_serialize(
+        _param = self._get_cloudflare_zones_by_zone_serialize(
             zone=zone,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5115,7 +5115,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_by_zone_without_preload_content(
+    def get_cloudflare_zones_by_zone_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         _request_timeout: Union[
@@ -5159,7 +5159,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_by_zone_serialize(
+        _param = self._get_cloudflare_zones_by_zone_serialize(
             zone=zone,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5177,7 +5177,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_zones_by_zone_serialize(
+    def _get_cloudflare_zones_by_zone_serialize(
         self,
         zone,
         _request_auth,
@@ -5241,7 +5241,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_by_zone_analytics(
+    def get_cloudflare_zones_by_zone_analytics(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         since: Annotated[Optional[StrictStr], Field(description="Since and Until bound the window, in the form Cloudflare accepts — an RFC 3339 time or a negative number of minutes from now (\"-1440\" is the last day).")] = None,
@@ -5294,7 +5294,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_by_zone_analytics_serialize(
+        _param = self._get_cloudflare_zones_by_zone_analytics_serialize(
             zone=zone,
             since=since,
             until=until,
@@ -5320,7 +5320,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_by_zone_analytics_with_http_info(
+    def get_cloudflare_zones_by_zone_analytics_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         since: Annotated[Optional[StrictStr], Field(description="Since and Until bound the window, in the form Cloudflare accepts — an RFC 3339 time or a negative number of minutes from now (\"-1440\" is the last day).")] = None,
@@ -5373,7 +5373,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_by_zone_analytics_serialize(
+        _param = self._get_cloudflare_zones_by_zone_analytics_serialize(
             zone=zone,
             since=since,
             until=until,
@@ -5399,7 +5399,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def get_v1_cloudflare_zones_by_zone_analytics_without_preload_content(
+    def get_cloudflare_zones_by_zone_analytics_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id.")],
         since: Annotated[Optional[StrictStr], Field(description="Since and Until bound the window, in the form Cloudflare accepts — an RFC 3339 time or a negative number of minutes from now (\"-1440\" is the last day).")] = None,
@@ -5452,7 +5452,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_cloudflare_zones_by_zone_analytics_serialize(
+        _param = self._get_cloudflare_zones_by_zone_analytics_serialize(
             zone=zone,
             since=since,
             until=until,
@@ -5473,7 +5473,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _get_v1_cloudflare_zones_by_zone_analytics_serialize(
+    def _get_cloudflare_zones_by_zone_analytics_serialize(
         self,
         zone,
         since,
@@ -5552,7 +5552,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_ai_run_by_wildcard1(
+    def post_cloudflare_ai_run_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -5596,7 +5596,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_ai_run_by_wildcard1_serialize(
+        _param = self._post_cloudflare_ai_run_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5618,7 +5618,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_ai_run_by_wildcard1_with_http_info(
+    def post_cloudflare_ai_run_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -5662,7 +5662,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_ai_run_by_wildcard1_serialize(
+        _param = self._post_cloudflare_ai_run_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5684,7 +5684,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_ai_run_by_wildcard1_without_preload_content(
+    def post_cloudflare_ai_run_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -5728,7 +5728,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_ai_run_by_wildcard1_serialize(
+        _param = self._post_cloudflare_ai_run_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5745,7 +5745,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_ai_run_by_wildcard1_serialize(
+    def _post_cloudflare_ai_run_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -5802,7 +5802,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_d1_databases(
+    def post_cloudflare_d1_databases(
         self,
         database_create_in: DatabaseCreateIn,
         _request_timeout: Union[
@@ -5846,7 +5846,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_d1_databases_serialize(
+        _param = self._post_cloudflare_d1_databases_serialize(
             database_create_in=database_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5869,7 +5869,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_d1_databases_with_http_info(
+    def post_cloudflare_d1_databases_with_http_info(
         self,
         database_create_in: DatabaseCreateIn,
         _request_timeout: Union[
@@ -5913,7 +5913,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_d1_databases_serialize(
+        _param = self._post_cloudflare_d1_databases_serialize(
             database_create_in=database_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5936,7 +5936,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_d1_databases_without_preload_content(
+    def post_cloudflare_d1_databases_without_preload_content(
         self,
         database_create_in: DatabaseCreateIn,
         _request_timeout: Union[
@@ -5980,7 +5980,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_d1_databases_serialize(
+        _param = self._post_cloudflare_d1_databases_serialize(
             database_create_in=database_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5998,7 +5998,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_d1_databases_serialize(
+    def _post_cloudflare_d1_databases_serialize(
         self,
         database_create_in,
         _request_auth,
@@ -6075,7 +6075,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_d1_databases_by_database_query(
+    def post_cloudflare_d1_databases_by_database_query(
         self,
         database: StrictStr,
         d1_query: Optional[D1Query] = None,
@@ -6122,7 +6122,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_d1_databases_by_database_query_serialize(
+        _param = self._post_cloudflare_d1_databases_by_database_query_serialize(
             database=database,
             d1_query=d1_query,
             _request_auth=_request_auth,
@@ -6146,7 +6146,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_d1_databases_by_database_query_with_http_info(
+    def post_cloudflare_d1_databases_by_database_query_with_http_info(
         self,
         database: StrictStr,
         d1_query: Optional[D1Query] = None,
@@ -6193,7 +6193,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_d1_databases_by_database_query_serialize(
+        _param = self._post_cloudflare_d1_databases_by_database_query_serialize(
             database=database,
             d1_query=d1_query,
             _request_auth=_request_auth,
@@ -6217,7 +6217,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_d1_databases_by_database_query_without_preload_content(
+    def post_cloudflare_d1_databases_by_database_query_without_preload_content(
         self,
         database: StrictStr,
         d1_query: Optional[D1Query] = None,
@@ -6264,7 +6264,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_d1_databases_by_database_query_serialize(
+        _param = self._post_cloudflare_d1_databases_by_database_query_serialize(
             database=database,
             d1_query=d1_query,
             _request_auth=_request_auth,
@@ -6283,7 +6283,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_d1_databases_by_database_query_serialize(
+    def _post_cloudflare_d1_databases_by_database_query_serialize(
         self,
         database,
         d1_query,
@@ -6363,7 +6363,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_kv_namespaces(
+    def post_cloudflare_kv_namespaces(
         self,
         namespace_create_in: NamespaceCreateIn,
         _request_timeout: Union[
@@ -6407,7 +6407,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_kv_namespaces_serialize(
+        _param = self._post_cloudflare_kv_namespaces_serialize(
             namespace_create_in=namespace_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6430,7 +6430,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_kv_namespaces_with_http_info(
+    def post_cloudflare_kv_namespaces_with_http_info(
         self,
         namespace_create_in: NamespaceCreateIn,
         _request_timeout: Union[
@@ -6474,7 +6474,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_kv_namespaces_serialize(
+        _param = self._post_cloudflare_kv_namespaces_serialize(
             namespace_create_in=namespace_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6497,7 +6497,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_kv_namespaces_without_preload_content(
+    def post_cloudflare_kv_namespaces_without_preload_content(
         self,
         namespace_create_in: NamespaceCreateIn,
         _request_timeout: Union[
@@ -6541,7 +6541,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_kv_namespaces_serialize(
+        _param = self._post_cloudflare_kv_namespaces_serialize(
             namespace_create_in=namespace_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6559,7 +6559,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_kv_namespaces_serialize(
+    def _post_cloudflare_kv_namespaces_serialize(
         self,
         namespace_create_in,
         _request_auth,
@@ -6636,7 +6636,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects(
+    def post_cloudflare_pages_projects(
         self,
         pages_project_create: PagesProjectCreate,
         _request_timeout: Union[
@@ -6680,7 +6680,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_serialize(
+        _param = self._post_cloudflare_pages_projects_serialize(
             pages_project_create=pages_project_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6703,7 +6703,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_with_http_info(
+    def post_cloudflare_pages_projects_with_http_info(
         self,
         pages_project_create: PagesProjectCreate,
         _request_timeout: Union[
@@ -6747,7 +6747,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_serialize(
+        _param = self._post_cloudflare_pages_projects_serialize(
             pages_project_create=pages_project_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6770,7 +6770,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_without_preload_content(
+    def post_cloudflare_pages_projects_without_preload_content(
         self,
         pages_project_create: PagesProjectCreate,
         _request_timeout: Union[
@@ -6814,7 +6814,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_serialize(
+        _param = self._post_cloudflare_pages_projects_serialize(
             pages_project_create=pages_project_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6832,7 +6832,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_pages_projects_serialize(
+    def _post_cloudflare_pages_projects_serialize(
         self,
         pages_project_create,
         _request_auth,
@@ -6909,7 +6909,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_by_project_deployments(
+    def post_cloudflare_pages_projects_by_project_deployments(
         self,
         project: StrictStr,
         pages_deploy: Optional[PagesDeploy] = None,
@@ -6956,7 +6956,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_by_project_deployments_serialize(
+        _param = self._post_cloudflare_pages_projects_by_project_deployments_serialize(
             project=project,
             pages_deploy=pages_deploy,
             _request_auth=_request_auth,
@@ -6980,7 +6980,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_by_project_deployments_with_http_info(
+    def post_cloudflare_pages_projects_by_project_deployments_with_http_info(
         self,
         project: StrictStr,
         pages_deploy: Optional[PagesDeploy] = None,
@@ -7027,7 +7027,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_by_project_deployments_serialize(
+        _param = self._post_cloudflare_pages_projects_by_project_deployments_serialize(
             project=project,
             pages_deploy=pages_deploy,
             _request_auth=_request_auth,
@@ -7051,7 +7051,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_by_project_deployments_without_preload_content(
+    def post_cloudflare_pages_projects_by_project_deployments_without_preload_content(
         self,
         project: StrictStr,
         pages_deploy: Optional[PagesDeploy] = None,
@@ -7098,7 +7098,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_by_project_deployments_serialize(
+        _param = self._post_cloudflare_pages_projects_by_project_deployments_serialize(
             project=project,
             pages_deploy=pages_deploy,
             _request_auth=_request_auth,
@@ -7117,7 +7117,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_pages_projects_by_project_deployments_serialize(
+    def _post_cloudflare_pages_projects_by_project_deployments_serialize(
         self,
         project,
         pages_deploy,
@@ -7197,7 +7197,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_by_project_domains(
+    def post_cloudflare_pages_projects_by_project_domains(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name, from the path.")],
         domain_add_in: DomainAddIn,
@@ -7244,7 +7244,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_by_project_domains_serialize(
+        _param = self._post_cloudflare_pages_projects_by_project_domains_serialize(
             project=project,
             domain_add_in=domain_add_in,
             _request_auth=_request_auth,
@@ -7268,7 +7268,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_by_project_domains_with_http_info(
+    def post_cloudflare_pages_projects_by_project_domains_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name, from the path.")],
         domain_add_in: DomainAddIn,
@@ -7315,7 +7315,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_by_project_domains_serialize(
+        _param = self._post_cloudflare_pages_projects_by_project_domains_serialize(
             project=project,
             domain_add_in=domain_add_in,
             _request_auth=_request_auth,
@@ -7339,7 +7339,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_pages_projects_by_project_domains_without_preload_content(
+    def post_cloudflare_pages_projects_by_project_domains_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name, from the path.")],
         domain_add_in: DomainAddIn,
@@ -7386,7 +7386,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_pages_projects_by_project_domains_serialize(
+        _param = self._post_cloudflare_pages_projects_by_project_domains_serialize(
             project=project,
             domain_add_in=domain_add_in,
             _request_auth=_request_auth,
@@ -7405,7 +7405,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_pages_projects_by_project_domains_serialize(
+    def _post_cloudflare_pages_projects_by_project_domains_serialize(
         self,
         project,
         domain_add_in,
@@ -7485,7 +7485,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_r2_buckets(
+    def post_cloudflare_r2_buckets(
         self,
         bucket_create_in: BucketCreateIn,
         _request_timeout: Union[
@@ -7529,7 +7529,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_r2_buckets_serialize(
+        _param = self._post_cloudflare_r2_buckets_serialize(
             bucket_create_in=bucket_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7552,7 +7552,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_r2_buckets_with_http_info(
+    def post_cloudflare_r2_buckets_with_http_info(
         self,
         bucket_create_in: BucketCreateIn,
         _request_timeout: Union[
@@ -7596,7 +7596,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_r2_buckets_serialize(
+        _param = self._post_cloudflare_r2_buckets_serialize(
             bucket_create_in=bucket_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7619,7 +7619,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_r2_buckets_without_preload_content(
+    def post_cloudflare_r2_buckets_without_preload_content(
         self,
         bucket_create_in: BucketCreateIn,
         _request_timeout: Union[
@@ -7663,7 +7663,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_r2_buckets_serialize(
+        _param = self._post_cloudflare_r2_buckets_serialize(
             bucket_create_in=bucket_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7681,7 +7681,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_r2_buckets_serialize(
+    def _post_cloudflare_r2_buckets_serialize(
         self,
         bucket_create_in,
         _request_auth,
@@ -7758,7 +7758,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_workers_scripts_by_script_subdomain(
+    def post_cloudflare_workers_scripts_by_script_subdomain(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name, from the path.")],
         subdomain_set_in: SubdomainSetIn,
@@ -7805,7 +7805,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_workers_scripts_by_script_subdomain_serialize(
+        _param = self._post_cloudflare_workers_scripts_by_script_subdomain_serialize(
             script=script,
             subdomain_set_in=subdomain_set_in,
             _request_auth=_request_auth,
@@ -7829,7 +7829,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_workers_scripts_by_script_subdomain_with_http_info(
+    def post_cloudflare_workers_scripts_by_script_subdomain_with_http_info(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name, from the path.")],
         subdomain_set_in: SubdomainSetIn,
@@ -7876,7 +7876,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_workers_scripts_by_script_subdomain_serialize(
+        _param = self._post_cloudflare_workers_scripts_by_script_subdomain_serialize(
             script=script,
             subdomain_set_in=subdomain_set_in,
             _request_auth=_request_auth,
@@ -7900,7 +7900,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_workers_scripts_by_script_subdomain_without_preload_content(
+    def post_cloudflare_workers_scripts_by_script_subdomain_without_preload_content(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name, from the path.")],
         subdomain_set_in: SubdomainSetIn,
@@ -7947,7 +7947,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_workers_scripts_by_script_subdomain_serialize(
+        _param = self._post_cloudflare_workers_scripts_by_script_subdomain_serialize(
             script=script,
             subdomain_set_in=subdomain_set_in,
             _request_auth=_request_auth,
@@ -7966,7 +7966,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_workers_scripts_by_script_subdomain_serialize(
+    def _post_cloudflare_workers_scripts_by_script_subdomain_serialize(
         self,
         script,
         subdomain_set_in,
@@ -8046,7 +8046,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_workers_zones_by_zone_routes(
+    def post_cloudflare_workers_zones_by_zone_routes(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
         route_create_in: RouteCreateIn,
@@ -8093,7 +8093,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+        _param = self._post_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
             route_create_in=route_create_in,
             _request_auth=_request_auth,
@@ -8117,7 +8117,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_workers_zones_by_zone_routes_with_http_info(
+    def post_cloudflare_workers_zones_by_zone_routes_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
         route_create_in: RouteCreateIn,
@@ -8164,7 +8164,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+        _param = self._post_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
             route_create_in=route_create_in,
             _request_auth=_request_auth,
@@ -8188,7 +8188,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_workers_zones_by_zone_routes_without_preload_content(
+    def post_cloudflare_workers_zones_by_zone_routes_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
         route_create_in: RouteCreateIn,
@@ -8235,7 +8235,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+        _param = self._post_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
             route_create_in=route_create_in,
             _request_auth=_request_auth,
@@ -8254,7 +8254,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_workers_zones_by_zone_routes_serialize(
+    def _post_cloudflare_workers_zones_by_zone_routes_serialize(
         self,
         zone,
         route_create_in,
@@ -8334,7 +8334,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_zones_by_zone_purge(
+    def post_cloudflare_zones_by_zone_purge(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
         purge_in: PurgeIn,
@@ -8381,7 +8381,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_zones_by_zone_purge_serialize(
+        _param = self._post_cloudflare_zones_by_zone_purge_serialize(
             zone=zone,
             purge_in=purge_in,
             _request_auth=_request_auth,
@@ -8405,7 +8405,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_zones_by_zone_purge_with_http_info(
+    def post_cloudflare_zones_by_zone_purge_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
         purge_in: PurgeIn,
@@ -8452,7 +8452,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_zones_by_zone_purge_serialize(
+        _param = self._post_cloudflare_zones_by_zone_purge_serialize(
             zone=zone,
             purge_in=purge_in,
             _request_auth=_request_auth,
@@ -8476,7 +8476,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def post_v1_cloudflare_zones_by_zone_purge_without_preload_content(
+    def post_cloudflare_zones_by_zone_purge_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
         purge_in: PurgeIn,
@@ -8523,7 +8523,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_cloudflare_zones_by_zone_purge_serialize(
+        _param = self._post_cloudflare_zones_by_zone_purge_serialize(
             zone=zone,
             purge_in=purge_in,
             _request_auth=_request_auth,
@@ -8542,7 +8542,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _post_v1_cloudflare_zones_by_zone_purge_serialize(
+    def _post_cloudflare_zones_by_zone_purge_serialize(
         self,
         zone,
         purge_in,
@@ -8622,7 +8622,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key(
+    def put_cloudflare_kv_namespaces_by_namespace_values_by_key(
         self,
         namespace: StrictStr,
         key: StrictStr,
@@ -8669,7 +8669,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._put_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -8692,7 +8692,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_with_http_info(
+    def put_cloudflare_kv_namespaces_by_namespace_values_by_key_with_http_info(
         self,
         namespace: StrictStr,
         key: StrictStr,
@@ -8739,7 +8739,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._put_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -8762,7 +8762,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_without_preload_content(
+    def put_cloudflare_kv_namespaces_by_namespace_values_by_key_without_preload_content(
         self,
         namespace: StrictStr,
         key: StrictStr,
@@ -8809,7 +8809,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+        _param = self._put_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
             namespace=namespace,
             key=key,
             _request_auth=_request_auth,
@@ -8827,7 +8827,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _put_v1_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
+    def _put_cloudflare_kv_namespaces_by_namespace_values_by_key_serialize(
         self,
         namespace,
         key,
@@ -8887,7 +8887,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def put_v1_cloudflare_workers_scripts_by_script(
+    def put_cloudflare_workers_scripts_by_script(
         self,
         script: StrictStr,
         worker_script_put: Optional[WorkerScriptPut] = None,
@@ -8934,7 +8934,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_cloudflare_workers_scripts_by_script_serialize(
+        _param = self._put_cloudflare_workers_scripts_by_script_serialize(
             script=script,
             worker_script_put=worker_script_put,
             _request_auth=_request_auth,
@@ -8958,7 +8958,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def put_v1_cloudflare_workers_scripts_by_script_with_http_info(
+    def put_cloudflare_workers_scripts_by_script_with_http_info(
         self,
         script: StrictStr,
         worker_script_put: Optional[WorkerScriptPut] = None,
@@ -9005,7 +9005,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_cloudflare_workers_scripts_by_script_serialize(
+        _param = self._put_cloudflare_workers_scripts_by_script_serialize(
             script=script,
             worker_script_put=worker_script_put,
             _request_auth=_request_auth,
@@ -9029,7 +9029,7 @@ class CloudflareApi:
 
 
     @validate_call
-    def put_v1_cloudflare_workers_scripts_by_script_without_preload_content(
+    def put_cloudflare_workers_scripts_by_script_without_preload_content(
         self,
         script: StrictStr,
         worker_script_put: Optional[WorkerScriptPut] = None,
@@ -9076,7 +9076,7 @@ class CloudflareApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_cloudflare_workers_scripts_by_script_serialize(
+        _param = self._put_cloudflare_workers_scripts_by_script_serialize(
             script=script,
             worker_script_put=worker_script_put,
             _request_auth=_request_auth,
@@ -9095,7 +9095,7 @@ class CloudflareApi:
         return response_data.response
 
 
-    def _put_v1_cloudflare_workers_scripts_by_script_serialize(
+    def _put_cloudflare_workers_scripts_by_script_serialize(
         self,
         script,
         worker_script_put,

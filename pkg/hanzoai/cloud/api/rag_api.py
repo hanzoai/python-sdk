@@ -36,7 +36,7 @@ class RagApi:
 
 
     @validate_call
-    def get_v1_rag_context(
+    def get_rag_context(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_rag_context_serialize(
+        _param = self._get_rag_context_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class RagApi:
 
 
     @validate_call
-    def get_v1_rag_context_with_http_info(
+    def get_rag_context_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_rag_context_serialize(
+        _param = self._get_rag_context_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class RagApi:
 
 
     @validate_call
-    def get_v1_rag_context_without_preload_content(
+    def get_rag_context_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_rag_context_serialize(
+        _param = self._get_rag_context_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class RagApi:
         return response_data.response
 
 
-    def _get_v1_rag_context_serialize(
+    def _get_rag_context_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_delete(
+    def post_rag_delete(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_delete_serialize(
+        _param = self._post_rag_delete_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_delete_with_http_info(
+    def post_rag_delete_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_delete_serialize(
+        _param = self._post_rag_delete_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_delete_without_preload_content(
+    def post_rag_delete_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_delete_serialize(
+        _param = self._post_rag_delete_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class RagApi:
         return response_data.response
 
 
-    def _post_v1_rag_delete_serialize(
+    def _post_rag_delete_serialize(
         self,
         _request_auth,
         _content_type,
@@ -506,7 +506,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_embed(
+    def post_rag_embed(
         self,
         _request_timeout: Union[
             None,
@@ -547,7 +547,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_embed_serialize(
+        _param = self._post_rag_embed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -568,7 +568,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_embed_with_http_info(
+    def post_rag_embed_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -609,7 +609,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_embed_serialize(
+        _param = self._post_rag_embed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -630,7 +630,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_embed_without_preload_content(
+    def post_rag_embed_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -671,7 +671,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_embed_serialize(
+        _param = self._post_rag_embed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -687,7 +687,7 @@ class RagApi:
         return response_data.response
 
 
-    def _post_v1_rag_embed_serialize(
+    def _post_rag_embed_serialize(
         self,
         _request_auth,
         _content_type,
@@ -741,7 +741,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_query(
+    def post_rag_query(
         self,
         _request_timeout: Union[
             None,
@@ -782,7 +782,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_query_serialize(
+        _param = self._post_rag_query_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -803,7 +803,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_query_with_http_info(
+    def post_rag_query_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -844,7 +844,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_query_serialize(
+        _param = self._post_rag_query_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -865,7 +865,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_query_without_preload_content(
+    def post_rag_query_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -906,7 +906,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_query_serialize(
+        _param = self._post_rag_query_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,7 +922,7 @@ class RagApi:
         return response_data.response
 
 
-    def _post_v1_rag_query_serialize(
+    def _post_rag_query_serialize(
         self,
         _request_auth,
         _content_type,
@@ -976,7 +976,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_query_multiple(
+    def post_rag_query_multiple(
         self,
         _request_timeout: Union[
             None,
@@ -1017,7 +1017,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_query_multiple_serialize(
+        _param = self._post_rag_query_multiple_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1038,7 +1038,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_query_multiple_with_http_info(
+    def post_rag_query_multiple_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1079,7 +1079,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_query_multiple_serialize(
+        _param = self._post_rag_query_multiple_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1100,7 +1100,7 @@ class RagApi:
 
 
     @validate_call
-    def post_v1_rag_query_multiple_without_preload_content(
+    def post_rag_query_multiple_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1141,7 +1141,7 @@ class RagApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_rag_query_multiple_serialize(
+        _param = self._post_rag_query_multiple_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1157,7 +1157,7 @@ class RagApi:
         return response_data.response
 
 
-    def _post_v1_rag_query_multiple_serialize(
+    def _post_rag_query_multiple_serialize(
         self,
         _request_auth,
         _content_type,

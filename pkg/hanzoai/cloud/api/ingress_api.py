@@ -47,7 +47,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_middlewares_by_id(
+    def delete_ingress_middlewares_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -91,7 +91,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_middlewares_by_id_serialize(
+        _param = self._delete_ingress_middlewares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -114,7 +114,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_middlewares_by_id_with_http_info(
+    def delete_ingress_middlewares_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -158,7 +158,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_middlewares_by_id_serialize(
+        _param = self._delete_ingress_middlewares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -181,7 +181,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_middlewares_by_id_without_preload_content(
+    def delete_ingress_middlewares_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -225,7 +225,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_middlewares_by_id_serialize(
+        _param = self._delete_ingress_middlewares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -243,7 +243,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _delete_v1_ingress_middlewares_by_id_serialize(
+    def _delete_ingress_middlewares_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -300,7 +300,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_routes_by_id(
+    def delete_ingress_routes_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -344,7 +344,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_routes_by_id_serialize(
+        _param = self._delete_ingress_routes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -367,7 +367,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_routes_by_id_with_http_info(
+    def delete_ingress_routes_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -411,7 +411,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_routes_by_id_serialize(
+        _param = self._delete_ingress_routes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -434,7 +434,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_routes_by_id_without_preload_content(
+    def delete_ingress_routes_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -478,7 +478,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_routes_by_id_serialize(
+        _param = self._delete_ingress_routes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -496,7 +496,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _delete_v1_ingress_routes_by_id_serialize(
+    def _delete_ingress_routes_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -553,7 +553,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_services_by_id(
+    def delete_ingress_services_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -597,7 +597,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_services_by_id_serialize(
+        _param = self._delete_ingress_services_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -620,7 +620,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_services_by_id_with_http_info(
+    def delete_ingress_services_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -664,7 +664,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_services_by_id_serialize(
+        _param = self._delete_ingress_services_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -687,7 +687,7 @@ class IngressApi:
 
 
     @validate_call
-    def delete_v1_ingress_services_by_id_without_preload_content(
+    def delete_ingress_services_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -731,7 +731,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ingress_services_by_id_serialize(
+        _param = self._delete_ingress_services_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -749,7 +749,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _delete_v1_ingress_services_by_id_serialize(
+    def _delete_ingress_services_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -806,7 +806,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_middlewares(
+    def get_ingress_middlewares(
         self,
         _request_timeout: Union[
             None,
@@ -847,7 +847,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_middlewares_serialize(
+        _param = self._get_ingress_middlewares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -869,7 +869,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_middlewares_with_http_info(
+    def get_ingress_middlewares_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -910,7 +910,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_middlewares_serialize(
+        _param = self._get_ingress_middlewares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -932,7 +932,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_middlewares_without_preload_content(
+    def get_ingress_middlewares_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -973,7 +973,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_middlewares_serialize(
+        _param = self._get_ingress_middlewares_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -990,7 +990,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_middlewares_serialize(
+    def _get_ingress_middlewares_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1051,7 +1051,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_middlewares_by_id(
+    def get_ingress_middlewares_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -1095,7 +1095,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_middlewares_by_id_serialize(
+        _param = self._get_ingress_middlewares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1118,7 +1118,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_middlewares_by_id_with_http_info(
+    def get_ingress_middlewares_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -1162,7 +1162,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_middlewares_by_id_serialize(
+        _param = self._get_ingress_middlewares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1185,7 +1185,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_middlewares_by_id_without_preload_content(
+    def get_ingress_middlewares_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -1229,7 +1229,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_middlewares_by_id_serialize(
+        _param = self._get_ingress_middlewares_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1247,7 +1247,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_middlewares_by_id_serialize(
+    def _get_ingress_middlewares_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1311,7 +1311,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_routes(
+    def get_ingress_routes(
         self,
         _request_timeout: Union[
             None,
@@ -1352,7 +1352,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_routes_serialize(
+        _param = self._get_ingress_routes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1374,7 +1374,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_routes_with_http_info(
+    def get_ingress_routes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1415,7 +1415,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_routes_serialize(
+        _param = self._get_ingress_routes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1437,7 +1437,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_routes_without_preload_content(
+    def get_ingress_routes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1478,7 +1478,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_routes_serialize(
+        _param = self._get_ingress_routes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1495,7 +1495,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_routes_serialize(
+    def _get_ingress_routes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1556,7 +1556,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_routes_by_id(
+    def get_ingress_routes_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -1600,7 +1600,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_routes_by_id_serialize(
+        _param = self._get_ingress_routes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1623,7 +1623,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_routes_by_id_with_http_info(
+    def get_ingress_routes_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -1667,7 +1667,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_routes_by_id_serialize(
+        _param = self._get_ingress_routes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1690,7 +1690,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_routes_by_id_without_preload_content(
+    def get_ingress_routes_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -1734,7 +1734,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_routes_by_id_serialize(
+        _param = self._get_ingress_routes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1752,7 +1752,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_routes_by_id_serialize(
+    def _get_ingress_routes_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1816,7 +1816,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_services(
+    def get_ingress_services(
         self,
         _request_timeout: Union[
             None,
@@ -1857,7 +1857,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_services_serialize(
+        _param = self._get_ingress_services_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1879,7 +1879,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_services_with_http_info(
+    def get_ingress_services_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1920,7 +1920,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_services_serialize(
+        _param = self._get_ingress_services_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1942,7 +1942,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_services_without_preload_content(
+    def get_ingress_services_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1983,7 +1983,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_services_serialize(
+        _param = self._get_ingress_services_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2000,7 +2000,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_services_serialize(
+    def _get_ingress_services_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2061,7 +2061,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_services_by_id(
+    def get_ingress_services_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -2105,7 +2105,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_services_by_id_serialize(
+        _param = self._get_ingress_services_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2128,7 +2128,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_services_by_id_with_http_info(
+    def get_ingress_services_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -2172,7 +2172,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_services_by_id_serialize(
+        _param = self._get_ingress_services_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2195,7 +2195,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_services_by_id_without_preload_content(
+    def get_ingress_services_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the object to act on, from the path.")],
         _request_timeout: Union[
@@ -2239,7 +2239,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_services_by_id_serialize(
+        _param = self._get_ingress_services_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2257,7 +2257,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_services_by_id_serialize(
+    def _get_ingress_services_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2321,7 +2321,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_status(
+    def get_ingress_status(
         self,
         _request_timeout: Union[
             None,
@@ -2362,7 +2362,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_status_serialize(
+        _param = self._get_ingress_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2384,7 +2384,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_status_with_http_info(
+    def get_ingress_status_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2425,7 +2425,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_status_serialize(
+        _param = self._get_ingress_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2447,7 +2447,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_status_without_preload_content(
+    def get_ingress_status_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2488,7 +2488,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_status_serialize(
+        _param = self._get_ingress_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2505,7 +2505,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_status_serialize(
+    def _get_ingress_status_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2566,7 +2566,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_tls(
+    def get_ingress_tls(
         self,
         _request_timeout: Union[
             None,
@@ -2607,7 +2607,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_tls_serialize(
+        _param = self._get_ingress_tls_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2629,7 +2629,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_tls_with_http_info(
+    def get_ingress_tls_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2670,7 +2670,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_tls_serialize(
+        _param = self._get_ingress_tls_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2692,7 +2692,7 @@ class IngressApi:
 
 
     @validate_call
-    def get_v1_ingress_tls_without_preload_content(
+    def get_ingress_tls_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2733,7 +2733,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ingress_tls_serialize(
+        _param = self._get_ingress_tls_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2750,7 +2750,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _get_v1_ingress_tls_serialize(
+    def _get_ingress_tls_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2811,7 +2811,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_middlewares(
+    def post_ingress_middlewares(
         self,
         middleware: Middleware,
         _request_timeout: Union[
@@ -2855,7 +2855,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_middlewares_serialize(
+        _param = self._post_ingress_middlewares_serialize(
             middleware=middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2878,7 +2878,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_middlewares_with_http_info(
+    def post_ingress_middlewares_with_http_info(
         self,
         middleware: Middleware,
         _request_timeout: Union[
@@ -2922,7 +2922,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_middlewares_serialize(
+        _param = self._post_ingress_middlewares_serialize(
             middleware=middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2945,7 +2945,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_middlewares_without_preload_content(
+    def post_ingress_middlewares_without_preload_content(
         self,
         middleware: Middleware,
         _request_timeout: Union[
@@ -2989,7 +2989,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_middlewares_serialize(
+        _param = self._post_ingress_middlewares_serialize(
             middleware=middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3007,7 +3007,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _post_v1_ingress_middlewares_serialize(
+    def _post_ingress_middlewares_serialize(
         self,
         middleware,
         _request_auth,
@@ -3084,7 +3084,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_routes(
+    def post_ingress_routes(
         self,
         route: Route,
         _request_timeout: Union[
@@ -3128,7 +3128,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_routes_serialize(
+        _param = self._post_ingress_routes_serialize(
             route=route,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3151,7 +3151,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_routes_with_http_info(
+    def post_ingress_routes_with_http_info(
         self,
         route: Route,
         _request_timeout: Union[
@@ -3195,7 +3195,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_routes_serialize(
+        _param = self._post_ingress_routes_serialize(
             route=route,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3218,7 +3218,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_routes_without_preload_content(
+    def post_ingress_routes_without_preload_content(
         self,
         route: Route,
         _request_timeout: Union[
@@ -3262,7 +3262,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_routes_serialize(
+        _param = self._post_ingress_routes_serialize(
             route=route,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3280,7 +3280,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _post_v1_ingress_routes_serialize(
+    def _post_ingress_routes_serialize(
         self,
         route,
         _request_auth,
@@ -3357,7 +3357,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_services(
+    def post_ingress_services(
         self,
         upstream: Upstream,
         _request_timeout: Union[
@@ -3401,7 +3401,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_services_serialize(
+        _param = self._post_ingress_services_serialize(
             upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3424,7 +3424,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_services_with_http_info(
+    def post_ingress_services_with_http_info(
         self,
         upstream: Upstream,
         _request_timeout: Union[
@@ -3468,7 +3468,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_services_serialize(
+        _param = self._post_ingress_services_serialize(
             upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3491,7 +3491,7 @@ class IngressApi:
 
 
     @validate_call
-    def post_v1_ingress_services_without_preload_content(
+    def post_ingress_services_without_preload_content(
         self,
         upstream: Upstream,
         _request_timeout: Union[
@@ -3535,7 +3535,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ingress_services_serialize(
+        _param = self._post_ingress_services_serialize(
             upstream=upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3553,7 +3553,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _post_v1_ingress_services_serialize(
+    def _post_ingress_services_serialize(
         self,
         upstream,
         _request_auth,
@@ -3630,7 +3630,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_middlewares_by_id(
+    def put_ingress_middlewares_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
         middleware: Middleware,
@@ -3677,7 +3677,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_middlewares_by_id_serialize(
+        _param = self._put_ingress_middlewares_by_id_serialize(
             id=id,
             middleware=middleware,
             _request_auth=_request_auth,
@@ -3701,7 +3701,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_middlewares_by_id_with_http_info(
+    def put_ingress_middlewares_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
         middleware: Middleware,
@@ -3748,7 +3748,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_middlewares_by_id_serialize(
+        _param = self._put_ingress_middlewares_by_id_serialize(
             id=id,
             middleware=middleware,
             _request_auth=_request_auth,
@@ -3772,7 +3772,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_middlewares_by_id_without_preload_content(
+    def put_ingress_middlewares_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
         middleware: Middleware,
@@ -3819,7 +3819,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_middlewares_by_id_serialize(
+        _param = self._put_ingress_middlewares_by_id_serialize(
             id=id,
             middleware=middleware,
             _request_auth=_request_auth,
@@ -3838,7 +3838,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _put_v1_ingress_middlewares_by_id_serialize(
+    def _put_ingress_middlewares_by_id_serialize(
         self,
         id,
         middleware,
@@ -3918,7 +3918,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_routes_by_id(
+    def put_ingress_routes_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one.")],
         route: Route,
@@ -3965,7 +3965,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_routes_by_id_serialize(
+        _param = self._put_ingress_routes_by_id_serialize(
             id=id,
             route=route,
             _request_auth=_request_auth,
@@ -3989,7 +3989,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_routes_by_id_with_http_info(
+    def put_ingress_routes_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one.")],
         route: Route,
@@ -4036,7 +4036,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_routes_by_id_serialize(
+        _param = self._put_ingress_routes_by_id_serialize(
             id=id,
             route=route,
             _request_auth=_request_auth,
@@ -4060,7 +4060,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_routes_by_id_without_preload_content(
+    def put_ingress_routes_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one.")],
         route: Route,
@@ -4107,7 +4107,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_routes_by_id_serialize(
+        _param = self._put_ingress_routes_by_id_serialize(
             id=id,
             route=route,
             _request_auth=_request_auth,
@@ -4126,7 +4126,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _put_v1_ingress_routes_by_id_serialize(
+    def _put_ingress_routes_by_id_serialize(
         self,
         id,
         route,
@@ -4206,7 +4206,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_services_by_id(
+    def put_ingress_services_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
         upstream: Upstream,
@@ -4253,7 +4253,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_services_by_id_serialize(
+        _param = self._put_ingress_services_by_id_serialize(
             id=id,
             upstream=upstream,
             _request_auth=_request_auth,
@@ -4277,7 +4277,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_services_by_id_with_http_info(
+    def put_ingress_services_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
         upstream: Upstream,
@@ -4324,7 +4324,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_services_by_id_serialize(
+        _param = self._put_ingress_services_by_id_serialize(
             id=id,
             upstream=upstream,
             _request_auth=_request_auth,
@@ -4348,7 +4348,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_services_by_id_without_preload_content(
+    def put_ingress_services_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
         upstream: Upstream,
@@ -4395,7 +4395,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_services_by_id_serialize(
+        _param = self._put_ingress_services_by_id_serialize(
             id=id,
             upstream=upstream,
             _request_auth=_request_auth,
@@ -4414,7 +4414,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _put_v1_ingress_services_by_id_serialize(
+    def _put_ingress_services_by_id_serialize(
         self,
         id,
         upstream,
@@ -4494,7 +4494,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_tls(
+    def put_ingress_tls(
         self,
         tls_config: TLSConfig,
         _request_timeout: Union[
@@ -4538,7 +4538,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_tls_serialize(
+        _param = self._put_ingress_tls_serialize(
             tls_config=tls_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4561,7 +4561,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_tls_with_http_info(
+    def put_ingress_tls_with_http_info(
         self,
         tls_config: TLSConfig,
         _request_timeout: Union[
@@ -4605,7 +4605,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_tls_serialize(
+        _param = self._put_ingress_tls_serialize(
             tls_config=tls_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4628,7 +4628,7 @@ class IngressApi:
 
 
     @validate_call
-    def put_v1_ingress_tls_without_preload_content(
+    def put_ingress_tls_without_preload_content(
         self,
         tls_config: TLSConfig,
         _request_timeout: Union[
@@ -4672,7 +4672,7 @@ class IngressApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_ingress_tls_serialize(
+        _param = self._put_ingress_tls_serialize(
             tls_config=tls_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4690,7 +4690,7 @@ class IngressApi:
         return response_data.response
 
 
-    def _put_v1_ingress_tls_serialize(
+    def _put_ingress_tls_serialize(
         self,
         tls_config,
         _request_auth,

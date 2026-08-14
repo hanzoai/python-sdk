@@ -37,7 +37,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents(
+    def get_esign_documents(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_serialize(
+        _param = self._get_esign_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +99,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_with_http_info(
+    def get_esign_documents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -140,7 +140,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_serialize(
+        _param = self._get_esign_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -161,7 +161,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_without_preload_content(
+    def get_esign_documents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -202,7 +202,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_serialize(
+        _param = self._get_esign_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -218,7 +218,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _get_v1_esign_documents_serialize(
+    def _get_esign_documents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -272,7 +272,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id(
+    def get_esign_documents_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -316,7 +316,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_serialize(
+        _param = self._get_esign_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -338,7 +338,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_with_http_info(
+    def get_esign_documents_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -382,7 +382,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_serialize(
+        _param = self._get_esign_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -404,7 +404,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_without_preload_content(
+    def get_esign_documents_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -448,7 +448,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_serialize(
+        _param = self._get_esign_documents_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -465,7 +465,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _get_v1_esign_documents_by_id_serialize(
+    def _get_esign_documents_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -522,7 +522,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_audit(
+    def get_esign_documents_by_id_audit(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -566,7 +566,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_audit_serialize(
+        _param = self._get_esign_documents_by_id_audit_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -588,7 +588,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_audit_with_http_info(
+    def get_esign_documents_by_id_audit_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -632,7 +632,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_audit_serialize(
+        _param = self._get_esign_documents_by_id_audit_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -654,7 +654,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_audit_without_preload_content(
+    def get_esign_documents_by_id_audit_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -698,7 +698,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_audit_serialize(
+        _param = self._get_esign_documents_by_id_audit_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -715,7 +715,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _get_v1_esign_documents_by_id_audit_serialize(
+    def _get_esign_documents_by_id_audit_serialize(
         self,
         id,
         _request_auth,
@@ -772,7 +772,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_download(
+    def get_esign_documents_by_id_download(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -816,7 +816,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_download_serialize(
+        _param = self._get_esign_documents_by_id_download_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -838,7 +838,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_download_with_http_info(
+    def get_esign_documents_by_id_download_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -882,7 +882,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_download_serialize(
+        _param = self._get_esign_documents_by_id_download_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -904,7 +904,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_documents_by_id_download_without_preload_content(
+    def get_esign_documents_by_id_download_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -948,7 +948,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_documents_by_id_download_serialize(
+        _param = self._get_esign_documents_by_id_download_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -965,7 +965,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _get_v1_esign_documents_by_id_download_serialize(
+    def _get_esign_documents_by_id_download_serialize(
         self,
         id,
         _request_auth,
@@ -1022,7 +1022,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_health(
+    def get_esign_health(
         self,
         _request_timeout: Union[
             None,
@@ -1063,7 +1063,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_health_serialize(
+        _param = self._get_esign_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1084,7 +1084,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_health_with_http_info(
+    def get_esign_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1125,7 +1125,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_health_serialize(
+        _param = self._get_esign_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1146,7 +1146,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_health_without_preload_content(
+    def get_esign_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1187,7 +1187,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_health_serialize(
+        _param = self._get_esign_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1203,7 +1203,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _get_v1_esign_health_serialize(
+    def _get_esign_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1257,7 +1257,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_oby_org_sign_by_token(
+    def get_esign_oby_org_sign_by_token(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -1304,7 +1304,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_oby_org_sign_by_token_serialize(
+        _param = self._get_esign_oby_org_sign_by_token_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -1327,7 +1327,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_oby_org_sign_by_token_with_http_info(
+    def get_esign_oby_org_sign_by_token_with_http_info(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -1374,7 +1374,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_oby_org_sign_by_token_serialize(
+        _param = self._get_esign_oby_org_sign_by_token_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -1397,7 +1397,7 @@ class EsignApi:
 
 
     @validate_call
-    def get_v1_esign_oby_org_sign_by_token_without_preload_content(
+    def get_esign_oby_org_sign_by_token_without_preload_content(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -1444,7 +1444,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_esign_oby_org_sign_by_token_serialize(
+        _param = self._get_esign_oby_org_sign_by_token_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -1462,7 +1462,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _get_v1_esign_oby_org_sign_by_token_serialize(
+    def _get_esign_oby_org_sign_by_token_serialize(
         self,
         org,
         token,
@@ -1522,7 +1522,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents(
+    def post_esign_documents(
         self,
         _request_timeout: Union[
             None,
@@ -1563,7 +1563,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_serialize(
+        _param = self._post_esign_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1584,7 +1584,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_with_http_info(
+    def post_esign_documents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1625,7 +1625,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_serialize(
+        _param = self._post_esign_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1646,7 +1646,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_without_preload_content(
+    def post_esign_documents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1687,7 +1687,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_serialize(
+        _param = self._post_esign_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1703,7 +1703,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_documents_serialize(
+    def _post_esign_documents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1757,7 +1757,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_fields(
+    def post_esign_documents_by_id_fields(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1801,7 +1801,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_fields_serialize(
+        _param = self._post_esign_documents_by_id_fields_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1823,7 +1823,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_fields_with_http_info(
+    def post_esign_documents_by_id_fields_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1867,7 +1867,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_fields_serialize(
+        _param = self._post_esign_documents_by_id_fields_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1889,7 +1889,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_fields_without_preload_content(
+    def post_esign_documents_by_id_fields_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1933,7 +1933,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_fields_serialize(
+        _param = self._post_esign_documents_by_id_fields_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1950,7 +1950,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_documents_by_id_fields_serialize(
+    def _post_esign_documents_by_id_fields_serialize(
         self,
         id,
         _request_auth,
@@ -2007,7 +2007,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_recipients(
+    def post_esign_documents_by_id_recipients(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2051,7 +2051,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_recipients_serialize(
+        _param = self._post_esign_documents_by_id_recipients_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2073,7 +2073,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_recipients_with_http_info(
+    def post_esign_documents_by_id_recipients_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2117,7 +2117,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_recipients_serialize(
+        _param = self._post_esign_documents_by_id_recipients_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2139,7 +2139,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_recipients_without_preload_content(
+    def post_esign_documents_by_id_recipients_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2183,7 +2183,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_recipients_serialize(
+        _param = self._post_esign_documents_by_id_recipients_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2200,7 +2200,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_documents_by_id_recipients_serialize(
+    def _post_esign_documents_by_id_recipients_serialize(
         self,
         id,
         _request_auth,
@@ -2257,7 +2257,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_send(
+    def post_esign_documents_by_id_send(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2301,7 +2301,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_send_serialize(
+        _param = self._post_esign_documents_by_id_send_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2323,7 +2323,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_send_with_http_info(
+    def post_esign_documents_by_id_send_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2367,7 +2367,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_send_serialize(
+        _param = self._post_esign_documents_by_id_send_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2389,7 +2389,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_documents_by_id_send_without_preload_content(
+    def post_esign_documents_by_id_send_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2433,7 +2433,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_documents_by_id_send_serialize(
+        _param = self._post_esign_documents_by_id_send_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2450,7 +2450,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_documents_by_id_send_serialize(
+    def _post_esign_documents_by_id_send_serialize(
         self,
         id,
         _request_auth,
@@ -2507,7 +2507,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_complete(
+    def post_esign_oby_org_sign_by_token_complete(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -2554,7 +2554,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_complete_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_complete_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -2577,7 +2577,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_complete_with_http_info(
+    def post_esign_oby_org_sign_by_token_complete_with_http_info(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -2624,7 +2624,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_complete_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_complete_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -2647,7 +2647,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_complete_without_preload_content(
+    def post_esign_oby_org_sign_by_token_complete_without_preload_content(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -2694,7 +2694,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_complete_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_complete_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -2712,7 +2712,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_oby_org_sign_by_token_complete_serialize(
+    def _post_esign_oby_org_sign_by_token_complete_serialize(
         self,
         org,
         token,
@@ -2772,7 +2772,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_fields_by_fieldid(
+    def post_esign_oby_org_sign_by_token_fields_by_fieldid(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -2822,7 +2822,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
             org=org,
             token=token,
             field_id=field_id,
@@ -2846,7 +2846,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_fields_by_fieldid_with_http_info(
+    def post_esign_oby_org_sign_by_token_fields_by_fieldid_with_http_info(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -2896,7 +2896,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
             org=org,
             token=token,
             field_id=field_id,
@@ -2920,7 +2920,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_fields_by_fieldid_without_preload_content(
+    def post_esign_oby_org_sign_by_token_fields_by_fieldid_without_preload_content(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -2970,7 +2970,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
             org=org,
             token=token,
             field_id=field_id,
@@ -2989,7 +2989,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
+    def _post_esign_oby_org_sign_by_token_fields_by_fieldid_serialize(
         self,
         org,
         token,
@@ -3052,7 +3052,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_reject(
+    def post_esign_oby_org_sign_by_token_reject(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -3099,7 +3099,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_reject_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_reject_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -3122,7 +3122,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_reject_with_http_info(
+    def post_esign_oby_org_sign_by_token_reject_with_http_info(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -3169,7 +3169,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_reject_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_reject_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -3192,7 +3192,7 @@ class EsignApi:
 
 
     @validate_call
-    def post_v1_esign_oby_org_sign_by_token_reject_without_preload_content(
+    def post_esign_oby_org_sign_by_token_reject_without_preload_content(
         self,
         org: StrictStr,
         token: StrictStr,
@@ -3239,7 +3239,7 @@ class EsignApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_esign_oby_org_sign_by_token_reject_serialize(
+        _param = self._post_esign_oby_org_sign_by_token_reject_serialize(
             org=org,
             token=token,
             _request_auth=_request_auth,
@@ -3257,7 +3257,7 @@ class EsignApi:
         return response_data.response
 
 
-    def _post_v1_esign_oby_org_sign_by_token_reject_serialize(
+    def _post_esign_oby_org_sign_by_token_reject_serialize(
         self,
         org,
         token,

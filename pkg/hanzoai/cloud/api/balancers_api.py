@@ -41,7 +41,7 @@ class BalancersApi:
 
 
     @validate_call
-    def delete_v1_balancers_by_id(
+    def delete_balancers_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the DigitalOcean resource id (a UUID), from the path.")],
         _request_timeout: Union[
@@ -85,7 +85,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_balancers_by_id_serialize(
+        _param = self._delete_balancers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -108,7 +108,7 @@ class BalancersApi:
 
 
     @validate_call
-    def delete_v1_balancers_by_id_with_http_info(
+    def delete_balancers_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the DigitalOcean resource id (a UUID), from the path.")],
         _request_timeout: Union[
@@ -152,7 +152,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_balancers_by_id_serialize(
+        _param = self._delete_balancers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -175,7 +175,7 @@ class BalancersApi:
 
 
     @validate_call
-    def delete_v1_balancers_by_id_without_preload_content(
+    def delete_balancers_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the DigitalOcean resource id (a UUID), from the path.")],
         _request_timeout: Union[
@@ -219,7 +219,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_balancers_by_id_serialize(
+        _param = self._delete_balancers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -237,7 +237,7 @@ class BalancersApi:
         return response_data.response
 
 
-    def _delete_v1_balancers_by_id_serialize(
+    def _delete_balancers_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -294,7 +294,7 @@ class BalancersApi:
 
 
     @validate_call
-    def get_v1_balancers(
+    def get_balancers(
         self,
         _request_timeout: Union[
             None,
@@ -335,7 +335,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_balancers_serialize(
+        _param = self._get_balancers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -357,7 +357,7 @@ class BalancersApi:
 
 
     @validate_call
-    def get_v1_balancers_with_http_info(
+    def get_balancers_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -398,7 +398,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_balancers_serialize(
+        _param = self._get_balancers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -420,7 +420,7 @@ class BalancersApi:
 
 
     @validate_call
-    def get_v1_balancers_without_preload_content(
+    def get_balancers_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -461,7 +461,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_balancers_serialize(
+        _param = self._get_balancers_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -478,7 +478,7 @@ class BalancersApi:
         return response_data.response
 
 
-    def _get_v1_balancers_serialize(
+    def _get_balancers_serialize(
         self,
         _request_auth,
         _content_type,
@@ -539,7 +539,7 @@ class BalancersApi:
 
 
     @validate_call
-    def get_v1_balancers_by_id(
+    def get_balancers_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the DigitalOcean resource id (a UUID), from the path.")],
         _request_timeout: Union[
@@ -583,7 +583,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_balancers_by_id_serialize(
+        _param = self._get_balancers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -606,7 +606,7 @@ class BalancersApi:
 
 
     @validate_call
-    def get_v1_balancers_by_id_with_http_info(
+    def get_balancers_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the DigitalOcean resource id (a UUID), from the path.")],
         _request_timeout: Union[
@@ -650,7 +650,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_balancers_by_id_serialize(
+        _param = self._get_balancers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -673,7 +673,7 @@ class BalancersApi:
 
 
     @validate_call
-    def get_v1_balancers_by_id_without_preload_content(
+    def get_balancers_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the DigitalOcean resource id (a UUID), from the path.")],
         _request_timeout: Union[
@@ -717,7 +717,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_balancers_by_id_serialize(
+        _param = self._get_balancers_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -735,7 +735,7 @@ class BalancersApi:
         return response_data.response
 
 
-    def _get_v1_balancers_by_id_serialize(
+    def _get_balancers_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -799,7 +799,7 @@ class BalancersApi:
 
 
     @validate_call
-    def post_v1_balancers(
+    def post_balancers(
         self,
         create_lb_req: CreateLBReq,
         _request_timeout: Union[
@@ -843,7 +843,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_balancers_serialize(
+        _param = self._post_balancers_serialize(
             create_lb_req=create_lb_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -866,7 +866,7 @@ class BalancersApi:
 
 
     @validate_call
-    def post_v1_balancers_with_http_info(
+    def post_balancers_with_http_info(
         self,
         create_lb_req: CreateLBReq,
         _request_timeout: Union[
@@ -910,7 +910,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_balancers_serialize(
+        _param = self._post_balancers_serialize(
             create_lb_req=create_lb_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -933,7 +933,7 @@ class BalancersApi:
 
 
     @validate_call
-    def post_v1_balancers_without_preload_content(
+    def post_balancers_without_preload_content(
         self,
         create_lb_req: CreateLBReq,
         _request_timeout: Union[
@@ -977,7 +977,7 @@ class BalancersApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_balancers_serialize(
+        _param = self._post_balancers_serialize(
             create_lb_req=create_lb_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -995,7 +995,7 @@ class BalancersApi:
         return response_data.response
 
 
-    def _post_v1_balancers_serialize(
+    def _post_balancers_serialize(
         self,
         create_lb_req,
         _request_auth,

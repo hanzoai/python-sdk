@@ -36,7 +36,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_foley(
+    def post_audio_foley(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_foley_serialize(
+        _param = self._post_audio_foley_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_foley_with_http_info(
+    def post_audio_foley_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_foley_serialize(
+        _param = self._post_audio_foley_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_foley_without_preload_content(
+    def post_audio_foley_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_foley_serialize(
+        _param = self._post_audio_foley_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class AudioApi:
         return response_data.response
 
 
-    def _post_v1_audio_foley_serialize(
+    def _post_audio_foley_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_music(
+    def post_audio_music(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_music_serialize(
+        _param = self._post_audio_music_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_music_with_http_info(
+    def post_audio_music_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_music_serialize(
+        _param = self._post_audio_music_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_music_without_preload_content(
+    def post_audio_music_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_music_serialize(
+        _param = self._post_audio_music_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class AudioApi:
         return response_data.response
 
 
-    def _post_v1_audio_music_serialize(
+    def _post_audio_music_serialize(
         self,
         _request_auth,
         _content_type,
@@ -506,7 +506,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_speech(
+    def post_audio_speech(
         self,
         _request_timeout: Union[
             None,
@@ -547,7 +547,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_speech_serialize(
+        _param = self._post_audio_speech_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -568,7 +568,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_speech_with_http_info(
+    def post_audio_speech_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -609,7 +609,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_speech_serialize(
+        _param = self._post_audio_speech_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -630,7 +630,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_speech_without_preload_content(
+    def post_audio_speech_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -671,7 +671,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_speech_serialize(
+        _param = self._post_audio_speech_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -687,7 +687,7 @@ class AudioApi:
         return response_data.response
 
 
-    def _post_v1_audio_speech_serialize(
+    def _post_audio_speech_serialize(
         self,
         _request_auth,
         _content_type,
@@ -741,7 +741,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_transcriptions(
+    def post_audio_transcriptions(
         self,
         _request_timeout: Union[
             None,
@@ -782,7 +782,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_transcriptions_serialize(
+        _param = self._post_audio_transcriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -803,7 +803,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_transcriptions_with_http_info(
+    def post_audio_transcriptions_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -844,7 +844,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_transcriptions_serialize(
+        _param = self._post_audio_transcriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -865,7 +865,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_transcriptions_without_preload_content(
+    def post_audio_transcriptions_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -906,7 +906,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_transcriptions_serialize(
+        _param = self._post_audio_transcriptions_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,7 +922,7 @@ class AudioApi:
         return response_data.response
 
 
-    def _post_v1_audio_transcriptions_serialize(
+    def _post_audio_transcriptions_serialize(
         self,
         _request_auth,
         _content_type,
@@ -976,7 +976,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_voice(
+    def post_audio_voice(
         self,
         _request_timeout: Union[
             None,
@@ -1017,7 +1017,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_voice_serialize(
+        _param = self._post_audio_voice_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1038,7 +1038,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_voice_with_http_info(
+    def post_audio_voice_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1079,7 +1079,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_voice_serialize(
+        _param = self._post_audio_voice_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1100,7 +1100,7 @@ class AudioApi:
 
 
     @validate_call
-    def post_v1_audio_voice_without_preload_content(
+    def post_audio_voice_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1141,7 +1141,7 @@ class AudioApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_audio_voice_serialize(
+        _param = self._post_audio_voice_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1157,7 +1157,7 @@ class AudioApi:
         return response_data.response
 
 
-    def _post_v1_audio_voice_serialize(
+    def _post_audio_voice_serialize(
         self,
         _request_auth,
         _content_type,

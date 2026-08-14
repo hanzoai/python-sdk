@@ -44,7 +44,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles(
+    def get_help_articles(
         self,
         category: Annotated[Optional[StrictStr], Field(description="Category narrows the list to one knowledge-base section, matched against the article's category by exact name. Empty lists every section.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many articles are returned. Anything that is not a positive integer uses 50, and values above 200 are clamped to 200.")] = None,
@@ -91,7 +91,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_serialize(
+        _param = self._get_help_articles_serialize(
             category=category,
             limit=limit,
             _request_auth=_request_auth,
@@ -115,7 +115,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_with_http_info(
+    def get_help_articles_with_http_info(
         self,
         category: Annotated[Optional[StrictStr], Field(description="Category narrows the list to one knowledge-base section, matched against the article's category by exact name. Empty lists every section.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many articles are returned. Anything that is not a positive integer uses 50, and values above 200 are clamped to 200.")] = None,
@@ -162,7 +162,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_serialize(
+        _param = self._get_help_articles_serialize(
             category=category,
             limit=limit,
             _request_auth=_request_auth,
@@ -186,7 +186,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_without_preload_content(
+    def get_help_articles_without_preload_content(
         self,
         category: Annotated[Optional[StrictStr], Field(description="Category narrows the list to one knowledge-base section, matched against the article's category by exact name. Empty lists every section.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many articles are returned. Anything that is not a positive integer uses 50, and values above 200 are clamped to 200.")] = None,
@@ -233,7 +233,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_serialize(
+        _param = self._get_help_articles_serialize(
             category=category,
             limit=limit,
             _request_auth=_request_auth,
@@ -252,7 +252,7 @@ class HelpApi:
         return response_data.response
 
 
-    def _get_v1_help_articles_serialize(
+    def _get_help_articles_serialize(
         self,
         category,
         limit,
@@ -323,7 +323,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_by_slug(
+    def get_help_articles_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the article's public identifier, from the path. It IS the document name in the help center's store.")],
         _request_timeout: Union[
@@ -367,7 +367,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_by_slug_serialize(
+        _param = self._get_help_articles_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -390,7 +390,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_by_slug_with_http_info(
+    def get_help_articles_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the article's public identifier, from the path. It IS the document name in the help center's store.")],
         _request_timeout: Union[
@@ -434,7 +434,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_by_slug_serialize(
+        _param = self._get_help_articles_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -457,7 +457,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_articles_by_slug_without_preload_content(
+    def get_help_articles_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the article's public identifier, from the path. It IS the document name in the help center's store.")],
         _request_timeout: Union[
@@ -501,7 +501,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_articles_by_slug_serialize(
+        _param = self._get_help_articles_by_slug_serialize(
             slug=slug,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -519,7 +519,7 @@ class HelpApi:
         return response_data.response
 
 
-    def _get_v1_help_articles_by_slug_serialize(
+    def _get_help_articles_by_slug_serialize(
         self,
         slug,
         _request_auth,
@@ -583,7 +583,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_categories(
+    def get_help_categories(
         self,
         _request_timeout: Union[
             None,
@@ -624,7 +624,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_categories_serialize(
+        _param = self._get_help_categories_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -646,7 +646,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_categories_with_http_info(
+    def get_help_categories_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -687,7 +687,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_categories_serialize(
+        _param = self._get_help_categories_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -709,7 +709,7 @@ class HelpApi:
 
 
     @validate_call
-    def get_v1_help_categories_without_preload_content(
+    def get_help_categories_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -750,7 +750,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_help_categories_serialize(
+        _param = self._get_help_categories_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -767,7 +767,7 @@ class HelpApi:
         return response_data.response
 
 
-    def _get_v1_help_categories_serialize(
+    def _get_help_categories_serialize(
         self,
         _request_auth,
         _content_type,
@@ -828,7 +828,7 @@ class HelpApi:
 
 
     @validate_call
-    def post_v1_help_tickets(
+    def post_help_tickets(
         self,
         help_ticket_intake: HelpTicketIntake,
         _request_timeout: Union[
@@ -872,7 +872,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_help_tickets_serialize(
+        _param = self._post_help_tickets_serialize(
             help_ticket_intake=help_ticket_intake,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -895,7 +895,7 @@ class HelpApi:
 
 
     @validate_call
-    def post_v1_help_tickets_with_http_info(
+    def post_help_tickets_with_http_info(
         self,
         help_ticket_intake: HelpTicketIntake,
         _request_timeout: Union[
@@ -939,7 +939,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_help_tickets_serialize(
+        _param = self._post_help_tickets_serialize(
             help_ticket_intake=help_ticket_intake,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -962,7 +962,7 @@ class HelpApi:
 
 
     @validate_call
-    def post_v1_help_tickets_without_preload_content(
+    def post_help_tickets_without_preload_content(
         self,
         help_ticket_intake: HelpTicketIntake,
         _request_timeout: Union[
@@ -1006,7 +1006,7 @@ class HelpApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_help_tickets_serialize(
+        _param = self._post_help_tickets_serialize(
             help_ticket_intake=help_ticket_intake,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1024,7 +1024,7 @@ class HelpApi:
         return response_data.response
 
 
-    def _post_v1_help_tickets_serialize(
+    def _post_help_tickets_serialize(
         self,
         help_ticket_intake,
         _request_auth,

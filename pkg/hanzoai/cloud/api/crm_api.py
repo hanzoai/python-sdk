@@ -52,7 +52,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_companies_by_id(
+    def delete_crm_companies_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -96,7 +96,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_companies_by_id_serialize(
+        _param = self._delete_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -119,7 +119,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_companies_by_id_with_http_info(
+    def delete_crm_companies_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -163,7 +163,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_companies_by_id_serialize(
+        _param = self._delete_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -186,7 +186,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_companies_by_id_without_preload_content(
+    def delete_crm_companies_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -230,7 +230,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_companies_by_id_serialize(
+        _param = self._delete_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -248,7 +248,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _delete_v1_crm_companies_by_id_serialize(
+    def _delete_crm_companies_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -305,7 +305,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_contacts_by_id(
+    def delete_crm_contacts_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -349,7 +349,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_contacts_by_id_serialize(
+        _param = self._delete_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -372,7 +372,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_contacts_by_id_with_http_info(
+    def delete_crm_contacts_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -416,7 +416,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_contacts_by_id_serialize(
+        _param = self._delete_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -439,7 +439,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_contacts_by_id_without_preload_content(
+    def delete_crm_contacts_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -483,7 +483,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_contacts_by_id_serialize(
+        _param = self._delete_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -501,7 +501,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _delete_v1_crm_contacts_by_id_serialize(
+    def _delete_crm_contacts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -558,7 +558,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_opportunities_by_id(
+    def delete_crm_opportunities_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -602,7 +602,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_opportunities_by_id_serialize(
+        _param = self._delete_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -625,7 +625,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_opportunities_by_id_with_http_info(
+    def delete_crm_opportunities_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -669,7 +669,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_opportunities_by_id_serialize(
+        _param = self._delete_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -692,7 +692,7 @@ class CrmApi:
 
 
     @validate_call
-    def delete_v1_crm_opportunities_by_id_without_preload_content(
+    def delete_crm_opportunities_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -736,7 +736,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_crm_opportunities_by_id_serialize(
+        _param = self._delete_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -754,7 +754,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _delete_v1_crm_opportunities_by_id_serialize(
+    def _delete_crm_opportunities_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -811,7 +811,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications(
+    def get_crm_applications(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage returns only the applications at that pipeline stage when set: applied, screened, qualified, credits-offered, onboarded or rejected.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -858,7 +858,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_serialize(
+        _param = self._get_crm_applications_serialize(
             stage=stage,
             limit=limit,
             _request_auth=_request_auth,
@@ -882,7 +882,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_with_http_info(
+    def get_crm_applications_with_http_info(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage returns only the applications at that pipeline stage when set: applied, screened, qualified, credits-offered, onboarded or rejected.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -929,7 +929,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_serialize(
+        _param = self._get_crm_applications_serialize(
             stage=stage,
             limit=limit,
             _request_auth=_request_auth,
@@ -953,7 +953,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_without_preload_content(
+    def get_crm_applications_without_preload_content(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage returns only the applications at that pipeline stage when set: applied, screened, qualified, credits-offered, onboarded or rejected.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -1000,7 +1000,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_serialize(
+        _param = self._get_crm_applications_serialize(
             stage=stage,
             limit=limit,
             _request_auth=_request_auth,
@@ -1019,7 +1019,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_applications_serialize(
+    def _get_crm_applications_serialize(
         self,
         stage,
         limit,
@@ -1090,7 +1090,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_by_id(
+    def get_crm_applications_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1134,7 +1134,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_by_id_serialize(
+        _param = self._get_crm_applications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1157,7 +1157,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_by_id_with_http_info(
+    def get_crm_applications_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1201,7 +1201,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_by_id_serialize(
+        _param = self._get_crm_applications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1224,7 +1224,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_applications_by_id_without_preload_content(
+    def get_crm_applications_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1268,7 +1268,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_applications_by_id_serialize(
+        _param = self._get_crm_applications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1286,7 +1286,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_applications_by_id_serialize(
+    def _get_crm_applications_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1350,7 +1350,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies(
+    def get_crm_companies(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
         _request_timeout: Union[
@@ -1394,7 +1394,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_serialize(
+        _param = self._get_crm_companies_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1417,7 +1417,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_with_http_info(
+    def get_crm_companies_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
         _request_timeout: Union[
@@ -1461,7 +1461,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_serialize(
+        _param = self._get_crm_companies_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1484,7 +1484,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_without_preload_content(
+    def get_crm_companies_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
         _request_timeout: Union[
@@ -1528,7 +1528,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_serialize(
+        _param = self._get_crm_companies_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1546,7 +1546,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_companies_serialize(
+    def _get_crm_companies_serialize(
         self,
         limit,
         _request_auth,
@@ -1612,7 +1612,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_by_id(
+    def get_crm_companies_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1656,7 +1656,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_by_id_serialize(
+        _param = self._get_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1679,7 +1679,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_by_id_with_http_info(
+    def get_crm_companies_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1723,7 +1723,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_by_id_serialize(
+        _param = self._get_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1746,7 +1746,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_companies_by_id_without_preload_content(
+    def get_crm_companies_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -1790,7 +1790,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_companies_by_id_serialize(
+        _param = self._get_crm_companies_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1808,7 +1808,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_companies_by_id_serialize(
+    def _get_crm_companies_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1872,7 +1872,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts(
+    def get_crm_contacts(
         self,
         company_id: Annotated[Optional[StrictStr], Field(description="CompanyID returns only the contacts at that company when set.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -1919,7 +1919,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_serialize(
+        _param = self._get_crm_contacts_serialize(
             company_id=company_id,
             limit=limit,
             _request_auth=_request_auth,
@@ -1943,7 +1943,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_with_http_info(
+    def get_crm_contacts_with_http_info(
         self,
         company_id: Annotated[Optional[StrictStr], Field(description="CompanyID returns only the contacts at that company when set.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -1990,7 +1990,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_serialize(
+        _param = self._get_crm_contacts_serialize(
             company_id=company_id,
             limit=limit,
             _request_auth=_request_auth,
@@ -2014,7 +2014,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_without_preload_content(
+    def get_crm_contacts_without_preload_content(
         self,
         company_id: Annotated[Optional[StrictStr], Field(description="CompanyID returns only the contacts at that company when set.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -2061,7 +2061,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_serialize(
+        _param = self._get_crm_contacts_serialize(
             company_id=company_id,
             limit=limit,
             _request_auth=_request_auth,
@@ -2080,7 +2080,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_contacts_serialize(
+    def _get_crm_contacts_serialize(
         self,
         company_id,
         limit,
@@ -2151,7 +2151,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_by_id(
+    def get_crm_contacts_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2195,7 +2195,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_by_id_serialize(
+        _param = self._get_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2218,7 +2218,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_by_id_with_http_info(
+    def get_crm_contacts_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2262,7 +2262,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_by_id_serialize(
+        _param = self._get_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2285,7 +2285,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_contacts_by_id_without_preload_content(
+    def get_crm_contacts_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2329,7 +2329,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_contacts_by_id_serialize(
+        _param = self._get_crm_contacts_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2347,7 +2347,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_contacts_by_id_serialize(
+    def _get_crm_contacts_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2411,7 +2411,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities(
+    def get_crm_opportunities(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage returns only the opportunities at that pipeline stage when set (NEW, SCREENING, MEETING, PROPOSAL or CUSTOMER; case-insensitive).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -2458,7 +2458,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_serialize(
+        _param = self._get_crm_opportunities_serialize(
             stage=stage,
             limit=limit,
             _request_auth=_request_auth,
@@ -2482,7 +2482,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_with_http_info(
+    def get_crm_opportunities_with_http_info(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage returns only the opportunities at that pipeline stage when set (NEW, SCREENING, MEETING, PROPOSAL or CUSTOMER; case-insensitive).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -2529,7 +2529,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_serialize(
+        _param = self._get_crm_opportunities_serialize(
             stage=stage,
             limit=limit,
             _request_auth=_request_auth,
@@ -2553,7 +2553,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_without_preload_content(
+    def get_crm_opportunities_without_preload_content(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage returns only the opportunities at that pipeline stage when set (NEW, SCREENING, MEETING, PROPOSAL or CUSTOMER; case-insensitive).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned: 200 by default, 1000 at most.")] = None,
@@ -2600,7 +2600,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_serialize(
+        _param = self._get_crm_opportunities_serialize(
             stage=stage,
             limit=limit,
             _request_auth=_request_auth,
@@ -2619,7 +2619,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_opportunities_serialize(
+    def _get_crm_opportunities_serialize(
         self,
         stage,
         limit,
@@ -2690,7 +2690,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_by_id(
+    def get_crm_opportunities_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2734,7 +2734,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_by_id_serialize(
+        _param = self._get_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2757,7 +2757,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_by_id_with_http_info(
+    def get_crm_opportunities_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2801,7 +2801,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_by_id_serialize(
+        _param = self._get_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2824,7 +2824,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_opportunities_by_id_without_preload_content(
+    def get_crm_opportunities_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the record to act on, from the path.")],
         _request_timeout: Union[
@@ -2868,7 +2868,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_opportunities_by_id_serialize(
+        _param = self._get_crm_opportunities_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2886,7 +2886,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_opportunities_by_id_serialize(
+    def _get_crm_opportunities_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2950,7 +2950,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_summary(
+    def get_crm_summary(
         self,
         _request_timeout: Union[
             None,
@@ -2991,7 +2991,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_summary_serialize(
+        _param = self._get_crm_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3013,7 +3013,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_summary_with_http_info(
+    def get_crm_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3054,7 +3054,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_summary_serialize(
+        _param = self._get_crm_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3076,7 +3076,7 @@ class CrmApi:
 
 
     @validate_call
-    def get_v1_crm_summary_without_preload_content(
+    def get_crm_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3117,7 +3117,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_crm_summary_serialize(
+        _param = self._get_crm_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3134,7 +3134,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _get_v1_crm_summary_serialize(
+    def _get_crm_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3195,7 +3195,7 @@ class CrmApi:
 
 
     @validate_call
-    def patch_v1_crm_applications_by_id(
+    def patch_crm_applications_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the application to move, from the path.")],
         patch_application_in: PatchApplicationIn,
@@ -3242,7 +3242,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_crm_applications_by_id_serialize(
+        _param = self._patch_crm_applications_by_id_serialize(
             id=id,
             patch_application_in=patch_application_in,
             _request_auth=_request_auth,
@@ -3266,7 +3266,7 @@ class CrmApi:
 
 
     @validate_call
-    def patch_v1_crm_applications_by_id_with_http_info(
+    def patch_crm_applications_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the application to move, from the path.")],
         patch_application_in: PatchApplicationIn,
@@ -3313,7 +3313,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_crm_applications_by_id_serialize(
+        _param = self._patch_crm_applications_by_id_serialize(
             id=id,
             patch_application_in=patch_application_in,
             _request_auth=_request_auth,
@@ -3337,7 +3337,7 @@ class CrmApi:
 
 
     @validate_call
-    def patch_v1_crm_applications_by_id_without_preload_content(
+    def patch_crm_applications_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the application to move, from the path.")],
         patch_application_in: PatchApplicationIn,
@@ -3384,7 +3384,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_crm_applications_by_id_serialize(
+        _param = self._patch_crm_applications_by_id_serialize(
             id=id,
             patch_application_in=patch_application_in,
             _request_auth=_request_auth,
@@ -3403,7 +3403,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _patch_v1_crm_applications_by_id_serialize(
+    def _patch_crm_applications_by_id_serialize(
         self,
         id,
         patch_application_in,
@@ -3483,7 +3483,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_applications(
+    def post_crm_applications(
         self,
         _request_timeout: Union[
             None,
@@ -3524,7 +3524,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_applications_serialize(
+        _param = self._post_crm_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3545,7 +3545,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_applications_with_http_info(
+    def post_crm_applications_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3586,7 +3586,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_applications_serialize(
+        _param = self._post_crm_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3607,7 +3607,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_applications_without_preload_content(
+    def post_crm_applications_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3648,7 +3648,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_applications_serialize(
+        _param = self._post_crm_applications_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3664,7 +3664,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _post_v1_crm_applications_serialize(
+    def _post_crm_applications_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3718,7 +3718,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_companies(
+    def post_crm_companies(
         self,
         company_req: CompanyReq,
         _request_timeout: Union[
@@ -3762,7 +3762,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_companies_serialize(
+        _param = self._post_crm_companies_serialize(
             company_req=company_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3785,7 +3785,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_companies_with_http_info(
+    def post_crm_companies_with_http_info(
         self,
         company_req: CompanyReq,
         _request_timeout: Union[
@@ -3829,7 +3829,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_companies_serialize(
+        _param = self._post_crm_companies_serialize(
             company_req=company_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3852,7 +3852,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_companies_without_preload_content(
+    def post_crm_companies_without_preload_content(
         self,
         company_req: CompanyReq,
         _request_timeout: Union[
@@ -3896,7 +3896,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_companies_serialize(
+        _param = self._post_crm_companies_serialize(
             company_req=company_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3914,7 +3914,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _post_v1_crm_companies_serialize(
+    def _post_crm_companies_serialize(
         self,
         company_req,
         _request_auth,
@@ -3991,7 +3991,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_contacts(
+    def post_crm_contacts(
         self,
         contact_req: ContactReq,
         _request_timeout: Union[
@@ -4035,7 +4035,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_contacts_serialize(
+        _param = self._post_crm_contacts_serialize(
             contact_req=contact_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4058,7 +4058,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_contacts_with_http_info(
+    def post_crm_contacts_with_http_info(
         self,
         contact_req: ContactReq,
         _request_timeout: Union[
@@ -4102,7 +4102,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_contacts_serialize(
+        _param = self._post_crm_contacts_serialize(
             contact_req=contact_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4125,7 +4125,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_contacts_without_preload_content(
+    def post_crm_contacts_without_preload_content(
         self,
         contact_req: ContactReq,
         _request_timeout: Union[
@@ -4169,7 +4169,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_contacts_serialize(
+        _param = self._post_crm_contacts_serialize(
             contact_req=contact_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4187,7 +4187,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _post_v1_crm_contacts_serialize(
+    def _post_crm_contacts_serialize(
         self,
         contact_req,
         _request_auth,
@@ -4264,7 +4264,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_opportunities(
+    def post_crm_opportunities(
         self,
         opp_req: OppReq,
         _request_timeout: Union[
@@ -4308,7 +4308,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_opportunities_serialize(
+        _param = self._post_crm_opportunities_serialize(
             opp_req=opp_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4331,7 +4331,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_opportunities_with_http_info(
+    def post_crm_opportunities_with_http_info(
         self,
         opp_req: OppReq,
         _request_timeout: Union[
@@ -4375,7 +4375,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_opportunities_serialize(
+        _param = self._post_crm_opportunities_serialize(
             opp_req=opp_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4398,7 +4398,7 @@ class CrmApi:
 
 
     @validate_call
-    def post_v1_crm_opportunities_without_preload_content(
+    def post_crm_opportunities_without_preload_content(
         self,
         opp_req: OppReq,
         _request_timeout: Union[
@@ -4442,7 +4442,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_crm_opportunities_serialize(
+        _param = self._post_crm_opportunities_serialize(
             opp_req=opp_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4460,7 +4460,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _post_v1_crm_opportunities_serialize(
+    def _post_crm_opportunities_serialize(
         self,
         opp_req,
         _request_auth,
@@ -4537,7 +4537,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_companies_by_id(
+    def put_crm_companies_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID names the company to update and comes from the path. A create ignores it: the server mints the id.")],
         company_req: CompanyReq,
@@ -4584,7 +4584,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_companies_by_id_serialize(
+        _param = self._put_crm_companies_by_id_serialize(
             id=id,
             company_req=company_req,
             _request_auth=_request_auth,
@@ -4608,7 +4608,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_companies_by_id_with_http_info(
+    def put_crm_companies_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID names the company to update and comes from the path. A create ignores it: the server mints the id.")],
         company_req: CompanyReq,
@@ -4655,7 +4655,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_companies_by_id_serialize(
+        _param = self._put_crm_companies_by_id_serialize(
             id=id,
             company_req=company_req,
             _request_auth=_request_auth,
@@ -4679,7 +4679,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_companies_by_id_without_preload_content(
+    def put_crm_companies_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID names the company to update and comes from the path. A create ignores it: the server mints the id.")],
         company_req: CompanyReq,
@@ -4726,7 +4726,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_companies_by_id_serialize(
+        _param = self._put_crm_companies_by_id_serialize(
             id=id,
             company_req=company_req,
             _request_auth=_request_auth,
@@ -4745,7 +4745,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _put_v1_crm_companies_by_id_serialize(
+    def _put_crm_companies_by_id_serialize(
         self,
         id,
         company_req,
@@ -4825,7 +4825,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_contacts_by_id(
+    def put_crm_contacts_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID names the contact to update and comes from the path. A create ignores it: the server mints the id.")],
         contact_req: ContactReq,
@@ -4872,7 +4872,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_contacts_by_id_serialize(
+        _param = self._put_crm_contacts_by_id_serialize(
             id=id,
             contact_req=contact_req,
             _request_auth=_request_auth,
@@ -4896,7 +4896,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_contacts_by_id_with_http_info(
+    def put_crm_contacts_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID names the contact to update and comes from the path. A create ignores it: the server mints the id.")],
         contact_req: ContactReq,
@@ -4943,7 +4943,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_contacts_by_id_serialize(
+        _param = self._put_crm_contacts_by_id_serialize(
             id=id,
             contact_req=contact_req,
             _request_auth=_request_auth,
@@ -4967,7 +4967,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_contacts_by_id_without_preload_content(
+    def put_crm_contacts_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID names the contact to update and comes from the path. A create ignores it: the server mints the id.")],
         contact_req: ContactReq,
@@ -5014,7 +5014,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_contacts_by_id_serialize(
+        _param = self._put_crm_contacts_by_id_serialize(
             id=id,
             contact_req=contact_req,
             _request_auth=_request_auth,
@@ -5033,7 +5033,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _put_v1_crm_contacts_by_id_serialize(
+    def _put_crm_contacts_by_id_serialize(
         self,
         id,
         contact_req,
@@ -5113,7 +5113,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_opportunities_by_id(
+    def put_crm_opportunities_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID names the opportunity to update and comes from the path. A create ignores it: the server mints the id.")],
         opp_req: OppReq,
@@ -5160,7 +5160,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_opportunities_by_id_serialize(
+        _param = self._put_crm_opportunities_by_id_serialize(
             id=id,
             opp_req=opp_req,
             _request_auth=_request_auth,
@@ -5184,7 +5184,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_opportunities_by_id_with_http_info(
+    def put_crm_opportunities_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID names the opportunity to update and comes from the path. A create ignores it: the server mints the id.")],
         opp_req: OppReq,
@@ -5231,7 +5231,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_opportunities_by_id_serialize(
+        _param = self._put_crm_opportunities_by_id_serialize(
             id=id,
             opp_req=opp_req,
             _request_auth=_request_auth,
@@ -5255,7 +5255,7 @@ class CrmApi:
 
 
     @validate_call
-    def put_v1_crm_opportunities_by_id_without_preload_content(
+    def put_crm_opportunities_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID names the opportunity to update and comes from the path. A create ignores it: the server mints the id.")],
         opp_req: OppReq,
@@ -5302,7 +5302,7 @@ class CrmApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_crm_opportunities_by_id_serialize(
+        _param = self._put_crm_opportunities_by_id_serialize(
             id=id,
             opp_req=opp_req,
             _request_auth=_request_auth,
@@ -5321,7 +5321,7 @@ class CrmApi:
         return response_data.response
 
 
-    def _put_v1_crm_opportunities_by_id_serialize(
+    def _put_crm_opportunities_by_id_serialize(
         self,
         id,
         opp_req,

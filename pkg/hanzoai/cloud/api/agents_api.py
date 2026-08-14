@@ -65,7 +65,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_by_ref(
+    def delete_agents_by_ref(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -109,7 +109,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_by_ref_serialize(
+        _param = self._delete_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -132,7 +132,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_by_ref_with_http_info(
+    def delete_agents_by_ref_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -176,7 +176,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_by_ref_serialize(
+        _param = self._delete_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -199,7 +199,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_by_ref_without_preload_content(
+    def delete_agents_by_ref_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -243,7 +243,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_by_ref_serialize(
+        _param = self._delete_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -261,7 +261,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _delete_v1_agents_by_ref_serialize(
+    def _delete_agents_by_ref_serialize(
         self,
         ref,
         _request_auth,
@@ -318,7 +318,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_targets_by_id(
+    def delete_agents_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -362,7 +362,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_targets_by_id_serialize(
+        _param = self._delete_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -385,7 +385,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_targets_by_id_with_http_info(
+    def delete_agents_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -429,7 +429,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_targets_by_id_serialize(
+        _param = self._delete_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -452,7 +452,7 @@ class AgentsApi:
 
 
     @validate_call
-    def delete_v1_agents_targets_by_id_without_preload_content(
+    def delete_agents_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -496,7 +496,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_agents_targets_by_id_serialize(
+        _param = self._delete_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -514,7 +514,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _delete_v1_agents_targets_by_id_serialize(
+    def _delete_agents_targets_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -578,7 +578,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents(
+    def get_agents(
         self,
         _request_timeout: Union[
             None,
@@ -619,7 +619,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_serialize(
+        _param = self._get_agents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -641,7 +641,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_with_http_info(
+    def get_agents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -682,7 +682,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_serialize(
+        _param = self._get_agents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -704,7 +704,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_without_preload_content(
+    def get_agents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -745,7 +745,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_serialize(
+        _param = self._get_agents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -762,7 +762,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_serialize(
+    def _get_agents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -823,7 +823,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_activity(
+    def get_agents_activity(
         self,
         _request_timeout: Union[
             None,
@@ -864,7 +864,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_activity_serialize(
+        _param = self._get_agents_activity_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -886,7 +886,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_activity_with_http_info(
+    def get_agents_activity_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -927,7 +927,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_activity_serialize(
+        _param = self._get_agents_activity_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -949,7 +949,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_activity_without_preload_content(
+    def get_agents_activity_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -990,7 +990,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_activity_serialize(
+        _param = self._get_agents_activity_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1007,7 +1007,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_activity_serialize(
+    def _get_agents_activity_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1068,7 +1068,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds(
+    def get_agents_builds(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
@@ -1112,7 +1112,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_serialize(
+        _param = self._get_agents_builds_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1135,7 +1135,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_with_http_info(
+    def get_agents_builds_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
@@ -1179,7 +1179,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_serialize(
+        _param = self._get_agents_builds_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1202,7 +1202,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_without_preload_content(
+    def get_agents_builds_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
@@ -1246,7 +1246,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_serialize(
+        _param = self._get_agents_builds_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1264,7 +1264,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_builds_serialize(
+    def _get_agents_builds_serialize(
         self,
         limit,
         _request_auth,
@@ -1330,7 +1330,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_by_org_by_project(
+    def get_agents_builds_by_org_by_project(
         self,
         org: Annotated[StrictStr, Field(description="Org is the org that published the build, from the path.")],
         project: Annotated[StrictStr, Field(description="Project is the product's slug, from the path.")],
@@ -1377,7 +1377,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_by_org_by_project_serialize(
+        _param = self._get_agents_builds_by_org_by_project_serialize(
             org=org,
             project=project,
             _request_auth=_request_auth,
@@ -1401,7 +1401,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_by_org_by_project_with_http_info(
+    def get_agents_builds_by_org_by_project_with_http_info(
         self,
         org: Annotated[StrictStr, Field(description="Org is the org that published the build, from the path.")],
         project: Annotated[StrictStr, Field(description="Project is the product's slug, from the path.")],
@@ -1448,7 +1448,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_by_org_by_project_serialize(
+        _param = self._get_agents_builds_by_org_by_project_serialize(
             org=org,
             project=project,
             _request_auth=_request_auth,
@@ -1472,7 +1472,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_builds_by_org_by_project_without_preload_content(
+    def get_agents_builds_by_org_by_project_without_preload_content(
         self,
         org: Annotated[StrictStr, Field(description="Org is the org that published the build, from the path.")],
         project: Annotated[StrictStr, Field(description="Project is the product's slug, from the path.")],
@@ -1519,7 +1519,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_builds_by_org_by_project_serialize(
+        _param = self._get_agents_builds_by_org_by_project_serialize(
             org=org,
             project=project,
             _request_auth=_request_auth,
@@ -1538,7 +1538,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_builds_by_org_by_project_serialize(
+    def _get_agents_builds_by_org_by_project_serialize(
         self,
         org,
         project,
@@ -1605,7 +1605,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_by_ref(
+    def get_agents_by_ref(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -1649,7 +1649,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_by_ref_serialize(
+        _param = self._get_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1672,7 +1672,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_by_ref_with_http_info(
+    def get_agents_by_ref_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -1716,7 +1716,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_by_ref_serialize(
+        _param = self._get_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1739,7 +1739,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_by_ref_without_preload_content(
+    def get_agents_by_ref_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id (the agent_… handle create and list return) or its org-unique name, from the path. Either resolves the same agent.")],
         _request_timeout: Union[
@@ -1783,7 +1783,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_by_ref_serialize(
+        _param = self._get_agents_by_ref_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1801,7 +1801,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_by_ref_serialize(
+    def _get_agents_by_ref_serialize(
         self,
         ref,
         _request_auth,
@@ -1865,7 +1865,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_by_ref_runs(
+    def get_agents_by_ref_runs(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
@@ -1912,7 +1912,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_by_ref_runs_serialize(
+        _param = self._get_agents_by_ref_runs_serialize(
             ref=ref,
             limit=limit,
             _request_auth=_request_auth,
@@ -1936,7 +1936,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_by_ref_runs_with_http_info(
+    def get_agents_by_ref_runs_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
@@ -1983,7 +1983,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_by_ref_runs_serialize(
+        _param = self._get_agents_by_ref_runs_serialize(
             ref=ref,
             limit=limit,
             _request_auth=_request_auth,
@@ -2007,7 +2007,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_by_ref_runs_without_preload_content(
+    def get_agents_by_ref_runs_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name, from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
@@ -2054,7 +2054,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_by_ref_runs_serialize(
+        _param = self._get_agents_by_ref_runs_serialize(
             ref=ref,
             limit=limit,
             _request_auth=_request_auth,
@@ -2073,7 +2073,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_by_ref_runs_serialize(
+    def _get_agents_by_ref_runs_serialize(
         self,
         ref,
         limit,
@@ -2142,7 +2142,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_metrics(
+    def get_agents_metrics(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.")] = None,
         _request_timeout: Union[
@@ -2186,7 +2186,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_metrics_serialize(
+        _param = self._get_agents_metrics_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2209,7 +2209,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_metrics_with_http_info(
+    def get_agents_metrics_with_http_info(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.")] = None,
         _request_timeout: Union[
@@ -2253,7 +2253,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_metrics_serialize(
+        _param = self._get_agents_metrics_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2276,7 +2276,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_metrics_without_preload_content(
+    def get_agents_metrics_without_preload_content(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.")] = None,
         _request_timeout: Union[
@@ -2320,7 +2320,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_metrics_serialize(
+        _param = self._get_agents_metrics_serialize(
             range=range,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2338,7 +2338,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_metrics_serialize(
+    def _get_agents_metrics_serialize(
         self,
         range,
         _request_auth,
@@ -2404,7 +2404,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_runs(
+    def get_agents_runs(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.")] = None,
@@ -2451,7 +2451,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_runs_serialize(
+        _param = self._get_agents_runs_serialize(
             limit=limit,
             status=status,
             _request_auth=_request_auth,
@@ -2475,7 +2475,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_runs_with_http_info(
+    def get_agents_runs_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.")] = None,
@@ -2522,7 +2522,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_runs_serialize(
+        _param = self._get_agents_runs_serialize(
             limit=limit,
             status=status,
             _request_auth=_request_auth,
@@ -2546,7 +2546,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_runs_without_preload_content(
+    def get_agents_runs_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many runs come back, newest first. Absent, zero or out of range (1..200) reads as 50.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only runs with this outcome (\"ok\" or \"error\"). Empty keeps both. It is the filter an operator reaches for first — \"show me what broke\" — and answering it here rather than by paging the whole history client-side is the difference between a usable feed and a download.")] = None,
@@ -2593,7 +2593,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_runs_serialize(
+        _param = self._get_agents_runs_serialize(
             limit=limit,
             status=status,
             _request_auth=_request_auth,
@@ -2612,7 +2612,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_runs_serialize(
+    def _get_agents_runs_serialize(
         self,
         limit,
         status,
@@ -2683,7 +2683,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions(
+    def get_agents_sessions(
         self,
         root: Annotated[Optional[StrictStr], Field(description="Root scopes the page to one subagent tree (its root session id).")] = None,
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
@@ -2739,7 +2739,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_serialize(
+        _param = self._get_agents_sessions_serialize(
             root=root,
             parent=parent,
             status=status,
@@ -2766,7 +2766,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_with_http_info(
+    def get_agents_sessions_with_http_info(
         self,
         root: Annotated[Optional[StrictStr], Field(description="Root scopes the page to one subagent tree (its root session id).")] = None,
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
@@ -2822,7 +2822,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_serialize(
+        _param = self._get_agents_sessions_serialize(
             root=root,
             parent=parent,
             status=status,
@@ -2849,7 +2849,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_without_preload_content(
+    def get_agents_sessions_without_preload_content(
         self,
         root: Annotated[Optional[StrictStr], Field(description="Root scopes the page to one subagent tree (its root session id).")] = None,
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
@@ -2905,7 +2905,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_serialize(
+        _param = self._get_agents_sessions_serialize(
             root=root,
             parent=parent,
             status=status,
@@ -2927,7 +2927,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_serialize(
+    def _get_agents_sessions_serialize(
         self,
         root,
         parent,
@@ -3013,7 +3013,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id(
+    def get_agents_sessions_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3057,7 +3057,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_serialize(
+        _param = self._get_agents_sessions_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3080,7 +3080,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_with_http_info(
+    def get_agents_sessions_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3124,7 +3124,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_serialize(
+        _param = self._get_agents_sessions_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3147,7 +3147,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_without_preload_content(
+    def get_agents_sessions_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3191,7 +3191,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_serialize(
+        _param = self._get_agents_sessions_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3209,7 +3209,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_by_id_serialize(
+    def _get_agents_sessions_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -3273,7 +3273,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_control(
+    def get_agents_sessions_by_id_control(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session whose commands are being drained, from the path.")],
         after: Annotated[Optional[StrictInt], Field(description="After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning.")] = None,
@@ -3320,7 +3320,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_control_serialize(
+        _param = self._get_agents_sessions_by_id_control_serialize(
             id=id,
             after=after,
             _request_auth=_request_auth,
@@ -3344,7 +3344,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_control_with_http_info(
+    def get_agents_sessions_by_id_control_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session whose commands are being drained, from the path.")],
         after: Annotated[Optional[StrictInt], Field(description="After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning.")] = None,
@@ -3391,7 +3391,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_control_serialize(
+        _param = self._get_agents_sessions_by_id_control_serialize(
             id=id,
             after=after,
             _request_auth=_request_auth,
@@ -3415,7 +3415,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_control_without_preload_content(
+    def get_agents_sessions_by_id_control_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session whose commands are being drained, from the path.")],
         after: Annotated[Optional[StrictInt], Field(description="After is the last seq this poller applied; only commands newer than it come back. Absent or negative reads as 0, which drains from the beginning.")] = None,
@@ -3462,7 +3462,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_control_serialize(
+        _param = self._get_agents_sessions_by_id_control_serialize(
             id=id,
             after=after,
             _request_auth=_request_auth,
@@ -3481,7 +3481,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_by_id_control_serialize(
+    def _get_agents_sessions_by_id_control_serialize(
         self,
         id,
         after,
@@ -3550,7 +3550,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_tree(
+    def get_agents_sessions_by_id_tree(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3594,7 +3594,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_tree_serialize(
+        _param = self._get_agents_sessions_by_id_tree_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3617,7 +3617,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_tree_with_http_info(
+    def get_agents_sessions_by_id_tree_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3661,7 +3661,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_tree_serialize(
+        _param = self._get_agents_sessions_by_id_tree_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3684,7 +3684,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_by_id_tree_without_preload_content(
+    def get_agents_sessions_by_id_tree_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to act on, from the path.")],
         _request_timeout: Union[
@@ -3728,7 +3728,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_by_id_tree_serialize(
+        _param = self._get_agents_sessions_by_id_tree_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3746,7 +3746,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_by_id_tree_serialize(
+    def _get_agents_sessions_by_id_tree_serialize(
         self,
         id,
         _request_auth,
@@ -3810,7 +3810,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_stream(
+    def get_agents_sessions_stream(
         self,
         _request_timeout: Union[
             None,
@@ -3851,7 +3851,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_stream_serialize(
+        _param = self._get_agents_sessions_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3872,7 +3872,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_stream_with_http_info(
+    def get_agents_sessions_stream_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3913,7 +3913,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_stream_serialize(
+        _param = self._get_agents_sessions_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3934,7 +3934,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_sessions_stream_without_preload_content(
+    def get_agents_sessions_stream_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3975,7 +3975,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_sessions_stream_serialize(
+        _param = self._get_agents_sessions_stream_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3991,7 +3991,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_sessions_stream_serialize(
+    def _get_agents_sessions_stream_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4045,7 +4045,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets(
+    def get_agents_targets(
         self,
         _request_timeout: Union[
             None,
@@ -4086,7 +4086,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_serialize(
+        _param = self._get_agents_targets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4108,7 +4108,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_with_http_info(
+    def get_agents_targets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4149,7 +4149,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_serialize(
+        _param = self._get_agents_targets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4171,7 +4171,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_without_preload_content(
+    def get_agents_targets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4212,7 +4212,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_serialize(
+        _param = self._get_agents_targets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4229,7 +4229,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_targets_serialize(
+    def _get_agents_targets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4290,7 +4290,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_by_id(
+    def get_agents_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -4334,7 +4334,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_by_id_serialize(
+        _param = self._get_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4357,7 +4357,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_by_id_with_http_info(
+    def get_agents_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -4401,7 +4401,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_by_id_serialize(
+        _param = self._get_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4424,7 +4424,7 @@ class AgentsApi:
 
 
     @validate_call
-    def get_v1_agents_targets_by_id_without_preload_content(
+    def get_agents_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -4468,7 +4468,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_agents_targets_by_id_serialize(
+        _param = self._get_agents_targets_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4486,7 +4486,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _get_v1_agents_targets_by_id_serialize(
+    def _get_agents_targets_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -4550,7 +4550,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_by_ref(
+    def patch_agents_by_ref(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
         update_agent_in: UpdateAgentIn,
@@ -4597,7 +4597,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_by_ref_serialize(
+        _param = self._patch_agents_by_ref_serialize(
             ref=ref,
             update_agent_in=update_agent_in,
             _request_auth=_request_auth,
@@ -4621,7 +4621,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_by_ref_with_http_info(
+    def patch_agents_by_ref_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
         update_agent_in: UpdateAgentIn,
@@ -4668,7 +4668,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_by_ref_serialize(
+        _param = self._patch_agents_by_ref_serialize(
             ref=ref,
             update_agent_in=update_agent_in,
             _request_auth=_request_auth,
@@ -4692,7 +4692,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_by_ref_without_preload_content(
+    def patch_agents_by_ref_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
         update_agent_in: UpdateAgentIn,
@@ -4739,7 +4739,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_by_ref_serialize(
+        _param = self._patch_agents_by_ref_serialize(
             ref=ref,
             update_agent_in=update_agent_in,
             _request_auth=_request_auth,
@@ -4758,7 +4758,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _patch_v1_agents_by_ref_serialize(
+    def _patch_agents_by_ref_serialize(
         self,
         ref,
         update_agent_in,
@@ -4838,7 +4838,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_sessions_by_id(
+    def patch_agents_sessions_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
         patch_session_in: PatchSessionIn,
@@ -4885,7 +4885,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_sessions_by_id_serialize(
+        _param = self._patch_agents_sessions_by_id_serialize(
             id=id,
             patch_session_in=patch_session_in,
             _request_auth=_request_auth,
@@ -4909,7 +4909,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_sessions_by_id_with_http_info(
+    def patch_agents_sessions_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
         patch_session_in: PatchSessionIn,
@@ -4956,7 +4956,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_sessions_by_id_serialize(
+        _param = self._patch_agents_sessions_by_id_serialize(
             id=id,
             patch_session_in=patch_session_in,
             _request_auth=_request_auth,
@@ -4980,7 +4980,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_sessions_by_id_without_preload_content(
+    def patch_agents_sessions_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
         patch_session_in: PatchSessionIn,
@@ -5027,7 +5027,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_sessions_by_id_serialize(
+        _param = self._patch_agents_sessions_by_id_serialize(
             id=id,
             patch_session_in=patch_session_in,
             _request_auth=_request_auth,
@@ -5046,7 +5046,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _patch_v1_agents_sessions_by_id_serialize(
+    def _patch_agents_sessions_by_id_serialize(
         self,
         id,
         patch_session_in,
@@ -5126,7 +5126,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_targets_by_id(
+    def patch_agents_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
         patch_target_in: PatchTargetIn,
@@ -5173,7 +5173,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_targets_by_id_serialize(
+        _param = self._patch_agents_targets_by_id_serialize(
             id=id,
             patch_target_in=patch_target_in,
             _request_auth=_request_auth,
@@ -5197,7 +5197,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_targets_by_id_with_http_info(
+    def patch_agents_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
         patch_target_in: PatchTargetIn,
@@ -5244,7 +5244,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_targets_by_id_serialize(
+        _param = self._patch_agents_targets_by_id_serialize(
             id=id,
             patch_target_in=patch_target_in,
             _request_auth=_request_auth,
@@ -5268,7 +5268,7 @@ class AgentsApi:
 
 
     @validate_call
-    def patch_v1_agents_targets_by_id_without_preload_content(
+    def patch_agents_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
         patch_target_in: PatchTargetIn,
@@ -5315,7 +5315,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_agents_targets_by_id_serialize(
+        _param = self._patch_agents_targets_by_id_serialize(
             id=id,
             patch_target_in=patch_target_in,
             _request_auth=_request_auth,
@@ -5334,7 +5334,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _patch_v1_agents_targets_by_id_serialize(
+    def _patch_agents_targets_by_id_serialize(
         self,
         id,
         patch_target_in,
@@ -5414,7 +5414,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents(
+    def post_agents(
         self,
         create_agent_in: CreateAgentIn,
         _request_timeout: Union[
@@ -5458,7 +5458,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_serialize(
+        _param = self._post_agents_serialize(
             create_agent_in=create_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5481,7 +5481,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_with_http_info(
+    def post_agents_with_http_info(
         self,
         create_agent_in: CreateAgentIn,
         _request_timeout: Union[
@@ -5525,7 +5525,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_serialize(
+        _param = self._post_agents_serialize(
             create_agent_in=create_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5548,7 +5548,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_without_preload_content(
+    def post_agents_without_preload_content(
         self,
         create_agent_in: CreateAgentIn,
         _request_timeout: Union[
@@ -5592,7 +5592,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_serialize(
+        _param = self._post_agents_serialize(
             create_agent_in=create_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5610,7 +5610,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_serialize(
+    def _post_agents_serialize(
         self,
         create_agent_in,
         _request_auth,
@@ -5687,7 +5687,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_by_ref_run(
+    def post_agents_by_ref_run(
         self,
         ref: StrictStr,
         _request_timeout: Union[
@@ -5731,7 +5731,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_by_ref_run_serialize(
+        _param = self._post_agents_by_ref_run_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5753,7 +5753,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_by_ref_run_with_http_info(
+    def post_agents_by_ref_run_with_http_info(
         self,
         ref: StrictStr,
         _request_timeout: Union[
@@ -5797,7 +5797,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_by_ref_run_serialize(
+        _param = self._post_agents_by_ref_run_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5819,7 +5819,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_by_ref_run_without_preload_content(
+    def post_agents_by_ref_run_without_preload_content(
         self,
         ref: StrictStr,
         _request_timeout: Union[
@@ -5863,7 +5863,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_by_ref_run_serialize(
+        _param = self._post_agents_by_ref_run_serialize(
             ref=ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5880,7 +5880,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_by_ref_run_serialize(
+    def _post_agents_by_ref_run_serialize(
         self,
         ref,
         _request_auth,
@@ -5937,7 +5937,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions(
+    def post_agents_sessions(
         self,
         register_req: RegisterReq,
         _request_timeout: Union[
@@ -5981,7 +5981,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_serialize(
+        _param = self._post_agents_sessions_serialize(
             register_req=register_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6004,7 +6004,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_with_http_info(
+    def post_agents_sessions_with_http_info(
         self,
         register_req: RegisterReq,
         _request_timeout: Union[
@@ -6048,7 +6048,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_serialize(
+        _param = self._post_agents_sessions_serialize(
             register_req=register_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6071,7 +6071,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_without_preload_content(
+    def post_agents_sessions_without_preload_content(
         self,
         register_req: RegisterReq,
         _request_timeout: Union[
@@ -6115,7 +6115,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_serialize(
+        _param = self._post_agents_sessions_serialize(
             register_req=register_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6133,7 +6133,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_sessions_serialize(
+    def _post_agents_sessions_serialize(
         self,
         register_req,
         _request_auth,
@@ -6210,7 +6210,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_events(
+    def post_agents_sessions_by_id_events(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6254,7 +6254,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_events_serialize(
+        _param = self._post_agents_sessions_by_id_events_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6276,7 +6276,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_events_with_http_info(
+    def post_agents_sessions_by_id_events_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6320,7 +6320,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_events_serialize(
+        _param = self._post_agents_sessions_by_id_events_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6342,7 +6342,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_events_without_preload_content(
+    def post_agents_sessions_by_id_events_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6386,7 +6386,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_events_serialize(
+        _param = self._post_agents_sessions_by_id_events_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6403,7 +6403,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_sessions_by_id_events_serialize(
+    def _post_agents_sessions_by_id_events_serialize(
         self,
         id,
         _request_auth,
@@ -6460,7 +6460,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_message(
+    def post_agents_sessions_by_id_message(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6504,7 +6504,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_message_serialize(
+        _param = self._post_agents_sessions_by_id_message_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6526,7 +6526,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_message_with_http_info(
+    def post_agents_sessions_by_id_message_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6570,7 +6570,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_message_serialize(
+        _param = self._post_agents_sessions_by_id_message_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6592,7 +6592,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_message_without_preload_content(
+    def post_agents_sessions_by_id_message_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6636,7 +6636,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_message_serialize(
+        _param = self._post_agents_sessions_by_id_message_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6653,7 +6653,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_sessions_by_id_message_serialize(
+    def _post_agents_sessions_by_id_message_serialize(
         self,
         id,
         _request_auth,
@@ -6710,7 +6710,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_pause(
+    def post_agents_sessions_by_id_pause(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6754,7 +6754,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_pause_serialize(
+        _param = self._post_agents_sessions_by_id_pause_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6776,7 +6776,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_pause_with_http_info(
+    def post_agents_sessions_by_id_pause_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6820,7 +6820,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_pause_serialize(
+        _param = self._post_agents_sessions_by_id_pause_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6842,7 +6842,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_pause_without_preload_content(
+    def post_agents_sessions_by_id_pause_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -6886,7 +6886,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_pause_serialize(
+        _param = self._post_agents_sessions_by_id_pause_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6903,7 +6903,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_sessions_by_id_pause_serialize(
+    def _post_agents_sessions_by_id_pause_serialize(
         self,
         id,
         _request_auth,
@@ -6960,7 +6960,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_resume(
+    def post_agents_sessions_by_id_resume(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -7004,7 +7004,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_resume_serialize(
+        _param = self._post_agents_sessions_by_id_resume_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7026,7 +7026,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_resume_with_http_info(
+    def post_agents_sessions_by_id_resume_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -7070,7 +7070,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_resume_serialize(
+        _param = self._post_agents_sessions_by_id_resume_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7092,7 +7092,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_resume_without_preload_content(
+    def post_agents_sessions_by_id_resume_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -7136,7 +7136,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_resume_serialize(
+        _param = self._post_agents_sessions_by_id_resume_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7153,7 +7153,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_sessions_by_id_resume_serialize(
+    def _post_agents_sessions_by_id_resume_serialize(
         self,
         id,
         _request_auth,
@@ -7210,7 +7210,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_stop(
+    def post_agents_sessions_by_id_stop(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -7254,7 +7254,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_stop_serialize(
+        _param = self._post_agents_sessions_by_id_stop_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7276,7 +7276,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_stop_with_http_info(
+    def post_agents_sessions_by_id_stop_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -7320,7 +7320,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_stop_serialize(
+        _param = self._post_agents_sessions_by_id_stop_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7342,7 +7342,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_sessions_by_id_stop_without_preload_content(
+    def post_agents_sessions_by_id_stop_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -7386,7 +7386,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_sessions_by_id_stop_serialize(
+        _param = self._post_agents_sessions_by_id_stop_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7403,7 +7403,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_sessions_by_id_stop_serialize(
+    def _post_agents_sessions_by_id_stop_serialize(
         self,
         id,
         _request_auth,
@@ -7460,7 +7460,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets(
+    def post_agents_targets(
         self,
         target_req: TargetReq,
         _request_timeout: Union[
@@ -7504,7 +7504,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_serialize(
+        _param = self._post_agents_targets_serialize(
             target_req=target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7527,7 +7527,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_with_http_info(
+    def post_agents_targets_with_http_info(
         self,
         target_req: TargetReq,
         _request_timeout: Union[
@@ -7571,7 +7571,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_serialize(
+        _param = self._post_agents_targets_serialize(
             target_req=target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7594,7 +7594,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_without_preload_content(
+    def post_agents_targets_without_preload_content(
         self,
         target_req: TargetReq,
         _request_timeout: Union[
@@ -7638,7 +7638,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_serialize(
+        _param = self._post_agents_targets_serialize(
             target_req=target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7656,7 +7656,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_serialize(
+    def _post_agents_targets_serialize(
         self,
         target_req,
         _request_auth,
@@ -7733,7 +7733,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_claim(
+    def post_agents_targets_by_id_claim(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7777,7 +7777,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_claim_serialize(
+        _param = self._post_agents_targets_by_id_claim_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7800,7 +7800,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_claim_with_http_info(
+    def post_agents_targets_by_id_claim_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7844,7 +7844,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_claim_serialize(
+        _param = self._post_agents_targets_by_id_claim_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7867,7 +7867,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_claim_without_preload_content(
+    def post_agents_targets_by_id_claim_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -7911,7 +7911,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_claim_serialize(
+        _param = self._post_agents_targets_by_id_claim_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7929,7 +7929,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_by_id_claim_serialize(
+    def _post_agents_targets_by_id_claim_serialize(
         self,
         id,
         _request_auth,
@@ -7993,7 +7993,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_key(
+    def post_agents_targets_by_id_key(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -8037,7 +8037,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_key_serialize(
+        _param = self._post_agents_targets_by_id_key_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8060,7 +8060,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_key_with_http_info(
+    def post_agents_targets_by_id_key_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -8104,7 +8104,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_key_serialize(
+        _param = self._post_agents_targets_by_id_key_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8127,7 +8127,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_key_without_preload_content(
+    def post_agents_targets_by_id_key_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to act on, from the path.")],
         _request_timeout: Union[
@@ -8171,7 +8171,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_key_serialize(
+        _param = self._post_agents_targets_by_id_key_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8189,7 +8189,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_by_id_key_serialize(
+    def _post_agents_targets_by_id_key_serialize(
         self,
         id,
         _request_auth,
@@ -8253,7 +8253,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_runs_by_runid_report(
+    def post_agents_targets_by_id_runs_by_runid_report(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
@@ -8303,7 +8303,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
+        _param = self._post_agents_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
             report_run_in=report_run_in,
@@ -8328,7 +8328,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_runs_by_runid_report_with_http_info(
+    def post_agents_targets_by_id_runs_by_runid_report_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
@@ -8378,7 +8378,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
+        _param = self._post_agents_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
             report_run_in=report_run_in,
@@ -8403,7 +8403,7 @@ class AgentsApi:
 
 
     @validate_call
-    def post_v1_agents_targets_by_id_runs_by_runid_report_without_preload_content(
+    def post_agents_targets_by_id_runs_by_runid_report_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
@@ -8453,7 +8453,7 @@ class AgentsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
+        _param = self._post_agents_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
             report_run_in=report_run_in,
@@ -8473,7 +8473,7 @@ class AgentsApi:
         return response_data.response
 
 
-    def _post_v1_agents_targets_by_id_runs_by_runid_report_serialize(
+    def _post_agents_targets_by_id_runs_by_runid_report_serialize(
         self,
         id,
         run_id,

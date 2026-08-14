@@ -49,7 +49,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_artifacts(
+    def get_research_artifacts(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows to one project. Empty takes the caller's project scope.")] = None,
         run: Annotated[Optional[StrictStr], Field(description="Run narrows to one run's artifacts by its stable id.")] = None,
@@ -99,7 +99,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_artifacts_serialize(
+        _param = self._get_research_artifacts_serialize(
             project=project,
             run=run,
             since=since,
@@ -124,7 +124,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_artifacts_with_http_info(
+    def get_research_artifacts_with_http_info(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows to one project. Empty takes the caller's project scope.")] = None,
         run: Annotated[Optional[StrictStr], Field(description="Run narrows to one run's artifacts by its stable id.")] = None,
@@ -174,7 +174,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_artifacts_serialize(
+        _param = self._get_research_artifacts_serialize(
             project=project,
             run=run,
             since=since,
@@ -199,7 +199,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_artifacts_without_preload_content(
+    def get_research_artifacts_without_preload_content(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows to one project. Empty takes the caller's project scope.")] = None,
         run: Annotated[Optional[StrictStr], Field(description="Run narrows to one run's artifacts by its stable id.")] = None,
@@ -249,7 +249,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_artifacts_serialize(
+        _param = self._get_research_artifacts_serialize(
             project=project,
             run=run,
             since=since,
@@ -269,7 +269,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _get_v1_research_artifacts_serialize(
+    def _get_research_artifacts_serialize(
         self,
         project,
         run,
@@ -345,7 +345,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_artifacts_by_sha256(
+    def get_research_artifacts_by_sha256(
         self,
         sha256: StrictStr,
         _request_timeout: Union[
@@ -389,7 +389,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_artifacts_by_sha256_serialize(
+        _param = self._get_research_artifacts_by_sha256_serialize(
             sha256=sha256,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -411,7 +411,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_artifacts_by_sha256_with_http_info(
+    def get_research_artifacts_by_sha256_with_http_info(
         self,
         sha256: StrictStr,
         _request_timeout: Union[
@@ -455,7 +455,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_artifacts_by_sha256_serialize(
+        _param = self._get_research_artifacts_by_sha256_serialize(
             sha256=sha256,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -477,7 +477,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_artifacts_by_sha256_without_preload_content(
+    def get_research_artifacts_by_sha256_without_preload_content(
         self,
         sha256: StrictStr,
         _request_timeout: Union[
@@ -521,7 +521,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_artifacts_by_sha256_serialize(
+        _param = self._get_research_artifacts_by_sha256_serialize(
             sha256=sha256,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -538,7 +538,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _get_v1_research_artifacts_by_sha256_serialize(
+    def _get_research_artifacts_by_sha256_serialize(
         self,
         sha256,
         _request_auth,
@@ -595,7 +595,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_experiments(
+    def get_research_experiments(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows to one project. Empty reads the org's whole set across projects.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind narrows to one discriminator: benchmark, kernel-perf, training, ablation or policy-eval.")] = None,
@@ -642,7 +642,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_experiments_serialize(
+        _param = self._get_research_experiments_serialize(
             project=project,
             kind=kind,
             _request_auth=_request_auth,
@@ -666,7 +666,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_experiments_with_http_info(
+    def get_research_experiments_with_http_info(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows to one project. Empty reads the org's whole set across projects.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind narrows to one discriminator: benchmark, kernel-perf, training, ablation or policy-eval.")] = None,
@@ -713,7 +713,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_experiments_serialize(
+        _param = self._get_research_experiments_serialize(
             project=project,
             kind=kind,
             _request_auth=_request_auth,
@@ -737,7 +737,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_experiments_without_preload_content(
+    def get_research_experiments_without_preload_content(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows to one project. Empty reads the org's whole set across projects.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind narrows to one discriminator: benchmark, kernel-perf, training, ablation or policy-eval.")] = None,
@@ -784,7 +784,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_experiments_serialize(
+        _param = self._get_research_experiments_serialize(
             project=project,
             kind=kind,
             _request_auth=_request_auth,
@@ -803,7 +803,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _get_v1_research_experiments_serialize(
+    def _get_research_experiments_serialize(
         self,
         project,
         kind,
@@ -874,7 +874,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_projects(
+    def get_research_projects(
         self,
         _request_timeout: Union[
             None,
@@ -915,7 +915,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_projects_serialize(
+        _param = self._get_research_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -937,7 +937,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_projects_with_http_info(
+    def get_research_projects_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -978,7 +978,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_projects_serialize(
+        _param = self._get_research_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1000,7 +1000,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_projects_without_preload_content(
+    def get_research_projects_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1041,7 +1041,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_projects_serialize(
+        _param = self._get_research_projects_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1058,7 +1058,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _get_v1_research_projects_serialize(
+    def _get_research_projects_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1119,7 +1119,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_totals(
+    def get_research_totals(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows the aggregate to one project. Empty aggregates the whole org.")] = None,
         _request_timeout: Union[
@@ -1163,7 +1163,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_totals_serialize(
+        _param = self._get_research_totals_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1186,7 +1186,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_totals_with_http_info(
+    def get_research_totals_with_http_info(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows the aggregate to one project. Empty aggregates the whole org.")] = None,
         _request_timeout: Union[
@@ -1230,7 +1230,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_totals_serialize(
+        _param = self._get_research_totals_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1253,7 +1253,7 @@ class ResearchApi:
 
 
     @validate_call
-    def get_v1_research_totals_without_preload_content(
+    def get_research_totals_without_preload_content(
         self,
         project: Annotated[Optional[StrictStr], Field(description="Project narrows the aggregate to one project. Empty aggregates the whole org.")] = None,
         _request_timeout: Union[
@@ -1297,7 +1297,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_research_totals_serialize(
+        _param = self._get_research_totals_serialize(
             project=project,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1315,7 +1315,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _get_v1_research_totals_serialize(
+    def _get_research_totals_serialize(
         self,
         project,
         _request_auth,
@@ -1381,7 +1381,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_artifacts(
+    def post_research_artifacts(
         self,
         research_artifact: ResearchArtifact,
         _request_timeout: Union[
@@ -1425,7 +1425,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_artifacts_serialize(
+        _param = self._post_research_artifacts_serialize(
             research_artifact=research_artifact,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1448,7 +1448,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_artifacts_with_http_info(
+    def post_research_artifacts_with_http_info(
         self,
         research_artifact: ResearchArtifact,
         _request_timeout: Union[
@@ -1492,7 +1492,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_artifacts_serialize(
+        _param = self._post_research_artifacts_serialize(
             research_artifact=research_artifact,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1515,7 +1515,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_artifacts_without_preload_content(
+    def post_research_artifacts_without_preload_content(
         self,
         research_artifact: ResearchArtifact,
         _request_timeout: Union[
@@ -1559,7 +1559,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_artifacts_serialize(
+        _param = self._post_research_artifacts_serialize(
             research_artifact=research_artifact,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1577,7 +1577,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _post_v1_research_artifacts_serialize(
+    def _post_research_artifacts_serialize(
         self,
         research_artifact,
         _request_auth,
@@ -1654,7 +1654,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_experiments(
+    def post_research_experiments(
         self,
         ingest_request: IngestRequest,
         _request_timeout: Union[
@@ -1698,7 +1698,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_experiments_serialize(
+        _param = self._post_research_experiments_serialize(
             ingest_request=ingest_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1721,7 +1721,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_experiments_with_http_info(
+    def post_research_experiments_with_http_info(
         self,
         ingest_request: IngestRequest,
         _request_timeout: Union[
@@ -1765,7 +1765,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_experiments_serialize(
+        _param = self._post_research_experiments_serialize(
             ingest_request=ingest_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1788,7 +1788,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_experiments_without_preload_content(
+    def post_research_experiments_without_preload_content(
         self,
         ingest_request: IngestRequest,
         _request_timeout: Union[
@@ -1832,7 +1832,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_experiments_serialize(
+        _param = self._post_research_experiments_serialize(
             ingest_request=ingest_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1850,7 +1850,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _post_v1_research_experiments_serialize(
+    def _post_research_experiments_serialize(
         self,
         ingest_request,
         _request_auth,
@@ -1927,7 +1927,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_grants(
+    def post_research_grants(
         self,
         grant_request: GrantRequest,
         _request_timeout: Union[
@@ -1971,7 +1971,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_grants_serialize(
+        _param = self._post_research_grants_serialize(
             grant_request=grant_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1994,7 +1994,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_grants_with_http_info(
+    def post_research_grants_with_http_info(
         self,
         grant_request: GrantRequest,
         _request_timeout: Union[
@@ -2038,7 +2038,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_grants_serialize(
+        _param = self._post_research_grants_serialize(
             grant_request=grant_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2061,7 +2061,7 @@ class ResearchApi:
 
 
     @validate_call
-    def post_v1_research_grants_without_preload_content(
+    def post_research_grants_without_preload_content(
         self,
         grant_request: GrantRequest,
         _request_timeout: Union[
@@ -2105,7 +2105,7 @@ class ResearchApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_research_grants_serialize(
+        _param = self._post_research_grants_serialize(
             grant_request=grant_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2123,7 +2123,7 @@ class ResearchApi:
         return response_data.response
 
 
-    def _post_v1_research_grants_serialize(
+    def _post_research_grants_serialize(
         self,
         grant_request,
         _request_auth,

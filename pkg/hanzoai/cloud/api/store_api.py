@@ -37,7 +37,7 @@ class StoreApi:
 
 
     @validate_call
-    def delete_v1_store_by_storeid(
+    def delete_store_by_storeid(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -81,7 +81,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_store_by_storeid_serialize(
+        _param = self._delete_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -103,7 +103,7 @@ class StoreApi:
 
 
     @validate_call
-    def delete_v1_store_by_storeid_with_http_info(
+    def delete_store_by_storeid_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -147,7 +147,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_store_by_storeid_serialize(
+        _param = self._delete_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -169,7 +169,7 @@ class StoreApi:
 
 
     @validate_call
-    def delete_v1_store_by_storeid_without_preload_content(
+    def delete_store_by_storeid_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -213,7 +213,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_store_by_storeid_serialize(
+        _param = self._delete_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -230,7 +230,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _delete_v1_store_by_storeid_serialize(
+    def _delete_store_by_storeid_serialize(
         self,
         storeid,
         _request_auth,
@@ -287,7 +287,7 @@ class StoreApi:
 
 
     @validate_call
-    def delete_v1_store_by_storeid_listing_by_key(
+    def delete_store_by_storeid_listing_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -334,7 +334,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._delete_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -357,7 +357,7 @@ class StoreApi:
 
 
     @validate_call
-    def delete_v1_store_by_storeid_listing_by_key_with_http_info(
+    def delete_store_by_storeid_listing_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -404,7 +404,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._delete_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -427,7 +427,7 @@ class StoreApi:
 
 
     @validate_call
-    def delete_v1_store_by_storeid_listing_by_key_without_preload_content(
+    def delete_store_by_storeid_listing_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -474,7 +474,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._delete_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -492,7 +492,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _delete_v1_store_by_storeid_listing_by_key_serialize(
+    def _delete_store_by_storeid_listing_by_key_serialize(
         self,
         storeid,
         key,
@@ -552,7 +552,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store(
+    def get_store(
         self,
         _request_timeout: Union[
             None,
@@ -593,7 +593,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_serialize(
+        _param = self._get_store_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -614,7 +614,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_with_http_info(
+    def get_store_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -655,7 +655,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_serialize(
+        _param = self._get_store_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -676,7 +676,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_without_preload_content(
+    def get_store_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -717,7 +717,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_serialize(
+        _param = self._get_store_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -733,7 +733,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_serialize(
+    def _get_store_serialize(
         self,
         _request_auth,
         _content_type,
@@ -787,7 +787,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_access(
+    def get_store_access(
         self,
         _request_timeout: Union[
             None,
@@ -828,7 +828,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_access_serialize(
+        _param = self._get_store_access_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -849,7 +849,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_access_with_http_info(
+    def get_store_access_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -890,7 +890,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_access_serialize(
+        _param = self._get_store_access_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -911,7 +911,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_access_without_preload_content(
+    def get_store_access_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -952,7 +952,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_access_serialize(
+        _param = self._get_store_access_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -968,7 +968,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_access_serialize(
+    def _get_store_access_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1022,7 +1022,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid(
+    def get_store_by_storeid(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -1066,7 +1066,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_serialize(
+        _param = self._get_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1088,7 +1088,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_with_http_info(
+    def get_store_by_storeid_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -1132,7 +1132,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_serialize(
+        _param = self._get_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1154,7 +1154,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_without_preload_content(
+    def get_store_by_storeid_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -1198,7 +1198,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_serialize(
+        _param = self._get_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1215,7 +1215,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_by_storeid_serialize(
+    def _get_store_by_storeid_serialize(
         self,
         storeid,
         _request_auth,
@@ -1272,7 +1272,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_bundle_by_key(
+    def get_store_by_storeid_bundle_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -1319,7 +1319,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_bundle_by_key_serialize(
+        _param = self._get_store_by_storeid_bundle_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -1342,7 +1342,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_bundle_by_key_with_http_info(
+    def get_store_by_storeid_bundle_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -1389,7 +1389,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_bundle_by_key_serialize(
+        _param = self._get_store_by_storeid_bundle_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -1412,7 +1412,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_bundle_by_key_without_preload_content(
+    def get_store_by_storeid_bundle_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -1459,7 +1459,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_bundle_by_key_serialize(
+        _param = self._get_store_by_storeid_bundle_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -1477,7 +1477,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_by_storeid_bundle_by_key_serialize(
+    def _get_store_by_storeid_bundle_by_key_serialize(
         self,
         storeid,
         key,
@@ -1537,7 +1537,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_listing(
+    def get_store_by_storeid_listing(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -1581,7 +1581,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_listing_serialize(
+        _param = self._get_store_by_storeid_listing_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1603,7 +1603,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_listing_with_http_info(
+    def get_store_by_storeid_listing_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -1647,7 +1647,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_listing_serialize(
+        _param = self._get_store_by_storeid_listing_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1669,7 +1669,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_listing_without_preload_content(
+    def get_store_by_storeid_listing_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -1713,7 +1713,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_listing_serialize(
+        _param = self._get_store_by_storeid_listing_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1730,7 +1730,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_by_storeid_listing_serialize(
+    def _get_store_by_storeid_listing_serialize(
         self,
         storeid,
         _request_auth,
@@ -1787,7 +1787,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_listing_by_key(
+    def get_store_by_storeid_listing_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -1834,7 +1834,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._get_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -1857,7 +1857,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_listing_by_key_with_http_info(
+    def get_store_by_storeid_listing_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -1904,7 +1904,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._get_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -1927,7 +1927,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_listing_by_key_without_preload_content(
+    def get_store_by_storeid_listing_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -1974,7 +1974,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._get_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -1992,7 +1992,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_by_storeid_listing_by_key_serialize(
+    def _get_store_by_storeid_listing_by_key_serialize(
         self,
         storeid,
         key,
@@ -2052,7 +2052,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_product_by_key(
+    def get_store_by_storeid_product_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -2099,7 +2099,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_product_by_key_serialize(
+        _param = self._get_store_by_storeid_product_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -2122,7 +2122,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_product_by_key_with_http_info(
+    def get_store_by_storeid_product_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -2169,7 +2169,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_product_by_key_serialize(
+        _param = self._get_store_by_storeid_product_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -2192,7 +2192,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_product_by_key_without_preload_content(
+    def get_store_by_storeid_product_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -2239,7 +2239,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_product_by_key_serialize(
+        _param = self._get_store_by_storeid_product_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -2257,7 +2257,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_by_storeid_product_by_key_serialize(
+    def _get_store_by_storeid_product_by_key_serialize(
         self,
         storeid,
         key,
@@ -2317,7 +2317,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_variant_by_key(
+    def get_store_by_storeid_variant_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -2364,7 +2364,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_variant_by_key_serialize(
+        _param = self._get_store_by_storeid_variant_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -2387,7 +2387,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_variant_by_key_with_http_info(
+    def get_store_by_storeid_variant_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -2434,7 +2434,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_variant_by_key_serialize(
+        _param = self._get_store_by_storeid_variant_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -2457,7 +2457,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_by_storeid_variant_by_key_without_preload_content(
+    def get_store_by_storeid_variant_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -2504,7 +2504,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_by_storeid_variant_by_key_serialize(
+        _param = self._get_store_by_storeid_variant_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -2522,7 +2522,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_by_storeid_variant_by_key_serialize(
+    def _get_store_by_storeid_variant_by_key_serialize(
         self,
         storeid,
         key,
@@ -2582,7 +2582,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_current(
+    def get_store_current(
         self,
         _request_timeout: Union[
             None,
@@ -2623,7 +2623,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_current_serialize(
+        _param = self._get_store_current_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2644,7 +2644,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_current_with_http_info(
+    def get_store_current_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2685,7 +2685,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_current_serialize(
+        _param = self._get_store_current_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2706,7 +2706,7 @@ class StoreApi:
 
 
     @validate_call
-    def get_v1_store_current_without_preload_content(
+    def get_store_current_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2747,7 +2747,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_store_current_serialize(
+        _param = self._get_store_current_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2763,7 +2763,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _get_v1_store_current_serialize(
+    def _get_store_current_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2817,7 +2817,7 @@ class StoreApi:
 
 
     @validate_call
-    def patch_v1_store_by_storeid(
+    def patch_store_by_storeid(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -2861,7 +2861,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_store_by_storeid_serialize(
+        _param = self._patch_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2883,7 +2883,7 @@ class StoreApi:
 
 
     @validate_call
-    def patch_v1_store_by_storeid_with_http_info(
+    def patch_store_by_storeid_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -2927,7 +2927,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_store_by_storeid_serialize(
+        _param = self._patch_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2949,7 +2949,7 @@ class StoreApi:
 
 
     @validate_call
-    def patch_v1_store_by_storeid_without_preload_content(
+    def patch_store_by_storeid_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -2993,7 +2993,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_store_by_storeid_serialize(
+        _param = self._patch_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3010,7 +3010,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _patch_v1_store_by_storeid_serialize(
+    def _patch_store_by_storeid_serialize(
         self,
         storeid,
         _request_auth,
@@ -3067,7 +3067,7 @@ class StoreApi:
 
 
     @validate_call
-    def patch_v1_store_by_storeid_listing_by_key(
+    def patch_store_by_storeid_listing_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -3114,7 +3114,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._patch_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -3137,7 +3137,7 @@ class StoreApi:
 
 
     @validate_call
-    def patch_v1_store_by_storeid_listing_by_key_with_http_info(
+    def patch_store_by_storeid_listing_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -3184,7 +3184,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._patch_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -3207,7 +3207,7 @@ class StoreApi:
 
 
     @validate_call
-    def patch_v1_store_by_storeid_listing_by_key_without_preload_content(
+    def patch_store_by_storeid_listing_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -3254,7 +3254,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._patch_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -3272,7 +3272,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _patch_v1_store_by_storeid_listing_by_key_serialize(
+    def _patch_store_by_storeid_listing_by_key_serialize(
         self,
         storeid,
         key,
@@ -3332,7 +3332,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store(
+    def post_store(
         self,
         _request_timeout: Union[
             None,
@@ -3373,7 +3373,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_serialize(
+        _param = self._post_store_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3394,7 +3394,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_with_http_info(
+    def post_store_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3435,7 +3435,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_serialize(
+        _param = self._post_store_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3456,7 +3456,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_without_preload_content(
+    def post_store_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3497,7 +3497,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_serialize(
+        _param = self._post_store_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3513,7 +3513,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_serialize(
+    def _post_store_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3567,7 +3567,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid(
+    def post_store_by_storeid(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -3611,7 +3611,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_serialize(
+        _param = self._post_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3633,7 +3633,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_with_http_info(
+    def post_store_by_storeid_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -3677,7 +3677,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_serialize(
+        _param = self._post_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3699,7 +3699,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_without_preload_content(
+    def post_store_by_storeid_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -3743,7 +3743,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_serialize(
+        _param = self._post_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3760,7 +3760,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_serialize(
+    def _post_store_by_storeid_serialize(
         self,
         storeid,
         _request_auth,
@@ -3817,7 +3817,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_authorize(
+    def post_store_by_storeid_authorize(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -3861,7 +3861,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_authorize_serialize(
+        _param = self._post_store_by_storeid_authorize_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3883,7 +3883,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_authorize_with_http_info(
+    def post_store_by_storeid_authorize_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -3927,7 +3927,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_authorize_serialize(
+        _param = self._post_store_by_storeid_authorize_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3949,7 +3949,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_authorize_without_preload_content(
+    def post_store_by_storeid_authorize_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -3993,7 +3993,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_authorize_serialize(
+        _param = self._post_store_by_storeid_authorize_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4010,7 +4010,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_authorize_serialize(
+    def _post_store_by_storeid_authorize_serialize(
         self,
         storeid,
         _request_auth,
@@ -4067,7 +4067,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_authorize_by_orderid(
+    def post_store_by_storeid_authorize_by_orderid(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -4114,7 +4114,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_authorize_by_orderid_serialize(
+        _param = self._post_store_by_storeid_authorize_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -4137,7 +4137,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_authorize_by_orderid_with_http_info(
+    def post_store_by_storeid_authorize_by_orderid_with_http_info(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -4184,7 +4184,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_authorize_by_orderid_serialize(
+        _param = self._post_store_by_storeid_authorize_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -4207,7 +4207,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_authorize_by_orderid_without_preload_content(
+    def post_store_by_storeid_authorize_by_orderid_without_preload_content(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -4254,7 +4254,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_authorize_by_orderid_serialize(
+        _param = self._post_store_by_storeid_authorize_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -4272,7 +4272,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_authorize_by_orderid_serialize(
+    def _post_store_by_storeid_authorize_by_orderid_serialize(
         self,
         storeid,
         orderid,
@@ -4332,7 +4332,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_capture_by_orderid(
+    def post_store_by_storeid_capture_by_orderid(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -4379,7 +4379,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_capture_by_orderid_serialize(
+        _param = self._post_store_by_storeid_capture_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -4402,7 +4402,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_capture_by_orderid_with_http_info(
+    def post_store_by_storeid_capture_by_orderid_with_http_info(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -4449,7 +4449,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_capture_by_orderid_serialize(
+        _param = self._post_store_by_storeid_capture_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -4472,7 +4472,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_capture_by_orderid_without_preload_content(
+    def post_store_by_storeid_capture_by_orderid_without_preload_content(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -4519,7 +4519,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_capture_by_orderid_serialize(
+        _param = self._post_store_by_storeid_capture_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -4537,7 +4537,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_capture_by_orderid_serialize(
+    def _post_store_by_storeid_capture_by_orderid_serialize(
         self,
         storeid,
         orderid,
@@ -4597,7 +4597,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_charge(
+    def post_store_by_storeid_charge(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -4641,7 +4641,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_charge_serialize(
+        _param = self._post_store_by_storeid_charge_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4663,7 +4663,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_charge_with_http_info(
+    def post_store_by_storeid_charge_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -4707,7 +4707,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_charge_serialize(
+        _param = self._post_store_by_storeid_charge_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4729,7 +4729,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_charge_without_preload_content(
+    def post_store_by_storeid_charge_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -4773,7 +4773,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_charge_serialize(
+        _param = self._post_store_by_storeid_charge_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4790,7 +4790,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_charge_serialize(
+    def _post_store_by_storeid_charge_serialize(
         self,
         storeid,
         _request_auth,
@@ -4847,7 +4847,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_authorize(
+    def post_store_by_storeid_checkout_authorize(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -4891,7 +4891,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_authorize_serialize(
+        _param = self._post_store_by_storeid_checkout_authorize_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4913,7 +4913,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_authorize_with_http_info(
+    def post_store_by_storeid_checkout_authorize_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -4957,7 +4957,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_authorize_serialize(
+        _param = self._post_store_by_storeid_checkout_authorize_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4979,7 +4979,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_authorize_without_preload_content(
+    def post_store_by_storeid_checkout_authorize_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -5023,7 +5023,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_authorize_serialize(
+        _param = self._post_store_by_storeid_checkout_authorize_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5040,7 +5040,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_authorize_serialize(
+    def _post_store_by_storeid_checkout_authorize_serialize(
         self,
         storeid,
         _request_auth,
@@ -5097,7 +5097,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_authorize_by_orderid(
+    def post_store_by_storeid_checkout_authorize_by_orderid(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -5144,7 +5144,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_authorize_by_orderid_serialize(
+        _param = self._post_store_by_storeid_checkout_authorize_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -5167,7 +5167,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_authorize_by_orderid_with_http_info(
+    def post_store_by_storeid_checkout_authorize_by_orderid_with_http_info(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -5214,7 +5214,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_authorize_by_orderid_serialize(
+        _param = self._post_store_by_storeid_checkout_authorize_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -5237,7 +5237,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_authorize_by_orderid_without_preload_content(
+    def post_store_by_storeid_checkout_authorize_by_orderid_without_preload_content(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -5284,7 +5284,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_authorize_by_orderid_serialize(
+        _param = self._post_store_by_storeid_checkout_authorize_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -5302,7 +5302,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_authorize_by_orderid_serialize(
+    def _post_store_by_storeid_checkout_authorize_by_orderid_serialize(
         self,
         storeid,
         orderid,
@@ -5362,7 +5362,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_capture_by_orderid(
+    def post_store_by_storeid_checkout_capture_by_orderid(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -5409,7 +5409,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_capture_by_orderid_serialize(
+        _param = self._post_store_by_storeid_checkout_capture_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -5432,7 +5432,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_capture_by_orderid_with_http_info(
+    def post_store_by_storeid_checkout_capture_by_orderid_with_http_info(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -5479,7 +5479,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_capture_by_orderid_serialize(
+        _param = self._post_store_by_storeid_checkout_capture_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -5502,7 +5502,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_capture_by_orderid_without_preload_content(
+    def post_store_by_storeid_checkout_capture_by_orderid_without_preload_content(
         self,
         storeid: StrictStr,
         orderid: StrictStr,
@@ -5549,7 +5549,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_capture_by_orderid_serialize(
+        _param = self._post_store_by_storeid_checkout_capture_by_orderid_serialize(
             storeid=storeid,
             orderid=orderid,
             _request_auth=_request_auth,
@@ -5567,7 +5567,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_capture_by_orderid_serialize(
+    def _post_store_by_storeid_checkout_capture_by_orderid_serialize(
         self,
         storeid,
         orderid,
@@ -5627,7 +5627,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_charge(
+    def post_store_by_storeid_checkout_charge(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -5671,7 +5671,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_charge_serialize(
+        _param = self._post_store_by_storeid_checkout_charge_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5693,7 +5693,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_charge_with_http_info(
+    def post_store_by_storeid_checkout_charge_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -5737,7 +5737,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_charge_serialize(
+        _param = self._post_store_by_storeid_checkout_charge_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5759,7 +5759,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_charge_without_preload_content(
+    def post_store_by_storeid_checkout_charge_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -5803,7 +5803,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_charge_serialize(
+        _param = self._post_store_by_storeid_checkout_charge_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5820,7 +5820,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_charge_serialize(
+    def _post_store_by_storeid_checkout_charge_serialize(
         self,
         storeid,
         _request_auth,
@@ -5877,7 +5877,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey(
+    def post_store_by_storeid_checkout_paypal_cancel_by_paykey(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -5924,7 +5924,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -5947,7 +5947,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey_with_http_info(
+    def post_store_by_storeid_checkout_paypal_cancel_by_paykey_with_http_info(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -5994,7 +5994,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -6017,7 +6017,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey_without_preload_content(
+    def post_store_by_storeid_checkout_paypal_cancel_by_paykey_without_preload_content(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -6064,7 +6064,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -6082,7 +6082,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
+    def _post_store_by_storeid_checkout_paypal_cancel_by_paykey_serialize(
         self,
         storeid,
         pay_key,
@@ -6142,7 +6142,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey(
+    def post_store_by_storeid_checkout_paypal_confirm_by_paykey(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -6189,7 +6189,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -6212,7 +6212,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey_with_http_info(
+    def post_store_by_storeid_checkout_paypal_confirm_by_paykey_with_http_info(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -6259,7 +6259,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -6282,7 +6282,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey_without_preload_content(
+    def post_store_by_storeid_checkout_paypal_confirm_by_paykey_without_preload_content(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -6329,7 +6329,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -6347,7 +6347,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
+    def _post_store_by_storeid_checkout_paypal_confirm_by_paykey_serialize(
         self,
         storeid,
         pay_key,
@@ -6407,7 +6407,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_pay(
+    def post_store_by_storeid_checkout_paypal_pay(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -6451,7 +6451,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_pay_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_pay_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6473,7 +6473,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_pay_with_http_info(
+    def post_store_by_storeid_checkout_paypal_pay_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -6517,7 +6517,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_pay_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_pay_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6539,7 +6539,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_checkout_paypal_pay_without_preload_content(
+    def post_store_by_storeid_checkout_paypal_pay_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -6583,7 +6583,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_checkout_paypal_pay_serialize(
+        _param = self._post_store_by_storeid_checkout_paypal_pay_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6600,7 +6600,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_checkout_paypal_pay_serialize(
+    def _post_store_by_storeid_checkout_paypal_pay_serialize(
         self,
         storeid,
         _request_auth,
@@ -6657,7 +6657,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_listing_by_key(
+    def post_store_by_storeid_listing_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -6704,7 +6704,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._post_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -6727,7 +6727,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_listing_by_key_with_http_info(
+    def post_store_by_storeid_listing_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -6774,7 +6774,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._post_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -6797,7 +6797,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_listing_by_key_without_preload_content(
+    def post_store_by_storeid_listing_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -6844,7 +6844,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._post_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -6862,7 +6862,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_listing_by_key_serialize(
+    def _post_store_by_storeid_listing_by_key_serialize(
         self,
         storeid,
         key,
@@ -6922,7 +6922,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_cancel_by_paykey(
+    def post_store_by_storeid_paypal_cancel_by_paykey(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -6969,7 +6969,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_cancel_by_paykey_serialize(
+        _param = self._post_store_by_storeid_paypal_cancel_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -6992,7 +6992,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_cancel_by_paykey_with_http_info(
+    def post_store_by_storeid_paypal_cancel_by_paykey_with_http_info(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -7039,7 +7039,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_cancel_by_paykey_serialize(
+        _param = self._post_store_by_storeid_paypal_cancel_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -7062,7 +7062,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_cancel_by_paykey_without_preload_content(
+    def post_store_by_storeid_paypal_cancel_by_paykey_without_preload_content(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -7109,7 +7109,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_cancel_by_paykey_serialize(
+        _param = self._post_store_by_storeid_paypal_cancel_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -7127,7 +7127,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_paypal_cancel_by_paykey_serialize(
+    def _post_store_by_storeid_paypal_cancel_by_paykey_serialize(
         self,
         storeid,
         pay_key,
@@ -7187,7 +7187,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_confirm_by_paykey(
+    def post_store_by_storeid_paypal_confirm_by_paykey(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -7234,7 +7234,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_confirm_by_paykey_serialize(
+        _param = self._post_store_by_storeid_paypal_confirm_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -7257,7 +7257,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_confirm_by_paykey_with_http_info(
+    def post_store_by_storeid_paypal_confirm_by_paykey_with_http_info(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -7304,7 +7304,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_confirm_by_paykey_serialize(
+        _param = self._post_store_by_storeid_paypal_confirm_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -7327,7 +7327,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_confirm_by_paykey_without_preload_content(
+    def post_store_by_storeid_paypal_confirm_by_paykey_without_preload_content(
         self,
         storeid: StrictStr,
         pay_key: StrictStr,
@@ -7374,7 +7374,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_confirm_by_paykey_serialize(
+        _param = self._post_store_by_storeid_paypal_confirm_by_paykey_serialize(
             storeid=storeid,
             pay_key=pay_key,
             _request_auth=_request_auth,
@@ -7392,7 +7392,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_paypal_confirm_by_paykey_serialize(
+    def _post_store_by_storeid_paypal_confirm_by_paykey_serialize(
         self,
         storeid,
         pay_key,
@@ -7452,7 +7452,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_pay(
+    def post_store_by_storeid_paypal_pay(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -7496,7 +7496,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_pay_serialize(
+        _param = self._post_store_by_storeid_paypal_pay_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7518,7 +7518,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_pay_with_http_info(
+    def post_store_by_storeid_paypal_pay_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -7562,7 +7562,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_pay_serialize(
+        _param = self._post_store_by_storeid_paypal_pay_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7584,7 +7584,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_paypal_pay_without_preload_content(
+    def post_store_by_storeid_paypal_pay_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -7628,7 +7628,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_paypal_pay_serialize(
+        _param = self._post_store_by_storeid_paypal_pay_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7645,7 +7645,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_paypal_pay_serialize(
+    def _post_store_by_storeid_paypal_pay_serialize(
         self,
         storeid,
         _request_auth,
@@ -7702,7 +7702,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_trial(
+    def post_store_by_storeid_trial(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -7746,7 +7746,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_trial_serialize(
+        _param = self._post_store_by_storeid_trial_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7768,7 +7768,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_trial_with_http_info(
+    def post_store_by_storeid_trial_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -7812,7 +7812,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_trial_serialize(
+        _param = self._post_store_by_storeid_trial_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7834,7 +7834,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_by_storeid_trial_without_preload_content(
+    def post_store_by_storeid_trial_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -7878,7 +7878,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_by_storeid_trial_serialize(
+        _param = self._post_store_by_storeid_trial_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7895,7 +7895,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_by_storeid_trial_serialize(
+    def _post_store_by_storeid_trial_serialize(
         self,
         storeid,
         _request_auth,
@@ -7952,7 +7952,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_token(
+    def post_store_token(
         self,
         _request_timeout: Union[
             None,
@@ -7993,7 +7993,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_token_serialize(
+        _param = self._post_store_token_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8014,7 +8014,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_token_with_http_info(
+    def post_store_token_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -8055,7 +8055,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_token_serialize(
+        _param = self._post_store_token_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8076,7 +8076,7 @@ class StoreApi:
 
 
     @validate_call
-    def post_v1_store_token_without_preload_content(
+    def post_store_token_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -8117,7 +8117,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_store_token_serialize(
+        _param = self._post_store_token_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8133,7 +8133,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _post_v1_store_token_serialize(
+    def _post_store_token_serialize(
         self,
         _request_auth,
         _content_type,
@@ -8187,7 +8187,7 @@ class StoreApi:
 
 
     @validate_call
-    def put_v1_store_by_storeid(
+    def put_store_by_storeid(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -8231,7 +8231,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_store_by_storeid_serialize(
+        _param = self._put_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8253,7 +8253,7 @@ class StoreApi:
 
 
     @validate_call
-    def put_v1_store_by_storeid_with_http_info(
+    def put_store_by_storeid_with_http_info(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -8297,7 +8297,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_store_by_storeid_serialize(
+        _param = self._put_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8319,7 +8319,7 @@ class StoreApi:
 
 
     @validate_call
-    def put_v1_store_by_storeid_without_preload_content(
+    def put_store_by_storeid_without_preload_content(
         self,
         storeid: StrictStr,
         _request_timeout: Union[
@@ -8363,7 +8363,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_store_by_storeid_serialize(
+        _param = self._put_store_by_storeid_serialize(
             storeid=storeid,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8380,7 +8380,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _put_v1_store_by_storeid_serialize(
+    def _put_store_by_storeid_serialize(
         self,
         storeid,
         _request_auth,
@@ -8437,7 +8437,7 @@ class StoreApi:
 
 
     @validate_call
-    def put_v1_store_by_storeid_listing_by_key(
+    def put_store_by_storeid_listing_by_key(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -8484,7 +8484,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._put_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -8507,7 +8507,7 @@ class StoreApi:
 
 
     @validate_call
-    def put_v1_store_by_storeid_listing_by_key_with_http_info(
+    def put_store_by_storeid_listing_by_key_with_http_info(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -8554,7 +8554,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._put_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -8577,7 +8577,7 @@ class StoreApi:
 
 
     @validate_call
-    def put_v1_store_by_storeid_listing_by_key_without_preload_content(
+    def put_store_by_storeid_listing_by_key_without_preload_content(
         self,
         storeid: StrictStr,
         key: StrictStr,
@@ -8624,7 +8624,7 @@ class StoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_store_by_storeid_listing_by_key_serialize(
+        _param = self._put_store_by_storeid_listing_by_key_serialize(
             storeid=storeid,
             key=key,
             _request_auth=_request_auth,
@@ -8642,7 +8642,7 @@ class StoreApi:
         return response_data.response
 
 
-    def _put_v1_store_by_storeid_listing_by_key_serialize(
+    def _put_store_by_storeid_listing_by_key_serialize(
         self,
         storeid,
         key,

@@ -45,7 +45,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def get_v1_authors(
+    def get_authors(
         self,
         _request_timeout: Union[
             None,
@@ -86,7 +86,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authors_serialize(
+        _param = self._get_authors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -108,7 +108,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def get_v1_authors_with_http_info(
+    def get_authors_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -149,7 +149,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authors_serialize(
+        _param = self._get_authors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -171,7 +171,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def get_v1_authors_without_preload_content(
+    def get_authors_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -212,7 +212,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authors_serialize(
+        _param = self._get_authors_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -229,7 +229,7 @@ class AuthorsApi:
         return response_data.response
 
 
-    def _get_v1_authors_serialize(
+    def _get_authors_serialize(
         self,
         _request_auth,
         _content_type,
@@ -290,7 +290,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def get_v1_authors_basis(
+    def get_authors_basis(
         self,
         period: Annotated[Optional[StrictStr], Field(description="Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400, because the period is echoed back and used as a SQL filter and is only ever accepted in the one form the accrual latch mints.")] = None,
         _request_timeout: Union[
@@ -334,7 +334,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authors_basis_serialize(
+        _param = self._get_authors_basis_serialize(
             period=period,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -357,7 +357,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def get_v1_authors_basis_with_http_info(
+    def get_authors_basis_with_http_info(
         self,
         period: Annotated[Optional[StrictStr], Field(description="Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400, because the period is echoed back and used as a SQL filter and is only ever accepted in the one form the accrual latch mints.")] = None,
         _request_timeout: Union[
@@ -401,7 +401,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authors_basis_serialize(
+        _param = self._get_authors_basis_serialize(
             period=period,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -424,7 +424,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def get_v1_authors_basis_without_preload_content(
+    def get_authors_basis_without_preload_content(
         self,
         period: Annotated[Optional[StrictStr], Field(description="Period is the UTC accrual month, YYYY-MM. Empty means every period; any other shape is refused with 400, because the period is echoed back and used as a SQL filter and is only ever accepted in the one form the accrual latch mints.")] = None,
         _request_timeout: Union[
@@ -468,7 +468,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_authors_basis_serialize(
+        _param = self._get_authors_basis_serialize(
             period=period,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -486,7 +486,7 @@ class AuthorsApi:
         return response_data.response
 
 
-    def _get_v1_authors_basis_serialize(
+    def _get_authors_basis_serialize(
         self,
         period,
         _request_auth,
@@ -552,7 +552,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_connect(
+    def post_authors_connect(
         self,
         connect_request: ConnectRequest,
         _request_timeout: Union[
@@ -596,7 +596,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_connect_serialize(
+        _param = self._post_authors_connect_serialize(
             connect_request=connect_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -619,7 +619,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_connect_with_http_info(
+    def post_authors_connect_with_http_info(
         self,
         connect_request: ConnectRequest,
         _request_timeout: Union[
@@ -663,7 +663,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_connect_serialize(
+        _param = self._post_authors_connect_serialize(
             connect_request=connect_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -686,7 +686,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_connect_without_preload_content(
+    def post_authors_connect_without_preload_content(
         self,
         connect_request: ConnectRequest,
         _request_timeout: Union[
@@ -730,7 +730,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_connect_serialize(
+        _param = self._post_authors_connect_serialize(
             connect_request=connect_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -748,7 +748,7 @@ class AuthorsApi:
         return response_data.response
 
 
-    def _post_v1_authors_connect_serialize(
+    def _post_authors_connect_serialize(
         self,
         connect_request,
         _request_auth,
@@ -825,7 +825,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_deploys_record(
+    def post_authors_deploys_record(
         self,
         deploy_request: DeployRequest,
         _request_timeout: Union[
@@ -869,7 +869,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_deploys_record_serialize(
+        _param = self._post_authors_deploys_record_serialize(
             deploy_request=deploy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -892,7 +892,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_deploys_record_with_http_info(
+    def post_authors_deploys_record_with_http_info(
         self,
         deploy_request: DeployRequest,
         _request_timeout: Union[
@@ -936,7 +936,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_deploys_record_serialize(
+        _param = self._post_authors_deploys_record_serialize(
             deploy_request=deploy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -959,7 +959,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_deploys_record_without_preload_content(
+    def post_authors_deploys_record_without_preload_content(
         self,
         deploy_request: DeployRequest,
         _request_timeout: Union[
@@ -1003,7 +1003,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_deploys_record_serialize(
+        _param = self._post_authors_deploys_record_serialize(
             deploy_request=deploy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1021,7 +1021,7 @@ class AuthorsApi:
         return response_data.response
 
 
-    def _post_v1_authors_deploys_record_serialize(
+    def _post_authors_deploys_record_serialize(
         self,
         deploy_request,
         _request_auth,
@@ -1098,7 +1098,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_repos_verify(
+    def post_authors_repos_verify(
         self,
         verify_request: VerifyRequest,
         _request_timeout: Union[
@@ -1142,7 +1142,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_repos_verify_serialize(
+        _param = self._post_authors_repos_verify_serialize(
             verify_request=verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1165,7 +1165,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_repos_verify_with_http_info(
+    def post_authors_repos_verify_with_http_info(
         self,
         verify_request: VerifyRequest,
         _request_timeout: Union[
@@ -1209,7 +1209,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_repos_verify_serialize(
+        _param = self._post_authors_repos_verify_serialize(
             verify_request=verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1232,7 +1232,7 @@ class AuthorsApi:
 
 
     @validate_call
-    def post_v1_authors_repos_verify_without_preload_content(
+    def post_authors_repos_verify_without_preload_content(
         self,
         verify_request: VerifyRequest,
         _request_timeout: Union[
@@ -1276,7 +1276,7 @@ class AuthorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_authors_repos_verify_serialize(
+        _param = self._post_authors_repos_verify_serialize(
             verify_request=verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1294,7 +1294,7 @@ class AuthorsApi:
         return response_data.response
 
 
-    def _post_v1_authors_repos_verify_serialize(
+    def _post_authors_repos_verify_serialize(
         self,
         verify_request,
         _request_auth,

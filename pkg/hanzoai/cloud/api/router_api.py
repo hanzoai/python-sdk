@@ -37,7 +37,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_artifact_meta(
+    def delete_router_artifact_meta(
         self,
         _request_timeout: Union[
             None,
@@ -78,7 +78,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_artifact_meta_serialize(
+        _param = self._delete_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +99,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_artifact_meta_with_http_info(
+    def delete_router_artifact_meta_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -140,7 +140,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_artifact_meta_serialize(
+        _param = self._delete_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -161,7 +161,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_artifact_meta_without_preload_content(
+    def delete_router_artifact_meta_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -202,7 +202,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_artifact_meta_serialize(
+        _param = self._delete_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -218,7 +218,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _delete_v1_router_artifact_meta_serialize(
+    def _delete_router_artifact_meta_serialize(
         self,
         _request_auth,
         _content_type,
@@ -272,7 +272,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_data(
+    def delete_router_data(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_data_serialize(
+        _param = self._delete_router_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -336,7 +336,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_data_with_http_info(
+    def delete_router_data_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -376,7 +376,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_data_serialize(
+        _param = self._delete_router_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -400,7 +400,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_data_without_preload_content(
+    def delete_router_data_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -440,7 +440,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_data_serialize(
+        _param = self._delete_router_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -459,7 +459,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _delete_v1_router_data_serialize(
+    def _delete_router_data_serialize(
         self,
         _request_auth,
         _content_type,
@@ -520,7 +520,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_defaults(
+    def delete_router_defaults(
         self,
         _request_timeout: Union[
             None,
@@ -561,7 +561,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_defaults_serialize(
+        _param = self._delete_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -582,7 +582,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_defaults_with_http_info(
+    def delete_router_defaults_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -623,7 +623,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_defaults_serialize(
+        _param = self._delete_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -644,7 +644,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_defaults_without_preload_content(
+    def delete_router_defaults_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -685,7 +685,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_defaults_serialize(
+        _param = self._delete_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -701,7 +701,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _delete_v1_router_defaults_serialize(
+    def _delete_router_defaults_serialize(
         self,
         _request_auth,
         _content_type,
@@ -755,7 +755,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_ledger(
+    def delete_router_ledger(
         self,
         _request_timeout: Union[
             None,
@@ -796,7 +796,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_ledger_serialize(
+        _param = self._delete_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -817,7 +817,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_ledger_with_http_info(
+    def delete_router_ledger_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -858,7 +858,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_ledger_serialize(
+        _param = self._delete_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -879,7 +879,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_ledger_without_preload_content(
+    def delete_router_ledger_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -920,7 +920,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_ledger_serialize(
+        _param = self._delete_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -936,7 +936,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _delete_v1_router_ledger_serialize(
+    def _delete_router_ledger_serialize(
         self,
         _request_auth,
         _content_type,
@@ -990,7 +990,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_policy(
+    def delete_router_policy(
         self,
         _request_timeout: Union[
             None,
@@ -1031,7 +1031,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_policy_serialize(
+        _param = self._delete_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1052,7 +1052,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_policy_with_http_info(
+    def delete_router_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1093,7 +1093,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_policy_serialize(
+        _param = self._delete_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1114,7 +1114,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_policy_without_preload_content(
+    def delete_router_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1155,7 +1155,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_policy_serialize(
+        _param = self._delete_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1171,7 +1171,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _delete_v1_router_policy_serialize(
+    def _delete_router_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1225,7 +1225,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_rewards(
+    def delete_router_rewards(
         self,
         _request_timeout: Union[
             None,
@@ -1266,7 +1266,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_rewards_serialize(
+        _param = self._delete_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1287,7 +1287,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_rewards_with_http_info(
+    def delete_router_rewards_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1328,7 +1328,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_rewards_serialize(
+        _param = self._delete_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1349,7 +1349,7 @@ class RouterApi:
 
 
     @validate_call
-    def delete_v1_router_rewards_without_preload_content(
+    def delete_router_rewards_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1390,7 +1390,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_router_rewards_serialize(
+        _param = self._delete_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1406,7 +1406,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _delete_v1_router_rewards_serialize(
+    def _delete_router_rewards_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1460,7 +1460,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_artifact_meta(
+    def get_router_artifact_meta(
         self,
         _request_timeout: Union[
             None,
@@ -1501,7 +1501,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_artifact_meta_serialize(
+        _param = self._get_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1522,7 +1522,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_artifact_meta_with_http_info(
+    def get_router_artifact_meta_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1563,7 +1563,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_artifact_meta_serialize(
+        _param = self._get_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1584,7 +1584,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_artifact_meta_without_preload_content(
+    def get_router_artifact_meta_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1625,7 +1625,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_artifact_meta_serialize(
+        _param = self._get_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1641,7 +1641,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_artifact_meta_serialize(
+    def _get_router_artifact_meta_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1695,7 +1695,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_data(
+    def get_router_data(
         self,
         _request_timeout: Union[
             None,
@@ -1735,7 +1735,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_data_serialize(
+        _param = self._get_router_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1759,7 +1759,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_data_with_http_info(
+    def get_router_data_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1799,7 +1799,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_data_serialize(
+        _param = self._get_router_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1823,7 +1823,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_data_without_preload_content(
+    def get_router_data_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1863,7 +1863,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_data_serialize(
+        _param = self._get_router_data_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1882,7 +1882,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_data_serialize(
+    def _get_router_data_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1943,7 +1943,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_defaults(
+    def get_router_defaults(
         self,
         _request_timeout: Union[
             None,
@@ -1984,7 +1984,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_defaults_serialize(
+        _param = self._get_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2005,7 +2005,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_defaults_with_http_info(
+    def get_router_defaults_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2046,7 +2046,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_defaults_serialize(
+        _param = self._get_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2067,7 +2067,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_defaults_without_preload_content(
+    def get_router_defaults_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2108,7 +2108,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_defaults_serialize(
+        _param = self._get_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2124,7 +2124,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_defaults_serialize(
+    def _get_router_defaults_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2178,7 +2178,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_history(
+    def get_router_history(
         self,
         _request_timeout: Union[
             None,
@@ -2219,7 +2219,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_history_serialize(
+        _param = self._get_router_history_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2240,7 +2240,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_history_with_http_info(
+    def get_router_history_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2281,7 +2281,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_history_serialize(
+        _param = self._get_router_history_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2302,7 +2302,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_history_without_preload_content(
+    def get_router_history_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2343,7 +2343,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_history_serialize(
+        _param = self._get_router_history_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2359,7 +2359,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_history_serialize(
+    def _get_router_history_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2413,7 +2413,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_judge_panel(
+    def get_router_judge_panel(
         self,
         _request_timeout: Union[
             None,
@@ -2454,7 +2454,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_judge_panel_serialize(
+        _param = self._get_router_judge_panel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2475,7 +2475,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_judge_panel_with_http_info(
+    def get_router_judge_panel_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2516,7 +2516,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_judge_panel_serialize(
+        _param = self._get_router_judge_panel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2537,7 +2537,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_judge_panel_without_preload_content(
+    def get_router_judge_panel_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2578,7 +2578,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_judge_panel_serialize(
+        _param = self._get_router_judge_panel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2594,7 +2594,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_judge_panel_serialize(
+    def _get_router_judge_panel_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2648,7 +2648,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_ledger(
+    def get_router_ledger(
         self,
         _request_timeout: Union[
             None,
@@ -2689,7 +2689,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_ledger_serialize(
+        _param = self._get_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2710,7 +2710,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_ledger_with_http_info(
+    def get_router_ledger_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2751,7 +2751,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_ledger_serialize(
+        _param = self._get_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2772,7 +2772,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_ledger_without_preload_content(
+    def get_router_ledger_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2813,7 +2813,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_ledger_serialize(
+        _param = self._get_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2829,7 +2829,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_ledger_serialize(
+    def _get_router_ledger_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2883,7 +2883,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_policy(
+    def get_router_policy(
         self,
         _request_timeout: Union[
             None,
@@ -2924,7 +2924,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_policy_serialize(
+        _param = self._get_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2945,7 +2945,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_policy_with_http_info(
+    def get_router_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2986,7 +2986,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_policy_serialize(
+        _param = self._get_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3007,7 +3007,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_policy_without_preload_content(
+    def get_router_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3048,7 +3048,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_policy_serialize(
+        _param = self._get_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3064,7 +3064,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_policy_serialize(
+    def _get_router_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3118,7 +3118,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_rewards(
+    def get_router_rewards(
         self,
         _request_timeout: Union[
             None,
@@ -3159,7 +3159,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_rewards_serialize(
+        _param = self._get_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3180,7 +3180,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_rewards_with_http_info(
+    def get_router_rewards_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3221,7 +3221,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_rewards_serialize(
+        _param = self._get_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3242,7 +3242,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_rewards_without_preload_content(
+    def get_router_rewards_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3283,7 +3283,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_rewards_serialize(
+        _param = self._get_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3299,7 +3299,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_rewards_serialize(
+    def _get_router_rewards_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3353,7 +3353,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_stats(
+    def get_router_stats(
         self,
         _request_timeout: Union[
             None,
@@ -3394,7 +3394,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_stats_serialize(
+        _param = self._get_router_stats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3415,7 +3415,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_stats_with_http_info(
+    def get_router_stats_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3456,7 +3456,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_stats_serialize(
+        _param = self._get_router_stats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3477,7 +3477,7 @@ class RouterApi:
 
 
     @validate_call
-    def get_v1_router_stats_without_preload_content(
+    def get_router_stats_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3518,7 +3518,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_router_stats_serialize(
+        _param = self._get_router_stats_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3534,7 +3534,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _get_v1_router_stats_serialize(
+    def _get_router_stats_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3588,7 +3588,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_artifact_meta(
+    def patch_router_artifact_meta(
         self,
         _request_timeout: Union[
             None,
@@ -3629,7 +3629,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_artifact_meta_serialize(
+        _param = self._patch_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3650,7 +3650,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_artifact_meta_with_http_info(
+    def patch_router_artifact_meta_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3691,7 +3691,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_artifact_meta_serialize(
+        _param = self._patch_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3712,7 +3712,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_artifact_meta_without_preload_content(
+    def patch_router_artifact_meta_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3753,7 +3753,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_artifact_meta_serialize(
+        _param = self._patch_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3769,7 +3769,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _patch_v1_router_artifact_meta_serialize(
+    def _patch_router_artifact_meta_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3823,7 +3823,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_defaults(
+    def patch_router_defaults(
         self,
         _request_timeout: Union[
             None,
@@ -3864,7 +3864,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_defaults_serialize(
+        _param = self._patch_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3885,7 +3885,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_defaults_with_http_info(
+    def patch_router_defaults_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3926,7 +3926,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_defaults_serialize(
+        _param = self._patch_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3947,7 +3947,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_defaults_without_preload_content(
+    def patch_router_defaults_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3988,7 +3988,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_defaults_serialize(
+        _param = self._patch_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4004,7 +4004,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _patch_v1_router_defaults_serialize(
+    def _patch_router_defaults_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4058,7 +4058,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_ledger(
+    def patch_router_ledger(
         self,
         _request_timeout: Union[
             None,
@@ -4099,7 +4099,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_ledger_serialize(
+        _param = self._patch_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4120,7 +4120,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_ledger_with_http_info(
+    def patch_router_ledger_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4161,7 +4161,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_ledger_serialize(
+        _param = self._patch_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4182,7 +4182,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_ledger_without_preload_content(
+    def patch_router_ledger_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4223,7 +4223,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_ledger_serialize(
+        _param = self._patch_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4239,7 +4239,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _patch_v1_router_ledger_serialize(
+    def _patch_router_ledger_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4293,7 +4293,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_policy(
+    def patch_router_policy(
         self,
         _request_timeout: Union[
             None,
@@ -4334,7 +4334,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_policy_serialize(
+        _param = self._patch_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4355,7 +4355,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_policy_with_http_info(
+    def patch_router_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4396,7 +4396,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_policy_serialize(
+        _param = self._patch_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4417,7 +4417,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_policy_without_preload_content(
+    def patch_router_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4458,7 +4458,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_policy_serialize(
+        _param = self._patch_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4474,7 +4474,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _patch_v1_router_policy_serialize(
+    def _patch_router_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4528,7 +4528,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_rewards(
+    def patch_router_rewards(
         self,
         _request_timeout: Union[
             None,
@@ -4569,7 +4569,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_rewards_serialize(
+        _param = self._patch_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4590,7 +4590,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_rewards_with_http_info(
+    def patch_router_rewards_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4631,7 +4631,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_rewards_serialize(
+        _param = self._patch_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4652,7 +4652,7 @@ class RouterApi:
 
 
     @validate_call
-    def patch_v1_router_rewards_without_preload_content(
+    def patch_router_rewards_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4693,7 +4693,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_router_rewards_serialize(
+        _param = self._patch_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4709,7 +4709,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _patch_v1_router_rewards_serialize(
+    def _patch_router_rewards_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4763,7 +4763,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_artifact_meta(
+    def post_router_artifact_meta(
         self,
         _request_timeout: Union[
             None,
@@ -4804,7 +4804,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_artifact_meta_serialize(
+        _param = self._post_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4825,7 +4825,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_artifact_meta_with_http_info(
+    def post_router_artifact_meta_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4866,7 +4866,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_artifact_meta_serialize(
+        _param = self._post_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4887,7 +4887,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_artifact_meta_without_preload_content(
+    def post_router_artifact_meta_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4928,7 +4928,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_artifact_meta_serialize(
+        _param = self._post_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4944,7 +4944,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _post_v1_router_artifact_meta_serialize(
+    def _post_router_artifact_meta_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4998,7 +4998,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_defaults(
+    def post_router_defaults(
         self,
         _request_timeout: Union[
             None,
@@ -5039,7 +5039,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_defaults_serialize(
+        _param = self._post_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5060,7 +5060,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_defaults_with_http_info(
+    def post_router_defaults_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5101,7 +5101,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_defaults_serialize(
+        _param = self._post_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5122,7 +5122,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_defaults_without_preload_content(
+    def post_router_defaults_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5163,7 +5163,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_defaults_serialize(
+        _param = self._post_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5179,7 +5179,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _post_v1_router_defaults_serialize(
+    def _post_router_defaults_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5233,7 +5233,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_ledger(
+    def post_router_ledger(
         self,
         _request_timeout: Union[
             None,
@@ -5274,7 +5274,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_ledger_serialize(
+        _param = self._post_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5295,7 +5295,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_ledger_with_http_info(
+    def post_router_ledger_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5336,7 +5336,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_ledger_serialize(
+        _param = self._post_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5357,7 +5357,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_ledger_without_preload_content(
+    def post_router_ledger_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5398,7 +5398,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_ledger_serialize(
+        _param = self._post_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5414,7 +5414,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _post_v1_router_ledger_serialize(
+    def _post_router_ledger_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5468,7 +5468,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_policy(
+    def post_router_policy(
         self,
         _request_timeout: Union[
             None,
@@ -5509,7 +5509,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_policy_serialize(
+        _param = self._post_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5530,7 +5530,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_policy_with_http_info(
+    def post_router_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5571,7 +5571,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_policy_serialize(
+        _param = self._post_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5592,7 +5592,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_policy_without_preload_content(
+    def post_router_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5633,7 +5633,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_policy_serialize(
+        _param = self._post_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5649,7 +5649,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _post_v1_router_policy_serialize(
+    def _post_router_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5703,7 +5703,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_rewards(
+    def post_router_rewards(
         self,
         _request_timeout: Union[
             None,
@@ -5744,7 +5744,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_rewards_serialize(
+        _param = self._post_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5765,7 +5765,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_rewards_with_http_info(
+    def post_router_rewards_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5806,7 +5806,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_rewards_serialize(
+        _param = self._post_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5827,7 +5827,7 @@ class RouterApi:
 
 
     @validate_call
-    def post_v1_router_rewards_without_preload_content(
+    def post_router_rewards_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5868,7 +5868,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_router_rewards_serialize(
+        _param = self._post_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5884,7 +5884,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _post_v1_router_rewards_serialize(
+    def _post_router_rewards_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5938,7 +5938,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_artifact_meta(
+    def put_router_artifact_meta(
         self,
         _request_timeout: Union[
             None,
@@ -5979,7 +5979,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_artifact_meta_serialize(
+        _param = self._put_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6000,7 +6000,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_artifact_meta_with_http_info(
+    def put_router_artifact_meta_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6041,7 +6041,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_artifact_meta_serialize(
+        _param = self._put_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6062,7 +6062,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_artifact_meta_without_preload_content(
+    def put_router_artifact_meta_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6103,7 +6103,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_artifact_meta_serialize(
+        _param = self._put_router_artifact_meta_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6119,7 +6119,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _put_v1_router_artifact_meta_serialize(
+    def _put_router_artifact_meta_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6173,7 +6173,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_defaults(
+    def put_router_defaults(
         self,
         _request_timeout: Union[
             None,
@@ -6214,7 +6214,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_defaults_serialize(
+        _param = self._put_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6235,7 +6235,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_defaults_with_http_info(
+    def put_router_defaults_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6276,7 +6276,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_defaults_serialize(
+        _param = self._put_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6297,7 +6297,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_defaults_without_preload_content(
+    def put_router_defaults_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6338,7 +6338,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_defaults_serialize(
+        _param = self._put_router_defaults_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6354,7 +6354,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _put_v1_router_defaults_serialize(
+    def _put_router_defaults_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6408,7 +6408,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_ledger(
+    def put_router_ledger(
         self,
         _request_timeout: Union[
             None,
@@ -6449,7 +6449,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_ledger_serialize(
+        _param = self._put_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6470,7 +6470,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_ledger_with_http_info(
+    def put_router_ledger_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6511,7 +6511,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_ledger_serialize(
+        _param = self._put_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6532,7 +6532,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_ledger_without_preload_content(
+    def put_router_ledger_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6573,7 +6573,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_ledger_serialize(
+        _param = self._put_router_ledger_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6589,7 +6589,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _put_v1_router_ledger_serialize(
+    def _put_router_ledger_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6643,7 +6643,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_policy(
+    def put_router_policy(
         self,
         _request_timeout: Union[
             None,
@@ -6684,7 +6684,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_policy_serialize(
+        _param = self._put_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6705,7 +6705,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_policy_with_http_info(
+    def put_router_policy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6746,7 +6746,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_policy_serialize(
+        _param = self._put_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6767,7 +6767,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_policy_without_preload_content(
+    def put_router_policy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6808,7 +6808,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_policy_serialize(
+        _param = self._put_router_policy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6824,7 +6824,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _put_v1_router_policy_serialize(
+    def _put_router_policy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6878,7 +6878,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_rewards(
+    def put_router_rewards(
         self,
         _request_timeout: Union[
             None,
@@ -6919,7 +6919,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_rewards_serialize(
+        _param = self._put_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6940,7 +6940,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_rewards_with_http_info(
+    def put_router_rewards_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6981,7 +6981,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_rewards_serialize(
+        _param = self._put_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7002,7 +7002,7 @@ class RouterApi:
 
 
     @validate_call
-    def put_v1_router_rewards_without_preload_content(
+    def put_router_rewards_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -7043,7 +7043,7 @@ class RouterApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_router_rewards_serialize(
+        _param = self._put_router_rewards_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7059,7 +7059,7 @@ class RouterApi:
         return response_data.response
 
 
-    def _put_v1_router_rewards_serialize(
+    def _put_router_rewards_serialize(
         self,
         _request_auth,
         _content_type,

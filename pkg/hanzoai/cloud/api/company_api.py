@@ -61,7 +61,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company(
+    def get_company(
         self,
         _request_timeout: Union[
             None,
@@ -102,7 +102,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_serialize(
+        _param = self._get_company_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -124,7 +124,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_with_http_info(
+    def get_company_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -165,7 +165,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_serialize(
+        _param = self._get_company_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -187,7 +187,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_without_preload_content(
+    def get_company_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -228,7 +228,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_serialize(
+        _param = self._get_company_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -245,7 +245,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _get_v1_company_serialize(
+    def _get_company_serialize(
         self,
         _request_auth,
         _content_type,
@@ -306,7 +306,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_register(
+    def get_company_register(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage keeps only formations at that stage. Empty means any.")] = None,
         structure: Annotated[Optional[StrictStr], Field(description="Structure keeps only formations of that entity kind. Empty means any.")] = None,
@@ -359,7 +359,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_register_serialize(
+        _param = self._get_company_register_serialize(
             stage=stage,
             structure=structure,
             limit=limit,
@@ -385,7 +385,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_register_with_http_info(
+    def get_company_register_with_http_info(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage keeps only formations at that stage. Empty means any.")] = None,
         structure: Annotated[Optional[StrictStr], Field(description="Structure keeps only formations of that entity kind. Empty means any.")] = None,
@@ -438,7 +438,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_register_serialize(
+        _param = self._get_company_register_serialize(
             stage=stage,
             structure=structure,
             limit=limit,
@@ -464,7 +464,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_register_without_preload_content(
+    def get_company_register_without_preload_content(
         self,
         stage: Annotated[Optional[StrictStr], Field(description="Stage keeps only formations at that stage. Empty means any.")] = None,
         structure: Annotated[Optional[StrictStr], Field(description="Structure keeps only formations of that entity kind. Empty means any.")] = None,
@@ -517,7 +517,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_register_serialize(
+        _param = self._get_company_register_serialize(
             stage=stage,
             structure=structure,
             limit=limit,
@@ -538,7 +538,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _get_v1_company_register_serialize(
+    def _get_company_register_serialize(
         self,
         stage,
         structure,
@@ -619,7 +619,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_register_summary(
+    def get_company_register_summary(
         self,
         _request_timeout: Union[
             None,
@@ -660,7 +660,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_register_summary_serialize(
+        _param = self._get_company_register_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -682,7 +682,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_register_summary_with_http_info(
+    def get_company_register_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -723,7 +723,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_register_summary_serialize(
+        _param = self._get_company_register_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -745,7 +745,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_register_summary_without_preload_content(
+    def get_company_register_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -786,7 +786,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_register_summary_serialize(
+        _param = self._get_company_register_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -803,7 +803,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _get_v1_company_register_summary_serialize(
+    def _get_company_register_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -864,7 +864,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_review(
+    def get_company_review(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds how many formations are scanned; 0 or less means the default of 200.")] = None,
         _request_timeout: Union[
@@ -908,7 +908,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_review_serialize(
+        _param = self._get_company_review_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -931,7 +931,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_review_with_http_info(
+    def get_company_review_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds how many formations are scanned; 0 or less means the default of 200.")] = None,
         _request_timeout: Union[
@@ -975,7 +975,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_review_serialize(
+        _param = self._get_company_review_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -998,7 +998,7 @@ class CompanyApi:
 
 
     @validate_call
-    def get_v1_company_review_without_preload_content(
+    def get_company_review_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds how many formations are scanned; 0 or less means the default of 200.")] = None,
         _request_timeout: Union[
@@ -1042,7 +1042,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_company_review_serialize(
+        _param = self._get_company_review_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1060,7 +1060,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _get_v1_company_review_serialize(
+    def _get_company_review_serialize(
         self,
         limit,
         _request_auth,
@@ -1126,7 +1126,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company(
+    def post_company(
         self,
         begin_in: BeginIn,
         _request_timeout: Union[
@@ -1170,7 +1170,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_serialize(
+        _param = self._post_company_serialize(
             begin_in=begin_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1193,7 +1193,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_with_http_info(
+    def post_company_with_http_info(
         self,
         begin_in: BeginIn,
         _request_timeout: Union[
@@ -1237,7 +1237,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_serialize(
+        _param = self._post_company_serialize(
             begin_in=begin_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1260,7 +1260,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_without_preload_content(
+    def post_company_without_preload_content(
         self,
         begin_in: BeginIn,
         _request_timeout: Union[
@@ -1304,7 +1304,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_serialize(
+        _param = self._post_company_serialize(
             begin_in=begin_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1322,7 +1322,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_serialize(
+    def _post_company_serialize(
         self,
         begin_in,
         _request_auth,
@@ -1399,7 +1399,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_advance(
+    def post_company_advance(
         self,
         advance_in: AdvanceIn,
         _request_timeout: Union[
@@ -1443,7 +1443,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_advance_serialize(
+        _param = self._post_company_advance_serialize(
             advance_in=advance_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1466,7 +1466,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_advance_with_http_info(
+    def post_company_advance_with_http_info(
         self,
         advance_in: AdvanceIn,
         _request_timeout: Union[
@@ -1510,7 +1510,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_advance_serialize(
+        _param = self._post_company_advance_serialize(
             advance_in=advance_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1533,7 +1533,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_advance_without_preload_content(
+    def post_company_advance_without_preload_content(
         self,
         advance_in: AdvanceIn,
         _request_timeout: Union[
@@ -1577,7 +1577,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_advance_serialize(
+        _param = self._post_company_advance_serialize(
             advance_in=advance_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1595,7 +1595,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_advance_serialize(
+    def _post_company_advance_serialize(
         self,
         advance_in,
         _request_auth,
@@ -1672,7 +1672,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_documents(
+    def post_company_documents(
         self,
         _request_timeout: Union[
             None,
@@ -1713,7 +1713,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_documents_serialize(
+        _param = self._post_company_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1735,7 +1735,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_documents_with_http_info(
+    def post_company_documents_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1776,7 +1776,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_documents_serialize(
+        _param = self._post_company_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1798,7 +1798,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_documents_without_preload_content(
+    def post_company_documents_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1839,7 +1839,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_documents_serialize(
+        _param = self._post_company_documents_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1856,7 +1856,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_documents_serialize(
+    def _post_company_documents_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1917,7 +1917,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_esign(
+    def post_company_esign(
         self,
         _request_timeout: Union[
             None,
@@ -1958,7 +1958,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_esign_serialize(
+        _param = self._post_company_esign_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1980,7 +1980,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_esign_with_http_info(
+    def post_company_esign_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2021,7 +2021,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_esign_serialize(
+        _param = self._post_company_esign_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2043,7 +2043,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_esign_without_preload_content(
+    def post_company_esign_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2084,7 +2084,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_esign_serialize(
+        _param = self._post_company_esign_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2101,7 +2101,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_esign_serialize(
+    def _post_company_esign_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2162,7 +2162,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_esign_complete(
+    def post_company_esign_complete(
         self,
         esign_complete_in: EsignCompleteIn,
         _request_timeout: Union[
@@ -2206,7 +2206,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_esign_complete_serialize(
+        _param = self._post_company_esign_complete_serialize(
             esign_complete_in=esign_complete_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2229,7 +2229,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_esign_complete_with_http_info(
+    def post_company_esign_complete_with_http_info(
         self,
         esign_complete_in: EsignCompleteIn,
         _request_timeout: Union[
@@ -2273,7 +2273,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_esign_complete_serialize(
+        _param = self._post_company_esign_complete_serialize(
             esign_complete_in=esign_complete_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2296,7 +2296,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_esign_complete_without_preload_content(
+    def post_company_esign_complete_without_preload_content(
         self,
         esign_complete_in: EsignCompleteIn,
         _request_timeout: Union[
@@ -2340,7 +2340,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_esign_complete_serialize(
+        _param = self._post_company_esign_complete_serialize(
             esign_complete_in=esign_complete_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2358,7 +2358,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_esign_complete_serialize(
+    def _post_company_esign_complete_serialize(
         self,
         esign_complete_in,
         _request_auth,
@@ -2435,7 +2435,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_founders(
+    def post_company_founders(
         self,
         founders_in: FoundersIn,
         _request_timeout: Union[
@@ -2479,7 +2479,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_founders_serialize(
+        _param = self._post_company_founders_serialize(
             founders_in=founders_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2502,7 +2502,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_founders_with_http_info(
+    def post_company_founders_with_http_info(
         self,
         founders_in: FoundersIn,
         _request_timeout: Union[
@@ -2546,7 +2546,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_founders_serialize(
+        _param = self._post_company_founders_serialize(
             founders_in=founders_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2569,7 +2569,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_founders_without_preload_content(
+    def post_company_founders_without_preload_content(
         self,
         founders_in: FoundersIn,
         _request_timeout: Union[
@@ -2613,7 +2613,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_founders_serialize(
+        _param = self._post_company_founders_serialize(
             founders_in=founders_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2631,7 +2631,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_founders_serialize(
+    def _post_company_founders_serialize(
         self,
         founders_in,
         _request_auth,
@@ -2708,7 +2708,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_deck(
+    def post_company_fundraise_deck(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -2752,7 +2752,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_deck_serialize(
+        _param = self._post_company_fundraise_deck_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2775,7 +2775,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_deck_with_http_info(
+    def post_company_fundraise_deck_with_http_info(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -2819,7 +2819,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_deck_serialize(
+        _param = self._post_company_fundraise_deck_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2842,7 +2842,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_deck_without_preload_content(
+    def post_company_fundraise_deck_without_preload_content(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -2886,7 +2886,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_deck_serialize(
+        _param = self._post_company_fundraise_deck_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2904,7 +2904,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_fundraise_deck_serialize(
+    def _post_company_fundraise_deck_serialize(
         self,
         body,
         _request_auth,
@@ -2989,7 +2989,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_round(
+    def post_company_fundraise_round(
         self,
         round_input: RoundInput,
         _request_timeout: Union[
@@ -3033,7 +3033,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_round_serialize(
+        _param = self._post_company_fundraise_round_serialize(
             round_input=round_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3056,7 +3056,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_round_with_http_info(
+    def post_company_fundraise_round_with_http_info(
         self,
         round_input: RoundInput,
         _request_timeout: Union[
@@ -3100,7 +3100,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_round_serialize(
+        _param = self._post_company_fundraise_round_serialize(
             round_input=round_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3123,7 +3123,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_round_without_preload_content(
+    def post_company_fundraise_round_without_preload_content(
         self,
         round_input: RoundInput,
         _request_timeout: Union[
@@ -3167,7 +3167,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_round_serialize(
+        _param = self._post_company_fundraise_round_serialize(
             round_input=round_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3185,7 +3185,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_fundraise_round_serialize(
+    def _post_company_fundraise_round_serialize(
         self,
         round_input,
         _request_auth,
@@ -3262,7 +3262,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_safe(
+    def post_company_fundraise_safe(
         self,
         safe_in: SafeIn,
         _request_timeout: Union[
@@ -3306,7 +3306,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_safe_serialize(
+        _param = self._post_company_fundraise_safe_serialize(
             safe_in=safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3329,7 +3329,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_safe_with_http_info(
+    def post_company_fundraise_safe_with_http_info(
         self,
         safe_in: SafeIn,
         _request_timeout: Union[
@@ -3373,7 +3373,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_safe_serialize(
+        _param = self._post_company_fundraise_safe_serialize(
             safe_in=safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3396,7 +3396,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_fundraise_safe_without_preload_content(
+    def post_company_fundraise_safe_without_preload_content(
         self,
         safe_in: SafeIn,
         _request_timeout: Union[
@@ -3440,7 +3440,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_fundraise_safe_serialize(
+        _param = self._post_company_fundraise_safe_serialize(
             safe_in=safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3458,7 +3458,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_fundraise_safe_serialize(
+    def _post_company_fundraise_safe_serialize(
         self,
         safe_in,
         _request_auth,
@@ -3535,7 +3535,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_genesis(
+    def post_company_genesis(
         self,
         _request_timeout: Union[
             None,
@@ -3576,7 +3576,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_genesis_serialize(
+        _param = self._post_company_genesis_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3598,7 +3598,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_genesis_with_http_info(
+    def post_company_genesis_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3639,7 +3639,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_genesis_serialize(
+        _param = self._post_company_genesis_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3661,7 +3661,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_genesis_without_preload_content(
+    def post_company_genesis_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3702,7 +3702,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_genesis_serialize(
+        _param = self._post_company_genesis_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3719,7 +3719,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_genesis_serialize(
+    def _post_company_genesis_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3780,7 +3780,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_import_captable(
+    def post_company_import_captable(
         self,
         import_cap_table_in: ImportCapTableIn,
         _request_timeout: Union[
@@ -3824,7 +3824,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_import_captable_serialize(
+        _param = self._post_company_import_captable_serialize(
             import_cap_table_in=import_cap_table_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3847,7 +3847,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_import_captable_with_http_info(
+    def post_company_import_captable_with_http_info(
         self,
         import_cap_table_in: ImportCapTableIn,
         _request_timeout: Union[
@@ -3891,7 +3891,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_import_captable_serialize(
+        _param = self._post_company_import_captable_serialize(
             import_cap_table_in=import_cap_table_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3914,7 +3914,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_import_captable_without_preload_content(
+    def post_company_import_captable_without_preload_content(
         self,
         import_cap_table_in: ImportCapTableIn,
         _request_timeout: Union[
@@ -3958,7 +3958,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_import_captable_serialize(
+        _param = self._post_company_import_captable_serialize(
             import_cap_table_in=import_cap_table_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3976,7 +3976,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_import_captable_serialize(
+    def _post_company_import_captable_serialize(
         self,
         import_cap_table_in,
         _request_auth,
@@ -4053,7 +4053,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_import_documents(
+    def post_company_import_documents(
         self,
         import_documents_in: ImportDocumentsIn,
         _request_timeout: Union[
@@ -4097,7 +4097,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_import_documents_serialize(
+        _param = self._post_company_import_documents_serialize(
             import_documents_in=import_documents_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4120,7 +4120,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_import_documents_with_http_info(
+    def post_company_import_documents_with_http_info(
         self,
         import_documents_in: ImportDocumentsIn,
         _request_timeout: Union[
@@ -4164,7 +4164,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_import_documents_serialize(
+        _param = self._post_company_import_documents_serialize(
             import_documents_in=import_documents_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4187,7 +4187,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_import_documents_without_preload_content(
+    def post_company_import_documents_without_preload_content(
         self,
         import_documents_in: ImportDocumentsIn,
         _request_timeout: Union[
@@ -4231,7 +4231,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_import_documents_serialize(
+        _param = self._post_company_import_documents_serialize(
             import_documents_in=import_documents_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4249,7 +4249,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_import_documents_serialize(
+    def _post_company_import_documents_serialize(
         self,
         import_documents_in,
         _request_auth,
@@ -4326,7 +4326,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc(
+    def post_company_kyc(
         self,
         _request_timeout: Union[
             None,
@@ -4367,7 +4367,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_serialize(
+        _param = self._post_company_kyc_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4389,7 +4389,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_with_http_info(
+    def post_company_kyc_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4430,7 +4430,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_serialize(
+        _param = self._post_company_kyc_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4452,7 +4452,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_without_preload_content(
+    def post_company_kyc_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4493,7 +4493,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_serialize(
+        _param = self._post_company_kyc_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4510,7 +4510,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_kyc_serialize(
+    def _post_company_kyc_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4571,7 +4571,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_decision(
+    def post_company_kyc_decision(
         self,
         decision_in: DecisionIn,
         _request_timeout: Union[
@@ -4615,7 +4615,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_decision_serialize(
+        _param = self._post_company_kyc_decision_serialize(
             decision_in=decision_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4638,7 +4638,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_decision_with_http_info(
+    def post_company_kyc_decision_with_http_info(
         self,
         decision_in: DecisionIn,
         _request_timeout: Union[
@@ -4682,7 +4682,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_decision_serialize(
+        _param = self._post_company_kyc_decision_serialize(
             decision_in=decision_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4705,7 +4705,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_decision_without_preload_content(
+    def post_company_kyc_decision_without_preload_content(
         self,
         decision_in: DecisionIn,
         _request_timeout: Union[
@@ -4749,7 +4749,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_decision_serialize(
+        _param = self._post_company_kyc_decision_serialize(
             decision_in=decision_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4767,7 +4767,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_kyc_decision_serialize(
+    def _post_company_kyc_decision_serialize(
         self,
         decision_in,
         _request_auth,
@@ -4844,7 +4844,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_refresh(
+    def post_company_kyc_refresh(
         self,
         _request_timeout: Union[
             None,
@@ -4885,7 +4885,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_refresh_serialize(
+        _param = self._post_company_kyc_refresh_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4907,7 +4907,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_refresh_with_http_info(
+    def post_company_kyc_refresh_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4948,7 +4948,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_refresh_serialize(
+        _param = self._post_company_kyc_refresh_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4970,7 +4970,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_kyc_refresh_without_preload_content(
+    def post_company_kyc_refresh_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5011,7 +5011,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_kyc_refresh_serialize(
+        _param = self._post_company_kyc_refresh_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5028,7 +5028,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_kyc_refresh_serialize(
+    def _post_company_kyc_refresh_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5089,7 +5089,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_payment(
+    def post_company_payment(
         self,
         _request_timeout: Union[
             None,
@@ -5130,7 +5130,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_payment_serialize(
+        _param = self._post_company_payment_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5152,7 +5152,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_payment_with_http_info(
+    def post_company_payment_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5193,7 +5193,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_payment_serialize(
+        _param = self._post_company_payment_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5215,7 +5215,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_payment_without_preload_content(
+    def post_company_payment_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5256,7 +5256,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_payment_serialize(
+        _param = self._post_company_payment_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5273,7 +5273,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_payment_serialize(
+    def _post_company_payment_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5334,7 +5334,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_skip(
+    def post_company_skip(
         self,
         _request_timeout: Union[
             None,
@@ -5375,7 +5375,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_skip_serialize(
+        _param = self._post_company_skip_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5397,7 +5397,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_skip_with_http_info(
+    def post_company_skip_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5438,7 +5438,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_skip_serialize(
+        _param = self._post_company_skip_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5460,7 +5460,7 @@ class CompanyApi:
 
 
     @validate_call
-    def post_v1_company_skip_without_preload_content(
+    def post_company_skip_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5501,7 +5501,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_company_skip_serialize(
+        _param = self._post_company_skip_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5518,7 +5518,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _post_v1_company_skip_serialize(
+    def _post_company_skip_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5579,7 +5579,7 @@ class CompanyApi:
 
 
     @validate_call
-    def put_v1_company_structure(
+    def put_company_structure(
         self,
         structure_in: StructureIn,
         _request_timeout: Union[
@@ -5623,7 +5623,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_company_structure_serialize(
+        _param = self._put_company_structure_serialize(
             structure_in=structure_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5646,7 +5646,7 @@ class CompanyApi:
 
 
     @validate_call
-    def put_v1_company_structure_with_http_info(
+    def put_company_structure_with_http_info(
         self,
         structure_in: StructureIn,
         _request_timeout: Union[
@@ -5690,7 +5690,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_company_structure_serialize(
+        _param = self._put_company_structure_serialize(
             structure_in=structure_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5713,7 +5713,7 @@ class CompanyApi:
 
 
     @validate_call
-    def put_v1_company_structure_without_preload_content(
+    def put_company_structure_without_preload_content(
         self,
         structure_in: StructureIn,
         _request_timeout: Union[
@@ -5757,7 +5757,7 @@ class CompanyApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_company_structure_serialize(
+        _param = self._put_company_structure_serialize(
             structure_in=structure_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5775,7 +5775,7 @@ class CompanyApi:
         return response_data.response
 
 
-    def _put_v1_company_structure_serialize(
+    def _put_company_structure_serialize(
         self,
         structure_in,
         _request_auth,

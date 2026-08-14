@@ -40,7 +40,7 @@ class MlApi:
 
 
     @validate_call
-    def delete_v1_ml_models_by_name(
+    def delete_ml_models_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ml_models_by_name_serialize(
+        _param = self._delete_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -107,7 +107,7 @@ class MlApi:
 
 
     @validate_call
-    def delete_v1_ml_models_by_name_with_http_info(
+    def delete_ml_models_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -151,7 +151,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ml_models_by_name_serialize(
+        _param = self._delete_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -174,7 +174,7 @@ class MlApi:
 
 
     @validate_call
-    def delete_v1_ml_models_by_name_without_preload_content(
+    def delete_ml_models_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -218,7 +218,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_ml_models_by_name_serialize(
+        _param = self._delete_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -236,7 +236,7 @@ class MlApi:
         return response_data.response
 
 
-    def _delete_v1_ml_models_by_name_serialize(
+    def _delete_ml_models_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -293,7 +293,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_health(
+    def get_ml_health(
         self,
         _request_timeout: Union[
             None,
@@ -334,7 +334,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_health_serialize(
+        _param = self._get_ml_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -355,7 +355,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_health_with_http_info(
+    def get_ml_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -396,7 +396,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_health_serialize(
+        _param = self._get_ml_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -417,7 +417,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_health_without_preload_content(
+    def get_ml_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -458,7 +458,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_health_serialize(
+        _param = self._get_ml_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -474,7 +474,7 @@ class MlApi:
         return response_data.response
 
 
-    def _get_v1_ml_health_serialize(
+    def _get_ml_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -528,7 +528,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models(
+    def get_ml_models(
         self,
         _request_timeout: Union[
             None,
@@ -569,7 +569,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_serialize(
+        _param = self._get_ml_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -591,7 +591,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_with_http_info(
+    def get_ml_models_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -632,7 +632,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_serialize(
+        _param = self._get_ml_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -654,7 +654,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_without_preload_content(
+    def get_ml_models_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -695,7 +695,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_serialize(
+        _param = self._get_ml_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -712,7 +712,7 @@ class MlApi:
         return response_data.response
 
 
-    def _get_v1_ml_models_serialize(
+    def _get_ml_models_serialize(
         self,
         _request_auth,
         _content_type,
@@ -773,7 +773,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_by_name(
+    def get_ml_models_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -817,7 +817,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_by_name_serialize(
+        _param = self._get_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -840,7 +840,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_by_name_with_http_info(
+    def get_ml_models_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -884,7 +884,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_by_name_serialize(
+        _param = self._get_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -907,7 +907,7 @@ class MlApi:
 
 
     @validate_call
-    def get_v1_ml_models_by_name_without_preload_content(
+    def get_ml_models_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource to act on, taken from the path. Lower-cased and trimmed to the DNS-1123 label a CustomResource's metadata.name must be.")],
         _request_timeout: Union[
@@ -951,7 +951,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_ml_models_by_name_serialize(
+        _param = self._get_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -969,7 +969,7 @@ class MlApi:
         return response_data.response
 
 
-    def _get_v1_ml_models_by_name_serialize(
+    def _get_ml_models_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -1033,7 +1033,7 @@ class MlApi:
 
 
     @validate_call
-    def patch_v1_ml_models_by_name(
+    def patch_ml_models_by_name(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -1077,7 +1077,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ml_models_by_name_serialize(
+        _param = self._patch_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1099,7 +1099,7 @@ class MlApi:
 
 
     @validate_call
-    def patch_v1_ml_models_by_name_with_http_info(
+    def patch_ml_models_by_name_with_http_info(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -1143,7 +1143,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ml_models_by_name_serialize(
+        _param = self._patch_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1165,7 +1165,7 @@ class MlApi:
 
 
     @validate_call
-    def patch_v1_ml_models_by_name_without_preload_content(
+    def patch_ml_models_by_name_without_preload_content(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -1209,7 +1209,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_ml_models_by_name_serialize(
+        _param = self._patch_ml_models_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1226,7 +1226,7 @@ class MlApi:
         return response_data.response
 
 
-    def _patch_v1_ml_models_by_name_serialize(
+    def _patch_ml_models_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -1283,7 +1283,7 @@ class MlApi:
 
 
     @validate_call
-    def post_v1_ml_models(
+    def post_ml_models(
         self,
         _request_timeout: Union[
             None,
@@ -1324,7 +1324,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ml_models_serialize(
+        _param = self._post_ml_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1345,7 +1345,7 @@ class MlApi:
 
 
     @validate_call
-    def post_v1_ml_models_with_http_info(
+    def post_ml_models_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1386,7 +1386,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ml_models_serialize(
+        _param = self._post_ml_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1407,7 +1407,7 @@ class MlApi:
 
 
     @validate_call
-    def post_v1_ml_models_without_preload_content(
+    def post_ml_models_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1448,7 +1448,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ml_models_serialize(
+        _param = self._post_ml_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1464,7 +1464,7 @@ class MlApi:
         return response_data.response
 
 
-    def _post_v1_ml_models_serialize(
+    def _post_ml_models_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1518,7 +1518,7 @@ class MlApi:
 
 
     @validate_call
-    def post_v1_ml_models_by_name_predict(
+    def post_ml_models_by_name_predict(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -1562,7 +1562,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ml_models_by_name_predict_serialize(
+        _param = self._post_ml_models_by_name_predict_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1584,7 +1584,7 @@ class MlApi:
 
 
     @validate_call
-    def post_v1_ml_models_by_name_predict_with_http_info(
+    def post_ml_models_by_name_predict_with_http_info(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -1628,7 +1628,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ml_models_by_name_predict_serialize(
+        _param = self._post_ml_models_by_name_predict_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1650,7 +1650,7 @@ class MlApi:
 
 
     @validate_call
-    def post_v1_ml_models_by_name_predict_without_preload_content(
+    def post_ml_models_by_name_predict_without_preload_content(
         self,
         name: StrictStr,
         _request_timeout: Union[
@@ -1694,7 +1694,7 @@ class MlApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ml_models_by_name_predict_serialize(
+        _param = self._post_ml_models_by_name_predict_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1711,7 +1711,7 @@ class MlApi:
         return response_data.response
 
 
-    def _post_v1_ml_models_by_name_predict_serialize(
+    def _post_ml_models_by_name_predict_serialize(
         self,
         name,
         _request_auth,

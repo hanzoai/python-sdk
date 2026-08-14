@@ -66,7 +66,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_audiences_by_id(
+    def delete_marketing_audiences_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -110,7 +110,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_audiences_by_id_serialize(
+        _param = self._delete_marketing_audiences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -133,7 +133,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_audiences_by_id_with_http_info(
+    def delete_marketing_audiences_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -177,7 +177,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_audiences_by_id_serialize(
+        _param = self._delete_marketing_audiences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -200,7 +200,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_audiences_by_id_without_preload_content(
+    def delete_marketing_audiences_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -244,7 +244,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_audiences_by_id_serialize(
+        _param = self._delete_marketing_audiences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -262,7 +262,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _delete_v1_marketing_audiences_by_id_serialize(
+    def _delete_marketing_audiences_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -319,7 +319,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_calendar_by_id(
+    def delete_marketing_calendar_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -363,7 +363,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_calendar_by_id_serialize(
+        _param = self._delete_marketing_calendar_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -386,7 +386,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_calendar_by_id_with_http_info(
+    def delete_marketing_calendar_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -430,7 +430,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_calendar_by_id_serialize(
+        _param = self._delete_marketing_calendar_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -453,7 +453,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_calendar_by_id_without_preload_content(
+    def delete_marketing_calendar_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -497,7 +497,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_calendar_by_id_serialize(
+        _param = self._delete_marketing_calendar_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -515,7 +515,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _delete_v1_marketing_calendar_by_id_serialize(
+    def _delete_marketing_calendar_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -572,7 +572,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_campaigns_by_id(
+    def delete_marketing_campaigns_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -616,7 +616,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_campaigns_by_id_serialize(
+        _param = self._delete_marketing_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -639,7 +639,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_campaigns_by_id_with_http_info(
+    def delete_marketing_campaigns_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -683,7 +683,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_campaigns_by_id_serialize(
+        _param = self._delete_marketing_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -706,7 +706,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_campaigns_by_id_without_preload_content(
+    def delete_marketing_campaigns_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -750,7 +750,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_campaigns_by_id_serialize(
+        _param = self._delete_marketing_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -768,7 +768,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _delete_v1_marketing_campaigns_by_id_serialize(
+    def _delete_marketing_campaigns_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -825,7 +825,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_suppressions(
+    def delete_marketing_suppressions(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")] = None,
@@ -878,7 +878,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_suppressions_serialize(
+        _param = self._delete_marketing_suppressions_serialize(
             channel=channel,
             address=address,
             reason=reason,
@@ -904,7 +904,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_suppressions_with_http_info(
+    def delete_marketing_suppressions_with_http_info(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")] = None,
@@ -957,7 +957,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_suppressions_serialize(
+        _param = self._delete_marketing_suppressions_serialize(
             channel=channel,
             address=address,
             reason=reason,
@@ -983,7 +983,7 @@ class MarketingApi:
 
 
     @validate_call
-    def delete_v1_marketing_suppressions_without_preload_content(
+    def delete_marketing_suppressions_without_preload_content(
         self,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface opted out of: email, sms, social, meta, google or tiktok. Empty means email. Opting out of one leaves the others reachable.")] = None,
         address: Annotated[Optional[StrictStr], Field(description="Address is the recipient, normalized (lower-cased, trimmed) so an opt-out cannot be slipped past on a case or whitespace difference. Required.")] = None,
@@ -1036,7 +1036,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_marketing_suppressions_serialize(
+        _param = self._delete_marketing_suppressions_serialize(
             channel=channel,
             address=address,
             reason=reason,
@@ -1057,7 +1057,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _delete_v1_marketing_suppressions_serialize(
+    def _delete_marketing_suppressions_serialize(
         self,
         channel,
         address,
@@ -1131,7 +1131,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences(
+    def get_marketing_audiences(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -1175,7 +1175,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_serialize(
+        _param = self._get_marketing_audiences_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1198,7 +1198,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_with_http_info(
+    def get_marketing_audiences_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -1242,7 +1242,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_serialize(
+        _param = self._get_marketing_audiences_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1265,7 +1265,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_without_preload_content(
+    def get_marketing_audiences_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -1309,7 +1309,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_serialize(
+        _param = self._get_marketing_audiences_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1327,7 +1327,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_audiences_serialize(
+    def _get_marketing_audiences_serialize(
         self,
         limit,
         _request_auth,
@@ -1393,7 +1393,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_by_id(
+    def get_marketing_audiences_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -1437,7 +1437,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_by_id_serialize(
+        _param = self._get_marketing_audiences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1460,7 +1460,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_by_id_with_http_info(
+    def get_marketing_audiences_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -1504,7 +1504,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_by_id_serialize(
+        _param = self._get_marketing_audiences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1527,7 +1527,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_by_id_without_preload_content(
+    def get_marketing_audiences_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -1571,7 +1571,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_by_id_serialize(
+        _param = self._get_marketing_audiences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1589,7 +1589,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_audiences_by_id_serialize(
+    def _get_marketing_audiences_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1653,7 +1653,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_by_id_preview(
+    def get_marketing_audiences_by_id_preview(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -1697,7 +1697,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_by_id_preview_serialize(
+        _param = self._get_marketing_audiences_by_id_preview_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1720,7 +1720,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_by_id_preview_with_http_info(
+    def get_marketing_audiences_by_id_preview_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -1764,7 +1764,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_by_id_preview_serialize(
+        _param = self._get_marketing_audiences_by_id_preview_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1787,7 +1787,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_audiences_by_id_preview_without_preload_content(
+    def get_marketing_audiences_by_id_preview_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the audience id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -1831,7 +1831,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_audiences_by_id_preview_serialize(
+        _param = self._get_marketing_audiences_by_id_preview_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1849,7 +1849,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_audiences_by_id_preview_serialize(
+    def _get_marketing_audiences_by_id_preview_serialize(
         self,
         id,
         _request_auth,
@@ -1913,7 +1913,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_calendar(
+    def get_marketing_calendar(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only posts in that state (draft, scheduled, published, failed, canceled). Empty means every post.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -1960,7 +1960,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_calendar_serialize(
+        _param = self._get_marketing_calendar_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -1984,7 +1984,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_calendar_with_http_info(
+    def get_marketing_calendar_with_http_info(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only posts in that state (draft, scheduled, published, failed, canceled). Empty means every post.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -2031,7 +2031,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_calendar_serialize(
+        _param = self._get_marketing_calendar_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -2055,7 +2055,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_calendar_without_preload_content(
+    def get_marketing_calendar_without_preload_content(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only posts in that state (draft, scheduled, published, failed, canceled). Empty means every post.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -2102,7 +2102,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_calendar_serialize(
+        _param = self._get_marketing_calendar_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -2121,7 +2121,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_calendar_serialize(
+    def _get_marketing_calendar_serialize(
         self,
         status,
         limit,
@@ -2192,7 +2192,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_calendar_by_id(
+    def get_marketing_calendar_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -2236,7 +2236,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_calendar_by_id_serialize(
+        _param = self._get_marketing_calendar_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2259,7 +2259,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_calendar_by_id_with_http_info(
+    def get_marketing_calendar_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -2303,7 +2303,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_calendar_by_id_serialize(
+        _param = self._get_marketing_calendar_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2326,7 +2326,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_calendar_by_id_without_preload_content(
+    def get_marketing_calendar_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -2370,7 +2370,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_calendar_by_id_serialize(
+        _param = self._get_marketing_calendar_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2388,7 +2388,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_calendar_by_id_serialize(
+    def _get_marketing_calendar_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2452,7 +2452,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_campaigns(
+    def get_marketing_campaigns(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only campaigns in that lifecycle state (draft, scheduled, active, paused, completed). Empty means every campaign.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -2499,7 +2499,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_campaigns_serialize(
+        _param = self._get_marketing_campaigns_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -2523,7 +2523,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_campaigns_with_http_info(
+    def get_marketing_campaigns_with_http_info(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only campaigns in that lifecycle state (draft, scheduled, active, paused, completed). Empty means every campaign.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -2570,7 +2570,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_campaigns_serialize(
+        _param = self._get_marketing_campaigns_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -2594,7 +2594,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_campaigns_without_preload_content(
+    def get_marketing_campaigns_without_preload_content(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only campaigns in that lifecycle state (draft, scheduled, active, paused, completed). Empty means every campaign.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -2641,7 +2641,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_campaigns_serialize(
+        _param = self._get_marketing_campaigns_serialize(
             status=status,
             limit=limit,
             _request_auth=_request_auth,
@@ -2660,7 +2660,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_campaigns_serialize(
+    def _get_marketing_campaigns_serialize(
         self,
         status,
         limit,
@@ -2731,7 +2731,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_campaigns_by_id(
+    def get_marketing_campaigns_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -2775,7 +2775,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_campaigns_by_id_serialize(
+        _param = self._get_marketing_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2798,7 +2798,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_campaigns_by_id_with_http_info(
+    def get_marketing_campaigns_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -2842,7 +2842,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_campaigns_by_id_serialize(
+        _param = self._get_marketing_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2865,7 +2865,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_campaigns_by_id_without_preload_content(
+    def get_marketing_campaigns_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -2909,7 +2909,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_campaigns_by_id_serialize(
+        _param = self._get_marketing_campaigns_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2927,7 +2927,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_campaigns_by_id_serialize(
+    def _get_marketing_campaigns_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2991,7 +2991,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos(
+    def get_marketing_promos(
         self,
         _request_timeout: Union[
             None,
@@ -3032,7 +3032,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_serialize(
+        _param = self._get_marketing_promos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3054,7 +3054,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_with_http_info(
+    def get_marketing_promos_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -3095,7 +3095,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_serialize(
+        _param = self._get_marketing_promos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3117,7 +3117,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_without_preload_content(
+    def get_marketing_promos_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -3158,7 +3158,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_serialize(
+        _param = self._get_marketing_promos_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3175,7 +3175,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_promos_serialize(
+    def _get_marketing_promos_serialize(
         self,
         _request_auth,
         _content_type,
@@ -3236,7 +3236,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_by_code_eligibility(
+    def get_marketing_promos_by_code_eligibility(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
         plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan being priced: pro, max or team. Anything else (including the free Developer plan) has no list price and so nothing to discount.")] = None,
@@ -3286,7 +3286,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_by_code_eligibility_serialize(
+        _param = self._get_marketing_promos_by_code_eligibility_serialize(
             code=code,
             plan=plan,
             seats=seats,
@@ -3311,7 +3311,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_by_code_eligibility_with_http_info(
+    def get_marketing_promos_by_code_eligibility_with_http_info(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
         plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan being priced: pro, max or team. Anything else (including the free Developer plan) has no list price and so nothing to discount.")] = None,
@@ -3361,7 +3361,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_by_code_eligibility_serialize(
+        _param = self._get_marketing_promos_by_code_eligibility_serialize(
             code=code,
             plan=plan,
             seats=seats,
@@ -3386,7 +3386,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_by_code_eligibility_without_preload_content(
+    def get_marketing_promos_by_code_eligibility_without_preload_content(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
         plan: Annotated[Optional[StrictStr], Field(description="Plan is the plan being priced: pro, max or team. Anything else (including the free Developer plan) has no list price and so nothing to discount.")] = None,
@@ -3436,7 +3436,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_by_code_eligibility_serialize(
+        _param = self._get_marketing_promos_by_code_eligibility_serialize(
             code=code,
             plan=plan,
             seats=seats,
@@ -3456,7 +3456,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_promos_by_code_eligibility_serialize(
+    def _get_marketing_promos_by_code_eligibility_serialize(
         self,
         code,
         plan,
@@ -3530,7 +3530,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_by_code_redemption(
+    def get_marketing_promos_by_code_redemption(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path, e.g. \"first1000\".")],
         _request_timeout: Union[
@@ -3574,7 +3574,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_by_code_redemption_serialize(
+        _param = self._get_marketing_promos_by_code_redemption_serialize(
             code=code,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3597,7 +3597,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_by_code_redemption_with_http_info(
+    def get_marketing_promos_by_code_redemption_with_http_info(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path, e.g. \"first1000\".")],
         _request_timeout: Union[
@@ -3641,7 +3641,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_by_code_redemption_serialize(
+        _param = self._get_marketing_promos_by_code_redemption_serialize(
             code=code,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3664,7 +3664,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_promos_by_code_redemption_without_preload_content(
+    def get_marketing_promos_by_code_redemption_without_preload_content(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path, e.g. \"first1000\".")],
         _request_timeout: Union[
@@ -3708,7 +3708,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_promos_by_code_redemption_serialize(
+        _param = self._get_marketing_promos_by_code_redemption_serialize(
             code=code,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3726,7 +3726,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_promos_by_code_redemption_serialize(
+    def _get_marketing_promos_by_code_redemption_serialize(
         self,
         code,
         _request_auth,
@@ -3790,7 +3790,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences(
+    def get_marketing_sequences(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -3834,7 +3834,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_serialize(
+        _param = self._get_marketing_sequences_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3857,7 +3857,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_with_http_info(
+    def get_marketing_sequences_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -3901,7 +3901,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_serialize(
+        _param = self._get_marketing_sequences_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3924,7 +3924,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_without_preload_content(
+    def get_marketing_sequences_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -3968,7 +3968,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_serialize(
+        _param = self._get_marketing_sequences_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3986,7 +3986,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_sequences_serialize(
+    def _get_marketing_sequences_serialize(
         self,
         limit,
         _request_auth,
@@ -4052,7 +4052,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id(
+    def get_marketing_sequences_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -4096,7 +4096,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_serialize(
+        _param = self._get_marketing_sequences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4119,7 +4119,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_with_http_info(
+    def get_marketing_sequences_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -4163,7 +4163,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_serialize(
+        _param = self._get_marketing_sequences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4186,7 +4186,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_without_preload_content(
+    def get_marketing_sequences_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -4230,7 +4230,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_serialize(
+        _param = self._get_marketing_sequences_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4248,7 +4248,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_sequences_by_id_serialize(
+    def _get_marketing_sequences_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -4312,7 +4312,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_enrollments(
+    def get_marketing_sequences_by_id_enrollments(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -4359,7 +4359,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_enrollments_serialize(
+        _param = self._get_marketing_sequences_by_id_enrollments_serialize(
             id=id,
             limit=limit,
             _request_auth=_request_auth,
@@ -4383,7 +4383,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_enrollments_with_http_info(
+    def get_marketing_sequences_by_id_enrollments_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -4430,7 +4430,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_enrollments_serialize(
+        _param = self._get_marketing_sequences_by_id_enrollments_serialize(
             id=id,
             limit=limit,
             _request_auth=_request_auth,
@@ -4454,7 +4454,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_enrollments_without_preload_content(
+    def get_marketing_sequences_by_id_enrollments_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
@@ -4501,7 +4501,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_enrollments_serialize(
+        _param = self._get_marketing_sequences_by_id_enrollments_serialize(
             id=id,
             limit=limit,
             _request_auth=_request_auth,
@@ -4520,7 +4520,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_sequences_by_id_enrollments_serialize(
+    def _get_marketing_sequences_by_id_enrollments_serialize(
         self,
         id,
         limit,
@@ -4589,7 +4589,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_steps(
+    def get_marketing_sequences_by_id_steps(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -4633,7 +4633,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_steps_serialize(
+        _param = self._get_marketing_sequences_by_id_steps_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4656,7 +4656,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_steps_with_http_info(
+    def get_marketing_sequences_by_id_steps_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -4700,7 +4700,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_steps_serialize(
+        _param = self._get_marketing_sequences_by_id_steps_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4723,7 +4723,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_sequences_by_id_steps_without_preload_content(
+    def get_marketing_sequences_by_id_steps_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -4767,7 +4767,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_sequences_by_id_steps_serialize(
+        _param = self._get_marketing_sequences_by_id_steps_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4785,7 +4785,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_sequences_by_id_steps_serialize(
+    def _get_marketing_sequences_by_id_steps_serialize(
         self,
         id,
         _request_auth,
@@ -4849,7 +4849,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_summary(
+    def get_marketing_summary(
         self,
         _request_timeout: Union[
             None,
@@ -4890,7 +4890,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_summary_serialize(
+        _param = self._get_marketing_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4912,7 +4912,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_summary_with_http_info(
+    def get_marketing_summary_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4953,7 +4953,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_summary_serialize(
+        _param = self._get_marketing_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4975,7 +4975,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_summary_without_preload_content(
+    def get_marketing_summary_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5016,7 +5016,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_summary_serialize(
+        _param = self._get_marketing_summary_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5033,7 +5033,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_summary_serialize(
+    def _get_marketing_summary_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5094,7 +5094,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_suppressions(
+    def get_marketing_suppressions(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -5138,7 +5138,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_suppressions_serialize(
+        _param = self._get_marketing_suppressions_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5161,7 +5161,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_suppressions_with_http_info(
+    def get_marketing_suppressions_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -5205,7 +5205,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_suppressions_serialize(
+        _param = self._get_marketing_suppressions_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5228,7 +5228,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_suppressions_without_preload_content(
+    def get_marketing_suppressions_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; 0 means 200 and nothing above 1000 is honoured.")] = None,
         _request_timeout: Union[
@@ -5272,7 +5272,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_suppressions_serialize(
+        _param = self._get_marketing_suppressions_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5290,7 +5290,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_suppressions_serialize(
+    def _get_marketing_suppressions_serialize(
         self,
         limit,
         _request_auth,
@@ -5356,7 +5356,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_unsubscribe(
+    def get_marketing_unsubscribe(
         self,
         org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
@@ -5409,7 +5409,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_unsubscribe_serialize(
+        _param = self._get_marketing_unsubscribe_serialize(
             org=org,
             channel=channel,
             address=address,
@@ -5435,7 +5435,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_unsubscribe_with_http_info(
+    def get_marketing_unsubscribe_with_http_info(
         self,
         org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
@@ -5488,7 +5488,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_unsubscribe_serialize(
+        _param = self._get_marketing_unsubscribe_serialize(
             org=org,
             channel=channel,
             address=address,
@@ -5514,7 +5514,7 @@ class MarketingApi:
 
 
     @validate_call
-    def get_v1_marketing_unsubscribe_without_preload_content(
+    def get_marketing_unsubscribe_without_preload_content(
         self,
         org: Annotated[Optional[StrictStr], Field(description="Org is the org the link was minted for.")] = None,
         channel: Annotated[Optional[StrictStr], Field(description="Channel is the surface to opt out of.")] = None,
@@ -5567,7 +5567,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_marketing_unsubscribe_serialize(
+        _param = self._get_marketing_unsubscribe_serialize(
             org=org,
             channel=channel,
             address=address,
@@ -5588,7 +5588,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _get_v1_marketing_unsubscribe_serialize(
+    def _get_marketing_unsubscribe_serialize(
         self,
         org,
         channel,
@@ -5669,7 +5669,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_audiences(
+    def post_marketing_audiences(
         self,
         audience: Audience,
         _request_timeout: Union[
@@ -5713,7 +5713,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_audiences_serialize(
+        _param = self._post_marketing_audiences_serialize(
             audience=audience,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5736,7 +5736,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_audiences_with_http_info(
+    def post_marketing_audiences_with_http_info(
         self,
         audience: Audience,
         _request_timeout: Union[
@@ -5780,7 +5780,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_audiences_serialize(
+        _param = self._post_marketing_audiences_serialize(
             audience=audience,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5803,7 +5803,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_audiences_without_preload_content(
+    def post_marketing_audiences_without_preload_content(
         self,
         audience: Audience,
         _request_timeout: Union[
@@ -5847,7 +5847,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_audiences_serialize(
+        _param = self._post_marketing_audiences_serialize(
             audience=audience,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5865,7 +5865,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_audiences_serialize(
+    def _post_marketing_audiences_serialize(
         self,
         audience,
         _request_auth,
@@ -5942,7 +5942,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_calendar(
+    def post_marketing_calendar(
         self,
         calendar_post: CalendarPost,
         _request_timeout: Union[
@@ -5986,7 +5986,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_calendar_serialize(
+        _param = self._post_marketing_calendar_serialize(
             calendar_post=calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6009,7 +6009,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_calendar_with_http_info(
+    def post_marketing_calendar_with_http_info(
         self,
         calendar_post: CalendarPost,
         _request_timeout: Union[
@@ -6053,7 +6053,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_calendar_serialize(
+        _param = self._post_marketing_calendar_serialize(
             calendar_post=calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6076,7 +6076,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_calendar_without_preload_content(
+    def post_marketing_calendar_without_preload_content(
         self,
         calendar_post: CalendarPost,
         _request_timeout: Union[
@@ -6120,7 +6120,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_calendar_serialize(
+        _param = self._post_marketing_calendar_serialize(
             calendar_post=calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6138,7 +6138,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_calendar_serialize(
+    def _post_marketing_calendar_serialize(
         self,
         calendar_post,
         _request_auth,
@@ -6215,7 +6215,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_calendar_by_id_publish(
+    def post_marketing_calendar_by_id_publish(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -6259,7 +6259,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_calendar_by_id_publish_serialize(
+        _param = self._post_marketing_calendar_by_id_publish_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6282,7 +6282,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_calendar_by_id_publish_with_http_info(
+    def post_marketing_calendar_by_id_publish_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -6326,7 +6326,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_calendar_by_id_publish_serialize(
+        _param = self._post_marketing_calendar_by_id_publish_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6349,7 +6349,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_calendar_by_id_publish_without_preload_content(
+    def post_marketing_calendar_by_id_publish_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
         _request_timeout: Union[
@@ -6393,7 +6393,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_calendar_by_id_publish_serialize(
+        _param = self._post_marketing_calendar_by_id_publish_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6411,7 +6411,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_calendar_by_id_publish_serialize(
+    def _post_marketing_calendar_by_id_publish_serialize(
         self,
         id,
         _request_auth,
@@ -6475,7 +6475,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_campaigns(
+    def post_marketing_campaigns(
         self,
         campaign: Campaign,
         _request_timeout: Union[
@@ -6519,7 +6519,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_campaigns_serialize(
+        _param = self._post_marketing_campaigns_serialize(
             campaign=campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6542,7 +6542,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_campaigns_with_http_info(
+    def post_marketing_campaigns_with_http_info(
         self,
         campaign: Campaign,
         _request_timeout: Union[
@@ -6586,7 +6586,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_campaigns_serialize(
+        _param = self._post_marketing_campaigns_serialize(
             campaign=campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6609,7 +6609,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_campaigns_without_preload_content(
+    def post_marketing_campaigns_without_preload_content(
         self,
         campaign: Campaign,
         _request_timeout: Union[
@@ -6653,7 +6653,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_campaigns_serialize(
+        _param = self._post_marketing_campaigns_serialize(
             campaign=campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6671,7 +6671,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_campaigns_serialize(
+    def _post_marketing_campaigns_serialize(
         self,
         campaign,
         _request_auth,
@@ -6748,7 +6748,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_campaigns_by_id_schedule(
+    def post_marketing_campaigns_by_id_schedule(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path.")],
         schedule_input: ScheduleInput,
@@ -6795,7 +6795,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_campaigns_by_id_schedule_serialize(
+        _param = self._post_marketing_campaigns_by_id_schedule_serialize(
             id=id,
             schedule_input=schedule_input,
             _request_auth=_request_auth,
@@ -6819,7 +6819,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_campaigns_by_id_schedule_with_http_info(
+    def post_marketing_campaigns_by_id_schedule_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path.")],
         schedule_input: ScheduleInput,
@@ -6866,7 +6866,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_campaigns_by_id_schedule_serialize(
+        _param = self._post_marketing_campaigns_by_id_schedule_serialize(
             id=id,
             schedule_input=schedule_input,
             _request_auth=_request_auth,
@@ -6890,7 +6890,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_campaigns_by_id_schedule_without_preload_content(
+    def post_marketing_campaigns_by_id_schedule_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path.")],
         schedule_input: ScheduleInput,
@@ -6937,7 +6937,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_campaigns_by_id_schedule_serialize(
+        _param = self._post_marketing_campaigns_by_id_schedule_serialize(
             id=id,
             schedule_input=schedule_input,
             _request_auth=_request_auth,
@@ -6956,7 +6956,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_campaigns_by_id_schedule_serialize(
+    def _post_marketing_campaigns_by_id_schedule_serialize(
         self,
         id,
         schedule_input,
@@ -7036,7 +7036,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_promos_by_code_redeem(
+    def post_marketing_promos_by_code_redeem(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
         redeem_input: RedeemInput,
@@ -7083,7 +7083,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_promos_by_code_redeem_serialize(
+        _param = self._post_marketing_promos_by_code_redeem_serialize(
             code=code,
             redeem_input=redeem_input,
             _request_auth=_request_auth,
@@ -7107,7 +7107,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_promos_by_code_redeem_with_http_info(
+    def post_marketing_promos_by_code_redeem_with_http_info(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
         redeem_input: RedeemInput,
@@ -7154,7 +7154,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_promos_by_code_redeem_serialize(
+        _param = self._post_marketing_promos_by_code_redeem_serialize(
             code=code,
             redeem_input=redeem_input,
             _request_auth=_request_auth,
@@ -7178,7 +7178,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_promos_by_code_redeem_without_preload_content(
+    def post_marketing_promos_by_code_redeem_without_preload_content(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
         redeem_input: RedeemInput,
@@ -7225,7 +7225,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_promos_by_code_redeem_serialize(
+        _param = self._post_marketing_promos_by_code_redeem_serialize(
             code=code,
             redeem_input=redeem_input,
             _request_auth=_request_auth,
@@ -7244,7 +7244,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_promos_by_code_redeem_serialize(
+    def _post_marketing_promos_by_code_redeem_serialize(
         self,
         code,
         redeem_input,
@@ -7324,7 +7324,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences(
+    def post_marketing_sequences(
         self,
         sequence: Sequence,
         _request_timeout: Union[
@@ -7368,7 +7368,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_serialize(
+        _param = self._post_marketing_sequences_serialize(
             sequence=sequence,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7391,7 +7391,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_with_http_info(
+    def post_marketing_sequences_with_http_info(
         self,
         sequence: Sequence,
         _request_timeout: Union[
@@ -7435,7 +7435,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_serialize(
+        _param = self._post_marketing_sequences_serialize(
             sequence=sequence,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7458,7 +7458,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_without_preload_content(
+    def post_marketing_sequences_without_preload_content(
         self,
         sequence: Sequence,
         _request_timeout: Union[
@@ -7502,7 +7502,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_serialize(
+        _param = self._post_marketing_sequences_serialize(
             sequence=sequence,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -7520,7 +7520,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_sequences_serialize(
+    def _post_marketing_sequences_serialize(
         self,
         sequence,
         _request_auth,
@@ -7597,7 +7597,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_enroll(
+    def post_marketing_sequences_by_id_enroll(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         enroll_input: EnrollInput,
@@ -7644,7 +7644,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_enroll_serialize(
+        _param = self._post_marketing_sequences_by_id_enroll_serialize(
             id=id,
             enroll_input=enroll_input,
             _request_auth=_request_auth,
@@ -7668,7 +7668,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_enroll_with_http_info(
+    def post_marketing_sequences_by_id_enroll_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         enroll_input: EnrollInput,
@@ -7715,7 +7715,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_enroll_serialize(
+        _param = self._post_marketing_sequences_by_id_enroll_serialize(
             id=id,
             enroll_input=enroll_input,
             _request_auth=_request_auth,
@@ -7739,7 +7739,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_enroll_without_preload_content(
+    def post_marketing_sequences_by_id_enroll_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         enroll_input: EnrollInput,
@@ -7786,7 +7786,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_enroll_serialize(
+        _param = self._post_marketing_sequences_by_id_enroll_serialize(
             id=id,
             enroll_input=enroll_input,
             _request_auth=_request_auth,
@@ -7805,7 +7805,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_sequences_by_id_enroll_serialize(
+    def _post_marketing_sequences_by_id_enroll_serialize(
         self,
         id,
         enroll_input,
@@ -7885,7 +7885,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel(
+    def post_marketing_sequences_by_id_enrollments_by_eid_cancel(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         eid: Annotated[StrictStr, Field(description="EID is the enrollment id from the path, as returned by a single-address enroll.")],
@@ -7932,7 +7932,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
+        _param = self._post_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
             id=id,
             eid=eid,
             _request_auth=_request_auth,
@@ -7956,7 +7956,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel_with_http_info(
+    def post_marketing_sequences_by_id_enrollments_by_eid_cancel_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         eid: Annotated[StrictStr, Field(description="EID is the enrollment id from the path, as returned by a single-address enroll.")],
@@ -8003,7 +8003,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
+        _param = self._post_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
             id=id,
             eid=eid,
             _request_auth=_request_auth,
@@ -8027,7 +8027,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel_without_preload_content(
+    def post_marketing_sequences_by_id_enrollments_by_eid_cancel_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         eid: Annotated[StrictStr, Field(description="EID is the enrollment id from the path, as returned by a single-address enroll.")],
@@ -8074,7 +8074,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
+        _param = self._post_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
             id=id,
             eid=eid,
             _request_auth=_request_auth,
@@ -8093,7 +8093,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
+    def _post_marketing_sequences_by_id_enrollments_by_eid_cancel_serialize(
         self,
         id,
         eid,
@@ -8153,7 +8153,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_status(
+    def post_marketing_sequences_by_id_status(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         sequence_status: SequenceStatus,
@@ -8200,7 +8200,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_status_serialize(
+        _param = self._post_marketing_sequences_by_id_status_serialize(
             id=id,
             sequence_status=sequence_status,
             _request_auth=_request_auth,
@@ -8224,7 +8224,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_status_with_http_info(
+    def post_marketing_sequences_by_id_status_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         sequence_status: SequenceStatus,
@@ -8271,7 +8271,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_status_serialize(
+        _param = self._post_marketing_sequences_by_id_status_serialize(
             id=id,
             sequence_status=sequence_status,
             _request_auth=_request_auth,
@@ -8295,7 +8295,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_status_without_preload_content(
+    def post_marketing_sequences_by_id_status_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
         sequence_status: SequenceStatus,
@@ -8342,7 +8342,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_status_serialize(
+        _param = self._post_marketing_sequences_by_id_status_serialize(
             id=id,
             sequence_status=sequence_status,
             _request_auth=_request_auth,
@@ -8361,7 +8361,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_sequences_by_id_status_serialize(
+    def _post_marketing_sequences_by_id_status_serialize(
         self,
         id,
         sequence_status,
@@ -8441,7 +8441,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_steps(
+    def post_marketing_sequences_by_id_steps(
         self,
         id: Annotated[StrictStr, Field(description="SequenceID is the sequence id from the path (the route's :id).")],
         step_input: StepInput,
@@ -8488,7 +8488,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_steps_serialize(
+        _param = self._post_marketing_sequences_by_id_steps_serialize(
             id=id,
             step_input=step_input,
             _request_auth=_request_auth,
@@ -8512,7 +8512,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_steps_with_http_info(
+    def post_marketing_sequences_by_id_steps_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="SequenceID is the sequence id from the path (the route's :id).")],
         step_input: StepInput,
@@ -8559,7 +8559,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_steps_serialize(
+        _param = self._post_marketing_sequences_by_id_steps_serialize(
             id=id,
             step_input=step_input,
             _request_auth=_request_auth,
@@ -8583,7 +8583,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_sequences_by_id_steps_without_preload_content(
+    def post_marketing_sequences_by_id_steps_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="SequenceID is the sequence id from the path (the route's :id).")],
         step_input: StepInput,
@@ -8630,7 +8630,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_sequences_by_id_steps_serialize(
+        _param = self._post_marketing_sequences_by_id_steps_serialize(
             id=id,
             step_input=step_input,
             _request_auth=_request_auth,
@@ -8649,7 +8649,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_sequences_by_id_steps_serialize(
+    def _post_marketing_sequences_by_id_steps_serialize(
         self,
         id,
         step_input,
@@ -8729,7 +8729,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_suppressions(
+    def post_marketing_suppressions(
         self,
         suppression: Suppression,
         _request_timeout: Union[
@@ -8773,7 +8773,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_suppressions_serialize(
+        _param = self._post_marketing_suppressions_serialize(
             suppression=suppression,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8796,7 +8796,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_suppressions_with_http_info(
+    def post_marketing_suppressions_with_http_info(
         self,
         suppression: Suppression,
         _request_timeout: Union[
@@ -8840,7 +8840,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_suppressions_serialize(
+        _param = self._post_marketing_suppressions_serialize(
             suppression=suppression,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8863,7 +8863,7 @@ class MarketingApi:
 
 
     @validate_call
-    def post_v1_marketing_suppressions_without_preload_content(
+    def post_marketing_suppressions_without_preload_content(
         self,
         suppression: Suppression,
         _request_timeout: Union[
@@ -8907,7 +8907,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_marketing_suppressions_serialize(
+        _param = self._post_marketing_suppressions_serialize(
             suppression=suppression,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -8925,7 +8925,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _post_v1_marketing_suppressions_serialize(
+    def _post_marketing_suppressions_serialize(
         self,
         suppression,
         _request_auth,
@@ -9002,7 +9002,7 @@ class MarketingApi:
 
 
     @validate_call
-    def put_v1_marketing_calendar_by_id(
+    def put_marketing_calendar_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned post id (\"cal_\" + 128 random bits).")],
         calendar_post: CalendarPost,
@@ -9049,7 +9049,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_marketing_calendar_by_id_serialize(
+        _param = self._put_marketing_calendar_by_id_serialize(
             id=id,
             calendar_post=calendar_post,
             _request_auth=_request_auth,
@@ -9073,7 +9073,7 @@ class MarketingApi:
 
 
     @validate_call
-    def put_v1_marketing_calendar_by_id_with_http_info(
+    def put_marketing_calendar_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned post id (\"cal_\" + 128 random bits).")],
         calendar_post: CalendarPost,
@@ -9120,7 +9120,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_marketing_calendar_by_id_serialize(
+        _param = self._put_marketing_calendar_by_id_serialize(
             id=id,
             calendar_post=calendar_post,
             _request_auth=_request_auth,
@@ -9144,7 +9144,7 @@ class MarketingApi:
 
 
     @validate_call
-    def put_v1_marketing_calendar_by_id_without_preload_content(
+    def put_marketing_calendar_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned post id (\"cal_\" + 128 random bits).")],
         calendar_post: CalendarPost,
@@ -9191,7 +9191,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_marketing_calendar_by_id_serialize(
+        _param = self._put_marketing_calendar_by_id_serialize(
             id=id,
             calendar_post=calendar_post,
             _request_auth=_request_auth,
@@ -9210,7 +9210,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _put_v1_marketing_calendar_by_id_serialize(
+    def _put_marketing_calendar_by_id_serialize(
         self,
         id,
         calendar_post,
@@ -9290,7 +9290,7 @@ class MarketingApi:
 
 
     @validate_call
-    def put_v1_marketing_campaigns_by_id(
+    def put_marketing_campaigns_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned campaign id (\"camp_\" + 128 random bits).")],
         campaign: Campaign,
@@ -9337,7 +9337,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_marketing_campaigns_by_id_serialize(
+        _param = self._put_marketing_campaigns_by_id_serialize(
             id=id,
             campaign=campaign,
             _request_auth=_request_auth,
@@ -9361,7 +9361,7 @@ class MarketingApi:
 
 
     @validate_call
-    def put_v1_marketing_campaigns_by_id_with_http_info(
+    def put_marketing_campaigns_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned campaign id (\"camp_\" + 128 random bits).")],
         campaign: Campaign,
@@ -9408,7 +9408,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_marketing_campaigns_by_id_serialize(
+        _param = self._put_marketing_campaigns_by_id_serialize(
             id=id,
             campaign=campaign,
             _request_auth=_request_auth,
@@ -9432,7 +9432,7 @@ class MarketingApi:
 
 
     @validate_call
-    def put_v1_marketing_campaigns_by_id_without_preload_content(
+    def put_marketing_campaigns_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned campaign id (\"camp_\" + 128 random bits).")],
         campaign: Campaign,
@@ -9479,7 +9479,7 @@ class MarketingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_marketing_campaigns_by_id_serialize(
+        _param = self._put_marketing_campaigns_by_id_serialize(
             id=id,
             campaign=campaign,
             _request_auth=_request_auth,
@@ -9498,7 +9498,7 @@ class MarketingApi:
         return response_data.response
 
 
-    def _put_v1_marketing_campaigns_by_id_serialize(
+    def _put_marketing_campaigns_by_id_serialize(
         self,
         id,
         campaign,

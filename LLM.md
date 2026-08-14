@@ -64,15 +64,16 @@ the document by value:
 cd ~/work/hanzo/openapi && uv run --with pyyaml python3 generate.py python \
   --repo ~/work/hanzo/python-sdk --spec ~/work/hanzo/cloud/openapi.yaml
 ```
-Current `pkg/hanzoai/cloud/` is **1700 paths / 2354 operations / 2186 schemas** →
-182 api modules + 2172 model modules.
+Current `pkg/hanzoai/cloud/` is **1813 paths / 2479 operations** → 192 api
+modules + 2460 model modules.
 
 **Two renamings arrived with the lineage, and neither is a defect to undo.**
 IAM's types are namespace-qualified — `iam.Role`, `iam.Application`, 95 of them
 — because a bare `Role` had been two unrelated shapes under one name (IAM's
 14-property role, and a 2-property `{role, user}` row from another service).
 Both exist now and each says which it is. And the `<svc>_` operationId prefix is
-gone, so every method lost it: `cloud_get_v1_tools` → `get_v1_tools`,
+gone, so every method lost it: `cloud_get_v1_tools` → `get_v1_tools` → `get_tools` (the default version
+left the id at 3.2.10; the wire never carried it),
 `AIApi`/`APIKeysApi`/`MCPApi` → `AiApi`/`KeysApi`/`McpApi`,
 `AdminApi.plugin_admin_plugins` → `admin_plugins`.
 `pkg/hanzoai/cloud/` is **generated — never hand-edit it.** `generate.py` does

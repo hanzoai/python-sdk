@@ -48,7 +48,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def delete_v1_sandboxes_by_id(
+    def delete_sandboxes_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -92,7 +92,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sandboxes_by_id_serialize(
+        _param = self._delete_sandboxes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -114,7 +114,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def delete_v1_sandboxes_by_id_with_http_info(
+    def delete_sandboxes_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -158,7 +158,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sandboxes_by_id_serialize(
+        _param = self._delete_sandboxes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -180,7 +180,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def delete_v1_sandboxes_by_id_without_preload_content(
+    def delete_sandboxes_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -224,7 +224,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_sandboxes_by_id_serialize(
+        _param = self._delete_sandboxes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -241,7 +241,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _delete_v1_sandboxes_by_id_serialize(
+    def _delete_sandboxes_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -564,7 +564,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes(
+    def get_sandboxes(
         self,
         _request_timeout: Union[
             None,
@@ -605,7 +605,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_serialize(
+        _param = self._get_sandboxes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -626,7 +626,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_with_http_info(
+    def get_sandboxes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -667,7 +667,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_serialize(
+        _param = self._get_sandboxes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -688,7 +688,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_without_preload_content(
+    def get_sandboxes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -729,7 +729,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_serialize(
+        _param = self._get_sandboxes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -745,7 +745,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _get_v1_sandboxes_serialize(
+    def _get_sandboxes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -799,7 +799,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id(
+    def get_sandboxes_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -843,7 +843,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_serialize(
+        _param = self._get_sandboxes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -865,7 +865,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_with_http_info(
+    def get_sandboxes_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -909,7 +909,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_serialize(
+        _param = self._get_sandboxes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -931,7 +931,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_without_preload_content(
+    def get_sandboxes_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -975,7 +975,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_serialize(
+        _param = self._get_sandboxes_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -992,7 +992,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _get_v1_sandboxes_by_id_serialize(
+    def _get_sandboxes_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -1049,7 +1049,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_fs(
+    def get_sandboxes_by_id_fs(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1093,7 +1093,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_fs_serialize(
+        _param = self._get_sandboxes_by_id_fs_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1115,7 +1115,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_fs_with_http_info(
+    def get_sandboxes_by_id_fs_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1159,7 +1159,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_fs_serialize(
+        _param = self._get_sandboxes_by_id_fs_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1181,7 +1181,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_fs_without_preload_content(
+    def get_sandboxes_by_id_fs_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1225,7 +1225,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_fs_serialize(
+        _param = self._get_sandboxes_by_id_fs_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1242,7 +1242,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _get_v1_sandboxes_by_id_fs_serialize(
+    def _get_sandboxes_by_id_fs_serialize(
         self,
         id,
         _request_auth,
@@ -1299,7 +1299,507 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_terminal(
+    def get_sandboxes_by_id_screen(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """The screen, as a page
+
+        A complete, self-contained desktop — noVNC inline, no other origin — that opens its own socket and draws this sandbox's display. Embed it in an iframe and there is nothing else to build.  `ticket` is the credential from the POST above, carried through to the socket. The page is NOT gated: it is inert markup and does not redeem the ticket, because a ticket is spent once and a page that spent it would hold a credential that no longer opens anything. `frame-ancestors` admits our own brands' hosts and nothing further.  It is served for every class, not only for `desktop`. The class is a fact about the image, and a sandbox with no VNC server already fails exactly — the connection is refused and the page says so — where a check here would be a second opinion about what is running inside a pod, formed from a label rather than from the pod.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_sandboxes_by_id_screen_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_sandboxes_by_id_screen_with_http_info(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """The screen, as a page
+
+        A complete, self-contained desktop — noVNC inline, no other origin — that opens its own socket and draws this sandbox's display. Embed it in an iframe and there is nothing else to build.  `ticket` is the credential from the POST above, carried through to the socket. The page is NOT gated: it is inert markup and does not redeem the ticket, because a ticket is spent once and a page that spent it would hold a credential that no longer opens anything. `frame-ancestors` admits our own brands' hosts and nothing further.  It is served for every class, not only for `desktop`. The class is a fact about the image, and a sandbox with no VNC server already fails exactly — the connection is refused and the page says so — where a check here would be a second opinion about what is running inside a pod, formed from a label rather than from the pod.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_sandboxes_by_id_screen_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_sandboxes_by_id_screen_without_preload_content(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """The screen, as a page
+
+        A complete, self-contained desktop — noVNC inline, no other origin — that opens its own socket and draws this sandbox's display. Embed it in an iframe and there is nothing else to build.  `ticket` is the credential from the POST above, carried through to the socket. The page is NOT gated: it is inert markup and does not redeem the ticket, because a ticket is spent once and a page that spent it would hold a credential that no longer opens anything. `frame-ancestors` admits our own brands' hosts and nothing further.  It is served for every class, not only for `desktop`. The class is a fact about the image, and a sandbox with no VNC server already fails exactly — the connection is refused and the page says so — where a check here would be a second opinion about what is running inside a pod, formed from a label rather than from the pod.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_sandboxes_by_id_screen_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_sandboxes_by_id_screen_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/sandboxes/{id}/screen',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_sandboxes_by_id_screen_ws(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """The screen, as a socket
+
+        Upgrades to a WebSocket carrying RFB — the VNC wire protocol — from the sandbox's display, for a host that brings its own client. Requires `ticket`; a missing, expired or already-spent one answers 401 without upgrading.  THE WIRE IS RFB, in BINARY frames both ways, and it is not interpreted here: this is a pipe between the caller's client and the server inside the pod.  THE PIXELS COME OUT THROUGH THE EXEC CHANNEL. The display binds 127.0.0.1 only and deliberately nothing else, so there is no address to dial — `socat` joins the stream to that loopback port over the same Kubernetes exec subresource every other call into a sandbox uses. One way in, one thing to authorize, nothing further exposed.  The window size is ignored. A browser pane is not the X server's geometry, and the client scales what it is given rather than asking a server with no RandR to resize itself.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_sandboxes_by_id_screen_ws_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_sandboxes_by_id_screen_ws_with_http_info(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """The screen, as a socket
+
+        Upgrades to a WebSocket carrying RFB — the VNC wire protocol — from the sandbox's display, for a host that brings its own client. Requires `ticket`; a missing, expired or already-spent one answers 401 without upgrading.  THE WIRE IS RFB, in BINARY frames both ways, and it is not interpreted here: this is a pipe between the caller's client and the server inside the pod.  THE PIXELS COME OUT THROUGH THE EXEC CHANNEL. The display binds 127.0.0.1 only and deliberately nothing else, so there is no address to dial — `socat` joins the stream to that loopback port over the same Kubernetes exec subresource every other call into a sandbox uses. One way in, one thing to authorize, nothing further exposed.  The window size is ignored. A browser pane is not the X server's geometry, and the client scales what it is given rather than asking a server with no RandR to resize itself.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_sandboxes_by_id_screen_ws_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_sandboxes_by_id_screen_ws_without_preload_content(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """The screen, as a socket
+
+        Upgrades to a WebSocket carrying RFB — the VNC wire protocol — from the sandbox's display, for a host that brings its own client. Requires `ticket`; a missing, expired or already-spent one answers 401 without upgrading.  THE WIRE IS RFB, in BINARY frames both ways, and it is not interpreted here: this is a pipe between the caller's client and the server inside the pod.  THE PIXELS COME OUT THROUGH THE EXEC CHANNEL. The display binds 127.0.0.1 only and deliberately nothing else, so there is no address to dial — `socat` joins the stream to that loopback port over the same Kubernetes exec subresource every other call into a sandbox uses. One way in, one thing to authorize, nothing further exposed.  The window size is ignored. A browser pane is not the X server's geometry, and the client scales what it is given rather than asking a server with no RandR to resize itself.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_sandboxes_by_id_screen_ws_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_sandboxes_by_id_screen_ws_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/sandboxes/{id}/screen/ws',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_sandboxes_by_id_terminal(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1343,7 +1843,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_terminal_serialize(
+        _param = self._get_sandboxes_by_id_terminal_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1365,7 +1865,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_terminal_with_http_info(
+    def get_sandboxes_by_id_terminal_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1409,7 +1909,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_terminal_serialize(
+        _param = self._get_sandboxes_by_id_terminal_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1431,7 +1931,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_terminal_without_preload_content(
+    def get_sandboxes_by_id_terminal_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1475,7 +1975,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_terminal_serialize(
+        _param = self._get_sandboxes_by_id_terminal_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1492,7 +1992,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _get_v1_sandboxes_by_id_terminal_serialize(
+    def _get_sandboxes_by_id_terminal_serialize(
         self,
         id,
         _request_auth,
@@ -1549,7 +2049,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_terminal_ws(
+    def get_sandboxes_by_id_terminal_ws(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1593,7 +2093,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_terminal_ws_serialize(
+        _param = self._get_sandboxes_by_id_terminal_ws_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1615,7 +2115,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_terminal_ws_with_http_info(
+    def get_sandboxes_by_id_terminal_ws_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1659,7 +2159,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_terminal_ws_serialize(
+        _param = self._get_sandboxes_by_id_terminal_ws_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1681,7 +2181,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def get_v1_sandboxes_by_id_terminal_ws_without_preload_content(
+    def get_sandboxes_by_id_terminal_ws_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1725,7 +2225,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_sandboxes_by_id_terminal_ws_serialize(
+        _param = self._get_sandboxes_by_id_terminal_ws_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1742,7 +2242,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _get_v1_sandboxes_by_id_terminal_ws_serialize(
+    def _get_sandboxes_by_id_terminal_ws_serialize(
         self,
         id,
         _request_auth,
@@ -2072,7 +2572,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes(
+    def post_sandboxes(
         self,
         _request_timeout: Union[
             None,
@@ -2089,7 +2589,7 @@ class SandboxesApi:
     ) -> None:
         """Lease a sandbox
 
-        Creates a sandbox and returns it. `class` is one of `exec`, `dev` or `desktop`; `dev` and `desktop` are attached to a `project`, which is required for them and names the volume the work persists on. `ttlSec` bounds the lease, and `image` overrides the class default.  This is the ONLY path that creates cluster objects. The isolation boundary is the pod's runtime class, one field, so what a sandbox is confined by is a deployment decision rather than anything this operation negotiates.
+        Creates a sandbox and returns it. `class` is one of `exec`, `dev`, `desktop` or `android`; `dev` and `desktop` are attached to a `project`, which is required for them and names the volume the work persists on. `ttlSec` bounds the lease, and `image` overrides the class default.  This is the ONLY path that creates cluster objects. The isolation boundary is the pod's runtime class, one field, so what a sandbox is confined by is a deployment decision rather than anything this operation negotiates.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2113,7 +2613,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_serialize(
+        _param = self._post_sandboxes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2134,7 +2634,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_with_http_info(
+    def post_sandboxes_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2151,7 +2651,7 @@ class SandboxesApi:
     ) -> ApiResponse[None]:
         """Lease a sandbox
 
-        Creates a sandbox and returns it. `class` is one of `exec`, `dev` or `desktop`; `dev` and `desktop` are attached to a `project`, which is required for them and names the volume the work persists on. `ttlSec` bounds the lease, and `image` overrides the class default.  This is the ONLY path that creates cluster objects. The isolation boundary is the pod's runtime class, one field, so what a sandbox is confined by is a deployment decision rather than anything this operation negotiates.
+        Creates a sandbox and returns it. `class` is one of `exec`, `dev`, `desktop` or `android`; `dev` and `desktop` are attached to a `project`, which is required for them and names the volume the work persists on. `ttlSec` bounds the lease, and `image` overrides the class default.  This is the ONLY path that creates cluster objects. The isolation boundary is the pod's runtime class, one field, so what a sandbox is confined by is a deployment decision rather than anything this operation negotiates.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2175,7 +2675,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_serialize(
+        _param = self._post_sandboxes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2196,7 +2696,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_without_preload_content(
+    def post_sandboxes_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2213,7 +2713,7 @@ class SandboxesApi:
     ) -> RESTResponseType:
         """Lease a sandbox
 
-        Creates a sandbox and returns it. `class` is one of `exec`, `dev` or `desktop`; `dev` and `desktop` are attached to a `project`, which is required for them and names the volume the work persists on. `ttlSec` bounds the lease, and `image` overrides the class default.  This is the ONLY path that creates cluster objects. The isolation boundary is the pod's runtime class, one field, so what a sandbox is confined by is a deployment decision rather than anything this operation negotiates.
+        Creates a sandbox and returns it. `class` is one of `exec`, `dev`, `desktop` or `android`; `dev` and `desktop` are attached to a `project`, which is required for them and names the volume the work persists on. `ttlSec` bounds the lease, and `image` overrides the class default.  This is the ONLY path that creates cluster objects. The isolation boundary is the pod's runtime class, one field, so what a sandbox is confined by is a deployment decision rather than anything this operation negotiates.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2237,7 +2737,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_serialize(
+        _param = self._post_sandboxes_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2253,7 +2753,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _post_v1_sandboxes_serialize(
+    def _post_sandboxes_serialize(
         self,
         _request_auth,
         _content_type,
@@ -2307,7 +2807,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_exec(
+    def post_sandboxes_by_id_exec(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2351,7 +2851,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_exec_serialize(
+        _param = self._post_sandboxes_by_id_exec_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2373,7 +2873,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_exec_with_http_info(
+    def post_sandboxes_by_id_exec_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2417,7 +2917,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_exec_serialize(
+        _param = self._post_sandboxes_by_id_exec_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2439,7 +2939,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_exec_without_preload_content(
+    def post_sandboxes_by_id_exec_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2483,7 +2983,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_exec_serialize(
+        _param = self._post_sandboxes_by_id_exec_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2500,7 +3000,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _post_v1_sandboxes_by_id_exec_serialize(
+    def _post_sandboxes_by_id_exec_serialize(
         self,
         id,
         _request_auth,
@@ -2557,7 +3057,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_fs(
+    def post_sandboxes_by_id_fs(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2601,7 +3101,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_fs_serialize(
+        _param = self._post_sandboxes_by_id_fs_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2623,7 +3123,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_fs_with_http_info(
+    def post_sandboxes_by_id_fs_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2667,7 +3167,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_fs_serialize(
+        _param = self._post_sandboxes_by_id_fs_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2689,7 +3189,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_fs_without_preload_content(
+    def post_sandboxes_by_id_fs_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2733,7 +3233,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_fs_serialize(
+        _param = self._post_sandboxes_by_id_fs_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2750,7 +3250,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _post_v1_sandboxes_by_id_fs_serialize(
+    def _post_sandboxes_by_id_fs_serialize(
         self,
         id,
         _request_auth,
@@ -2807,7 +3307,257 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_terminal_ticket(
+    def post_sandboxes_by_id_screen_ticket(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Open a screen
+
+        Mints a SINGLE-USE ticket for this sandbox's DISPLAY and returns `{ticket, expiresIn, url}`, where url is the desktop PAGE with the ticket already on it. The same ticket as the terminal's, minted for a different door.  A ticket says which org and which sandbox, and the terminal and the screen are two views of one machine: a caller who may type in a sandbox may look at it. What the door decides is the URL handed back, which is the only part that differs.  Mint one per screen, and mint a fresh one to reconnect.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_sandboxes_by_id_screen_ticket_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_sandboxes_by_id_screen_ticket_with_http_info(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Open a screen
+
+        Mints a SINGLE-USE ticket for this sandbox's DISPLAY and returns `{ticket, expiresIn, url}`, where url is the desktop PAGE with the ticket already on it. The same ticket as the terminal's, minted for a different door.  A ticket says which org and which sandbox, and the terminal and the screen are two views of one machine: a caller who may type in a sandbox may look at it. What the door decides is the URL handed back, which is the only part that differs.  Mint one per screen, and mint a fresh one to reconnect.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_sandboxes_by_id_screen_ticket_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_sandboxes_by_id_screen_ticket_without_preload_content(
+        self,
+        id: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Open a screen
+
+        Mints a SINGLE-USE ticket for this sandbox's DISPLAY and returns `{ticket, expiresIn, url}`, where url is the desktop PAGE with the ticket already on it. The same ticket as the terminal's, minted for a different door.  A ticket says which org and which sandbox, and the terminal and the screen are two views of one machine: a caller who may type in a sandbox may look at it. What the door decides is the URL handed back, which is the only part that differs.  Mint one per screen, and mint a fresh one to reconnect.
+
+        :param id: (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_sandboxes_by_id_screen_ticket_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_sandboxes_by_id_screen_ticket_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/sandboxes/{id}/screen/ticket',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_sandboxes_by_id_terminal_ticket(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2851,7 +3601,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_terminal_ticket_serialize(
+        _param = self._post_sandboxes_by_id_terminal_ticket_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2873,7 +3623,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_terminal_ticket_with_http_info(
+    def post_sandboxes_by_id_terminal_ticket_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2917,7 +3667,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_terminal_ticket_serialize(
+        _param = self._post_sandboxes_by_id_terminal_ticket_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2939,7 +3689,7 @@ class SandboxesApi:
 
 
     @validate_call
-    def post_v1_sandboxes_by_id_terminal_ticket_without_preload_content(
+    def post_sandboxes_by_id_terminal_ticket_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -2983,7 +3733,7 @@ class SandboxesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_sandboxes_by_id_terminal_ticket_serialize(
+        _param = self._post_sandboxes_by_id_terminal_ticket_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3000,7 +3750,7 @@ class SandboxesApi:
         return response_data.response
 
 
-    def _post_v1_sandboxes_by_id_terminal_ticket_serialize(
+    def _post_sandboxes_by_id_terminal_ticket_serialize(
         self,
         id,
         _request_auth,

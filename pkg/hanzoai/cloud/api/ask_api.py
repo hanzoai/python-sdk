@@ -40,7 +40,7 @@ class AskApi:
 
 
     @validate_call
-    def post_v1_ask(
+    def post_ask(
         self,
         ask_request: Optional[AskRequest] = None,
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class AskApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ask_serialize(
+        _param = self._post_ask_serialize(
             ask_request=ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -106,7 +106,7 @@ class AskApi:
 
 
     @validate_call
-    def post_v1_ask_with_http_info(
+    def post_ask_with_http_info(
         self,
         ask_request: Optional[AskRequest] = None,
         _request_timeout: Union[
@@ -150,7 +150,7 @@ class AskApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ask_serialize(
+        _param = self._post_ask_serialize(
             ask_request=ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -172,7 +172,7 @@ class AskApi:
 
 
     @validate_call
-    def post_v1_ask_without_preload_content(
+    def post_ask_without_preload_content(
         self,
         ask_request: Optional[AskRequest] = None,
         _request_timeout: Union[
@@ -216,7 +216,7 @@ class AskApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_ask_serialize(
+        _param = self._post_ask_serialize(
             ask_request=ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -233,7 +233,7 @@ class AskApi:
         return response_data.response
 
 
-    def _post_v1_ask_serialize(
+    def _post_ask_serialize(
         self,
         ask_request,
         _request_auth,

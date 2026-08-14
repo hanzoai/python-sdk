@@ -63,7 +63,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_accounts(
+    def get_books_accounts(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -107,7 +107,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_accounts_serialize(
+        _param = self._get_books_accounts_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -130,7 +130,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_accounts_with_http_info(
+    def get_books_accounts_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -174,7 +174,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_accounts_serialize(
+        _param = self._get_books_accounts_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -197,7 +197,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_accounts_without_preload_content(
+    def get_books_accounts_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -241,7 +241,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_accounts_serialize(
+        _param = self._get_books_accounts_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -259,7 +259,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_accounts_serialize(
+    def _get_books_accounts_serialize(
         self,
         sandbox,
         _request_auth,
@@ -325,7 +325,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_bank_transactions(
+    def get_books_bank_transactions(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many rows come back; 500 when absent or not positive.")] = None,
@@ -372,7 +372,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_bank_transactions_serialize(
+        _param = self._get_books_bank_transactions_serialize(
             sandbox=sandbox,
             limit=limit,
             _request_auth=_request_auth,
@@ -396,7 +396,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_bank_transactions_with_http_info(
+    def get_books_bank_transactions_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many rows come back; 500 when absent or not positive.")] = None,
@@ -443,7 +443,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_bank_transactions_serialize(
+        _param = self._get_books_bank_transactions_serialize(
             sandbox=sandbox,
             limit=limit,
             _request_auth=_request_auth,
@@ -467,7 +467,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_bank_transactions_without_preload_content(
+    def get_books_bank_transactions_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many rows come back; 500 when absent or not positive.")] = None,
@@ -514,7 +514,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_bank_transactions_serialize(
+        _param = self._get_books_bank_transactions_serialize(
             sandbox=sandbox,
             limit=limit,
             _request_auth=_request_auth,
@@ -533,7 +533,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_bank_transactions_serialize(
+    def _get_books_bank_transactions_serialize(
         self,
         sandbox,
         limit,
@@ -604,7 +604,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_bank_unreconciled(
+    def get_books_bank_unreconciled(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -648,7 +648,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_bank_unreconciled_serialize(
+        _param = self._get_books_bank_unreconciled_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -671,7 +671,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_bank_unreconciled_with_http_info(
+    def get_books_bank_unreconciled_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -715,7 +715,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_bank_unreconciled_serialize(
+        _param = self._get_books_bank_unreconciled_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -738,7 +738,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_bank_unreconciled_without_preload_content(
+    def get_books_bank_unreconciled_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -782,7 +782,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_bank_unreconciled_serialize(
+        _param = self._get_books_bank_unreconciled_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -800,7 +800,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_bank_unreconciled_serialize(
+    def _get_books_bank_unreconciled_serialize(
         self,
         sandbox,
         _request_auth,
@@ -866,7 +866,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_export(
+    def get_books_export(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -922,7 +922,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_export_serialize(
+        _param = self._get_books_export_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -949,7 +949,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_export_with_http_info(
+    def get_books_export_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -1005,7 +1005,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_export_serialize(
+        _param = self._get_books_export_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -1032,7 +1032,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_export_without_preload_content(
+    def get_books_export_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -1088,7 +1088,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_export_serialize(
+        _param = self._get_books_export_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -1110,7 +1110,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_export_serialize(
+    def _get_books_export_serialize(
         self,
         sandbox,
         var_from,
@@ -1196,7 +1196,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_gl(
+    def get_books_gl(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many rows come back; 500 when absent or not positive.")] = None,
@@ -1243,7 +1243,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_gl_serialize(
+        _param = self._get_books_gl_serialize(
             sandbox=sandbox,
             limit=limit,
             _request_auth=_request_auth,
@@ -1267,7 +1267,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_gl_with_http_info(
+    def get_books_gl_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many rows come back; 500 when absent or not positive.")] = None,
@@ -1314,7 +1314,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_gl_serialize(
+        _param = self._get_books_gl_serialize(
             sandbox=sandbox,
             limit=limit,
             _request_auth=_request_auth,
@@ -1338,7 +1338,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_gl_without_preload_content(
+    def get_books_gl_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many rows come back; 500 when absent or not positive.")] = None,
@@ -1385,7 +1385,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_gl_serialize(
+        _param = self._get_books_gl_serialize(
             sandbox=sandbox,
             limit=limit,
             _request_auth=_request_auth,
@@ -1404,7 +1404,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_gl_serialize(
+    def _get_books_gl_serialize(
         self,
         sandbox,
         limit,
@@ -1475,7 +1475,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_inbox(
+    def get_books_inbox(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -1519,7 +1519,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_inbox_serialize(
+        _param = self._get_books_inbox_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1542,7 +1542,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_inbox_with_http_info(
+    def get_books_inbox_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -1586,7 +1586,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_inbox_serialize(
+        _param = self._get_books_inbox_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1609,7 +1609,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_inbox_without_preload_content(
+    def get_books_inbox_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -1653,7 +1653,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_inbox_serialize(
+        _param = self._get_books_inbox_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1671,7 +1671,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_inbox_serialize(
+    def _get_books_inbox_serialize(
         self,
         sandbox,
         _request_auth,
@@ -1737,7 +1737,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_metrics(
+    def get_books_metrics(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -1787,7 +1787,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_metrics_serialize(
+        _param = self._get_books_metrics_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -1812,7 +1812,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_metrics_with_http_info(
+    def get_books_metrics_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -1862,7 +1862,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_metrics_serialize(
+        _param = self._get_books_metrics_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -1887,7 +1887,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_metrics_without_preload_content(
+    def get_books_metrics_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -1937,7 +1937,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_metrics_serialize(
+        _param = self._get_books_metrics_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -1957,7 +1957,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_metrics_serialize(
+    def _get_books_metrics_serialize(
         self,
         sandbox,
         var_from,
@@ -2033,7 +2033,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_pnl(
+    def get_books_pnl(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -2083,7 +2083,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_pnl_serialize(
+        _param = self._get_books_pnl_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -2108,7 +2108,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_pnl_with_http_info(
+    def get_books_pnl_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -2158,7 +2158,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_pnl_serialize(
+        _param = self._get_books_pnl_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -2183,7 +2183,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_pnl_without_preload_content(
+    def get_books_pnl_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -2233,7 +2233,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_pnl_serialize(
+        _param = self._get_books_pnl_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -2253,7 +2253,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_pnl_serialize(
+    def _get_books_pnl_serialize(
         self,
         sandbox,
         var_from,
@@ -2329,7 +2329,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_position(
+    def get_books_position(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         to: Annotated[Optional[StrictStr], Field(description="To is the RFC3339 instant the statement is struck as of. Empty means all time.")] = None,
@@ -2376,7 +2376,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_position_serialize(
+        _param = self._get_books_position_serialize(
             sandbox=sandbox,
             to=to,
             _request_auth=_request_auth,
@@ -2400,7 +2400,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_position_with_http_info(
+    def get_books_position_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         to: Annotated[Optional[StrictStr], Field(description="To is the RFC3339 instant the statement is struck as of. Empty means all time.")] = None,
@@ -2447,7 +2447,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_position_serialize(
+        _param = self._get_books_position_serialize(
             sandbox=sandbox,
             to=to,
             _request_auth=_request_auth,
@@ -2471,7 +2471,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_position_without_preload_content(
+    def get_books_position_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         to: Annotated[Optional[StrictStr], Field(description="To is the RFC3339 instant the statement is struck as of. Empty means all time.")] = None,
@@ -2518,7 +2518,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_position_serialize(
+        _param = self._get_books_position_serialize(
             sandbox=sandbox,
             to=to,
             _request_auth=_request_auth,
@@ -2537,7 +2537,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_position_serialize(
+    def _get_books_position_serialize(
         self,
         sandbox,
         to,
@@ -2608,7 +2608,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_questions(
+    def get_books_questions(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -2652,7 +2652,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_questions_serialize(
+        _param = self._get_books_questions_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2675,7 +2675,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_questions_with_http_info(
+    def get_books_questions_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -2719,7 +2719,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_questions_serialize(
+        _param = self._get_books_questions_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2742,7 +2742,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_questions_without_preload_content(
+    def get_books_questions_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -2786,7 +2786,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_questions_serialize(
+        _param = self._get_books_questions_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2804,7 +2804,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_questions_serialize(
+    def _get_books_questions_serialize(
         self,
         sandbox,
         _request_auth,
@@ -2870,7 +2870,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_rules(
+    def get_books_rules(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -2914,7 +2914,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_rules_serialize(
+        _param = self._get_books_rules_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2937,7 +2937,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_rules_with_http_info(
+    def get_books_rules_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -2981,7 +2981,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_rules_serialize(
+        _param = self._get_books_rules_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3004,7 +3004,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_rules_without_preload_content(
+    def get_books_rules_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -3048,7 +3048,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_rules_serialize(
+        _param = self._get_books_rules_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3066,7 +3066,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_rules_serialize(
+    def _get_books_rules_serialize(
         self,
         sandbox,
         _request_auth,
@@ -3132,7 +3132,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_transactions(
+    def get_books_transactions(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the posting-time window, inclusive.")] = None,
@@ -3191,7 +3191,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_transactions_serialize(
+        _param = self._get_books_transactions_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -3219,7 +3219,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_transactions_with_http_info(
+    def get_books_transactions_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the posting-time window, inclusive.")] = None,
@@ -3278,7 +3278,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_transactions_serialize(
+        _param = self._get_books_transactions_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -3306,7 +3306,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_transactions_without_preload_content(
+    def get_books_transactions_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the posting-time window, inclusive.")] = None,
@@ -3365,7 +3365,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_transactions_serialize(
+        _param = self._get_books_transactions_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -3388,7 +3388,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_transactions_serialize(
+    def _get_books_transactions_serialize(
         self,
         sandbox,
         var_from,
@@ -3479,7 +3479,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_trial(
+    def get_books_trial(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -3529,7 +3529,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_trial_serialize(
+        _param = self._get_books_trial_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -3554,7 +3554,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_trial_with_http_info(
+    def get_books_trial_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -3604,7 +3604,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_trial_serialize(
+        _param = self._get_books_trial_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -3629,7 +3629,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_trial_without_preload_content(
+    def get_books_trial_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".")] = None,
         var_from: Annotated[Optional[StrictStr], Field(description="From is the RFC3339 start of the window, exclusive. Empty means all time.")] = None,
@@ -3679,7 +3679,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_trial_serialize(
+        _param = self._get_books_trial_serialize(
             sandbox=sandbox,
             var_from=var_from,
             to=to,
@@ -3699,7 +3699,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_trial_serialize(
+    def _get_books_trial_serialize(
         self,
         sandbox,
         var_from,
@@ -3775,7 +3775,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_vendors(
+    def get_books_vendors(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -3819,7 +3819,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_vendors_serialize(
+        _param = self._get_books_vendors_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3842,7 +3842,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_vendors_with_http_info(
+    def get_books_vendors_with_http_info(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -3886,7 +3886,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_vendors_serialize(
+        _param = self._get_books_vendors_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3909,7 +3909,7 @@ class BooksApi:
 
 
     @validate_call
-    def get_v1_books_vendors_without_preload_content(
+    def get_books_vendors_without_preload_content(
         self,
         sandbox: Annotated[Optional[StrictStr], Field(description="Sandbox reads the org's SANDBOX ledger when it is exactly \"true\"; anything else reads the live one.")] = None,
         _request_timeout: Union[
@@ -3953,7 +3953,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_books_vendors_serialize(
+        _param = self._get_books_vendors_serialize(
             sandbox=sandbox,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3971,7 +3971,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _get_v1_books_vendors_serialize(
+    def _get_books_vendors_serialize(
         self,
         sandbox,
         _request_auth,
@@ -4037,7 +4037,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_ask(
+    def post_books_ask(
         self,
         ask_request: AskRequest,
         _request_timeout: Union[
@@ -4081,7 +4081,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_ask_serialize(
+        _param = self._post_books_ask_serialize(
             ask_request=ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4104,7 +4104,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_ask_with_http_info(
+    def post_books_ask_with_http_info(
         self,
         ask_request: AskRequest,
         _request_timeout: Union[
@@ -4148,7 +4148,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_ask_serialize(
+        _param = self._post_books_ask_serialize(
             ask_request=ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4171,7 +4171,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_ask_without_preload_content(
+    def post_books_ask_without_preload_content(
         self,
         ask_request: AskRequest,
         _request_timeout: Union[
@@ -4215,7 +4215,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_ask_serialize(
+        _param = self._post_books_ask_serialize(
             ask_request=ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4233,7 +4233,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_ask_serialize(
+    def _post_books_ask_serialize(
         self,
         ask_request,
         _request_auth,
@@ -4310,7 +4310,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_exchange(
+    def post_books_bank_exchange(
         self,
         _request_timeout: Union[
             None,
@@ -4351,7 +4351,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_exchange_serialize(
+        _param = self._post_books_bank_exchange_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4372,7 +4372,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_exchange_with_http_info(
+    def post_books_bank_exchange_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4413,7 +4413,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_exchange_serialize(
+        _param = self._post_books_bank_exchange_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4434,7 +4434,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_exchange_without_preload_content(
+    def post_books_bank_exchange_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4475,7 +4475,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_exchange_serialize(
+        _param = self._post_books_bank_exchange_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4491,7 +4491,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_bank_exchange_serialize(
+    def _post_books_bank_exchange_serialize(
         self,
         _request_auth,
         _content_type,
@@ -4545,7 +4545,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_import(
+    def post_books_bank_import(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -4589,7 +4589,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_import_serialize(
+        _param = self._post_books_bank_import_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4612,7 +4612,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_import_with_http_info(
+    def post_books_bank_import_with_http_info(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -4656,7 +4656,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_import_serialize(
+        _param = self._post_books_bank_import_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4679,7 +4679,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_import_without_preload_content(
+    def post_books_bank_import_without_preload_content(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -4723,7 +4723,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_import_serialize(
+        _param = self._post_books_bank_import_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4741,7 +4741,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_bank_import_serialize(
+    def _post_books_bank_import_serialize(
         self,
         body,
         _request_auth,
@@ -4826,7 +4826,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_sync(
+    def post_books_bank_sync(
         self,
         _request_timeout: Union[
             None,
@@ -4867,7 +4867,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_sync_serialize(
+        _param = self._post_books_bank_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4889,7 +4889,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_sync_with_http_info(
+    def post_books_bank_sync_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4930,7 +4930,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_sync_serialize(
+        _param = self._post_books_bank_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4952,7 +4952,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_sync_without_preload_content(
+    def post_books_bank_sync_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4993,7 +4993,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_sync_serialize(
+        _param = self._post_books_bank_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5010,7 +5010,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_bank_sync_serialize(
+    def _post_books_bank_sync_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5071,7 +5071,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_token(
+    def post_books_bank_token(
         self,
         _request_timeout: Union[
             None,
@@ -5112,7 +5112,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_token_serialize(
+        _param = self._post_books_bank_token_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5133,7 +5133,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_token_with_http_info(
+    def post_books_bank_token_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -5174,7 +5174,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_token_serialize(
+        _param = self._post_books_bank_token_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5195,7 +5195,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_bank_token_without_preload_content(
+    def post_books_bank_token_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -5236,7 +5236,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_bank_token_serialize(
+        _param = self._post_books_bank_token_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5252,7 +5252,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_bank_token_serialize(
+    def _post_books_bank_token_serialize(
         self,
         _request_auth,
         _content_type,
@@ -5306,7 +5306,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_inbox(
+    def post_books_inbox(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -5350,7 +5350,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_inbox_serialize(
+        _param = self._post_books_inbox_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5373,7 +5373,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_inbox_with_http_info(
+    def post_books_inbox_with_http_info(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -5417,7 +5417,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_inbox_serialize(
+        _param = self._post_books_inbox_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5440,7 +5440,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_inbox_without_preload_content(
+    def post_books_inbox_without_preload_content(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -5484,7 +5484,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_inbox_serialize(
+        _param = self._post_books_inbox_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5502,7 +5502,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_inbox_serialize(
+    def _post_books_inbox_serialize(
         self,
         body,
         _request_auth,
@@ -5587,7 +5587,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_rules(
+    def post_books_rules(
         self,
         rule: Rule,
         _request_timeout: Union[
@@ -5631,7 +5631,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_rules_serialize(
+        _param = self._post_books_rules_serialize(
             rule=rule,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5654,7 +5654,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_rules_with_http_info(
+    def post_books_rules_with_http_info(
         self,
         rule: Rule,
         _request_timeout: Union[
@@ -5698,7 +5698,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_rules_serialize(
+        _param = self._post_books_rules_serialize(
             rule=rule,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5721,7 +5721,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_rules_without_preload_content(
+    def post_books_rules_without_preload_content(
         self,
         rule: Rule,
         _request_timeout: Union[
@@ -5765,7 +5765,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_rules_serialize(
+        _param = self._post_books_rules_serialize(
             rule=rule,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5783,7 +5783,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_rules_serialize(
+    def _post_books_rules_serialize(
         self,
         rule,
         _request_auth,
@@ -5860,7 +5860,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_scan(
+    def post_books_scan(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -5904,7 +5904,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_scan_serialize(
+        _param = self._post_books_scan_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5927,7 +5927,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_scan_with_http_info(
+    def post_books_scan_with_http_info(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -5971,7 +5971,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_scan_serialize(
+        _param = self._post_books_scan_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -5994,7 +5994,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_scan_without_preload_content(
+    def post_books_scan_without_preload_content(
         self,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
@@ -6038,7 +6038,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_scan_serialize(
+        _param = self._post_books_scan_serialize(
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6056,7 +6056,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_scan_serialize(
+    def _post_books_scan_serialize(
         self,
         body,
         _request_auth,
@@ -6141,7 +6141,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_scan_book(
+    def post_books_scan_book(
         self,
         book_request: BookRequest,
         _request_timeout: Union[
@@ -6185,7 +6185,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_scan_book_serialize(
+        _param = self._post_books_scan_book_serialize(
             book_request=book_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6208,7 +6208,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_scan_book_with_http_info(
+    def post_books_scan_book_with_http_info(
         self,
         book_request: BookRequest,
         _request_timeout: Union[
@@ -6252,7 +6252,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_scan_book_serialize(
+        _param = self._post_books_scan_book_serialize(
             book_request=book_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6275,7 +6275,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_scan_book_without_preload_content(
+    def post_books_scan_book_without_preload_content(
         self,
         book_request: BookRequest,
         _request_timeout: Union[
@@ -6319,7 +6319,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_scan_book_serialize(
+        _param = self._post_books_scan_book_serialize(
             book_request=book_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6337,7 +6337,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_scan_book_serialize(
+    def _post_books_scan_book_serialize(
         self,
         book_request,
         _request_auth,
@@ -6414,7 +6414,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_sync(
+    def post_books_sync(
         self,
         _request_timeout: Union[
             None,
@@ -6455,7 +6455,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_sync_serialize(
+        _param = self._post_books_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6477,7 +6477,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_sync_with_http_info(
+    def post_books_sync_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -6518,7 +6518,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_sync_serialize(
+        _param = self._post_books_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6540,7 +6540,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_sync_without_preload_content(
+    def post_books_sync_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -6581,7 +6581,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_sync_serialize(
+        _param = self._post_books_sync_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6598,7 +6598,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_sync_serialize(
+    def _post_books_sync_serialize(
         self,
         _request_auth,
         _content_type,
@@ -6659,7 +6659,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_vendors(
+    def post_books_vendors(
         self,
         vendor_row: VendorRow,
         _request_timeout: Union[
@@ -6703,7 +6703,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_vendors_serialize(
+        _param = self._post_books_vendors_serialize(
             vendor_row=vendor_row,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6726,7 +6726,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_vendors_with_http_info(
+    def post_books_vendors_with_http_info(
         self,
         vendor_row: VendorRow,
         _request_timeout: Union[
@@ -6770,7 +6770,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_vendors_serialize(
+        _param = self._post_books_vendors_serialize(
             vendor_row=vendor_row,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6793,7 +6793,7 @@ class BooksApi:
 
 
     @validate_call
-    def post_v1_books_vendors_without_preload_content(
+    def post_books_vendors_without_preload_content(
         self,
         vendor_row: VendorRow,
         _request_timeout: Union[
@@ -6837,7 +6837,7 @@ class BooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_books_vendors_serialize(
+        _param = self._post_books_vendors_serialize(
             vendor_row=vendor_row,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -6855,7 +6855,7 @@ class BooksApi:
         return response_data.response
 
 
-    def _post_v1_books_vendors_serialize(
+    def _post_books_vendors_serialize(
         self,
         vendor_row,
         _request_auth,

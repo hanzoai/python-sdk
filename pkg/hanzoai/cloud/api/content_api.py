@@ -48,7 +48,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_board(
+    def get_content_board(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only items in one lifecycle state (draft, in_review, approved, queued, published, archived). An undefined state is refused.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project keeps only items in one brand/site sub-scope.")] = None,
@@ -101,7 +101,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_board_serialize(
+        _param = self._get_content_board_serialize(
             status=status,
             project=project,
             doctype=doctype,
@@ -127,7 +127,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_board_with_http_info(
+    def get_content_board_with_http_info(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only items in one lifecycle state (draft, in_review, approved, queued, published, archived). An undefined state is refused.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project keeps only items in one brand/site sub-scope.")] = None,
@@ -180,7 +180,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_board_serialize(
+        _param = self._get_content_board_serialize(
             status=status,
             project=project,
             doctype=doctype,
@@ -206,7 +206,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_board_without_preload_content(
+    def get_content_board_without_preload_content(
         self,
         status: Annotated[Optional[StrictStr], Field(description="Status keeps only items in one lifecycle state (draft, in_review, approved, queued, published, archived). An undefined state is refused.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project keeps only items in one brand/site sub-scope.")] = None,
@@ -259,7 +259,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_board_serialize(
+        _param = self._get_content_board_serialize(
             status=status,
             project=project,
             doctype=doctype,
@@ -280,7 +280,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _get_v1_content_board_serialize(
+    def _get_content_board_serialize(
         self,
         status,
         project,
@@ -361,7 +361,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_channels(
+    def get_content_channels(
         self,
         _request_timeout: Union[
             None,
@@ -402,7 +402,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_channels_serialize(
+        _param = self._get_content_channels_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,7 +424,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_channels_with_http_info(
+    def get_content_channels_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -465,7 +465,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_channels_serialize(
+        _param = self._get_content_channels_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -487,7 +487,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_channels_without_preload_content(
+    def get_content_channels_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -528,7 +528,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_channels_serialize(
+        _param = self._get_content_channels_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -545,7 +545,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _get_v1_content_channels_serialize(
+    def _get_content_channels_serialize(
         self,
         _request_auth,
         _content_type,
@@ -606,7 +606,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_lifecycle(
+    def get_content_lifecycle(
         self,
         _request_timeout: Union[
             None,
@@ -647,7 +647,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_lifecycle_serialize(
+        _param = self._get_content_lifecycle_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -669,7 +669,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_lifecycle_with_http_info(
+    def get_content_lifecycle_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -710,7 +710,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_lifecycle_serialize(
+        _param = self._get_content_lifecycle_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -732,7 +732,7 @@ class ContentApi:
 
 
     @validate_call
-    def get_v1_content_lifecycle_without_preload_content(
+    def get_content_lifecycle_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -773,7 +773,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_content_lifecycle_serialize(
+        _param = self._get_content_lifecycle_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -790,7 +790,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _get_v1_content_lifecycle_serialize(
+    def _get_content_lifecycle_serialize(
         self,
         _request_auth,
         _content_type,
@@ -851,7 +851,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_by_doctype_by_name_transition(
+    def post_content_by_doctype_by_name_transition(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
@@ -901,7 +901,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_by_doctype_by_name_transition_serialize(
+        _param = self._post_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
             transition_in=transition_in,
@@ -926,7 +926,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_by_doctype_by_name_transition_with_http_info(
+    def post_content_by_doctype_by_name_transition_with_http_info(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
@@ -976,7 +976,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_by_doctype_by_name_transition_serialize(
+        _param = self._post_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
             transition_in=transition_in,
@@ -1001,7 +1001,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_by_doctype_by_name_transition_without_preload_content(
+    def post_content_by_doctype_by_name_transition_without_preload_content(
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
@@ -1051,7 +1051,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_by_doctype_by_name_transition_serialize(
+        _param = self._post_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
             transition_in=transition_in,
@@ -1071,7 +1071,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _post_v1_content_by_doctype_by_name_transition_serialize(
+    def _post_content_by_doctype_by_name_transition_serialize(
         self,
         doctype,
         name,
@@ -1154,7 +1154,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_generate(
+    def post_content_generate(
         self,
         generate_input: GenerateInput,
         _request_timeout: Union[
@@ -1198,7 +1198,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_generate_serialize(
+        _param = self._post_content_generate_serialize(
             generate_input=generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1222,7 +1222,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_generate_with_http_info(
+    def post_content_generate_with_http_info(
         self,
         generate_input: GenerateInput,
         _request_timeout: Union[
@@ -1266,7 +1266,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_generate_serialize(
+        _param = self._post_content_generate_serialize(
             generate_input=generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1290,7 +1290,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_generate_without_preload_content(
+    def post_content_generate_without_preload_content(
         self,
         generate_input: GenerateInput,
         _request_timeout: Union[
@@ -1334,7 +1334,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_generate_serialize(
+        _param = self._post_content_generate_serialize(
             generate_input=generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1353,7 +1353,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _post_v1_content_generate_serialize(
+    def _post_content_generate_serialize(
         self,
         generate_input,
         _request_auth,
@@ -1430,7 +1430,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_publish(
+    def post_content_publish(
         self,
         publish_input: PublishInput,
         _request_timeout: Union[
@@ -1474,7 +1474,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_publish_serialize(
+        _param = self._post_content_publish_serialize(
             publish_input=publish_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1497,7 +1497,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_publish_with_http_info(
+    def post_content_publish_with_http_info(
         self,
         publish_input: PublishInput,
         _request_timeout: Union[
@@ -1541,7 +1541,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_publish_serialize(
+        _param = self._post_content_publish_serialize(
             publish_input=publish_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1564,7 +1564,7 @@ class ContentApi:
 
 
     @validate_call
-    def post_v1_content_publish_without_preload_content(
+    def post_content_publish_without_preload_content(
         self,
         publish_input: PublishInput,
         _request_timeout: Union[
@@ -1608,7 +1608,7 @@ class ContentApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_content_publish_serialize(
+        _param = self._post_content_publish_serialize(
             publish_input=publish_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1626,7 +1626,7 @@ class ContentApi:
         return response_data.response
 
 
-    def _post_v1_content_publish_serialize(
+    def _post_content_publish_serialize(
         self,
         publish_input,
         _request_auth,

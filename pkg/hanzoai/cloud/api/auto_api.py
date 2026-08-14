@@ -43,7 +43,7 @@ class AutoApi:
 
 
     @validate_call
-    def delete_v1_auto_flows_by_flow(
+    def delete_auto_flows_by_flow(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_auto_flows_by_flow_serialize(
+        _param = self._delete_auto_flows_by_flow_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class AutoApi:
 
 
     @validate_call
-    def delete_v1_auto_flows_by_flow_with_http_info(
+    def delete_auto_flows_by_flow_with_http_info(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_auto_flows_by_flow_serialize(
+        _param = self._delete_auto_flows_by_flow_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class AutoApi:
 
 
     @validate_call
-    def delete_v1_auto_flows_by_flow_without_preload_content(
+    def delete_auto_flows_by_flow_without_preload_content(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_auto_flows_by_flow_serialize(
+        _param = self._delete_auto_flows_by_flow_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _delete_v1_auto_flows_by_flow_serialize(
+    def _delete_auto_flows_by_flow_serialize(
         self,
         flow,
         _request_auth,
@@ -303,7 +303,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_flows(
+    def get_auto_flows(
         self,
         _request_timeout: Union[
             None,
@@ -344,7 +344,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_flows_serialize(
+        _param = self._get_auto_flows_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -366,7 +366,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_flows_with_http_info(
+    def get_auto_flows_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -407,7 +407,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_flows_serialize(
+        _param = self._get_auto_flows_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -429,7 +429,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_flows_without_preload_content(
+    def get_auto_flows_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -470,7 +470,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_flows_serialize(
+        _param = self._get_auto_flows_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -487,7 +487,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _get_v1_auto_flows_serialize(
+    def _get_auto_flows_serialize(
         self,
         _request_auth,
         _content_type,
@@ -548,7 +548,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_flows_by_flow(
+    def get_auto_flows_by_flow(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -592,7 +592,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_flows_by_flow_serialize(
+        _param = self._get_auto_flows_by_flow_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -615,7 +615,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_flows_by_flow_with_http_info(
+    def get_auto_flows_by_flow_with_http_info(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -659,7 +659,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_flows_by_flow_serialize(
+        _param = self._get_auto_flows_by_flow_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -682,7 +682,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_flows_by_flow_without_preload_content(
+    def get_auto_flows_by_flow_without_preload_content(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -726,7 +726,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_flows_by_flow_serialize(
+        _param = self._get_auto_flows_by_flow_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -744,7 +744,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _get_v1_auto_flows_by_flow_serialize(
+    def _get_auto_flows_by_flow_serialize(
         self,
         flow,
         _request_auth,
@@ -808,7 +808,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_pieces(
+    def get_auto_pieces(
         self,
         _request_timeout: Union[
             None,
@@ -849,7 +849,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_pieces_serialize(
+        _param = self._get_auto_pieces_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -871,7 +871,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_pieces_with_http_info(
+    def get_auto_pieces_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -912,7 +912,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_pieces_serialize(
+        _param = self._get_auto_pieces_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -934,7 +934,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_pieces_without_preload_content(
+    def get_auto_pieces_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -975,7 +975,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_pieces_serialize(
+        _param = self._get_auto_pieces_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -992,7 +992,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _get_v1_auto_pieces_serialize(
+    def _get_auto_pieces_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1053,7 +1053,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_runs(
+    def get_auto_runs(
         self,
         flow: Annotated[Optional[StrictStr], Field(description="Flow narrows the list to one flow's runs when present.")] = None,
         _request_timeout: Union[
@@ -1097,7 +1097,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_runs_serialize(
+        _param = self._get_auto_runs_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1120,7 +1120,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_runs_with_http_info(
+    def get_auto_runs_with_http_info(
         self,
         flow: Annotated[Optional[StrictStr], Field(description="Flow narrows the list to one flow's runs when present.")] = None,
         _request_timeout: Union[
@@ -1164,7 +1164,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_runs_serialize(
+        _param = self._get_auto_runs_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1187,7 +1187,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_runs_without_preload_content(
+    def get_auto_runs_without_preload_content(
         self,
         flow: Annotated[Optional[StrictStr], Field(description="Flow narrows the list to one flow's runs when present.")] = None,
         _request_timeout: Union[
@@ -1231,7 +1231,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_runs_serialize(
+        _param = self._get_auto_runs_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1249,7 +1249,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _get_v1_auto_runs_serialize(
+    def _get_auto_runs_serialize(
         self,
         flow,
         _request_auth,
@@ -1315,7 +1315,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_runs_by_run(
+    def get_auto_runs_by_run(
         self,
         run: Annotated[StrictStr, Field(description="Run is the run's id, taken from the path.")],
         _request_timeout: Union[
@@ -1359,7 +1359,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_runs_by_run_serialize(
+        _param = self._get_auto_runs_by_run_serialize(
             run=run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1382,7 +1382,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_runs_by_run_with_http_info(
+    def get_auto_runs_by_run_with_http_info(
         self,
         run: Annotated[StrictStr, Field(description="Run is the run's id, taken from the path.")],
         _request_timeout: Union[
@@ -1426,7 +1426,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_runs_by_run_serialize(
+        _param = self._get_auto_runs_by_run_serialize(
             run=run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1449,7 +1449,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_runs_by_run_without_preload_content(
+    def get_auto_runs_by_run_without_preload_content(
         self,
         run: Annotated[StrictStr, Field(description="Run is the run's id, taken from the path.")],
         _request_timeout: Union[
@@ -1493,7 +1493,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_runs_by_run_serialize(
+        _param = self._get_auto_runs_by_run_serialize(
             run=run,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1511,7 +1511,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _get_v1_auto_runs_by_run_serialize(
+    def _get_auto_runs_by_run_serialize(
         self,
         run,
         _request_auth,
@@ -1575,7 +1575,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_status(
+    def get_auto_status(
         self,
         _request_timeout: Union[
             None,
@@ -1616,7 +1616,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_status_serialize(
+        _param = self._get_auto_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1638,7 +1638,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_status_with_http_info(
+    def get_auto_status_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1679,7 +1679,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_status_serialize(
+        _param = self._get_auto_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1701,7 +1701,7 @@ class AutoApi:
 
 
     @validate_call
-    def get_v1_auto_status_without_preload_content(
+    def get_auto_status_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1742,7 +1742,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_auto_status_serialize(
+        _param = self._get_auto_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1759,7 +1759,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _get_v1_auto_status_serialize(
+    def _get_auto_status_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1820,7 +1820,7 @@ class AutoApi:
 
 
     @validate_call
-    def patch_v1_auto_flows_by_flow(
+    def patch_auto_flows_by_flow(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         auto_update: AutoUpdate,
@@ -1867,7 +1867,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_auto_flows_by_flow_serialize(
+        _param = self._patch_auto_flows_by_flow_serialize(
             flow=flow,
             auto_update=auto_update,
             _request_auth=_request_auth,
@@ -1891,7 +1891,7 @@ class AutoApi:
 
 
     @validate_call
-    def patch_v1_auto_flows_by_flow_with_http_info(
+    def patch_auto_flows_by_flow_with_http_info(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         auto_update: AutoUpdate,
@@ -1938,7 +1938,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_auto_flows_by_flow_serialize(
+        _param = self._patch_auto_flows_by_flow_serialize(
             flow=flow,
             auto_update=auto_update,
             _request_auth=_request_auth,
@@ -1962,7 +1962,7 @@ class AutoApi:
 
 
     @validate_call
-    def patch_v1_auto_flows_by_flow_without_preload_content(
+    def patch_auto_flows_by_flow_without_preload_content(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         auto_update: AutoUpdate,
@@ -2009,7 +2009,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._patch_v1_auto_flows_by_flow_serialize(
+        _param = self._patch_auto_flows_by_flow_serialize(
             flow=flow,
             auto_update=auto_update,
             _request_auth=_request_auth,
@@ -2028,7 +2028,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _patch_v1_auto_flows_by_flow_serialize(
+    def _patch_auto_flows_by_flow_serialize(
         self,
         flow,
         auto_update,
@@ -2108,7 +2108,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_flows(
+    def post_auto_flows(
         self,
         auto_create: AutoCreate,
         _request_timeout: Union[
@@ -2152,7 +2152,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_flows_serialize(
+        _param = self._post_auto_flows_serialize(
             auto_create=auto_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2175,7 +2175,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_flows_with_http_info(
+    def post_auto_flows_with_http_info(
         self,
         auto_create: AutoCreate,
         _request_timeout: Union[
@@ -2219,7 +2219,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_flows_serialize(
+        _param = self._post_auto_flows_serialize(
             auto_create=auto_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2242,7 +2242,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_flows_without_preload_content(
+    def post_auto_flows_without_preload_content(
         self,
         auto_create: AutoCreate,
         _request_timeout: Union[
@@ -2286,7 +2286,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_flows_serialize(
+        _param = self._post_auto_flows_serialize(
             auto_create=auto_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2304,7 +2304,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _post_v1_auto_flows_serialize(
+    def _post_auto_flows_serialize(
         self,
         auto_create,
         _request_auth,
@@ -2381,7 +2381,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_flows_by_flow_publish(
+    def post_auto_flows_by_flow_publish(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -2425,7 +2425,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_flows_by_flow_publish_serialize(
+        _param = self._post_auto_flows_by_flow_publish_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2448,7 +2448,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_flows_by_flow_publish_with_http_info(
+    def post_auto_flows_by_flow_publish_with_http_info(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -2492,7 +2492,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_flows_by_flow_publish_serialize(
+        _param = self._post_auto_flows_by_flow_publish_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2515,7 +2515,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_flows_by_flow_publish_without_preload_content(
+    def post_auto_flows_by_flow_publish_without_preload_content(
         self,
         flow: Annotated[StrictStr, Field(description="Flow is the flow's id, taken from the path.")],
         _request_timeout: Union[
@@ -2559,7 +2559,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_flows_by_flow_publish_serialize(
+        _param = self._post_auto_flows_by_flow_publish_serialize(
             flow=flow,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2577,7 +2577,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _post_v1_auto_flows_by_flow_publish_serialize(
+    def _post_auto_flows_by_flow_publish_serialize(
         self,
         flow,
         _request_auth,
@@ -2641,7 +2641,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_runs(
+    def post_auto_runs(
         self,
         auto_start: AutoStart,
         _request_timeout: Union[
@@ -2685,7 +2685,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_runs_serialize(
+        _param = self._post_auto_runs_serialize(
             auto_start=auto_start,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2708,7 +2708,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_runs_with_http_info(
+    def post_auto_runs_with_http_info(
         self,
         auto_start: AutoStart,
         _request_timeout: Union[
@@ -2752,7 +2752,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_runs_serialize(
+        _param = self._post_auto_runs_serialize(
             auto_start=auto_start,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2775,7 +2775,7 @@ class AutoApi:
 
 
     @validate_call
-    def post_v1_auto_runs_without_preload_content(
+    def post_auto_runs_without_preload_content(
         self,
         auto_start: AutoStart,
         _request_timeout: Union[
@@ -2819,7 +2819,7 @@ class AutoApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_auto_runs_serialize(
+        _param = self._post_auto_runs_serialize(
             auto_start=auto_start,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2837,7 +2837,7 @@ class AutoApi:
         return response_data.response
 
 
-    def _post_v1_auto_runs_serialize(
+    def _post_auto_runs_serialize(
         self,
         auto_start,
         _request_auth,

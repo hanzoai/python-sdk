@@ -40,7 +40,7 @@ class ErrorsApi:
 
 
     @validate_call
-    def get_v1_errors(
+    def get_errors(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class ErrorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_errors_serialize(
+        _param = self._get_errors_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -107,7 +107,7 @@ class ErrorsApi:
 
 
     @validate_call
-    def get_v1_errors_with_http_info(
+    def get_errors_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
         _request_timeout: Union[
@@ -151,7 +151,7 @@ class ErrorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_errors_serialize(
+        _param = self._get_errors_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -174,7 +174,7 @@ class ErrorsApi:
 
 
     @validate_call
-    def get_v1_errors_without_preload_content(
+    def get_errors_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
         _request_timeout: Union[
@@ -218,7 +218,7 @@ class ErrorsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_errors_serialize(
+        _param = self._get_errors_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -236,7 +236,7 @@ class ErrorsApi:
         return response_data.response
 
 
-    def _get_v1_errors_serialize(
+    def _get_errors_serialize(
         self,
         limit,
         _request_auth,

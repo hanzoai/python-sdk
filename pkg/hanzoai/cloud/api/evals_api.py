@@ -59,7 +59,7 @@ class EvalsApi:
 
 
     @validate_call
-    def delete_v1_evals_datasets_by_name(
+    def delete_evals_datasets_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the dataset the URL names.")],
         _request_timeout: Union[
@@ -103,7 +103,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_evals_datasets_by_name_serialize(
+        _param = self._delete_evals_datasets_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -126,7 +126,7 @@ class EvalsApi:
 
 
     @validate_call
-    def delete_v1_evals_datasets_by_name_with_http_info(
+    def delete_evals_datasets_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the dataset the URL names.")],
         _request_timeout: Union[
@@ -170,7 +170,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_evals_datasets_by_name_serialize(
+        _param = self._delete_evals_datasets_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -193,7 +193,7 @@ class EvalsApi:
 
 
     @validate_call
-    def delete_v1_evals_datasets_by_name_without_preload_content(
+    def delete_evals_datasets_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the dataset the URL names.")],
         _request_timeout: Union[
@@ -237,7 +237,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_evals_datasets_by_name_serialize(
+        _param = self._delete_evals_datasets_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -255,7 +255,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _delete_v1_evals_datasets_by_name_serialize(
+    def _delete_evals_datasets_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -319,7 +319,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets(
+    def get_evals_datasets(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -363,7 +363,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_serialize(
+        _param = self._get_evals_datasets_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -386,7 +386,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_with_http_info(
+    def get_evals_datasets_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -430,7 +430,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_serialize(
+        _param = self._get_evals_datasets_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -453,7 +453,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_without_preload_content(
+    def get_evals_datasets_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -497,7 +497,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_serialize(
+        _param = self._get_evals_datasets_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -515,7 +515,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_datasets_serialize(
+    def _get_evals_datasets_serialize(
         self,
         limit,
         _request_auth,
@@ -581,7 +581,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_by_name(
+    def get_evals_datasets_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the dataset the URL names.")],
         _request_timeout: Union[
@@ -625,7 +625,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_by_name_serialize(
+        _param = self._get_evals_datasets_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -648,7 +648,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_by_name_with_http_info(
+    def get_evals_datasets_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the dataset the URL names.")],
         _request_timeout: Union[
@@ -692,7 +692,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_by_name_serialize(
+        _param = self._get_evals_datasets_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -715,7 +715,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_by_name_without_preload_content(
+    def get_evals_datasets_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the dataset the URL names.")],
         _request_timeout: Union[
@@ -759,7 +759,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_by_name_serialize(
+        _param = self._get_evals_datasets_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -777,7 +777,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_datasets_by_name_serialize(
+    def _get_evals_datasets_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -841,7 +841,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_by_name_items(
+    def get_evals_datasets_by_name_items(
         self,
         name: Annotated[StrictStr, Field(description="Dataset is the set to read, from the path — this collection only exists inside one.")],
         limit: Optional[StrictInt] = None,
@@ -888,7 +888,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_by_name_items_serialize(
+        _param = self._get_evals_datasets_by_name_items_serialize(
             name=name,
             limit=limit,
             _request_auth=_request_auth,
@@ -912,7 +912,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_by_name_items_with_http_info(
+    def get_evals_datasets_by_name_items_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Dataset is the set to read, from the path — this collection only exists inside one.")],
         limit: Optional[StrictInt] = None,
@@ -959,7 +959,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_by_name_items_serialize(
+        _param = self._get_evals_datasets_by_name_items_serialize(
             name=name,
             limit=limit,
             _request_auth=_request_auth,
@@ -983,7 +983,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_datasets_by_name_items_without_preload_content(
+    def get_evals_datasets_by_name_items_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Dataset is the set to read, from the path — this collection only exists inside one.")],
         limit: Optional[StrictInt] = None,
@@ -1030,7 +1030,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_datasets_by_name_items_serialize(
+        _param = self._get_evals_datasets_by_name_items_serialize(
             name=name,
             limit=limit,
             _request_auth=_request_auth,
@@ -1049,7 +1049,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_datasets_by_name_items_serialize(
+    def _get_evals_datasets_by_name_items_serialize(
         self,
         name,
         limit,
@@ -1118,7 +1118,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_evaluators(
+    def get_evals_evaluators(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -1162,7 +1162,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_evaluators_serialize(
+        _param = self._get_evals_evaluators_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1185,7 +1185,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_evaluators_with_http_info(
+    def get_evals_evaluators_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -1229,7 +1229,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_evaluators_serialize(
+        _param = self._get_evals_evaluators_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1252,7 +1252,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_evaluators_without_preload_content(
+    def get_evals_evaluators_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -1296,7 +1296,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_evaluators_serialize(
+        _param = self._get_evals_evaluators_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1314,7 +1314,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_evaluators_serialize(
+    def _get_evals_evaluators_serialize(
         self,
         limit,
         _request_auth,
@@ -1380,7 +1380,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_metrics(
+    def get_evals_metrics(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is 24h (the default), 7d or 30d. Anything else normalises to 24h rather than failing, so the board always has a valid window.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Interval overrides the bucket the series is grouped into: \"hour\" or \"day\". Any other value leaves the range's own default in place.")] = None,
@@ -1427,7 +1427,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_metrics_serialize(
+        _param = self._get_evals_metrics_serialize(
             range=range,
             interval=interval,
             _request_auth=_request_auth,
@@ -1451,7 +1451,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_metrics_with_http_info(
+    def get_evals_metrics_with_http_info(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is 24h (the default), 7d or 30d. Anything else normalises to 24h rather than failing, so the board always has a valid window.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Interval overrides the bucket the series is grouped into: \"hour\" or \"day\". Any other value leaves the range's own default in place.")] = None,
@@ -1498,7 +1498,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_metrics_serialize(
+        _param = self._get_evals_metrics_serialize(
             range=range,
             interval=interval,
             _request_auth=_request_auth,
@@ -1522,7 +1522,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_metrics_without_preload_content(
+    def get_evals_metrics_without_preload_content(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is 24h (the default), 7d or 30d. Anything else normalises to 24h rather than failing, so the board always has a valid window.")] = None,
         interval: Annotated[Optional[StrictStr], Field(description="Interval overrides the bucket the series is grouped into: \"hour\" or \"day\". Any other value leaves the range's own default in place.")] = None,
@@ -1569,7 +1569,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_metrics_serialize(
+        _param = self._get_evals_metrics_serialize(
             range=range,
             interval=interval,
             _request_auth=_request_auth,
@@ -1588,7 +1588,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_metrics_serialize(
+    def _get_evals_metrics_serialize(
         self,
         range,
         interval,
@@ -1659,7 +1659,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_rubrics(
+    def get_evals_rubrics(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -1703,7 +1703,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_rubrics_serialize(
+        _param = self._get_evals_rubrics_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1726,7 +1726,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_rubrics_with_http_info(
+    def get_evals_rubrics_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -1770,7 +1770,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_rubrics_serialize(
+        _param = self._get_evals_rubrics_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1793,7 +1793,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_rubrics_without_preload_content(
+    def get_evals_rubrics_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
@@ -1837,7 +1837,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_rubrics_serialize(
+        _param = self._get_evals_rubrics_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1855,7 +1855,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_rubrics_serialize(
+    def _get_evals_rubrics_serialize(
         self,
         limit,
         _request_auth,
@@ -1921,7 +1921,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_runs(
+    def get_evals_runs(
         self,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the runs against one dataset.")] = None,
         limit: Optional[StrictInt] = None,
@@ -1968,7 +1968,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_runs_serialize(
+        _param = self._get_evals_runs_serialize(
             dataset_name=dataset_name,
             limit=limit,
             _request_auth=_request_auth,
@@ -1992,7 +1992,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_runs_with_http_info(
+    def get_evals_runs_with_http_info(
         self,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the runs against one dataset.")] = None,
         limit: Optional[StrictInt] = None,
@@ -2039,7 +2039,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_runs_serialize(
+        _param = self._get_evals_runs_serialize(
             dataset_name=dataset_name,
             limit=limit,
             _request_auth=_request_auth,
@@ -2063,7 +2063,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_runs_without_preload_content(
+    def get_evals_runs_without_preload_content(
         self,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the runs against one dataset.")] = None,
         limit: Optional[StrictInt] = None,
@@ -2110,7 +2110,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_runs_serialize(
+        _param = self._get_evals_runs_serialize(
             dataset_name=dataset_name,
             limit=limit,
             _request_auth=_request_auth,
@@ -2129,7 +2129,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_runs_serialize(
+    def _get_evals_runs_serialize(
         self,
         dataset_name,
         limit,
@@ -2200,7 +2200,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_scores(
+    def get_evals_scores(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Name narrows to one score name.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the scores of one run.")] = None,
@@ -2253,7 +2253,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_scores_serialize(
+        _param = self._get_evals_scores_serialize(
             name=name,
             run_name=run_name,
             trace_id=trace_id,
@@ -2279,7 +2279,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_scores_with_http_info(
+    def get_evals_scores_with_http_info(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Name narrows to one score name.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the scores of one run.")] = None,
@@ -2332,7 +2332,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_scores_serialize(
+        _param = self._get_evals_scores_serialize(
             name=name,
             run_name=run_name,
             trace_id=trace_id,
@@ -2358,7 +2358,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_scores_without_preload_content(
+    def get_evals_scores_without_preload_content(
         self,
         name: Annotated[Optional[StrictStr], Field(description="Name narrows to one score name.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the scores of one run.")] = None,
@@ -2411,7 +2411,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_scores_serialize(
+        _param = self._get_evals_scores_serialize(
             name=name,
             run_name=run_name,
             trace_id=trace_id,
@@ -2432,7 +2432,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_scores_serialize(
+    def _get_evals_scores_serialize(
         self,
         name,
         run_name,
@@ -2513,7 +2513,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_traces(
+    def get_evals_traces(
         self,
         session_id: Annotated[Optional[StrictStr], Field(description="SessionID narrows to one session, which for an evaluation is one run.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the calls one run made.")] = None,
@@ -2566,7 +2566,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_traces_serialize(
+        _param = self._get_evals_traces_serialize(
             session_id=session_id,
             run_name=run_name,
             dataset_name=dataset_name,
@@ -2592,7 +2592,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_traces_with_http_info(
+    def get_evals_traces_with_http_info(
         self,
         session_id: Annotated[Optional[StrictStr], Field(description="SessionID narrows to one session, which for an evaluation is one run.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the calls one run made.")] = None,
@@ -2645,7 +2645,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_traces_serialize(
+        _param = self._get_evals_traces_serialize(
             session_id=session_id,
             run_name=run_name,
             dataset_name=dataset_name,
@@ -2671,7 +2671,7 @@ class EvalsApi:
 
 
     @validate_call
-    def get_v1_evals_traces_without_preload_content(
+    def get_evals_traces_without_preload_content(
         self,
         session_id: Annotated[Optional[StrictStr], Field(description="SessionID narrows to one session, which for an evaluation is one run.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the calls one run made.")] = None,
@@ -2724,7 +2724,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_evals_traces_serialize(
+        _param = self._get_evals_traces_serialize(
             session_id=session_id,
             run_name=run_name,
             dataset_name=dataset_name,
@@ -2745,7 +2745,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _get_v1_evals_traces_serialize(
+    def _get_evals_traces_serialize(
         self,
         session_id,
         run_name,
@@ -2826,7 +2826,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_datasets(
+    def post_evals_datasets(
         self,
         dataset_req: DatasetReq,
         _request_timeout: Union[
@@ -2870,7 +2870,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_datasets_serialize(
+        _param = self._post_evals_datasets_serialize(
             dataset_req=dataset_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2893,7 +2893,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_datasets_with_http_info(
+    def post_evals_datasets_with_http_info(
         self,
         dataset_req: DatasetReq,
         _request_timeout: Union[
@@ -2937,7 +2937,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_datasets_serialize(
+        _param = self._post_evals_datasets_serialize(
             dataset_req=dataset_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2960,7 +2960,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_datasets_without_preload_content(
+    def post_evals_datasets_without_preload_content(
         self,
         dataset_req: DatasetReq,
         _request_timeout: Union[
@@ -3004,7 +3004,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_datasets_serialize(
+        _param = self._post_evals_datasets_serialize(
             dataset_req=dataset_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3022,7 +3022,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _post_v1_evals_datasets_serialize(
+    def _post_evals_datasets_serialize(
         self,
         dataset_req,
         _request_auth,
@@ -3099,7 +3099,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_datasets_by_name_items(
+    def post_evals_datasets_by_name_items(
         self,
         name: StrictStr,
         item_req: ItemReq,
@@ -3146,7 +3146,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_datasets_by_name_items_serialize(
+        _param = self._post_evals_datasets_by_name_items_serialize(
             name=name,
             item_req=item_req,
             _request_auth=_request_auth,
@@ -3170,7 +3170,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_datasets_by_name_items_with_http_info(
+    def post_evals_datasets_by_name_items_with_http_info(
         self,
         name: StrictStr,
         item_req: ItemReq,
@@ -3217,7 +3217,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_datasets_by_name_items_serialize(
+        _param = self._post_evals_datasets_by_name_items_serialize(
             name=name,
             item_req=item_req,
             _request_auth=_request_auth,
@@ -3241,7 +3241,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_datasets_by_name_items_without_preload_content(
+    def post_evals_datasets_by_name_items_without_preload_content(
         self,
         name: StrictStr,
         item_req: ItemReq,
@@ -3288,7 +3288,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_datasets_by_name_items_serialize(
+        _param = self._post_evals_datasets_by_name_items_serialize(
             name=name,
             item_req=item_req,
             _request_auth=_request_auth,
@@ -3307,7 +3307,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _post_v1_evals_datasets_by_name_items_serialize(
+    def _post_evals_datasets_by_name_items_serialize(
         self,
         name,
         item_req,
@@ -3387,7 +3387,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_evaluators(
+    def post_evals_evaluators(
         self,
         evaluator_req: EvaluatorReq,
         _request_timeout: Union[
@@ -3431,7 +3431,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_evaluators_serialize(
+        _param = self._post_evals_evaluators_serialize(
             evaluator_req=evaluator_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3454,7 +3454,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_evaluators_with_http_info(
+    def post_evals_evaluators_with_http_info(
         self,
         evaluator_req: EvaluatorReq,
         _request_timeout: Union[
@@ -3498,7 +3498,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_evaluators_serialize(
+        _param = self._post_evals_evaluators_serialize(
             evaluator_req=evaluator_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3521,7 +3521,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_evaluators_without_preload_content(
+    def post_evals_evaluators_without_preload_content(
         self,
         evaluator_req: EvaluatorReq,
         _request_timeout: Union[
@@ -3565,7 +3565,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_evaluators_serialize(
+        _param = self._post_evals_evaluators_serialize(
             evaluator_req=evaluator_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3583,7 +3583,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _post_v1_evals_evaluators_serialize(
+    def _post_evals_evaluators_serialize(
         self,
         evaluator_req,
         _request_auth,
@@ -3660,7 +3660,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_rubrics(
+    def post_evals_rubrics(
         self,
         score_config_req: ScoreConfigReq,
         _request_timeout: Union[
@@ -3704,7 +3704,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_rubrics_serialize(
+        _param = self._post_evals_rubrics_serialize(
             score_config_req=score_config_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3727,7 +3727,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_rubrics_with_http_info(
+    def post_evals_rubrics_with_http_info(
         self,
         score_config_req: ScoreConfigReq,
         _request_timeout: Union[
@@ -3771,7 +3771,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_rubrics_serialize(
+        _param = self._post_evals_rubrics_serialize(
             score_config_req=score_config_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3794,7 +3794,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_rubrics_without_preload_content(
+    def post_evals_rubrics_without_preload_content(
         self,
         score_config_req: ScoreConfigReq,
         _request_timeout: Union[
@@ -3838,7 +3838,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_rubrics_serialize(
+        _param = self._post_evals_rubrics_serialize(
             score_config_req=score_config_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3856,7 +3856,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _post_v1_evals_rubrics_serialize(
+    def _post_evals_rubrics_serialize(
         self,
         score_config_req,
         _request_auth,
@@ -3933,7 +3933,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_runs(
+    def post_evals_runs(
         self,
         run_request: RunRequest,
         authorization: Optional[StrictStr] = None,
@@ -3980,7 +3980,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_runs_serialize(
+        _param = self._post_evals_runs_serialize(
             run_request=run_request,
             authorization=authorization,
             _request_auth=_request_auth,
@@ -4005,7 +4005,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_runs_with_http_info(
+    def post_evals_runs_with_http_info(
         self,
         run_request: RunRequest,
         authorization: Optional[StrictStr] = None,
@@ -4052,7 +4052,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_runs_serialize(
+        _param = self._post_evals_runs_serialize(
             run_request=run_request,
             authorization=authorization,
             _request_auth=_request_auth,
@@ -4077,7 +4077,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_runs_without_preload_content(
+    def post_evals_runs_without_preload_content(
         self,
         run_request: RunRequest,
         authorization: Optional[StrictStr] = None,
@@ -4124,7 +4124,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_runs_serialize(
+        _param = self._post_evals_runs_serialize(
             run_request=run_request,
             authorization=authorization,
             _request_auth=_request_auth,
@@ -4144,7 +4144,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _post_v1_evals_runs_serialize(
+    def _post_evals_runs_serialize(
         self,
         run_request,
         authorization,
@@ -4224,7 +4224,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_scores(
+    def post_evals_scores(
         self,
         score_req: ScoreReq,
         _request_timeout: Union[
@@ -4268,7 +4268,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_scores_serialize(
+        _param = self._post_evals_scores_serialize(
             score_req=score_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4291,7 +4291,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_scores_with_http_info(
+    def post_evals_scores_with_http_info(
         self,
         score_req: ScoreReq,
         _request_timeout: Union[
@@ -4335,7 +4335,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_scores_serialize(
+        _param = self._post_evals_scores_serialize(
             score_req=score_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4358,7 +4358,7 @@ class EvalsApi:
 
 
     @validate_call
-    def post_v1_evals_scores_without_preload_content(
+    def post_evals_scores_without_preload_content(
         self,
         score_req: ScoreReq,
         _request_timeout: Union[
@@ -4402,7 +4402,7 @@ class EvalsApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_evals_scores_serialize(
+        _param = self._post_evals_scores_serialize(
             score_req=score_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4420,7 +4420,7 @@ class EvalsApi:
         return response_data.response
 
 
-    def _post_v1_evals_scores_serialize(
+    def _post_evals_scores_serialize(
         self,
         score_req,
         _request_auth,

@@ -36,7 +36,7 @@ class MessagesApi:
 
 
     @validate_call
-    def post_v1_messages(
+    def post_messages(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class MessagesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_messages_serialize(
+        _param = self._post_messages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class MessagesApi:
 
 
     @validate_call
-    def post_v1_messages_with_http_info(
+    def post_messages_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class MessagesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_messages_serialize(
+        _param = self._post_messages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class MessagesApi:
 
 
     @validate_call
-    def post_v1_messages_without_preload_content(
+    def post_messages_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class MessagesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_messages_serialize(
+        _param = self._post_messages_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class MessagesApi:
         return response_data.response
 
 
-    def _post_v1_messages_serialize(
+    def _post_messages_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class MessagesApi:
 
 
     @validate_call
-    def post_v1_messages_count_tokens(
+    def post_messages_count_tokens(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class MessagesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_messages_count_tokens_serialize(
+        _param = self._post_messages_count_tokens_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class MessagesApi:
 
 
     @validate_call
-    def post_v1_messages_count_tokens_with_http_info(
+    def post_messages_count_tokens_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class MessagesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_messages_count_tokens_serialize(
+        _param = self._post_messages_count_tokens_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class MessagesApi:
 
 
     @validate_call
-    def post_v1_messages_count_tokens_without_preload_content(
+    def post_messages_count_tokens_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class MessagesApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_messages_count_tokens_serialize(
+        _param = self._post_messages_count_tokens_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class MessagesApi:
         return response_data.response
 
 
-    def _post_v1_messages_count_tokens_serialize(
+    def _post_messages_count_tokens_serialize(
         self,
         _request_auth,
         _content_type,

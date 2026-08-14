@@ -54,7 +54,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation(
+    def get_compliance_accreditation(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -98,7 +98,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_serialize(
+        _param = self._get_compliance_accreditation_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -121,7 +121,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_with_http_info(
+    def get_compliance_accreditation_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -165,7 +165,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_serialize(
+        _param = self._get_compliance_accreditation_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -188,7 +188,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_without_preload_content(
+    def get_compliance_accreditation_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -232,7 +232,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_serialize(
+        _param = self._get_compliance_accreditation_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -250,7 +250,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_accreditation_serialize(
+    def _get_compliance_accreditation_serialize(
         self,
         limit,
         _request_auth,
@@ -316,7 +316,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_by_id(
+    def get_compliance_accreditation_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to read, from the path.")],
         _request_timeout: Union[
@@ -360,7 +360,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_by_id_serialize(
+        _param = self._get_compliance_accreditation_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -383,7 +383,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_by_id_with_http_info(
+    def get_compliance_accreditation_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to read, from the path.")],
         _request_timeout: Union[
@@ -427,7 +427,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_by_id_serialize(
+        _param = self._get_compliance_accreditation_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -450,7 +450,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_accreditation_by_id_without_preload_content(
+    def get_compliance_accreditation_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to read, from the path.")],
         _request_timeout: Union[
@@ -494,7 +494,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_accreditation_by_id_serialize(
+        _param = self._get_compliance_accreditation_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -512,7 +512,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_accreditation_by_id_serialize(
+    def _get_compliance_accreditation_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -576,7 +576,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_audit(
+    def get_compliance_audit(
         self,
         result: Annotated[Optional[StrictStr], Field(description="Result filters rows by outcome result: success, deny, or error; empty means all.")] = None,
         _request_timeout: Union[
@@ -620,7 +620,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_audit_serialize(
+        _param = self._get_compliance_audit_serialize(
             result=result,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -643,7 +643,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_audit_with_http_info(
+    def get_compliance_audit_with_http_info(
         self,
         result: Annotated[Optional[StrictStr], Field(description="Result filters rows by outcome result: success, deny, or error; empty means all.")] = None,
         _request_timeout: Union[
@@ -687,7 +687,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_audit_serialize(
+        _param = self._get_compliance_audit_serialize(
             result=result,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -710,7 +710,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_audit_without_preload_content(
+    def get_compliance_audit_without_preload_content(
         self,
         result: Annotated[Optional[StrictStr], Field(description="Result filters rows by outcome result: success, deny, or error; empty means all.")] = None,
         _request_timeout: Union[
@@ -754,7 +754,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_audit_serialize(
+        _param = self._get_compliance_audit_serialize(
             result=result,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -772,7 +772,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_audit_serialize(
+    def _get_compliance_audit_serialize(
         self,
         result,
         _request_auth,
@@ -838,7 +838,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_health(
+    def get_compliance_health(
         self,
         _request_timeout: Union[
             None,
@@ -879,7 +879,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_health_serialize(
+        _param = self._get_compliance_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -901,7 +901,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_health_with_http_info(
+    def get_compliance_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -942,7 +942,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_health_serialize(
+        _param = self._get_compliance_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -964,7 +964,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_health_without_preload_content(
+    def get_compliance_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1005,7 +1005,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_health_serialize(
+        _param = self._get_compliance_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1022,7 +1022,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_health_serialize(
+    def _get_compliance_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1083,7 +1083,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_records(
+    def get_compliance_records(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -1127,7 +1127,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_records_serialize(
+        _param = self._get_compliance_records_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1150,7 +1150,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_records_with_http_info(
+    def get_compliance_records_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -1194,7 +1194,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_records_serialize(
+        _param = self._get_compliance_records_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1217,7 +1217,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_records_without_preload_content(
+    def get_compliance_records_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -1261,7 +1261,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_records_serialize(
+        _param = self._get_compliance_records_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1279,7 +1279,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_records_serialize(
+    def _get_compliance_records_serialize(
         self,
         limit,
         _request_auth,
@@ -1345,7 +1345,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_status(
+    def get_compliance_status(
         self,
         _request_timeout: Union[
             None,
@@ -1386,7 +1386,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_status_serialize(
+        _param = self._get_compliance_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1408,7 +1408,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_status_with_http_info(
+    def get_compliance_status_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1449,7 +1449,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_status_serialize(
+        _param = self._get_compliance_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1471,7 +1471,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_status_without_preload_content(
+    def get_compliance_status_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1512,7 +1512,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_status_serialize(
+        _param = self._get_compliance_status_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1529,7 +1529,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_status_serialize(
+    def _get_compliance_status_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1590,7 +1590,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects(
+    def get_compliance_subjects(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -1634,7 +1634,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_serialize(
+        _param = self._get_compliance_subjects_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1657,7 +1657,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_with_http_info(
+    def get_compliance_subjects_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -1701,7 +1701,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_serialize(
+        _param = self._get_compliance_subjects_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1724,7 +1724,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_without_preload_content(
+    def get_compliance_subjects_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -1768,7 +1768,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_serialize(
+        _param = self._get_compliance_subjects_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1786,7 +1786,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_subjects_serialize(
+    def _get_compliance_subjects_serialize(
         self,
         limit,
         _request_auth,
@@ -1852,7 +1852,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_by_id(
+    def get_compliance_subjects_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the subject to read, from the path.")],
         _request_timeout: Union[
@@ -1896,7 +1896,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_by_id_serialize(
+        _param = self._get_compliance_subjects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1919,7 +1919,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_by_id_with_http_info(
+    def get_compliance_subjects_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the subject to read, from the path.")],
         _request_timeout: Union[
@@ -1963,7 +1963,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_by_id_serialize(
+        _param = self._get_compliance_subjects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1986,7 +1986,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_subjects_by_id_without_preload_content(
+    def get_compliance_subjects_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the subject to read, from the path.")],
         _request_timeout: Union[
@@ -2030,7 +2030,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_subjects_by_id_serialize(
+        _param = self._get_compliance_subjects_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2048,7 +2048,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_subjects_by_id_serialize(
+    def _get_compliance_subjects_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2112,7 +2112,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications(
+    def get_compliance_verifications(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -2156,7 +2156,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_serialize(
+        _param = self._get_compliance_verifications_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2179,7 +2179,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_with_http_info(
+    def get_compliance_verifications_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -2223,7 +2223,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_serialize(
+        _param = self._get_compliance_verifications_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2246,7 +2246,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_without_preload_content(
+    def get_compliance_verifications_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned; non-positive means the server default.")] = None,
         _request_timeout: Union[
@@ -2290,7 +2290,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_serialize(
+        _param = self._get_compliance_verifications_serialize(
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2308,7 +2308,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_verifications_serialize(
+    def _get_compliance_verifications_serialize(
         self,
         limit,
         _request_auth,
@@ -2374,7 +2374,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_by_id(
+    def get_compliance_verifications_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -2418,7 +2418,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_by_id_serialize(
+        _param = self._get_compliance_verifications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2441,7 +2441,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_by_id_with_http_info(
+    def get_compliance_verifications_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -2485,7 +2485,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_by_id_serialize(
+        _param = self._get_compliance_verifications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2508,7 +2508,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def get_v1_compliance_verifications_by_id_without_preload_content(
+    def get_compliance_verifications_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -2552,7 +2552,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_compliance_verifications_by_id_serialize(
+        _param = self._get_compliance_verifications_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2570,7 +2570,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _get_v1_compliance_verifications_by_id_serialize(
+    def _get_compliance_verifications_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -2634,7 +2634,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation(
+    def post_compliance_accreditation(
         self,
         accreditation_req: AccreditationReq,
         _request_timeout: Union[
@@ -2678,7 +2678,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_serialize(
+        _param = self._post_compliance_accreditation_serialize(
             accreditation_req=accreditation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2701,7 +2701,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_with_http_info(
+    def post_compliance_accreditation_with_http_info(
         self,
         accreditation_req: AccreditationReq,
         _request_timeout: Union[
@@ -2745,7 +2745,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_serialize(
+        _param = self._post_compliance_accreditation_serialize(
             accreditation_req=accreditation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2768,7 +2768,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_without_preload_content(
+    def post_compliance_accreditation_without_preload_content(
         self,
         accreditation_req: AccreditationReq,
         _request_timeout: Union[
@@ -2812,7 +2812,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_serialize(
+        _param = self._post_compliance_accreditation_serialize(
             accreditation_req=accreditation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2830,7 +2830,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_accreditation_serialize(
+    def _post_compliance_accreditation_serialize(
         self,
         accreditation_req,
         _request_auth,
@@ -2907,7 +2907,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_by_id_decision(
+    def post_compliance_accreditation_by_id_decision(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
         accreditation_decision: AccreditationDecision,
@@ -2954,7 +2954,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_by_id_decision_serialize(
+        _param = self._post_compliance_accreditation_by_id_decision_serialize(
             id=id,
             accreditation_decision=accreditation_decision,
             _request_auth=_request_auth,
@@ -2978,7 +2978,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_by_id_decision_with_http_info(
+    def post_compliance_accreditation_by_id_decision_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
         accreditation_decision: AccreditationDecision,
@@ -3025,7 +3025,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_by_id_decision_serialize(
+        _param = self._post_compliance_accreditation_by_id_decision_serialize(
             id=id,
             accreditation_decision=accreditation_decision,
             _request_auth=_request_auth,
@@ -3049,7 +3049,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_accreditation_by_id_decision_without_preload_content(
+    def post_compliance_accreditation_by_id_decision_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
         accreditation_decision: AccreditationDecision,
@@ -3096,7 +3096,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_accreditation_by_id_decision_serialize(
+        _param = self._post_compliance_accreditation_by_id_decision_serialize(
             id=id,
             accreditation_decision=accreditation_decision,
             _request_auth=_request_auth,
@@ -3115,7 +3115,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_accreditation_by_id_decision_serialize(
+    def _post_compliance_accreditation_by_id_decision_serialize(
         self,
         id,
         accreditation_decision,
@@ -3195,7 +3195,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_subjects(
+    def post_compliance_subjects(
         self,
         subject_req: SubjectReq,
         _request_timeout: Union[
@@ -3239,7 +3239,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_subjects_serialize(
+        _param = self._post_compliance_subjects_serialize(
             subject_req=subject_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3262,7 +3262,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_subjects_with_http_info(
+    def post_compliance_subjects_with_http_info(
         self,
         subject_req: SubjectReq,
         _request_timeout: Union[
@@ -3306,7 +3306,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_subjects_serialize(
+        _param = self._post_compliance_subjects_serialize(
             subject_req=subject_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3329,7 +3329,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_subjects_without_preload_content(
+    def post_compliance_subjects_without_preload_content(
         self,
         subject_req: SubjectReq,
         _request_timeout: Union[
@@ -3373,7 +3373,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_subjects_serialize(
+        _param = self._post_compliance_subjects_serialize(
             subject_req=subject_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3391,7 +3391,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_subjects_serialize(
+    def _post_compliance_subjects_serialize(
         self,
         subject_req,
         _request_auth,
@@ -3468,7 +3468,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications(
+    def post_compliance_verifications(
         self,
         verification_req: VerificationReq,
         _request_timeout: Union[
@@ -3512,7 +3512,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_serialize(
+        _param = self._post_compliance_verifications_serialize(
             verification_req=verification_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3535,7 +3535,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_with_http_info(
+    def post_compliance_verifications_with_http_info(
         self,
         verification_req: VerificationReq,
         _request_timeout: Union[
@@ -3579,7 +3579,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_serialize(
+        _param = self._post_compliance_verifications_serialize(
             verification_req=verification_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3602,7 +3602,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_without_preload_content(
+    def post_compliance_verifications_without_preload_content(
         self,
         verification_req: VerificationReq,
         _request_timeout: Union[
@@ -3646,7 +3646,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_serialize(
+        _param = self._post_compliance_verifications_serialize(
             verification_req=verification_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3664,7 +3664,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_verifications_serialize(
+    def _post_compliance_verifications_serialize(
         self,
         verification_req,
         _request_auth,
@@ -3741,7 +3741,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_by_id_decision(
+    def post_compliance_verifications_by_id_decision(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
         verification_decision: VerificationDecision,
@@ -3788,7 +3788,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_by_id_decision_serialize(
+        _param = self._post_compliance_verifications_by_id_decision_serialize(
             id=id,
             verification_decision=verification_decision,
             _request_auth=_request_auth,
@@ -3812,7 +3812,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_by_id_decision_with_http_info(
+    def post_compliance_verifications_by_id_decision_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
         verification_decision: VerificationDecision,
@@ -3859,7 +3859,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_by_id_decision_serialize(
+        _param = self._post_compliance_verifications_by_id_decision_serialize(
             id=id,
             verification_decision=verification_decision,
             _request_auth=_request_auth,
@@ -3883,7 +3883,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_by_id_decision_without_preload_content(
+    def post_compliance_verifications_by_id_decision_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
         verification_decision: VerificationDecision,
@@ -3930,7 +3930,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_by_id_decision_serialize(
+        _param = self._post_compliance_verifications_by_id_decision_serialize(
             id=id,
             verification_decision=verification_decision,
             _request_auth=_request_auth,
@@ -3949,7 +3949,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_verifications_by_id_decision_serialize(
+    def _post_compliance_verifications_by_id_decision_serialize(
         self,
         id,
         verification_decision,
@@ -4029,7 +4029,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_by_id_refresh(
+    def post_compliance_verifications_by_id_refresh(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -4073,7 +4073,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_by_id_refresh_serialize(
+        _param = self._post_compliance_verifications_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4096,7 +4096,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_by_id_refresh_with_http_info(
+    def post_compliance_verifications_by_id_refresh_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -4140,7 +4140,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_by_id_refresh_serialize(
+        _param = self._post_compliance_verifications_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4163,7 +4163,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_by_id_refresh_without_preload_content(
+    def post_compliance_verifications_by_id_refresh_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to act on, from the path.")],
         _request_timeout: Union[
@@ -4207,7 +4207,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_by_id_refresh_serialize(
+        _param = self._post_compliance_verifications_by_id_refresh_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4225,7 +4225,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_verifications_by_id_refresh_serialize(
+    def _post_compliance_verifications_by_id_refresh_serialize(
         self,
         id,
         _request_auth,
@@ -4289,7 +4289,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_webhook(
+    def post_compliance_verifications_webhook(
         self,
         _request_timeout: Union[
             None,
@@ -4330,7 +4330,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_webhook_serialize(
+        _param = self._post_compliance_verifications_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4351,7 +4351,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_webhook_with_http_info(
+    def post_compliance_verifications_webhook_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -4392,7 +4392,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_webhook_serialize(
+        _param = self._post_compliance_verifications_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4413,7 +4413,7 @@ class ComplianceApi:
 
 
     @validate_call
-    def post_v1_compliance_verifications_webhook_without_preload_content(
+    def post_compliance_verifications_webhook_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -4454,7 +4454,7 @@ class ComplianceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_compliance_verifications_webhook_serialize(
+        _param = self._post_compliance_verifications_webhook_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4470,7 +4470,7 @@ class ComplianceApi:
         return response_data.response
 
 
-    def _post_v1_compliance_verifications_webhook_serialize(
+    def _post_compliance_verifications_webhook_serialize(
         self,
         _request_auth,
         _content_type,

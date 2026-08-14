@@ -40,7 +40,7 @@ class CatalogApi:
 
 
     @validate_call
-    def delete_v1_catalog_entries_by_wildcard1(
+    def delete_catalog_entries_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -84,7 +84,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_catalog_entries_by_wildcard1_serialize(
+        _param = self._delete_catalog_entries_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -106,7 +106,7 @@ class CatalogApi:
 
 
     @validate_call
-    def delete_v1_catalog_entries_by_wildcard1_with_http_info(
+    def delete_catalog_entries_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -150,7 +150,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_catalog_entries_by_wildcard1_serialize(
+        _param = self._delete_catalog_entries_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -172,7 +172,7 @@ class CatalogApi:
 
 
     @validate_call
-    def delete_v1_catalog_entries_by_wildcard1_without_preload_content(
+    def delete_catalog_entries_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -216,7 +216,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_catalog_entries_by_wildcard1_serialize(
+        _param = self._delete_catalog_entries_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -233,7 +233,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _delete_v1_catalog_entries_by_wildcard1_serialize(
+    def _delete_catalog_entries_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,
@@ -290,7 +290,7 @@ class CatalogApi:
 
 
     @validate_call
-    def get_v1_catalog(
+    def get_catalog(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way.")] = None,
         org: Annotated[Optional[StrictStr], Field(description="Org narrows to one builder org: hanzo | lux | zoo. Case-insensitive.")] = None,
@@ -361,7 +361,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_catalog_serialize(
+        _param = self._get_catalog_serialize(
             q=q,
             org=org,
             kind=kind,
@@ -393,7 +393,7 @@ class CatalogApi:
 
 
     @validate_call
-    def get_v1_catalog_with_http_info(
+    def get_catalog_with_http_info(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way.")] = None,
         org: Annotated[Optional[StrictStr], Field(description="Org narrows to one builder org: hanzo | lux | zoo. Case-insensitive.")] = None,
@@ -464,7 +464,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_catalog_serialize(
+        _param = self._get_catalog_serialize(
             q=q,
             org=org,
             kind=kind,
@@ -496,7 +496,7 @@ class CatalogApi:
 
 
     @validate_call
-    def get_v1_catalog_without_preload_content(
+    def get_catalog_without_preload_content(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way.")] = None,
         org: Annotated[Optional[StrictStr], Field(description="Org narrows to one builder org: hanzo | lux | zoo. Case-insensitive.")] = None,
@@ -567,7 +567,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_catalog_serialize(
+        _param = self._get_catalog_serialize(
             q=q,
             org=org,
             kind=kind,
@@ -594,7 +594,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _get_v1_catalog_serialize(
+    def _get_catalog_serialize(
         self,
         q,
         org,
@@ -705,7 +705,7 @@ class CatalogApi:
 
 
     @validate_call
-    def get_v1_catalog_entries(
+    def get_catalog_entries(
         self,
         _request_timeout: Union[
             None,
@@ -746,7 +746,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_catalog_entries_serialize(
+        _param = self._get_catalog_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -767,7 +767,7 @@ class CatalogApi:
 
 
     @validate_call
-    def get_v1_catalog_entries_with_http_info(
+    def get_catalog_entries_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -808,7 +808,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_catalog_entries_serialize(
+        _param = self._get_catalog_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -829,7 +829,7 @@ class CatalogApi:
 
 
     @validate_call
-    def get_v1_catalog_entries_without_preload_content(
+    def get_catalog_entries_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -870,7 +870,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_catalog_entries_serialize(
+        _param = self._get_catalog_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -886,7 +886,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _get_v1_catalog_entries_serialize(
+    def _get_catalog_entries_serialize(
         self,
         _request_auth,
         _content_type,
@@ -940,7 +940,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_entries(
+    def post_catalog_entries(
         self,
         _request_timeout: Union[
             None,
@@ -981,7 +981,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_entries_serialize(
+        _param = self._post_catalog_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1002,7 +1002,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_entries_with_http_info(
+    def post_catalog_entries_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1043,7 +1043,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_entries_serialize(
+        _param = self._post_catalog_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1064,7 +1064,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_entries_without_preload_content(
+    def post_catalog_entries_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1105,7 +1105,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_entries_serialize(
+        _param = self._post_catalog_entries_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1121,7 +1121,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _post_v1_catalog_entries_serialize(
+    def _post_catalog_entries_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1175,7 +1175,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_models(
+    def post_catalog_models(
         self,
         _request_timeout: Union[
             None,
@@ -1216,7 +1216,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_models_serialize(
+        _param = self._post_catalog_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1237,7 +1237,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_models_with_http_info(
+    def post_catalog_models_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1278,7 +1278,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_models_serialize(
+        _param = self._post_catalog_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1299,7 +1299,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_models_without_preload_content(
+    def post_catalog_models_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1340,7 +1340,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_models_serialize(
+        _param = self._post_catalog_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1356,7 +1356,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _post_v1_catalog_models_serialize(
+    def _post_catalog_models_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1410,7 +1410,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_models_refresh(
+    def post_catalog_models_refresh(
         self,
         _request_timeout: Union[
             None,
@@ -1451,7 +1451,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_models_refresh_serialize(
+        _param = self._post_catalog_models_refresh_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1472,7 +1472,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_models_refresh_with_http_info(
+    def post_catalog_models_refresh_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1513,7 +1513,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_models_refresh_serialize(
+        _param = self._post_catalog_models_refresh_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1534,7 +1534,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_models_refresh_without_preload_content(
+    def post_catalog_models_refresh_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1575,7 +1575,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_models_refresh_serialize(
+        _param = self._post_catalog_models_refresh_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1591,7 +1591,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _post_v1_catalog_models_refresh_serialize(
+    def _post_catalog_models_refresh_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1645,7 +1645,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_seed(
+    def post_catalog_seed(
         self,
         _request_timeout: Union[
             None,
@@ -1686,7 +1686,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_seed_serialize(
+        _param = self._post_catalog_seed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1707,7 +1707,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_seed_with_http_info(
+    def post_catalog_seed_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1748,7 +1748,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_seed_serialize(
+        _param = self._post_catalog_seed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1769,7 +1769,7 @@ class CatalogApi:
 
 
     @validate_call
-    def post_v1_catalog_seed_without_preload_content(
+    def post_catalog_seed_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1810,7 +1810,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_catalog_seed_serialize(
+        _param = self._post_catalog_seed_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1826,7 +1826,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _post_v1_catalog_seed_serialize(
+    def _post_catalog_seed_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1880,7 +1880,7 @@ class CatalogApi:
 
 
     @validate_call
-    def put_v1_catalog_entries_by_wildcard1(
+    def put_catalog_entries_by_wildcard1(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1924,7 +1924,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_catalog_entries_by_wildcard1_serialize(
+        _param = self._put_catalog_entries_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1946,7 +1946,7 @@ class CatalogApi:
 
 
     @validate_call
-    def put_v1_catalog_entries_by_wildcard1_with_http_info(
+    def put_catalog_entries_by_wildcard1_with_http_info(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -1990,7 +1990,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_catalog_entries_by_wildcard1_serialize(
+        _param = self._put_catalog_entries_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2012,7 +2012,7 @@ class CatalogApi:
 
 
     @validate_call
-    def put_v1_catalog_entries_by_wildcard1_without_preload_content(
+    def put_catalog_entries_by_wildcard1_without_preload_content(
         self,
         wildcard1: StrictStr,
         _request_timeout: Union[
@@ -2056,7 +2056,7 @@ class CatalogApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_catalog_entries_by_wildcard1_serialize(
+        _param = self._put_catalog_entries_by_wildcard1_serialize(
             wildcard1=wildcard1,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2073,7 +2073,7 @@ class CatalogApi:
         return response_data.response
 
 
-    def _put_v1_catalog_entries_by_wildcard1_serialize(
+    def _put_catalog_entries_by_wildcard1_serialize(
         self,
         wildcard1,
         _request_auth,

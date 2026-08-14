@@ -45,7 +45,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def delete_v1_webhooks_by_id(
+    def delete_webhooks_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -89,7 +89,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_webhooks_by_id_serialize(
+        _param = self._delete_webhooks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -112,7 +112,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def delete_v1_webhooks_by_id_with_http_info(
+    def delete_webhooks_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -156,7 +156,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_webhooks_by_id_serialize(
+        _param = self._delete_webhooks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -179,7 +179,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def delete_v1_webhooks_by_id_without_preload_content(
+    def delete_webhooks_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -223,7 +223,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_webhooks_by_id_serialize(
+        _param = self._delete_webhooks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -241,7 +241,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _delete_v1_webhooks_by_id_serialize(
+    def _delete_webhooks_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -298,7 +298,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks(
+    def get_webhooks(
         self,
         _request_timeout: Union[
             None,
@@ -339,7 +339,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_serialize(
+        _param = self._get_webhooks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -361,7 +361,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_with_http_info(
+    def get_webhooks_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -402,7 +402,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_serialize(
+        _param = self._get_webhooks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,7 +424,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_without_preload_content(
+    def get_webhooks_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -465,7 +465,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_serialize(
+        _param = self._get_webhooks_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -482,7 +482,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _get_v1_webhooks_serialize(
+    def _get_webhooks_serialize(
         self,
         _request_auth,
         _content_type,
@@ -543,7 +543,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_by_id(
+    def get_webhooks_by_id(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -587,7 +587,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_by_id_serialize(
+        _param = self._get_webhooks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -610,7 +610,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_by_id_with_http_info(
+    def get_webhooks_by_id_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -654,7 +654,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_by_id_serialize(
+        _param = self._get_webhooks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -677,7 +677,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_by_id_without_preload_content(
+    def get_webhooks_by_id_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -721,7 +721,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_by_id_serialize(
+        _param = self._get_webhooks_by_id_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -739,7 +739,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _get_v1_webhooks_by_id_serialize(
+    def _get_webhooks_by_id_serialize(
         self,
         id,
         _request_auth,
@@ -803,7 +803,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_by_id_deliveries(
+    def get_webhooks_by_id_deliveries(
         self,
         id: StrictStr,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many attempts come back: default 50, maximum 200. A value that is not a positive integer reads as the default.")] = None,
@@ -853,7 +853,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_by_id_deliveries_serialize(
+        _param = self._get_webhooks_by_id_deliveries_serialize(
             id=id,
             limit=limit,
             status=status,
@@ -878,7 +878,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_by_id_deliveries_with_http_info(
+    def get_webhooks_by_id_deliveries_with_http_info(
         self,
         id: StrictStr,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many attempts come back: default 50, maximum 200. A value that is not a positive integer reads as the default.")] = None,
@@ -928,7 +928,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_by_id_deliveries_serialize(
+        _param = self._get_webhooks_by_id_deliveries_serialize(
             id=id,
             limit=limit,
             status=status,
@@ -953,7 +953,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def get_v1_webhooks_by_id_deliveries_without_preload_content(
+    def get_webhooks_by_id_deliveries_without_preload_content(
         self,
         id: StrictStr,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many attempts come back: default 50, maximum 200. A value that is not a positive integer reads as the default.")] = None,
@@ -1003,7 +1003,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_webhooks_by_id_deliveries_serialize(
+        _param = self._get_webhooks_by_id_deliveries_serialize(
             id=id,
             limit=limit,
             status=status,
@@ -1023,7 +1023,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _get_v1_webhooks_by_id_deliveries_serialize(
+    def _get_webhooks_by_id_deliveries_serialize(
         self,
         id,
         limit,
@@ -1097,7 +1097,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks(
+    def post_webhooks(
         self,
         create_endpoint_in: CreateEndpointIn,
         _request_timeout: Union[
@@ -1141,7 +1141,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_serialize(
+        _param = self._post_webhooks_serialize(
             create_endpoint_in=create_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1164,7 +1164,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_with_http_info(
+    def post_webhooks_with_http_info(
         self,
         create_endpoint_in: CreateEndpointIn,
         _request_timeout: Union[
@@ -1208,7 +1208,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_serialize(
+        _param = self._post_webhooks_serialize(
             create_endpoint_in=create_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1231,7 +1231,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_without_preload_content(
+    def post_webhooks_without_preload_content(
         self,
         create_endpoint_in: CreateEndpointIn,
         _request_timeout: Union[
@@ -1275,7 +1275,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_serialize(
+        _param = self._post_webhooks_serialize(
             create_endpoint_in=create_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1293,7 +1293,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _post_v1_webhooks_serialize(
+    def _post_webhooks_serialize(
         self,
         create_endpoint_in,
         _request_auth,
@@ -1370,7 +1370,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_by_id_secret(
+    def post_webhooks_by_id_secret(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1414,7 +1414,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_by_id_secret_serialize(
+        _param = self._post_webhooks_by_id_secret_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1437,7 +1437,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_by_id_secret_with_http_info(
+    def post_webhooks_by_id_secret_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1481,7 +1481,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_by_id_secret_serialize(
+        _param = self._post_webhooks_by_id_secret_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1504,7 +1504,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_by_id_secret_without_preload_content(
+    def post_webhooks_by_id_secret_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1548,7 +1548,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_by_id_secret_serialize(
+        _param = self._post_webhooks_by_id_secret_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1566,7 +1566,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _post_v1_webhooks_by_id_secret_serialize(
+    def _post_webhooks_by_id_secret_serialize(
         self,
         id,
         _request_auth,
@@ -1630,7 +1630,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_by_id_test(
+    def post_webhooks_by_id_test(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1674,7 +1674,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_by_id_test_serialize(
+        _param = self._post_webhooks_by_id_test_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1697,7 +1697,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_by_id_test_with_http_info(
+    def post_webhooks_by_id_test_with_http_info(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1741,7 +1741,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_by_id_test_serialize(
+        _param = self._post_webhooks_by_id_test_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1764,7 +1764,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def post_v1_webhooks_by_id_test_without_preload_content(
+    def post_webhooks_by_id_test_without_preload_content(
         self,
         id: StrictStr,
         _request_timeout: Union[
@@ -1808,7 +1808,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_webhooks_by_id_test_serialize(
+        _param = self._post_webhooks_by_id_test_serialize(
             id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1826,7 +1826,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _post_v1_webhooks_by_id_test_serialize(
+    def _post_webhooks_by_id_test_serialize(
         self,
         id,
         _request_auth,
@@ -1890,7 +1890,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def put_v1_webhooks_by_id(
+    def put_webhooks_by_id(
         self,
         id: StrictStr,
         update_endpoint_in: UpdateEndpointIn,
@@ -1937,7 +1937,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_webhooks_by_id_serialize(
+        _param = self._put_webhooks_by_id_serialize(
             id=id,
             update_endpoint_in=update_endpoint_in,
             _request_auth=_request_auth,
@@ -1961,7 +1961,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def put_v1_webhooks_by_id_with_http_info(
+    def put_webhooks_by_id_with_http_info(
         self,
         id: StrictStr,
         update_endpoint_in: UpdateEndpointIn,
@@ -2008,7 +2008,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_webhooks_by_id_serialize(
+        _param = self._put_webhooks_by_id_serialize(
             id=id,
             update_endpoint_in=update_endpoint_in,
             _request_auth=_request_auth,
@@ -2032,7 +2032,7 @@ class WebhooksApi:
 
 
     @validate_call
-    def put_v1_webhooks_by_id_without_preload_content(
+    def put_webhooks_by_id_without_preload_content(
         self,
         id: StrictStr,
         update_endpoint_in: UpdateEndpointIn,
@@ -2079,7 +2079,7 @@ class WebhooksApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_v1_webhooks_by_id_serialize(
+        _param = self._put_webhooks_by_id_serialize(
             id=id,
             update_endpoint_in=update_endpoint_in,
             _request_auth=_request_auth,
@@ -2098,7 +2098,7 @@ class WebhooksApi:
         return response_data.response
 
 
-    def _put_v1_webhooks_by_id_serialize(
+    def _put_webhooks_by_id_serialize(
         self,
         id,
         update_endpoint_in,

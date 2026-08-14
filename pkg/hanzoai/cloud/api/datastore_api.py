@@ -43,7 +43,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def delete_v1_datastore_by_name(
+    def delete_datastore_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -87,7 +87,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_datastore_by_name_serialize(
+        _param = self._delete_datastore_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -110,7 +110,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def delete_v1_datastore_by_name_with_http_info(
+    def delete_datastore_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -154,7 +154,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_datastore_by_name_serialize(
+        _param = self._delete_datastore_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -177,7 +177,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def delete_v1_datastore_by_name_without_preload_content(
+    def delete_datastore_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -221,7 +221,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_v1_datastore_by_name_serialize(
+        _param = self._delete_datastore_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -239,7 +239,7 @@ class DatastoreApi:
         return response_data.response
 
 
-    def _delete_v1_datastore_by_name_serialize(
+    def _delete_datastore_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -296,7 +296,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def get_v1_datastore(
+    def get_datastore(
         self,
         _request_timeout: Union[
             None,
@@ -337,7 +337,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_datastore_serialize(
+        _param = self._get_datastore_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -359,7 +359,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def get_v1_datastore_with_http_info(
+    def get_datastore_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -400,7 +400,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_datastore_serialize(
+        _param = self._get_datastore_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -422,7 +422,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def get_v1_datastore_without_preload_content(
+    def get_datastore_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -463,7 +463,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_datastore_serialize(
+        _param = self._get_datastore_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -480,7 +480,7 @@ class DatastoreApi:
         return response_data.response
 
 
-    def _get_v1_datastore_serialize(
+    def _get_datastore_serialize(
         self,
         _request_auth,
         _content_type,
@@ -541,7 +541,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def get_v1_datastore_by_name(
+    def get_datastore_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -585,7 +585,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_datastore_by_name_serialize(
+        _param = self._get_datastore_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -608,7 +608,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def get_v1_datastore_by_name_with_http_info(
+    def get_datastore_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -652,7 +652,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_datastore_by_name_serialize(
+        _param = self._get_datastore_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -675,7 +675,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def get_v1_datastore_by_name_without_preload_content(
+    def get_datastore_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create.")],
         _request_timeout: Union[
@@ -719,7 +719,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_datastore_by_name_serialize(
+        _param = self._get_datastore_by_name_serialize(
             name=name,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -737,7 +737,7 @@ class DatastoreApi:
         return response_data.response
 
 
-    def _get_v1_datastore_by_name_serialize(
+    def _get_datastore_by_name_serialize(
         self,
         name,
         _request_auth,
@@ -801,7 +801,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def post_v1_datastore(
+    def post_datastore(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -845,7 +845,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_datastore_serialize(
+        _param = self._post_datastore_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -868,7 +868,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def post_v1_datastore_with_http_info(
+    def post_datastore_with_http_info(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -912,7 +912,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_datastore_serialize(
+        _param = self._post_datastore_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -935,7 +935,7 @@ class DatastoreApi:
 
 
     @validate_call
-    def post_v1_datastore_without_preload_content(
+    def post_datastore_without_preload_content(
         self,
         provision_request: Optional[ProvisionRequest] = None,
         _request_timeout: Union[
@@ -979,7 +979,7 @@ class DatastoreApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_datastore_serialize(
+        _param = self._post_datastore_serialize(
             provision_request=provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -997,7 +997,7 @@ class DatastoreApi:
         return response_data.response
 
 
-    def _post_v1_datastore_serialize(
+    def _post_datastore_serialize(
         self,
         provision_request,
         _request_auth,

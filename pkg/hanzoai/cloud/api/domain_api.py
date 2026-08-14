@@ -47,7 +47,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_availability(
+    def get_domain_availability(
         self,
         domain: Annotated[StrictStr, Field(description="Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required.")],
         _request_timeout: Union[
@@ -91,7 +91,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_availability_serialize(
+        _param = self._get_domain_availability_serialize(
             domain=domain,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -114,7 +114,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_availability_with_http_info(
+    def get_domain_availability_with_http_info(
         self,
         domain: Annotated[StrictStr, Field(description="Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required.")],
         _request_timeout: Union[
@@ -158,7 +158,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_availability_serialize(
+        _param = self._get_domain_availability_serialize(
             domain=domain,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -181,7 +181,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_availability_without_preload_content(
+    def get_domain_availability_without_preload_content(
         self,
         domain: Annotated[StrictStr, Field(description="Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required.")],
         _request_timeout: Union[
@@ -225,7 +225,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_availability_serialize(
+        _param = self._get_domain_availability_serialize(
             domain=domain,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -243,7 +243,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _get_v1_domain_availability_serialize(
+    def _get_domain_availability_serialize(
         self,
         domain,
         _request_auth,
@@ -309,7 +309,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_domains(
+    def get_domain_domains(
         self,
         _request_timeout: Union[
             None,
@@ -350,7 +350,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_domains_serialize(
+        _param = self._get_domain_domains_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -372,7 +372,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_domains_with_http_info(
+    def get_domain_domains_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -413,7 +413,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_domains_serialize(
+        _param = self._get_domain_domains_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -435,7 +435,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_domains_without_preload_content(
+    def get_domain_domains_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -476,7 +476,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_domains_serialize(
+        _param = self._get_domain_domains_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -493,7 +493,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _get_v1_domain_domains_serialize(
+    def _get_domain_domains_serialize(
         self,
         _request_auth,
         _content_type,
@@ -554,7 +554,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_health(
+    def get_domain_health(
         self,
         _request_timeout: Union[
             None,
@@ -595,7 +595,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_health_serialize(
+        _param = self._get_domain_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -618,7 +618,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_health_with_http_info(
+    def get_domain_health_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -659,7 +659,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_health_serialize(
+        _param = self._get_domain_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -682,7 +682,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_health_without_preload_content(
+    def get_domain_health_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -723,7 +723,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_health_serialize(
+        _param = self._get_domain_health_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -741,7 +741,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _get_v1_domain_health_serialize(
+    def _get_domain_health_serialize(
         self,
         _request_auth,
         _content_type,
@@ -802,7 +802,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_search(
+    def get_domain_search(
         self,
         q: Annotated[StrictStr, Field(description="Q is the keyword to build names from. It is required.")],
         tld: Annotated[Optional[StrictStr], Field(description="TLD narrows the search to a comma-separated set of top-level domains.")] = None,
@@ -849,7 +849,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_search_serialize(
+        _param = self._get_domain_search_serialize(
             q=q,
             tld=tld,
             _request_auth=_request_auth,
@@ -873,7 +873,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_search_with_http_info(
+    def get_domain_search_with_http_info(
         self,
         q: Annotated[StrictStr, Field(description="Q is the keyword to build names from. It is required.")],
         tld: Annotated[Optional[StrictStr], Field(description="TLD narrows the search to a comma-separated set of top-level domains.")] = None,
@@ -920,7 +920,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_search_serialize(
+        _param = self._get_domain_search_serialize(
             q=q,
             tld=tld,
             _request_auth=_request_auth,
@@ -944,7 +944,7 @@ class DomainApi:
 
 
     @validate_call
-    def get_v1_domain_search_without_preload_content(
+    def get_domain_search_without_preload_content(
         self,
         q: Annotated[StrictStr, Field(description="Q is the keyword to build names from. It is required.")],
         tld: Annotated[Optional[StrictStr], Field(description="TLD narrows the search to a comma-separated set of top-level domains.")] = None,
@@ -991,7 +991,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_domain_search_serialize(
+        _param = self._get_domain_search_serialize(
             q=q,
             tld=tld,
             _request_auth=_request_auth,
@@ -1010,7 +1010,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _get_v1_domain_search_serialize(
+    def _get_domain_search_serialize(
         self,
         q,
         tld,
@@ -1081,7 +1081,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_register(
+    def post_domain_register(
         self,
         order: Order,
         _request_timeout: Union[
@@ -1125,7 +1125,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_register_serialize(
+        _param = self._post_domain_register_serialize(
             order=order,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1148,7 +1148,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_register_with_http_info(
+    def post_domain_register_with_http_info(
         self,
         order: Order,
         _request_timeout: Union[
@@ -1192,7 +1192,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_register_serialize(
+        _param = self._post_domain_register_serialize(
             order=order,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1215,7 +1215,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_register_without_preload_content(
+    def post_domain_register_without_preload_content(
         self,
         order: Order,
         _request_timeout: Union[
@@ -1259,7 +1259,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_register_serialize(
+        _param = self._post_domain_register_serialize(
             order=order,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1277,7 +1277,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _post_v1_domain_register_serialize(
+    def _post_domain_register_serialize(
         self,
         order,
         _request_auth,
@@ -1354,7 +1354,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_renew(
+    def post_domain_renew(
         self,
         renew_req: RenewReq,
         _request_timeout: Union[
@@ -1398,7 +1398,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_renew_serialize(
+        _param = self._post_domain_renew_serialize(
             renew_req=renew_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1421,7 +1421,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_renew_with_http_info(
+    def post_domain_renew_with_http_info(
         self,
         renew_req: RenewReq,
         _request_timeout: Union[
@@ -1465,7 +1465,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_renew_serialize(
+        _param = self._post_domain_renew_serialize(
             renew_req=renew_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1488,7 +1488,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_renew_without_preload_content(
+    def post_domain_renew_without_preload_content(
         self,
         renew_req: RenewReq,
         _request_timeout: Union[
@@ -1532,7 +1532,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_renew_serialize(
+        _param = self._post_domain_renew_serialize(
             renew_req=renew_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1550,7 +1550,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _post_v1_domain_renew_serialize(
+    def _post_domain_renew_serialize(
         self,
         renew_req,
         _request_auth,
@@ -1627,7 +1627,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_transfer(
+    def post_domain_transfer(
         self,
         transfer_req: TransferReq,
         _request_timeout: Union[
@@ -1671,7 +1671,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_transfer_serialize(
+        _param = self._post_domain_transfer_serialize(
             transfer_req=transfer_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1694,7 +1694,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_transfer_with_http_info(
+    def post_domain_transfer_with_http_info(
         self,
         transfer_req: TransferReq,
         _request_timeout: Union[
@@ -1738,7 +1738,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_transfer_serialize(
+        _param = self._post_domain_transfer_serialize(
             transfer_req=transfer_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1761,7 +1761,7 @@ class DomainApi:
 
 
     @validate_call
-    def post_v1_domain_transfer_without_preload_content(
+    def post_domain_transfer_without_preload_content(
         self,
         transfer_req: TransferReq,
         _request_timeout: Union[
@@ -1805,7 +1805,7 @@ class DomainApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_domain_transfer_serialize(
+        _param = self._post_domain_transfer_serialize(
             transfer_req=transfer_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1823,7 +1823,7 @@ class DomainApi:
         return response_data.response
 
 
-    def _post_v1_domain_transfer_serialize(
+    def _post_domain_transfer_serialize(
         self,
         transfer_req,
         _request_auth,

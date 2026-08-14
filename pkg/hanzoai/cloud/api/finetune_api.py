@@ -36,7 +36,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_datasets(
+    def get_finetune_hf_datasets(
         self,
         _request_timeout: Union[
             None,
@@ -77,7 +77,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_datasets_serialize(
+        _param = self._get_finetune_hf_datasets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -98,7 +98,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_datasets_with_http_info(
+    def get_finetune_hf_datasets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -139,7 +139,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_datasets_serialize(
+        _param = self._get_finetune_hf_datasets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_datasets_without_preload_content(
+    def get_finetune_hf_datasets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -201,7 +201,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_datasets_serialize(
+        _param = self._get_finetune_hf_datasets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -217,7 +217,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _get_v1_finetune_hf_datasets_serialize(
+    def _get_finetune_hf_datasets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -271,7 +271,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_models(
+    def get_finetune_hf_models(
         self,
         _request_timeout: Union[
             None,
@@ -312,7 +312,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_models_serialize(
+        _param = self._get_finetune_hf_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -333,7 +333,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_models_with_http_info(
+    def get_finetune_hf_models_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -374,7 +374,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_models_serialize(
+        _param = self._get_finetune_hf_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +395,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_models_without_preload_content(
+    def get_finetune_hf_models_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -436,7 +436,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_models_serialize(
+        _param = self._get_finetune_hf_models_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -452,7 +452,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _get_v1_finetune_hf_models_serialize(
+    def _get_finetune_hf_models_serialize(
         self,
         _request_auth,
         _content_type,
@@ -506,7 +506,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_repo(
+    def get_finetune_hf_repo(
         self,
         _request_timeout: Union[
             None,
@@ -547,7 +547,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_repo_serialize(
+        _param = self._get_finetune_hf_repo_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -568,7 +568,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_repo_with_http_info(
+    def get_finetune_hf_repo_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -609,7 +609,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_repo_serialize(
+        _param = self._get_finetune_hf_repo_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -630,7 +630,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_hf_repo_without_preload_content(
+    def get_finetune_hf_repo_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -671,7 +671,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_hf_repo_serialize(
+        _param = self._get_finetune_hf_repo_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -687,7 +687,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _get_v1_finetune_hf_repo_serialize(
+    def _get_finetune_hf_repo_serialize(
         self,
         _request_auth,
         _content_type,
@@ -741,7 +741,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_job(
+    def get_finetune_job(
         self,
         _request_timeout: Union[
             None,
@@ -782,7 +782,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_job_serialize(
+        _param = self._get_finetune_job_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -803,7 +803,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_job_with_http_info(
+    def get_finetune_job_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -844,7 +844,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_job_serialize(
+        _param = self._get_finetune_job_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -865,7 +865,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_job_without_preload_content(
+    def get_finetune_job_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -906,7 +906,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_job_serialize(
+        _param = self._get_finetune_job_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,7 +922,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _get_v1_finetune_job_serialize(
+    def _get_finetune_job_serialize(
         self,
         _request_auth,
         _content_type,
@@ -976,7 +976,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_jobs(
+    def get_finetune_jobs(
         self,
         _request_timeout: Union[
             None,
@@ -1017,7 +1017,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_jobs_serialize(
+        _param = self._get_finetune_jobs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1038,7 +1038,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_jobs_with_http_info(
+    def get_finetune_jobs_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1079,7 +1079,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_jobs_serialize(
+        _param = self._get_finetune_jobs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1100,7 +1100,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_jobs_without_preload_content(
+    def get_finetune_jobs_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1141,7 +1141,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_jobs_serialize(
+        _param = self._get_finetune_jobs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1157,7 +1157,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _get_v1_finetune_jobs_serialize(
+    def _get_finetune_jobs_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1211,7 +1211,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_presets(
+    def get_finetune_presets(
         self,
         _request_timeout: Union[
             None,
@@ -1252,7 +1252,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_presets_serialize(
+        _param = self._get_finetune_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1273,7 +1273,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_presets_with_http_info(
+    def get_finetune_presets_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1314,7 +1314,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_presets_serialize(
+        _param = self._get_finetune_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1335,7 +1335,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def get_v1_finetune_presets_without_preload_content(
+    def get_finetune_presets_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1376,7 +1376,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_v1_finetune_presets_serialize(
+        _param = self._get_finetune_presets_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1392,7 +1392,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _get_v1_finetune_presets_serialize(
+    def _get_finetune_presets_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1446,7 +1446,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_cancel(
+    def post_finetune_cancel(
         self,
         _request_timeout: Union[
             None,
@@ -1487,7 +1487,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_cancel_serialize(
+        _param = self._post_finetune_cancel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1508,7 +1508,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_cancel_with_http_info(
+    def post_finetune_cancel_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1549,7 +1549,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_cancel_serialize(
+        _param = self._post_finetune_cancel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1570,7 +1570,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_cancel_without_preload_content(
+    def post_finetune_cancel_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1611,7 +1611,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_cancel_serialize(
+        _param = self._post_finetune_cancel_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1627,7 +1627,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _post_v1_finetune_cancel_serialize(
+    def _post_finetune_cancel_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1681,7 +1681,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_deploy(
+    def post_finetune_deploy(
         self,
         _request_timeout: Union[
             None,
@@ -1722,7 +1722,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_deploy_serialize(
+        _param = self._post_finetune_deploy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1743,7 +1743,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_deploy_with_http_info(
+    def post_finetune_deploy_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -1784,7 +1784,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_deploy_serialize(
+        _param = self._post_finetune_deploy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1805,7 +1805,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_deploy_without_preload_content(
+    def post_finetune_deploy_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -1846,7 +1846,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_deploy_serialize(
+        _param = self._post_finetune_deploy_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1862,7 +1862,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _post_v1_finetune_deploy_serialize(
+    def _post_finetune_deploy_serialize(
         self,
         _request_auth,
         _content_type,
@@ -1916,7 +1916,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_jobs(
+    def post_finetune_jobs(
         self,
         _request_timeout: Union[
             None,
@@ -1957,7 +1957,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_jobs_serialize(
+        _param = self._post_finetune_jobs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1978,7 +1978,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_jobs_with_http_info(
+    def post_finetune_jobs_with_http_info(
         self,
         _request_timeout: Union[
             None,
@@ -2019,7 +2019,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_jobs_serialize(
+        _param = self._post_finetune_jobs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2040,7 +2040,7 @@ class FinetuneApi:
 
 
     @validate_call
-    def post_v1_finetune_jobs_without_preload_content(
+    def post_finetune_jobs_without_preload_content(
         self,
         _request_timeout: Union[
             None,
@@ -2081,7 +2081,7 @@ class FinetuneApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_v1_finetune_jobs_serialize(
+        _param = self._post_finetune_jobs_serialize(
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2097,7 +2097,7 @@ class FinetuneApi:
         return response_data.response
 
 
-    def _post_v1_finetune_jobs_serialize(
+    def _post_finetune_jobs_serialize(
         self,
         _request_auth,
         _content_type,
