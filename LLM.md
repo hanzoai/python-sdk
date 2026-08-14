@@ -1,6 +1,6 @@
 # LLM.md — hanzoai/python-sdk
 
-**What this is:** the flagship, most-complete Hanzo SDK — a `uv` workspace of 60+
+**What this is:** the flagship, most-complete Hanzo SDK — a `uv` workspace of 65
 packages: the typed cloud client (`hanzoai`), agents, MCP server + tools, memory,
 distributed compute, and the `hanzo` CLI. `pip install hanzo`.
 
@@ -12,11 +12,21 @@ OUT, never duplicate. Full spec: `~/work/hanzo/SDK-ARCHITECTURE.md`.
 
 ## Install / run
 ```bash
-pip install hanzoai          # typed cloud client
+uv pip install "hanzoai @ git+https://github.com/hanzoai/python-sdk"   # the current client
 pip install hanzo            # agents + MCP + orchestration helpers
 uv sync --all-packages       # dev: whole workspace
 uv run pytest tests/ -v      # tests
 ```
+
+**PyPI is behind, and the README says so instead of pretending.** `hanzoai` on
+PyPI is **3.2.1**; this tree is 3.2.11, and v3.2.3 … v3.2.10 are tagged on the
+forge with nothing published for any of them. The gap is not cosmetic:
+3.2.1 was cut before the default version left the operation ids, so it carries
+`get_v1_keys`/`get_v1_tools` (182 api modules, 2172 models) plus the retired flat
+`hanzoai/api` tree, while this one carries `get_keys`/`get_tools`. A README that
+printed `pip install hanzoai` above a `get_keys()` quickstart would be handing
+the reader a client that cannot run it, so the install line is the git one until
+a publish lands.
 
 ## Console-script law — only the native binary is called `hanzo`
 
@@ -64,8 +74,18 @@ the document by value:
 cd ~/work/hanzo/openapi && uv run --with pyyaml python3 generate.py python \
   --repo ~/work/hanzo/python-sdk --spec ~/work/hanzo/cloud/openapi.yaml
 ```
-Current `pkg/hanzoai/cloud/` is **1813 paths / 2479 operations** → 192 api
-modules + 2460 model modules.
+Current `pkg/hanzoai/cloud/` is **1814 paths / 2479 operations** → 192 api
+modules + 2460 model modules, 2659 importable modules in total. The document
+carries 191 tags; the 192nd module is `default_api`, which holds the 50
+operations that carry no tag (`/`, `/.well-known/agent-skills/*`, …).
+
+**834 of the 2479 operations model no response body** — 716 declare no
+`responses` at all and 118 declare responses with no `content` — so those methods
+are typed `-> None` and the payload is reachable only through the generated
+`*_without_preload_content` variant. `examples/money` is the worked example of
+reading one honestly, including the part that is easy to miss: the raw variant
+does not raise on a 4xx, because raising is part of the typed deserialization
+those operations do not have.
 
 **Two renamings arrived with the lineage, and neither is a defect to undo.**
 IAM's types are namespace-qualified — `iam.Role`, `iam.Application`, 95 of them
@@ -90,8 +110,29 @@ path the server no longer serves.
 differing only by case (`AI`/`ai`, `Users`/`users`, …); openapi-generator mapped both
 spellings onto one module and 127 of the 411 operations in those groups never reached the
 client. Fixed upstream in the per-service specs, as that note predicted. Verified on the
-current spec: **239 distinct tags → 239 api modules, 1:1**, so nothing collapses, and
-`generate.py python --check` reports `[python] clean` with no local strip of any kind.
+document this tree is pinned to: **191 tags → 191 api modules, 1:1**, plus `default_api`
+for the untagged 50, so nothing collapses, and `generate.py python --check` reports
+`[python] clean` with no local strip of any kind.
+
+## The client does not authenticate itself, and that is a document defect
+
+`Configuration(access_token=…)` is inert here. cloud's document declares no
+`securitySchemes` and no `security`, so openapi-generator wrote
+`_auth_settings: List[str] = []` into all 2479 operations,
+`Configuration.auth_settings()` returns `{}`, and `update_params_for_auth`
+returns on its first line. Measured: serializing `get_keys` from a Configuration
+built with `access_token="sk-test"` yields a request with **no `Authorization`
+header at all**. The examples had been built that way since they were written,
+so every flow was calling anonymously and reporting the server's refusal as
+though the key were bad.
+
+`examples/client.py` now passes the header through `ApiClient`'s own
+`header_name`/`header_value` pair — the generated client's supported way to send
+a header the document did not describe — and a flow run against a local echo
+server shows `Authorization: Bearer <key>` on the wire. That is the correct
+short-term shape, but the real fix belongs upstream: when cloud's emission
+declares a bearer scheme, `access_token` starts working, and the header should
+move back into `Configuration` in one edit. Until then, one place sets it.
 
 **Two spec defects were found and fixed upstream while regenerating at 3.1.5.** Neither was
 patched here; both are in `hanzoai/openapi` main:
@@ -105,14 +146,26 @@ patched here; both are in `hanzoai/openapi` main:
 The rule holds in both directions: a generated tree is never hand-repaired, and a defect
 found by generating is fixed in the spec, where every other language gets the fix too.
 
-## Examples — the six canonical flows
+## Examples — five flows, and nothing loose beside them
 
-`examples/{hello,chat,money,store,agent,tools}`, one directory each, plus
-`examples/client.py` as the single place a base URL or an env var is resolved. The same six
-exist in every Hanzo SDK. Run one with `python -m examples.hello` from the repo root.
+`examples/{hello,money,store,agent,tools}`, one directory each, plus
+`examples/client.py` as the single place a base URL or an env var is resolved. Run one with
+`python -m examples.hello` from the repo root.
+
+`chat` is absent by measurement, not by choice: `POST /v1/chat/completions` is declared with
+no `requestBody` and no `responses`, so the generated method takes no arguments and returns
+`None` — the one call the flow exists to make cannot be expressed. It returns the day the
+document describes the body; `hanzo.yml` carries the one-line test for that.
+
+Five loose scripts used to sit beside the flows (`using_grok.py`, `unified_ai_example.py`,
+`self_learning_agent.py`, `parallel_ai_doc_editing.py`, `worktree_orchestration.py`) and all
+five were dead: they imported `hanzoai.Hanzo`, `hanzoai.cluster`, `hanzoai.agents`,
+`hanzoai.completion` — none of which exist — or were dict-literal sketches captioned "in
+practice this would be called through the MCP interface". `compileall` passed them all,
+because syntax is not a claim. They are deleted. `examples/` is the flows.
 
 Each flow's call sits behind `if __name__ == "__main__":` on purpose. That is what lets CI
-*import* all six to prove every `from hanzoai.cloud import X` still resolves, without an API
+*import* all five to prove every `from hanzoai.cloud import X` still resolves, without an API
 key and without opening a socket — so a spec change that renames or drops an operation goes
 red in the gate instead of in a user's app.
 
@@ -124,10 +177,12 @@ is usable.
 ## CI
 
 Fleet convention, added at 3.1.5: root `hanzo.yml` (the `test:` gate) plus a 7-line
-`.github/workflows/cicd.yml` importing `hanzoai/ci`. The gate is two blocks — import every
+`.hanzo/workflows/cicd.yml` importing `hanzoai/ci`. The gate is three blocks — import every
 generated module (for generated code that IS the build step; there is no compiler to catch a
-bad `$ref`), then import the six flows. Both provision an interpreter with `uv` when the arc
-runner lacks one.
+bad `$ref`), read the syntax tree for duplicate fields the import cannot see, then resolve
+and import the five flows. Each provisions an interpreter with `uv` when the runner lacks
+one. There is no `.github/workflows/` here: the label these callers ask for is served by the
+git-runner fleet on git.hanzo.ai and by nothing on github.com.
 
 Scope is deliberate: the cloud client and its flows, not all 65 packages. A red gate should
 mean "the client the spec just produced is broken", not "something, somewhere".
@@ -136,13 +191,43 @@ mean "the client the spec just produced is broken", not "something, somewhere".
 canonical path because it reads the PyPI token from KMS like every other publish credential
 in the fleet. `hanzo.yml` gates only; a second publish path would be one too many.
 
+The `examples` step used to import the flows and stop there, and the comment beside it said
+so honestly — a method name is looked up at call time, so a renamed operation passed the
+import and failed in a user's app. It now resolves them: the syntax tree gives every
+attribute access on a `*Api`-bound name, and the class is asked whether it has it. Ten names
+resolve today, and a stale `get_v1_tools` fails the step in the same second the import
+passes.
+
+## Prose is checked the same way as code
+
+Three docs under `docs/` were fabrication, not drift: `FEATURES.md`
+(`from hanzoai import cluster/agents/mcp` — none exist), `QUICKSTART.md` and
+`GPT5_ORCHESTRATION.md` (invented console output for CLI flags and models that were never
+ours). None were in the mkdocs nav, so nothing rendered them and nothing checked them.
+Deleted. `pkg/hanzo-agent` told the reader to `pip install hanzoai` and
+`from hanzoai import Agent, Runner` — the cloud client has no `Agent` — and its own `full`
+extra resolved to `hanzoai[web3,tee,marketplace,cli]`, extras the cloud client does not
+declare, so it installed the client and none of the extensions. Both corrected to
+`hanzo-agent` / `from agents import`.
+
+`pyproject.toml` said `BSD-3-Clause` while `LICENSE` is the Apache 2.0 text, so the wheel's
+metadata contradicted the file inside it. Metadata now matches the file: `Apache-2.0`.
+
+`tests/test_smoke.py` imported `hanzoai.cloud.api.tracker_api`; no `/v1/tracker` path is
+emitted any more, so the suite had a failing test that named a module the client does not
+have. It reads `analytics_api` now, off the client.
+
 ## Key entry points
-- `pkg/hanzoai/` — typed OpenAPI client (`ApiClient`, `Configuration`, `Ai*Api`). Two
-  surfaces live here: `pkg/hanzoai/{api,models}` (older, frozen — nothing regenerates it
-  now) and `pkg/hanzoai/cloud/` (current, spec-driven). New work targets `cloud/`.
+- `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus
+  seven hand-written modules beside it (`config`, `mcp`, `protocols`, `session`, `zap`, …).
+  `pkg/hanzoai/{api,models}` is GONE from git; if a checkout still shows `resources/` or
+  `types/` on disk they are untracked leftovers of that surface, and the wheel excludes them
+  — a built 3.2.11 wheel is 2660 files of `hanzoai/cloud/` and those seven modules, nothing
+  else.
 - `pkg/hanzo/src/hanzo/cli.py` — the `hanzo` CLI command tree.
 - `pkg/hanzo-mcp/` — MCP server; tools via `[project.entry-points."hanzo.tools"]`.
-- `pkg/hanzo-tools-*/` — one concern each, exports a `TOOLS` list.
+- `pkg/hanzo-tools-*/` — one concern each; 37 of the 38 register a `TOOLS` list under the
+  `hanzo.tools` entry point (`hanzo-tools-core` is the shared base, so it registers none).
 - `pkg/hanzo-{agents,agent,network,memory}/` — agent/compute/memory libraries.
 - `pkg/hanzo-kms/` — KMS client. The server is **luxfi/kms** (`kms.hanzo.ai`,
   `kms.lux.cloud`) and its whole surface is `/v1/kms/auth/login` plus

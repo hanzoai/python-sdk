@@ -49,22 +49,22 @@ source env/bin/activate
 
 ```bash
 # Basic installation
-pip install hanzoai
+pip install hanzo-agent
 
 # With Web3 support
-pip install "hanzoai[web3]"
+pip install "hanzo-agent[web3]"
 
 # With TEE support
-pip install "hanzoai[tee]"
+pip install "hanzo-agent[tee]"
 
 # With Marketplace support
-pip install "hanzoai[marketplace]"
+pip install "hanzo-agent[marketplace]"
 
 # With CLI support
-pip install "hanzoai[cli]"
+pip install "hanzo-agent[cli]"
 
 # Full installation (all extensions)
-pip install "hanzoai[full]"
+pip install "hanzo-agent[full]"
 ```
 
 ## Quick Examples
@@ -72,7 +72,7 @@ pip install "hanzoai[full]"
 ### Simple Agent
 
 ```python
-from hanzoai import Agent, Runner
+from agents import Agent, Runner
 
 agent = Agent(name="Assistant", instructions="You are a helpful assistant")
 
@@ -144,7 +144,7 @@ result = await workflow.run({"topic": "AI Safety"})
 ## Handoffs example
 
 ```python
-from hanzoai import Agent, Runner
+from agents import Agent, Runner
 import asyncio
 
 spanish_agent = Agent(
@@ -179,7 +179,7 @@ if __name__ == "__main__":
 ```python
 import asyncio
 
-from hanzoai import Agent, Runner, function_tool
+from agents import Agent, Runner, function_tool
 
 
 @function_tool

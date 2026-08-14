@@ -17,9 +17,9 @@ The Hanzo Agent SDK can be configured to route all LLM requests through the Hanz
 ### 1. Install the SDK
 
 ```bash
-pip install hanzoai
+pip install hanzo-agent
 # or
-uv pip install hanzoai
+uv pip install hanzo-agent
 ```
 
 ### 2. Configure Environment
