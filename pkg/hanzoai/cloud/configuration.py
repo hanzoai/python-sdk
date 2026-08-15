@@ -113,6 +113,7 @@ HTTPSignatureAuthSetting = TypedDict(
 AuthSettings = TypedDict(
     "AuthSettings",
     {
+        "bearer": BearerAuthSetting,
     },
     total=False,
 )
@@ -163,6 +164,7 @@ class Configuration:
     :param ca_cert_data: verify the peer using concatenated CA certificate data
       in PEM (str) or DER (bytes) format.
 
+    :Example:
     """
 
     _default: ClassVar[Optional[Self]] = None
@@ -490,6 +492,13 @@ class Configuration:
         :return: The Auth Settings information dict.
         """
         auth: AuthSettings = {}
+        if self.access_token is not None:
+            auth['bearer'] = {
+                'type': 'bearer',
+                'in': 'header',
+                'key': 'Authorization',
+                'value': 'Bearer ' + self.access_token
+            }
         return auth
 
     def to_debug_report(self) -> str:

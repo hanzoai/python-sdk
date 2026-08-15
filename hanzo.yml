@@ -157,7 +157,7 @@ test:
       import hanzoai.cloud as C
       ok = compileall.compile_dir("examples", quiet=1, maxlevels=3)
       bad = []
-      for flow in ("hello", "money", "store", "agent", "tools"):
+      for flow in ("models", "hello", "money", "store", "agent", "tools"):
           try:
               importlib.import_module(f"examples.{flow}.__main__")
           except Exception as e:

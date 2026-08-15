@@ -16,25 +16,44 @@ def test_client_constructs():
     assert cfg.host == "https://api.hanzo.ai"
 
 
-def test_the_bearer_comes_from_the_client_not_the_configuration():
-    """`Configuration(access_token=…)` sends nothing, and callers must know it.
+def test_the_bearer_comes_from_the_configuration():
+    """`Configuration(access_token=…)` reaches the wire as `Authorization`.
 
-    The document declares no security scheme, so every generated operation got
-    an empty `auth_settings` and `update_params_for_auth` returns before it can
-    read `access_token`. A caller who sets it — the obvious thing to do — calls
-    anonymously and reads the refusal as a bad key. The examples set the header
-    on `ApiClient`, which merges `default_headers` into every request.
+    The document declares `securitySchemes.bearer` and applies it document-wide,
+    so every operation carries `auth_settings=['bearer']` and
+    `_apply_auth_params` sets the header. This asserts the whole path, not just
+    the dict: serialize a real operation and read the header it produced.
 
-    When cloud's emission grows the scheme, the first assertion fails. That is
-    the point: `access_token` starts working that day and the header moves back
-    into `Configuration`, in one place, for good.
+    It asserted the opposite until the document grew the scheme — that a caller
+    who set `access_token` sent nothing at all, and had to pass the header to
+    `ApiClient` by hand. Keeping the negative here as an inverted assertion is
+    what makes the fix a fact rather than a claim.
     """
     cfg = hanzoai.cloud.Configuration(host="https://api.hanzo.ai", access_token="sk-test")
-    assert cfg.auth_settings() == {}
-    assert "Authorization" not in hanzoai.cloud.ApiClient(cfg).default_headers
+    assert cfg.auth_settings()["bearer"] == {
+        "type": "bearer", "in": "header", "key": "Authorization",
+        "value": "Bearer sk-test",
+    }
 
-    keyed = hanzoai.cloud.ApiClient(cfg, "Authorization", "Bearer sk-test")
-    assert keyed.default_headers["Authorization"] == "Bearer sk-test"
+    api = hanzoai.cloud.KeysApi(hanzoai.cloud.ApiClient(cfg))
+    _, _, headers, _, _ = api._get_keys_serialize(
+        _request_auth=None, _content_type=None, _headers=None, _host_index=0)
+    assert headers["Authorization"] == "Bearer sk-test"
+
+
+def test_the_public_operations_send_no_credential():
+    """The four `security: []` operations must not carry the header.
+
+    `GET /v1/models` is public by design and states so in its own description —
+    it answers 200 to a caller with nothing. A client that attaches a credential
+    to it makes the API look like it authenticates when it does not, which is
+    the failure the route's description exists to prevent.
+    """
+    cfg = hanzoai.cloud.Configuration(host="https://api.hanzo.ai", access_token="sk-test")
+    api = hanzoai.cloud.ModelsApi(hanzoai.cloud.ApiClient(cfg))
+    _, _, headers, _, _ = api._get_models_serialize(
+        _request_auth=None, _content_type=None, _headers=None, _host_index=0)
+    assert "Authorization" not in headers
 
 
 def test_product_apis_present():
