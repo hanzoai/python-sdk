@@ -285,6 +285,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -598,6 +599,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -843,6 +845,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1105,6 +1108,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1378,6 +1382,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1651,6 +1656,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1896,6 +1902,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2141,6 +2148,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2414,6 +2422,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2687,6 +2696,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2968,6 +2978,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -3241,6 +3252,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -3514,6 +3526,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -3759,6 +3772,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -4032,6 +4046,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -4305,6 +4320,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -4550,6 +4566,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -4823,6 +4840,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -5068,6 +5086,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -5313,6 +5332,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -5558,6 +5578,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -5831,6 +5852,7 @@ class CompanyApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(

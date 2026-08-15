@@ -1,11 +1,12 @@
 """The one place an example learns where the API is and who it is.
 
 Every flow imports this and nothing else builds a client, so there is a single
-answer to "which base URL?" and "which env var?" across all five.
+answer to "which base URL?" and "which env var?" across all six.
 
 Run any flow from the repo root::
 
-    python -m examples.hello
+    python -m examples.models     # no credential — GET /v1/models is public
+    python -m examples.hello      # needs HANZO_API_KEY
 """
 
 from __future__ import annotations
@@ -27,7 +28,7 @@ def api_key() -> str:
     """Fail loudly and early when the key is absent or of the wrong shape.
 
     Without this the SDK sends an unauthenticated request and the flow dies on a
-    401 several frames deep, which reads like an API bug rather than an unset
+    403 several frames deep, which reads like an API bug rather than an unset
     shell variable.
 
     A ``pk-`` is rejected here for the same reason. It is the PUBLISHABLE shape:
@@ -39,29 +40,45 @@ def api_key() -> str:
     """
     key = os.environ.get("HANZO_API_KEY")
     if not key:
-        raise SystemExit("HANZO_API_KEY is not set — export an sk- cloud key or an IAM JWT")
+        raise SystemExit("HANZO_API_KEY is not set — export an sk- cloud key or an IAM access token")
     if key.startswith("pk-"):
         raise SystemExit("HANZO_API_KEY is a pk- (publishable) key, which authenticates nobody — use an sk-")
     return key
 
 
 def client() -> ApiClient:
-    """An ApiClient bound to the configured host, carrying the key as a bearer.
+    """An ApiClient carrying the credential the generated code knows how to send.
 
-    The header is set here rather than through ``Configuration(access_token=…)``,
-    and that is a correction, not a preference. The document declares no security
-    scheme, so the generator wrote an empty ``auth_settings`` into every
-    operation, ``Configuration.auth_settings()`` returns ``{}``, and
-    ``access_token`` is read by nothing. Measured on this tree: serializing
-    ``get_keys`` from a Configuration built with ``access_token="sk-test"``
-    produces a request with no ``Authorization`` header at all. Every flow built
-    that way calls anonymously and collects a 403 that reads like a key problem.
+    ``access_token`` is the whole configuration. The document declares one
+    security scheme — ``bearer``, HTTP bearer — and applies it to every operation
+    except the four marked ``security: []``, so the generator wrote a populated
+    ``Configuration.auth_settings()`` and an ``auth_settings=['bearer']`` into
+    2498 call sites. ``ApiClient._apply_auth_params`` reads that and sets
+    ``Authorization: Bearer <token>`` on the way out.
 
-    ``header_name``/``header_value`` is the generated client's own way to send a
-    header the document did not describe, so it stays the one way here until the
-    document carries the scheme.
+    This used to pass ``header_name``/``header_value`` on the ApiClient, because
+    the document declared no scheme at all: ``auth_settings()`` returned ``{}``,
+    ``access_token`` was read by nothing, and a client built the obvious way sent
+    no ``Authorization`` header. That is fixed at the source — in the document —
+    which is where every other language got the same fix.
+
+    The header goes only where the document says it belongs. A flow that calls a
+    ``security: []`` operation through this client sends no credential on that
+    call, which is the correct behaviour and not a hole: those four operations
+    are public.
     """
-    return ApiClient(Configuration(host=BASE_URL), "Authorization", f"Bearer {api_key()}")
+    return ApiClient(Configuration(host=BASE_URL, access_token=api_key()))
+
+
+def public() -> ApiClient:
+    """An ApiClient with no credential, for the operations that need none.
+
+    Four of the document's 2479 operations carry ``security: []`` — ``GET
+    /v1/models``, ``GET /v1/models/providers``, ``GET /v1/commands``, ``GET
+    /v1/openapi.json``. They are the public face of the API, and they answer 200
+    to a caller who has nothing. ``examples.models`` runs on this.
+    """
+    return ApiClient(Configuration(host=BASE_URL))
 
 
 def run(main) -> None:

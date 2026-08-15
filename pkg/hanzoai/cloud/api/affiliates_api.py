@@ -275,6 +275,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -520,6 +521,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -765,6 +767,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1010,6 +1013,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1255,6 +1259,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1531,6 +1536,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1807,6 +1813,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2080,6 +2087,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2353,6 +2361,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -2626,6 +2635,7 @@ class AffiliatesApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(

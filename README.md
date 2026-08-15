@@ -16,20 +16,23 @@ uv pip install "hanzoai @ git+https://github.com/hanzoai/python-sdk"
 ```
 
 Install from source, not from PyPI, until this version reaches it. PyPI serves
-**3.2.1**; this tree is **3.2.11**, and in between the API document dropped the
-default version from its operation ids. 3.2.1's methods are `get_v1_keys` and
-`get_v1_tools`; the current ones are `get_keys` and `get_tools`, so
-`pip install hanzoai` gets you a client that works and a set of names that
-matches nothing below.
+**3.2.1**; this tree is **3.2.12**, and in between the API document dropped the
+default version from its operation ids and grew the security scheme this client
+now sends. 3.2.1's methods are `get_v1_keys` and `get_v1_tools`; the current ones
+are `get_keys` and `get_tools`, so `pip install hanzoai` gets you a client that
+works and a set of names that matches nothing below.
 
 Check the install without a key — `GET /v1/models` is public:
 
-```python
-import json
-from hanzoai.cloud import ApiClient, Configuration, ModelsApi
+```bash
+python -m examples.models
+```
 
-body = ModelsApi(ApiClient(Configuration())).get_models_without_preload_content().read()
-print(len(json.loads(body)["data"]), "models")     # e.g. 112 models
+```
+https://api.hanzo.ai serves 112 models, no credential required
+  all-mini-lm-l6-v2 · do-ai · $0.02/Mtok in
+  anthropic-claude-opus-5 · do-ai · $1/Mtok in
+  …
 ```
 
 ## Quickstart
@@ -38,10 +41,10 @@ print(len(json.loads(body)["data"]), "models")     # e.g. 112 models
 import os
 from hanzoai.cloud import ApiClient, Configuration, KeysApi
 
-client = ApiClient(
-    Configuration(host="https://api.hanzo.ai"),
-    "Authorization", f"Bearer {os.environ['HANZO_API_KEY']}",
-)
+client = ApiClient(Configuration(
+    host="https://api.hanzo.ai",
+    access_token=os.environ["HANZO_API_KEY"],
+))
 
 with client as api:
     for key in KeysApi(api).get_keys().keys or []:
@@ -49,47 +52,65 @@ with client as api:
 ```
 
 Every route follows that shape: one `*Api` class per tag, one method per
-operation, typed models in and out. Keys come from
-[cloud.hanzo.ai](https://cloud.hanzo.ai) or `hanzo login` in two shapes, and only
-one of them works here. Use an `sk-`: it carries a principal, which every call
-above needs. A `pk-` is publishable — it is safe in a browser bundle precisely
-because it names an org and authenticates nobody, so cloud refuses it at the
-identity boundary and it reads nothing.
+operation, typed models in and out.
 
 ## Auth
 
-The header is `Authorization: Bearer <key>`, and you set it on the `ApiClient` as
-above — **not** through `Configuration(access_token=…)`. The document declares no
-security scheme, so the generator wrote an empty `auth_settings` into every
-operation and nothing ever reads `access_token`. A client built that way sends no
-`Authorization` header at all: every call goes out anonymous, and the refusal
-that comes back reads like a bad key rather than an unsent header.
+`access_token` is the whole configuration. The document declares one security
+scheme — `bearer`, HTTP bearer — and applies it to every operation but four, so
+the generated `Configuration.auth_settings()` produces
+`Authorization: Bearer <token>` and 2498 call sites ask for it:
+
+```python
+auth['bearer'] = {'type': 'bearer', 'in': 'header',
+                  'key': 'Authorization', 'value': 'Bearer ' + self.access_token}
+```
+
+The four exceptions are the operations the document marks `security: []` —
+`GET /v1/models`, `GET /v1/models/providers`, `GET /v1/commands`,
+`GET /v1/openapi.json`. Those carry an empty `auth_settings` and send no
+credential, which is why `examples/models` runs before you have a key.
+
+Keys come from [cloud.hanzo.ai](https://cloud.hanzo.ai) or `hanzo login` in two
+shapes, and only one of them works here. Use an `sk-`: it carries a principal,
+which every credentialled call needs. A `pk-` is publishable — it is safe in a
+browser bundle precisely because it names an org and authenticates nobody, so
+cloud refuses it at the identity boundary and it reads nothing.
 
 No generated code reads the environment — not one `os.environ` in all of
 `hanzoai.cloud`, so no variable you export reaches a request on its own. (The
 hand-written `hanzoai.zap` and `hanzoai.config` read `HANZO_ZAP_ENDPOINT` and
 `HANZO_CONFIG_HOME`; neither is a credential.) [`examples/client.py`](examples/client.py)
 is where `HANZO_API_KEY` and `HANZO_BASE_URL` get resolved — one place, for all
-five flows.
+six flows.
 
 ## Examples
 
 `examples/` carries one directory per flow. Each is a whole path through one part
-of the API. On every push CI imports all five and resolves every method name they
+of the API. On every push CI imports all six and resolves every method name they
 call against the client, which is what keeps them from rotting into pseudocode.
 
-| flow | what it does | routes |
-|---|---|---|
-| [`hello`](examples/hello) | prove the key works | `GET /v1/keys` |
-| [`money`](examples/money) | balance + usage | `GET /v1/billing/balance`, `GET /v1/billing/usage` |
-| [`store`](examples/store) | KV round-trip | `POST /v1/kv`, `GET`/`DELETE /v1/kv/{name}` |
-| [`agent`](examples/agent) | create, run, read the runs | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}/runs` |
-| [`tools`](examples/tools) | the tool catalog | `GET /v1/tools` |
+| flow | what it does | routes | key |
+|---|---|---|---|
+| [`models`](examples/models) | the model catalog | `GET /v1/models` | none |
+| [`hello`](examples/hello) | prove the key works | `GET /v1/keys` | `sk-` |
+| [`money`](examples/money) | balance + usage | `GET /v1/billing/balance`, `GET /v1/billing/usage` | `sk-` |
+| [`store`](examples/store) | KV round-trip | `POST /v1/kv`, `GET`/`DELETE /v1/kv/{name}` | `sk-` |
+| [`agent`](examples/agent) | create, run, read the runs | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}/runs` | `sk-` |
+| [`tools`](examples/tools) | the tool catalog | `GET /v1/tools` | `sk-` |
+
+One command each, from the repo root:
 
 ```bash
+python -m examples.models                  # no credential
+
 export HANZO_API_KEY=sk-...
 python -m examples.hello
 ```
+
+A real key prints your keys; a bogus one prints
+`HTTP 403: {"code":"forbidden","error":"sign in to manage API keys"}`. Two
+different answers to the same code is what proves the credential is on the wire.
 
 There is no `chat` flow because there is nothing to generate one from:
 `POST /v1/chat/completions` is declared with no `requestBody` and no `responses`,
