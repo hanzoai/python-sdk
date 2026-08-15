@@ -12,21 +12,31 @@ OUT, never duplicate. Full spec: `~/work/hanzo/SDK-ARCHITECTURE.md`.
 
 ## Install / run
 ```bash
-uv pip install "hanzoai @ git+https://github.com/hanzoai/python-sdk"   # the current client
+pip install hanzoai==3.2.13  # the current client
 pip install hanzo            # agents + MCP + orchestration helpers
 uv sync --all-packages       # dev: whole workspace
 uv run pytest tests/ -v      # tests
 ```
 
-**PyPI is behind, and the README says so instead of pretending.** `hanzoai` on
-PyPI is **3.2.1**; this tree is 3.2.11, and v3.2.3 … v3.2.10 are tagged on the
-forge with nothing published for any of them. The gap is not cosmetic:
-3.2.1 was cut before the default version left the operation ids, so it carries
+**PyPI serves this tree again.** `hanzoai` had sat at **3.2.1** while v3.2.3 …
+v3.2.12 were tagged with nothing published, and the gap was not cosmetic: 3.2.1
+predates the default version leaving the operation ids, so it carries
 `get_v1_keys`/`get_v1_tools` (182 api modules, 2172 models) plus the retired flat
-`hanzoai/api` tree, while this one carries `get_keys`/`get_tools`. A README that
-printed `pip install hanzoai` above a `get_keys()` quickstart would be handing
-the reader a client that cannot run it, so the install line is the git one until
-a publish lands.
+`hanzoai/api` tree. **3.2.13** carries `get_keys`/`get_tools` and is what the
+README's quickstart runs on. The same tag published 13 sibling packages that had
+also drifted behind — `hanzo-mcp` 0.15.14, `hanzo-tools` 0.3.5, `hanzo-kms`
+1.1.1, `hanzo-network` 0.1.4, seven `hanzo-tools-*`, and first releases of
+`hanzo-flags` and `hanzo-research`.
+
+**What had stopped every one of them** is worth keeping, because it reads like a
+missing secret and is not one. The job asked KMS for
+`/v1/kms/orgs/hanzo/secrets/<path>/<key>` and parsed `.secret.value`. KMS serves
+`GET /v1/kms/secrets/<path>/<key>?env=<env>` and answers `{"env","name","value"}`,
+taking the org from the caller's own token claim. A wrong route 404s exactly like
+an unseeded path, so the log said "KMS holds no PyPI token" about a token that was
+sitting at `hanzo`/`prod`/`python-sdk-publish`/`PYPI_TOKEN` the whole time. The
+route the kms-operator uses is the one that answers; check a read against a secret
+known to exist before believing a 404.
 
 ## Console-script law — only the native binary is called `hanzo`
 
@@ -253,8 +263,8 @@ have. It reads `analytics_api` now, off the client.
   seven hand-written modules beside it (`config`, `mcp`, `protocols`, `session`, `zap`, …).
   `pkg/hanzoai/{api,models}` is GONE from git; if a checkout still shows `resources/` or
   `types/` on disk they are untracked leftovers of that surface, and the wheel excludes them
-  — a built 3.2.11 wheel is 2660 files of `hanzoai/cloud/` and those seven modules, nothing
-  else.
+  — the published 3.2.13 wheel is 2667 files of `hanzoai/cloud/` and those seven modules,
+  nothing else.
 - `pkg/hanzo/src/hanzo/cli.py` — the `hanzo` CLI command tree.
 - `pkg/hanzo-mcp/` — MCP server; tools via `[project.entry-points."hanzo.tools"]`.
 - `pkg/hanzo-tools-*/` — one concern each; 37 of the 38 register a `TOOLS` list under the
