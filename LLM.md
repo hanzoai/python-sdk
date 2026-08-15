@@ -114,25 +114,35 @@ document this tree is pinned to: **191 tags → 191 api modules, 1:1**, plus `de
 for the untagged 50, so nothing collapses, and `generate.py python --check` reports
 `[python] clean` with no local strip of any kind.
 
-## The client does not authenticate itself, and that is a document defect
+## The client authenticates itself — CLOSED, and it was fixed in the document
 
-`Configuration(access_token=…)` is inert here. cloud's document declares no
-`securitySchemes` and no `security`, so openapi-generator wrote
-`_auth_settings: List[str] = []` into all 2479 operations,
-`Configuration.auth_settings()` returns `{}`, and `update_params_for_auth`
-returns on its first line. Measured: serializing `get_keys` from a Configuration
-built with `access_token="sk-test"` yields a request with **no `Authorization`
-header at all**. The examples had been built that way since they were written,
-so every flow was calling anonymously and reporting the server's refusal as
-though the key were bad.
+`Configuration(access_token=…)` sends the credential. cloud's document declares
+`components.securitySchemes.bearer` (`type: http`, `scheme: bearer`) and applies
+it document-wide with `security: [{bearer: []}]`, so openapi-generator wrote a
+populated `Configuration.auth_settings()` —
 
-`examples/client.py` now passes the header through `ApiClient`'s own
-`header_name`/`header_value` pair — the generated client's supported way to send
-a header the document did not describe — and a flow run against a local echo
-server shows `Authorization: Bearer <key>` on the wire. That is the correct
-short-term shape, but the real fix belongs upstream: when cloud's emission
-declares a bearer scheme, `access_token` starts working, and the header should
-move back into `Configuration` in one edit. Until then, one place sets it.
+    auth['bearer'] = {'type': 'bearer', 'in': 'header',
+                      'key': 'Authorization', 'value': 'Bearer ' + self.access_token}
+
+— and `_auth_settings: List[str] = ['bearer']` into **2498 call sites**.
+`ApiClient._apply_auth_params` reads that and sets the header. Four call sites
+carry an empty list instead, and they are exactly the operations the document
+marks `security: []`: `get_models`, `get_models_providers`, `get_commands`,
+`get_openapi_json`.
+
+Before this, the document declared no scheme at all: `auth_settings()` returned
+`{}`, `update_params_for_auth` returned on its first line, and a Configuration
+built with `access_token="sk-test"` produced a request with **no `Authorization`
+header**. `examples/client.py` compensated with `ApiClient`'s
+`header_name`/`header_value` pair. That compensation is gone — the flows pass
+`access_token` and nothing else, which is the shape a reader of any other
+openapi-generator client already expects.
+
+Proven on the wire, not by reading: `python -m examples.hello` against
+api.hanzo.ai returns the caller's keys with a real `sk-`, and the same command
+with a bogus one returns `HTTP 403 {"code":"forbidden","error":"sign in to
+manage API keys"}`. Two different answers to the same code means the credential
+is reaching the server.
 
 ## A `pk-` is not a read key
 
@@ -146,10 +156,9 @@ attributed to a tenant, and that is the whole of it.
 So every route these examples use refuses a valid `pk-` exactly as it refuses no
 key at all — `/v1/tools` says why in as many words, `"a validated principal is
 required"` — and the 403 that comes back reads like a revoked key rather than the
-wrong shape of key. `examples/client.py` rejects a `pk-` up front for that reason,
-which is the same argument as the `access_token` note above: an unsendable
-credential and an unauthenticating one produce the same misleading refusal, so
-both are caught before the request goes out.
+wrong shape of key. `examples/client.py` rejects a `pk-` up front for that reason:
+an unauthenticating credential produces the same misleading refusal as a revoked
+one, so it is caught before the request goes out.
 
 **Two spec defects were found and fixed upstream while regenerating at 3.1.5.** Neither was
 patched here; both are in `hanzoai/openapi` main:
@@ -163,11 +172,16 @@ patched here; both are in `hanzoai/openapi` main:
 The rule holds in both directions: a generated tree is never hand-repaired, and a defect
 found by generating is fixed in the spec, where every other language gets the fix too.
 
-## Examples — five flows, and nothing loose beside them
+## Examples — six flows, and nothing loose beside them
 
-`examples/{hello,money,store,agent,tools}`, one directory each, plus
+`examples/{models,hello,money,store,agent,tools}`, one directory each, plus
 `examples/client.py` as the single place a base URL or an env var is resolved. Run one with
 `python -m examples.hello` from the repo root.
+
+`models` is the one that needs no credential — `GET /v1/models` is one of the four
+operations the document marks `security: []` — so it is the install check a reader can run
+before they have a key, and the flow that proves the package reaches api.hanzo.ai at all.
+`client.py` exposes it as `public()` beside the credentialled `client()`.
 
 `chat` is absent by measurement, not by choice: `POST /v1/chat/completions` is declared with
 no `requestBody` and no `responses`, so the generated method takes no arguments and returns
@@ -182,7 +196,7 @@ practice this would be called through the MCP interface". `compileall` passed th
 because syntax is not a claim. They are deleted. `examples/` is the flows.
 
 Each flow's call sits behind `if __name__ == "__main__":` on purpose. That is what lets CI
-*import* all five to prove every `from hanzoai.cloud import X` still resolves, without an API
+*import* all six to prove every `from hanzoai.cloud import X` still resolves, without an API
 key and without opening a socket — so a spec change that renames or drops an operation goes
 red in the gate instead of in a user's app.
 
@@ -197,7 +211,7 @@ Fleet convention, added at 3.1.5: root `hanzo.yml` (the `test:` gate) plus a 7-l
 `.hanzo/workflows/cicd.yml` importing `hanzoai/ci`. The gate is three blocks — import every
 generated module (for generated code that IS the build step; there is no compiler to catch a
 bad `$ref`), read the syntax tree for duplicate fields the import cannot see, then resolve
-and import the five flows. Each provisions an interpreter with `uv` when the runner lacks
+and import the six flows. Each provisions an interpreter with `uv` when the runner lacks
 one. There is no `.github/workflows/` here: the label these callers ask for is served by the
 git-runner fleet on git.hanzo.ai and by nothing on github.com.
 

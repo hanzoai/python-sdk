@@ -269,6 +269,7 @@ class SbomApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -514,6 +515,7 @@ class SbomApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -787,6 +789,7 @@ class SbomApi:
 
         # authentication setting
         _auth_settings: List[str] = [
+            'bearer'
         ]
 
         return self.api_client.param_serialize(
