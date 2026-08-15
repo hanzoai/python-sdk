@@ -12,15 +12,13 @@ and sha256 of the document this tree was cut from.
 ## Install
 
 ```bash
-uv pip install "hanzoai @ git+https://github.com/hanzoai/python-sdk"
+pip install hanzoai==3.2.13
 ```
 
-Install from source, not from PyPI, until this version reaches it. PyPI serves
-**3.2.1**; this tree is **3.2.12**, and in between the API document dropped the
-default version from its operation ids and grew the security scheme this client
-now sends. 3.2.1's methods are `get_v1_keys` and `get_v1_tools`; the current ones
-are `get_keys` and `get_tools`, so `pip install hanzoai` gets you a client that
-works and a set of names that matches nothing below.
+3.2.1 and earlier predate the rename that dropped the default version from the
+document's operation ids — their methods are `get_v1_keys` and `get_v1_tools`
+where the current ones are `get_keys` and `get_tools`. Pin 3.2.13 or later and
+the names on this page are the names you get.
 
 Check the install without a key — `GET /v1/models` is public:
 

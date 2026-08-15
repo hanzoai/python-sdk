@@ -1,29 +1,14 @@
 name: Publish PyPI
-# NATIVE CI. git.hanzo.ai is canonical; this runs on the Hanzo git-runner fleet
-# (`hanzo-build-linux-amd64`). GitHub is a downstream mirror only.
+# Releases run on the Hanzo git-runner fleet (`hanzo-build-linux-amd64`) from
+# git.hanzo.ai, which is canonical; GitHub is a downstream mirror. There is no
+# .github counterpart to this file — one lane, one place.
 #
-# This replaces .github/workflows/publish-pypi.yml, which at the time could not
-# be run at all: dispatching it returned
-#   HTTP 422: Actions has been disabled for this user
-# for the `hanzo-dev` account, and a tag push produced no run for the same
-# reason. So `hanzo` 0.4.4 sat tagged and unpublished while PyPI kept serving
-# 0.4.3, in which `hanzo auth login` cannot complete a login — Cloudflare
-# rejects urllib's default User-Agent with `error code: 1010`, so the token
-# exchange 403s AFTER the user has already signed in through the browser.
-# Depending on GitHub to ship a fix for our own CLI was the actual defect.
-#
-# That 422 is still live, and it is ACCOUNT-scoped, not repo-scoped. Checking
-# `gh api repos/hanzoai/python-sdk/actions/permissions` reports enabled=true, and
-# GitHub's own Dependency Graph runs go green — neither tells you anything about
-# dispatch. Dispatching as `hanzo-dev` returns the 422 to this day; dispatching the
-# same workflow as `zooqueen` works. So "Actions are enabled" and "we can trigger a
-# workflow" are different questions, and the repo-level check answers the wrong one.
-#
-# The migration stands on its own terms regardless: releases run on our runners and
-# GitHub is a mirror. Do not restore a tag-triggered .github job.
-#
-# Tag -> package mapping is unchanged from the retired workflow, including the
-# `hanzo-*` catch-all that maps `hanzo-v0.4.4` to the `hanzo` package.
+# Tag -> package:
+#   v*             every workspace package (twine --skip-existing makes the
+#                  already-published ones no-ops)
+#   hanzoai-*      the root `hanzoai` client alone
+#   hanzo-tools-*  the tool packages
+#   hanzo-*        the matching pkg/<name>, else `hanzo`
 
 on:
   workflow_dispatch:
@@ -88,21 +73,17 @@ jobs:
           echo "PACKAGES=$PACKAGES" >> "$GITHUB_OUTPUT"
           echo "Publishing: ${PACKAGES:-<none>}"
 
-      # Secrets model — KMS ONLY, the same contract hanzoai/extension publishes
-      # under. The single bootstrap credential is the KMS machine identity
-      # (KMS_CLIENT_ID / KMS_CLIENT_SECRET, a git.hanzo.ai Actions secret); the
-      # PyPI tokens are pulled at publish time and never stored in Gitea or
-      # GitHub Actions secrets.
+      # Secrets come from KMS only. The one credential this job is given is the
+      # KMS machine identity (KMS_CLIENT_ID / KMS_CLIENT_SECRET, a git.hanzo.ai
+      # Actions secret); the PyPI tokens are read at publish time and live
+      # nowhere else — not in Gitea, not in GitHub Actions secrets.
       #
-      # This step is why hanzo-iam 1.30.2 could not ship. The job read
-      # `secrets.PYPI_TOKEN` off the forge, which by that contract is a secret
-      # that must not exist there — and did not: the hanzoai org carries only
-      # GHCR_TOKEN, GHCR_USER, GH_PAT, KMS_CLIENT_ID, KMS_CLIENT_SECRET,
-      # OCI_TOKEN, OCI_USER, REGISTRY_TOKEN. So the guard below fired on every
-      # release and PyPI stayed on 1.30.0. The tokens do exist as *GitHub* repo
-      # secrets, where values are write-only and cannot be migrated by reading
-      # them; they have to be seeded into KMS once, at
-      # org `hanzo`, env `prod`, path `python-sdk-publish`.
+      # KMS answers `GET /v1/kms/secrets/<path>/<name>?env=<env>` with
+      # `{"env","name","value"}`. The org is the token's own `owner` claim, so
+      # it is not in the URL, and the value is top level. Reading any other
+      # shape returns 404 for a secret that is present — which is
+      # indistinguishable from one that is absent, so keep this call in step
+      # with the KMS routes (kms-operator uses the same one).
       - name: Load publish secrets from KMS
         env:
           KMS_CLIENT_ID: ${{ secrets.KMS_CLIENT_ID }}
@@ -115,29 +96,25 @@ jobs:
             echo "::error::KMS machine identity absent — cannot pull PyPI creds. Seed KMS_CLIENT_ID/KMS_CLIENT_SECRET as git.hanzo.ai Actions secrets (org or repo scope)." >&2
             exit 1
           fi
-          KMS=https://kms.hanzo.ai; ORG=hanzo; ENVN=prod; P=python-sdk-publish
+          KMS=https://kms.hanzo.ai; ENVN=prod; P=python-sdk-publish
           TOKEN=$(curl -sf "$KMS/v1/kms/auth/login" -H 'Content-Type: application/json' \
             -d "{\"clientId\":\"$KMS_CLIENT_ID\",\"clientSecret\":\"$KMS_CLIENT_SECRET\"}" | jq -r .accessToken)
           [ -n "$TOKEN" ] && [ "$TOKEN" != null ] || { echo "::error::KMS login failed"; exit 1; }
-          # Two tokens cover per-project scope: PYPI_TOKEN owns most hanzo-*
-          # packages, HANZO_AI_PYPI_TOKEN the rest. Each upload tries the primary
-          # then falls back, so a 403 scope-miss on one is covered by the other.
+          # PYPI_TOKEN owns most hanzo-* packages; HANZO_AI_PYPI_TOKEN, when
+          # seeded, covers the rest. Each upload tries the primary then the
+          # fallback, so a 403 scope-miss on one is covered by the other.
           #
-          # `|| true` on the fetch, deliberately. The step runs under
-          # `bash -e -o pipefail`, where `curl -sf` on an ABSENT path exits 22 and
-          # kills the step instantly — before any message of ours can print. That
-          # is exactly what happened on the first run of this job: the log ended at
-          # `exitcode '22': failure` with no error line, which reads like a broken
-          # network or bad credentials and is neither. It was a 404 for a KMS path
-          # that has not been seeded yet. A missing secret must be diagnosable, so
-          # the HTTP status is captured and reported by the guard below instead.
+          # `|| true` on the fetch, and the status captured by hand: this step
+          # runs under `bash -e -o pipefail`, where `curl -sf` on an absent path
+          # exits 22 and ends the step before it can say why. Print the HTTP code
+          # instead, so "not seeded" and "wrong route" read differently.
           for KEY in PYPI_TOKEN HANZO_AI_PYPI_TOKEN; do
-            BODY=$(curl -s -w '\n%{http_code}' "$KMS/v1/kms/orgs/$ORG/secrets/$P/$KEY?env=$ENVN" \
+            BODY=$(curl -s -w '\n%{http_code}' "$KMS/v1/kms/secrets/$P/$KEY?env=$ENVN" \
               -H "Authorization: Bearer $TOKEN") || true
             CODE=$(printf '%s' "$BODY" | tail -1)
-            VAL=$(printf '%s' "$BODY" | sed '$d' | jq -r '.secret.value // empty' 2>/dev/null || true)
-            if [ -n "$VAL" ]; then echo "::add-mask::$VAL"; else
-              echo "note: KMS returned HTTP $CODE for $ORG/$ENVN/$P/$KEY (no value)"
+            VAL=$(printf '%s' "$BODY" | sed '$d' | jq -r '.value // empty' 2>/dev/null || true)
+            if [ -n "$VAL" ]; then echo "::add-mask::$VAL"; echo "read $ENVN/$P/$KEY"; else
+              echo "note: KMS returned HTTP $CODE for $ENVN/$P/$KEY (no value)"
             fi
             echo "$KEY=$VAL" >> "$GITHUB_ENV"
           done
