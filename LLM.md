@@ -28,8 +28,31 @@ also drifted behind — `hanzo-mcp` 0.15.14, `hanzo-tools` 0.3.5, `hanzo-kms`
 1.1.1, `hanzo-network` 0.1.4, seven `hanzo-tools-*`, and first releases of
 `hanzo-flags` and `hanzo-research`.
 
-**What had stopped every one of them** is worth keeping, because it reads like a
-missing secret and is not one. The job asked KMS for
+**Two faults stopped them.** Six of the eight tags never started the lane at all;
+the two that did, failed.
+
+`hanzo.yml` declares `client.version:`, so the release is cut by the pipeline —
+regenerate, bump, tag, then push `HEAD:main` and `refs/tags/v<next>` in one push.
+`actions/checkout` leaves an `http.<host>.extraheader` behind, that config is
+multi-valued, and the server honours the first `Authorization` it reads, so the
+push travelled as the forge's own Actions user (uid **-2**) rather than as
+`FORGE_TOKEN`. The forge starts no run for a ref that user pushed — loop
+prevention, working as designed. So the tag was on the remote, `publish-pypi.yml`
+was in the tree at that commit, its `push: tags:` matched it, and there was no
+event to match: v3.2.3, v3.2.4, v3.2.6, v3.2.7, v3.2.8 and v3.2.10 have zero runs
+between them. `js-sdk` v2.2.6 carries the same signature, while the tags on either
+side of it have two runs each. `hanzoai/ci` now clears every
+`http.*.extraheader` before setting its own, so one credential goes on the wire;
+this repo pins `build.yml@v1.0.54`, which carries that.
+
+**A tag pushed by automation is not the same event as a tag pushed by a person.**
+A green pipeline that ends "cut v<next>" says nothing about whether the publish
+ran. Read `trigger_user_id` on the run, or `act_user_id` in the repo's activity
+feed — uid `-2` means the push started nothing — and push a hand-cut tag with a
+real account.
+
+The two that did start, v3.2.5 and v3.2.9, then failed on a route, which reads
+like a missing secret and is not one. The job asked KMS for
 `/v1/kms/orgs/hanzo/secrets/<path>/<key>` and parsed `.secret.value`. KMS serves
 `GET /v1/kms/secrets/<path>/<key>?env=<env>` and answers `{"env","name","value"}`,
 taking the org from the caller's own token claim. A wrong route 404s exactly like
