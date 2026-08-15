@@ -151,7 +151,6 @@ include = [
   "/*.md",
   "/mypy.ini",
   "/noxfile.py",
-  "bin/*",
   "examples/*",
   "pkg/hanzoai/*",
   "tests/*",
@@ -542,7 +541,6 @@ hanzo-tools-s3 = { workspace = true }
 
 [tool.ruff.lint.extend-per-file-ignores]
 # Allow print statements in scripts and examples
-"bin/**.py" = ["T201", "T203"]
 "scripts/**.py" = ["T201", "T203", "E722"]
 "tests/**.py" = ["T201", "T203", "F401", "F841"]
 "examples/**.py" = ["T201", "T203", "F841"]
