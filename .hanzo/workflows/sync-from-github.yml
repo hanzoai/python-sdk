@@ -9,7 +9,7 @@ name: Sync from GitHub
 # no-op because GitHub already has it. No echo, no loop.
 #
 # ONE deterministic direction per job: an in-cluster PULL. The runner reaches
-# both ends (GitHub outbound, this forge via the instance URL actions/checkout
+# both ends (GitHub outbound, Hanzo Git via the instance URL actions/checkout
 # already uses), so the sync has no ingress dependency.
 #
 # Fast-forward ONLY. A divergence fails LOUDLY here rather than force-pushing
@@ -51,7 +51,7 @@ jobs:
             #
             # It dispatched `deploy.yml`, which this repo does not have and never
             # had: these are libraries, they publish to PyPI and deploy nothing.
-            # The forge answered 404 every time, `|| echo ... (non-fatal)` ate it,
+            # Hanzo Git answered 404 every time, `|| echo ... (non-fatal)` ate it,
             # and the job went green. So every commit synced from GitHub landed
             # here having triggered NOTHING, and the gate this repo declares in
             # hanzo.yml has no runs at all to show for it.
