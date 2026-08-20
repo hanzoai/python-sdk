@@ -202,5 +202,20 @@ test:
 # and is 1814 now, which is the point: it grows from the routers rather than from
 # an editor, so a true document overtook the unverified one on its own.
 client:
+  # WHICH cloud, said out loud. hanzoai/ci defaults this to `hanzoai/cloud`, and
+  # that repo is now the re-rooted OSS core — a short line sharing no ancestor
+  # with the product. So the default resolved to a tree that does not contain the
+  # ref this projection is pinned to, and every run of the client lane, check or
+  # move, died on `curl: (22) ... 404` fetching a document that was never there.
+  #
+  # It reads as a credential problem and is not one: the same token fetches the
+  # same ref from hanzo-inc/cloud with a 200. The product line is the one whose
+  # openapi.yaml this SDK is a projection of, so it is the one named here.
+  #
+  # This is also the field `.spec-lock`'s own `repo=` line does NOT set — ci reads
+  # the repo from here and uses the lock's copy only for a commit message, so the
+  # two can disagree silently. They are one fact; keep them equal.
+  spec:
+    repo: hanzo-inc/cloud
   generate: ./scripts/generate.sh
   version: "pyproject.toml:grep -m1 '^version' pyproject.toml | sed -E 's/.*\"(.*)\".*/\\1/'"
