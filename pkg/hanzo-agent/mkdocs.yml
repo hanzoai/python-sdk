@@ -17,7 +17,7 @@ theme:
     palette:
         primary: black
     logo: assets/logo.svg
-    favicon: images/favicon-platform.svg
+    favicon: assets/favicon.svg
 nav:
     - Intro: index.md
     - Quickstart: quickstart.md
