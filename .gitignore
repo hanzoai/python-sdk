@@ -30,7 +30,6 @@ Brewfile.lock.json
 # Agent config files (symlinked from user home)
 LLM.md
 AGENTS.md
-CLAUDE.md
 GEMINI.md
 GROK.md
 QWEN.md
