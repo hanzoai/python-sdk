@@ -525,7 +525,7 @@ class AudioApi:
     ) -> None:
         """The OpenAI-compatible TTS endpoint (POST /v1/audio/speech).
 
-        The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. One code path, OpenAI-shaped, no store/message coupling (unlike the legacy /v1/generate-text-to-speech-audio which is bound to a chat store).
+        The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. This is the ONE way to synthesize speech: OpenAI-shaped, with no store or message coupling, so a caller needs no chat to speak.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -587,7 +587,7 @@ class AudioApi:
     ) -> ApiResponse[None]:
         """The OpenAI-compatible TTS endpoint (POST /v1/audio/speech).
 
-        The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. One code path, OpenAI-shaped, no store/message coupling (unlike the legacy /v1/generate-text-to-speech-audio which is bound to a chat store).
+        The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. This is the ONE way to synthesize speech: OpenAI-shaped, with no store or message coupling, so a caller needs no chat to speak.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -649,7 +649,7 @@ class AudioApi:
     ) -> RESTResponseType:
         """The OpenAI-compatible TTS endpoint (POST /v1/audio/speech).
 
-        The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. One code path, OpenAI-shaped, no store/message coupling (unlike the legacy /v1/generate-text-to-speech-audio which is bound to a chat store).
+        The OpenAI-compatible TTS endpoint (POST /v1/audio/speech). It authenticates the caller, resolves `model` to its TTS provider (the SAME model-route resolution the chat/images/video endpoints use — so a BYO node registered as a TTS provider works transparently), synthesizes the audio, and streams the bytes back. This is the ONE way to synthesize speech: OpenAI-shaped, with no store or message coupling, so a caller needs no chat to speak.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -761,7 +761,7 @@ class AudioApi:
     ) -> None:
         """The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
 
-        The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. One code path, OpenAI-shaped, no store coupling (unlike the legacy /v1/process-speech-to-text, which is bound to a chat store).
+        The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. This is the ONE way to transcribe: OpenAI-shaped, with no store coupling, so a caller needs no chat to be heard.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -823,7 +823,7 @@ class AudioApi:
     ) -> ApiResponse[None]:
         """The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
 
-        The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. One code path, OpenAI-shaped, no store coupling (unlike the legacy /v1/process-speech-to-text, which is bound to a chat store).
+        The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. This is the ONE way to transcribe: OpenAI-shaped, with no store coupling, so a caller needs no chat to be heard.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -885,7 +885,7 @@ class AudioApi:
     ) -> RESTResponseType:
         """The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
 
-        The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. One code path, OpenAI-shaped, no store coupling (unlike the legacy /v1/process-speech-to-text, which is bound to a chat store).
+        The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. This is the ONE way to transcribe: OpenAI-shaped, with no store coupling, so a caller needs no chat to be heard.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

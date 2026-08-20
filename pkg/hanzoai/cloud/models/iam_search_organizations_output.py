@@ -17,22 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.iam_organization import IamOrganization
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RunnerBuildResp(BaseModel):
+class IamSearchOrganizationsOutput(BaseModel):
     """
-    RunnerBuildResp
+    IamSearchOrganizationsOutput
     """ # noqa: E501
-    build_job_id: Optional[StrictStr] = Field(default=None, description="BuildJobID is the queued build's id, and what its progress is read by.", alias="buildJobId")
-    image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
-    index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
-    runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
-    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` — the build was accepted and has not finished.")
-    target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "runnerPool", "status", "target"]
+    cursor: Optional[StrictStr] = None
+    organizations: Optional[List[IamOrganization]] = None
+    __properties: ClassVar[List[str]] = ["cursor", "organizations"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +49,7 @@ class RunnerBuildResp(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a JSON string"""
+        """Create an instance of IamSearchOrganizationsOutput from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,11 +70,18 @@ class RunnerBuildResp(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in organizations (list)
+        _items = []
+        if self.organizations:
+            for _item_organizations in self.organizations:
+                if _item_organizations:
+                    _items.append(_item_organizations.to_dict())
+            _dict['organizations'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a dict"""
+        """Create an instance of IamSearchOrganizationsOutput from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +89,8 @@ class RunnerBuildResp(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "buildJobId": obj.get("buildJobId"),
-            "image": obj.get("image"),
-            "index": obj.get("index"),
-            "runnerPool": obj.get("runnerPool"),
-            "status": obj.get("status"),
-            "target": obj.get("target")
+            "cursor": obj.get("cursor"),
+            "organizations": [IamOrganization.from_dict(_item) for _item in obj["organizations"]] if obj.get("organizations") is not None else None
         })
         return _obj
 

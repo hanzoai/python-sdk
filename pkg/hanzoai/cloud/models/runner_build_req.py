@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.binary_spec import BinarySpec
 from typing import Optional, Set
@@ -39,11 +39,10 @@ class RunnerBuildReq(BaseModel):
     organization_id: Optional[StrictStr] = Field(default=None, description="OrgID attributes the build to an org. On the IAM path it defaults to the caller's own validated org, and a foreign one is refused unless the caller is a platform SuperAdmin.", alias="organizationId")
     os: Optional[StrictStr] = Field(default=None, description="OS is the target operating system for the artifact lane.")
     ref: Optional[StrictStr] = Field(default=None, description="Ref is the git ref to build when no SHA is given.")
-    release: Optional[StrictBool] = Field(default=None, description="Release requests native release semantics for cloud's self-publish: compute the next version, build+push ghcr.io/hanzoai/cloud, smoke it, then tag (the receipt) and notify universe. It owns its output image (release.go), and it takes SuperAdmin.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository clone URL to build. Required on the image lane.")
     sha: Optional[StrictStr] = Field(default=None, description="SHA is the commit to pin; it wins over Ref and Branch.")
     tag: Optional[StrictStr] = Field(default=None, description="Tag is the publish path segment, so both front doors write ONE index at ONE URL. It defaults to the pinned ref, and must be named explicitly for a branch.")
-    __properties: ClassVar[List[str]] = ["arch", "args", "binaries", "branch", "bucket", "context", "dockerTarget", "dockerfile", "image", "organizationId", "os", "ref", "release", "repo", "sha", "tag"]
+    __properties: ClassVar[List[str]] = ["arch", "args", "binaries", "branch", "bucket", "context", "dockerTarget", "dockerfile", "image", "organizationId", "os", "ref", "repo", "sha", "tag"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -115,7 +114,6 @@ class RunnerBuildReq(BaseModel):
             "organizationId": obj.get("organizationId"),
             "os": obj.get("os"),
             "ref": obj.get("ref"),
-            "release": obj.get("release"),
             "repo": obj.get("repo"),
             "sha": obj.get("sha"),
             "tag": obj.get("tag")
