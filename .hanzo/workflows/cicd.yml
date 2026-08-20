@@ -32,11 +32,34 @@ on:
   # Measured instead of assumed: POST /v1/repos/<o>/<r>/actions/workflows/
   # cicd.yml/dispatches on git.hanzo.ai answers 204, a git-runner picks the run
   # up in seconds, and it reaches its first step. So the release dispatches this
-  # directly, on the side that has the runners, and the lane's no-payload path
-  # takes cloud's NEWEST TAG — which exists only after that commit built, smoked
-  # and rolled out. One trigger, fired by the thing that changed.
+  # directly, on the side that has the runners.
+  #
+  # A DISPATCH THAT NAMES NO DOCUMENT MOVES NOTHING, and for months this file
+  # claimed otherwise — that the lane's no-payload path took cloud's newest tag.
+  # ci v1.0.54 removed exactly that ("AND IT NO LONGER GOES LOOKING"), so a bare
+  # poke re-read the LOCKED ref, asserted its digest and exited before any write.
+  # Every release could poke this forever and the projection would never move;
+  # measured, it sat 254 commits behind while PyPI matched its newest tag, because
+  # publishing was never the broken half.
+  #
+  # So the ref travels WITH the poke. ci v1.0.75 takes it as an input, which is
+  # the same fact `repository_dispatch` carried as `client_payload.sha` — a verb
+  # Hanzo Git does not serve. Omitted, both inputs are empty and this behaves
+  # exactly as before: a check that writes nothing.
   workflow_dispatch:
+    inputs:
+      spec-ref:
+        description: "cloud commit to move .spec-lock to. Empty = check the locked ref, write nothing."
+        required: false
+        default: ''
+      spec-sha256:
+        description: "Expected sha256 of openapi.yaml at that ref. Empty = do not verify."
+        required: false
+        default: ''
 jobs:
   cicd:
-    uses: hanzoai/ci/.hanzo/workflows/build.yml@v1.0.54
+    uses: hanzoai/ci/.hanzo/workflows/build.yml@v1.0.75
+    with:
+      spec-ref: ${{ github.event.inputs.spec-ref || '' }}
+      spec-sha256: ${{ github.event.inputs.spec-sha256 || '' }}
     secrets: inherit
