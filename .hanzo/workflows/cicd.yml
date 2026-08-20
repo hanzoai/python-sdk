@@ -21,7 +21,7 @@ on:
     tags: ['v*']
   pull_request:
   # THE RELEASE POKES THE PROJECTION, and workflow_dispatch is how, because it
-  # is the dispatch verb this forge HAS. Two shapes were tried and neither could
+  # is the dispatch verb Hanzo Git HAS. Two shapes were tried and neither could
   # work: cloud posted `repository_dispatch: spec-update` at api.github.com,
   # where these callers ask for a label github.com has no runner for, so twelve
   # accepted events ran nothing; then this file grew a nightly `schedule:`,
