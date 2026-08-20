@@ -17,22 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
+from hanzoai.cloud.models.run_point import RunPoint
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RunnerBuildResp(BaseModel):
+class ModelHistory(BaseModel):
     """
-    RunnerBuildResp
+    ModelHistory
     """ # noqa: E501
-    build_job_id: Optional[StrictStr] = Field(default=None, description="BuildJobID is the queued build's id, and what its progress is read by.", alias="buildJobId")
-    image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
-    index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
-    runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
-    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` — the build was accepted and has not finished.")
-    target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "runnerPool", "status", "target"]
+    model: Optional[StrictStr] = Field(default=None, description="Model is the system these runs measured.")
+    points: Optional[List[RunPoint]] = Field(default=None, description="Points is every run, oldest first.")
+    trend: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Trend is the change from the first run to the last, absent when there has only been one. It answers the question a list of points makes you compute.")
+    __properties: ClassVar[List[str]] = ["model", "points", "trend"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +50,7 @@ class RunnerBuildResp(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a JSON string"""
+        """Create an instance of ModelHistory from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,11 +71,18 @@ class RunnerBuildResp(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in points (list)
+        _items = []
+        if self.points:
+            for _item_points in self.points:
+                if _item_points:
+                    _items.append(_item_points.to_dict())
+            _dict['points'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a dict"""
+        """Create an instance of ModelHistory from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +90,9 @@ class RunnerBuildResp(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "buildJobId": obj.get("buildJobId"),
-            "image": obj.get("image"),
-            "index": obj.get("index"),
-            "runnerPool": obj.get("runnerPool"),
-            "status": obj.get("status"),
-            "target": obj.get("target")
+            "model": obj.get("model"),
+            "points": [RunPoint.from_dict(_item) for _item in obj["points"]] if obj.get("points") is not None else None,
+            "trend": obj.get("trend")
         })
         return _obj
 

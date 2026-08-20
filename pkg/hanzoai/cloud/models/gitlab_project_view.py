@@ -17,22 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RunnerBuildResp(BaseModel):
+class GitlabProjectView(BaseModel):
     """
-    RunnerBuildResp
+    GitlabProjectView
     """ # noqa: E501
-    build_job_id: Optional[StrictStr] = Field(default=None, description="BuildJobID is the queued build's id, and what its progress is read by.", alias="buildJobId")
-    image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
-    index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
-    runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
-    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` — the build was accepted and has not finished.")
-    target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "runnerPool", "status", "target"]
+    clone_url: Optional[StrictStr] = Field(default=None, description="CloneURL is the https remote to clone.", alias="cloneUrl")
+    default_branch: Optional[StrictStr] = Field(default=None, description="DefaultBranch is the branch a clone lands on (\"main\" when GitLab names none, which is what an empty project reports).", alias="defaultBranch")
+    description: Optional[StrictStr] = Field(default=None, description="Description is the project's own, empty when it has none.")
+    full_name: Optional[StrictStr] = Field(default=None, description="FullName is the namespace path (\"acme/widgets\", \"acme/team/widgets\" for a subgroup) — the string GitLab calls path_with_namespace.", alias="fullName")
+    html_url: Optional[StrictStr] = Field(default=None, description="HTMLURL is the project's page.", alias="htmlUrl")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the project's path segment (\"widgets\"), not its display name.")
+    private: Optional[StrictBool] = Field(default=None, description="Private is true for anything not publicly visible (private or internal).")
+    pushed_at: Optional[StrictStr] = Field(default=None, description="PushedAt is RFC3339 last activity, so a client can sort or say \"2h ago\".", alias="pushedAt")
+    __properties: ClassVar[List[str]] = ["cloneUrl", "defaultBranch", "description", "fullName", "htmlUrl", "name", "private", "pushedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +54,7 @@ class RunnerBuildResp(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a JSON string"""
+        """Create an instance of GitlabProjectView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,7 +79,7 @@ class RunnerBuildResp(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a dict"""
+        """Create an instance of GitlabProjectView from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +87,14 @@ class RunnerBuildResp(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "buildJobId": obj.get("buildJobId"),
-            "image": obj.get("image"),
-            "index": obj.get("index"),
-            "runnerPool": obj.get("runnerPool"),
-            "status": obj.get("status"),
-            "target": obj.get("target")
+            "cloneUrl": obj.get("cloneUrl"),
+            "defaultBranch": obj.get("defaultBranch"),
+            "description": obj.get("description"),
+            "fullName": obj.get("fullName"),
+            "htmlUrl": obj.get("htmlUrl"),
+            "name": obj.get("name"),
+            "private": obj.get("private"),
+            "pushedAt": obj.get("pushedAt")
         })
         return _obj
 

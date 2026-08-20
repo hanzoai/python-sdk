@@ -17,6 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
@@ -26,13 +27,20 @@ class LeaderRow(BaseModel):
     """
     LeaderRow
     """ # noqa: E501
+    ci_high: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CIHigh is the upper bound of that interval. Wilson rather than the normal approximation because the normal one produces bounds past 100 exactly where benchmark scores live — at 194/198 that is the top of the board, not a corner case.", alias="ciHigh")
+    ci_low: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CILow and CIHigh are the 95% Wilson interval on Measured, in percent. They are what makes the score comparable: at n=198 a 98% carries roughly ±2 points, so most differences at the top of a board are not distinguishable and a bare number implies a precision it does not have. Absent when there is no measurement.", alias="ciLow")
+    claims: Optional[StrictInt] = Field(default=None, description="Claims is how many independent claims exist for this model on this benchmark. More than one means several sources reported it.")
     gap: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="published − measured (the arena signal)")
+    mean: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Mean is the unweighted average of every claim, which answers a different question from Published: what the field says on average, rather than what the vendor says about itself. With one claim the two are equal.")
     measured: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="hanzo-measured accuracy % (nil if unrun)")
+    measured_at: Optional[datetime] = Field(default=None, description="MeasuredAt is when the run behind Measured was recorded.", alias="measuredAt")
     model: Optional[StrictStr] = Field(default=None, description="the model this row scores")
     n: Optional[StrictInt] = Field(default=None, description="coverage — NEVER compare across different n")
     protocol: Optional[StrictStr] = Field(default=None, description="how the vendor scored their claim: single-attempt, pass@k or agentic")
     published: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="provider-claimed % (nil if none)")
-    __properties: ClassVar[List[str]] = ["gap", "measured", "model", "n", "protocol", "published"]
+    run: Optional[StrictStr] = Field(default=None, description="Run names the measurement Measured came from, and MeasuredAt is when it ran. A score with no date is not a fact about a model, it is a fact about a model on a day — and models change, so the date is what makes the number checkable rather than merely quoted.")
+    spread: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Spread is the distance between the highest and lowest of them, nil when there is only one. It is the disagreement AMONG sources, which a single Published number cannot show — signal in the same way the published-minus-measured gap is.")
+    __properties: ClassVar[List[str]] = ["ciHigh", "ciLow", "claims", "gap", "mean", "measured", "measuredAt", "model", "n", "protocol", "published", "run", "spread"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,12 +93,19 @@ class LeaderRow(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "ciHigh": obj.get("ciHigh"),
+            "ciLow": obj.get("ciLow"),
+            "claims": obj.get("claims"),
             "gap": obj.get("gap"),
+            "mean": obj.get("mean"),
             "measured": obj.get("measured"),
+            "measuredAt": obj.get("measuredAt"),
             "model": obj.get("model"),
             "n": obj.get("n"),
             "protocol": obj.get("protocol"),
-            "published": obj.get("published")
+            "published": obj.get("published"),
+            "run": obj.get("run"),
+            "spread": obj.get("spread")
         })
         return _obj
 

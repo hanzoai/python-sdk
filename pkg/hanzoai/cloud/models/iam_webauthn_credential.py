@@ -29,6 +29,7 @@ class IamWebauthnCredential(BaseModel):
     """ # noqa: E501
     aaguid: Optional[StrictStr] = None
     attachment: Optional[StrictStr] = None
+    attestation_format: Optional[StrictStr] = Field(default=None, description="AttestationFormat is the statement format the authenticator attested in (\"packed\", \"apple\", \"none\", …), which is a DIFFERENT value from the attestation type above. The library reads it back when resolving the FIDO AppID extension, so a row that dropped it would round-trip a credential the verifier no longer recognises as the one it stored.", alias="attestationFormat")
     attestation_type: Optional[StrictStr] = Field(default=None, alias="attestationType")
     backup_eligible: Optional[StrictBool] = Field(default=None, alias="backupEligible")
     backup_state: Optional[StrictBool] = Field(default=None, alias="backupState")
@@ -47,7 +48,7 @@ class IamWebauthnCredential(BaseModel):
     user: Optional[StrictStr] = None
     user_present: Optional[StrictBool] = Field(default=None, alias="userPresent")
     user_verified: Optional[StrictBool] = Field(default=None, alias="userVerified")
-    __properties: ClassVar[List[str]] = ["aaguid", "attachment", "attestationType", "backupEligible", "backupState", "cloneWarning", "createdAt", "createdTime", "credentialId", "deleted", "id", "name", "owner", "publicKey", "signCount", "transport", "updatedAt", "user", "userPresent", "userVerified"]
+    __properties: ClassVar[List[str]] = ["aaguid", "attachment", "attestationFormat", "attestationType", "backupEligible", "backupState", "cloneWarning", "createdAt", "createdTime", "credentialId", "deleted", "id", "name", "owner", "publicKey", "signCount", "transport", "updatedAt", "user", "userPresent", "userVerified"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -102,6 +103,7 @@ class IamWebauthnCredential(BaseModel):
         _obj = cls.model_validate({
             "aaguid": obj.get("aaguid"),
             "attachment": obj.get("attachment"),
+            "attestationFormat": obj.get("attestationFormat"),
             "attestationType": obj.get("attestationType"),
             "backupEligible": obj.get("backupEligible"),
             "backupState": obj.get("backupState"),

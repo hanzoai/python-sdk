@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,12 +26,13 @@ class Integrity(BaseModel):
     """
     Integrity
     """ # noqa: E501
-    broken_at: Optional[StrictInt] = Field(default=None, description="BrokenAt is the seq of the FIRST record that failed verification, or -1 when OK. Reason describes the break (recomputed-hash mismatch, prev-hash discontinuity, or a seq gap).", alias="brokenAt")
-    count: Optional[StrictInt] = Field(default=None, description="Count is the number of records walked.")
-    head_hash: Optional[StrictStr] = Field(default=None, description="HeadHash is the hash of the last record (or the genesis anchor for an empty chain). Pin this externally over time to detect tail-truncation.", alias="headHash")
-    ok: Optional[StrictBool] = Field(default=None, description="OK is true iff every record's stored hash equals the recomputed hash AND the chain links are continuous (each PrevHash == the prior record's Hash, seqs gapless from 0).")
+    broken_at: Optional[StrictInt] = Field(default=None, description="BrokenAt is the seq of the FIRST record that failed verification, and -1 whenever the walk found no break (including an unread chain, where no seq was reached). Reason describes the break (recomputed-hash mismatch, prev-hash discontinuity, or a seq gap) or why the chain could not be read.", alias="brokenAt")
+    count: Optional[StrictInt] = Field(default=None, description="Count is the number of records walked. Zero on an unread chain, where it means \"nothing was read\", not \"the chain is empty\".")
+    head: Optional[StrictStr] = Field(default=None, description="Head is the hash of the last record (or the genesis anchor for an empty chain). Pin this externally over time to detect tail-truncation.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the chain this verdict is about, e.g. \"audit\" or \"audit-iam\". It is carried because a verdict with no chain on it reads as the whole trail's, which is what a reader of a 128-chain deployment did.")
     reason: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["brokenAt", "count", "headHash", "ok", "reason"]
+    verdict: Optional[StrictStr] = Field(default=None, description="Verdict is intact, broken or unread.")
+    __properties: ClassVar[List[str]] = ["brokenAt", "count", "head", "name", "reason", "verdict"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,9 +87,10 @@ class Integrity(BaseModel):
         _obj = cls.model_validate({
             "brokenAt": obj.get("brokenAt"),
             "count": obj.get("count"),
-            "headHash": obj.get("headHash"),
-            "ok": obj.get("ok"),
-            "reason": obj.get("reason")
+            "head": obj.get("head"),
+            "name": obj.get("name"),
+            "reason": obj.get("reason"),
+            "verdict": obj.get("verdict")
         })
         return _obj
 

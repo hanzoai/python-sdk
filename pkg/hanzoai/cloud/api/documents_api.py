@@ -16,6 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from pydantic import StrictStr
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -274,6 +275,7 @@ class DocumentsApi:
     @validate_call
     def get_documents_by_file_id_context(
         self,
+        file_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -291,6 +293,8 @@ class DocumentsApi:
 
         Handles GET /v1/documents/:file_id/context — every chunk of a file, as LangChain Documents (used when RAG_USE_FULL_CONTEXT is on).
 
+        :param file_id: (required)
+        :type file_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -314,6 +318,7 @@ class DocumentsApi:
         """ # noqa: E501
 
         _param = self._get_documents_by_file_id_context_serialize(
+            file_id=file_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -336,6 +341,7 @@ class DocumentsApi:
     @validate_call
     def get_documents_by_file_id_context_with_http_info(
         self,
+        file_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -353,6 +359,8 @@ class DocumentsApi:
 
         Handles GET /v1/documents/:file_id/context — every chunk of a file, as LangChain Documents (used when RAG_USE_FULL_CONTEXT is on).
 
+        :param file_id: (required)
+        :type file_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -376,6 +384,7 @@ class DocumentsApi:
         """ # noqa: E501
 
         _param = self._get_documents_by_file_id_context_serialize(
+            file_id=file_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -398,6 +407,7 @@ class DocumentsApi:
     @validate_call
     def get_documents_by_file_id_context_without_preload_content(
         self,
+        file_id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -415,6 +425,8 @@ class DocumentsApi:
 
         Handles GET /v1/documents/:file_id/context — every chunk of a file, as LangChain Documents (used when RAG_USE_FULL_CONTEXT is on).
 
+        :param file_id: (required)
+        :type file_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -438,6 +450,7 @@ class DocumentsApi:
         """ # noqa: E501
 
         _param = self._get_documents_by_file_id_context_serialize(
+            file_id=file_id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -455,6 +468,7 @@ class DocumentsApi:
 
     def _get_documents_by_file_id_context_serialize(
         self,
+        file_id,
         _request_auth,
         _content_type,
         _headers,
@@ -476,6 +490,8 @@ class DocumentsApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if file_id is not None:
+            _path_params['file_id'] = file_id
         # process the query parameters
         # process the header parameters
         # process the form parameters

@@ -16,6 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from pydantic import StrictStr
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -38,6 +39,7 @@ class VideosApi:
     @validate_call
     def get_videos_by_id(
         self,
+        id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55,6 +57,8 @@ class VideosApi:
 
         Implements GET /v1/videos/{id} — poll a job's status.  It authenticates the caller, verifies they OWN the job (the caller's billing subject must equal the job's), performs ONE upstream status poll, and — the first time the job is observed completed — settles the reservation with the actual cost and records the billable usage event (exactly once). Returns the OpenAI-shaped video object.
 
+        :param id: (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -78,6 +82,7 @@ class VideosApi:
         """ # noqa: E501
 
         _param = self._get_videos_by_id_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -100,6 +105,7 @@ class VideosApi:
     @validate_call
     def get_videos_by_id_with_http_info(
         self,
+        id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -117,6 +123,8 @@ class VideosApi:
 
         Implements GET /v1/videos/{id} — poll a job's status.  It authenticates the caller, verifies they OWN the job (the caller's billing subject must equal the job's), performs ONE upstream status poll, and — the first time the job is observed completed — settles the reservation with the actual cost and records the billable usage event (exactly once). Returns the OpenAI-shaped video object.
 
+        :param id: (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -140,6 +148,7 @@ class VideosApi:
         """ # noqa: E501
 
         _param = self._get_videos_by_id_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -162,6 +171,7 @@ class VideosApi:
     @validate_call
     def get_videos_by_id_without_preload_content(
         self,
+        id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -179,6 +189,8 @@ class VideosApi:
 
         Implements GET /v1/videos/{id} — poll a job's status.  It authenticates the caller, verifies they OWN the job (the caller's billing subject must equal the job's), performs ONE upstream status poll, and — the first time the job is observed completed — settles the reservation with the actual cost and records the billable usage event (exactly once). Returns the OpenAI-shaped video object.
 
+        :param id: (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -202,6 +214,7 @@ class VideosApi:
         """ # noqa: E501
 
         _param = self._get_videos_by_id_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -219,6 +232,7 @@ class VideosApi:
 
     def _get_videos_by_id_serialize(
         self,
+        id,
         _request_auth,
         _content_type,
         _headers,
@@ -240,6 +254,8 @@ class VideosApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -274,6 +290,7 @@ class VideosApi:
     @validate_call
     def get_videos_by_id_content(
         self,
+        id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -291,6 +308,8 @@ class VideosApi:
 
         Implements GET /v1/videos/{id}/content — download the finished MP4.  It authenticates + ownership-checks the caller, then proxies the upstream /content endpoint (bounded by the download concurrency ceiling) and streams the raw video bytes back inline. A successful download also bills the job once (for the client that downloads without first polling to completion) — idempotent with the poll path via job.markCompleted.
 
+        :param id: (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -314,6 +333,7 @@ class VideosApi:
         """ # noqa: E501
 
         _param = self._get_videos_by_id_content_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -336,6 +356,7 @@ class VideosApi:
     @validate_call
     def get_videos_by_id_content_with_http_info(
         self,
+        id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -353,6 +374,8 @@ class VideosApi:
 
         Implements GET /v1/videos/{id}/content — download the finished MP4.  It authenticates + ownership-checks the caller, then proxies the upstream /content endpoint (bounded by the download concurrency ceiling) and streams the raw video bytes back inline. A successful download also bills the job once (for the client that downloads without first polling to completion) — idempotent with the poll path via job.markCompleted.
 
+        :param id: (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -376,6 +399,7 @@ class VideosApi:
         """ # noqa: E501
 
         _param = self._get_videos_by_id_content_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -398,6 +422,7 @@ class VideosApi:
     @validate_call
     def get_videos_by_id_content_without_preload_content(
         self,
+        id: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -415,6 +440,8 @@ class VideosApi:
 
         Implements GET /v1/videos/{id}/content — download the finished MP4.  It authenticates + ownership-checks the caller, then proxies the upstream /content endpoint (bounded by the download concurrency ceiling) and streams the raw video bytes back inline. A successful download also bills the job once (for the client that downloads without first polling to completion) — idempotent with the poll path via job.markCompleted.
 
+        :param id: (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -438,6 +465,7 @@ class VideosApi:
         """ # noqa: E501
 
         _param = self._get_videos_by_id_content_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -455,6 +483,7 @@ class VideosApi:
 
     def _get_videos_by_id_content_serialize(
         self,
+        id,
         _request_auth,
         _content_type,
         _headers,
@@ -476,6 +505,8 @@ class VideosApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
         # process the query parameters
         # process the header parameters
         # process the form parameters

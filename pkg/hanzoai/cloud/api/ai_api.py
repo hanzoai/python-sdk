@@ -17,57 +17,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBool, StrictStr
-from typing import Any, Dict, Optional
+from typing import Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
-from hanzoai.cloud.models.envelope import Envelope
-from hanzoai.cloud.models.get_ai_activities200_response import GetAiActivities200Response
-from hanzoai.cloud.models.get_ai_articles200_response import GetAiArticles200Response
-from hanzoai.cloud.models.get_ai_assets200_response import GetAiAssets200Response
-from hanzoai.cloud.models.get_ai_chats200_response import GetAiChats200Response
-from hanzoai.cloud.models.get_ai_deployments200_response import GetAiDeployments200Response
-from hanzoai.cloud.models.get_ai_files200_response import GetAiFiles200Response
-from hanzoai.cloud.models.get_ai_forms200_response import GetAiForms200Response
-from hanzoai.cloud.models.get_ai_graphs200_response import GetAiGraphs200Response
-from hanzoai.cloud.models.get_ai_messages200_response import GetAiMessages200Response
-from hanzoai.cloud.models.get_ai_nodes200_response import GetAiNodes200Response
-from hanzoai.cloud.models.get_ai_providers200_response import GetAiProviders200Response
-from hanzoai.cloud.models.get_ai_records200_response import GetAiRecords200Response
-from hanzoai.cloud.models.get_ai_remote_connections200_response import GetAiRemoteConnections200Response
-from hanzoai.cloud.models.get_ai_routes200_response import GetAiRoutes200Response
-from hanzoai.cloud.models.get_ai_scales200_response import GetAiScales200Response
-from hanzoai.cloud.models.get_ai_scans200_response import GetAiScans200Response
-from hanzoai.cloud.models.get_ai_signin_sessions200_response import GetAiSigninSessions200Response
-from hanzoai.cloud.models.get_ai_stores200_response import GetAiStores200Response
-from hanzoai.cloud.models.get_ai_tasks200_response import GetAiTasks200Response
-from hanzoai.cloud.models.get_ai_templates200_response import GetAiTemplates200Response
-from hanzoai.cloud.models.get_ai_usages200_response import GetAiUsages200Response
-from hanzoai.cloud.models.get_ai_vectors200_response import GetAiVectors200Response
-from hanzoai.cloud.models.get_ai_videos200_response import GetAiVideos200Response
-from hanzoai.cloud.models.get_ai_workflows200_response import GetAiWorkflows200Response
-from hanzoai.cloud.models.post_ai_articles200_response import PostAiArticles200Response
-from hanzoai.cloud.models.post_ai_assets200_response import PostAiAssets200Response
-from hanzoai.cloud.models.post_ai_chats200_response import PostAiChats200Response
-from hanzoai.cloud.models.post_ai_deployments200_response import PostAiDeployments200Response
-from hanzoai.cloud.models.post_ai_files200_response import PostAiFiles200Response
-from hanzoai.cloud.models.post_ai_forms200_response import PostAiForms200Response
-from hanzoai.cloud.models.post_ai_graphs200_response import PostAiGraphs200Response
-from hanzoai.cloud.models.post_ai_messages200_response import PostAiMessages200Response
-from hanzoai.cloud.models.post_ai_nodes200_response import PostAiNodes200Response
-from hanzoai.cloud.models.post_ai_providers200_response import PostAiProviders200Response
-from hanzoai.cloud.models.post_ai_records200_response import PostAiRecords200Response
-from hanzoai.cloud.models.post_ai_remote_connections200_response import PostAiRemoteConnections200Response
-from hanzoai.cloud.models.post_ai_routes200_response import PostAiRoutes200Response
-from hanzoai.cloud.models.post_ai_scales200_response import PostAiScales200Response
-from hanzoai.cloud.models.post_ai_scans200_response import PostAiScans200Response
-from hanzoai.cloud.models.post_ai_signin_sessions200_response import PostAiSigninSessions200Response
-from hanzoai.cloud.models.post_ai_stores200_response import PostAiStores200Response
-from hanzoai.cloud.models.post_ai_tasks200_response import PostAiTasks200Response
-from hanzoai.cloud.models.post_ai_templates200_response import PostAiTemplates200Response
-from hanzoai.cloud.models.post_ai_tree_files200_response import PostAiTreeFiles200Response
-from hanzoai.cloud.models.post_ai_vectors200_response import PostAiVectors200Response
-from hanzoai.cloud.models.post_ai_videos200_response import PostAiVideos200Response
-from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows200Response
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -353,8 +305,8 @@ class AiApi:
     @validate_call
     def delete_ai_articles_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -367,14 +319,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiArticles200Response:
+    ) -> None:
         """Delete a article
 
         Delete one article.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -408,9 +360,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -426,8 +375,8 @@ class AiApi:
     @validate_call
     def delete_ai_articles_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -440,14 +389,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """Delete a article
 
         Delete one article.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -481,9 +430,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -499,8 +445,8 @@ class AiApi:
     @validate_call
     def delete_ai_articles_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -518,9 +464,9 @@ class AiApi:
 
         Delete one article.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -554,9 +500,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -600,13 +543,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -635,8 +571,8 @@ class AiApi:
     @validate_call
     def delete_ai_assets_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -649,14 +585,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiAssets200Response:
+    ) -> None:
         """Delete a asset
 
         Delete one asset.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -690,9 +626,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -708,8 +641,8 @@ class AiApi:
     @validate_call
     def delete_ai_assets_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -722,14 +655,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiAssets200Response]:
+    ) -> ApiResponse[None]:
         """Delete a asset
 
         Delete one asset.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -763,9 +696,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -781,8 +711,8 @@ class AiApi:
     @validate_call
     def delete_ai_assets_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -800,9 +730,9 @@ class AiApi:
 
         Delete one asset.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -836,9 +766,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -882,13 +809,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -917,8 +837,8 @@ class AiApi:
     @validate_call
     def delete_ai_chats_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -931,14 +851,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiChats200Response:
+    ) -> None:
         """Delete a chat
 
         Delete one chat.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -972,9 +892,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -990,8 +907,8 @@ class AiApi:
     @validate_call
     def delete_ai_chats_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1004,14 +921,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiChats200Response]:
+    ) -> ApiResponse[None]:
         """Delete a chat
 
         Delete one chat.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1045,9 +962,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1063,8 +977,8 @@ class AiApi:
     @validate_call
     def delete_ai_chats_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1082,9 +996,9 @@ class AiApi:
 
         Delete one chat.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1118,9 +1032,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1164,13 +1075,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -1199,6 +1103,7 @@ class AiApi:
     @validate_call
     def delete_ai_connections_by_provider(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1216,6 +1121,8 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1239,6 +1146,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._delete_ai_connections_by_provider_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1261,6 +1169,7 @@ class AiApi:
     @validate_call
     def delete_ai_connections_by_provider_with_http_info(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1278,6 +1187,8 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1301,6 +1212,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._delete_ai_connections_by_provider_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1323,6 +1235,7 @@ class AiApi:
     @validate_call
     def delete_ai_connections_by_provider_without_preload_content(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1340,6 +1253,8 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1363,6 +1278,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._delete_ai_connections_by_provider_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1380,6 +1296,7 @@ class AiApi:
 
     def _delete_ai_connections_by_provider_serialize(
         self,
+        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -1401,6 +1318,8 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -1435,8 +1354,8 @@ class AiApi:
     @validate_call
     def delete_ai_deployments_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1449,14 +1368,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiDeployments200Response:
+    ) -> None:
         """Delete a application
 
         Delete one application.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1490,9 +1409,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1508,8 +1424,8 @@ class AiApi:
     @validate_call
     def delete_ai_deployments_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1522,14 +1438,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiDeployments200Response]:
+    ) -> ApiResponse[None]:
         """Delete a application
 
         Delete one application.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1563,9 +1479,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1581,8 +1494,8 @@ class AiApi:
     @validate_call
     def delete_ai_deployments_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1600,9 +1513,9 @@ class AiApi:
 
         Delete one application.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1636,9 +1549,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1682,13 +1592,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -1717,8 +1620,8 @@ class AiApi:
     @validate_call
     def delete_ai_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1731,14 +1634,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiFiles200Response:
+    ) -> None:
         """Delete a file
 
         Delete one file.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1772,9 +1675,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1790,8 +1690,8 @@ class AiApi:
     @validate_call
     def delete_ai_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1804,14 +1704,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """Delete a file
 
         Delete one file.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1845,9 +1745,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1863,8 +1760,8 @@ class AiApi:
     @validate_call
     def delete_ai_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1882,9 +1779,9 @@ class AiApi:
 
         Delete one file.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1918,9 +1815,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1964,13 +1858,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -1999,8 +1886,8 @@ class AiApi:
     @validate_call
     def delete_ai_forms_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2013,14 +1900,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiForms200Response:
+    ) -> None:
         """Delete a form
 
         Delete one form.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2054,9 +1941,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2072,8 +1956,8 @@ class AiApi:
     @validate_call
     def delete_ai_forms_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2086,14 +1970,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiForms200Response]:
+    ) -> ApiResponse[None]:
         """Delete a form
 
         Delete one form.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2127,9 +2011,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2145,8 +2026,8 @@ class AiApi:
     @validate_call
     def delete_ai_forms_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2164,9 +2045,9 @@ class AiApi:
 
         Delete one form.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2200,9 +2081,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2246,13 +2124,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -2281,8 +2152,8 @@ class AiApi:
     @validate_call
     def delete_ai_graphs_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2295,14 +2166,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiGraphs200Response:
+    ) -> None:
         """Delete a graph
 
         Delete one graph.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2336,9 +2207,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2354,8 +2222,8 @@ class AiApi:
     @validate_call
     def delete_ai_graphs_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2368,14 +2236,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """Delete a graph
 
         Delete one graph.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2409,9 +2277,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2427,8 +2292,8 @@ class AiApi:
     @validate_call
     def delete_ai_graphs_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2446,9 +2311,9 @@ class AiApi:
 
         Delete one graph.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2482,9 +2347,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2528,13 +2390,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -2563,8 +2418,8 @@ class AiApi:
     @validate_call
     def delete_ai_messages_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2577,14 +2432,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiMessages200Response:
+    ) -> None:
         """Delete a message
 
         Delete one message.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2618,9 +2473,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2636,8 +2488,8 @@ class AiApi:
     @validate_call
     def delete_ai_messages_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2650,14 +2502,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """Delete a message
 
         Delete one message.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2691,9 +2543,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2709,8 +2558,8 @@ class AiApi:
     @validate_call
     def delete_ai_messages_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2728,9 +2577,9 @@ class AiApi:
 
         Delete one message.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2764,9 +2613,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2810,13 +2656,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -2857,7 +2696,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Welcome (message)
 
 
@@ -2891,9 +2730,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2921,7 +2757,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Welcome (message)
 
 
@@ -2955,9 +2791,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3019,9 +2852,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3059,13 +2889,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -3094,8 +2917,8 @@ class AiApi:
     @validate_call
     def delete_ai_nodes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3108,14 +2931,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiNodes200Response:
+    ) -> None:
         """Delete a node
 
         Delete one node.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3149,9 +2972,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3167,8 +2987,8 @@ class AiApi:
     @validate_call
     def delete_ai_nodes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3181,14 +3001,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiNodes200Response]:
+    ) -> ApiResponse[None]:
         """Delete a node
 
         Delete one node.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3222,9 +3042,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3240,8 +3057,8 @@ class AiApi:
     @validate_call
     def delete_ai_nodes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3259,9 +3076,9 @@ class AiApi:
 
         Delete one node.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3295,9 +3112,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3341,13 +3155,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -3376,8 +3183,8 @@ class AiApi:
     @validate_call
     def delete_ai_providers_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3390,14 +3197,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiProviders200Response:
+    ) -> None:
         """Delete a provider
 
         Delete one provider.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3431,9 +3238,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3449,8 +3253,8 @@ class AiApi:
     @validate_call
     def delete_ai_providers_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3463,14 +3267,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """Delete a provider
 
         Delete one provider.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3504,9 +3308,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3522,8 +3323,8 @@ class AiApi:
     @validate_call
     def delete_ai_providers_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3541,9 +3342,9 @@ class AiApi:
 
         Delete one provider.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3577,9 +3378,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3623,13 +3421,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -3658,8 +3449,8 @@ class AiApi:
     @validate_call
     def delete_ai_records_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3672,14 +3463,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRecords200Response:
+    ) -> None:
         """Delete a record
 
         Delete one record.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3713,9 +3504,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3731,8 +3519,8 @@ class AiApi:
     @validate_call
     def delete_ai_records_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3745,14 +3533,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRecords200Response]:
+    ) -> ApiResponse[None]:
         """Delete a record
 
         Delete one record.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3786,9 +3574,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3804,8 +3589,8 @@ class AiApi:
     @validate_call
     def delete_ai_records_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3823,9 +3608,9 @@ class AiApi:
 
         Delete one record.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3859,9 +3644,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3905,13 +3687,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -3940,8 +3715,8 @@ class AiApi:
     @validate_call
     def delete_ai_remote_connections_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3954,14 +3729,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRemoteConnections200Response:
+    ) -> None:
         """Delete a connection
 
         Delete one connection.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3995,9 +3770,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4013,8 +3785,8 @@ class AiApi:
     @validate_call
     def delete_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4027,14 +3799,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRemoteConnections200Response]:
+    ) -> ApiResponse[None]:
         """Delete a connection
 
         Delete one connection.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4068,9 +3840,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4086,8 +3855,8 @@ class AiApi:
     @validate_call
     def delete_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4105,9 +3874,9 @@ class AiApi:
 
         Delete one connection.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4141,9 +3910,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4187,13 +3953,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -4222,8 +3981,8 @@ class AiApi:
     @validate_call
     def delete_ai_routes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4236,14 +3995,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRoutes200Response:
+    ) -> None:
         """Delete a model-route
 
         Delete one model-route.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4277,9 +4036,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4295,8 +4051,8 @@ class AiApi:
     @validate_call
     def delete_ai_routes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4309,14 +4065,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRoutes200Response]:
+    ) -> ApiResponse[None]:
         """Delete a model-route
 
         Delete one model-route.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4350,9 +4106,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4368,8 +4121,8 @@ class AiApi:
     @validate_call
     def delete_ai_routes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4387,9 +4140,9 @@ class AiApi:
 
         Delete one model-route.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4423,9 +4176,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4469,13 +4219,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -4504,8 +4247,8 @@ class AiApi:
     @validate_call
     def delete_ai_scales_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4518,14 +4261,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScales200Response:
+    ) -> None:
         """Delete a scale
 
         Delete one scale.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4559,9 +4302,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4577,8 +4317,8 @@ class AiApi:
     @validate_call
     def delete_ai_scales_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4591,14 +4331,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScales200Response]:
+    ) -> ApiResponse[None]:
         """Delete a scale
 
         Delete one scale.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4632,9 +4372,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4650,8 +4387,8 @@ class AiApi:
     @validate_call
     def delete_ai_scales_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4669,9 +4406,9 @@ class AiApi:
 
         Delete one scale.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4705,9 +4442,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4751,13 +4485,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -4786,8 +4513,8 @@ class AiApi:
     @validate_call
     def delete_ai_scans_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4800,14 +4527,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScans200Response:
+    ) -> None:
         """Delete a scan
 
         Delete one scan.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4841,9 +4568,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4859,8 +4583,8 @@ class AiApi:
     @validate_call
     def delete_ai_scans_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4873,14 +4597,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScans200Response]:
+    ) -> ApiResponse[None]:
         """Delete a scan
 
         Delete one scan.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4914,9 +4638,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4932,8 +4653,8 @@ class AiApi:
     @validate_call
     def delete_ai_scans_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4951,9 +4672,9 @@ class AiApi:
 
         Delete one scan.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4987,9 +4708,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5033,13 +4751,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -5068,8 +4779,8 @@ class AiApi:
     @validate_call
     def delete_ai_signin_sessions_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5082,14 +4793,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiSigninSessions200Response:
+    ) -> None:
         """Delete a session
 
         Delete one session.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5123,9 +4834,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5141,8 +4849,8 @@ class AiApi:
     @validate_call
     def delete_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5155,14 +4863,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiSigninSessions200Response]:
+    ) -> ApiResponse[None]:
         """Delete a session
 
         Delete one session.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5196,9 +4904,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5214,8 +4919,8 @@ class AiApi:
     @validate_call
     def delete_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5233,9 +4938,9 @@ class AiApi:
 
         Delete one session.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5269,9 +4974,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5315,13 +5017,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -5350,8 +5045,8 @@ class AiApi:
     @validate_call
     def delete_ai_stores_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5364,14 +5059,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiStores200Response:
+    ) -> None:
         """Delete a store
 
         Delete one store.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5405,9 +5100,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5423,8 +5115,8 @@ class AiApi:
     @validate_call
     def delete_ai_stores_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5437,14 +5129,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiStores200Response]:
+    ) -> ApiResponse[None]:
         """Delete a store
 
         Delete one store.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5478,9 +5170,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5496,8 +5185,8 @@ class AiApi:
     @validate_call
     def delete_ai_stores_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5515,9 +5204,9 @@ class AiApi:
 
         Delete one store.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5551,9 +5240,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5597,13 +5283,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -5632,8 +5311,8 @@ class AiApi:
     @validate_call
     def delete_ai_tasks_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5646,14 +5325,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTasks200Response:
+    ) -> None:
         """Delete a task
 
         Delete one task.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5687,9 +5366,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5705,8 +5381,8 @@ class AiApi:
     @validate_call
     def delete_ai_tasks_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5719,14 +5395,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """Delete a task
 
         Delete one task.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5760,9 +5436,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5778,8 +5451,8 @@ class AiApi:
     @validate_call
     def delete_ai_tasks_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5797,9 +5470,9 @@ class AiApi:
 
         Delete one task.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5833,9 +5506,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5879,13 +5549,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -5914,8 +5577,8 @@ class AiApi:
     @validate_call
     def delete_ai_templates_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5928,14 +5591,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTemplates200Response:
+    ) -> None:
         """Delete a template
 
         Delete one template.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5969,9 +5632,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5987,8 +5647,8 @@ class AiApi:
     @validate_call
     def delete_ai_templates_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6001,14 +5661,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTemplates200Response]:
+    ) -> ApiResponse[None]:
         """Delete a template
 
         Delete one template.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6042,9 +5702,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6060,8 +5717,8 @@ class AiApi:
     @validate_call
     def delete_ai_templates_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6079,9 +5736,9 @@ class AiApi:
 
         Delete one template.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6115,9 +5772,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6161,13 +5815,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -6196,8 +5843,8 @@ class AiApi:
     @validate_call
     def delete_ai_tree_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6210,14 +5857,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTreeFiles200Response:
+    ) -> None:
         """Delete a tree-file
 
         Delete one tree-file.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6251,9 +5898,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6269,8 +5913,8 @@ class AiApi:
     @validate_call
     def delete_ai_tree_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6283,14 +5927,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTreeFiles200Response]:
+    ) -> ApiResponse[None]:
         """Delete a tree-file
 
         Delete one tree-file.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6324,9 +5968,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6342,8 +5983,8 @@ class AiApi:
     @validate_call
     def delete_ai_tree_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6361,9 +6002,9 @@ class AiApi:
 
         Delete one tree-file.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6397,9 +6038,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6443,13 +6081,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -6490,7 +6121,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """All (vector)
 
 
@@ -6524,9 +6155,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6554,7 +6182,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """All (vector)
 
 
@@ -6588,9 +6216,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6652,9 +6277,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6692,13 +6314,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -6727,8 +6342,8 @@ class AiApi:
     @validate_call
     def delete_ai_vectors_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6741,14 +6356,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVectors200Response:
+    ) -> None:
         """Delete a vector
 
         Delete one vector.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6782,9 +6397,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6800,8 +6412,8 @@ class AiApi:
     @validate_call
     def delete_ai_vectors_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6814,14 +6426,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """Delete a vector
 
         Delete one vector.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6855,9 +6467,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6873,8 +6482,8 @@ class AiApi:
     @validate_call
     def delete_ai_vectors_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6892,9 +6501,9 @@ class AiApi:
 
         Delete one vector.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6928,9 +6537,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6974,13 +6580,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -7009,8 +6608,8 @@ class AiApi:
     @validate_call
     def delete_ai_videos_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7023,14 +6622,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVideos200Response:
+    ) -> None:
         """Delete a video
 
         Delete one video.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7064,9 +6663,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7082,8 +6678,8 @@ class AiApi:
     @validate_call
     def delete_ai_videos_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7096,14 +6692,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """Delete a video
 
         Delete one video.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7137,9 +6733,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7155,8 +6748,8 @@ class AiApi:
     @validate_call
     def delete_ai_videos_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7174,9 +6767,9 @@ class AiApi:
 
         Delete one video.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7210,9 +6803,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7256,13 +6846,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -7291,8 +6874,8 @@ class AiApi:
     @validate_call
     def delete_ai_workflows_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7305,14 +6888,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiWorkflows200Response:
+    ) -> None:
         """Delete a workflow
 
         Delete one workflow.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7346,9 +6929,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7364,8 +6944,8 @@ class AiApi:
     @validate_call
     def delete_ai_workflows_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7378,14 +6958,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """Delete a workflow
 
         Delete one workflow.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7419,9 +6999,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7437,8 +7014,8 @@ class AiApi:
     @validate_call
     def delete_ai_workflows_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7456,9 +7033,9 @@ class AiApi:
 
         Delete one workflow.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7492,9 +7069,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7538,13 +7112,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -7585,7 +7152,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Account
 
 
@@ -7619,9 +7186,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7649,7 +7213,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Account
 
 
@@ -7683,9 +7247,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7747,9 +7308,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7787,13 +7345,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -7834,7 +7385,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiActivities200Response:
+    ) -> None:
         """List activities
 
         List the caller's activities.
@@ -7869,9 +7420,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiActivities200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7899,7 +7447,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiActivities200Response]:
+    ) -> ApiResponse[None]:
         """List activities
 
         List the caller's activities.
@@ -7934,9 +7482,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiActivities200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7999,9 +7544,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiActivities200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8039,13 +7581,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -8086,7 +7621,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Answer
 
 
@@ -8120,9 +7655,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8150,7 +7682,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Answer
 
 
@@ -8184,9 +7716,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8248,9 +7777,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8288,13 +7814,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -8335,7 +7854,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiArticles200Response:
+    ) -> None:
         """List articles
 
         List the caller's articles.
@@ -8370,9 +7889,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8400,7 +7916,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """List articles
 
         List the caller's articles.
@@ -8435,9 +7951,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8500,9 +8013,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8540,13 +8050,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -8575,8 +8078,8 @@ class AiApi:
     @validate_call
     def get_ai_articles_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8589,14 +8092,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiArticles200Response:
+    ) -> None:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8630,9 +8133,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8648,8 +8148,8 @@ class AiApi:
     @validate_call
     def get_ai_articles_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8662,14 +8162,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8703,9 +8203,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8721,8 +8218,8 @@ class AiApi:
     @validate_call
     def get_ai_articles_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8740,9 +8237,9 @@ class AiApi:
 
         Read one article by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8776,9 +8273,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8822,13 +8316,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -8869,7 +8356,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiArticles200Response:
+    ) -> None:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -8904,9 +8391,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8934,7 +8418,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -8969,9 +8453,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9034,9 +8515,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9074,13 +8552,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -9121,7 +8592,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiAssets200Response:
+    ) -> None:
         """List assets
 
         List the caller's assets.
@@ -9156,9 +8627,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9186,7 +8654,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiAssets200Response]:
+    ) -> ApiResponse[None]:
         """List assets
 
         List the caller's assets.
@@ -9221,9 +8689,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9286,9 +8751,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9326,13 +8788,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -9361,8 +8816,8 @@ class AiApi:
     @validate_call
     def get_ai_assets_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9375,14 +8830,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiAssets200Response:
+    ) -> None:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9416,9 +8871,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9434,8 +8886,8 @@ class AiApi:
     @validate_call
     def get_ai_assets_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9448,14 +8900,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiAssets200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9489,9 +8941,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9507,8 +8956,8 @@ class AiApi:
     @validate_call
     def get_ai_assets_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9526,9 +8975,9 @@ class AiApi:
 
         Read one asset by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9562,9 +9011,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9608,13 +9054,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -9655,7 +9094,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiChats200Response:
+    ) -> None:
         """List chats
 
         List the caller's chats.
@@ -9690,9 +9129,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9720,7 +9156,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiChats200Response]:
+    ) -> ApiResponse[None]:
         """List chats
 
         List the caller's chats.
@@ -9755,9 +9191,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9820,9 +9253,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9860,13 +9290,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -9895,8 +9318,8 @@ class AiApi:
     @validate_call
     def get_ai_chats_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9909,14 +9332,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiChats200Response:
+    ) -> None:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -9950,9 +9373,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9968,8 +9388,8 @@ class AiApi:
     @validate_call
     def get_ai_chats_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9982,14 +9402,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiChats200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10023,9 +9443,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10041,8 +9458,8 @@ class AiApi:
     @validate_call
     def get_ai_chats_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10060,9 +9477,9 @@ class AiApi:
 
         Read one chat by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10096,9 +9513,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10142,13 +9556,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -10189,7 +9596,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiChats200Response:
+    ) -> None:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10224,9 +9631,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10254,7 +9658,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiChats200Response]:
+    ) -> ApiResponse[None]:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10289,9 +9693,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10354,9 +9755,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10394,13 +9792,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -10665,6 +10056,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_authorize(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10682,6 +10074,8 @@ class AiApi:
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10705,6 +10099,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_authorize_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10727,6 +10122,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_authorize_with_http_info(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10744,6 +10140,8 @@ class AiApi:
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10767,6 +10165,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_authorize_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10789,6 +10188,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_authorize_without_preload_content(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10806,6 +10206,8 @@ class AiApi:
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10829,6 +10231,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_authorize_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10846,6 +10249,7 @@ class AiApi:
 
     def _get_ai_connections_by_provider_authorize_serialize(
         self,
+        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -10867,6 +10271,8 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -10901,6 +10307,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_callback(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10918,6 +10325,8 @@ class AiApi:
 
         Completes OAuth: the org is recovered from the SIGNED state (not a header), the code is exchanged for a token, the token is SEALED into KMS (never the row/logs) through the same path as a BYOK key, and the org's provider row is upserted to \"connected\". The browser is then redirected back to the console with ?ai_connected=<provider> (or ?ai_connect_error=<provider> on failure). Because the org comes from the state THIS server signed, an attacker cannot land their token in a victim org — which is why this endpoint is state-authenticated rather than credential-gated.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10941,6 +10350,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_callback_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10963,6 +10373,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_callback_with_http_info(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10980,6 +10391,8 @@ class AiApi:
 
         Completes OAuth: the org is recovered from the SIGNED state (not a header), the code is exchanged for a token, the token is SEALED into KMS (never the row/logs) through the same path as a BYOK key, and the org's provider row is upserted to \"connected\". The browser is then redirected back to the console with ?ai_connected=<provider> (or ?ai_connect_error=<provider> on failure). Because the org comes from the state THIS server signed, an attacker cannot land their token in a victim org — which is why this endpoint is state-authenticated rather than credential-gated.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11003,6 +10416,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_callback_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11025,6 +10439,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_callback_without_preload_content(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11042,6 +10457,8 @@ class AiApi:
 
         Completes OAuth: the org is recovered from the SIGNED state (not a header), the code is exchanged for a token, the token is SEALED into KMS (never the row/logs) through the same path as a BYOK key, and the org's provider row is upserted to \"connected\". The browser is then redirected back to the console with ?ai_connected=<provider> (or ?ai_connect_error=<provider> on failure). Because the org comes from the state THIS server signed, an attacker cannot land their token in a victim org — which is why this endpoint is state-authenticated rather than credential-gated.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11065,6 +10482,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_callback_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11082,6 +10500,7 @@ class AiApi:
 
     def _get_ai_connections_by_provider_callback_serialize(
         self,
+        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -11103,6 +10522,8 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -11137,6 +10558,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_usage(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11154,6 +10576,8 @@ class AiApi:
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11177,6 +10601,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_usage_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11199,6 +10624,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_usage_with_http_info(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11216,6 +10642,8 @@ class AiApi:
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11239,6 +10667,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_usage_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11261,6 +10690,7 @@ class AiApi:
     @validate_call
     def get_ai_connections_by_provider_usage_without_preload_content(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11278,6 +10708,8 @@ class AiApi:
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11301,6 +10733,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._get_ai_connections_by_provider_usage_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11318,6 +10751,7 @@ class AiApi:
 
     def _get_ai_connections_by_provider_usage_serialize(
         self,
+        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -11339,6 +10773,8 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -11385,7 +10821,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Dashboards Agents
 
 
@@ -11419,9 +10855,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11449,7 +10882,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Dashboards Agents
 
 
@@ -11483,9 +10916,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11547,9 +10977,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11587,13 +11014,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -11634,7 +11054,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Dashboards Vm
 
 
@@ -11668,9 +11088,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11698,7 +11115,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Dashboards Vm
 
 
@@ -11732,9 +11149,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11796,9 +11210,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11836,13 +11247,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -11883,7 +11287,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiDeployments200Response:
+    ) -> None:
         """List deployments
 
         List the caller's deployments.
@@ -11918,9 +11322,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11948,7 +11349,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiDeployments200Response]:
+    ) -> ApiResponse[None]:
         """List deployments
 
         List the caller's deployments.
@@ -11983,9 +11384,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12048,9 +11446,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12088,13 +11483,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -12123,8 +11511,8 @@ class AiApi:
     @validate_call
     def get_ai_deployments_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12137,14 +11525,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiDeployments200Response:
+    ) -> None:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12178,9 +11566,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12196,8 +11581,8 @@ class AiApi:
     @validate_call
     def get_ai_deployments_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12210,14 +11595,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiDeployments200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12251,9 +11636,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12269,8 +11651,8 @@ class AiApi:
     @validate_call
     def get_ai_deployments_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12288,9 +11670,9 @@ class AiApi:
 
         Read one application by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12324,9 +11706,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12370,13 +11749,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -12417,7 +11789,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiFiles200Response:
+    ) -> None:
         """List files
 
         List the caller's files.
@@ -12452,9 +11824,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12482,7 +11851,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """List files
 
         List the caller's files.
@@ -12517,9 +11886,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12582,9 +11948,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12622,13 +11985,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -12669,7 +12025,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Active (file)
 
 
@@ -12703,9 +12059,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12733,7 +12086,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Active (file)
 
 
@@ -12767,9 +12120,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12831,9 +12181,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12871,13 +12218,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -12906,8 +12246,8 @@ class AiApi:
     @validate_call
     def get_ai_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12920,14 +12260,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiFiles200Response:
+    ) -> None:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12961,9 +12301,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12979,8 +12316,8 @@ class AiApi:
     @validate_call
     def get_ai_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12993,14 +12330,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13034,9 +12371,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13052,8 +12386,8 @@ class AiApi:
     @validate_call
     def get_ai_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13071,9 +12405,9 @@ class AiApi:
 
         Read one file by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13107,9 +12441,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13153,13 +12484,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -13200,7 +12524,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiFiles200Response:
+    ) -> None:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -13235,9 +12559,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13265,7 +12586,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -13300,9 +12621,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13365,9 +12683,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13405,13 +12720,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -13452,7 +12760,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiForms200Response:
+    ) -> None:
         """List forms
 
         List the caller's forms.
@@ -13487,9 +12795,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13517,7 +12822,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiForms200Response]:
+    ) -> ApiResponse[None]:
         """List forms
 
         List the caller's forms.
@@ -13552,9 +12857,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13617,9 +12919,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13657,13 +12956,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -13692,8 +12984,8 @@ class AiApi:
     @validate_call
     def get_ai_forms_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13706,14 +12998,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiForms200Response:
+    ) -> None:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13747,9 +13039,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13765,8 +13054,8 @@ class AiApi:
     @validate_call
     def get_ai_forms_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13779,14 +13068,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiForms200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13820,9 +13109,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13838,8 +13124,8 @@ class AiApi:
     @validate_call
     def get_ai_forms_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13857,9 +13143,9 @@ class AiApi:
 
         Read one form by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13893,9 +13179,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13939,13 +13222,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -13986,7 +13262,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Data (form)
 
 
@@ -14020,9 +13296,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14050,7 +13323,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Data (form)
 
 
@@ -14084,9 +13357,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14148,9 +13418,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14188,13 +13455,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -14235,7 +13495,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiForms200Response:
+    ) -> None:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14270,9 +13530,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14300,7 +13557,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiForms200Response]:
+    ) -> ApiResponse[None]:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14335,9 +13592,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14400,9 +13654,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14440,13 +13691,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -14487,7 +13731,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiGraphs200Response:
+    ) -> None:
         """List graphs
 
         List the caller's graphs.
@@ -14522,9 +13766,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14552,7 +13793,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """List graphs
 
         List the caller's graphs.
@@ -14587,9 +13828,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14652,9 +13890,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14692,13 +13927,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -14727,8 +13955,8 @@ class AiApi:
     @validate_call
     def get_ai_graphs_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14741,14 +13969,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiGraphs200Response:
+    ) -> None:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -14782,9 +14010,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14800,8 +14025,8 @@ class AiApi:
     @validate_call
     def get_ai_graphs_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14814,14 +14039,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -14855,9 +14080,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14873,8 +14095,8 @@ class AiApi:
     @validate_call
     def get_ai_graphs_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14892,9 +14114,9 @@ class AiApi:
 
         Read one graph by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -14928,9 +14150,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14974,13 +14193,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -15021,7 +14233,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiGraphs200Response:
+    ) -> None:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -15056,9 +14268,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15086,7 +14295,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -15121,9 +14330,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15186,9 +14392,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15226,13 +14429,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -15273,7 +14469,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """K8s Status
 
 
@@ -15307,9 +14503,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15337,7 +14530,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """K8s Status
 
 
@@ -15371,9 +14564,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15435,9 +14625,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15475,13 +14662,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -15522,7 +14702,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiMessages200Response:
+    ) -> None:
         """List messages
 
         List the caller's messages.
@@ -15557,9 +14737,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15587,7 +14764,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """List messages
 
         List the caller's messages.
@@ -15622,9 +14799,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15687,9 +14861,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15727,13 +14898,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -15762,8 +14926,8 @@ class AiApi:
     @validate_call
     def get_ai_messages_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15776,14 +14940,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiMessages200Response:
+    ) -> None:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15817,9 +14981,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15835,8 +14996,8 @@ class AiApi:
     @validate_call
     def get_ai_messages_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15849,14 +15010,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15890,9 +15051,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15908,8 +15066,8 @@ class AiApi:
     @validate_call
     def get_ai_messages_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -15927,9 +15085,9 @@ class AiApi:
 
         Read one message by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -15963,9 +15121,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16009,13 +15164,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -16044,8 +15192,8 @@ class AiApi:
     @validate_call
     def get_ai_messages_by_owner_by_name_answer(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -16058,13 +15206,13 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Answer (message)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -16098,9 +15246,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16116,8 +15261,8 @@ class AiApi:
     @validate_call
     def get_ai_messages_by_owner_by_name_answer_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -16130,13 +15275,13 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Answer (message)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -16170,9 +15315,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16188,8 +15330,8 @@ class AiApi:
     @validate_call
     def get_ai_messages_by_owner_by_name_answer_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -16206,9 +15348,9 @@ class AiApi:
         """Answer (message)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -16242,9 +15384,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16288,13 +15427,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -16335,7 +15467,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiMessages200Response:
+    ) -> None:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16370,9 +15502,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16400,7 +15529,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16435,9 +15564,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16500,9 +15626,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16540,13 +15663,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -16587,7 +15703,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiNodes200Response:
+    ) -> None:
         """List nodes
 
         List the caller's nodes.
@@ -16622,9 +15738,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16652,7 +15765,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiNodes200Response]:
+    ) -> ApiResponse[None]:
         """List nodes
 
         List the caller's nodes.
@@ -16687,9 +15800,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16752,9 +15862,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16792,13 +15899,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -16827,8 +15927,8 @@ class AiApi:
     @validate_call
     def get_ai_nodes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -16841,14 +15941,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiNodes200Response:
+    ) -> None:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -16882,9 +15982,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16900,8 +15997,8 @@ class AiApi:
     @validate_call
     def get_ai_nodes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -16914,14 +16011,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiNodes200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -16955,9 +16052,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16973,8 +16067,8 @@ class AiApi:
     @validate_call
     def get_ai_nodes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -16992,9 +16086,9 @@ class AiApi:
 
         Read one node by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -17028,9 +16122,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17074,13 +16165,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -17109,8 +16193,8 @@ class AiApi:
     @validate_call
     def get_ai_nodes_by_owner_by_name_tunnel(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17123,13 +16207,13 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Tunnel (node)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -17163,9 +16247,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17181,8 +16262,8 @@ class AiApi:
     @validate_call
     def get_ai_nodes_by_owner_by_name_tunnel_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17195,13 +16276,13 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Tunnel (node)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -17235,9 +16316,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17253,8 +16331,8 @@ class AiApi:
     @validate_call
     def get_ai_nodes_by_owner_by_name_tunnel_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17271,9 +16349,9 @@ class AiApi:
         """Tunnel (node)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -17307,9 +16385,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17353,13 +16428,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -17400,7 +16468,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Prometheus
 
 
@@ -17434,9 +16502,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17464,7 +16529,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Prometheus
 
 
@@ -17498,9 +16563,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17562,9 +16624,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17602,13 +16661,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -17649,7 +16701,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiProviders200Response:
+    ) -> None:
         """List providers
 
         List the caller's providers.
@@ -17684,9 +16736,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17714,7 +16763,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """List providers
 
         List the caller's providers.
@@ -17749,9 +16798,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17814,9 +16860,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17854,13 +16897,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -17889,8 +16925,8 @@ class AiApi:
     @validate_call
     def get_ai_providers_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17903,14 +16939,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiProviders200Response:
+    ) -> None:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -17944,9 +16980,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17962,8 +16995,8 @@ class AiApi:
     @validate_call
     def get_ai_providers_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -17976,14 +17009,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18017,9 +17050,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18035,8 +17065,8 @@ class AiApi:
     @validate_call
     def get_ai_providers_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -18054,9 +17084,9 @@ class AiApi:
 
         Read one provider by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18090,9 +17120,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18136,13 +17163,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -18183,7 +17203,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiProviders200Response:
+    ) -> None:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -18218,9 +17238,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18248,7 +17265,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -18283,9 +17300,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18348,9 +17362,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18388,13 +17399,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -18435,7 +17439,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiRecords200Response:
+    ) -> None:
         """List records
 
         List the caller's records.
@@ -18470,9 +17474,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18500,7 +17501,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiRecords200Response]:
+    ) -> ApiResponse[None]:
         """List records
 
         List the caller's records.
@@ -18535,9 +17536,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18600,9 +17598,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18640,13 +17635,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -18675,8 +17663,8 @@ class AiApi:
     @validate_call
     def get_ai_records_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -18689,14 +17677,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRecords200Response:
+    ) -> None:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18730,9 +17718,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18748,8 +17733,8 @@ class AiApi:
     @validate_call
     def get_ai_records_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -18762,14 +17747,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRecords200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18803,9 +17788,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18821,8 +17803,8 @@ class AiApi:
     @validate_call
     def get_ai_records_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -18840,9 +17822,9 @@ class AiApi:
 
         Read one record by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -18876,9 +17858,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18922,13 +17901,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -18969,7 +17941,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Query (record)
 
 
@@ -19003,9 +17975,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19033,7 +18002,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Query (record)
 
 
@@ -19067,9 +18036,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19131,9 +18097,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19171,13 +18134,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -19218,7 +18174,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Query Second (record)
 
 
@@ -19252,9 +18208,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19282,7 +18235,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Query Second (record)
 
 
@@ -19316,9 +18269,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19380,9 +18330,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19420,13 +18367,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -19467,7 +18407,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiRemoteConnections200Response:
+    ) -> None:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -19502,9 +18442,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19532,7 +18469,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiRemoteConnections200Response]:
+    ) -> ApiResponse[None]:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -19567,9 +18504,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19632,9 +18566,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19672,13 +18603,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -19707,8 +18631,8 @@ class AiApi:
     @validate_call
     def get_ai_remote_connections_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -19721,14 +18645,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRemoteConnections200Response:
+    ) -> None:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -19762,9 +18686,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19780,8 +18701,8 @@ class AiApi:
     @validate_call
     def get_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -19794,14 +18715,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRemoteConnections200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -19835,9 +18756,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19853,8 +18771,8 @@ class AiApi:
     @validate_call
     def get_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -19872,9 +18790,9 @@ class AiApi:
 
         Read one connection by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -19908,9 +18826,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19954,13 +18869,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -20001,7 +18909,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiRoutes200Response:
+    ) -> None:
         """List routes
 
         List the caller's routes.
@@ -20036,9 +18944,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20066,7 +18971,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiRoutes200Response]:
+    ) -> ApiResponse[None]:
         """List routes
 
         List the caller's routes.
@@ -20101,9 +19006,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20166,9 +19068,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20206,13 +19105,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -20241,8 +19133,8 @@ class AiApi:
     @validate_call
     def get_ai_routes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -20255,14 +19147,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRoutes200Response:
+    ) -> None:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -20296,9 +19188,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20314,8 +19203,8 @@ class AiApi:
     @validate_call
     def get_ai_routes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -20328,14 +19217,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRoutes200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -20369,9 +19258,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20387,8 +19273,8 @@ class AiApi:
     @validate_call
     def get_ai_routes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -20406,9 +19292,9 @@ class AiApi:
 
         Read one model-route by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -20442,9 +19328,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20488,13 +19371,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -20535,7 +19411,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiScales200Response:
+    ) -> None:
         """List scales
 
         List the caller's scales.
@@ -20570,9 +19446,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20600,7 +19473,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiScales200Response]:
+    ) -> ApiResponse[None]:
         """List scales
 
         List the caller's scales.
@@ -20635,9 +19508,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20700,9 +19570,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20740,13 +19607,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -20775,8 +19635,8 @@ class AiApi:
     @validate_call
     def get_ai_scales_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -20789,14 +19649,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScales200Response:
+    ) -> None:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -20830,9 +19690,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20848,8 +19705,8 @@ class AiApi:
     @validate_call
     def get_ai_scales_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -20862,14 +19719,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScales200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -20903,9 +19760,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20921,8 +19775,8 @@ class AiApi:
     @validate_call
     def get_ai_scales_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -20940,9 +19794,9 @@ class AiApi:
 
         Read one scale by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -20976,9 +19830,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21022,13 +19873,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -21069,7 +19913,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiScales200Response:
+    ) -> None:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21104,9 +19948,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21134,7 +19975,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiScales200Response]:
+    ) -> ApiResponse[None]:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21169,9 +20010,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21234,9 +20072,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21274,13 +20109,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -21321,7 +20149,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Public (scale)
 
 
@@ -21355,9 +20183,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21385,7 +20210,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Public (scale)
 
 
@@ -21419,9 +20244,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21483,9 +20305,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21523,13 +20342,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -21570,7 +20382,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiScans200Response:
+    ) -> None:
         """List scans
 
         List the caller's scans.
@@ -21605,9 +20417,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21635,7 +20444,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiScans200Response]:
+    ) -> ApiResponse[None]:
         """List scans
 
         List the caller's scans.
@@ -21670,9 +20479,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21735,9 +20541,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21775,13 +20578,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -21810,8 +20606,8 @@ class AiApi:
     @validate_call
     def get_ai_scans_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -21824,14 +20620,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScans200Response:
+    ) -> None:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -21865,9 +20661,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21883,8 +20676,8 @@ class AiApi:
     @validate_call
     def get_ai_scans_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -21897,14 +20690,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScans200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -21938,9 +20731,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21956,8 +20746,8 @@ class AiApi:
     @validate_call
     def get_ai_scans_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -21975,9 +20765,9 @@ class AiApi:
 
         Read one scan by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -22011,9 +20801,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22057,13 +20844,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -22104,7 +20884,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiSigninSessions200Response:
+    ) -> None:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -22139,9 +20919,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22169,7 +20946,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiSigninSessions200Response]:
+    ) -> ApiResponse[None]:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -22204,9 +20981,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22269,9 +21043,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22309,13 +21080,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -22344,8 +21108,8 @@ class AiApi:
     @validate_call
     def get_ai_signin_sessions_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -22358,14 +21122,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiSigninSessions200Response:
+    ) -> None:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -22399,9 +21163,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22417,8 +21178,8 @@ class AiApi:
     @validate_call
     def get_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -22431,14 +21192,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiSigninSessions200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -22472,9 +21233,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22490,8 +21248,8 @@ class AiApi:
     @validate_call
     def get_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -22509,9 +21267,9 @@ class AiApi:
 
         Read one session by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -22545,9 +21303,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22591,13 +21346,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -22638,7 +21386,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Duplicated (session)
 
 
@@ -22672,9 +21420,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22702,7 +21447,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Duplicated (session)
 
 
@@ -22736,9 +21481,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22800,9 +21542,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22840,13 +21579,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -22887,7 +21619,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiStores200Response:
+    ) -> None:
         """List stores
 
         List the caller's stores.
@@ -22922,9 +21654,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22952,7 +21681,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiStores200Response]:
+    ) -> ApiResponse[None]:
         """List stores
 
         List the caller's stores.
@@ -22987,9 +21716,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23052,9 +21778,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23092,13 +21815,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -23127,8 +21843,8 @@ class AiApi:
     @validate_call
     def get_ai_stores_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -23141,14 +21857,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiStores200Response:
+    ) -> None:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -23182,9 +21898,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23200,8 +21913,8 @@ class AiApi:
     @validate_call
     def get_ai_stores_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -23214,14 +21927,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiStores200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -23255,9 +21968,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23273,8 +21983,8 @@ class AiApi:
     @validate_call
     def get_ai_stores_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -23292,9 +22002,9 @@ class AiApi:
 
         Read one store by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -23328,9 +22038,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23374,13 +22081,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -23421,7 +22121,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiStores200Response:
+    ) -> None:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -23456,9 +22156,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23486,7 +22183,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiStores200Response]:
+    ) -> ApiResponse[None]:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -23521,9 +22218,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23586,9 +22280,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23626,13 +22317,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -23673,7 +22357,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Names (store)
 
 
@@ -23707,9 +22391,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23737,7 +22418,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Names (store)
 
 
@@ -23771,9 +22452,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23835,9 +22513,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23875,13 +22550,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -23922,7 +22590,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Providers (store)
 
 
@@ -23956,9 +22624,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23986,7 +22651,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Providers (store)
 
 
@@ -24020,9 +22685,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24084,9 +22746,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24124,13 +22783,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -24171,7 +22823,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """System
 
 
@@ -24205,9 +22857,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24235,7 +22884,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """System
 
 
@@ -24269,9 +22918,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24333,9 +22979,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24373,13 +23016,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -24420,7 +23056,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiTasks200Response:
+    ) -> None:
         """List tasks
 
         List the caller's tasks.
@@ -24455,9 +23091,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24485,7 +23118,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """List tasks
 
         List the caller's tasks.
@@ -24520,9 +23153,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24585,9 +23215,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24625,13 +23252,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -24660,8 +23280,8 @@ class AiApi:
     @validate_call
     def get_ai_tasks_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -24674,14 +23294,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTasks200Response:
+    ) -> None:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -24715,9 +23335,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24733,8 +23350,8 @@ class AiApi:
     @validate_call
     def get_ai_tasks_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -24747,14 +23364,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -24788,9 +23405,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24806,8 +23420,8 @@ class AiApi:
     @validate_call
     def get_ai_tasks_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -24825,9 +23439,9 @@ class AiApi:
 
         Read one task by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -24861,9 +23475,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24907,13 +23518,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -24954,7 +23558,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiTasks200Response:
+    ) -> None:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -24989,9 +23593,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25019,7 +23620,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -25054,9 +23655,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25119,9 +23717,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25159,13 +23754,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -25206,7 +23794,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiTemplates200Response:
+    ) -> None:
         """List templates
 
         List the caller's templates.
@@ -25241,9 +23829,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25271,7 +23856,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiTemplates200Response]:
+    ) -> ApiResponse[None]:
         """List templates
 
         List the caller's templates.
@@ -25306,9 +23891,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25371,9 +23953,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25411,13 +23990,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -25446,8 +24018,8 @@ class AiApi:
     @validate_call
     def get_ai_templates_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -25460,14 +24032,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTemplates200Response:
+    ) -> None:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -25501,9 +24073,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25519,8 +24088,8 @@ class AiApi:
     @validate_call
     def get_ai_templates_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -25533,14 +24102,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTemplates200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -25574,9 +24143,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25592,8 +24158,8 @@ class AiApi:
     @validate_call
     def get_ai_templates_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -25611,9 +24177,9 @@ class AiApi:
 
         Read one template by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -25647,9 +24213,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25693,13 +24256,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -25740,7 +24296,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Training Contribution
 
 
@@ -25774,9 +24330,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25804,7 +24357,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Training Contribution
 
 
@@ -25838,9 +24391,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25902,9 +24452,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25942,13 +24489,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -25989,7 +24529,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiUsages200Response:
+    ) -> None:
         """List usages
 
         List the caller's usages.
@@ -26024,9 +24564,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiUsages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26054,7 +24591,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiUsages200Response]:
+    ) -> ApiResponse[None]:
         """List usages
 
         List the caller's usages.
@@ -26089,9 +24626,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiUsages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26154,9 +24688,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiUsages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26194,13 +24725,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -26241,7 +24765,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """By User (usage)
 
 
@@ -26275,9 +24799,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26305,7 +24826,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """By User (usage)
 
 
@@ -26339,9 +24860,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26403,9 +24921,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26443,13 +24958,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -26490,7 +24998,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Cloud (usage)
 
 
@@ -26524,9 +25032,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26554,7 +25059,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Cloud (usage)
 
 
@@ -26588,9 +25093,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26652,9 +25154,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26692,13 +25191,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -26739,7 +25231,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Range (usage)
 
 
@@ -26773,9 +25265,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26803,7 +25292,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Range (usage)
 
 
@@ -26837,9 +25326,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26901,9 +25387,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26941,13 +25424,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -26988,7 +25464,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """User Names (usage)
 
 
@@ -27022,9 +25498,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27052,7 +25525,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """User Names (usage)
 
 
@@ -27086,9 +25559,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27150,9 +25620,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27190,13 +25657,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -27237,7 +25697,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiVectors200Response:
+    ) -> None:
         """List vectors
 
         List the caller's vectors.
@@ -27272,9 +25732,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27302,7 +25759,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """List vectors
 
         List the caller's vectors.
@@ -27337,9 +25794,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27402,9 +25856,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27442,13 +25893,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -27477,8 +25921,8 @@ class AiApi:
     @validate_call
     def get_ai_vectors_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -27491,14 +25935,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVectors200Response:
+    ) -> None:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -27532,9 +25976,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27550,8 +25991,8 @@ class AiApi:
     @validate_call
     def get_ai_vectors_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -27564,14 +26005,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -27605,9 +26046,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27623,8 +26061,8 @@ class AiApi:
     @validate_call
     def get_ai_vectors_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -27642,9 +26080,9 @@ class AiApi:
 
         Read one vector by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -27678,9 +26116,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27724,13 +26159,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -27771,7 +26199,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiVectors200Response:
+    ) -> None:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27806,9 +26234,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27836,7 +26261,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27871,9 +26296,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27936,9 +26358,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27976,13 +26395,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -28023,7 +26435,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Version
 
 
@@ -28057,9 +26469,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28087,7 +26496,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Version
 
 
@@ -28121,9 +26530,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28185,9 +26591,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28225,13 +26628,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -28272,7 +26668,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiVideos200Response:
+    ) -> None:
         """List videos
 
         List the caller's videos.
@@ -28307,9 +26703,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28337,7 +26730,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """List videos
 
         List the caller's videos.
@@ -28372,9 +26765,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28437,9 +26827,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28477,13 +26864,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -28512,8 +26892,8 @@ class AiApi:
     @validate_call
     def get_ai_videos_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -28526,14 +26906,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVideos200Response:
+    ) -> None:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28567,9 +26947,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28585,8 +26962,8 @@ class AiApi:
     @validate_call
     def get_ai_videos_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -28599,14 +26976,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28640,9 +27017,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28658,8 +27032,8 @@ class AiApi:
     @validate_call
     def get_ai_videos_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -28677,9 +27051,9 @@ class AiApi:
 
         Read one video by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28713,9 +27087,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28759,13 +27130,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -28806,7 +27170,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiVideos200Response:
+    ) -> None:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -28841,9 +27205,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28871,7 +27232,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -28906,9 +27267,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28971,9 +27329,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29011,13 +27366,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -29058,7 +27406,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiWorkflows200Response:
+    ) -> None:
         """List workflows
 
         List the caller's workflows.
@@ -29093,9 +27441,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29123,7 +27468,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """List workflows
 
         List the caller's workflows.
@@ -29158,9 +27503,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29223,9 +27565,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29263,13 +27602,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -29298,8 +27630,8 @@ class AiApi:
     @validate_call
     def get_ai_workflows_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -29312,14 +27644,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiWorkflows200Response:
+    ) -> None:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -29353,9 +27685,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29371,8 +27700,8 @@ class AiApi:
     @validate_call
     def get_ai_workflows_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -29385,14 +27714,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -29426,9 +27755,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29444,8 +27770,8 @@ class AiApi:
     @validate_call
     def get_ai_workflows_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -29463,9 +27789,9 @@ class AiApi:
 
         Read one workflow by its (owner, name) key.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -29499,9 +27825,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29545,13 +27868,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -29592,7 +27908,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GetAiWorkflows200Response:
+    ) -> None:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29627,9 +27943,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29657,7 +27970,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GetAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29692,9 +28005,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29757,9 +28067,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GetAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29797,13 +28104,6 @@ class AiApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -29832,9 +28132,8 @@ class AiApi:
     @validate_call
     def patch_ai_articles_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -29847,17 +28146,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiArticles200Response:
+    ) -> None:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -29883,7 +28180,6 @@ class AiApi:
         _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29891,9 +28187,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29909,9 +28202,8 @@ class AiApi:
     @validate_call
     def patch_ai_articles_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -29924,17 +28216,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -29960,7 +28250,6 @@ class AiApi:
         _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -29968,9 +28257,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29986,9 +28272,8 @@ class AiApi:
     @validate_call
     def patch_ai_articles_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30006,12 +28291,10 @@ class AiApi:
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30037,7 +28320,6 @@ class AiApi:
         _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30045,9 +28327,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30060,7 +28339,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -30090,31 +28368,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -30142,9 +28398,8 @@ class AiApi:
     @validate_call
     def patch_ai_assets_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30157,17 +28412,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiAssets200Response:
+    ) -> None:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30193,7 +28446,6 @@ class AiApi:
         _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30201,9 +28453,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30219,9 +28468,8 @@ class AiApi:
     @validate_call
     def patch_ai_assets_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30234,17 +28482,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiAssets200Response]:
+    ) -> ApiResponse[None]:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30270,7 +28516,6 @@ class AiApi:
         _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30278,9 +28523,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30296,9 +28538,8 @@ class AiApi:
     @validate_call
     def patch_ai_assets_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30316,12 +28557,10 @@ class AiApi:
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30347,7 +28586,6 @@ class AiApi:
         _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30355,9 +28593,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30370,7 +28605,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -30400,31 +28634,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -30452,9 +28664,8 @@ class AiApi:
     @validate_call
     def patch_ai_chats_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30467,17 +28678,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiChats200Response:
+    ) -> None:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30503,7 +28712,6 @@ class AiApi:
         _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30511,9 +28719,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30529,9 +28734,8 @@ class AiApi:
     @validate_call
     def patch_ai_chats_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30544,17 +28748,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiChats200Response]:
+    ) -> ApiResponse[None]:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30580,7 +28782,6 @@ class AiApi:
         _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30588,9 +28789,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30606,9 +28804,8 @@ class AiApi:
     @validate_call
     def patch_ai_chats_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30626,12 +28823,10 @@ class AiApi:
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30657,7 +28852,6 @@ class AiApi:
         _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30665,9 +28859,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30680,7 +28871,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -30710,31 +28900,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -30762,9 +28930,8 @@ class AiApi:
     @validate_call
     def patch_ai_deployments_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30777,17 +28944,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiDeployments200Response:
+    ) -> None:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30813,7 +28978,6 @@ class AiApi:
         _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30821,9 +28985,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30839,9 +29000,8 @@ class AiApi:
     @validate_call
     def patch_ai_deployments_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30854,17 +29014,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiDeployments200Response]:
+    ) -> ApiResponse[None]:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30890,7 +29048,6 @@ class AiApi:
         _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30898,9 +29055,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30916,9 +29070,8 @@ class AiApi:
     @validate_call
     def patch_ai_deployments_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30936,12 +29089,10 @@ class AiApi:
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30967,7 +29118,6 @@ class AiApi:
         _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30975,9 +29125,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30990,7 +29137,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -31020,31 +29166,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -31072,9 +29196,8 @@ class AiApi:
     @validate_call
     def patch_ai_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31087,17 +29210,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiFiles200Response:
+    ) -> None:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31123,7 +29244,6 @@ class AiApi:
         _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31131,9 +29251,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31149,9 +29266,8 @@ class AiApi:
     @validate_call
     def patch_ai_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31164,17 +29280,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31200,7 +29314,6 @@ class AiApi:
         _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31208,9 +29321,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31226,9 +29336,8 @@ class AiApi:
     @validate_call
     def patch_ai_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31246,12 +29355,10 @@ class AiApi:
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31277,7 +29384,6 @@ class AiApi:
         _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31285,9 +29391,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31300,7 +29403,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -31330,31 +29432,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -31382,9 +29462,8 @@ class AiApi:
     @validate_call
     def patch_ai_forms_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31397,17 +29476,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiForms200Response:
+    ) -> None:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31433,7 +29510,6 @@ class AiApi:
         _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31441,9 +29517,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31459,9 +29532,8 @@ class AiApi:
     @validate_call
     def patch_ai_forms_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31474,17 +29546,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiForms200Response]:
+    ) -> ApiResponse[None]:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31510,7 +29580,6 @@ class AiApi:
         _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31518,9 +29587,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31536,9 +29602,8 @@ class AiApi:
     @validate_call
     def patch_ai_forms_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31556,12 +29621,10 @@ class AiApi:
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31587,7 +29650,6 @@ class AiApi:
         _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31595,9 +29657,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31610,7 +29669,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -31640,31 +29698,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -31692,9 +29728,8 @@ class AiApi:
     @validate_call
     def patch_ai_graphs_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31707,17 +29742,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiGraphs200Response:
+    ) -> None:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31743,7 +29776,6 @@ class AiApi:
         _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31751,9 +29783,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31769,9 +29798,8 @@ class AiApi:
     @validate_call
     def patch_ai_graphs_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31784,17 +29812,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31820,7 +29846,6 @@ class AiApi:
         _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31828,9 +29853,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31846,9 +29868,8 @@ class AiApi:
     @validate_call
     def patch_ai_graphs_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -31866,12 +29887,10 @@ class AiApi:
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -31897,7 +29916,6 @@ class AiApi:
         _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -31905,9 +29923,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31920,7 +29935,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -31950,31 +29964,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -32002,9 +29994,8 @@ class AiApi:
     @validate_call
     def patch_ai_messages_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32017,17 +30008,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiMessages200Response:
+    ) -> None:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32053,7 +30042,6 @@ class AiApi:
         _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32061,9 +30049,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32079,9 +30064,8 @@ class AiApi:
     @validate_call
     def patch_ai_messages_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32094,17 +30078,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32130,7 +30112,6 @@ class AiApi:
         _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32138,9 +30119,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32156,9 +30134,8 @@ class AiApi:
     @validate_call
     def patch_ai_messages_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32176,12 +30153,10 @@ class AiApi:
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32207,7 +30182,6 @@ class AiApi:
         _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32215,9 +30189,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32230,7 +30201,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -32260,31 +30230,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -32312,9 +30260,8 @@ class AiApi:
     @validate_call
     def patch_ai_nodes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32327,17 +30274,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiNodes200Response:
+    ) -> None:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32363,7 +30308,6 @@ class AiApi:
         _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32371,9 +30315,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32389,9 +30330,8 @@ class AiApi:
     @validate_call
     def patch_ai_nodes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32404,17 +30344,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiNodes200Response]:
+    ) -> ApiResponse[None]:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32440,7 +30378,6 @@ class AiApi:
         _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32448,9 +30385,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32466,9 +30400,8 @@ class AiApi:
     @validate_call
     def patch_ai_nodes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32486,12 +30419,10 @@ class AiApi:
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32517,7 +30448,6 @@ class AiApi:
         _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32525,9 +30455,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32540,7 +30467,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -32570,31 +30496,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -32622,7 +30526,6 @@ class AiApi:
     @validate_call
     def patch_ai_preferences(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32635,12 +30538,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Preferences
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32664,7 +30565,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_preferences_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32672,9 +30572,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32690,7 +30587,6 @@ class AiApi:
     @validate_call
     def patch_ai_preferences_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32703,12 +30599,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Preferences
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32732,7 +30626,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_preferences_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32740,9 +30633,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32758,7 +30648,6 @@ class AiApi:
     @validate_call
     def patch_ai_preferences_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32775,8 +30664,6 @@ class AiApi:
         """Preferences
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32800,7 +30687,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_preferences_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32808,9 +30694,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32821,7 +30704,6 @@ class AiApi:
 
     def _patch_ai_preferences_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -32847,31 +30729,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -32899,9 +30759,8 @@ class AiApi:
     @validate_call
     def patch_ai_providers_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32914,17 +30773,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiProviders200Response:
+    ) -> None:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -32950,7 +30807,6 @@ class AiApi:
         _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -32958,9 +30814,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32976,9 +30829,8 @@ class AiApi:
     @validate_call
     def patch_ai_providers_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -32991,17 +30843,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33027,7 +30877,6 @@ class AiApi:
         _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33035,9 +30884,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33053,9 +30899,8 @@ class AiApi:
     @validate_call
     def patch_ai_providers_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33073,12 +30918,10 @@ class AiApi:
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33104,7 +30947,6 @@ class AiApi:
         _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33112,9 +30954,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33127,7 +30966,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -33157,31 +30995,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -33209,9 +31025,8 @@ class AiApi:
     @validate_call
     def patch_ai_records_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33224,17 +31039,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRecords200Response:
+    ) -> None:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33260,7 +31073,6 @@ class AiApi:
         _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33268,9 +31080,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33286,9 +31095,8 @@ class AiApi:
     @validate_call
     def patch_ai_records_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33301,17 +31109,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRecords200Response]:
+    ) -> ApiResponse[None]:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33337,7 +31143,6 @@ class AiApi:
         _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33345,9 +31150,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33363,9 +31165,8 @@ class AiApi:
     @validate_call
     def patch_ai_records_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33383,12 +31184,10 @@ class AiApi:
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33414,7 +31213,6 @@ class AiApi:
         _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33422,9 +31220,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33437,7 +31232,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -33467,31 +31261,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -33519,9 +31291,8 @@ class AiApi:
     @validate_call
     def patch_ai_remote_connections_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33534,17 +31305,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRemoteConnections200Response:
+    ) -> None:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33570,7 +31339,6 @@ class AiApi:
         _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33578,9 +31346,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33596,9 +31361,8 @@ class AiApi:
     @validate_call
     def patch_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33611,17 +31375,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRemoteConnections200Response]:
+    ) -> ApiResponse[None]:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33647,7 +31409,6 @@ class AiApi:
         _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33655,9 +31416,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33673,9 +31431,8 @@ class AiApi:
     @validate_call
     def patch_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33693,12 +31450,10 @@ class AiApi:
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33724,7 +31479,6 @@ class AiApi:
         _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33732,9 +31486,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33747,7 +31498,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -33777,31 +31527,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -33829,9 +31557,8 @@ class AiApi:
     @validate_call
     def patch_ai_routes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33844,17 +31571,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRoutes200Response:
+    ) -> None:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33880,7 +31605,6 @@ class AiApi:
         _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33888,9 +31612,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33906,9 +31627,8 @@ class AiApi:
     @validate_call
     def patch_ai_routes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -33921,17 +31641,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRoutes200Response]:
+    ) -> ApiResponse[None]:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -33957,7 +31675,6 @@ class AiApi:
         _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -33965,9 +31682,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33983,9 +31697,8 @@ class AiApi:
     @validate_call
     def patch_ai_routes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34003,12 +31716,10 @@ class AiApi:
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34034,7 +31745,6 @@ class AiApi:
         _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34042,9 +31752,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34057,7 +31764,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -34087,31 +31793,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -34139,9 +31823,8 @@ class AiApi:
     @validate_call
     def patch_ai_scales_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34154,17 +31837,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScales200Response:
+    ) -> None:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34190,7 +31871,6 @@ class AiApi:
         _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34198,9 +31878,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34216,9 +31893,8 @@ class AiApi:
     @validate_call
     def patch_ai_scales_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34231,17 +31907,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScales200Response]:
+    ) -> ApiResponse[None]:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34267,7 +31941,6 @@ class AiApi:
         _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34275,9 +31948,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34293,9 +31963,8 @@ class AiApi:
     @validate_call
     def patch_ai_scales_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34313,12 +31982,10 @@ class AiApi:
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34344,7 +32011,6 @@ class AiApi:
         _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34352,9 +32018,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34367,7 +32030,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -34397,31 +32059,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -34449,9 +32089,8 @@ class AiApi:
     @validate_call
     def patch_ai_scans_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34464,17 +32103,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScans200Response:
+    ) -> None:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34500,7 +32137,6 @@ class AiApi:
         _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34508,9 +32144,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34526,9 +32159,8 @@ class AiApi:
     @validate_call
     def patch_ai_scans_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34541,17 +32173,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScans200Response]:
+    ) -> ApiResponse[None]:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34577,7 +32207,6 @@ class AiApi:
         _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34585,9 +32214,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34603,9 +32229,8 @@ class AiApi:
     @validate_call
     def patch_ai_scans_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34623,12 +32248,10 @@ class AiApi:
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34654,7 +32277,6 @@ class AiApi:
         _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34662,9 +32284,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34677,7 +32296,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -34707,31 +32325,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -34759,9 +32355,8 @@ class AiApi:
     @validate_call
     def patch_ai_signin_sessions_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34774,17 +32369,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiSigninSessions200Response:
+    ) -> None:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34810,7 +32403,6 @@ class AiApi:
         _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34818,9 +32410,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34836,9 +32425,8 @@ class AiApi:
     @validate_call
     def patch_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34851,17 +32439,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiSigninSessions200Response]:
+    ) -> ApiResponse[None]:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34887,7 +32473,6 @@ class AiApi:
         _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34895,9 +32480,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34913,9 +32495,8 @@ class AiApi:
     @validate_call
     def patch_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -34933,12 +32514,10 @@ class AiApi:
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -34964,7 +32543,6 @@ class AiApi:
         _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -34972,9 +32550,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34987,7 +32562,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -35017,31 +32591,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -35069,9 +32621,8 @@ class AiApi:
     @validate_call
     def patch_ai_stores_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35084,17 +32635,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiStores200Response:
+    ) -> None:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35120,7 +32669,6 @@ class AiApi:
         _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35128,9 +32676,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35146,9 +32691,8 @@ class AiApi:
     @validate_call
     def patch_ai_stores_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35161,17 +32705,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiStores200Response]:
+    ) -> ApiResponse[None]:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35197,7 +32739,6 @@ class AiApi:
         _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35205,9 +32746,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35223,9 +32761,8 @@ class AiApi:
     @validate_call
     def patch_ai_stores_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35243,12 +32780,10 @@ class AiApi:
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35274,7 +32809,6 @@ class AiApi:
         _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35282,9 +32816,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35297,7 +32828,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -35327,31 +32857,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -35379,9 +32887,8 @@ class AiApi:
     @validate_call
     def patch_ai_tasks_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35394,17 +32901,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTasks200Response:
+    ) -> None:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35430,7 +32935,6 @@ class AiApi:
         _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35438,9 +32942,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35456,9 +32957,8 @@ class AiApi:
     @validate_call
     def patch_ai_tasks_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35471,17 +32971,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35507,7 +33005,6 @@ class AiApi:
         _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35515,9 +33012,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35533,9 +33027,8 @@ class AiApi:
     @validate_call
     def patch_ai_tasks_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35553,12 +33046,10 @@ class AiApi:
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35584,7 +33075,6 @@ class AiApi:
         _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35592,9 +33082,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35607,7 +33094,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -35637,31 +33123,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -35689,9 +33153,8 @@ class AiApi:
     @validate_call
     def patch_ai_templates_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35704,17 +33167,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTemplates200Response:
+    ) -> None:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35740,7 +33201,6 @@ class AiApi:
         _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35748,9 +33208,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35766,9 +33223,8 @@ class AiApi:
     @validate_call
     def patch_ai_templates_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35781,17 +33237,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTemplates200Response]:
+    ) -> ApiResponse[None]:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35817,7 +33271,6 @@ class AiApi:
         _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35825,9 +33278,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35843,9 +33293,8 @@ class AiApi:
     @validate_call
     def patch_ai_templates_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35863,12 +33312,10 @@ class AiApi:
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35894,7 +33341,6 @@ class AiApi:
         _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35902,9 +33348,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35917,7 +33360,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -35947,31 +33389,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -35999,7 +33419,6 @@ class AiApi:
     @validate_call
     def patch_ai_training_contribution(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36012,12 +33431,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Training Contribution
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36041,7 +33458,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_training_contribution_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36049,9 +33465,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36067,7 +33480,6 @@ class AiApi:
     @validate_call
     def patch_ai_training_contribution_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36080,12 +33492,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Training Contribution
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36109,7 +33519,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_training_contribution_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36117,9 +33526,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36135,7 +33541,6 @@ class AiApi:
     @validate_call
     def patch_ai_training_contribution_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36152,8 +33557,6 @@ class AiApi:
         """Training Contribution
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36177,7 +33580,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_training_contribution_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36185,9 +33587,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36198,7 +33597,6 @@ class AiApi:
 
     def _patch_ai_training_contribution_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -36224,31 +33622,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -36276,9 +33652,8 @@ class AiApi:
     @validate_call
     def patch_ai_tree_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36291,17 +33666,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTreeFiles200Response:
+    ) -> None:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36327,7 +33700,6 @@ class AiApi:
         _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36335,9 +33707,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36353,9 +33722,8 @@ class AiApi:
     @validate_call
     def patch_ai_tree_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36368,17 +33736,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTreeFiles200Response]:
+    ) -> ApiResponse[None]:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36404,7 +33770,6 @@ class AiApi:
         _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36412,9 +33777,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36430,9 +33792,8 @@ class AiApi:
     @validate_call
     def patch_ai_tree_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36450,12 +33811,10 @@ class AiApi:
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36481,7 +33840,6 @@ class AiApi:
         _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36489,9 +33847,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36504,7 +33859,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -36534,31 +33888,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -36586,9 +33918,8 @@ class AiApi:
     @validate_call
     def patch_ai_vectors_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36601,17 +33932,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVectors200Response:
+    ) -> None:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36637,7 +33966,6 @@ class AiApi:
         _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36645,9 +33973,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36663,9 +33988,8 @@ class AiApi:
     @validate_call
     def patch_ai_vectors_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36678,17 +34002,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36714,7 +34036,6 @@ class AiApi:
         _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36722,9 +34043,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36740,9 +34058,8 @@ class AiApi:
     @validate_call
     def patch_ai_vectors_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36760,12 +34077,10 @@ class AiApi:
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36791,7 +34106,6 @@ class AiApi:
         _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36799,9 +34113,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36814,7 +34125,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -36844,31 +34154,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -36896,9 +34184,8 @@ class AiApi:
     @validate_call
     def patch_ai_videos_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36911,17 +34198,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVideos200Response:
+    ) -> None:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -36947,7 +34232,6 @@ class AiApi:
         _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -36955,9 +34239,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36973,9 +34254,8 @@ class AiApi:
     @validate_call
     def patch_ai_videos_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -36988,17 +34268,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37024,7 +34302,6 @@ class AiApi:
         _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37032,9 +34309,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37050,9 +34324,8 @@ class AiApi:
     @validate_call
     def patch_ai_videos_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37070,12 +34343,10 @@ class AiApi:
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37101,7 +34372,6 @@ class AiApi:
         _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37109,9 +34379,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37124,7 +34391,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -37154,31 +34420,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -37206,9 +34450,8 @@ class AiApi:
     @validate_call
     def patch_ai_workflows_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37221,17 +34464,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiWorkflows200Response:
+    ) -> None:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37257,7 +34498,6 @@ class AiApi:
         _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37265,9 +34505,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37283,9 +34520,8 @@ class AiApi:
     @validate_call
     def patch_ai_workflows_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37298,17 +34534,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37334,7 +34568,6 @@ class AiApi:
         _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37342,9 +34575,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37360,9 +34590,8 @@ class AiApi:
     @validate_call
     def patch_ai_workflows_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37380,12 +34609,10 @@ class AiApi:
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37411,7 +34638,6 @@ class AiApi:
         _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37419,9 +34645,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37434,7 +34657,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -37464,31 +34686,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -37516,7 +34716,6 @@ class AiApi:
     @validate_call
     def post_ai_articles(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37529,13 +34728,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiArticles200Response:
+    ) -> None:
         """Create a article
 
         Create one article.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37559,7 +34756,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_articles_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37567,9 +34763,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37585,7 +34778,6 @@ class AiApi:
     @validate_call
     def post_ai_articles_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37598,13 +34790,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """Create a article
 
         Create one article.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37628,7 +34818,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_articles_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37636,9 +34825,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37654,7 +34840,6 @@ class AiApi:
     @validate_call
     def post_ai_articles_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37672,8 +34857,6 @@ class AiApi:
 
         Create one article.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37697,7 +34880,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_articles_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37705,9 +34887,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37718,7 +34897,6 @@ class AiApi:
 
     def _post_ai_articles_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -37744,31 +34922,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -37796,7 +34952,6 @@ class AiApi:
     @validate_call
     def post_ai_assets(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37809,13 +34964,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiAssets200Response:
+    ) -> None:
         """Create a asset
 
         Create one asset.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37839,7 +34992,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37847,9 +34999,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37865,7 +35014,6 @@ class AiApi:
     @validate_call
     def post_ai_assets_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37878,13 +35026,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiAssets200Response]:
+    ) -> ApiResponse[None]:
         """Create a asset
 
         Create one asset.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37908,7 +35054,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37916,9 +35061,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37934,7 +35076,6 @@ class AiApi:
     @validate_call
     def post_ai_assets_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37952,8 +35093,6 @@ class AiApi:
 
         Create one asset.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37977,7 +35116,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37985,9 +35123,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37998,7 +35133,6 @@ class AiApi:
 
     def _post_ai_assets_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -38024,31 +35158,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -38076,9 +35188,8 @@ class AiApi:
     @validate_call
     def post_ai_assets_by_owner_by_name_scan(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38091,16 +35202,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Scan (asset)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38126,7 +35235,6 @@ class AiApi:
         _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38134,9 +35242,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38152,9 +35257,8 @@ class AiApi:
     @validate_call
     def post_ai_assets_by_owner_by_name_scan_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38167,16 +35271,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Scan (asset)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38202,7 +35304,6 @@ class AiApi:
         _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38210,9 +35311,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38228,9 +35326,8 @@ class AiApi:
     @validate_call
     def post_ai_assets_by_owner_by_name_scan_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38247,12 +35344,10 @@ class AiApi:
         """Scan (asset)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38278,7 +35373,6 @@ class AiApi:
         _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38286,9 +35380,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38301,7 +35392,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -38331,31 +35421,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -38383,7 +35451,6 @@ class AiApi:
     @validate_call
     def post_ai_assets_scan(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38396,12 +35463,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Scan (asset)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38425,7 +35490,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_scan_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38433,9 +35497,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38451,7 +35512,6 @@ class AiApi:
     @validate_call
     def post_ai_assets_scan_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38464,12 +35524,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Scan (asset)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38493,7 +35551,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_scan_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38501,9 +35558,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38519,7 +35573,6 @@ class AiApi:
     @validate_call
     def post_ai_assets_scan_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38536,8 +35589,6 @@ class AiApi:
         """Scan (asset)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38561,7 +35612,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_scan_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38569,9 +35619,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38582,7 +35629,6 @@ class AiApi:
 
     def _post_ai_assets_scan_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -38608,31 +35654,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -38660,7 +35684,6 @@ class AiApi:
     @validate_call
     def post_ai_chats(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38673,13 +35696,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiChats200Response:
+    ) -> None:
         """Create a chat
 
         Create one chat.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38703,7 +35724,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_chats_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38711,9 +35731,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38729,7 +35746,6 @@ class AiApi:
     @validate_call
     def post_ai_chats_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38742,13 +35758,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiChats200Response]:
+    ) -> ApiResponse[None]:
         """Create a chat
 
         Create one chat.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38772,7 +35786,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_chats_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38780,9 +35793,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38798,7 +35808,6 @@ class AiApi:
     @validate_call
     def post_ai_chats_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -38816,8 +35825,6 @@ class AiApi:
 
         Create one chat.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -38841,7 +35848,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_chats_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38849,9 +35855,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38862,7 +35865,6 @@ class AiApi:
 
     def _post_ai_chats_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -38888,31 +35890,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -39176,6 +36156,7 @@ class AiApi:
     @validate_call
     def post_ai_connections_by_provider(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39193,6 +36174,8 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39216,6 +36199,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_connections_by_provider_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39238,6 +36222,7 @@ class AiApi:
     @validate_call
     def post_ai_connections_by_provider_with_http_info(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39255,6 +36240,8 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39278,6 +36265,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_connections_by_provider_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39300,6 +36288,7 @@ class AiApi:
     @validate_call
     def post_ai_connections_by_provider_without_preload_content(
         self,
+        provider: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39317,6 +36306,8 @@ class AiApi:
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
 
+        :param provider: (required)
+        :type provider: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39340,6 +36331,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_connections_by_provider_serialize(
+            provider=provider,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39357,6 +36349,7 @@ class AiApi:
 
     def _post_ai_connections_by_provider_serialize(
         self,
+        provider,
         _request_auth,
         _content_type,
         _headers,
@@ -39378,6 +36371,8 @@ class AiApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -39412,7 +36407,6 @@ class AiApi:
     @validate_call
     def post_ai_deployments(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39425,13 +36419,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiDeployments200Response:
+    ) -> None:
         """Create a application
 
         Create one application.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39455,7 +36447,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_deployments_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39463,9 +36454,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39481,7 +36469,6 @@ class AiApi:
     @validate_call
     def post_ai_deployments_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39494,13 +36481,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiDeployments200Response]:
+    ) -> ApiResponse[None]:
         """Create a application
 
         Create one application.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39524,7 +36509,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_deployments_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39532,9 +36516,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39550,7 +36531,6 @@ class AiApi:
     @validate_call
     def post_ai_deployments_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39568,8 +36548,6 @@ class AiApi:
 
         Create one application.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39593,7 +36571,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_deployments_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39601,9 +36578,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39614,7 +36588,6 @@ class AiApi:
 
     def _post_ai_deployments_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -39640,31 +36613,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -39692,9 +36643,8 @@ class AiApi:
     @validate_call
     def post_ai_deployments_by_owner_by_name_deploy(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39707,16 +36657,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Deploy (application)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39742,7 +36690,6 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39750,9 +36697,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39768,9 +36712,8 @@ class AiApi:
     @validate_call
     def post_ai_deployments_by_owner_by_name_deploy_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39783,16 +36726,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Deploy (application)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39818,7 +36759,6 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39826,9 +36766,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39844,9 +36781,8 @@ class AiApi:
     @validate_call
     def post_ai_deployments_by_owner_by_name_deploy_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39863,12 +36799,10 @@ class AiApi:
         """Deploy (application)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39894,7 +36828,6 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39902,9 +36835,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39917,7 +36847,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -39947,31 +36876,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -39999,9 +36906,8 @@ class AiApi:
     @validate_call
     def post_ai_deployments_by_owner_by_name_undeploy(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40014,16 +36920,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Undeploy (application)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40049,7 +36953,6 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40057,9 +36960,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40075,9 +36975,8 @@ class AiApi:
     @validate_call
     def post_ai_deployments_by_owner_by_name_undeploy_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40090,16 +36989,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Undeploy (application)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40125,7 +37022,6 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40133,9 +37029,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40151,9 +37044,8 @@ class AiApi:
     @validate_call
     def post_ai_deployments_by_owner_by_name_undeploy_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40170,12 +37062,10 @@ class AiApi:
         """Undeploy (application)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40201,7 +37091,6 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40209,9 +37098,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40224,7 +37110,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40254,31 +37139,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -40306,7 +37169,6 @@ class AiApi:
     @validate_call
     def post_ai_files(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40319,13 +37181,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiFiles200Response:
+    ) -> None:
         """Create a file
 
         Create one file.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40349,7 +37209,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40357,9 +37216,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40375,7 +37231,6 @@ class AiApi:
     @validate_call
     def post_ai_files_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40388,13 +37243,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """Create a file
 
         Create one file.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40418,7 +37271,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40426,9 +37278,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40444,7 +37293,6 @@ class AiApi:
     @validate_call
     def post_ai_files_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40462,8 +37310,6 @@ class AiApi:
 
         Create one file.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40487,7 +37333,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40495,9 +37340,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40508,7 +37350,6 @@ class AiApi:
 
     def _post_ai_files_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40534,31 +37375,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -40586,7 +37405,6 @@ class AiApi:
     @validate_call
     def post_ai_files_activate(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40599,12 +37417,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Activate (file)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40628,7 +37444,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_activate_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40636,9 +37451,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40654,7 +37466,6 @@ class AiApi:
     @validate_call
     def post_ai_files_activate_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40667,12 +37478,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Activate (file)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40696,7 +37505,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_activate_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40704,9 +37512,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40722,7 +37527,6 @@ class AiApi:
     @validate_call
     def post_ai_files_activate_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40739,8 +37543,6 @@ class AiApi:
         """Activate (file)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40764,7 +37566,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_activate_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40772,9 +37573,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40785,7 +37583,6 @@ class AiApi:
 
     def _post_ai_files_activate_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40811,31 +37608,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -40863,9 +37638,8 @@ class AiApi:
     @validate_call
     def post_ai_files_by_owner_by_name_vectors(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40878,16 +37652,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Vectors (file)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40913,7 +37685,6 @@ class AiApi:
         _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40921,9 +37692,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40939,9 +37707,8 @@ class AiApi:
     @validate_call
     def post_ai_files_by_owner_by_name_vectors_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40954,16 +37721,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Vectors (file)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40989,7 +37754,6 @@ class AiApi:
         _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40997,9 +37761,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41015,9 +37776,8 @@ class AiApi:
     @validate_call
     def post_ai_files_by_owner_by_name_vectors_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41034,12 +37794,10 @@ class AiApi:
         """Vectors (file)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41065,7 +37823,6 @@ class AiApi:
         _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41073,9 +37830,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41088,7 +37842,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41118,31 +37871,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -41170,7 +37901,6 @@ class AiApi:
     @validate_call
     def post_ai_files_upload(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41183,12 +37913,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Upload (file)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41212,7 +37940,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_upload_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41220,9 +37947,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41238,7 +37962,6 @@ class AiApi:
     @validate_call
     def post_ai_files_upload_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41251,12 +37974,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Upload (file)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41280,7 +38001,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_upload_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41288,9 +38008,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41306,7 +38023,6 @@ class AiApi:
     @validate_call
     def post_ai_files_upload_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41323,8 +38039,6 @@ class AiApi:
         """Upload (file)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41348,7 +38062,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_upload_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41356,9 +38069,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41369,7 +38079,6 @@ class AiApi:
 
     def _post_ai_files_upload_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41395,31 +38104,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -41447,7 +38134,6 @@ class AiApi:
     @validate_call
     def post_ai_forms(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41460,13 +38146,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiForms200Response:
+    ) -> None:
         """Create a form
 
         Create one form.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41490,7 +38174,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_forms_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41498,9 +38181,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41516,7 +38196,6 @@ class AiApi:
     @validate_call
     def post_ai_forms_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41529,13 +38208,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiForms200Response]:
+    ) -> ApiResponse[None]:
         """Create a form
 
         Create one form.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41559,7 +38236,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_forms_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41567,9 +38243,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41585,7 +38258,6 @@ class AiApi:
     @validate_call
     def post_ai_forms_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41603,8 +38275,6 @@ class AiApi:
 
         Create one form.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41628,7 +38298,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_forms_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41636,9 +38305,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41649,7 +38315,6 @@ class AiApi:
 
     def _post_ai_forms_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41675,31 +38340,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -41727,7 +38370,6 @@ class AiApi:
     @validate_call
     def post_ai_graphs(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41740,13 +38382,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiGraphs200Response:
+    ) -> None:
         """Create a graph
 
         Create one graph.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41770,7 +38410,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_graphs_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41778,9 +38417,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41796,7 +38432,6 @@ class AiApi:
     @validate_call
     def post_ai_graphs_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41809,13 +38444,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """Create a graph
 
         Create one graph.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41839,7 +38472,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_graphs_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41847,9 +38479,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41865,7 +38494,6 @@ class AiApi:
     @validate_call
     def post_ai_graphs_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41883,8 +38511,6 @@ class AiApi:
 
         Create one graph.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41908,7 +38534,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_graphs_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41916,9 +38541,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41929,7 +38551,6 @@ class AiApi:
 
     def _post_ai_graphs_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41955,31 +38576,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42007,7 +38606,6 @@ class AiApi:
     @validate_call
     def post_ai_messages(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42020,13 +38618,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiMessages200Response:
+    ) -> None:
         """Create a message
 
         Create one message.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42050,7 +38646,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_messages_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42058,9 +38653,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42076,7 +38668,6 @@ class AiApi:
     @validate_call
     def post_ai_messages_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42089,13 +38680,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """Create a message
 
         Create one message.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42119,7 +38708,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_messages_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42127,9 +38715,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42145,7 +38730,6 @@ class AiApi:
     @validate_call
     def post_ai_messages_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42163,8 +38747,6 @@ class AiApi:
 
         Create one message.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42188,7 +38770,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_messages_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42196,9 +38777,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42209,7 +38787,6 @@ class AiApi:
 
     def _post_ai_messages_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -42235,31 +38812,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42287,7 +38842,6 @@ class AiApi:
     @validate_call
     def post_ai_nodes(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42300,13 +38854,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiNodes200Response:
+    ) -> None:
         """Create a node
 
         Create one node.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42330,7 +38882,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_nodes_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42338,9 +38889,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42356,7 +38904,6 @@ class AiApi:
     @validate_call
     def post_ai_nodes_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42369,13 +38916,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiNodes200Response]:
+    ) -> ApiResponse[None]:
         """Create a node
 
         Create one node.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42399,7 +38944,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_nodes_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42407,9 +38951,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42425,7 +38966,6 @@ class AiApi:
     @validate_call
     def post_ai_nodes_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42443,8 +38983,6 @@ class AiApi:
 
         Create one node.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42468,7 +39006,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_nodes_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42476,9 +39013,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42489,7 +39023,6 @@ class AiApi:
 
     def _post_ai_nodes_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -42515,31 +39048,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42567,9 +39078,8 @@ class AiApi:
     @validate_call
     def post_ai_nodes_by_owner_by_name_tunnel(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42582,16 +39092,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Tunnel (node)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42617,7 +39125,6 @@ class AiApi:
         _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42625,9 +39132,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42643,9 +39147,8 @@ class AiApi:
     @validate_call
     def post_ai_nodes_by_owner_by_name_tunnel_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42658,16 +39161,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Tunnel (node)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42693,7 +39194,6 @@ class AiApi:
         _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42701,9 +39201,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42719,9 +39216,8 @@ class AiApi:
     @validate_call
     def post_ai_nodes_by_owner_by_name_tunnel_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42738,12 +39234,10 @@ class AiApi:
         """Tunnel (node)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42769,7 +39263,6 @@ class AiApi:
         _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42777,9 +39270,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42792,7 +39282,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -42822,31 +39311,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42874,7 +39341,6 @@ class AiApi:
     @validate_call
     def post_ai_providers(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42887,13 +39353,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiProviders200Response:
+    ) -> None:
         """Create a provider
 
         Create one provider.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42917,7 +39381,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42925,9 +39388,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42943,7 +39403,6 @@ class AiApi:
     @validate_call
     def post_ai_providers_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42956,13 +39415,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """Create a provider
 
         Create one provider.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42986,7 +39443,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42994,9 +39450,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43012,7 +39465,6 @@ class AiApi:
     @validate_call
     def post_ai_providers_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43030,8 +39482,6 @@ class AiApi:
 
         Create one provider.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43055,7 +39505,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43063,9 +39512,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43076,7 +39522,6 @@ class AiApi:
 
     def _post_ai_providers_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -43102,31 +39547,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -43154,7 +39577,6 @@ class AiApi:
     @validate_call
     def post_ai_providers_mcp_tools(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43167,12 +39589,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Mcp Tools (provider)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43196,7 +39616,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_mcp_tools_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43204,9 +39623,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43222,7 +39638,6 @@ class AiApi:
     @validate_call
     def post_ai_providers_mcp_tools_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43235,12 +39650,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Mcp Tools (provider)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43264,7 +39677,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_mcp_tools_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43272,9 +39684,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43290,7 +39699,6 @@ class AiApi:
     @validate_call
     def post_ai_providers_mcp_tools_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43307,8 +39715,6 @@ class AiApi:
         """Mcp Tools (provider)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43332,7 +39738,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_mcp_tools_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43340,9 +39745,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43353,7 +39755,6 @@ class AiApi:
 
     def _post_ai_providers_mcp_tools_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -43379,31 +39780,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -43431,7 +39810,6 @@ class AiApi:
     @validate_call
     def post_ai_records(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43444,13 +39822,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRecords200Response:
+    ) -> None:
         """Create a record
 
         Create one record.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43474,7 +39850,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43482,9 +39857,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43500,7 +39872,6 @@ class AiApi:
     @validate_call
     def post_ai_records_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43513,13 +39884,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRecords200Response]:
+    ) -> ApiResponse[None]:
         """Create a record
 
         Create one record.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43543,7 +39912,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43551,9 +39919,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43569,7 +39934,6 @@ class AiApi:
     @validate_call
     def post_ai_records_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43587,8 +39951,6 @@ class AiApi:
 
         Create one record.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43612,7 +39974,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43620,9 +39981,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43633,7 +39991,6 @@ class AiApi:
 
     def _post_ai_records_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -43659,31 +40016,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -43711,7 +40046,6 @@ class AiApi:
     @validate_call
     def post_ai_records_batch(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43724,12 +40058,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Batch (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43753,7 +40085,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_batch_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43761,9 +40092,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43779,7 +40107,6 @@ class AiApi:
     @validate_call
     def post_ai_records_batch_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43792,12 +40119,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Batch (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43821,7 +40146,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_batch_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43829,9 +40153,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43847,7 +40168,6 @@ class AiApi:
     @validate_call
     def post_ai_records_batch_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43864,8 +40184,6 @@ class AiApi:
         """Batch (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43889,7 +40207,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_batch_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43897,9 +40214,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43910,7 +40224,6 @@ class AiApi:
 
     def _post_ai_records_batch_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -43936,31 +40249,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -43988,7 +40279,6 @@ class AiApi:
     @validate_call
     def post_ai_records_commit(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44001,12 +40291,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Commit (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44030,7 +40318,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44038,9 +40325,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44056,7 +40340,6 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44069,12 +40352,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Commit (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44098,7 +40379,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44106,9 +40386,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44124,7 +40401,6 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44141,8 +40417,6 @@ class AiApi:
         """Commit (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44166,7 +40440,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44174,9 +40447,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44187,7 +40457,6 @@ class AiApi:
 
     def _post_ai_records_commit_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -44213,31 +40482,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -44265,7 +40512,6 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_second(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44278,12 +40524,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Commit Second (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44307,7 +40551,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_second_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44315,9 +40558,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44333,7 +40573,6 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_second_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44346,12 +40585,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Commit Second (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44375,7 +40612,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_second_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44383,9 +40619,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44401,7 +40634,6 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_second_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44418,8 +40650,6 @@ class AiApi:
         """Commit Second (record)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44443,7 +40673,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_second_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44451,9 +40680,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44464,7 +40690,6 @@ class AiApi:
 
     def _post_ai_records_commit_second_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -44490,31 +40715,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -44542,7 +40745,6 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44555,13 +40757,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRemoteConnections200Response:
+    ) -> None:
         """Create a connection
 
         Create one connection.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44585,7 +40785,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_remote_connections_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44593,9 +40792,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44611,7 +40807,6 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44624,13 +40819,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRemoteConnections200Response]:
+    ) -> ApiResponse[None]:
         """Create a connection
 
         Create one connection.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44654,7 +40847,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_remote_connections_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44662,9 +40854,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44680,7 +40869,6 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44698,8 +40886,6 @@ class AiApi:
 
         Create one connection.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44723,7 +40909,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_remote_connections_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44731,9 +40916,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44744,7 +40926,6 @@ class AiApi:
 
     def _post_ai_remote_connections_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -44770,31 +40951,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -44822,9 +40981,8 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_by_owner_by_name_start(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44837,16 +40995,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Start (connection)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44872,7 +41028,6 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44880,9 +41035,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44898,9 +41050,8 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_by_owner_by_name_start_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44913,16 +41064,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Start (connection)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44948,7 +41097,6 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44956,9 +41104,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44974,9 +41119,8 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_by_owner_by_name_start_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44993,12 +41137,10 @@ class AiApi:
         """Start (connection)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45024,7 +41166,6 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45032,9 +41173,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45047,7 +41185,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45077,31 +41214,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45129,9 +41244,8 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_by_owner_by_name_stop(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45144,16 +41258,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Stop (connection)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45179,7 +41291,6 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45187,9 +41298,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45205,9 +41313,8 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_by_owner_by_name_stop_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45220,16 +41327,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Stop (connection)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45255,7 +41360,6 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45263,9 +41367,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45281,9 +41382,8 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_by_owner_by_name_stop_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45300,12 +41400,10 @@ class AiApi:
         """Stop (connection)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45331,7 +41429,6 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45339,9 +41436,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45354,7 +41448,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45384,31 +41477,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45436,7 +41507,6 @@ class AiApi:
     @validate_call
     def post_ai_routes(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45449,13 +41519,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRoutes200Response:
+    ) -> None:
         """Create a model-route
 
         Create one model-route.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45479,7 +41547,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_routes_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45487,9 +41554,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45505,7 +41569,6 @@ class AiApi:
     @validate_call
     def post_ai_routes_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45518,13 +41581,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRoutes200Response]:
+    ) -> ApiResponse[None]:
         """Create a model-route
 
         Create one model-route.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45548,7 +41609,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_routes_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45556,9 +41616,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45574,7 +41631,6 @@ class AiApi:
     @validate_call
     def post_ai_routes_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45592,8 +41648,6 @@ class AiApi:
 
         Create one model-route.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45617,7 +41671,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_routes_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45625,9 +41678,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45638,7 +41688,6 @@ class AiApi:
 
     def _post_ai_routes_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45664,31 +41713,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45716,7 +41743,6 @@ class AiApi:
     @validate_call
     def post_ai_scales(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45729,13 +41755,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScales200Response:
+    ) -> None:
         """Create a scale
 
         Create one scale.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45759,7 +41783,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scales_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45767,9 +41790,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45785,7 +41805,6 @@ class AiApi:
     @validate_call
     def post_ai_scales_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45798,13 +41817,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScales200Response]:
+    ) -> ApiResponse[None]:
         """Create a scale
 
         Create one scale.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45828,7 +41845,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scales_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45836,9 +41852,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45854,7 +41867,6 @@ class AiApi:
     @validate_call
     def post_ai_scales_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45872,8 +41884,6 @@ class AiApi:
 
         Create one scale.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45897,7 +41907,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scales_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45905,9 +41914,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45918,7 +41924,6 @@ class AiApi:
 
     def _post_ai_scales_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45944,31 +41949,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45996,7 +41979,6 @@ class AiApi:
     @validate_call
     def post_ai_scans(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46009,13 +41991,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScans200Response:
+    ) -> None:
         """Create a scan
 
         Create one scan.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46039,7 +42019,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scans_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46047,9 +42026,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46065,7 +42041,6 @@ class AiApi:
     @validate_call
     def post_ai_scans_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46078,13 +42053,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScans200Response]:
+    ) -> ApiResponse[None]:
         """Create a scan
 
         Create one scan.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46108,7 +42081,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scans_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46116,9 +42088,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46134,7 +42103,6 @@ class AiApi:
     @validate_call
     def post_ai_scans_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46152,8 +42120,6 @@ class AiApi:
 
         Create one scan.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46177,7 +42143,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scans_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46185,9 +42150,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46198,7 +42160,6 @@ class AiApi:
 
     def _post_ai_scans_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46224,31 +42185,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46276,7 +42215,6 @@ class AiApi:
     @validate_call
     def post_ai_signin(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46289,12 +42227,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Signin
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46318,7 +42254,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46326,9 +42261,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46344,7 +42276,6 @@ class AiApi:
     @validate_call
     def post_ai_signin_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46357,12 +42288,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Signin
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46386,7 +42315,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46394,9 +42322,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46412,7 +42337,6 @@ class AiApi:
     @validate_call
     def post_ai_signin_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46429,8 +42353,6 @@ class AiApi:
         """Signin
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46454,7 +42376,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46462,9 +42383,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46475,7 +42393,6 @@ class AiApi:
 
     def _post_ai_signin_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46501,31 +42418,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46553,7 +42448,6 @@ class AiApi:
     @validate_call
     def post_ai_signin_sessions(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46566,13 +42460,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiSigninSessions200Response:
+    ) -> None:
         """Create a session
 
         Create one session.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46596,7 +42488,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_sessions_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46604,9 +42495,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46622,7 +42510,6 @@ class AiApi:
     @validate_call
     def post_ai_signin_sessions_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46635,13 +42522,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiSigninSessions200Response]:
+    ) -> ApiResponse[None]:
         """Create a session
 
         Create one session.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46665,7 +42550,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_sessions_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46673,9 +42557,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46691,7 +42572,6 @@ class AiApi:
     @validate_call
     def post_ai_signin_sessions_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46709,8 +42589,6 @@ class AiApi:
 
         Create one session.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46734,7 +42612,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_sessions_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46742,9 +42619,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46755,7 +42629,6 @@ class AiApi:
 
     def _post_ai_signin_sessions_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46781,31 +42654,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46833,7 +42684,6 @@ class AiApi:
     @validate_call
     def post_ai_signout(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46846,12 +42696,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Signout
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46875,7 +42723,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signout_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46883,9 +42730,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46901,7 +42745,6 @@ class AiApi:
     @validate_call
     def post_ai_signout_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46914,12 +42757,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Signout
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46943,7 +42784,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signout_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46951,9 +42791,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46969,7 +42806,6 @@ class AiApi:
     @validate_call
     def post_ai_signout_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46986,8 +42822,6 @@ class AiApi:
         """Signout
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47011,7 +42845,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signout_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47019,9 +42852,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47032,7 +42862,6 @@ class AiApi:
 
     def _post_ai_signout_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47058,31 +42887,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47110,7 +42917,6 @@ class AiApi:
     @validate_call
     def post_ai_stores(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47123,13 +42929,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiStores200Response:
+    ) -> None:
         """Create a store
 
         Create one store.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47153,7 +42957,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_stores_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47161,9 +42964,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47179,7 +42979,6 @@ class AiApi:
     @validate_call
     def post_ai_stores_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47192,13 +42991,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiStores200Response]:
+    ) -> ApiResponse[None]:
         """Create a store
 
         Create one store.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47222,7 +43019,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_stores_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47230,9 +43026,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47248,7 +43041,6 @@ class AiApi:
     @validate_call
     def post_ai_stores_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47266,8 +43058,6 @@ class AiApi:
 
         Create one store.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47291,7 +43081,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_stores_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47299,9 +43088,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47312,7 +43098,6 @@ class AiApi:
 
     def _post_ai_stores_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47338,31 +43123,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47390,9 +43153,8 @@ class AiApi:
     @validate_call
     def post_ai_stores_by_owner_by_name_vectors(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47405,16 +43167,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Vectors (store)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47440,7 +43200,6 @@ class AiApi:
         _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47448,9 +43207,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47466,9 +43222,8 @@ class AiApi:
     @validate_call
     def post_ai_stores_by_owner_by_name_vectors_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47481,16 +43236,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Vectors (store)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47516,7 +43269,6 @@ class AiApi:
         _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47524,9 +43276,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47542,9 +43291,8 @@ class AiApi:
     @validate_call
     def post_ai_stores_by_owner_by_name_vectors_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47561,12 +43309,10 @@ class AiApi:
         """Vectors (store)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47592,7 +43338,6 @@ class AiApi:
         _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47600,9 +43345,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47615,7 +43357,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47645,31 +43386,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47697,7 +43416,6 @@ class AiApi:
     @validate_call
     def post_ai_tasks(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47710,13 +43428,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTasks200Response:
+    ) -> None:
         """Create a task
 
         Create one task.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47740,7 +43456,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tasks_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47748,9 +43463,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47766,7 +43478,6 @@ class AiApi:
     @validate_call
     def post_ai_tasks_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47779,13 +43490,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """Create a task
 
         Create one task.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47809,7 +43518,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tasks_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47817,9 +43525,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47835,7 +43540,6 @@ class AiApi:
     @validate_call
     def post_ai_tasks_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47853,8 +43557,6 @@ class AiApi:
 
         Create one task.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47878,7 +43580,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tasks_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47886,9 +43587,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47899,7 +43597,6 @@ class AiApi:
 
     def _post_ai_tasks_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47925,31 +43622,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47977,9 +43652,8 @@ class AiApi:
     @validate_call
     def post_ai_tasks_by_owner_by_name_analyze(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47992,16 +43666,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Analyze (task)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48027,7 +43699,6 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48035,9 +43706,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48053,9 +43721,8 @@ class AiApi:
     @validate_call
     def post_ai_tasks_by_owner_by_name_analyze_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48068,16 +43735,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Analyze (task)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48103,7 +43768,6 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48111,9 +43775,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48129,9 +43790,8 @@ class AiApi:
     @validate_call
     def post_ai_tasks_by_owner_by_name_analyze_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48148,12 +43808,10 @@ class AiApi:
         """Analyze (task)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48179,7 +43837,6 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48187,9 +43844,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48202,7 +43856,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -48232,31 +43885,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -48284,9 +43915,8 @@ class AiApi:
     @validate_call
     def post_ai_tasks_by_owner_by_name_document(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48299,16 +43929,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Document (task)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48334,7 +43962,6 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48342,9 +43969,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48360,9 +43984,8 @@ class AiApi:
     @validate_call
     def post_ai_tasks_by_owner_by_name_document_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48375,16 +43998,14 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Document (task)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48410,7 +44031,6 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48418,9 +44038,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48436,9 +44053,8 @@ class AiApi:
     @validate_call
     def post_ai_tasks_by_owner_by_name_document_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48455,12 +44071,10 @@ class AiApi:
         """Document (task)
 
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48486,7 +44100,6 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48494,9 +44107,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48509,7 +44119,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -48539,31 +44148,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -48591,7 +44178,6 @@ class AiApi:
     @validate_call
     def post_ai_templates(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48604,13 +44190,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTemplates200Response:
+    ) -> None:
         """Create a template
 
         Create one template.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48634,7 +44218,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_templates_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48642,9 +44225,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48660,7 +44240,6 @@ class AiApi:
     @validate_call
     def post_ai_templates_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48673,13 +44252,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTemplates200Response]:
+    ) -> ApiResponse[None]:
         """Create a template
 
         Create one template.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48703,7 +44280,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_templates_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48711,9 +44287,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48729,7 +44302,6 @@ class AiApi:
     @validate_call
     def post_ai_templates_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48747,8 +44319,6 @@ class AiApi:
 
         Create one template.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48772,7 +44342,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_templates_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48780,9 +44349,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48793,7 +44359,6 @@ class AiApi:
 
     def _post_ai_templates_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -48819,31 +44384,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -48871,7 +44414,6 @@ class AiApi:
     @validate_call
     def post_ai_tree_files(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48884,13 +44426,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTreeFiles200Response:
+    ) -> None:
         """Create a tree-file
 
         Create one tree-file.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48914,7 +44454,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tree_files_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48922,9 +44461,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48940,7 +44476,6 @@ class AiApi:
     @validate_call
     def post_ai_tree_files_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48953,13 +44488,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTreeFiles200Response]:
+    ) -> ApiResponse[None]:
         """Create a tree-file
 
         Create one tree-file.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48983,7 +44516,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tree_files_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48991,9 +44523,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49009,7 +44538,6 @@ class AiApi:
     @validate_call
     def post_ai_tree_files_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49027,8 +44555,6 @@ class AiApi:
 
         Create one tree-file.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49052,7 +44578,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tree_files_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49060,9 +44585,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49073,7 +44595,6 @@ class AiApi:
 
     def _post_ai_tree_files_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49099,31 +44620,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -49151,7 +44650,6 @@ class AiApi:
     @validate_call
     def post_ai_vectors(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49164,13 +44662,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVectors200Response:
+    ) -> None:
         """Create a vector
 
         Create one vector.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49194,7 +44690,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_vectors_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49202,9 +44697,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49220,7 +44712,6 @@ class AiApi:
     @validate_call
     def post_ai_vectors_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49233,13 +44724,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """Create a vector
 
         Create one vector.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49263,7 +44752,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_vectors_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49271,9 +44759,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49289,7 +44774,6 @@ class AiApi:
     @validate_call
     def post_ai_vectors_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49307,8 +44791,6 @@ class AiApi:
 
         Create one vector.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49332,7 +44814,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_vectors_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49340,9 +44821,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49353,7 +44831,6 @@ class AiApi:
 
     def _post_ai_vectors_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49379,31 +44856,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -49431,7 +44886,6 @@ class AiApi:
     @validate_call
     def post_ai_videos(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49444,13 +44898,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVideos200Response:
+    ) -> None:
         """Create a video
 
         Create one video.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49474,7 +44926,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49482,9 +44933,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49500,7 +44948,6 @@ class AiApi:
     @validate_call
     def post_ai_videos_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49513,13 +44960,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """Create a video
 
         Create one video.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49543,7 +44988,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49551,9 +44995,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49569,7 +45010,6 @@ class AiApi:
     @validate_call
     def post_ai_videos_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49587,8 +45027,6 @@ class AiApi:
 
         Create one video.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49612,7 +45050,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49620,9 +45057,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49633,7 +45067,6 @@ class AiApi:
 
     def _post_ai_videos_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49659,31 +45092,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -49711,7 +45122,6 @@ class AiApi:
     @validate_call
     def post_ai_videos_upload(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49724,12 +45134,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Upload (video)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49753,7 +45161,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_upload_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49761,9 +45168,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49779,7 +45183,6 @@ class AiApi:
     @validate_call
     def post_ai_videos_upload_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49792,12 +45195,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Upload (video)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49821,7 +45222,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_upload_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49829,9 +45229,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49847,7 +45244,6 @@ class AiApi:
     @validate_call
     def post_ai_videos_upload_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49864,8 +45260,6 @@ class AiApi:
         """Upload (video)
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49889,7 +45283,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_upload_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49897,9 +45290,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49910,7 +45300,6 @@ class AiApi:
 
     def _post_ai_videos_upload_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49936,31 +45325,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -49988,7 +45355,6 @@ class AiApi:
     @validate_call
     def post_ai_workflows(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50001,13 +45367,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiWorkflows200Response:
+    ) -> None:
         """Create a workflow
 
         Create one workflow.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50031,7 +45395,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_workflows_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50039,9 +45402,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50057,7 +45417,6 @@ class AiApi:
     @validate_call
     def post_ai_workflows_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50070,13 +45429,11 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """Create a workflow
 
         Create one workflow.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50100,7 +45457,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_workflows_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50108,9 +45464,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50126,7 +45479,6 @@ class AiApi:
     @validate_call
     def post_ai_workflows_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50144,8 +45496,6 @@ class AiApi:
 
         Create one workflow.
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50169,7 +45519,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_workflows_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50177,9 +45526,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50190,7 +45536,6 @@ class AiApi:
 
     def _post_ai_workflows_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -50216,31 +45561,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -50268,9 +45591,8 @@ class AiApi:
     @validate_call
     def put_ai_articles_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50283,17 +45605,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiArticles200Response:
+    ) -> None:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50319,7 +45639,6 @@ class AiApi:
         _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50327,9 +45646,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50345,9 +45661,8 @@ class AiApi:
     @validate_call
     def put_ai_articles_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50360,17 +45675,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiArticles200Response]:
+    ) -> ApiResponse[None]:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50396,7 +45709,6 @@ class AiApi:
         _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50404,9 +45716,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50422,9 +45731,8 @@ class AiApi:
     @validate_call
     def put_ai_articles_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50442,12 +45750,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50473,7 +45779,6 @@ class AiApi:
         _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50481,9 +45786,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiArticles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50496,7 +45798,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -50526,31 +45827,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -50578,9 +45857,8 @@ class AiApi:
     @validate_call
     def put_ai_assets_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50593,17 +45871,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiAssets200Response:
+    ) -> None:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50629,7 +45905,6 @@ class AiApi:
         _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50637,9 +45912,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50655,9 +45927,8 @@ class AiApi:
     @validate_call
     def put_ai_assets_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50670,17 +45941,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiAssets200Response]:
+    ) -> ApiResponse[None]:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50706,7 +45975,6 @@ class AiApi:
         _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50714,9 +45982,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50732,9 +45997,8 @@ class AiApi:
     @validate_call
     def put_ai_assets_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50752,12 +46016,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50783,7 +46045,6 @@ class AiApi:
         _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50791,9 +46052,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiAssets200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50806,7 +46064,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -50836,31 +46093,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -50888,9 +46123,8 @@ class AiApi:
     @validate_call
     def put_ai_chats_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50903,17 +46137,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiChats200Response:
+    ) -> None:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50939,7 +46171,6 @@ class AiApi:
         _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50947,9 +46178,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50965,9 +46193,8 @@ class AiApi:
     @validate_call
     def put_ai_chats_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50980,17 +46207,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiChats200Response]:
+    ) -> ApiResponse[None]:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51016,7 +46241,6 @@ class AiApi:
         _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51024,9 +46248,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51042,9 +46263,8 @@ class AiApi:
     @validate_call
     def put_ai_chats_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51062,12 +46282,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51093,7 +46311,6 @@ class AiApi:
         _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51101,9 +46318,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiChats200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51116,7 +46330,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -51146,31 +46359,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51198,9 +46389,8 @@ class AiApi:
     @validate_call
     def put_ai_deployments_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51213,17 +46403,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiDeployments200Response:
+    ) -> None:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51249,7 +46437,6 @@ class AiApi:
         _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51257,9 +46444,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51275,9 +46459,8 @@ class AiApi:
     @validate_call
     def put_ai_deployments_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51290,17 +46473,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiDeployments200Response]:
+    ) -> ApiResponse[None]:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51326,7 +46507,6 @@ class AiApi:
         _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51334,9 +46514,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51352,9 +46529,8 @@ class AiApi:
     @validate_call
     def put_ai_deployments_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51372,12 +46548,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51403,7 +46577,6 @@ class AiApi:
         _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51411,9 +46584,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiDeployments200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51426,7 +46596,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -51456,31 +46625,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51508,9 +46655,8 @@ class AiApi:
     @validate_call
     def put_ai_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51523,17 +46669,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiFiles200Response:
+    ) -> None:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51559,7 +46703,6 @@ class AiApi:
         _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51567,9 +46710,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51585,9 +46725,8 @@ class AiApi:
     @validate_call
     def put_ai_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51600,17 +46739,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiFiles200Response]:
+    ) -> ApiResponse[None]:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51636,7 +46773,6 @@ class AiApi:
         _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51644,9 +46780,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51662,9 +46795,8 @@ class AiApi:
     @validate_call
     def put_ai_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51682,12 +46814,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51713,7 +46843,6 @@ class AiApi:
         _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51721,9 +46850,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51736,7 +46862,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -51766,31 +46891,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51818,9 +46921,8 @@ class AiApi:
     @validate_call
     def put_ai_forms_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51833,17 +46935,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiForms200Response:
+    ) -> None:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51869,7 +46969,6 @@ class AiApi:
         _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51877,9 +46976,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51895,9 +46991,8 @@ class AiApi:
     @validate_call
     def put_ai_forms_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51910,17 +47005,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiForms200Response]:
+    ) -> ApiResponse[None]:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51946,7 +47039,6 @@ class AiApi:
         _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51954,9 +47046,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51972,9 +47061,8 @@ class AiApi:
     @validate_call
     def put_ai_forms_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51992,12 +47080,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52023,7 +47109,6 @@ class AiApi:
         _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52031,9 +47116,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiForms200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52046,7 +47128,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -52076,31 +47157,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -52128,9 +47187,8 @@ class AiApi:
     @validate_call
     def put_ai_graphs_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52143,17 +47201,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiGraphs200Response:
+    ) -> None:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52179,7 +47235,6 @@ class AiApi:
         _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52187,9 +47242,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52205,9 +47257,8 @@ class AiApi:
     @validate_call
     def put_ai_graphs_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52220,17 +47271,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiGraphs200Response]:
+    ) -> ApiResponse[None]:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52256,7 +47305,6 @@ class AiApi:
         _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52264,9 +47312,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52282,9 +47327,8 @@ class AiApi:
     @validate_call
     def put_ai_graphs_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52302,12 +47346,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52333,7 +47375,6 @@ class AiApi:
         _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52341,9 +47382,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiGraphs200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52356,7 +47394,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -52386,31 +47423,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -52438,9 +47453,8 @@ class AiApi:
     @validate_call
     def put_ai_messages_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52453,17 +47467,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiMessages200Response:
+    ) -> None:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52489,7 +47501,6 @@ class AiApi:
         _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52497,9 +47508,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52515,9 +47523,8 @@ class AiApi:
     @validate_call
     def put_ai_messages_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52530,17 +47537,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiMessages200Response]:
+    ) -> ApiResponse[None]:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52566,7 +47571,6 @@ class AiApi:
         _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52574,9 +47578,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52592,9 +47593,8 @@ class AiApi:
     @validate_call
     def put_ai_messages_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52612,12 +47612,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52643,7 +47641,6 @@ class AiApi:
         _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52651,9 +47648,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiMessages200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52666,7 +47660,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -52696,31 +47689,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -52748,9 +47719,8 @@ class AiApi:
     @validate_call
     def put_ai_nodes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52763,17 +47733,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiNodes200Response:
+    ) -> None:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52799,7 +47767,6 @@ class AiApi:
         _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52807,9 +47774,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52825,9 +47789,8 @@ class AiApi:
     @validate_call
     def put_ai_nodes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52840,17 +47803,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiNodes200Response]:
+    ) -> ApiResponse[None]:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52876,7 +47837,6 @@ class AiApi:
         _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52884,9 +47844,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52902,9 +47859,8 @@ class AiApi:
     @validate_call
     def put_ai_nodes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52922,12 +47878,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52953,7 +47907,6 @@ class AiApi:
         _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52961,9 +47914,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiNodes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52976,7 +47926,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -53006,31 +47955,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -53058,7 +47985,6 @@ class AiApi:
     @validate_call
     def put_ai_preferences(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53071,12 +47997,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Preferences
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53100,7 +48024,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_preferences_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53108,9 +48031,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53126,7 +48046,6 @@ class AiApi:
     @validate_call
     def put_ai_preferences_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53139,12 +48058,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Preferences
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53168,7 +48085,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_preferences_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53176,9 +48092,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53194,7 +48107,6 @@ class AiApi:
     @validate_call
     def put_ai_preferences_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53211,8 +48123,6 @@ class AiApi:
         """Preferences
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53236,7 +48146,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_preferences_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53244,9 +48153,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53257,7 +48163,6 @@ class AiApi:
 
     def _put_ai_preferences_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -53283,31 +48188,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -53335,9 +48218,8 @@ class AiApi:
     @validate_call
     def put_ai_providers_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53350,17 +48232,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiProviders200Response:
+    ) -> None:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53386,7 +48266,6 @@ class AiApi:
         _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53394,9 +48273,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53412,9 +48288,8 @@ class AiApi:
     @validate_call
     def put_ai_providers_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53427,17 +48302,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiProviders200Response]:
+    ) -> ApiResponse[None]:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53463,7 +48336,6 @@ class AiApi:
         _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53471,9 +48343,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53489,9 +48358,8 @@ class AiApi:
     @validate_call
     def put_ai_providers_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53509,12 +48377,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53540,7 +48406,6 @@ class AiApi:
         _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53548,9 +48413,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiProviders200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53563,7 +48425,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -53593,31 +48454,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -53645,9 +48484,8 @@ class AiApi:
     @validate_call
     def put_ai_records_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53660,17 +48498,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRecords200Response:
+    ) -> None:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53696,7 +48532,6 @@ class AiApi:
         _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53704,9 +48539,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53722,9 +48554,8 @@ class AiApi:
     @validate_call
     def put_ai_records_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53737,17 +48568,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRecords200Response]:
+    ) -> ApiResponse[None]:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53773,7 +48602,6 @@ class AiApi:
         _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53781,9 +48609,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53799,9 +48624,8 @@ class AiApi:
     @validate_call
     def put_ai_records_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53819,12 +48643,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53850,7 +48672,6 @@ class AiApi:
         _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53858,9 +48679,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRecords200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53873,7 +48691,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -53903,31 +48720,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -53955,9 +48750,8 @@ class AiApi:
     @validate_call
     def put_ai_remote_connections_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53970,17 +48764,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRemoteConnections200Response:
+    ) -> None:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54006,7 +48798,6 @@ class AiApi:
         _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54014,9 +48805,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54032,9 +48820,8 @@ class AiApi:
     @validate_call
     def put_ai_remote_connections_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54047,17 +48834,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRemoteConnections200Response]:
+    ) -> ApiResponse[None]:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54083,7 +48868,6 @@ class AiApi:
         _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54091,9 +48875,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54109,9 +48890,8 @@ class AiApi:
     @validate_call
     def put_ai_remote_connections_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54129,12 +48909,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54160,7 +48938,6 @@ class AiApi:
         _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54168,9 +48945,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRemoteConnections200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54183,7 +48957,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -54213,31 +48986,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -54265,9 +49016,8 @@ class AiApi:
     @validate_call
     def put_ai_routes_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54280,17 +49030,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiRoutes200Response:
+    ) -> None:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54316,7 +49064,6 @@ class AiApi:
         _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54324,9 +49071,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54342,9 +49086,8 @@ class AiApi:
     @validate_call
     def put_ai_routes_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54357,17 +49100,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiRoutes200Response]:
+    ) -> ApiResponse[None]:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54393,7 +49134,6 @@ class AiApi:
         _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54401,9 +49141,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54419,9 +49156,8 @@ class AiApi:
     @validate_call
     def put_ai_routes_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54439,12 +49175,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54470,7 +49204,6 @@ class AiApi:
         _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54478,9 +49211,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiRoutes200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54493,7 +49223,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -54523,31 +49252,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -54575,9 +49282,8 @@ class AiApi:
     @validate_call
     def put_ai_scales_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54590,17 +49296,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScales200Response:
+    ) -> None:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54626,7 +49330,6 @@ class AiApi:
         _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54634,9 +49337,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54652,9 +49352,8 @@ class AiApi:
     @validate_call
     def put_ai_scales_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54667,17 +49366,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScales200Response]:
+    ) -> ApiResponse[None]:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54703,7 +49400,6 @@ class AiApi:
         _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54711,9 +49407,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54729,9 +49422,8 @@ class AiApi:
     @validate_call
     def put_ai_scales_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54749,12 +49441,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54780,7 +49470,6 @@ class AiApi:
         _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54788,9 +49477,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScales200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54803,7 +49489,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -54833,31 +49518,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -54885,9 +49548,8 @@ class AiApi:
     @validate_call
     def put_ai_scans_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54900,17 +49562,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiScans200Response:
+    ) -> None:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54936,7 +49596,6 @@ class AiApi:
         _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54944,9 +49603,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54962,9 +49618,8 @@ class AiApi:
     @validate_call
     def put_ai_scans_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54977,17 +49632,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiScans200Response]:
+    ) -> ApiResponse[None]:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55013,7 +49666,6 @@ class AiApi:
         _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55021,9 +49673,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55039,9 +49688,8 @@ class AiApi:
     @validate_call
     def put_ai_scans_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55059,12 +49707,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55090,7 +49736,6 @@ class AiApi:
         _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55098,9 +49743,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiScans200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55113,7 +49755,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -55143,31 +49784,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -55195,9 +49814,8 @@ class AiApi:
     @validate_call
     def put_ai_signin_sessions_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55210,17 +49828,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiSigninSessions200Response:
+    ) -> None:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55246,7 +49862,6 @@ class AiApi:
         _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55254,9 +49869,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55272,9 +49884,8 @@ class AiApi:
     @validate_call
     def put_ai_signin_sessions_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55287,17 +49898,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiSigninSessions200Response]:
+    ) -> ApiResponse[None]:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55323,7 +49932,6 @@ class AiApi:
         _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55331,9 +49939,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55349,9 +49954,8 @@ class AiApi:
     @validate_call
     def put_ai_signin_sessions_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55369,12 +49973,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55400,7 +50002,6 @@ class AiApi:
         _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55408,9 +50009,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiSigninSessions200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55423,7 +50021,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -55453,31 +50050,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -55505,9 +50080,8 @@ class AiApi:
     @validate_call
     def put_ai_stores_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55520,17 +50094,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiStores200Response:
+    ) -> None:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55556,7 +50128,6 @@ class AiApi:
         _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55564,9 +50135,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55582,9 +50150,8 @@ class AiApi:
     @validate_call
     def put_ai_stores_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55597,17 +50164,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiStores200Response]:
+    ) -> ApiResponse[None]:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55633,7 +50198,6 @@ class AiApi:
         _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55641,9 +50205,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55659,9 +50220,8 @@ class AiApi:
     @validate_call
     def put_ai_stores_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55679,12 +50239,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55710,7 +50268,6 @@ class AiApi:
         _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55718,9 +50275,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiStores200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55733,7 +50287,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -55763,31 +50316,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -55815,9 +50346,8 @@ class AiApi:
     @validate_call
     def put_ai_tasks_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55830,17 +50360,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTasks200Response:
+    ) -> None:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55866,7 +50394,6 @@ class AiApi:
         _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55874,9 +50401,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55892,9 +50416,8 @@ class AiApi:
     @validate_call
     def put_ai_tasks_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55907,17 +50430,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTasks200Response]:
+    ) -> ApiResponse[None]:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55943,7 +50464,6 @@ class AiApi:
         _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55951,9 +50471,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55969,9 +50486,8 @@ class AiApi:
     @validate_call
     def put_ai_tasks_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55989,12 +50505,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56020,7 +50534,6 @@ class AiApi:
         _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56028,9 +50541,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTasks200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56043,7 +50553,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -56073,31 +50582,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -56125,9 +50612,8 @@ class AiApi:
     @validate_call
     def put_ai_templates_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56140,17 +50626,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTemplates200Response:
+    ) -> None:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56176,7 +50660,6 @@ class AiApi:
         _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56184,9 +50667,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56202,9 +50682,8 @@ class AiApi:
     @validate_call
     def put_ai_templates_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56217,17 +50696,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTemplates200Response]:
+    ) -> ApiResponse[None]:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56253,7 +50730,6 @@ class AiApi:
         _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56261,9 +50737,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56279,9 +50752,8 @@ class AiApi:
     @validate_call
     def put_ai_templates_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56299,12 +50771,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56330,7 +50800,6 @@ class AiApi:
         _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56338,9 +50807,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTemplates200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56353,7 +50819,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -56383,31 +50848,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -56435,7 +50878,6 @@ class AiApi:
     @validate_call
     def put_ai_training_contribution(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56448,12 +50890,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Training Contribution
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56477,7 +50917,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_training_contribution_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56485,9 +50924,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56503,7 +50939,6 @@ class AiApi:
     @validate_call
     def put_ai_training_contribution_with_http_info(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56516,12 +50951,10 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Training Contribution
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56545,7 +50978,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_training_contribution_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56553,9 +50985,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56571,7 +51000,6 @@ class AiApi:
     @validate_call
     def put_ai_training_contribution_without_preload_content(
         self,
-        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56588,8 +51016,6 @@ class AiApi:
         """Training Contribution
 
 
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56613,7 +51039,6 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_training_contribution_serialize(
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56621,9 +51046,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56634,7 +51056,6 @@ class AiApi:
 
     def _put_ai_training_contribution_serialize(
         self,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -56660,31 +51081,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -56712,9 +51111,8 @@ class AiApi:
     @validate_call
     def put_ai_tree_files_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56727,17 +51125,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiTreeFiles200Response:
+    ) -> None:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56763,7 +51159,6 @@ class AiApi:
         _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56771,9 +51166,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56789,9 +51181,8 @@ class AiApi:
     @validate_call
     def put_ai_tree_files_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56804,17 +51195,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiTreeFiles200Response]:
+    ) -> ApiResponse[None]:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56840,7 +51229,6 @@ class AiApi:
         _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56848,9 +51236,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56866,9 +51251,8 @@ class AiApi:
     @validate_call
     def put_ai_tree_files_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -56886,12 +51270,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -56917,7 +51299,6 @@ class AiApi:
         _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -56925,9 +51306,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiTreeFiles200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56940,7 +51318,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -56970,31 +51347,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -57022,9 +51377,8 @@ class AiApi:
     @validate_call
     def put_ai_vectors_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57037,17 +51391,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVectors200Response:
+    ) -> None:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57073,7 +51425,6 @@ class AiApi:
         _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57081,9 +51432,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57099,9 +51447,8 @@ class AiApi:
     @validate_call
     def put_ai_vectors_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57114,17 +51461,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVectors200Response]:
+    ) -> ApiResponse[None]:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57150,7 +51495,6 @@ class AiApi:
         _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57158,9 +51502,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57176,9 +51517,8 @@ class AiApi:
     @validate_call
     def put_ai_vectors_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57196,12 +51536,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57227,7 +51565,6 @@ class AiApi:
         _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57235,9 +51572,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVectors200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57250,7 +51584,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -57280,31 +51613,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -57332,9 +51643,8 @@ class AiApi:
     @validate_call
     def put_ai_videos_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57347,17 +51657,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiVideos200Response:
+    ) -> None:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57383,7 +51691,6 @@ class AiApi:
         _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57391,9 +51698,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57409,9 +51713,8 @@ class AiApi:
     @validate_call
     def put_ai_videos_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57424,17 +51727,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiVideos200Response]:
+    ) -> ApiResponse[None]:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57460,7 +51761,6 @@ class AiApi:
         _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57468,9 +51768,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57486,9 +51783,8 @@ class AiApi:
     @validate_call
     def put_ai_videos_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57506,12 +51802,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57537,7 +51831,6 @@ class AiApi:
         _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57545,9 +51838,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiVideos200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57560,7 +51850,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -57590,31 +51879,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -57642,9 +51909,8 @@ class AiApi:
     @validate_call
     def put_ai_workflows_by_owner_by_name(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57657,17 +51923,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostAiWorkflows200Response:
+    ) -> None:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57693,7 +51957,6 @@ class AiApi:
         _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57701,9 +51964,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57719,9 +51979,8 @@ class AiApi:
     @validate_call
     def put_ai_workflows_by_owner_by_name_with_http_info(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57734,17 +51993,15 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostAiWorkflows200Response]:
+    ) -> ApiResponse[None]:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57770,7 +52027,6 @@ class AiApi:
         _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57778,9 +52034,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57796,9 +52049,8 @@ class AiApi:
     @validate_call
     def put_ai_workflows_by_owner_by_name_without_preload_content(
         self,
-        owner: Annotated[StrictStr, Field(description="Owning organization.")],
-        name: Annotated[StrictStr, Field(description="Resource name, unique within the owner.")],
-        body: Dict[str, Any],
+        owner: StrictStr,
+        name: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57816,12 +52068,10 @@ class AiApi:
 
         Identical to PATCH — the handler takes a whole object either way.
 
-        :param owner: Owning organization. (required)
+        :param owner: (required)
         :type owner: str
-        :param name: Resource name, unique within the owner. (required)
+        :param name: (required)
         :type name: str
-        :param body: (required)
-        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57847,7 +52097,6 @@ class AiApi:
         _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57855,9 +52104,6 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostAiWorkflows200Response",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57870,7 +52116,6 @@ class AiApi:
         self,
         owner,
         name,
-        body,
         _request_auth,
         _content_type,
         _headers,
@@ -57900,31 +52145,9 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if body is not None:
-            _body_params = body
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

@@ -19,20 +19,17 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.gitlab_project_view import GitlabProjectView
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RunnerBuildResp(BaseModel):
+class GitlabProjectsOut(BaseModel):
     """
-    RunnerBuildResp
+    GitlabProjectsOut
     """ # noqa: E501
-    build_job_id: Optional[StrictStr] = Field(default=None, description="BuildJobID is the queued build's id, and what its progress is read by.", alias="buildJobId")
-    image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
-    index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
-    runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
-    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` — the build was accepted and has not finished.")
-    target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "runnerPool", "status", "target"]
+    account: Optional[StrictStr] = Field(default=None, description="Account is the connected GitLab username, so a client can label the list without a second call. Empty when the connection recorded none.")
+    projects: Optional[List[GitlabProjectView]] = Field(default=None, description="Projects is every project the token reaches, newest activity first. Never null; [] when the account has none.")
+    __properties: ClassVar[List[str]] = ["account", "projects"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +49,7 @@ class RunnerBuildResp(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a JSON string"""
+        """Create an instance of GitlabProjectsOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,11 +70,18 @@ class RunnerBuildResp(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in projects (list)
+        _items = []
+        if self.projects:
+            for _item_projects in self.projects:
+                if _item_projects:
+                    _items.append(_item_projects.to_dict())
+            _dict['projects'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a dict"""
+        """Create an instance of GitlabProjectsOut from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +89,8 @@ class RunnerBuildResp(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "buildJobId": obj.get("buildJobId"),
-            "image": obj.get("image"),
-            "index": obj.get("index"),
-            "runnerPool": obj.get("runnerPool"),
-            "status": obj.get("status"),
-            "target": obj.get("target")
+            "account": obj.get("account"),
+            "projects": [GitlabProjectView.from_dict(_item) for _item in obj["projects"]] if obj.get("projects") is not None else None
         })
         return _obj
 
