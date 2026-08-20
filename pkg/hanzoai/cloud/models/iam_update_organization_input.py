@@ -32,6 +32,7 @@ class IamUpdateOrganizationInput(BaseModel):
     """ # noqa: E501
     account_items: Optional[List[IamAccountItem]] = Field(default=None, alias="accountItems")
     account_menu: Optional[StrictStr] = Field(default=None, alias="accountMenu")
+    avatar: Optional[StrictStr] = None
     balance_credit: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="balanceCredit")
     balance_currency: Optional[StrictStr] = Field(default=None, alias="balanceCurrency")
     country_codes: Optional[List[StrictStr]] = Field(default=None, alias="countryCodes")
@@ -44,6 +45,7 @@ class IamUpdateOrganizationInput(BaseModel):
     deleted: Optional[StrictBool] = None
     disable_signin: Optional[StrictBool] = Field(default=None, alias="disableSignin")
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
+    emoji: Optional[StrictStr] = None
     enable_soft_deletion: Optional[StrictBool] = Field(default=None, alias="enableSoftDeletion")
     enable_tour: Optional[StrictBool] = Field(default=None, alias="enableTour")
     failed_signin_frozen_time: Optional[StrictInt] = Field(default=None, alias="failedSigninFrozenTime")
@@ -89,7 +91,7 @@ class IamUpdateOrganizationInput(BaseModel):
     user_types: Optional[List[StrictStr]] = Field(default=None, alias="userTypes")
     website_url: Optional[StrictStr] = Field(default=None, alias="websiteUrl")
     widget_items: Optional[List[StrictStr]] = Field(default=None, alias="widgetItems")
-    __properties: ClassVar[List[str]] = ["accountItems", "accountMenu", "balanceCredit", "balanceCurrency", "countryCodes", "createdAt", "createdTime", "dcrPolicy", "defaultApplication", "defaultAvatar", "defaultPassword", "deleted", "disableSignin", "displayName", "enableSoftDeletion", "enableTour", "failedSigninFrozenTime", "failedSigninLimit", "favicon", "founder", "hasPrivilegeConsent", "id", "initScore", "ipRestriction", "ipWhitelist", "isPersonal", "isProfilePublic", "kerberosKdcHost", "kerberosKeytab", "kerberosRealm", "kerberosServiceName", "languages", "ldapAttributes", "logo", "logoDark", "masterPassword", "masterVerificationCode", "mfaItems", "mfaRememberInHours", "name", "navItems", "orgBalance", "owner", "passwordExpireDays", "passwordObfuscatorKey", "passwordObfuscatorType", "passwordOptions", "passwordSalt", "passwordType", "tags", "themeData", "updatedAt", "useEmailAsUsername", "usePermanentAvatar", "userBalance", "userNavItems", "userTypes", "websiteUrl", "widgetItems"]
+    __properties: ClassVar[List[str]] = ["accountItems", "accountMenu", "avatar", "balanceCredit", "balanceCurrency", "countryCodes", "createdAt", "createdTime", "dcrPolicy", "defaultApplication", "defaultAvatar", "defaultPassword", "deleted", "disableSignin", "displayName", "emoji", "enableSoftDeletion", "enableTour", "failedSigninFrozenTime", "failedSigninLimit", "favicon", "founder", "hasPrivilegeConsent", "id", "initScore", "ipRestriction", "ipWhitelist", "isPersonal", "isProfilePublic", "kerberosKdcHost", "kerberosKeytab", "kerberosRealm", "kerberosServiceName", "languages", "ldapAttributes", "logo", "logoDark", "masterPassword", "masterVerificationCode", "mfaItems", "mfaRememberInHours", "name", "navItems", "orgBalance", "owner", "passwordExpireDays", "passwordObfuscatorKey", "passwordObfuscatorType", "passwordOptions", "passwordSalt", "passwordType", "tags", "themeData", "updatedAt", "useEmailAsUsername", "usePermanentAvatar", "userBalance", "userNavItems", "userTypes", "websiteUrl", "widgetItems"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -161,6 +163,7 @@ class IamUpdateOrganizationInput(BaseModel):
         _obj = cls.model_validate({
             "accountItems": [IamAccountItem.from_dict(_item) for _item in obj["accountItems"]] if obj.get("accountItems") is not None else None,
             "accountMenu": obj.get("accountMenu"),
+            "avatar": obj.get("avatar"),
             "balanceCredit": obj.get("balanceCredit"),
             "balanceCurrency": obj.get("balanceCurrency"),
             "countryCodes": obj.get("countryCodes"),
@@ -173,6 +176,7 @@ class IamUpdateOrganizationInput(BaseModel):
             "deleted": obj.get("deleted"),
             "disableSignin": obj.get("disableSignin"),
             "displayName": obj.get("displayName"),
+            "emoji": obj.get("emoji"),
             "enableSoftDeletion": obj.get("enableSoftDeletion"),
             "enableTour": obj.get("enableTour"),
             "failedSigninFrozenTime": obj.get("failedSigninFrozenTime"),

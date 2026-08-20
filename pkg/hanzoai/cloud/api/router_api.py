@@ -16,7 +16,6 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.envelope import Envelope
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -287,7 +286,7 @@ class RouterApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Data
 
 
@@ -321,9 +320,6 @@ class RouterApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -351,7 +347,7 @@ class RouterApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Data
 
 
@@ -385,9 +381,6 @@ class RouterApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -449,9 +442,6 @@ class RouterApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -489,13 +479,6 @@ class RouterApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -1716,7 +1699,7 @@ class RouterApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Envelope:
+    ) -> None:
         """Data
 
 
@@ -1750,9 +1733,6 @@ class RouterApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1780,7 +1760,7 @@ class RouterApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Envelope]:
+    ) -> ApiResponse[None]:
         """Data
 
 
@@ -1814,9 +1794,6 @@ class RouterApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1878,9 +1855,6 @@ class RouterApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Envelope",
-            '401': None,
-            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1918,13 +1892,6 @@ class RouterApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting

@@ -17,22 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.backend_status import BackendStatus
+from hanzoai.cloud.models.hit import Hit
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RunnerBuildResp(BaseModel):
+class Response(BaseModel):
     """
-    RunnerBuildResp
+    Response
     """ # noqa: E501
-    build_job_id: Optional[StrictStr] = Field(default=None, description="BuildJobID is the queued build's id, and what its progress is read by.", alias="buildJobId")
-    image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
-    index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
-    runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
-    status: Optional[StrictStr] = Field(default=None, description="Status is `queued` — the build was accepted and has not finished.")
-    target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "runnerPool", "status", "target"]
+    backends: Optional[List[BackendStatus]] = Field(default=None, description="Backends is the per-leg report. Always populated.")
+    hits: Optional[List[Hit]] = Field(default=None, description="Hits is the fused, ranked result set.")
+    mode: Optional[StrictStr] = Field(default=None, description="Mode is the mode actually used after `auto` resolution.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is the query's overall honesty signal:   ok          every consulted leg answered.   partial     at least one leg failed; Hits holds the survivors' results.   unavailable every consulted leg failed; Hits is empty AND that is stated.")
+    took_ms: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["backends", "hits", "mode", "status", "took_ms"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +53,7 @@ class RunnerBuildResp(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a JSON string"""
+        """Create an instance of Response from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,11 +74,25 @@ class RunnerBuildResp(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in backends (list)
+        _items = []
+        if self.backends:
+            for _item_backends in self.backends:
+                if _item_backends:
+                    _items.append(_item_backends.to_dict())
+            _dict['backends'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in hits (list)
+        _items = []
+        if self.hits:
+            for _item_hits in self.hits:
+                if _item_hits:
+                    _items.append(_item_hits.to_dict())
+            _dict['hits'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RunnerBuildResp from a dict"""
+        """Create an instance of Response from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +100,11 @@ class RunnerBuildResp(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "buildJobId": obj.get("buildJobId"),
-            "image": obj.get("image"),
-            "index": obj.get("index"),
-            "runnerPool": obj.get("runnerPool"),
+            "backends": [BackendStatus.from_dict(_item) for _item in obj["backends"]] if obj.get("backends") is not None else None,
+            "hits": [Hit.from_dict(_item) for _item in obj["hits"]] if obj.get("hits") is not None else None,
+            "mode": obj.get("mode"),
             "status": obj.get("status"),
-            "target": obj.get("target")
+            "took_ms": obj.get("took_ms")
         })
         return _obj
 
