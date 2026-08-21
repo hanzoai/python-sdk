@@ -130,7 +130,7 @@ jobs:
           PYPI_TOKEN_PRIMARY="${PYPI_TOKEN:-}"
           PYPI_TOKEN_FALLBACK="${HANZO_AI_PYPI_TOKEN:-}"
           if [ -z "$PYPI_TOKEN_PRIMARY" ] && [ -z "$PYPI_TOKEN_FALLBACK" ]; then
-            echo "::error::KMS holds no PyPI token at hanzo/prod/python-sdk-publish. Seed PYPI_TOKEN (and HANZO_AI_PYPI_TOKEN) there — not as a forge or GitHub Actions secret." >&2
+            echo "::error::KMS holds no PyPI token at hanzo/prod/python-sdk-publish. Seed PYPI_TOKEN (and HANZO_AI_PYPI_TOKEN) there — not as a Hanzo Git or GitHub Actions secret." >&2
             exit 1
           fi
 
