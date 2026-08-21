@@ -1,3 +1,9 @@
+> **Retired — this is a stale copy of `hanzoai/python-sdk`.**
+>
+> All 22 branches here are reachable from `hanzoai/python-sdk`, which is also the
+> copy that mirrors to GitHub. This one mirrors nowhere, so anything committed
+> here would have stayed here.
+
 <p align="center"><img src=".github/hero.svg" alt="Hanzo Python SDK" width="880"></p>
 
 # Hanzo Python SDK
