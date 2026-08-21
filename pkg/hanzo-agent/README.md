@@ -2,6 +2,10 @@
 
 A powerful Python framework for building AI agents and multi-agent systems with built-in orchestration.
 
+> Not to be confused with **`hanzo-agents`** (plural), which is a command-line
+> tool for driving agent CLIs such as Claude and Gemini. This package is the SDK
+> you build against; the two share no code.
+
 <img src="https://cdn.openai.com/API/docs/images/orchestration.png" alt="Image of the Agents Tracing UI" style="max-height: 803px;">
 
 ## ✨ Features
