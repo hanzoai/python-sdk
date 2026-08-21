@@ -37,9 +37,10 @@ https://api.hanzo.ai serves 112 models, no credential required
 
 ```python
 import os
-from hanzoai.cloud import ApiClient, Configuration, KeysApi
+from hanzoai import Client
+from hanzoai.cloud import Configuration, KeysApi
 
-client = ApiClient(Configuration(
+client = Client(Configuration(
     host="https://api.hanzo.ai",
     access_token=os.environ["HANZO_API_KEY"],
 ))
@@ -50,7 +51,9 @@ with client as api:
 ```
 
 Every route follows that shape: one `*Api` class per tag, one method per
-operation, typed models in and out.
+operation, typed models in and out. `Client` is the generated `ApiClient` plus
+the two behaviours below — scoping and the held result — so it goes anywhere an
+`ApiClient` goes.
 
 ## Auth
 
@@ -81,6 +84,61 @@ hand-written `hanzoai.zap` and `hanzoai.config` read `HANZO_ZAP_ENDPOINT` and
 `HANZO_CONFIG_HOME`; neither is a credential.) [`examples/client.py`](examples/client.py)
 is where `HANZO_API_KEY` and `HANZO_BASE_URL` get resolved — one place, for all
 six flows.
+
+## Tenants
+
+If you are building on top of Hanzo, you hold one key and your customers hold
+none. `as_` binds a client to one of them:
+
+```python
+from hanzoai import Client
+from hanzoai.cloud import Configuration, MemoryApi
+
+hanzo = Client(Configuration(access_token=os.environ["HANZO_API_KEY"]))
+memory = MemoryApi(hanzo.as_("user_42"))    # a subject id, or your own externalId
+```
+
+IAM mints a short-lived token bound to that subject — `POST
+https://hanzo.id/v1/iam/tokens/issue?id=user_42`, on IAM's own host, reading the
+grant off your key — and the scoped client sends it on every call, keeps it
+until it nears expiry, and re-mints once on a 401. No operation takes a user id,
+so there is none to pass wrongly and none to forget. `Client(..., issuer=...)`
+points the mint at a private estate.
+
+The spelling is `as_` rather than `as` only because `as` is a keyword; the
+trailing underscore is what PEP 8 prescribes, and it keeps the platform's one
+word for this from growing a synonym in Python.
+
+### Held calls
+
+A call your policy holds for a human decision answers `202` with the approval —
+`{"status": "held", "id", "clause", "reason"}`, the same shape
+`GET /v1/approvals/{id}` returns. A 202 is a 2xx, so a client that only checks
+for a raise reads a queued call as a completed one. This one raises:
+
+```python
+from hanzoai import Held, is_held, result, unwrap
+
+try:
+    fact = memory.post_memory_remember(body)
+except Held as held:
+    print(held.approval.id, held.approval.clause)
+```
+
+Or take the outcome as a value, when handling the hold is the normal path:
+
+```python
+r = result(memory.post_memory_remember, body)
+if is_held(r):
+    print(r.id, r.clause, r.reason)   # queued — nothing ran
+else:
+    fact = unwrap(r)                  # raises Held rather than return a hold
+```
+
+`Approval` has no `value` and `Done` has no `id`, so there is no member you can
+read off the wrong one. The dozen long-running operations whose `202` means
+"accepted, working on it" carry their own schema and pass straight through — the
+body is the discriminator, not the status code.
 
 ## Examples
 
