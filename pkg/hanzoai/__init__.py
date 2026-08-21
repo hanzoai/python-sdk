@@ -60,4 +60,35 @@ except ImportError:  # pragma: no cover - hanzoai[zap] not installed
 # service and which document a symbol came from.
 from . import cloud as cloud
 
-__all__ = ["cloud", "__version__"]
+# The tenant fabric — hand-written, and the only names this package adds beside
+# `cloud`. They are here because they belong to no one operation: `Client` is
+# how an operator credential is scoped to one customer, and `Result` is what an
+# approval-gated call answers with. Nothing generated is re-exported alongside
+# them; the namespace still says which document a symbol came from.
+from .client import Client as Client
+from .grant import Grant as Grant
+from .result import (
+    Done as Done,
+    Held as Held,
+    Result as Result,
+    Approval as Approval,
+    is_done as is_done,
+    is_held as is_held,
+    result as result,
+    unwrap as unwrap,
+)
+
+__all__ = [
+    "cloud",
+    "__version__",
+    "Client",
+    "Grant",
+    "Approval",
+    "Done",
+    "Held",
+    "Result",
+    "is_done",
+    "is_held",
+    "result",
+    "unwrap",
+]
