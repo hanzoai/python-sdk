@@ -2,6 +2,11 @@
 
 Multi-agent orchestration CLI for Hanzo AI.
 
+> Not to be confused with **`hanzo-agent`** (singular), which is the Hanzo AI
+> Agent SDK — a framework for *building* agents in Python. This package is a
+> command-line tool for *driving* agent CLIs you already have installed, and the
+> two share no code.
+
 ## Installation
 
 ```bash
