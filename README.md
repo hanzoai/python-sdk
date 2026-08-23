@@ -1,10 +1,9 @@
 # Hanzo Python SDK
 
 `hanzoai` is the Python client for the Hanzo API, generated from the API's own
-OpenAPI document.
-Every `/v1` route is in it, and the names it exposes are the document's operation
-ids rather than a hand-picked subset. [`.spec-lock`](.spec-lock) names the commit
-and sha256 of the document this tree was cut from.
+OpenAPI document. Every `/v1` route is in it, and the names it exposes are the
+document's operation ids. [`.spec-lock`](.spec-lock) names the commit and sha256
+of the document this tree was cut from.
 
 [![PyPI](https://img.shields.io/pypi/v/hanzoai.svg)](https://pypi.org/project/hanzoai/)
 [![Python](https://img.shields.io/pypi/pyversions/hanzoai.svg)](https://pypi.org/project/hanzoai/)
@@ -49,39 +48,30 @@ operation, typed models in and out.
 
 ## Auth
 
-`access_token` is the whole configuration. The document declares one security
-scheme — `bearer`, HTTP bearer — and applies it to every operation but four, so
-the generated `Configuration.auth_settings()` produces
-`Authorization: Bearer <token>` and 2498 call sites ask for it:
+`access_token` is the whole configuration — it becomes
+`Authorization: Bearer <token>` on every operation that asks for a credential.
 
-```python
-auth['bearer'] = {'type': 'bearer', 'in': 'header',
-                  'key': 'Authorization', 'value': 'Bearer ' + self.access_token}
-```
-
-The four exceptions are the operations the document marks `security: []` —
-`GET /v1/models`, `GET /v1/models/providers`, `GET /v1/commands`,
-`GET /v1/openapi.json`. Those carry an empty `auth_settings` and send no
-credential, which is why `examples/models` runs before you have a key.
+Four operations do not: `GET /v1/models`, `GET /v1/models/providers`,
+`GET /v1/commands`, `GET /v1/openapi.json`. They send no credential, which is why
+`examples/models` runs before you have a key.
 
 Keys come from [cloud.hanzo.ai](https://cloud.hanzo.ai) or `hanzo login` in two
 shapes, and only one of them works here. Use an `sk-`: it carries a principal,
-which every credentialled call needs. A `pk-` is publishable — it is safe in a
-browser bundle precisely because it names an org and authenticates nobody, so
-cloud refuses it at the identity boundary and it reads nothing.
+which every credentialled call needs. A `pk-` is publishable — safe in a browser
+bundle because it names an org and authenticates nobody — so cloud refuses it at
+the identity boundary.
 
-No generated code reads the environment — not one `os.environ` in all of
-`hanzoai.cloud`, so no variable you export reaches a request on its own. (The
-hand-written `hanzoai.zap` and `hanzoai.config` read `HANZO_ZAP_ENDPOINT` and
-`HANZO_CONFIG_HOME`; neither is a credential.) [`examples/client.py`](examples/client.py)
-is where `HANZO_API_KEY` and `HANZO_BASE_URL` get resolved — one place, for all
-six flows.
+No generated code reads the environment, so no variable you export reaches a
+request on its own. (The hand-written `hanzoai.zap` and `hanzoai.config` read
+`HANZO_ZAP_ENDPOINT` and `HANZO_CONFIG_HOME`; neither is a credential.)
+[`examples/client.py`](examples/client.py) is where `HANZO_API_KEY` and
+`HANZO_BASE_URL` get resolved, for all six flows.
 
 ## Examples
 
 `examples/` carries one directory per flow. Each is a whole path through one part
-of the API. On every push CI imports all six and resolves every method name they
-call against the client, which is what keeps them from rotting into pseudocode.
+of the API. CI imports all six and resolves every method name they call against
+the client.
 
 | flow | what it does | routes | key |
 |---|---|---|---|
@@ -102,27 +92,24 @@ python -m examples.hello
 ```
 
 A real key prints your keys; a bogus one prints
-`HTTP 403: {"code":"forbidden","error":"sign in to manage API keys"}`. Two
-different answers to the same code is what proves the credential is on the wire.
+`HTTP 403: {"code":"forbidden","error":"sign in to manage API keys"}`.
 
-There is no `chat` flow because there is nothing to generate one from:
-`POST /v1/chat/completions` is declared with no `requestBody` and no `responses`,
-so the method takes no arguments and returns `None`. Hand-rolling the request
-inside a generated client is the drift these SDKs exist to prevent. It comes back
-the day the document describes the body.
+There is no `chat` flow: `POST /v1/chat/completions` is declared with no
+`requestBody` and no `responses`, so the method takes no arguments and returns
+`None`. It comes back the day the document describes the body.
 
-The same gap shows up in `money`, which reads its two payloads through the
-generated `*_without_preload_content` variant: an operation that declares no
-`responses`, or a 2xx carrying no content, models no body to deserialize. Those become ordinary typed calls when the schemas land, and
-nothing else about them changes.
+`money` reads its two payloads through the generated
+`*_without_preload_content` variant, for the same reason — an operation that
+declares no `responses`, or a 2xx carrying no content, models no body to
+deserialize.
 
 Reference for the routes themselves: [api.hanzo.ai/docs](https://api.hanzo.ai/docs),
 served from the same document — [api.hanzo.ai/v1/openapi.json](https://api.hanzo.ai/v1/openapi.json).
 
 ## The rest of the repo
 
-This is a `uv` workspace. `pkg/hanzoai` is the client above; the other 64
-packages are hand-written, ship separately, and mostly carry their own README:
+This is a `uv` workspace. `pkg/hanzoai` is the client above; the other packages
+are hand-written, ship separately, and mostly carry their own README:
 
 | Package | Install | Purpose |
 |---|---|---|
@@ -132,7 +119,7 @@ packages are hand-written, ship separately, and mostly carry their own README:
 | `pkg/hanzo-agents` | `hanzo-agents` | agent networks and swarms |
 | `pkg/hanzo-memory` | `hanzo-memory` | persistent memory + RAG over SQLite |
 | `pkg/hanzo-network` | `hanzo-network` | distributed compute nodes |
-| `pkg/hanzo-tools-*` | one each | 37 single-concern tool packages, each registering a `TOOLS` list under the `hanzo.tools` entry point, which is how `hanzo-mcp` finds them |
+| `pkg/hanzo-tools-*` | one each | single-concern tool packages, each registering a `TOOLS` list under the `hanzo.tools` entry point, which is how `hanzo-mcp` finds them |
 
 The `hanzo` **command** is a native binary, not a Python package:
 `curl -fsSL https://hanzo.sh | sh`. `pip install hanzo` ships the older Python CLI
@@ -155,8 +142,7 @@ cd ../openapi && uv run --with pyyaml python3 generate.py python \
   --repo ../python-sdk --spec ../cloud/openapi.yaml
 ```
 
-A defect found in generated code is fixed in the document, where every other
-language gets the fix too. See [LLM.md](LLM.md) for how the lane works.
+A defect in generated code is fixed in the document.
 
 ## License
 
