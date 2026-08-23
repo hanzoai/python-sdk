@@ -18,7 +18,7 @@ rather than leaving it billable for the next run to collide with.
 
 import time
 
-from hanzoai.cloud import ProvisionRequest, KvApi
+from hanzoai.cloud import ProvisionRequest, ProvisioningApi
 
 from examples.client import client, run
 
@@ -27,17 +27,17 @@ NAME = f"example-store-{time.time_ns()}"
 
 def main() -> None:
     with client() as api:
-        kv = KvApi(api)
+        kv = ProvisioningApi(api)
 
-        kv.post_kv(ProvisionRequest(name=NAME))
+        kv.post_provisioning_kv(ProvisionRequest(name=NAME))
         print(f"provisioned {NAME}")
 
         try:
-            store = kv.get_kv_by_name(NAME)
+            store = kv.get_provisioning_kv_by_name(NAME)
             print(f"read back: {store.name} · {store.kind} · status {store.status}")
             print(f"  host {store.host}:{store.port}")
         finally:
-            kv.delete_kv_by_name(NAME)
+            kv.delete_provisioning_kv_by_name(NAME)
             print(f"deleted {NAME}")
 
 

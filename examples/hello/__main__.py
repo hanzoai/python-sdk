@@ -26,14 +26,14 @@ document.
     python -m examples.hello
 """
 
-from hanzoai.cloud import KeysApi
+from hanzoai.cloud import AccountApi
 
 from examples.client import BASE_URL, client, run
 
 
 def main() -> None:
     with client() as api:
-        listing = KeysApi(api).get_keys()
+        listing = AccountApi(api).get_account_keys()
 
     keys = listing.keys or []
     print(f"hello from {BASE_URL}")
