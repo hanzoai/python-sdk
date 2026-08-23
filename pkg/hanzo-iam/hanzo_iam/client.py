@@ -145,7 +145,7 @@ class IAMClient:
         if self._openid_config is None:
             response = self.http.get(OIDC_DISCOVERY_PATH)
             response.raise_for_status()
-            self._openid_config = response.json()
+            self._openid_config = routes.decode(response)
         return self._openid_config
 
     def get_jwks(self) -> dict:
@@ -156,7 +156,7 @@ class IAMClient:
         """
         response = self.http.get(OIDC_JWKS_PATH)
         response.raise_for_status()
-        return response.json()
+        return routes.decode(response)
 
     # =========================================================================
     # Authorization Code Flow
@@ -239,7 +239,7 @@ class IAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
+        return TokenResponse.model_validate(routes.decode(response))
 
     def refresh_token(self, refresh_token: str) -> TokenResponse:
         """Refresh access token using refresh token.
@@ -263,7 +263,7 @@ class IAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
+        return TokenResponse.model_validate(routes.decode(response))
 
     # =========================================================================
     # Client Credentials Flow (M2M)
@@ -291,7 +291,7 @@ class IAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
+        return TokenResponse.model_validate(routes.decode(response))
 
     # =========================================================================
     # Token Validation
@@ -322,7 +322,7 @@ class IAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return response.json()
+        return routes.decode(response)
 
     # =========================================================================
     # User Info
@@ -342,7 +342,7 @@ class IAMClient:
             headers={"Authorization": f"Bearer {access_token}"},
         )
         response.raise_for_status()
-        return UserInfo.model_validate(response.json())
+        return UserInfo.model_validate(routes.decode(response))
 
     # =========================================================================
     # Admin Auth Helpers
@@ -381,7 +381,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user"))
@@ -404,7 +404,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get users"))
@@ -428,7 +428,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get application"))
@@ -480,7 +480,7 @@ class IAMClient:
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", f"Failed to {action}"))
@@ -507,7 +507,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get organizations"))
@@ -533,7 +533,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get organization"))
@@ -563,7 +563,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get providers"))
@@ -593,7 +593,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get roles"))
@@ -635,7 +635,7 @@ class IAMClient:
             json=payload,
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to set password"))
@@ -665,7 +665,7 @@ class IAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get applications"))
@@ -688,7 +688,7 @@ class IAMClient:
             json=application.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to update application"))
@@ -719,7 +719,7 @@ class IAMClient:
 
         response = self.http.post(f"{IAM_ROUTE_PREFIX}/login", json=payload)
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") != "ok":
             raise ValueError(data.get("msg", "Login failed"))
