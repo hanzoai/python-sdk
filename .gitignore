@@ -79,3 +79,6 @@ playwright-report/
 test-results/
 tmp/
 .DS_Store
+
+# local vector store — never committed
+pkg/hanzo-memory/data/
