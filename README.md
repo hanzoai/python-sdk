@@ -12,13 +12,8 @@ and sha256 of the document this tree was cut from.
 ## Install
 
 ```bash
-pip install hanzoai==3.2.13
+pip install hanzoai
 ```
-
-3.2.1 and earlier predate the rename that dropped the default version from the
-document's operation ids — their methods are `get_v1_keys` and `get_v1_tools`
-where the current ones are `get_keys` and `get_tools`. Pin 3.2.13 or later and
-the names on this page are the names you get.
 
 Check the install without a key — `GET /v1/models` is public:
 
