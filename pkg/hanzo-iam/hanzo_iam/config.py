@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from hanzo_iam.models import (
     OIDC_AUTHORIZE_PATH,
+    Organization,
     OIDC_DEVICE_PATH,
     OIDC_JWKS_PATH,
     OIDC_TOKEN_PATH,
@@ -32,53 +33,44 @@ class IAMConfig(BaseModel):
     server_url: str = Field(description="IAM server URL (e.g., https://hanzo.id)")
     client_id: str = Field(description="OAuth2 client ID")
     client_secret: str = Field(default="", description="OAuth2 client secret")
-    organization: str = Field(default="hanzo", description="IAM organization name")
+    organization: str = Field(description="IAM organization name — the tenant this client acts in")
     application: str = Field(default="app", description="IAM application name")
     certificate: str = Field(
         default="", description="JWT verification certificate (PEM)"
     )
 
     @classmethod
-    def from_env(cls, prefix: str | None = None) -> IAMConfig:
-        """Create config from environment variables.
+    def from_env(cls, org: Organization = Organization.HANZO, prefix: str | None = None) -> IAMConfig:
+        """Read configuration from the environment. The one reader.
 
-        The canonical prefix is ``IAM_`` (no upstream-brand aliases, no
-        per-org variants). The ``prefix`` argument exists for advanced
-        callers that scope multiple IAM clients in a single process; new
-        code should leave it at the default.
+        The canonical prefix is ``IAM_``: no upstream-brand aliases, no per-org
+        variants. ``org`` seeds the endpoint and the tenant when the environment
+        names neither, so a Zoo process that exports nothing reaches zoo.id as
+        zoo rather than hanzo.id as hanzo. ``prefix`` exists for a process that
+        scopes more than one IAM client; new code leaves it alone.
 
-        Environment variables (with the default prefix):
-            IAM_ENDPOINT - IAM server URL (preferred)
-            IAM_CLIENT_ID - OAuth2 client ID
-            IAM_CLIENT_SECRET - OAuth2 client secret
-            IAM_ORG - Organization name
-            IAM_APP - Application name
-            IAM_CERT - JWT verification certificate (PEM content or file path)
+            IAM_ENDPOINT        server URL, default ``org.iam_url``
+            IAM_CLIENT_ID       OAuth2 client id
+            IAM_CLIENT_SECRET   OAuth2 client secret
+            IAM_ORG             tenant, default ``org.value``
+            IAM_APP             application, default ``app``
+            IAM_CERT            JWT verification certificate, content or path
         """
         p = prefix or cls.ENV_PREFIX
 
-        server_url = os.environ.get(f"{p}ENDPOINT", "")
-        client_id = os.environ.get(f"{p}CLIENT_ID", "")
-        client_secret = os.environ.get(f"{p}CLIENT_SECRET", "")
-        organization = os.environ.get(f"{p}ORG", "hanzo")
-        application = os.environ.get(f"{p}APP", "app")
-
-        # Certificate can be content or file path
-        cert_val = os.environ.get(f"{p}CERT", "")
-        if cert_val and not cert_val.startswith("-----BEGIN"):
-            # Treat as file path
-            cert_path = os.path.expanduser(cert_val)
-            if os.path.isfile(cert_path):
-                with open(cert_path) as f:
-                    cert_val = f.read()
+        cert = os.environ.get(f"{p}CERT", "")
+        if cert and not cert.startswith("-----BEGIN"):
+            path = os.path.expanduser(cert)
+            if os.path.isfile(path):
+                cert = open(path).read()
 
         return cls(
-            server_url=server_url,
-            client_id=client_id,
-            client_secret=client_secret,
-            organization=organization,
-            application=application,
-            certificate=cert_val,
+            server_url=os.environ.get(f"{p}ENDPOINT", org.iam_url),
+            client_id=os.environ.get(f"{p}CLIENT_ID", ""),
+            client_secret=os.environ.get(f"{p}CLIENT_SECRET", ""),
+            organization=os.environ.get(f"{p}ORG", org.value),
+            application=os.environ.get(f"{p}APP", "app"),
+            certificate=cert,
         )
 
     @property
