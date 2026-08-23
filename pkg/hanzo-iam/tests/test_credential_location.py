@@ -89,3 +89,29 @@ def test_a_bearer_replaces_the_pair():
         pass
 
     assert seen_auth["value"] == "Bearer tok"
+
+
+@pytest.mark.asyncio
+async def test_the_async_client_puts_it_in_the_same_place():
+    """AsyncIAMClient is the exported one, and it had the same leak."""
+    from hanzo_iam import AsyncIAMClient
+
+    captured = {}
+
+    def handler(request):
+        captured["request"] = request
+        return httpx.Response(200, json={"status": "ok", "data": {}, "data2": []})
+
+    c = AsyncIAMClient(config=CONFIG)
+    c._http = httpx.AsyncClient(
+        base_url=CONFIG.base_url, transport=httpx.MockTransport(handler)
+    )
+    try:
+        await c.get_users()
+    except Exception:
+        pass
+
+    request = captured["request"]
+    assert request.headers["Authorization"] == basic("app-id", "app-secret")
+    assert "app-secret" not in str(request.url.query)
+    assert "clientSecret" not in str(request.url.query)
