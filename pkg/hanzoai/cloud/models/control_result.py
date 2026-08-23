@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.event_view import EventView
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class ControlResult(BaseModel):
     """
-    Listing
+    ControlResult
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    command: Optional[StrictStr] = Field(default=None, description="Command is the verb that was recorded: pause, resume, stop or message.")
+    event: Optional[EventView] = Field(default=None, description="Event is the durable control event the command became. The intent is recorded whether or not it reached an engine, which is what makes a stream-consuming surface able to act on it.")
+    forwarded: Optional[StrictBool] = Field(default=None, description="Forwarded is whether the command also reached the durable-execution engine. FALSE IS NOT A FAILURE: a session with no workflow link, or a deployment with no tasks backend, is record-only by design. A forward that was attempted and failed is a 502, never a false here.")
+    __properties: ClassVar[List[str]] = ["command", "event", "forwarded"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of ControlResult from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +71,14 @@ class Listing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of event
+        if self.event:
+            _dict['event'] = self.event.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of ControlResult from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +86,9 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "command": obj.get("command"),
+            "event": EventView.from_dict(obj["event"]) if obj.get("event") is not None else None,
+            "forwarded": obj.get("forwarded")
         })
         return _obj
 

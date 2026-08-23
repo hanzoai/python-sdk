@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class DeployHealth(BaseModel):
     """
-    Listing
+    DeployHealth
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    crd: Optional[StrictBool] = Field(default=None, description="CRD reports whether the App custom resource is served and listable. Absent when the apiserver was unreachable, because then it is unknown rather than false.")
+    k8s: Optional[StrictBool] = Field(default=None, description="K8s reports whether the Kubernetes API is reachable. Absent when the probe did not get far enough to find out.")
+    service: Optional[StrictStr] = Field(default=None, description="Service names the subsystem answering, so a probe response is attributable when several are collected together.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is `ok` when this deployment can serve the delivery plane, and `degraded` otherwise. It agrees with the HTTP status by construction — see StatusCode.")
+    __properties: ClassVar[List[str]] = ["crd", "k8s", "service", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of DeployHealth from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +75,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of DeployHealth from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +83,10 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "crd": obj.get("crd"),
+            "k8s": obj.get("k8s"),
+            "service": obj.get("service"),
+            "status": obj.get("status")
         })
         return _obj
 

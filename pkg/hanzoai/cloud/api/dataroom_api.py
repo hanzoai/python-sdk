@@ -26,6 +26,7 @@ from hanzoai.cloud.models.dataroom_link_create import DataroomLinkCreate
 from hanzoai.cloud.models.dataroom_link_one import DataroomLinkOne
 from hanzoai.cloud.models.dataroom_link_stats import DataroomLinkStats
 from hanzoai.cloud.models.dataroom_links import DataroomLinks
+from hanzoai.cloud.models.dataroom_liveness import DataroomLiveness
 from hanzoai.cloud.models.dataroom_membership import DataroomMembership
 from hanzoai.cloud.models.dataroom_room_detail_one import DataroomRoomDetailOne
 from hanzoai.cloud.models.dataroom_room_one import DataroomRoomOne
@@ -1863,10 +1864,10 @@ class DataroomApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Liveness of the dataroom subsystem
+    ) -> DataroomLiveness:
+        """Health reports that the data room subsystem is up.
 
-        Answers {service, status} unconditionally — no principal, no tenant. It is registered BEFORE the bundle, the link index and the object-storage seam are wired, so it keeps answering when any of those fail and the subsystem degrades to health-only. That is the point, and the limit: a 200 here says the process is alive, never that a data room can be read or written.
+        Health reports that the data room subsystem is up.  It answers before the bundle loads, holds no state and touches no store, so it stays true in exactly the situation an operator is probing for. It says nothing about whether a room can be OPENED — that is what the room operations answer — because a liveness probe that fails on a dependency takes a working process out of rotation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1898,6 +1899,7 @@ class DataroomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DataroomLiveness",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1925,10 +1927,10 @@ class DataroomApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Liveness of the dataroom subsystem
+    ) -> ApiResponse[DataroomLiveness]:
+        """Health reports that the data room subsystem is up.
 
-        Answers {service, status} unconditionally — no principal, no tenant. It is registered BEFORE the bundle, the link index and the object-storage seam are wired, so it keeps answering when any of those fail and the subsystem degrades to health-only. That is the point, and the limit: a 200 here says the process is alive, never that a data room can be read or written.
+        Health reports that the data room subsystem is up.  It answers before the bundle loads, holds no state and touches no store, so it stays true in exactly the situation an operator is probing for. It says nothing about whether a room can be OPENED — that is what the room operations answer — because a liveness probe that fails on a dependency takes a working process out of rotation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1960,6 +1962,7 @@ class DataroomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DataroomLiveness",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1988,9 +1991,9 @@ class DataroomApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Liveness of the dataroom subsystem
+        """Health reports that the data room subsystem is up.
 
-        Answers {service, status} unconditionally — no principal, no tenant. It is registered BEFORE the bundle, the link index and the object-storage seam are wired, so it keeps answering when any of those fail and the subsystem degrades to health-only. That is the point, and the limit: a 200 here says the process is alive, never that a data room can be read or written.
+        Health reports that the data room subsystem is up.  It answers before the bundle loads, holds no state and touches no store, so it stays true in exactly the situation an operator is probing for. It says nothing about whether a room can be OPENED — that is what the room operations answer — because a liveness probe that fails on a dependency takes a working process out of rotation.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2022,6 +2025,7 @@ class DataroomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DataroomLiveness",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2059,6 +2063,13 @@ class DataroomApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4490,7 +4501,7 @@ class DataroomApi:
     ) -> None:
         """Upload a document's bytes and record it
 
-        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage seam, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4552,7 +4563,7 @@ class DataroomApi:
     ) -> ApiResponse[None]:
         """Upload a document's bytes and record it
 
-        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage seam, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4614,7 +4625,7 @@ class DataroomApi:
     ) -> RESTResponseType:
         """Upload a document's bytes and record it
 
-        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage seam, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
+        Takes the file ITSELF as the raw request body — not a JSON envelope, not multipart — stores it on the object-storage client, and records the metadata row, answering with the new document. `?name=` names it (default \"document\"), the request's Content-Type becomes the recorded mime type, and `?numPages=` is optional.  Requires a validated principal; 403 without one. An empty body is 400 and anything over 64 MiB is 413 — a data room holds decks and PDFs, not a media library.  The storage key is 128 random bits under the tenant's own key prefix, minted before the bytes are written: if the system's randomness is unavailable the upload fails 500 rather than fall back to a predictable key that could overwrite another document's bytes. A storage write that fails is 502 and no metadata row is recorded, so a document never exists without its file.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

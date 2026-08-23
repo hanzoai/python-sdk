@@ -17,18 +17,31 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.cd_app import CDApp
+from hanzoai.cloud.models.declare_env import DeclareEnv
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class Declared(BaseModel):
     """
-    Listing
+    Declared
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
+    application: Optional[StrictStr] = None
+    automated: Optional[StrictBool] = None
+    cd: Optional[CDApp] = None
+    digest: Optional[StrictStr] = None
+    env: Optional[List[DeclareEnv]] = None
+    hosts: Optional[List[StrictStr]] = None
     name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    org: Optional[StrictStr] = None
+    path: Optional[StrictStr] = None
+    project: Optional[StrictStr] = None
+    replicas: Optional[StrictInt] = None
+    repository: Optional[StrictStr] = None
+    tag: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["application", "automated", "cd", "digest", "env", "hosts", "name", "org", "path", "project", "replicas", "repository", "tag"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +61,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of Declared from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +82,21 @@ class Listing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of cd
+        if self.cd:
+            _dict['cd'] = self.cd.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in env (list)
+        _items = []
+        if self.env:
+            for _item_env in self.env:
+                if _item_env:
+                    _items.append(_item_env.to_dict())
+            _dict['env'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of Declared from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +104,19 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "application": obj.get("application"),
+            "automated": obj.get("automated"),
+            "cd": CDApp.from_dict(obj["cd"]) if obj.get("cd") is not None else None,
+            "digest": obj.get("digest"),
+            "env": [DeclareEnv.from_dict(_item) for _item in obj["env"]] if obj.get("env") is not None else None,
+            "hosts": obj.get("hosts"),
+            "name": obj.get("name"),
+            "org": obj.get("org"),
+            "path": obj.get("path"),
+            "project": obj.get("project"),
+            "replicas": obj.get("replicas"),
+            "repository": obj.get("repository"),
+            "tag": obj.get("tag")
         })
         return _obj
 

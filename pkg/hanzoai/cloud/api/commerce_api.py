@@ -1802,9 +1802,10 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_commerce_rates_entries_by_slug(
+    def delete_commerce_rates_entries_by_product_by_meter(
         self,
-        slug: StrictStr,
+        product: StrictStr,
+        meter: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1822,8 +1823,10 @@ class CommerceApi:
 
         Deletes the row. ARCHIVING is usually what is wanted instead — a deleted rate cannot price a historical charge, so a past invoice that has to re-resolve its rate finds nothing to read. Reach for status=archived unless the rate never priced anything. SuperAdmin only.
 
-        :param slug: (required)
-        :type slug: str
+        :param product: (required)
+        :type product: str
+        :param meter: (required)
+        :type meter: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1846,8 +1849,9 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_commerce_rates_entries_by_slug_serialize(
-            slug=slug,
+        _param = self._delete_commerce_rates_entries_by_product_by_meter_serialize(
+            product=product,
+            meter=meter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1868,9 +1872,10 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_commerce_rates_entries_by_slug_with_http_info(
+    def delete_commerce_rates_entries_by_product_by_meter_with_http_info(
         self,
-        slug: StrictStr,
+        product: StrictStr,
+        meter: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1888,8 +1893,10 @@ class CommerceApi:
 
         Deletes the row. ARCHIVING is usually what is wanted instead — a deleted rate cannot price a historical charge, so a past invoice that has to re-resolve its rate finds nothing to read. Reach for status=archived unless the rate never priced anything. SuperAdmin only.
 
-        :param slug: (required)
-        :type slug: str
+        :param product: (required)
+        :type product: str
+        :param meter: (required)
+        :type meter: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1912,8 +1919,9 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_commerce_rates_entries_by_slug_serialize(
-            slug=slug,
+        _param = self._delete_commerce_rates_entries_by_product_by_meter_serialize(
+            product=product,
+            meter=meter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1934,9 +1942,10 @@ class CommerceApi:
 
 
     @validate_call
-    def delete_commerce_rates_entries_by_slug_without_preload_content(
+    def delete_commerce_rates_entries_by_product_by_meter_without_preload_content(
         self,
-        slug: StrictStr,
+        product: StrictStr,
+        meter: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1954,8 +1963,10 @@ class CommerceApi:
 
         Deletes the row. ARCHIVING is usually what is wanted instead — a deleted rate cannot price a historical charge, so a past invoice that has to re-resolve its rate finds nothing to read. Reach for status=archived unless the rate never priced anything. SuperAdmin only.
 
-        :param slug: (required)
-        :type slug: str
+        :param product: (required)
+        :type product: str
+        :param meter: (required)
+        :type meter: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1978,8 +1989,9 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_commerce_rates_entries_by_slug_serialize(
-            slug=slug,
+        _param = self._delete_commerce_rates_entries_by_product_by_meter_serialize(
+            product=product,
+            meter=meter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1995,9 +2007,10 @@ class CommerceApi:
         return response_data.response
 
 
-    def _delete_commerce_rates_entries_by_slug_serialize(
+    def _delete_commerce_rates_entries_by_product_by_meter_serialize(
         self,
-        slug,
+        product,
+        meter,
         _request_auth,
         _content_type,
         _headers,
@@ -2019,8 +2032,10 @@ class CommerceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if slug is not None:
-            _path_params['slug'] = slug
+        if product is not None:
+            _path_params['product'] = product
+        if meter is not None:
+            _path_params['meter'] = meter
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -2036,7 +2051,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='DELETE',
-            resource_path='/v1/commerce/rates/entries/{slug}',
+            resource_path='/v1/commerce/rates/entries/{product}/{meter}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -28450,7 +28465,7 @@ class CommerceApi:
     ) -> None:
         """Load the published price document, reconciling rather than replacing
 
-        Takes an array of rates and seeds the authority from it. This is the seed, driven from admin rather than compiled in, because 506 published prices in an embed made a price change wait for a build. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
+        Takes an array of rates and seeds the authority from it — the same reconcile the boot catalog runs, driven from admin instead. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28512,7 +28527,7 @@ class CommerceApi:
     ) -> ApiResponse[None]:
         """Load the published price document, reconciling rather than replacing
 
-        Takes an array of rates and seeds the authority from it. This is the seed, driven from admin rather than compiled in, because 506 published prices in an embed made a price change wait for a build. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
+        Takes an array of rates and seeds the authority from it — the same reconcile the boot catalog runs, driven from admin instead. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28574,7 +28589,7 @@ class CommerceApi:
     ) -> RESTResponseType:
         """Load the published price document, reconciling rather than replacing
 
-        Takes an array of rates and seeds the authority from it. This is the seed, driven from admin rather than compiled in, because 506 published prices in an embed made a price change wait for a build. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
+        Takes an array of rates and seeds the authority from it — the same reconcile the boot catalog runs, driven from admin instead. It RECONCILES: a row that matches is left alone, a row that has drifted is corrected, and a row an operator edited is skipped — so importing the same document twice is a no-op and importing a corrected one moves exactly the rows that changed. Answers what it received, created, corrected and left unchanged, so an import that changes nothing reads as nothing to do rather than as a failure. An empty array is refused 400. SuperAdmin only.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -40908,9 +40923,10 @@ class CommerceApi:
 
 
     @validate_call
-    def put_commerce_rates_entries_by_slug(
+    def put_commerce_rates_entries_by_product_by_meter(
         self,
-        slug: StrictStr,
+        product: StrictStr,
+        meter: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40928,8 +40944,10 @@ class CommerceApi:
 
         Edits one rate and MARKS it edited, which is the whole contract with the importer: an operator's price outranks the document it came from, so a later import leaves this row alone. Without that mark a price set here would apply, work, and silently revert on the next import. Only the editable fields move; identity and bookkeeping are not writable from the body. SuperAdmin only.
 
-        :param slug: (required)
-        :type slug: str
+        :param product: (required)
+        :type product: str
+        :param meter: (required)
+        :type meter: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40952,8 +40970,9 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_commerce_rates_entries_by_slug_serialize(
-            slug=slug,
+        _param = self._put_commerce_rates_entries_by_product_by_meter_serialize(
+            product=product,
+            meter=meter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40974,9 +40993,10 @@ class CommerceApi:
 
 
     @validate_call
-    def put_commerce_rates_entries_by_slug_with_http_info(
+    def put_commerce_rates_entries_by_product_by_meter_with_http_info(
         self,
-        slug: StrictStr,
+        product: StrictStr,
+        meter: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40994,8 +41014,10 @@ class CommerceApi:
 
         Edits one rate and MARKS it edited, which is the whole contract with the importer: an operator's price outranks the document it came from, so a later import leaves this row alone. Without that mark a price set here would apply, work, and silently revert on the next import. Only the editable fields move; identity and bookkeeping are not writable from the body. SuperAdmin only.
 
-        :param slug: (required)
-        :type slug: str
+        :param product: (required)
+        :type product: str
+        :param meter: (required)
+        :type meter: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41018,8 +41040,9 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_commerce_rates_entries_by_slug_serialize(
-            slug=slug,
+        _param = self._put_commerce_rates_entries_by_product_by_meter_serialize(
+            product=product,
+            meter=meter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41040,9 +41063,10 @@ class CommerceApi:
 
 
     @validate_call
-    def put_commerce_rates_entries_by_slug_without_preload_content(
+    def put_commerce_rates_entries_by_product_by_meter_without_preload_content(
         self,
-        slug: StrictStr,
+        product: StrictStr,
+        meter: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41060,8 +41084,10 @@ class CommerceApi:
 
         Edits one rate and MARKS it edited, which is the whole contract with the importer: an operator's price outranks the document it came from, so a later import leaves this row alone. Without that mark a price set here would apply, work, and silently revert on the next import. Only the editable fields move; identity and bookkeeping are not writable from the body. SuperAdmin only.
 
-        :param slug: (required)
-        :type slug: str
+        :param product: (required)
+        :type product: str
+        :param meter: (required)
+        :type meter: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41084,8 +41110,9 @@ class CommerceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_commerce_rates_entries_by_slug_serialize(
-            slug=slug,
+        _param = self._put_commerce_rates_entries_by_product_by_meter_serialize(
+            product=product,
+            meter=meter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41101,9 +41128,10 @@ class CommerceApi:
         return response_data.response
 
 
-    def _put_commerce_rates_entries_by_slug_serialize(
+    def _put_commerce_rates_entries_by_product_by_meter_serialize(
         self,
-        slug,
+        product,
+        meter,
         _request_auth,
         _content_type,
         _headers,
@@ -41125,8 +41153,10 @@ class CommerceApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if slug is not None:
-            _path_params['slug'] = slug
+        if product is not None:
+            _path_params['product'] = product
+        if meter is not None:
+            _path_params['meter'] = meter
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -41142,7 +41172,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='PUT',
-            resource_path='/v1/commerce/rates/entries/{slug}',
+            resource_path='/v1/commerce/rates/entries/{product}/{meter}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

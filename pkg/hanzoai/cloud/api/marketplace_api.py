@@ -1082,7 +1082,7 @@ class MarketplaceApi:
     ) -> Listing:
         """Publish offers one tool on the marketplace, optionally monetized.
 
-        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 seam settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
+        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 client settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
 
         :param publish_req: (required)
         :type publish_req: PublishReq
@@ -1149,7 +1149,7 @@ class MarketplaceApi:
     ) -> ApiResponse[Listing]:
         """Publish offers one tool on the marketplace, optionally monetized.
 
-        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 seam settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
+        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 client settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
 
         :param publish_req: (required)
         :type publish_req: PublishReq
@@ -1216,7 +1216,7 @@ class MarketplaceApi:
     ) -> RESTResponseType:
         """Publish offers one tool on the marketplace, optionally monetized.
 
-        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 seam settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
+        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 client settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
 
         :param publish_req: (required)
         :type publish_req: PublishReq

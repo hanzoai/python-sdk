@@ -17,18 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class BaseView(BaseModel):
     """
-    Listing
+    BaseView
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    bytes: Optional[StrictInt] = Field(default=None, description="Bytes is the store's size on disk, present only once it exists. It is what this Base occupies, not a quota.")
+    exists: Optional[StrictBool] = Field(default=None, description="Exists reports whether this Base's store has been provisioned. False is an org nobody has stored anything for yet, which is a state to name rather than an error: the store is created the first time anything writes.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the org this Base belongs to. It is the address every other Base call is scoped by, and a Base has no name of its own.")
+    __properties: ClassVar[List[str]] = ["bytes", "exists", "org"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of BaseView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +74,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of BaseView from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +82,9 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "bytes": obj.get("bytes"),
+            "exists": obj.get("exists"),
+            "org": obj.get("org")
         })
         return _obj
 

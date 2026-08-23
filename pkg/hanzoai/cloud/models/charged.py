@@ -17,18 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class Charged(BaseModel):
     """
-    Listing
+    Charged
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    balance_cents: Optional[StrictInt] = Field(default=None, description="BalanceCents is the subject's balance AFTER the charge settled, in cents, so a caller does not have to re-read to show the new number.", alias="balanceCents")
+    processor_ref: Optional[StrictStr] = Field(default=None, description="ProcessorRef is the payment processor's own reference. It is the only field that proves money moved at the GATEWAY rather than merely in our ledger, which is why it is answered and not only logged. Absent where the processor returned none.", alias="processorRef")
+    status: Optional[StrictStr] = Field(default=None, description="Status is how the charge ended. Read it rather than inferring success from the HTTP status: the call succeeded whenever this field is present, and what the PROCESSOR did is what this says.")
+    test: Optional[StrictBool] = Field(default=None, description="Test states which bucket was credited — sandbox money or real money — so no reader has to guess whether a receipt is real. Sandbox and live funds are physically separate ledgers, and a reader that conflates them restates the company's revenue.")
+    transaction_id: Optional[StrictStr] = Field(default=None, description="TransactionID is the ledger entry this charge created. It is the handle a later read or a refund names, and it is minted by the ledger rather than by the caller.", alias="transactionId")
+    __properties: ClassVar[List[str]] = ["balanceCents", "processorRef", "status", "test", "transactionId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +51,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of Charged from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +76,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of Charged from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +84,11 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "balanceCents": obj.get("balanceCents"),
+            "processorRef": obj.get("processorRef"),
+            "status": obj.get("status"),
+            "test": obj.get("test"),
+            "transactionId": obj.get("transactionId")
         })
         return _obj
 

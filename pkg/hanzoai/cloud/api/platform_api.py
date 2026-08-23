@@ -22,7 +22,11 @@ from typing_extensions import Annotated
 from hanzoai.cloud.models.add_domain_req import AddDomainReq
 from hanzoai.cloud.models.app_view import AppView
 from hanzoai.cloud.models.build_board import BuildBoard
+from hanzoai.cloud.models.cd_app import CDApp
+from hanzoai.cloud.models.cd_resp import CdResp
 from hanzoai.cloud.models.create_app_req import CreateAppReq
+from hanzoai.cloud.models.declaration import Declaration
+from hanzoai.cloud.models.declared_resp import DeclaredResp
 from hanzoai.cloud.models.deploy_logs import DeployLogs
 from hanzoai.cloud.models.deploy_req import DeployReq
 from hanzoai.cloud.models.deployment_view import DeploymentView
@@ -621,6 +625,7 @@ class PlatformApi:
     @validate_call
     def get_platform_apps(
         self,
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -633,11 +638,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """What this organization has declared, and what CD did with it
+    ) -> DeclaredResp:
+        """Answers what this organisation has declared, joined with what the delivery plane has done about it.
 
-        Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation.
 
+        :param org: Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -661,6 +668,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._get_platform_apps_serialize(
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -668,6 +676,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeclaredResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -683,6 +692,7 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_with_http_info(
         self,
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -695,11 +705,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """What this organization has declared, and what CD did with it
+    ) -> ApiResponse[DeclaredResp]:
+        """Answers what this organisation has declared, joined with what the delivery plane has done about it.
 
-        Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation.
 
+        :param org: Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -723,6 +735,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._get_platform_apps_serialize(
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -730,6 +743,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeclaredResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -745,6 +759,7 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_without_preload_content(
         self,
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -758,10 +773,12 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """What this organization has declared, and what CD did with it
+        """Answers what this organisation has declared, joined with what the delivery plane has done about it.
 
-        Returns the declarations in the caller's own org directory, each joined with the Hanzo CD Application reconciling it — sync verdict, health, the universe commit last applied. `cd` is null for a declaration the delivery plane has no Application for, which is the normal state of one that exists only on a branch.  If the delivery plane cannot be read, the declarations are still returned and `cdUnavailable` says why. An unreadable plane never renders as \"nothing has been reconciled\".
+        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation.
 
+        :param org: Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -785,6 +802,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._get_platform_apps_serialize(
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -792,6 +810,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeclaredResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -802,6 +821,7 @@ class PlatformApi:
 
     def _get_platform_apps_serialize(
         self,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -824,11 +844,22 @@ class PlatformApi:
 
         # process the path parameters
         # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -857,7 +888,8 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_by_app(
         self,
-        app: StrictStr,
+        app: Annotated[StrictStr, Field(description="App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -870,13 +902,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """One declaration
+    ) -> Declaration:
+        """Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
-        The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+        Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
-        :param app: (required)
+        :param app: App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent. (required)
         :type app: str
+        :param org: Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -901,6 +935,7 @@ class PlatformApi:
 
         _param = self._get_platform_apps_by_app_serialize(
             app=app,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -908,6 +943,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Declaration",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -923,7 +959,8 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_by_app_with_http_info(
         self,
-        app: StrictStr,
+        app: Annotated[StrictStr, Field(description="App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -936,13 +973,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """One declaration
+    ) -> ApiResponse[Declaration]:
+        """Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
-        The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+        Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
-        :param app: (required)
+        :param app: App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent. (required)
         :type app: str
+        :param org: Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -967,6 +1006,7 @@ class PlatformApi:
 
         _param = self._get_platform_apps_by_app_serialize(
             app=app,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -974,6 +1014,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Declaration",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -989,7 +1030,8 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_by_app_without_preload_content(
         self,
-        app: StrictStr,
+        app: Annotated[StrictStr, Field(description="App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1003,12 +1045,14 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """One declaration
+        """Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
-        The values file for one app as git declares it: image repository and tag, hosts, replicas, and whether CD is automated on it. 404 when this organization declares no such app.
+        Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
-        :param app: (required)
+        :param app: App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent. (required)
         :type app: str
+        :param org: Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1033,6 +1077,7 @@ class PlatformApi:
 
         _param = self._get_platform_apps_by_app_serialize(
             app=app,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1040,6 +1085,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Declaration",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1051,6 +1097,7 @@ class PlatformApi:
     def _get_platform_apps_by_app_serialize(
         self,
         app,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -1075,11 +1122,22 @@ class PlatformApi:
         if app is not None:
             _path_params['app'] = app
         # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1108,7 +1166,8 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_by_app_cd(
         self,
-        app: StrictStr,
+        app: Annotated[StrictStr, Field(description="App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1121,13 +1180,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """One app's reconciliation
+    ) -> CDApp:
+        """Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
-        The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+        Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
-        :param app: (required)
+        :param app: App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent. (required)
         :type app: str
+        :param org: Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1152,6 +1213,7 @@ class PlatformApi:
 
         _param = self._get_platform_apps_by_app_cd_serialize(
             app=app,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1159,6 +1221,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CDApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1174,7 +1237,8 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_by_app_cd_with_http_info(
         self,
-        app: StrictStr,
+        app: Annotated[StrictStr, Field(description="App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1187,13 +1251,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """One app's reconciliation
+    ) -> ApiResponse[CDApp]:
+        """Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
-        The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+        Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
-        :param app: (required)
+        :param app: App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent. (required)
         :type app: str
+        :param org: Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1218,6 +1284,7 @@ class PlatformApi:
 
         _param = self._get_platform_apps_by_app_cd_serialize(
             app=app,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1225,6 +1292,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CDApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1240,7 +1308,8 @@ class PlatformApi:
     @validate_call
     def get_platform_apps_by_app_cd_without_preload_content(
         self,
-        app: StrictStr,
+        app: Annotated[StrictStr, Field(description="App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1254,12 +1323,14 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """One app's reconciliation
+        """Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
-        The Hanzo CD Application for one declaration, on its own — the poll a deploy view makes while it waits, without re-reading the whole inventory. 404 while the declaration exists only on a branch, because the generator reads main.
+        Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
-        :param app: (required)
+        :param app: App is the DNS-1123 label of the declaration. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which app is read whatever else is sent. (required)
         :type app: str
+        :param org: Org names the organisation the declaration lives in, defaulting to the caller's own and subject to the same SuperAdmin rule as the listing.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1284,6 +1355,7 @@ class PlatformApi:
 
         _param = self._get_platform_apps_by_app_cd_serialize(
             app=app,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1291,6 +1363,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CDApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1302,6 +1375,7 @@ class PlatformApi:
     def _get_platform_apps_by_app_cd_serialize(
         self,
         app,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -1326,11 +1400,22 @@ class PlatformApi:
         if app is not None:
             _path_params['app'] = app
         # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1617,10 +1702,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The delivery plane
+    ) -> CdResp:
+        """Answers every Application the delivery plane holds.
 
-        Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+        Answers every Application the delivery plane holds.  Scoped to the namespaces the caller's own validated org owns: the ROLE opens the door and the tenant boundary is applied inside, so an admin of one org never observes another's.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1652,6 +1737,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CdResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1679,10 +1765,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The delivery plane
+    ) -> ApiResponse[CdResp]:
+        """Answers every Application the delivery plane holds.
 
-        Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+        Answers every Application the delivery plane holds.  Scoped to the namespaces the caller's own validated org owns: the ROLE opens the door and the tenant boundary is applied inside, so an admin of one org never observes another's.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1714,6 +1800,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CdResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1742,9 +1829,9 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The delivery plane
+        """Answers every Application the delivery plane holds.
 
-        Every Hanzo CD Application this caller may observe, with its sync verdict, health, the universe revision last applied, and whether automation and self-heal are on. A SuperAdmin sees the fleet; an org admin sees only Applications whose destination namespace IS its own organization, and never a reserved one.  A cluster with no CD installed answers an empty plane. A plane that cannot be READ answers 503 and says why — the two are opposite facts and never share a shape.
+        Answers every Application the delivery plane holds.  Scoped to the namespaces the caller's own validated org owns: the ROLE opens the door and the tenant boundary is applied inside, so an admin of one org never observes another's.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1776,6 +1863,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "CdResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1813,6 +1901,13 @@ class PlatformApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6375,7 +6470,7 @@ class PlatformApi:
     ) -> Verdict:
         """Receive a push from the forge and trigger its build
 
-        The forge's push-to-deploy door. git.hanzo.ai runs as a separate server, so its pushes never reach this fleet's own receive-pack; without this a push to the host we call canonical builds nothing. A verified push is handed to the SAME two seams a native push travels — the single-registrant deploy trigger, and the many-subscriber lifecycle stream that notifies and indexes — and the build decision itself stays downstream in the one place that knows what a push means.  PUBLIC at the JWT layer, because the forge carries no Hanzo session: AUTHENTICATION IS THE SIGNATURE. The HMAC covers the raw bytes and is verified BEFORE the payload is parsed, so an unauthenticated body is never decoded. The secret is read from KMS; a deployment that cannot read it answers 503 and processes nothing, rather than trusting a delivery it could not check. The body is read UNCOMPRESSED — a request declaring a Content-Encoding is refused 415 before it is touched, because decoding one is unbounded work bought with a few bytes and no credential. A bad signature is 401, a payload over 8 MiB is 413, and a malformed one 400.  A verified push that reaches both seams answers 200 with fired true and the NUMBER OF BUILDS it launched — zero is ordinary, since most pushes track no application, and it is the answer 'fired' cannot give. A push that could not be dispatched answers 500: the delivery page shows it red, and the Replay that prompts reaches a fresh attempt rather than being declined as already landed.  The deliveries deliberately ignored answer 200 with a reason and nothing else: a payload that is not a push, a ref DELETE (a zero `after` has no commit to build), a BOT-authored push (release automation pushes as the forge's own Actions user, and a release must never rebuild itself), a push from a forge namespace that maps to no org, and a redelivery of a push already fired. Branches and tags both reach the build trigger, because releases are cut by tag and filtering here would silently stop publishing.
+        The forge's push-to-deploy door. git.hanzo.ai runs as a separate server, so its pushes never reach this fleet's own receive-pack; without this a push to the host we call canonical builds nothing. A verified push is handed to the SAME two clients a native push travels — the single-registrant deploy trigger, and the many-subscriber lifecycle stream that notifies and indexes — and the build decision itself stays downstream in the one place that knows what a push means.  PUBLIC at the JWT layer, because the forge carries no Hanzo session: AUTHENTICATION IS THE SIGNATURE. The HMAC covers the raw bytes and is verified BEFORE the payload is parsed, so an unauthenticated body is never decoded. The secret is read from KMS; a deployment that cannot read it answers 503 and processes nothing, rather than trusting a delivery it could not check. The body is read UNCOMPRESSED — a request declaring a Content-Encoding is refused 415 before it is touched, because decoding one is unbounded work bought with a few bytes and no credential. A bad signature is 401, a payload over 8 MiB is 413, and a malformed one 400.  A verified push that reaches both clients answers 200 with fired true and the NUMBER OF BUILDS it launched — zero is ordinary, since most pushes track no application, and it is the answer 'fired' cannot give. A push that could not be dispatched answers 500: the delivery page shows it red, and the Replay that prompts reaches a fresh attempt rather than being declined as already landed.  The deliveries deliberately ignored answer 200 with a reason and nothing else: a payload that is not a push, a ref DELETE (a zero `after` has no commit to build), a BOT-authored push (release automation pushes as the forge's own Actions user, and a release must never rebuild itself), a push from a forge namespace that maps to no org, and a redelivery of a push already fired. Branches and tags both reach the build trigger, because releases are cut by tag and filtering here would silently stop publishing.
 
         :param push:
         :type push: Push
@@ -6442,7 +6537,7 @@ class PlatformApi:
     ) -> ApiResponse[Verdict]:
         """Receive a push from the forge and trigger its build
 
-        The forge's push-to-deploy door. git.hanzo.ai runs as a separate server, so its pushes never reach this fleet's own receive-pack; without this a push to the host we call canonical builds nothing. A verified push is handed to the SAME two seams a native push travels — the single-registrant deploy trigger, and the many-subscriber lifecycle stream that notifies and indexes — and the build decision itself stays downstream in the one place that knows what a push means.  PUBLIC at the JWT layer, because the forge carries no Hanzo session: AUTHENTICATION IS THE SIGNATURE. The HMAC covers the raw bytes and is verified BEFORE the payload is parsed, so an unauthenticated body is never decoded. The secret is read from KMS; a deployment that cannot read it answers 503 and processes nothing, rather than trusting a delivery it could not check. The body is read UNCOMPRESSED — a request declaring a Content-Encoding is refused 415 before it is touched, because decoding one is unbounded work bought with a few bytes and no credential. A bad signature is 401, a payload over 8 MiB is 413, and a malformed one 400.  A verified push that reaches both seams answers 200 with fired true and the NUMBER OF BUILDS it launched — zero is ordinary, since most pushes track no application, and it is the answer 'fired' cannot give. A push that could not be dispatched answers 500: the delivery page shows it red, and the Replay that prompts reaches a fresh attempt rather than being declined as already landed.  The deliveries deliberately ignored answer 200 with a reason and nothing else: a payload that is not a push, a ref DELETE (a zero `after` has no commit to build), a BOT-authored push (release automation pushes as the forge's own Actions user, and a release must never rebuild itself), a push from a forge namespace that maps to no org, and a redelivery of a push already fired. Branches and tags both reach the build trigger, because releases are cut by tag and filtering here would silently stop publishing.
+        The forge's push-to-deploy door. git.hanzo.ai runs as a separate server, so its pushes never reach this fleet's own receive-pack; without this a push to the host we call canonical builds nothing. A verified push is handed to the SAME two clients a native push travels — the single-registrant deploy trigger, and the many-subscriber lifecycle stream that notifies and indexes — and the build decision itself stays downstream in the one place that knows what a push means.  PUBLIC at the JWT layer, because the forge carries no Hanzo session: AUTHENTICATION IS THE SIGNATURE. The HMAC covers the raw bytes and is verified BEFORE the payload is parsed, so an unauthenticated body is never decoded. The secret is read from KMS; a deployment that cannot read it answers 503 and processes nothing, rather than trusting a delivery it could not check. The body is read UNCOMPRESSED — a request declaring a Content-Encoding is refused 415 before it is touched, because decoding one is unbounded work bought with a few bytes and no credential. A bad signature is 401, a payload over 8 MiB is 413, and a malformed one 400.  A verified push that reaches both clients answers 200 with fired true and the NUMBER OF BUILDS it launched — zero is ordinary, since most pushes track no application, and it is the answer 'fired' cannot give. A push that could not be dispatched answers 500: the delivery page shows it red, and the Replay that prompts reaches a fresh attempt rather than being declined as already landed.  The deliveries deliberately ignored answer 200 with a reason and nothing else: a payload that is not a push, a ref DELETE (a zero `after` has no commit to build), a BOT-authored push (release automation pushes as the forge's own Actions user, and a release must never rebuild itself), a push from a forge namespace that maps to no org, and a redelivery of a push already fired. Branches and tags both reach the build trigger, because releases are cut by tag and filtering here would silently stop publishing.
 
         :param push:
         :type push: Push
@@ -6509,7 +6604,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Receive a push from the forge and trigger its build
 
-        The forge's push-to-deploy door. git.hanzo.ai runs as a separate server, so its pushes never reach this fleet's own receive-pack; without this a push to the host we call canonical builds nothing. A verified push is handed to the SAME two seams a native push travels — the single-registrant deploy trigger, and the many-subscriber lifecycle stream that notifies and indexes — and the build decision itself stays downstream in the one place that knows what a push means.  PUBLIC at the JWT layer, because the forge carries no Hanzo session: AUTHENTICATION IS THE SIGNATURE. The HMAC covers the raw bytes and is verified BEFORE the payload is parsed, so an unauthenticated body is never decoded. The secret is read from KMS; a deployment that cannot read it answers 503 and processes nothing, rather than trusting a delivery it could not check. The body is read UNCOMPRESSED — a request declaring a Content-Encoding is refused 415 before it is touched, because decoding one is unbounded work bought with a few bytes and no credential. A bad signature is 401, a payload over 8 MiB is 413, and a malformed one 400.  A verified push that reaches both seams answers 200 with fired true and the NUMBER OF BUILDS it launched — zero is ordinary, since most pushes track no application, and it is the answer 'fired' cannot give. A push that could not be dispatched answers 500: the delivery page shows it red, and the Replay that prompts reaches a fresh attempt rather than being declined as already landed.  The deliveries deliberately ignored answer 200 with a reason and nothing else: a payload that is not a push, a ref DELETE (a zero `after` has no commit to build), a BOT-authored push (release automation pushes as the forge's own Actions user, and a release must never rebuild itself), a push from a forge namespace that maps to no org, and a redelivery of a push already fired. Branches and tags both reach the build trigger, because releases are cut by tag and filtering here would silently stop publishing.
+        The forge's push-to-deploy door. git.hanzo.ai runs as a separate server, so its pushes never reach this fleet's own receive-pack; without this a push to the host we call canonical builds nothing. A verified push is handed to the SAME two clients a native push travels — the single-registrant deploy trigger, and the many-subscriber lifecycle stream that notifies and indexes — and the build decision itself stays downstream in the one place that knows what a push means.  PUBLIC at the JWT layer, because the forge carries no Hanzo session: AUTHENTICATION IS THE SIGNATURE. The HMAC covers the raw bytes and is verified BEFORE the payload is parsed, so an unauthenticated body is never decoded. The secret is read from KMS; a deployment that cannot read it answers 503 and processes nothing, rather than trusting a delivery it could not check. The body is read UNCOMPRESSED — a request declaring a Content-Encoding is refused 415 before it is touched, because decoding one is unbounded work bought with a few bytes and no credential. A bad signature is 401, a payload over 8 MiB is 413, and a malformed one 400.  A verified push that reaches both clients answers 200 with fired true and the NUMBER OF BUILDS it launched — zero is ordinary, since most pushes track no application, and it is the answer 'fired' cannot give. A push that could not be dispatched answers 500: the delivery page shows it red, and the Replay that prompts reaches a fresh attempt rather than being declined as already landed.  The deliveries deliberately ignored answer 200 with a reason and nothing else: a payload that is not a push, a ref DELETE (a zero `after` has no commit to build), a BOT-authored push (release automation pushes as the forge's own Actions user, and a release must never rebuild itself), a push from a forge namespace that maps to no org, and a redelivery of a push already fired. Branches and tags both reach the build trigger, because releases are cut by tag and filtering here would silently stop publishing.
 
         :param push:
         :type push: Push

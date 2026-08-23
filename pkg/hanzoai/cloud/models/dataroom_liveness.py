@@ -22,13 +22,13 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class DataroomLiveness(BaseModel):
     """
-    Listing
+    DataroomLiveness
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    service: Optional[StrictStr] = Field(default=None, description="Service names the subsystem answering, so a probe response is attributable when several are collected together.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is `ok`. This probe has no degraded answer by design: it reports process liveness and nothing that could be false while the process serves.")
+    __properties: ClassVar[List[str]] = ["service", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +48,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of DataroomLiveness from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +73,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of DataroomLiveness from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +81,8 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "service": obj.get("service"),
+            "status": obj.get("status")
         })
         return _obj
 

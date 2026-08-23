@@ -22,13 +22,15 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class EventIn(BaseModel):
     """
-    Listing
+    EventIn
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    actor: Optional[StrictStr] = Field(default=None, description="Actor is who produced the turn. Empty takes the validated caller, which is what an agent writing its own transcript wants; naming one is for a surface recording on somebody else's behalf.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the session to append to, from the path.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what this turn IS: message, tool-call, spawn, log, status or control. Anything else is refused — the vocabulary is closed so a reader can branch on it.")
+    payload: Optional[Any] = None
+    __properties: ClassVar[List[str]] = ["actor", "id", "kind", "payload"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of EventIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +71,16 @@ class Listing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if payload (nullable) is None
+        # and model_fields_set contains the field
+        if self.payload is None and "payload" in self.model_fields_set:
+            _dict['payload'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of EventIn from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +88,10 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "actor": obj.get("actor"),
+            "id": obj.get("id"),
+            "kind": obj.get("kind"),
+            "payload": obj.get("payload")
         })
         return _obj
 
