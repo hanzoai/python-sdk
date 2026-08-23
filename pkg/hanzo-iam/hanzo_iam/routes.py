@@ -29,6 +29,8 @@ surface only.
 
 from __future__ import annotations
 
+import httpx
+
 from typing import Any
 
 # --- native admin routes -----------------------------------------------------
@@ -58,6 +60,30 @@ LIST_KEY = {
     PROVIDERS: "providers",
     ROLES: "roles",
 }
+
+
+class IAMError(Exception):
+    """An IAM call did not produce a value."""
+
+
+def decode(response: httpx.Response) -> Any:
+    """The wire decision, before the envelope decision: is this JSON at all?
+
+    hanzo.id serves its sign-in SPA on every unmatched path, so a wrong path
+    answers 200 text/html. A decoder that trusts the status code then dies
+    inside .json() with a byte offset; this names the path instead.
+    """
+    kind = response.headers.get("content-type", "")
+    if "json" not in kind:
+        raise IAMError(
+            f"{response.request.method} {response.request.url} answered"
+            f" {response.status_code} {kind or 'no content-type'} rather than JSON"
+            " — that is a path IAM does not serve, not a refusal"
+        )
+    try:
+        return response.json()
+    except ValueError as e:
+        raise IAMError(f"{response.request.url} returned unparseable JSON: {e}") from e
 
 
 def unwrap(body: Any, list_key: str | None = None) -> Any:

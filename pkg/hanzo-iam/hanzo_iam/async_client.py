@@ -142,7 +142,7 @@ class AsyncIAMClient:
             http = await self._get_http()
             response = await http.get(OIDC_DISCOVERY_PATH)
             response.raise_for_status()
-            self._openid_config = response.json()
+            self._openid_config = routes.decode(response)
         return self._openid_config
 
     async def get_jwks(self) -> dict[str, Any]:
@@ -154,7 +154,7 @@ class AsyncIAMClient:
         http = await self._get_http()
         response = await http.get(OIDC_JWKS_PATH)
         response.raise_for_status()
-        return response.json()
+        return routes.decode(response)
 
     # =========================================================================
     # Authorization Code Flow
@@ -240,7 +240,7 @@ class AsyncIAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
+        return TokenResponse.model_validate(routes.decode(response))
 
     async def refresh_token(self, refresh_token: str) -> TokenResponse:
         """Refresh access token using refresh token.
@@ -265,7 +265,7 @@ class AsyncIAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
+        return TokenResponse.model_validate(routes.decode(response))
 
     # =========================================================================
     # Client Credentials Flow (M2M)
@@ -294,7 +294,7 @@ class AsyncIAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return TokenResponse.model_validate(response.json())
+        return TokenResponse.model_validate(routes.decode(response))
 
     # =========================================================================
     # Token Validation
@@ -401,7 +401,7 @@ class AsyncIAMClient:
             headers={"Content-Type": "application/x-www-form-urlencoded"},
         )
         response.raise_for_status()
-        return response.json()
+        return routes.decode(response)
 
     # =========================================================================
     # User Info
@@ -422,7 +422,7 @@ class AsyncIAMClient:
             headers={"Authorization": f"Bearer {access_token}"},
         )
         response.raise_for_status()
-        return UserInfo.model_validate(response.json())
+        return UserInfo.model_validate(routes.decode(response))
 
     # =========================================================================
     # User Management (IAM Admin API)
@@ -448,7 +448,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user"))
@@ -472,7 +472,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get users"))
@@ -508,7 +508,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if isinstance(data, dict) and data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user count"))
@@ -557,7 +557,7 @@ class AsyncIAMClient:
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", f"Failed to {action}"))
@@ -581,7 +581,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get application"))
@@ -609,7 +609,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get organizations"))
@@ -636,7 +636,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get organization"))
@@ -687,7 +687,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if isinstance(data, dict) and data.get("status") == "error":
             raise ValueError(data.get("msg", "Enforcement failed"))
@@ -731,7 +731,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if isinstance(data, dict) and data.get("status") == "error":
             raise ValueError(data.get("msg", "Batch enforcement failed"))
@@ -763,7 +763,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get roles"))
@@ -797,7 +797,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get role"))
@@ -831,7 +831,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get user roles"))
@@ -868,7 +868,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to add role for user"))
@@ -905,7 +905,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to remove role from user"))
@@ -948,7 +948,7 @@ class AsyncIAMClient:
             json=payload,
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to set password"))
@@ -979,7 +979,7 @@ class AsyncIAMClient:
             headers=self._admin_headers(),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to get applications"))
@@ -1003,7 +1003,7 @@ class AsyncIAMClient:
             json=application.model_dump(by_alias=True, exclude_none=True),
         )
         response.raise_for_status()
-        data = response.json()
+        data = routes.decode(response)
 
         if data.get("status") == "error":
             raise ValueError(data.get("msg", "Failed to update application"))
