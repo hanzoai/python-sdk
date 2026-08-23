@@ -1,7 +1,7 @@
 # Hanzo Python SDK
 
 `hanzoai` is the Python client for the Hanzo API, generated from the API's own
-OpenAPI document — 1814 paths, 2479 operations, 192 API classes over 2460 models.
+OpenAPI document — <!--counts-->2,259 operations over 1,620 paths, grouped into 117 services<!--/counts-->.
 Every `/v1` route is in it, and the names it exposes are the document's operation
 ids rather than a hand-picked subset. [`.spec-lock`](.spec-lock) names the commit
 and sha256 of the document this tree was cut from.
@@ -117,8 +117,8 @@ inside a generated client is the drift these SDKs exist to prevent. It comes bac
 the day the document describes the body.
 
 The same gap shows up in `money`, which reads its two payloads through the
-generated `*_without_preload_content` variant: of 2479 operations, 716 declare no
-`responses` and another 118 declare no response content, so 834 of them model no
+generated `*_without_preload_content` variant: of 2,259 operations, 719 declare no
+`responses` and another 117 declare no response content, so 836 of them model no
 body to deserialize. Those become ordinary typed calls when the schemas land, and
 nothing else about them changes.
 
