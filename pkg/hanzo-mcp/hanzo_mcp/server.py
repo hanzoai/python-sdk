@@ -9,7 +9,6 @@ from __future__ import annotations
 import atexit
 import logging
 import os
-import secrets
 import signal
 import threading
 import warnings
@@ -136,7 +135,6 @@ class HanzoMCPServer:
         port: int = 8888,
         enabled_tools: dict[str, bool] | None = None,
         disabled_tools: list[str] | None = None,
-        auth_token: str | None = None,
     ):
         """Initialize the Hanzo AI server.
 
@@ -172,31 +170,6 @@ class HanzoMCPServer:
             self.mcp._mcp_server.version = pkg_version("hanzo-mcp")
         except Exception:
             self.mcp._mcp_server.version = "0.15.0"
-
-        # Initialize authentication token — check env, then ~/.hanzo/mcp_token
-        self.auth_token = auth_token or os.environ.get("HANZO_MCP_TOKEN")
-        if not self.auth_token:
-            token_path = os.path.expanduser("~/.hanzo/mcp_token")
-            try:
-                if os.path.exists(token_path):
-                    with open(token_path) as f:
-                        self.auth_token = f.read().strip()
-            except OSError:
-                pass
-
-        if not self.auth_token:
-            # Generate and persist to ~/.hanzo/mcp_token
-            self.auth_token = secrets.token_urlsafe(32)
-            token_path = os.path.expanduser("~/.hanzo/mcp_token")
-            try:
-                os.makedirs(os.path.dirname(token_path), exist_ok=True)
-                with open(token_path, "w") as f:
-                    f.write(self.auth_token)
-                os.chmod(token_path, 0o600)
-            except OSError:
-                pass
-            logger = logging.getLogger(__name__)
-            logger.info(f"Auth token persisted to {token_path}")
 
         # Initialize permissions and command executor
         PermissionManager = _get_permission_manager()
