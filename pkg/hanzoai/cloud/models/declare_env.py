@@ -19,22 +19,17 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.price import Price
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Tool(BaseModel):
+class DeclareEnv(BaseModel):
     """
-    Tool
+    DeclareEnv
     """ # noqa: E501
-    activated: Optional[StrictBool] = Field(default=None, description="Activated is filled by the registry from the activation store for the requesting (org,project); providers leave it zero. An unactivated tool is discoverable but refused 403 at dispatch.")
-    description: Optional[StrictStr] = Field(default=None, description="Description is the prose a model reads to decide whether to call the tool.")
-    dispatchable: Optional[StrictBool] = Field(default=None, description="Dispatchable is whether the tool can be CALLED. False for a listing-only entry: a skill is activated and attached to an agent, never called.")
-    input_schema: Optional[Any] = Field(default=None, alias="inputSchema")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the tool's id in the flat, fleet-wide tool namespace — the value a tools/call passes. Unique across sources: a collision is resolved by source precedence before the caller ever sees it.")
-    price: Optional[Price] = Field(default=None, description="Price is what a call costs and who is paid, absent for a free tool. Enforcement is the x402 settlement client; this is the declaration.")
-    source: Optional[StrictStr] = Field(default=None, description="Source is where the tool comes from: connector, function, zap-service, agent, skill or mcp.")
-    __properties: ClassVar[List[str]] = ["activated", "description", "dispatchable", "inputSchema", "name", "price", "source"]
+    name: Optional[StrictStr] = None
+    public: Optional[StrictBool] = Field(default=None, description="Public marks a value that may be WRITTEN INTO GIT. Absent, it is false, and the value is sealed into KMS and referenced.  ★ THE DEFAULT IS SECRET, AND THE POLARITY IS THE WHOLE DESIGN. This lane's output is a commit in a repository replicated to every clone, so a misclassification is not a bug to fix later — it is a credential published forever. A heuristic classifier fails in both directions; what decides is which direction it fails IN. Seal-by-default makes the failure mode \"an operator cannot read back a config value\", which is a support ticket. Classify-by-shape made it \"a password is in git history\", which is an incident with no rollback.  It is also the only rule that needs no list. PGPASSWORD, *_PW, a symbol-rich password, a KUBECONFIG, a base32 MFA seed — every one of them slipped a shape classifier, and each miss was a different reason. There is no reason left when the default is to seal.")
+    value: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["name", "public", "value"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +49,7 @@ class Tool(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Tool from a JSON string"""
+        """Create an instance of DeclareEnv from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,19 +70,11 @@ class Tool(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of price
-        if self.price:
-            _dict['price'] = self.price.to_dict()
-        # set to None if input_schema (nullable) is None
-        # and model_fields_set contains the field
-        if self.input_schema is None and "input_schema" in self.model_fields_set:
-            _dict['inputSchema'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Tool from a dict"""
+        """Create an instance of DeclareEnv from a dict"""
         if obj is None:
             return None
 
@@ -95,13 +82,9 @@ class Tool(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "activated": obj.get("activated"),
-            "description": obj.get("description"),
-            "dispatchable": obj.get("dispatchable"),
-            "inputSchema": obj.get("inputSchema"),
             "name": obj.get("name"),
-            "price": Price.from_dict(obj["price"]) if obj.get("price") is not None else None,
-            "source": obj.get("source")
+            "public": obj.get("public"),
+            "value": obj.get("value")
         })
         return _obj
 

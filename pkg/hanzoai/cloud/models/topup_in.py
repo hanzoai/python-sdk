@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class TopupIn(BaseModel):
     """
-    Listing
+    TopupIn
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is how much to charge, in cents of Currency. Required.", alias="amountCents")
+    currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO-4217 code to charge in. Empty takes the deployment's own default.")
+    payment_method_id: Optional[StrictStr] = Field(default=None, description="MethodID names a card the subject already saved, for the saved-card door.", alias="paymentMethodId")
+    source_id: Optional[StrictStr] = Field(default=None, description="SourceID is a single-use card token from the payment form, for the token door. It is vaulted as part of the charge, so a caller never holds card numbers and this service never sees one.", alias="sourceId")
+    __properties: ClassVar[List[str]] = ["amountCents", "currency", "paymentMethodId", "sourceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of TopupIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +75,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of TopupIn from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +83,10 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "amountCents": obj.get("amountCents"),
+            "currency": obj.get("currency"),
+            "paymentMethodId": obj.get("paymentMethodId"),
+            "sourceId": obj.get("sourceId")
         })
         return _obj
 

@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.recharged import Recharged
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class Recharge(BaseModel):
     """
-    Listing
+    Recharge
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    charged: Optional[StrictInt] = Field(default=None, description="Charged is how many of them were actually charged. It is at most Orgs, and the difference is orgs whose balance was already above their threshold.")
+    orgs: Optional[StrictInt] = Field(default=None, description="Orgs is how many orgs the sweep considered — every org with auto-recharge armed, whether or not it needed charging.")
+    results: Optional[List[Recharged]] = Field(default=None, description="Results is one row per org considered, so a sweep that charged nobody is still explainable. Never null.")
+    __properties: ClassVar[List[str]] = ["charged", "orgs", "results"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of Recharge from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +71,18 @@ class Listing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in results (list)
+        _items = []
+        if self.results:
+            for _item_results in self.results:
+                if _item_results:
+                    _items.append(_item_results.to_dict())
+            _dict['results'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of Recharge from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +90,9 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "charged": obj.get("charged"),
+            "orgs": obj.get("orgs"),
+            "results": [Recharged.from_dict(_item) for _item in obj["results"]] if obj.get("results") is not None else None
         })
         return _obj
 

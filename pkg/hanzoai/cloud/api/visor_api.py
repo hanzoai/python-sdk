@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
-from typing import Optional
+from typing import Any, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.agent_binding import AgentBinding
 from hanzoai.cloud.models.bind_agent_req import BindAgentReq
@@ -3848,10 +3848,10 @@ class VisorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The regions a machine or GPU can be launched into
+    ) -> object:
+        """Regions lists the regions a machine can be launched in.
 
-        Lists the launch regions the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one — because the catalog is what backs the launch drawer, not public marketing copy.
+        Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3883,6 +3883,7 @@ class VisorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3910,10 +3911,10 @@ class VisorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The regions a machine or GPU can be launched into
+    ) -> ApiResponse[object]:
+        """Regions lists the regions a machine can be launched in.
 
-        Lists the launch regions the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one — because the catalog is what backs the launch drawer, not public marketing copy.
+        Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3945,6 +3946,7 @@ class VisorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3973,9 +3975,9 @@ class VisorApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The regions a machine or GPU can be launched into
+        """Regions lists the regions a machine can be launched in.
 
-        Lists the launch regions the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one — because the catalog is what backs the launch drawer, not public marketing copy.
+        Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4007,6 +4009,7 @@ class VisorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4044,6 +4047,13 @@ class VisorApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4084,10 +4094,10 @@ class VisorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """The machine and GPU sizes that can be launched
+    ) -> object:
+        """Sizes lists the machine sizes available to launch, with their specifications.
 
-        Lists the instance sizes the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. These are the values `size` accepts on a launch. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one.
+        Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4119,6 +4129,7 @@ class VisorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4146,10 +4157,10 @@ class VisorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """The machine and GPU sizes that can be launched
+    ) -> ApiResponse[object]:
+        """Sizes lists the machine sizes available to launch, with their specifications.
 
-        Lists the instance sizes the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. These are the values `size` accepts on a launch. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one.
+        Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4181,6 +4192,7 @@ class VisorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4209,9 +4221,9 @@ class VisorApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The machine and GPU sizes that can be launched
+        """Sizes lists the machine sizes available to launch, with their specifications.
 
-        Lists the instance sizes the compute catalog offers, passed through verbatim from the provider so the shape stays the provider's single source of truth. These are the values `size` accepts on a launch. The catalog is GLOBAL, not per-tenant: no owner is forwarded and every org sees the same list. It is still gated — a validated principal is required, 403 without one.
+        Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4243,6 +4255,7 @@ class VisorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4280,6 +4293,13 @@ class VisorApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting

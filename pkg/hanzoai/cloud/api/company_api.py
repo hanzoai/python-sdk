@@ -1697,9 +1697,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> FormationView:
-        """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing seam.
+        """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.
 
-        Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing seam.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
+        Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1760,9 +1760,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[FormationView]:
-        """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing seam.
+        """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.
 
-        Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing seam.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
+        Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1823,9 +1823,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing seam.
+        """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.
 
-        Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing seam.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
+        Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5157,7 +5157,7 @@ class CompanyApi:
     ) -> KycRefreshOut:
         """RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status.
 
-        RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the provider seam — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
+        RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the provider client — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5220,7 +5220,7 @@ class CompanyApi:
     ) -> ApiResponse[KycRefreshOut]:
         """RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status.
 
-        RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the provider seam — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
+        RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the provider client — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5283,7 +5283,7 @@ class CompanyApi:
     ) -> RESTResponseType:
         """RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status.
 
-        RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the provider seam — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
+        RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the provider client — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

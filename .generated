@@ -230,6 +230,7 @@ pkg/hanzoai/cloud/models/bank_question.py
 pkg/hanzoai/cloud/models/bank_tally.py
 pkg/hanzoai/cloud/models/bank_txn_row.py
 pkg/hanzoai/cloud/models/base_health.py
+pkg/hanzoai/cloud/models/base_view.py
 pkg/hanzoai/cloud/models/begin_in.py
 pkg/hanzoai/cloud/models/benchmark.py
 pkg/hanzoai/cloud/models/benchmark_catalog.py
@@ -354,6 +355,8 @@ pkg/hanzoai/cloud/models/catalog_page.py
 pkg/hanzoai/cloud/models/category.py
 pkg/hanzoai/cloud/models/category_in.py
 pkg/hanzoai/cloud/models/category_spend.py
+pkg/hanzoai/cloud/models/cd_app.py
+pkg/hanzoai/cloud/models/cd_resp.py
 pkg/hanzoai/cloud/models/centre.py
 pkg/hanzoai/cloud/models/chain.py
 pkg/hanzoai/cloud/models/chain_list.py
@@ -367,6 +370,7 @@ pkg/hanzoai/cloud/models/channel_result.py
 pkg/hanzoai/cloud/models/channel_spec.py
 pkg/hanzoai/cloud/models/channel_view.py
 pkg/hanzoai/cloud/models/charge.py
+pkg/hanzoai/cloud/models/charged.py
 pkg/hanzoai/cloud/models/chat_channels.py
 pkg/hanzoai/cloud/models/chat_request.py
 pkg/hanzoai/cloud/models/chat_response.py
@@ -436,7 +440,9 @@ pkg/hanzoai/cloud/models/context_bundle.py
 pkg/hanzoai/cloud/models/context_in.py
 pkg/hanzoai/cloud/models/control_command_view.py
 pkg/hanzoai/cloud/models/control_drain.py
+pkg/hanzoai/cloud/models/control_in.py
 pkg/hanzoai/cloud/models/control_list.py
+pkg/hanzoai/cloud/models/control_result.py
 pkg/hanzoai/cloud/models/cookie_ack.py
 pkg/hanzoai/cloud/models/corpus_view.py
 pkg/hanzoai/cloud/models/cost_line.py
@@ -484,6 +490,7 @@ pkg/hanzoai/cloud/models/dataroom_link_create.py
 pkg/hanzoai/cloud/models/dataroom_link_one.py
 pkg/hanzoai/cloud/models/dataroom_link_stats.py
 pkg/hanzoai/cloud/models/dataroom_links.py
+pkg/hanzoai/cloud/models/dataroom_liveness.py
 pkg/hanzoai/cloud/models/dataroom_member.py
 pkg/hanzoai/cloud/models/dataroom_membership.py
 pkg/hanzoai/cloud/models/dataroom_page_stat.py
@@ -499,6 +506,10 @@ pkg/hanzoai/cloud/models/dataset_view.py
 pkg/hanzoai/cloud/models/decide_body.py
 pkg/hanzoai/cloud/models/decision_in.py
 pkg/hanzoai/cloud/models/deck_out.py
+pkg/hanzoai/cloud/models/declaration.py
+pkg/hanzoai/cloud/models/declare_env.py
+pkg/hanzoai/cloud/models/declared.py
+pkg/hanzoai/cloud/models/declared_resp.py
 pkg/hanzoai/cloud/models/def_row.py
 pkg/hanzoai/cloud/models/definition.py
 pkg/hanzoai/cloud/models/defs_out.py
@@ -507,6 +518,7 @@ pkg/hanzoai/cloud/models/deleted_out.py
 pkg/hanzoai/cloud/models/delivery.py
 pkg/hanzoai/cloud/models/delivery_list.py
 pkg/hanzoai/cloud/models/delivery_row.py
+pkg/hanzoai/cloud/models/deploy_health.py
 pkg/hanzoai/cloud/models/deploy_logs.py
 pkg/hanzoai/cloud/models/deploy_record.py
 pkg/hanzoai/cloud/models/deploy_req.py
@@ -517,6 +529,7 @@ pkg/hanzoai/cloud/models/destination_field.py
 pkg/hanzoai/cloud/models/destination_list.py
 pkg/hanzoai/cloud/models/destination_status.py
 pkg/hanzoai/cloud/models/destination_test.py
+pkg/hanzoai/cloud/models/detachment.py
 pkg/hanzoai/cloud/models/device_poll_out.py
 pkg/hanzoai/cloud/models/device_start_in.py
 pkg/hanzoai/cloud/models/device_start_out.py
@@ -596,6 +609,7 @@ pkg/hanzoai/cloud/models/evaluator_list.py
 pkg/hanzoai/cloud/models/evaluator_req.py
 pkg/hanzoai/cloud/models/evaluator_view.py
 pkg/hanzoai/cloud/models/event.py
+pkg/hanzoai/cloud/models/event_in.py
 pkg/hanzoai/cloud/models/event_list.py
 pkg/hanzoai/cloud/models/event_view.py
 pkg/hanzoai/cloud/models/exception.py
@@ -1913,6 +1927,7 @@ pkg/hanzoai/cloud/models/projects_release.py
 pkg/hanzoai/cloud/models/projects_repo.py
 pkg/hanzoai/cloud/models/projects_site.py
 pkg/hanzoai/cloud/models/projects_site_deploy.py
+pkg/hanzoai/cloud/models/projects_star.py
 pkg/hanzoai/cloud/models/projects_update.py
 pkg/hanzoai/cloud/models/projects_update_repo.py
 pkg/hanzoai/cloud/models/projects_upload_grant.py
@@ -1967,6 +1982,8 @@ pkg/hanzoai/cloud/models/reading_req.py
 pkg/hanzoai/cloud/models/reading_view.py
 pkg/hanzoai/cloud/models/readme_json.py
 pkg/hanzoai/cloud/models/receipt.py
+pkg/hanzoai/cloud/models/recharge.py
+pkg/hanzoai/cloud/models/recharged.py
 pkg/hanzoai/cloud/models/record.py
 pkg/hanzoai/cloud/models/record_list.py
 pkg/hanzoai/cloud/models/redeem_input.py
@@ -2307,6 +2324,7 @@ pkg/hanzoai/cloud/models/tool_result.py
 pkg/hanzoai/cloud/models/top.py
 pkg/hanzoai/cloud/models/top_models.py
 pkg/hanzoai/cloud/models/top_products.py
+pkg/hanzoai/cloud/models/topup_in.py
 pkg/hanzoai/cloud/models/total_view.py
 pkg/hanzoai/cloud/models/trace_list.py
 pkg/hanzoai/cloud/models/trace_view.py
@@ -2347,6 +2365,7 @@ pkg/hanzoai/cloud/models/trust_refused.py
 pkg/hanzoai/cloud/models/trust_settings.py
 pkg/hanzoai/cloud/models/trust_tally.py
 pkg/hanzoai/cloud/models/txn.py
+pkg/hanzoai/cloud/models/unreadable.py
 pkg/hanzoai/cloud/models/unreconciled_out.py
 pkg/hanzoai/cloud/models/unsubscribed.py
 pkg/hanzoai/cloud/models/update_agent_in.py

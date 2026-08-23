@@ -252,6 +252,7 @@ __all__ = [
     "BankTally",
     "BankTxnRow",
     "BaseHealth",
+    "BaseView",
     "BeginIn",
     "Benchmark",
     "BenchmarkCatalog",
@@ -312,6 +313,7 @@ __all__ = [
     "BuyInput",
     "ByoGPU",
     "ByoWorker",
+    "CDApp",
     "CalendarPost",
     "Call",
     "CallInput",
@@ -376,6 +378,7 @@ __all__ = [
     "Category",
     "CategoryIn",
     "CategorySpend",
+    "CdResp",
     "Centre",
     "Chain",
     "ChainList",
@@ -389,6 +392,7 @@ __all__ = [
     "ChannelSpec",
     "ChannelView",
     "Charge",
+    "Charged",
     "ChatChannels",
     "ChatRequest",
     "ChatResponse",
@@ -458,7 +462,9 @@ __all__ = [
     "ContextIn",
     "ControlCommandView",
     "ControlDrain",
+    "ControlIn",
     "ControlList",
+    "ControlResult",
     "CookieAck",
     "CorpusView",
     "CostLine",
@@ -506,6 +512,7 @@ __all__ = [
     "DataroomLinkOne",
     "DataroomLinkStats",
     "DataroomLinks",
+    "DataroomLiveness",
     "DataroomMember",
     "DataroomMembership",
     "DataroomPageStat",
@@ -521,6 +528,10 @@ __all__ = [
     "DecideBody",
     "DecisionIn",
     "DeckOut",
+    "Declaration",
+    "DeclareEnv",
+    "Declared",
+    "DeclaredResp",
     "DefRow",
     "Definition",
     "DefsOut",
@@ -529,6 +540,7 @@ __all__ = [
     "Delivery",
     "DeliveryList",
     "DeliveryRow",
+    "DeployHealth",
     "DeployLogs",
     "DeployRecord",
     "DeployReq",
@@ -539,6 +551,7 @@ __all__ = [
     "DestinationList",
     "DestinationStatus",
     "DestinationTest",
+    "Detachment",
     "DevicePollOut",
     "DeviceStartIn",
     "DeviceStartOut",
@@ -618,6 +631,7 @@ __all__ = [
     "EvaluatorReq",
     "EvaluatorView",
     "Event",
+    "EventIn",
     "EventList",
     "EventView",
     "Exception",
@@ -1935,6 +1949,7 @@ __all__ = [
     "ProjectsRepo",
     "ProjectsSite",
     "ProjectsSiteDeploy",
+    "ProjectsStar",
     "ProjectsUpdate",
     "ProjectsUpdateRepo",
     "ProjectsUploadGrant",
@@ -1989,6 +2004,8 @@ __all__ = [
     "ReadingView",
     "ReadmeJSON",
     "Receipt",
+    "Recharge",
+    "Recharged",
     "Record",
     "RecordList",
     "RedeemInput",
@@ -2329,6 +2346,7 @@ __all__ = [
     "Top",
     "TopModels",
     "TopProducts",
+    "TopupIn",
     "TotalView",
     "TraceList",
     "TraceView",
@@ -2370,6 +2388,7 @@ __all__ = [
     "TrustTally",
     "Txn",
     "UTM",
+    "Unreadable",
     "UnreconciledOut",
     "Unsubscribed",
     "UpdateAgentIn",
@@ -2672,6 +2691,7 @@ from hanzoai.cloud.models.bank_question import BankQuestion as BankQuestion
 from hanzoai.cloud.models.bank_tally import BankTally as BankTally
 from hanzoai.cloud.models.bank_txn_row import BankTxnRow as BankTxnRow
 from hanzoai.cloud.models.base_health import BaseHealth as BaseHealth
+from hanzoai.cloud.models.base_view import BaseView as BaseView
 from hanzoai.cloud.models.begin_in import BeginIn as BeginIn
 from hanzoai.cloud.models.benchmark import Benchmark as Benchmark
 from hanzoai.cloud.models.benchmark_catalog import BenchmarkCatalog as BenchmarkCatalog
@@ -2732,6 +2752,7 @@ from hanzoai.cloud.models.bus_request import BusRequest as BusRequest
 from hanzoai.cloud.models.buy_input import BuyInput as BuyInput
 from hanzoai.cloud.models.byo_gpu import ByoGPU as ByoGPU
 from hanzoai.cloud.models.byo_worker import ByoWorker as ByoWorker
+from hanzoai.cloud.models.cd_app import CDApp as CDApp
 from hanzoai.cloud.models.calendar_post import CalendarPost as CalendarPost
 from hanzoai.cloud.models.call import Call as Call
 from hanzoai.cloud.models.call_input import CallInput as CallInput
@@ -2796,6 +2817,7 @@ from hanzoai.cloud.models.catalog_page import CatalogPage as CatalogPage
 from hanzoai.cloud.models.category import Category as Category
 from hanzoai.cloud.models.category_in import CategoryIn as CategoryIn
 from hanzoai.cloud.models.category_spend import CategorySpend as CategorySpend
+from hanzoai.cloud.models.cd_resp import CdResp as CdResp
 from hanzoai.cloud.models.centre import Centre as Centre
 from hanzoai.cloud.models.chain import Chain as Chain
 from hanzoai.cloud.models.chain_list import ChainList as ChainList
@@ -2809,6 +2831,7 @@ from hanzoai.cloud.models.channel_result import ChannelResult as ChannelResult
 from hanzoai.cloud.models.channel_spec import ChannelSpec as ChannelSpec
 from hanzoai.cloud.models.channel_view import ChannelView as ChannelView
 from hanzoai.cloud.models.charge import Charge as Charge
+from hanzoai.cloud.models.charged import Charged as Charged
 from hanzoai.cloud.models.chat_channels import ChatChannels as ChatChannels
 from hanzoai.cloud.models.chat_request import ChatRequest as ChatRequest
 from hanzoai.cloud.models.chat_response import ChatResponse as ChatResponse
@@ -2878,7 +2901,9 @@ from hanzoai.cloud.models.context_bundle import ContextBundle as ContextBundle
 from hanzoai.cloud.models.context_in import ContextIn as ContextIn
 from hanzoai.cloud.models.control_command_view import ControlCommandView as ControlCommandView
 from hanzoai.cloud.models.control_drain import ControlDrain as ControlDrain
+from hanzoai.cloud.models.control_in import ControlIn as ControlIn
 from hanzoai.cloud.models.control_list import ControlList as ControlList
+from hanzoai.cloud.models.control_result import ControlResult as ControlResult
 from hanzoai.cloud.models.cookie_ack import CookieAck as CookieAck
 from hanzoai.cloud.models.corpus_view import CorpusView as CorpusView
 from hanzoai.cloud.models.cost_line import CostLine as CostLine
@@ -2926,6 +2951,7 @@ from hanzoai.cloud.models.dataroom_link_create import DataroomLinkCreate as Data
 from hanzoai.cloud.models.dataroom_link_one import DataroomLinkOne as DataroomLinkOne
 from hanzoai.cloud.models.dataroom_link_stats import DataroomLinkStats as DataroomLinkStats
 from hanzoai.cloud.models.dataroom_links import DataroomLinks as DataroomLinks
+from hanzoai.cloud.models.dataroom_liveness import DataroomLiveness as DataroomLiveness
 from hanzoai.cloud.models.dataroom_member import DataroomMember as DataroomMember
 from hanzoai.cloud.models.dataroom_membership import DataroomMembership as DataroomMembership
 from hanzoai.cloud.models.dataroom_page_stat import DataroomPageStat as DataroomPageStat
@@ -2941,6 +2967,10 @@ from hanzoai.cloud.models.dataset_view import DatasetView as DatasetView
 from hanzoai.cloud.models.decide_body import DecideBody as DecideBody
 from hanzoai.cloud.models.decision_in import DecisionIn as DecisionIn
 from hanzoai.cloud.models.deck_out import DeckOut as DeckOut
+from hanzoai.cloud.models.declaration import Declaration as Declaration
+from hanzoai.cloud.models.declare_env import DeclareEnv as DeclareEnv
+from hanzoai.cloud.models.declared import Declared as Declared
+from hanzoai.cloud.models.declared_resp import DeclaredResp as DeclaredResp
 from hanzoai.cloud.models.def_row import DefRow as DefRow
 from hanzoai.cloud.models.definition import Definition as Definition
 from hanzoai.cloud.models.defs_out import DefsOut as DefsOut
@@ -2949,6 +2979,7 @@ from hanzoai.cloud.models.deleted_out import DeletedOut as DeletedOut
 from hanzoai.cloud.models.delivery import Delivery as Delivery
 from hanzoai.cloud.models.delivery_list import DeliveryList as DeliveryList
 from hanzoai.cloud.models.delivery_row import DeliveryRow as DeliveryRow
+from hanzoai.cloud.models.deploy_health import DeployHealth as DeployHealth
 from hanzoai.cloud.models.deploy_logs import DeployLogs as DeployLogs
 from hanzoai.cloud.models.deploy_record import DeployRecord as DeployRecord
 from hanzoai.cloud.models.deploy_req import DeployReq as DeployReq
@@ -2959,6 +2990,7 @@ from hanzoai.cloud.models.destination_field import DestinationField as Destinati
 from hanzoai.cloud.models.destination_list import DestinationList as DestinationList
 from hanzoai.cloud.models.destination_status import DestinationStatus as DestinationStatus
 from hanzoai.cloud.models.destination_test import DestinationTest as DestinationTest
+from hanzoai.cloud.models.detachment import Detachment as Detachment
 from hanzoai.cloud.models.device_poll_out import DevicePollOut as DevicePollOut
 from hanzoai.cloud.models.device_start_in import DeviceStartIn as DeviceStartIn
 from hanzoai.cloud.models.device_start_out import DeviceStartOut as DeviceStartOut
@@ -3038,6 +3070,7 @@ from hanzoai.cloud.models.evaluator_list import EvaluatorList as EvaluatorList
 from hanzoai.cloud.models.evaluator_req import EvaluatorReq as EvaluatorReq
 from hanzoai.cloud.models.evaluator_view import EvaluatorView as EvaluatorView
 from hanzoai.cloud.models.event import Event as Event
+from hanzoai.cloud.models.event_in import EventIn as EventIn
 from hanzoai.cloud.models.event_list import EventList as EventList
 from hanzoai.cloud.models.event_view import EventView as EventView
 from hanzoai.cloud.models.exception import Exception as Exception
@@ -4355,6 +4388,7 @@ from hanzoai.cloud.models.projects_release import ProjectsRelease as ProjectsRel
 from hanzoai.cloud.models.projects_repo import ProjectsRepo as ProjectsRepo
 from hanzoai.cloud.models.projects_site import ProjectsSite as ProjectsSite
 from hanzoai.cloud.models.projects_site_deploy import ProjectsSiteDeploy as ProjectsSiteDeploy
+from hanzoai.cloud.models.projects_star import ProjectsStar as ProjectsStar
 from hanzoai.cloud.models.projects_update import ProjectsUpdate as ProjectsUpdate
 from hanzoai.cloud.models.projects_update_repo import ProjectsUpdateRepo as ProjectsUpdateRepo
 from hanzoai.cloud.models.projects_upload_grant import ProjectsUploadGrant as ProjectsUploadGrant
@@ -4409,6 +4443,8 @@ from hanzoai.cloud.models.reading_req import ReadingReq as ReadingReq
 from hanzoai.cloud.models.reading_view import ReadingView as ReadingView
 from hanzoai.cloud.models.readme_json import ReadmeJSON as ReadmeJSON
 from hanzoai.cloud.models.receipt import Receipt as Receipt
+from hanzoai.cloud.models.recharge import Recharge as Recharge
+from hanzoai.cloud.models.recharged import Recharged as Recharged
 from hanzoai.cloud.models.record import Record as Record
 from hanzoai.cloud.models.record_list import RecordList as RecordList
 from hanzoai.cloud.models.redeem_input import RedeemInput as RedeemInput
@@ -4749,6 +4785,7 @@ from hanzoai.cloud.models.tool_result import ToolResult as ToolResult
 from hanzoai.cloud.models.top import Top as Top
 from hanzoai.cloud.models.top_models import TopModels as TopModels
 from hanzoai.cloud.models.top_products import TopProducts as TopProducts
+from hanzoai.cloud.models.topup_in import TopupIn as TopupIn
 from hanzoai.cloud.models.total_view import TotalView as TotalView
 from hanzoai.cloud.models.trace_list import TraceList as TraceList
 from hanzoai.cloud.models.trace_view import TraceView as TraceView
@@ -4790,6 +4827,7 @@ from hanzoai.cloud.models.trust_settings import TrustSettings as TrustSettings
 from hanzoai.cloud.models.trust_tally import TrustTally as TrustTally
 from hanzoai.cloud.models.txn import Txn as Txn
 from hanzoai.cloud.models.utm import UTM as UTM
+from hanzoai.cloud.models.unreadable import Unreadable as Unreadable
 from hanzoai.cloud.models.unreconciled_out import UnreconciledOut as UnreconciledOut
 from hanzoai.cloud.models.unsubscribed import Unsubscribed as Unsubscribed
 from hanzoai.cloud.models.update_agent_in import UpdateAgentIn as UpdateAgentIn

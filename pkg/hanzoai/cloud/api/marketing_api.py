@@ -6256,7 +6256,7 @@ class MarketingApi:
     ) -> CalendarPost:
         """Publishes a post NOW, synchronously, whatever its schedule.
 
-        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the seam a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
+        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the client a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
 
         :param id: ID is the post id from the path, as returned by create. (required)
         :type id: str
@@ -6323,7 +6323,7 @@ class MarketingApi:
     ) -> ApiResponse[CalendarPost]:
         """Publishes a post NOW, synchronously, whatever its schedule.
 
-        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the seam a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
+        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the client a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
 
         :param id: ID is the post id from the path, as returned by create. (required)
         :type id: str
@@ -6390,7 +6390,7 @@ class MarketingApi:
     ) -> RESTResponseType:
         """Publishes a post NOW, synchronously, whatever its schedule.
 
-        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the seam a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
+        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the client a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
 
         :param id: ID is the post id from the path, as returned by create. (required)
         :type id: str
