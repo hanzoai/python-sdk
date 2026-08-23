@@ -9,6 +9,7 @@ from urllib.parse import urlencode
 import httpx
 import jwt
 
+from hanzo_iam.client import basic
 from hanzo_iam.config import IAMConfig
 from hanzo_iam import routes
 from hanzo_iam.models import (
@@ -80,7 +81,7 @@ class AsyncIAMClient:
         if config:
             self._config = config
         else:
-            env_config = IAMClient._config_from_env(org)
+            env_config = IAMConfig.from_env(org)
             self._config = IAMConfig(
                 server_url=env_config.server_url,
                 client_id=client_id or env_config.client_id,
@@ -117,20 +118,15 @@ class AsyncIAMClient:
     # Admin Auth Helpers
     # =========================================================================
 
-    def _admin_params(self) -> dict[str, str]:
-        """Return query params for admin API auth (empty if using bearer token)."""
-        if self._bearer_token:
-            return {}
-        return {
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
     def _admin_headers(self) -> dict[str, str]:
-        """Return extra headers for admin API auth (Authorization if bearer token)."""
+        """The credential, in Authorization — the only place IAM reads one.
+
+        A bearer if we hold one, otherwise the confidential client's own pair as
+        HTTP Basic (RFC 6749 2.3.1).
+        """
         if self._bearer_token:
             return {"Authorization": f"Bearer {self._bearer_token}"}
-        return {}
+        return {"Authorization": basic(self._config.client_id, self._config.client_secret)}
 
     # =========================================================================
     # OIDC Discovery
@@ -443,7 +439,6 @@ class AsyncIAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{user_id}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -468,7 +463,6 @@ class AsyncIAMClient:
         """
         params = {
             "owner": self._config.organization,
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -503,7 +497,6 @@ class AsyncIAMClient:
         """
         params: dict[str, Any] = {
             "owner": owner or self._config.organization,
-            **self._admin_params(),
         }
         if is_online is not None:
             params["isOnline"] = str(is_online).lower()
@@ -560,7 +553,6 @@ class AsyncIAMClient:
         http = await self._get_http()
         response = await http.post(
             f"{IAM_ROUTE_PREFIX}/{action}",
-            params=self._admin_params(),
             headers=self._admin_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
@@ -580,7 +572,6 @@ class AsyncIAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{self._config.application}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -609,7 +600,6 @@ class AsyncIAMClient:
         """
         params = {
             "owner": "admin",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -637,7 +627,6 @@ class AsyncIAMClient:
         """
         params = {
             "id": f"admin/{name}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -687,7 +676,6 @@ class AsyncIAMClient:
             "resourceId": resource_id,
             "enforceId": enforce_id,
             "owner": owner or self._config.organization,
-            **self._admin_params(),
         }
         if request:
             payload["casbinRequest"] = request
@@ -732,7 +720,6 @@ class AsyncIAMClient:
             "modelId": model_id,
             "enforceId": enforce_id,
             "owner": owner or self._config.organization,
-            **self._admin_params(),
         }
         if requests:
             payload["casbinRequest"] = requests
@@ -767,7 +754,6 @@ class AsyncIAMClient:
         """
         params = {
             "owner": owner or self._config.organization,
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -802,7 +788,6 @@ class AsyncIAMClient:
         org = owner or self._config.organization
         params = {
             "id": f"{org}/{role_name}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -837,7 +822,6 @@ class AsyncIAMClient:
         org = owner or self._config.organization
         params = {
             "id": f"{org}/{username}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -875,7 +859,6 @@ class AsyncIAMClient:
         payload = {
             "user": f"{org}/{username}",
             "role": f"{org}/{role_name}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -913,7 +896,6 @@ class AsyncIAMClient:
         payload = {
             "user": f"{org}/{username}",
             "role": f"{org}/{role_name}",
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -962,7 +944,6 @@ class AsyncIAMClient:
         http = await self._get_http()
         response = await http.post(
             f"{IAM_ROUTE_PREFIX}/set-password",
-            params=self._admin_params(),
             headers=self._admin_headers(),
             json=payload,
         )
@@ -989,7 +970,6 @@ class AsyncIAMClient:
         """
         params = {
             "owner": owner,
-            **self._admin_params(),
         }
 
         http = await self._get_http()
@@ -1019,7 +999,6 @@ class AsyncIAMClient:
         http = await self._get_http()
         response = await http.post(
             f"{IAM_ROUTE_PREFIX}/update-application",
-            params=self._admin_params(),
             headers=self._admin_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
         )

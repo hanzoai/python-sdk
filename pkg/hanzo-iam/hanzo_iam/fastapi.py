@@ -75,18 +75,18 @@ def configure(
     if isinstance(org, str):
         org = Organization(org)
 
-    # Get credentials from args or environment (canonical IAM_* only)
-    resolved_client_id = client_id or os.getenv("IAM_CLIENT_ID", "")
-    resolved_client_secret = client_secret or os.getenv("IAM_CLIENT_SECRET", "")
+    # One reader of the environment, the same one both clients use.
+    env = IAMConfig.from_env(org)
 
+    resolved_client_id = client_id or env.client_id
     if not resolved_client_id:
         raise ValueError("client_id required (or set IAM_CLIENT_ID)")
 
-    _config = IAMConfig(
-        server_url=os.getenv("IAM_ENDPOINT", org.iam_url),
-        client_id=resolved_client_id,
-        client_secret=resolved_client_secret,
-        organization=os.getenv("IAM_ORG", org.value),
+    _config = env.model_copy(
+        update={
+            "client_id": resolved_client_id,
+            "client_secret": client_secret or env.client_secret,
+        }
     )
 
     # Reset JWKS client to pick up new config
