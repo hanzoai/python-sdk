@@ -30,7 +30,7 @@ class ReferenceSet(BaseModel):
     age: Optional[StrictStr] = Field(default=None, description="Age is how long ago that was.")
     as_of: Optional[StrictStr] = Field(default=None, description="AsOf is when the OLDEST contributing publisher was current, RFC 3339. The oldest and not the newest: a set is exactly as fresh as its weakest source.", alias="asOf")
     keys: Optional[StrictInt] = Field(default=None, description="Keys is how many members the baseline carries.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is how the baseline comes to exist: fetch (downloaded from a publisher), local (computed here), attest (held by the component that screens against it, freshness reported), or seam (declared and NOT held, because the source needs a licence we do not have).")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is how the baseline comes to exist: fetch (downloaded from a publisher), local (computed here), attest (held by the component that screens against it, freshness reported), or client (declared and NOT held, because the source needs a licence we do not have).")
     match: Optional[StrictStr] = Field(default=None, description="Match is how a key is tested: exact, domain, net, digits, pattern or range.")
     max_age: Optional[StrictStr] = Field(default=None, description="MaxAge is how old this set may be before it is stale.", alias="maxAge")
     overrides: Optional[StrictInt] = Field(default=None, description="Overrides is how many entries YOUR org has laid over this baseline.")

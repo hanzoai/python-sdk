@@ -16,9 +16,12 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import Field, StrictStr
+from typing import List
+from typing_extensions import Annotated
 from hanzoai.cloud.models.code_result import CodeResult
 from hanzoai.cloud.models.code_run import CodeRun
+from hanzoai.cloud.models.listing import Listing
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -41,7 +44,7 @@ class ExecApi:
     @validate_call
     def get_exec_files_by_sid(
         self,
-        sid: StrictStr,
+        sid: Annotated[StrictStr, Field(description="SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54,12 +57,12 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """List the files in an execution session
+    ) -> List[Listing]:
+        """Files lists what a session holds.
 
-        Lists what a session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from /v1/exec/download.  It answers a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. An object wrapper would be a wire change, which is why this is not a typed operation.
+        Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
 
-        :param sid: (required)
+        :param sid: SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. (required)
         :type sid: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -92,6 +95,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Listing]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107,7 +111,7 @@ class ExecApi:
     @validate_call
     def get_exec_files_by_sid_with_http_info(
         self,
-        sid: StrictStr,
+        sid: Annotated[StrictStr, Field(description="SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -120,12 +124,12 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """List the files in an execution session
+    ) -> ApiResponse[List[Listing]]:
+        """Files lists what a session holds.
 
-        Lists what a session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from /v1/exec/download.  It answers a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. An object wrapper would be a wire change, which is why this is not a typed operation.
+        Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
 
-        :param sid: (required)
+        :param sid: SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. (required)
         :type sid: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -158,6 +162,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Listing]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -173,7 +178,7 @@ class ExecApi:
     @validate_call
     def get_exec_files_by_sid_without_preload_content(
         self,
-        sid: StrictStr,
+        sid: Annotated[StrictStr, Field(description="SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -187,11 +192,11 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List the files in an execution session
+        """Files lists what a session holds.
 
-        Lists what a session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from /v1/exec/download.  It answers a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. An object wrapper would be a wire change, which is why this is not a typed operation.
+        Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
 
-        :param sid: (required)
+        :param sid: SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. (required)
         :type sid: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -224,6 +229,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[Listing]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -264,6 +270,13 @@ class ExecApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting

@@ -17,18 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class Recharged(BaseModel):
     """
-    Listing
+    Recharged
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    amount_cents: Optional[StrictInt] = Field(default=None, alias="amountCents")
+    balance_cents: Optional[StrictInt] = Field(default=None, alias="balanceCents")
+    charged: Optional[StrictBool] = None
+    error: Optional[StrictStr] = None
+    org_name: Optional[StrictStr] = Field(default=None, alias="orgName")
+    transaction_id: Optional[StrictStr] = Field(default=None, alias="transactionId")
+    user_id: Optional[StrictStr] = Field(default=None, alias="userId")
+    __properties: ClassVar[List[str]] = ["amountCents", "balanceCents", "charged", "error", "orgName", "transactionId", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +53,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of Recharged from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +78,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of Recharged from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +86,13 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "amountCents": obj.get("amountCents"),
+            "balanceCents": obj.get("balanceCents"),
+            "charged": obj.get("charged"),
+            "error": obj.get("error"),
+            "orgName": obj.get("orgName"),
+            "transactionId": obj.get("transactionId"),
+            "userId": obj.get("userId")
         })
         return _obj
 

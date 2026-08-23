@@ -19,16 +19,19 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.declared import Declared
+from hanzoai.cloud.models.unreadable import Unreadable
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Listing(BaseModel):
+class DeclaredResp(BaseModel):
     """
-    Listing
+    DeclaredResp
     """ # noqa: E501
-    last_modified: Optional[StrictStr] = Field(default=None, alias="lastModified")
-    name: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["lastModified", "name"]
+    apps: Optional[List[Declared]] = None
+    cd_unavailable: Optional[Unreadable] = Field(default=None, alias="cdUnavailable")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the directory read — the caller's own, or another when a SuperAdmin asked to act as it.")
+    __properties: ClassVar[List[str]] = ["apps", "cdUnavailable", "org"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +51,7 @@ class Listing(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Listing from a JSON string"""
+        """Create an instance of DeclaredResp from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +72,21 @@ class Listing(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in apps (list)
+        _items = []
+        if self.apps:
+            for _item_apps in self.apps:
+                if _item_apps:
+                    _items.append(_item_apps.to_dict())
+            _dict['apps'] = _items
+        # override the default output from pydantic by calling `to_dict()` of cd_unavailable
+        if self.cd_unavailable:
+            _dict['cdUnavailable'] = self.cd_unavailable.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Listing from a dict"""
+        """Create an instance of DeclaredResp from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +94,9 @@ class Listing(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "lastModified": obj.get("lastModified"),
-            "name": obj.get("name")
+            "apps": [Declared.from_dict(_item) for _item in obj["apps"]] if obj.get("apps") is not None else None,
+            "cdUnavailable": Unreadable.from_dict(obj["cdUnavailable"]) if obj.get("cdUnavailable") is not None else None,
+            "org": obj.get("org")
         })
         return _obj
 

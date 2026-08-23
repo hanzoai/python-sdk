@@ -3354,7 +3354,7 @@ class GuideApi:
     @validate_call
     def post_guide_steps_by_id_done(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3367,12 +3367,12 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Mark a step of your org's journey finished
+    ) -> OverviewView:
+        """Marks one step of the caller org's journey complete and returns the refreshed journey.
 
-        Moves one step of the caller org's journey to done and answers the whole refreshed journey, which is what unblocks everything downstream of it.  Dependency-GATED like start: finishing a step whose prerequisites are themselves unfinished is 409 carrying `{error, step, blockedBy}` naming what is in the way, not a silent success. A step id the org's active journey does not contain is 404. Skipping is the ungated alternative — a founder declaring a step does not apply — and it lives at /skip.  Requires a validated org; 403 without one. The mark is recorded as `manual`, and /reset returns the step to todo.
+        Marks one step of the caller org's journey complete and returns the refreshed journey.  Dependency-GATED, exactly as start is: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy} naming what is in the way.
 
-        :param id: (required)
+        :param id: ID is the step's id, as it appears in the journey (e.g. \"gsuite\"). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3405,6 +3405,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3420,7 +3421,7 @@ class GuideApi:
     @validate_call
     def post_guide_steps_by_id_done_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3433,12 +3434,12 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Mark a step of your org's journey finished
+    ) -> ApiResponse[OverviewView]:
+        """Marks one step of the caller org's journey complete and returns the refreshed journey.
 
-        Moves one step of the caller org's journey to done and answers the whole refreshed journey, which is what unblocks everything downstream of it.  Dependency-GATED like start: finishing a step whose prerequisites are themselves unfinished is 409 carrying `{error, step, blockedBy}` naming what is in the way, not a silent success. A step id the org's active journey does not contain is 404. Skipping is the ungated alternative — a founder declaring a step does not apply — and it lives at /skip.  Requires a validated org; 403 without one. The mark is recorded as `manual`, and /reset returns the step to todo.
+        Marks one step of the caller org's journey complete and returns the refreshed journey.  Dependency-GATED, exactly as start is: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy} naming what is in the way.
 
-        :param id: (required)
+        :param id: ID is the step's id, as it appears in the journey (e.g. \"gsuite\"). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3471,6 +3472,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3486,7 +3488,7 @@ class GuideApi:
     @validate_call
     def post_guide_steps_by_id_done_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3500,11 +3502,11 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Mark a step of your org's journey finished
+        """Marks one step of the caller org's journey complete and returns the refreshed journey.
 
-        Moves one step of the caller org's journey to done and answers the whole refreshed journey, which is what unblocks everything downstream of it.  Dependency-GATED like start: finishing a step whose prerequisites are themselves unfinished is 409 carrying `{error, step, blockedBy}` naming what is in the way, not a silent success. A step id the org's active journey does not contain is 404. Skipping is the ungated alternative — a founder declaring a step does not apply — and it lives at /skip.  Requires a validated org; 403 without one. The mark is recorded as `manual`, and /reset returns the step to todo.
+        Marks one step of the caller org's journey complete and returns the refreshed journey.  Dependency-GATED, exactly as start is: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy} naming what is in the way.
 
-        :param id: (required)
+        :param id: ID is the step's id, as it appears in the journey (e.g. \"gsuite\"). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3537,6 +3539,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3577,6 +3580,13 @@ class GuideApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4127,7 +4137,7 @@ class GuideApi:
     @validate_call
     def post_guide_steps_by_id_start(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4140,12 +4150,12 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Mark a step of your org's journey started
+    ) -> OverviewView:
+        """Marks one step of the caller org's journey in progress and returns the refreshed journey.
 
-        Moves one step of the caller org's journey to in-progress and answers the whole refreshed journey, so a console needs no second read.  The transition is dependency-GATED, and that is why the answer set is wider than a success: a step whose prerequisites are unfinished is 409 carrying `{error, step, blockedBy}`, where `blockedBy` names the exact steps in the way — enough to render the blockage rather than merely report it. A step id the org's active journey does not contain is 404.  Requires a validated org; 403 without one, and the journey read and written is that org's alone. The mark is recorded as `manual`, and the journey is reconciled against the auto-detectors on every read, so a step the org has demonstrably completed elsewhere can still be moved to done underneath it.
+        Marks one step of the caller org's journey in progress and returns the refreshed journey.  Dependency-GATED: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy}, where blockedBy names the exact steps in the way — enough to render the reason without asking again.
 
-        :param id: (required)
+        :param id: ID is the step's id, as it appears in the journey (e.g. \"gsuite\"). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4178,6 +4188,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4193,7 +4204,7 @@ class GuideApi:
     @validate_call
     def post_guide_steps_by_id_start_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4206,12 +4217,12 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Mark a step of your org's journey started
+    ) -> ApiResponse[OverviewView]:
+        """Marks one step of the caller org's journey in progress and returns the refreshed journey.
 
-        Moves one step of the caller org's journey to in-progress and answers the whole refreshed journey, so a console needs no second read.  The transition is dependency-GATED, and that is why the answer set is wider than a success: a step whose prerequisites are unfinished is 409 carrying `{error, step, blockedBy}`, where `blockedBy` names the exact steps in the way — enough to render the blockage rather than merely report it. A step id the org's active journey does not contain is 404.  Requires a validated org; 403 without one, and the journey read and written is that org's alone. The mark is recorded as `manual`, and the journey is reconciled against the auto-detectors on every read, so a step the org has demonstrably completed elsewhere can still be moved to done underneath it.
+        Marks one step of the caller org's journey in progress and returns the refreshed journey.  Dependency-GATED: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy}, where blockedBy names the exact steps in the way — enough to render the reason without asking again.
 
-        :param id: (required)
+        :param id: ID is the step's id, as it appears in the journey (e.g. \"gsuite\"). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4244,6 +4255,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4259,7 +4271,7 @@ class GuideApi:
     @validate_call
     def post_guide_steps_by_id_start_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the step's id, as it appears in the journey (e.g. \"gsuite\").")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4273,11 +4285,11 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Mark a step of your org's journey started
+        """Marks one step of the caller org's journey in progress and returns the refreshed journey.
 
-        Moves one step of the caller org's journey to in-progress and answers the whole refreshed journey, so a console needs no second read.  The transition is dependency-GATED, and that is why the answer set is wider than a success: a step whose prerequisites are unfinished is 409 carrying `{error, step, blockedBy}`, where `blockedBy` names the exact steps in the way — enough to render the blockage rather than merely report it. A step id the org's active journey does not contain is 404.  Requires a validated org; 403 without one, and the journey read and written is that org's alone. The mark is recorded as `manual`, and the journey is reconciled against the auto-detectors on every read, so a step the org has demonstrably completed elsewhere can still be moved to done underneath it.
+        Marks one step of the caller org's journey in progress and returns the refreshed journey.  Dependency-GATED: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy}, where blockedBy names the exact steps in the way — enough to render the reason without asking again.
 
-        :param id: (required)
+        :param id: ID is the step's id, as it appears in the journey (e.g. \"gsuite\"). (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4310,6 +4322,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4350,6 +4363,13 @@ class GuideApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting

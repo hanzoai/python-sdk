@@ -29,7 +29,11 @@ from hanzoai.cloud.models.claim_key_out import ClaimKeyOut
 from hanzoai.cloud.models.coding_start_in import CodingStartIn
 from hanzoai.cloud.models.coding_started import CodingStarted
 from hanzoai.cloud.models.control_drain import ControlDrain
+from hanzoai.cloud.models.control_in import ControlIn
+from hanzoai.cloud.models.control_result import ControlResult
 from hanzoai.cloud.models.create_agent_in import CreateAgentIn
+from hanzoai.cloud.models.event_in import EventIn
+from hanzoai.cloud.models.event_view import EventView
 from hanzoai.cloud.models.metrics_view import MetricsView
 from hanzoai.cloud.models.patch_session_in import PatchSessionIn
 from hanzoai.cloud.models.patch_target_in import PatchTargetIn
@@ -7470,7 +7474,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_events(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to append to, from the path.")],
+        event_in: EventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7483,13 +7488,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Append one turn to a session's ordered log.
+    ) -> EventView:
+        """Records one turn of a session's transcript and answers 201 with it.
 
-        Records a message, tool-call, spawn, log, status or control turn against the session and answers 201 with the stored event, including the monotonic `seq` the store assigned — the cursor every reader pages from. The same turn is fanned out live to every stream subscriber watching that session's tree.  Requires a validated principal carrying an org, and the session must already exist IN THAT ORG: an id belonging to another tenant is a 404 exactly like one that does not exist, so the log can never be written across a tenant boundary. `actor` defaults to the calling principal when the body names none. `kind` must be one of the six above, and `payload` must be valid JSON of at most 64 KiB.  The payload is scanned for credentials BEFORE it is stored, and a hit REFUSES the write with 422 rather than redacting it: {status, code: \"secret_in_transcript\", error, findings:[…]}, each finding naming the rule, severity, line, a masked preview and a SHA-256 fingerprint the author can match against the value they rotate. The detected value itself appears nowhere in that body, because it was never stored. That in-band findings array is the reason this operation cannot be typed.
+        Records one turn of a session's transcript and answers 201 with it.  THE TURN IS SCANNED BEFORE IT IS STORED. The same engine the code-security surface runs reads the payload at this boundary, and a credential in it refuses the append with 422 rather than redacting it — a redacted transcript is one that still had the secret in it once, and this way the author learns which value to rotate. The refusal carries every finding: the rule, the severity, the line, a MASKED preview and the fingerprint. The secret is never in the answer.
 
-        :param id: (required)
+        :param id: ID is the session to append to, from the path. (required)
         :type id: str
+        :param event_in: (required)
+        :type event_in: EventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7514,6 +7521,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_events_serialize(
             id=id,
+            event_in=event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7521,6 +7529,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "EventView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7536,7 +7545,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_events_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to append to, from the path.")],
+        event_in: EventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7549,13 +7559,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Append one turn to a session's ordered log.
+    ) -> ApiResponse[EventView]:
+        """Records one turn of a session's transcript and answers 201 with it.
 
-        Records a message, tool-call, spawn, log, status or control turn against the session and answers 201 with the stored event, including the monotonic `seq` the store assigned — the cursor every reader pages from. The same turn is fanned out live to every stream subscriber watching that session's tree.  Requires a validated principal carrying an org, and the session must already exist IN THAT ORG: an id belonging to another tenant is a 404 exactly like one that does not exist, so the log can never be written across a tenant boundary. `actor` defaults to the calling principal when the body names none. `kind` must be one of the six above, and `payload` must be valid JSON of at most 64 KiB.  The payload is scanned for credentials BEFORE it is stored, and a hit REFUSES the write with 422 rather than redacting it: {status, code: \"secret_in_transcript\", error, findings:[…]}, each finding naming the rule, severity, line, a masked preview and a SHA-256 fingerprint the author can match against the value they rotate. The detected value itself appears nowhere in that body, because it was never stored. That in-band findings array is the reason this operation cannot be typed.
+        Records one turn of a session's transcript and answers 201 with it.  THE TURN IS SCANNED BEFORE IT IS STORED. The same engine the code-security surface runs reads the payload at this boundary, and a credential in it refuses the append with 422 rather than redacting it — a redacted transcript is one that still had the secret in it once, and this way the author learns which value to rotate. The refusal carries every finding: the rule, the severity, the line, a MASKED preview and the fingerprint. The secret is never in the answer.
 
-        :param id: (required)
+        :param id: ID is the session to append to, from the path. (required)
         :type id: str
+        :param event_in: (required)
+        :type event_in: EventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7580,6 +7592,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_events_serialize(
             id=id,
+            event_in=event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7587,6 +7600,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "EventView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7602,7 +7616,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_events_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to append to, from the path.")],
+        event_in: EventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7616,12 +7631,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Append one turn to a session's ordered log.
+        """Records one turn of a session's transcript and answers 201 with it.
 
-        Records a message, tool-call, spawn, log, status or control turn against the session and answers 201 with the stored event, including the monotonic `seq` the store assigned — the cursor every reader pages from. The same turn is fanned out live to every stream subscriber watching that session's tree.  Requires a validated principal carrying an org, and the session must already exist IN THAT ORG: an id belonging to another tenant is a 404 exactly like one that does not exist, so the log can never be written across a tenant boundary. `actor` defaults to the calling principal when the body names none. `kind` must be one of the six above, and `payload` must be valid JSON of at most 64 KiB.  The payload is scanned for credentials BEFORE it is stored, and a hit REFUSES the write with 422 rather than redacting it: {status, code: \"secret_in_transcript\", error, findings:[…]}, each finding naming the rule, severity, line, a masked preview and a SHA-256 fingerprint the author can match against the value they rotate. The detected value itself appears nowhere in that body, because it was never stored. That in-band findings array is the reason this operation cannot be typed.
+        Records one turn of a session's transcript and answers 201 with it.  THE TURN IS SCANNED BEFORE IT IS STORED. The same engine the code-security surface runs reads the payload at this boundary, and a credential in it refuses the append with 422 rather than redacting it — a redacted transcript is one that still had the secret in it once, and this way the author learns which value to rotate. The refusal carries every finding: the rule, the severity, the line, a MASKED preview and the fingerprint. The secret is never in the answer.
 
-        :param id: (required)
+        :param id: ID is the session to append to, from the path. (required)
         :type id: str
+        :param event_in: (required)
+        :type event_in: EventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7646,6 +7663,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_events_serialize(
             id=id,
+            event_in=event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7653,6 +7671,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '201': "EventView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7664,6 +7683,7 @@ class AgentsApi:
     def _post_agents_sessions_by_id_events_serialize(
         self,
         id,
+        event_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7691,9 +7711,31 @@ class AgentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if event_in is not None:
+            _body_params = event_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -7721,7 +7763,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_message(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7734,13 +7777,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Send text into a running session.
+    ) -> ControlResult:
+        """Sends a steering message to a running session — the door a human or another agent interrupts through.
 
-        Records `message` as a durable control event carrying the caller's text and answers 200 with {command, event, forwarded} — this is how a dashboard steers an agent mid-run. It is the one command with a required body: a `message` (up to 16 KiB) or a `payload`, and 400 with neither. The credential scan that guards an appended turn covers `payload` here; `message` is bounded but not scanned.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Sends a steering message to a running session — the door a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7765,6 +7810,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_message_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7772,6 +7818,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7787,7 +7834,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_message_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7800,13 +7848,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Send text into a running session.
+    ) -> ApiResponse[ControlResult]:
+        """Sends a steering message to a running session — the door a human or another agent interrupts through.
 
-        Records `message` as a durable control event carrying the caller's text and answers 200 with {command, event, forwarded} — this is how a dashboard steers an agent mid-run. It is the one command with a required body: a `message` (up to 16 KiB) or a `payload`, and 400 with neither. The credential scan that guards an appended turn covers `payload` here; `message` is bounded but not scanned.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Sends a steering message to a running session — the door a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7831,6 +7881,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_message_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7838,6 +7889,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7853,7 +7905,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_message_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7867,12 +7920,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Send text into a running session.
+        """Sends a steering message to a running session — the door a human or another agent interrupts through.
 
-        Records `message` as a durable control event carrying the caller's text and answers 200 with {command, event, forwarded} — this is how a dashboard steers an agent mid-run. It is the one command with a required body: a `message` (up to 16 KiB) or a `payload`, and 400 with neither. The credential scan that guards an appended turn covers `payload` here; `message` is bounded but not scanned.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Sends a steering message to a running session — the door a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7897,6 +7952,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_message_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7904,6 +7960,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7915,6 +7972,7 @@ class AgentsApi:
     def _post_agents_sessions_by_id_message_serialize(
         self,
         id,
+        control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7942,9 +8000,31 @@ class AgentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if control_in is not None:
+            _body_params = control_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -7972,7 +8052,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_pause(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7985,13 +8066,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Ask a running session to pause.
+    ) -> ControlResult:
+        """Asks a running session to pause.
 
-        Records `pause` as a durable control event on the session and answers 200 with {command, event, forwarded} — the stored event carries the `seq` that orders it against every other turn.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8016,6 +8099,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_pause_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8023,6 +8107,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8038,7 +8123,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_pause_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8051,13 +8137,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Ask a running session to pause.
+    ) -> ApiResponse[ControlResult]:
+        """Asks a running session to pause.
 
-        Records `pause` as a durable control event on the session and answers 200 with {command, event, forwarded} — the stored event carries the `seq` that orders it against every other turn.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8082,6 +8170,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_pause_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8089,6 +8178,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8104,7 +8194,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_pause_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8118,12 +8209,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Ask a running session to pause.
+        """Asks a running session to pause.
 
-        Records `pause` as a durable control event on the session and answers 200 with {command, event, forwarded} — the stored event carries the `seq` that orders it against every other turn.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8148,6 +8241,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_pause_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8155,6 +8249,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8166,6 +8261,7 @@ class AgentsApi:
     def _post_agents_sessions_by_id_pause_serialize(
         self,
         id,
+        control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8193,9 +8289,31 @@ class AgentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if control_in is not None:
+            _body_params = control_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -8223,7 +8341,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_resume(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8236,13 +8355,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Ask a paused session to carry on.
+    ) -> ControlResult:
+        """Asks a paused session to continue, on the same terms as a pause.
 
-        Records `resume` as a durable control event on the session and answers 200 with {command, event, forwarded}. The session is NOT required to be paused first: the only status this refuses is a finished one, because the live status is the running surface's to report rather than this endpoint's to enforce.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Asks a paused session to continue, on the same terms as a pause.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8267,6 +8388,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_resume_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8274,6 +8396,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8289,7 +8412,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_resume_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8302,13 +8426,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Ask a paused session to carry on.
+    ) -> ApiResponse[ControlResult]:
+        """Asks a paused session to continue, on the same terms as a pause.
 
-        Records `resume` as a durable control event on the session and answers 200 with {command, event, forwarded}. The session is NOT required to be paused first: the only status this refuses is a finished one, because the live status is the running surface's to report rather than this endpoint's to enforce.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Asks a paused session to continue, on the same terms as a pause.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8333,6 +8459,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_resume_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8340,6 +8467,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8355,7 +8483,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_resume_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8369,12 +8498,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Ask a paused session to carry on.
+        """Asks a paused session to continue, on the same terms as a pause.
 
-        Records `resume` as a durable control event on the session and answers 200 with {command, event, forwarded}. The session is NOT required to be paused first: the only status this refuses is a finished one, because the live status is the running surface's to report rather than this endpoint's to enforce.   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Asks a paused session to continue, on the same terms as a pause.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8399,6 +8530,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_resume_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8406,6 +8538,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8417,6 +8550,7 @@ class AgentsApi:
     def _post_agents_sessions_by_id_resume_serialize(
         self,
         id,
+        control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8444,9 +8578,31 @@ class AgentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if control_in is not None:
+            _body_params = control_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -8474,7 +8630,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_stop(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8487,13 +8644,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Ask a session to stop for good.
+    ) -> ControlResult:
+        """Ends a running session.
 
-        Records `stop` as a durable control event on the session and answers 200 with {command, event, forwarded}. Stop is the one command that CANCELS a task-backed session's durable workflow instead of signalling it — pause, resume and message are cooperative signals the workflow decides how to act on, while this tears it down, with the request's `message` recorded as the cancellation reason (a default stands in when none is given).   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Ends a running session. `message` is recorded as the cancellation reason, which is what a later reader of the transcript sees.  STOPPING IS NOT DELETING: the session, its transcript and anything it produced stay readable. A session that has already finished is 409 rather than a second stop.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8518,6 +8677,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_stop_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8525,6 +8685,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8540,7 +8701,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_stop_with_http_info(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8553,13 +8715,15 @@ class AgentsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Ask a session to stop for good.
+    ) -> ApiResponse[ControlResult]:
+        """Ends a running session.
 
-        Records `stop` as a durable control event on the session and answers 200 with {command, event, forwarded}. Stop is the one command that CANCELS a task-backed session's durable workflow instead of signalling it — pause, resume and message are cooperative signals the workflow decides how to act on, while this tears it down, with the request's `message` recorded as the cancellation reason (a default stands in when none is given).   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Ends a running session. `message` is recorded as the cancellation reason, which is what a later reader of the transcript sees.  STOPPING IS NOT DELETING: the session, its transcript and anything it produced stay readable. A session that has already finished is 409 rather than a second stop.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8584,6 +8748,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_stop_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8591,6 +8756,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8606,7 +8772,8 @@ class AgentsApi:
     @validate_call
     def post_agents_sessions_by_id_stop_without_preload_content(
         self,
-        id: StrictStr,
+        id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
+        control_in: ControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8620,12 +8787,14 @@ class AgentsApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Ask a session to stop for good.
+        """Ends a running session.
 
-        Records `stop` as a durable control event on the session and answers 200 with {command, event, forwarded}. Stop is the one command that CANCELS a task-backed session's durable workflow instead of signalling it — pause, resume and message are cooperative signals the workflow decides how to act on, while this tears it down, with the request's `message` recorded as the cancellation reason (a default stands in when none is given).   Requires a validated principal carrying an org, and the session must exist IN THAT ORG — a foreign id is a 404, so no tenant can steer another's agents. A FINISHED session (done or error) refuses every command with 409: a run that has ended cannot be steered.  THE COMMAND IS AN INTENT, NOT A STATE CHANGE. Nothing here writes the session's status. A 200 means the command was durably recorded and delivered, never that the agent has actually paused, resumed or stopped; the status becomes paused, done or error only when the surface running the agent reports it back through a session update. That surface learns of the command in one of two ways: a task-backed session (one carrying a workflow id, with a tasks backend wired) has it forwarded to the durable-execution engine, and `forwarded` says so; everything else is record-only, and the running surface — a locally started `hanzo code` session, for one — drains it by polling the session's control endpoint. Today that is every session: the only controller wired forwards nothing, so `forwarded` is false and polling is how a command arrives. If a forward is attempted and fails, the answer is 502 stating that the command was recorded but not forwarded: the intent is never lost.
+        Ends a running session. `message` is recorded as the cancellation reason, which is what a later reader of the transcript sees.  STOPPING IS NOT DELETING: the session, its transcript and anything it produced stay readable. A session that has already finished is 409 rather than a second stop.
 
-        :param id: (required)
+        :param id: ID is the session to steer, from the path. (required)
         :type id: str
+        :param control_in: (required)
+        :type control_in: ControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8650,6 +8819,7 @@ class AgentsApi:
 
         _param = self._post_agents_sessions_by_id_stop_serialize(
             id=id,
+            control_in=control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8657,6 +8827,7 @@ class AgentsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8668,6 +8839,7 @@ class AgentsApi:
     def _post_agents_sessions_by_id_stop_serialize(
         self,
         id,
+        control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8695,9 +8867,31 @@ class AgentsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if control_in is not None:
+            _body_params = control_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

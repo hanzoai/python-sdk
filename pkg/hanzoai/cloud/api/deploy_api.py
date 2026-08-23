@@ -26,6 +26,7 @@ from hanzoai.cloud.models.argo_revision_metadata import ArgoRevisionMetadata
 from hanzoai.cloud.models.argo_sync_windows import ArgoSyncWindows
 from hanzoai.cloud.models.argo_tree import ArgoTree
 from hanzoai.cloud.models.console_settings import ConsoleSettings
+from hanzoai.cloud.models.deploy_health import DeployHealth
 from hanzoai.cloud.models.git_ops_plane import GitOpsPlane
 from hanzoai.cloud.models.session_user import SessionUser
 from hanzoai.cloud.models.version_message import VersionMessage
@@ -2096,10 +2097,10 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Whether this control plane can actually reach the cluster it deploys to
+    ) -> DeployHealth:
+        """Health reports whether this deployment can observe the delivery plane.
 
-        Reports the plane's real reachability: 200 only when the Kubernetes API server answers AND the App CRD is served, 503 with the same body shape otherwise, so a caller reads the same `k8s` and `crd` booleans either way rather than parsing an error envelope. It is a genuine dependency probe, not a process liveness ping — a running plane with no cluster behind it reports degraded.  This is the ONE unauthenticated route that reports state, because liveness must be probe-able without a JWT. It therefore discloses booleans only: the underlying failure — the API server address, an RBAC refusal — is logged server-side and never put on the wire.
+        Health reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2131,6 +2132,8 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployHealth",
+            '503': "DeployHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2158,10 +2161,10 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Whether this control plane can actually reach the cluster it deploys to
+    ) -> ApiResponse[DeployHealth]:
+        """Health reports whether this deployment can observe the delivery plane.
 
-        Reports the plane's real reachability: 200 only when the Kubernetes API server answers AND the App CRD is served, 503 with the same body shape otherwise, so a caller reads the same `k8s` and `crd` booleans either way rather than parsing an error envelope. It is a genuine dependency probe, not a process liveness ping — a running plane with no cluster behind it reports degraded.  This is the ONE unauthenticated route that reports state, because liveness must be probe-able without a JWT. It therefore discloses booleans only: the underlying failure — the API server address, an RBAC refusal — is logged server-side and never put on the wire.
+        Health reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2193,6 +2196,8 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployHealth",
+            '503': "DeployHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2221,9 +2226,9 @@ class DeployApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Whether this control plane can actually reach the cluster it deploys to
+        """Health reports whether this deployment can observe the delivery plane.
 
-        Reports the plane's real reachability: 200 only when the Kubernetes API server answers AND the App CRD is served, 503 with the same body shape otherwise, so a caller reads the same `k8s` and `crd` booleans either way rather than parsing an error envelope. It is a genuine dependency probe, not a process liveness ping — a running plane with no cluster behind it reports degraded.  This is the ONE unauthenticated route that reports state, because liveness must be probe-able without a JWT. It therefore discloses booleans only: the underlying failure — the API server address, an RBAC refusal — is logged server-side and never put on the wire.
+        Health reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2255,6 +2260,8 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "DeployHealth",
+            '503': "DeployHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2292,6 +2299,13 @@ class DeployApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4043,7 +4057,7 @@ class DeployApi:
     ) -> None:
         """The console's rollback control — today it requests a reconcile, nothing more
 
-        Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release seam, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
+        Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
 
         :param name: (required)
         :type name: str
@@ -4109,7 +4123,7 @@ class DeployApi:
     ) -> ApiResponse[None]:
         """The console's rollback control — today it requests a reconcile, nothing more
 
-        Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release seam, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
+        Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
 
         :param name: (required)
         :type name: str
@@ -4175,7 +4189,7 @@ class DeployApi:
     ) -> RESTResponseType:
         """The console's rollback control — today it requests a reconcile, nothing more
 
-        Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release seam, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
+        Performs exactly what the sync action performs: it stamps the sync-requested timestamp onto the application's App CR and answers the application re-projected. It does NOT select, pin or revert to a prior image tag, and that is the one thing to know before wiring anything to it — the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  SuperAdmin-only and fail-closed, reading no request body, with an unknown application name a 404 and no cluster client a 503 — the same gate and the same failures as the sync it shares a handler with.
 
         :param name: (required)
         :type name: str
