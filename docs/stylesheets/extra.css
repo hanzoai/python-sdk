@@ -1,48 +1,20 @@
-/* Geist Font - Vercel's font used by shadcn/ui */
+/* Zen — the Hanzo family, sans and mono.
+   Self-hosted beside this file: one variable woff2 per family covers 100–900,
+   so the six static weights this replaced are two requests now, and neither one
+   goes to a host we do not own. The SIL OFL notice travels with the binaries at
+   fonts/LICENSE-Zen.txt. */
 @font-face {
-    font-family: 'Geist';
-    src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2');
-    font-weight: 400;
+    font-family: 'Zen';
+    src: url('fonts/Zen-Variable.woff2') format('woff2');
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: 'Geist';
-    src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Geist';
-    src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Geist';
-    src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Geist Mono';
-    src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: 'Geist Mono';
-    src: url('https://cdn.jsdelivr.net/npm/geist@1.3.0/dist/fonts/geist-mono/GeistMono-Medium.woff2') format('woff2');
-    font-weight: 500;
+    font-family: 'Zen Mono';
+    src: url('fonts/ZenMono-Variable.woff2') format('woff2');
+    font-weight: 100 900;
     font-style: normal;
     font-display: swap;
 }
@@ -50,8 +22,8 @@
 /* Root variables - Light mode defaults */
 :root {
     /* Font families */
-    --md-text-font: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --md-code-font: 'Geist Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+    --md-text-font: 'Zen', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --md-code-font: 'Zen Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
 
     /* shadcn/ui inspired colors - light mode */
     --md-primary-fg-color: #09090b;
