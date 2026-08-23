@@ -1,341 +1,100 @@
-# Hanzo Model Context Protocol (MCP)
+# hanzo-mcp
 
 [![PyPI](https://img.shields.io/pypi/v/hanzo-mcp.svg)](https://pypi.org/project/hanzo-mcp/)
 [![Python Version](https://img.shields.io/pypi/pyversions/hanzo-mcp.svg)](https://pypi.org/project/hanzo-mcp/)
 
-Model Context Protocol implementation for advanced tool use and context management.
+A Model Context Protocol server. It gives an MCP client — Claude Desktop, an
+editor, an agent — filesystem, shell, search and agent tools over one
+connection.
 
-## Installation
+## Install
 
 ```bash
 pip install hanzo-mcp
 ```
 
-## Features
-
-- **Tool Management**: Register and manage AI tools
-- **File Operations**: Read, write, edit files
-- **Code Intelligence**: AST analysis, symbol search
-- **Shell Execution**: Run commands safely
-- **Agent Delegation**: Recursive agent capabilities
-- **Memory Integration**: Persistent context storage
-- **Batch Operations**: Execute multiple tools efficiently
-
-## Quick Start
-
-### Basic Usage
-
-```python
-from hanzo_mcp import create_mcp_server
-
-# Create MCP server
-server = create_mcp_server()
-
-# Register tools
-server.register_filesystem_tools()
-server.register_shell_tools()
-server.register_agent_tools()
-
-# Start server
-await server.start()
-```
-
-### Tool Categories
-
-#### Filesystem Tools
-
-```python
-# Read file
-content = await server.tools.read(file_path="/path/to/file.py")
-
-# Write file
-await server.tools.write(
-    file_path="/path/to/new.py",
-    content="print('Hello')"
-)
-
-# Edit file
-await server.tools.edit(
-    file_path="/path/to/file.py",
-    old_string="old code",
-    new_string="new code"
-)
-
-# Multi-edit
-await server.tools.multi_edit(
-    file_path="/path/to/file.py",
-    edits=[
-        {"old_string": "foo", "new_string": "bar"},
-        {"old_string": "baz", "new_string": "qux"}
-    ]
-)
-```
-
-#### Search Tools
-
-```python
-# Unified search (grep + AST + semantic)
-results = await server.tools.search(
-    pattern="function_name",
-    path="/project"
-)
-
-# AST-aware search
-results = await server.tools.grep_ast(
-    pattern="class.*Service",
-    path="/src"
-)
-
-# Symbol search
-symbols = await server.tools.symbols(
-    pattern="def test_",
-    path="/tests"
-)
-```
-
-#### Shell Tools
-
-```python
-# Run command
-result = await server.tools.bash(
-    command="ls -la",
-    cwd="/project"
-)
-
-# Run with auto-backgrounding
-result = await server.tools.bash(
-    command="python server.py",
-    timeout=120000  # Auto-backgrounds after 2 min
-)
-
-# Manage processes
-processes = await server.tools.process(action="list")
-logs = await server.tools.process(
-    action="logs",
-    id="bash_abc123"
-)
-```
-
-#### Agent Tools
-
-```python
-# Dispatch agent for complex tasks
-result = await server.tools.dispatch_agent(
-    prompt="Analyze the codebase architecture",
-    path="/project"
-)
-
-# Network of agents
-result = await server.tools.network(
-    task="Implement user authentication",
-    agents=["architect", "developer", "tester"]
-)
-
-# CLI tool integration
-result = await server.tools.claude(
-    args=["--analyze", "main.py"]
-)
-```
-
-#### Batch Operations
-
-```python
-# Execute multiple tools in parallel
-results = await server.tools.batch(
-    description="Read multiple files",
-    invocations=[
-        {"tool_name": "read", "input": {"file_path": "file1.py"}},
-        {"tool_name": "read", "input": {"file_path": "file2.py"}},
-        {"tool_name": "grep", "input": {"pattern": "TODO"}}
-    ]
-)
-```
-
-## Advanced Features
-
-### Custom Tools
-
-```python
-from hanzo_mcp import Tool
-
-class MyCustomTool(Tool):
-    name = "my_tool"
-    description = "Custom tool"
-    
-    async def call(self, ctx, **params):
-        # Tool implementation
-        return "Result"
-
-# Register custom tool
-server.register_tool(MyCustomTool())
-```
-
-### Permission Management
-
-```python
-from hanzo_mcp import PermissionManager
-
-# Create permission manager
-pm = PermissionManager()
-
-# Set permission mode
-pm.set_mode("review")  # review, auto_approve, auto_deny
-
-# Check permission
-allowed = await pm.check_permission(
-    tool="write",
-    params={"file_path": "/etc/passwd"}
-)
-```
-
-### Context Management
-
-```python
-from hanzo_mcp import ToolContext
-
-# Create context
-ctx = ToolContext(
-    cwd="/project",
-    env={"API_KEY": "secret"},
-    timeout=30000
-)
-
-# Use with tools
-result = await tool.call(ctx, **params)
-```
-
-## Configuration
-
-### Environment Variables
+## Run
 
 ```bash
-# API keys for agent tools
-ANTHROPIC_API_KEY=sk-ant-...
-OPENAI_API_KEY=sk-...
-
-# Tool settings
-MCP_PERMISSION_MODE=review
-MCP_MAX_FILE_SIZE=10485760
-MCP_TIMEOUT=120000
-
-# Search settings
-MCP_SEARCH_IGNORE=node_modules,*.pyc
-MCP_SEARCH_MAX_RESULTS=100
+hanzo-mcp                                   # stdio, the transport clients speak
+hanzo-mcp --transport sse --host 127.0.0.1 --port 8888
+hanzo-mcp --install                         # write the config into Claude Desktop
 ```
 
-### Configuration File
-
-```yaml
-tools:
-  filesystem:
-    enabled: true
-    max_file_size: 10MB
-    allowed_paths:
-      - /home/user/projects
-      - /tmp
-    
-  shell:
-    enabled: true
-    timeout: 120000
-    auto_background: true
-    
-  agent:
-    enabled: true
-    models:
-      - claude-3-opus
-      - gpt-4
-    
-  search:
-    ignore_patterns:
-      - node_modules
-      - "*.pyc"
-      - .git
-    max_results: 100
-
-permissions:
-  mode: review  # review, auto_approve, auto_deny
-  whitelist:
-    - read
-    - grep
-    - search
-  blacklist:
-    - rm
-    - sudo
-```
-
-## CLI Usage
-
-### Installation to Claude Desktop
+Point it at what it may touch, and nothing else:
 
 ```bash
-# Install to Claude Desktop
-hanzo-mcp install-desktop
-
-# Serve MCP
-hanzo-mcp serve --port 3000
+hanzo-mcp --allow-path ~/work/project --project-dir ~/work/project
 ```
 
-### Standalone Server
+`--allow-path` may be repeated. Every filesystem tool refuses a path outside the
+set, and `..` and `~` are refused before resolution.
+
+## Flags
+
+| flag | what it does |
+|---|---|
+| `--transport {stdio,sse}` | how the client connects; `stdio` by default |
+| `--allow-path PATH` | grant access to a path; repeatable |
+| `--project-dir DIR` | the project root, also granted |
+| `--enable-agent` | let the server delegate to sub-agents |
+| `--agent-model`, `--agent-api-key`, `--agent-base-url` | which model the agent tool calls |
+| `--disable-write-tools` | read-only: no write, edit or shell mutation |
+| `--disable-search-tools` | drop the search family |
+| `--command-timeout`, `--search-timeout`, `--find-timeout`, `--ast-timeout` | per-family limits, in seconds |
+| `--shell`, `--force-shell`, `--all-shells` | which shell the shell tools use |
+| `--log-level LEVEL` | server logging |
+
+`hanzo-mcp --help` prints the whole set; `--version` prints the build.
+
+## Tools
+
+The server registers what the installed `hanzo-tools-*` packages provide — each
+one publishes a `TOOLS` list under the `hanzo.tools` entry point, and the server
+loads every package it finds. `hanzo-tools-fs`, `hanzo-tools-shell` and
+`hanzo-tools-core` come with this package; install another and its tools appear
+on the next start.
 
 ```bash
-# Start MCP server
-hanzo-mcp serve
-
-# With custom config
-hanzo-mcp serve --config mcp-config.yaml
-
-# With specific tools
-hanzo-mcp serve --tools filesystem,shell,agent
+pip install hanzo-tools-git hanzo-tools-sql
 ```
+
+## In a client
+
+Claude Desktop, `claude_desktop_config.json` — or `hanzo-mcp --install`, which
+writes it for you:
+
+```json
+{
+  "mcpServers": {
+    "hanzo": {
+      "command": "hanzo-mcp",
+      "args": ["--allow-path", "/Users/you/work"]
+    }
+  }
+}
+```
+
+## Embedding it
+
+```python
+from hanzo_mcp.server import HanzoMCPServer
+
+server = HanzoMCPServer(name="hanzo", allowed_paths=["/Users/you/work"])
+server.run(transport="stdio")
+```
+
+`run` blocks, and takes the transport. The rest of what the CLI accepts —
+`allowed_paths`, `project_dir`, `enable_agent_tool`, `disable_write_tools`,
+`disable_search_tools`, the timeouts — are constructor keywords.
 
 ## Development
 
-### Setup
-
 ```bash
-cd pkg/hanzo-mcp
-uv sync --all-extras
+uv sync
+uv run pytest tests/ -v
 ```
-
-### Testing
-
-```bash
-# Unit tests
-pytest tests/ -v
-
-# Integration tests
-pytest tests/ -m integration
-
-# With coverage
-pytest tests/ --cov=hanzo_mcp
-```
-
-### Building
-
-```bash
-uv build
-```
-
-## Architecture
-
-### Tool Categories
-
-- **Filesystem**: File operations (read, write, edit)
-- **Search**: Code search (grep, AST, semantic)
-- **Shell**: Command execution and process management
-- **Agent**: AI agent delegation and orchestration
-- **Memory**: Context and knowledge persistence
-- **Config**: Configuration management
-- **LLM**: Direct LLM interactions
-
-### Security
-
-- Permission system for dangerous operations
-- Path validation and sandboxing
-- Command injection protection
-- Rate limiting on operations
-- Audit logging
 
 ## License
 
-Apache License 2.0
+Apache-2.0.
