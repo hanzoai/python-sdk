@@ -6,6 +6,7 @@ Supports multiple organizations.
 
 from __future__ import annotations
 
+import base64
 import os
 import secrets
 from typing import TYPE_CHECKING
@@ -34,6 +35,15 @@ from .models import (
 
 if TYPE_CHECKING:
     from jwt import PyJWKClient
+
+
+def basic(client_id: str, client_secret: str) -> str:
+    """The confidential client's own credential, as HTTP Basic (RFC 6749 2.3.1).
+
+    IAM reads a credential from Authorization and nowhere else.
+    """
+    pair = base64.b64encode(f"{client_id}:{client_secret}".encode()).decode()
+    return f"Basic {pair}"
 
 
 class IAMClient:
@@ -441,20 +451,15 @@ class IAMClient:
     # Admin Auth Helpers
     # =========================================================================
 
-    def _admin_params(self) -> dict:
-        """Return query params for admin API auth (empty if using bearer token)."""
-        if self._bearer_token:
-            return {}
-        return {
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
-
     def _admin_headers(self) -> dict:
-        """Return extra headers for admin API auth (Authorization if bearer token)."""
+        """The credential, in Authorization — the only place IAM reads one.
+
+        A bearer if we hold one, otherwise the confidential client's own pair as
+        HTTP Basic (RFC 6749 2.3.1).
+        """
         if self._bearer_token:
             return {"Authorization": f"Bearer {self._bearer_token}"}
-        return {}
+        return {"Authorization": basic(self._config.client_id, self._config.client_secret)}
 
     # =========================================================================
     # User Management (IAM Admin API)
@@ -471,7 +476,6 @@ class IAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{user_id}",
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -495,7 +499,6 @@ class IAMClient:
         """
         params = {
             "owner": self._config.organization,
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -520,7 +523,6 @@ class IAMClient:
         """
         params = {
             "id": f"{self._config.organization}/{self._config.application}",
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -577,7 +579,6 @@ class IAMClient:
         """Modify user via IAM admin API."""
         response = self.http.post(
             f"{IAM_ROUTE_PREFIX}/{action}",
-            params=self._admin_params(),
             headers=self._admin_headers(),
             json=user.model_dump(by_alias=True, exclude_none=True),
         )
@@ -601,7 +602,6 @@ class IAMClient:
         """
         params = {
             "owner": "admin",
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -628,7 +628,6 @@ class IAMClient:
         """
         params = {
             "id": f"admin/{name}",
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -659,7 +658,6 @@ class IAMClient:
         """
         params = {
             "owner": owner,
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -690,7 +688,6 @@ class IAMClient:
         """
         params = {
             "owner": owner or self._config.organization,
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -737,7 +734,6 @@ class IAMClient:
 
         response = self.http.post(
             f"{IAM_ROUTE_PREFIX}/set-password",
-            params=self._admin_params(),
             headers=self._admin_headers(),
             json=payload,
         )
@@ -764,7 +760,6 @@ class IAMClient:
         """
         params = {
             "owner": owner,
-            **self._admin_params(),
         }
 
         response = self.http.get(
@@ -792,7 +787,6 @@ class IAMClient:
         """
         response = self.http.post(
             f"{IAM_ROUTE_PREFIX}/update-application",
-            params=self._admin_params(),
             headers=self._admin_headers(),
             json=application.model_dump(by_alias=True, exclude_none=True),
         )
@@ -1070,16 +1064,18 @@ class AsyncIAMClient:
         response.raise_for_status()
         return UserInfo.model_validate(response.json())
 
+    def _admin_headers(self) -> dict:
+        """The credential, in Authorization — the only place IAM reads one."""
+        if self._bearer_token:
+            return {"Authorization": f"Bearer {self._bearer_token}"}
+        return {"Authorization": basic(self._config.client_id, self._config.client_secret)}
+
     async def get_user(self, user_id: str) -> User:
         """Get user by ID."""
-        params = {
-            "id": f"{self._config.organization}/{user_id}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
+        params = {"id": f"{self._config.organization}/{user_id}"}
 
         http = await self._get_http()
-        response = await http.get(routes.USER, params=params)
+        response = await http.get(routes.USER, params=params, headers=self._admin_headers())
         response.raise_for_status()
         data = response.json()
 
@@ -1090,14 +1086,10 @@ class AsyncIAMClient:
 
     async def get_users(self) -> list[User]:
         """Get all users in organization."""
-        params = {
-            "owner": self._config.organization,
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
+        params = {"owner": self._config.organization}
 
         http = await self._get_http()
-        response = await http.get(routes.USERS, params=params)
+        response = await http.get(routes.USERS, params=params, headers=self._admin_headers())
         response.raise_for_status()
         data = response.json()
 
@@ -1109,14 +1101,10 @@ class AsyncIAMClient:
 
     async def get_application(self) -> Application:
         """Get current application configuration."""
-        params = {
-            "id": f"{self._config.organization}/{self._config.application}",
-            "clientId": self._config.client_id,
-            "clientSecret": self._config.client_secret,
-        }
+        params = {"id": f"{self._config.organization}/{self._config.application}"}
 
         http = await self._get_http()
-        response = await http.get(routes.APPLICATION, params=params)
+        response = await http.get(routes.APPLICATION, params=params, headers=self._admin_headers())
         response.raise_for_status()
         data = response.json()
 
