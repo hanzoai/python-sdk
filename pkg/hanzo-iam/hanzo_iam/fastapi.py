@@ -34,6 +34,7 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
 
+from hanzo_iam import routes
 from hanzo_iam.config import IAMConfig
 from hanzo_iam.models import (
     OIDC_USERINFO_PATH,
@@ -251,7 +252,7 @@ async def _fetch_user_info(token: str) -> UserInfo:
                 headers={"WWW-Authenticate": "Bearer"},
             )
 
-        return UserInfo.model_validate(response.json())
+        return UserInfo.model_validate(routes.decode(response))
 
 
 async def get_current_user(
