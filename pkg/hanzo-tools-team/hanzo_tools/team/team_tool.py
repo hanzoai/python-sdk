@@ -1,10 +1,16 @@
-"""MCP tool for Hanzo Team — workspace and member management.
-
-Manage workspaces, members, and invitations for collaborative
-Hanzo Team accounts.
+"""MCP tool for Hanzo team surfaces — workspaces, membership and invitations.
 
 Auth: Uses HanzoSession from hanzo-tools-auth for Bearer JWT tokens.
-Backend: Hanzo Team service.
+Backend: Hanzo IAM, which owns tenancy. Workspaces, memberships, invitations and
+the signed-in account all live under /v1/iam/.
+
+Addresses: a collection is a plural noun and one row of it is
+{collection}/{owner}/{name} — a workspace is named by its owner and its name,
+never by an opaque id. A collection GET answers a wrapper keyed by the plural,
+a row GET answers the record itself, and absence is 404.
+
+Two of these answer the {status, msg, data} envelope instead — memberships and
+account — so each reader here reads the shape its own route answers.
 """
 
 from __future__ import annotations
@@ -23,36 +29,28 @@ from hanzo_tools.core.base import BaseTool
 
 logger = logging.getLogger(__name__)
 
-# There is no Hanzo Team API. MEASURED against the live edge:
-#   GET https://api.hanzo.ai/team/...      -> 200 text/html  (the marketing SPA)
-#   GET https://api.hanzo.ai/v1/team/...   -> 404
-#   GET https://api.hanzo.ai/v1/workspaces -> 404
-#   GET https://team.hanzo.ai/...          -> 200 text/html  (a different SPA)
-# The old default pointed at the first of those, so every call here sailed
-# through raise_for_status() on a 200 and then died inside .json() — a missing
-# service reported as a parse error.
-#
-# What DOES exist and is auth-gated is IAM's tenancy surface:
-# /v1/iam/get-organizations and /v1/iam/get-groups. Mapping "workspace" onto
-# org-or-group is a product decision, not something to guess at here.
-#
-# HANZO_TEAM_URL stays as the seam: set it and this tool works the day the
-# service ships. Unset, it refuses rather than inventing an answer.
-TEAM_BASE_URL = os.getenv("HANZO_TEAM_URL", "")
+IAM_BASE_URL = os.getenv("IAM_URL", "https://hanzo.id")
 
-DESCRIPTION = """Hanzo Team — workspace and member management.
+DESCRIPTION = """Hanzo team — workspaces, membership and invitations.
 
 Requires authentication via `hanzo login` (stored at ~/.hanzo/auth/token.json).
 
+A workspace is named by owner and name, as `owner/name`.
+
 Actions:
-- workspaces: List all workspaces
-- workspace: Get workspace details (params: workspace_id)
-- create_workspace: Create a new workspace (params: name)
-- delete_workspace: Delete a workspace (params: workspace_id)
-- members: List workspace members (params: workspace_id)
-- invite: Invite a member to a workspace (params: workspace_id, email, role)
-- account: Get current account info
+- workspaces: List workspaces (params: owner)
+- workspace: Get one workspace (params: id, as owner/name)
+- create_workspace: Create a workspace (params: owner, name, display_name)
+- delete_workspace: Delete a workspace (params: id, as owner/name)
+- members: List an organization's members (params: org)
+- invite: Invite someone to an organization (params: org, email)
+- account: Get the signed-in account
 """
+
+ACTIONS = (
+    "workspaces", "workspace", "create_workspace", "delete_workspace",
+    "members", "invite", "account",
+)
 
 
 def _get_session():
@@ -61,17 +59,9 @@ def _get_session():
     return HanzoSession.get()
 
 
-def _team_url(path: str) -> str:
-    """Build the full Team API URL, or refuse because there is no Team API."""
-    if not TEAM_BASE_URL:
-        raise RuntimeError(
-            "No Hanzo Team API exists. api.hanzo.ai/team serves the marketing"
-            " site (200 text/html) and /v1/team 404s. For org and group"
-            " membership use the `iam` tool (/v1/iam/get-organizations,"
-            " /v1/iam/get-groups). Set HANZO_TEAM_URL to point this tool at a"
-            " real Team service once one is deployed."
-        )
-    return f"{TEAM_BASE_URL.rstrip('/')}/{path.lstrip('/')}"
+def _iam_url(path: str) -> str:
+    """Build the full IAM URL. IAM serves its CRUD under /v1/iam/."""
+    return f"{IAM_BASE_URL}/v1/iam/{path.lstrip('/')}"
 
 
 def _auth_headers(token: str) -> dict[str, str]:
@@ -83,58 +73,53 @@ def _auth_headers(token: str) -> dict[str, str]:
     }
 
 
-def _get_token() -> str:
-    """Get Bearer token from session or raise."""
+async def _iam(
+    method: str,
+    path: str,
+    params: dict[str, Any] | None = None,
+    body: dict[str, Any] | None = None,
+) -> Any:
+    """Call IAM and return the decoded body."""
     session = _get_session()
     token = session.get_iam_token()
     if not token:
         raise RuntimeError("Not authenticated. Run 'hanzo login' first.")
-    return token
 
-
-async def _team_get(path: str, params: dict[str, Any] | None = None) -> Any:
-    """GET request to Team API."""
-    token = _get_token()
     async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.get(
-            _team_url(path),
+        resp = await client.request(
+            method,
+            _iam_url(path),
             headers=_auth_headers(token),
             params=params,
+            json=body,
         )
         resp.raise_for_status()
         return resp.json()
 
 
-async def _team_post(path: str, body: dict[str, Any] | None = None) -> Any:
-    """POST request to Team API."""
-    token = _get_token()
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.post(
-            _team_url(path),
-            headers=_auth_headers(token),
-            json=body or {},
-        )
-        resp.raise_for_status()
-        return resp.json()
+def _rows(data: Any, key: str) -> list:
+    """Read a collection GET: {"workspaces": [...], "total": N} -> the list.
+
+    A missing key is an error, not an empty page: reading it as [] would report
+    "none" for a healthy org.
+    """
+    if not isinstance(data, dict) or key not in data:
+        raise RuntimeError(f"IAM answered no {key} list")
+    return data[key] or []
 
 
-async def _team_delete(path: str) -> Any:
-    """DELETE request to Team API."""
-    token = _get_token()
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.delete(
-            _team_url(path),
-            headers=_auth_headers(token),
-        )
-        resp.raise_for_status()
-        if not resp.content or resp.status_code == 204:
-            return {}
-        return resp.json()
+def _carried(data: Any) -> Any:
+    """Read the {status, msg, data} envelope memberships and account answer."""
+    if not isinstance(data, dict):
+        return data
+    if data.get("status") == "error":
+        raise RuntimeError(data.get("msg") or "IAM refused the request")
+    return data.get("data")
 
 
 @final
 class TeamTool(BaseTool):
-    """MCP tool for Hanzo Team operations."""
+    """MCP tool for Hanzo team operations."""
 
     @property
     def name(self) -> str:
@@ -148,34 +133,33 @@ class TeamTool(BaseTool):
         self,
         ctx: MCPContext,
         action: str = "account",
-        workspace_id: str | None = None,
+        id: str | None = None,
+        owner: str | None = None,
         name: str | None = None,
+        display_name: str | None = None,
+        org: str | None = None,
         email: str | None = None,
-        role: str | None = None,
         **kwargs: Any,
     ) -> str:
         try:
             if action == "workspaces":
-                return await self._workspaces()
+                return await self._workspaces(owner)
             elif action == "workspace":
-                return await self._workspace(workspace_id)
+                return await self._workspace(id)
             elif action == "create_workspace":
-                return await self._create_workspace(name)
+                return await self._create_workspace(owner, name, display_name)
             elif action == "delete_workspace":
-                return await self._delete_workspace(workspace_id)
+                return await self._delete_workspace(id)
             elif action == "members":
-                return await self._members(workspace_id)
+                return await self._members(org)
             elif action == "invite":
-                return await self._invite(workspace_id, email, role)
+                return await self._invite(org, email)
             elif action == "account":
                 return await self._account()
             else:
                 return json.dumps({
                     "error": f"Unknown action: {action}",
-                    "available": [
-                        "workspaces", "workspace", "create_workspace",
-                        "delete_workspace", "members", "invite", "account",
-                    ],
+                    "available": list(ACTIONS),
                 })
         except RuntimeError as e:
             return json.dumps({"error": str(e)})
@@ -185,87 +169,90 @@ class TeamTool(BaseTool):
                 body = e.response.json()
             except Exception:
                 pass
-            return json.dumps({"error": f"Team API error {e.response.status_code}", "detail": body})
+            return json.dumps({"error": f"IAM API error {e.response.status_code}", "detail": body})
         except Exception as e:
             logger.exception(f"Team tool error: {e}")
             return json.dumps({"error": f"Team error: {e}"})
 
     # -- Workspace actions ---------------------------------------------------
 
-    async def _workspaces(self) -> str:
-        data = await _team_get("workspaces")
-        workspaces = data if isinstance(data, list) else data.get("workspaces", [])
-        result = []
-        for w in workspaces:
-            result.append({
-                "id": w.get("id"),
+    async def _workspaces(self, owner: str | None) -> str:
+        # Omitting owner asks for the caller's own scope, which IAM decides.
+        params = {"owner": owner} if owner else {}
+        data = await _iam("GET", "workspaces", params=params)
+        result = [
+            {
+                "owner": w.get("owner"),
                 "name": w.get("name"),
-                "slug": w.get("slug"),
-                "createdAt": w.get("createdAt"),
-                "memberCount": w.get("memberCount"),
-            })
-        return json.dumps({"count": len(result), "workspaces": result}, indent=2)
+                "displayName": w.get("displayName"),
+                "organization": w.get("organization"),
+                "createdTime": w.get("createdTime"),
+            }
+            for w in _rows(data, "workspaces")
+        ]
+        return json.dumps(
+            {"count": len(result), "total": data.get("total"), "workspaces": result},
+            indent=2,
+        )
 
-    async def _workspace(self, workspace_id: str | None) -> str:
-        if not workspace_id:
-            return json.dumps({"error": "Required: workspace_id"})
-        data = await _team_get(f"workspaces/{workspace_id}")
-        return json.dumps(data, indent=2)
+    async def _workspace(self, id: str | None) -> str:
+        if not id:
+            return json.dumps({"error": "Required: id (workspace, format: owner/name)"})
+        return json.dumps(await _iam("GET", f"workspaces/{id}"), indent=2)
 
-    async def _create_workspace(self, name: str | None) -> str:
-        if not name:
-            return json.dumps({"error": "Required: name"})
-        data = await _team_post("workspaces", body={"name": name})
+    async def _create_workspace(
+        self, owner: str | None, name: str | None, display_name: str | None
+    ) -> str:
+        if not owner or not name:
+            return json.dumps({"error": "Required: owner, name. Optional: display_name"})
+        data = await _iam("POST", "workspaces", body={
+            "owner": owner,
+            "name": name,
+            "displayName": display_name or name,
+            "organization": owner,
+        })
         return json.dumps({"action": "created", "result": data}, indent=2)
 
-    async def _delete_workspace(self, workspace_id: str | None) -> str:
-        if not workspace_id:
-            return json.dumps({"error": "Required: workspace_id"})
-        data = await _team_delete(f"workspaces/{workspace_id}")
-        return json.dumps({"action": "deleted", "workspace_id": workspace_id, "result": data}, indent=2)
+    async def _delete_workspace(self, id: str | None) -> str:
+        if not id:
+            return json.dumps({"error": "Required: id (workspace, format: owner/name)"})
+        data = await _iam("DELETE", f"workspaces/{id}")
+        return json.dumps({"action": "deleted", "id": id, "result": data}, indent=2)
 
     # -- Member actions ------------------------------------------------------
 
-    async def _members(self, workspace_id: str | None) -> str:
-        if not workspace_id:
-            return json.dumps({"error": "Required: workspace_id"})
-        data = await _team_get(f"workspaces/{workspace_id}/members")
-        members = data if isinstance(data, list) else data.get("members", [])
-        result = []
-        for m in members:
-            result.append({
-                "id": m.get("id"),
-                "name": m.get("name"),
-                "email": m.get("email"),
+    async def _members(self, org: str | None) -> str:
+        if not org:
+            return json.dumps({"error": "Required: org"})
+        members = _carried(await _iam("GET", "memberships", params={"org": org})) or []
+        result = [
+            {
+                "user": m.get("user"),
+                "org": m.get("org"),
                 "role": m.get("role"),
-                "joinedAt": m.get("joinedAt"),
-            })
-        return json.dumps({
-            "workspace_id": workspace_id,
-            "count": len(result),
-            "members": result,
-        }, indent=2)
+                "createdTime": m.get("createdTime"),
+            }
+            for m in members
+        ]
+        return json.dumps({"org": org, "count": len(result), "members": result}, indent=2)
 
-    async def _invite(self, workspace_id: str | None, email: str | None, role: str | None) -> str:
-        if not workspace_id or not email:
-            return json.dumps({"error": "Required: workspace_id, email. Optional: role"})
-        body: dict[str, Any] = {"email": email}
-        if role:
-            body["role"] = role
-        data = await _team_post(f"workspaces/{workspace_id}/invitations", body=body)
-        return json.dumps({
-            "action": "invited",
-            "workspace_id": workspace_id,
+    async def _invite(self, org: str | None, email: str | None) -> str:
+        if not org or not email:
+            return json.dumps({"error": "Required: org, email"})
+        data = await _iam("POST", "invitations", body={
+            "owner": org,
+            "name": email.replace("@", "-at-").replace(".", "-"),
+            "displayName": email,
             "email": email,
-            "role": role or "member",
-            "result": data,
-        }, indent=2)
+        })
+        return json.dumps(
+            {"action": "invited", "org": org, "email": email, "result": data}, indent=2
+        )
 
     # -- Account action ------------------------------------------------------
 
     async def _account(self) -> str:
-        data = await _team_get("account")
-        return json.dumps(data, indent=2)
+        return json.dumps(_carried(await _iam("GET", "account")), indent=2)
 
     # -- Registration --------------------------------------------------------
 
@@ -289,29 +276,39 @@ class TeamTool(BaseTool):
                     ),
                 ),
             ] = "account",
-            workspace_id: Annotated[
+            id: Annotated[
                 str | None,
-                Field(description="Workspace ID (for workspace, delete_workspace, members, invite)"),
+                Field(description="Workspace, as owner/name (for workspace, delete_workspace)"),
+            ] = None,
+            owner: Annotated[
+                str | None,
+                Field(description="Organization owning the workspace (for workspaces, create_workspace)"),
             ] = None,
             name: Annotated[
                 str | None,
                 Field(description="Workspace name (for create_workspace)"),
             ] = None,
+            display_name: Annotated[
+                str | None,
+                Field(description="Workspace display name (for create_workspace)"),
+            ] = None,
+            org: Annotated[
+                str | None,
+                Field(description="Organization (for members, invite)"),
+            ] = None,
             email: Annotated[
                 str | None,
                 Field(description="Email address (for invite)"),
-            ] = None,
-            role: Annotated[
-                str | None,
-                Field(description="Member role (for invite, e.g. admin, member, viewer)"),
             ] = None,
             ctx: MCPContext = None,
         ) -> str:
             return await tool_instance.call(
                 ctx,
                 action=action,
-                workspace_id=workspace_id,
+                id=id,
+                owner=owner,
                 name=name,
+                display_name=display_name,
+                org=org,
                 email=email,
-                role=role,
             )

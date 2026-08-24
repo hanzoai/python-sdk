@@ -1,26 +1,27 @@
-"""Hanzo IAM endpoint paths — the one place this SDK names an admin route.
+"""Hanzo IAM admin addresses — the one place this SDK names an admin route.
 
-Every path here is the NATIVE surface. The legacy "verb" spellings this SDK used
-to call (`get-user`, `get-users`, `get-organizations`, …) are being removed from
-the server: they are an upstream shape, HIP-0111 forbids them, and a capability
-that has an RFC uses its RFC.
+IAM serves its CRUD under `/v1/iam/` and nowhere else. A collection is a plural
+noun; one row of it is `{collection}/{owner}/{name}`, built by `row`. A row is
+identified by owner and name, never by an opaque id and never by a verb.
 
-Two things changed together, which is why this module exists rather than 22
-inline literals:
+Four readers, one per shape, so a caller never has to guess:
 
-    path      the verb URL became a noun URL
-    envelope  the verb surface answered {status, msg, data} at HTTP 200 even for
-              a miss. The native surface returns the object at the TOP LEVEL and
-              uses real status codes, and it NAMES its lists — {"users": [...]},
-              not {"data": [...]}.
+    decode     the wire decision, before any other: is this JSON at all?
+               hanzo.id serves its sign-in SPA on every unmatched path, so a
+               wrong path answers 200 text/html. This names the path instead of
+               dying inside .json() with a byte offset.
+    check      every response passes through it. A refusal is an RFC 9457
+               problem document and absence is 404, so this raises with the
+               server's own `detail` rather than returning something falsy.
+    listing    a collection GET answers a wrapper keyed by the plural —
+               {"users": [...], "total": N} — never a bare array. Reading a
+               missing key as [] would report "none" for a healthy org, so a
+               missing key raises.
+    envelope   {"status", "msg", "data"} — the shape account, memberships,
+               password and login answer, and only those.
 
-Swapping only the path is the dangerous half. A caller that does
-`x if isinstance(x, list) else []` against a native response gets `[]` — it
-reports "none" for a healthy org instead of failing.
-
-`unwrap` reads both shapes so a fleet mid-rollout keeps working. That is
-deliberately temporary: once every server serves native only, the envelope branch
-is dead code and should be deleted with it.
+A row GET, POST and PUT answer the record itself at the top level; DELETE
+answers {"deleted": true}. Those need no reader beyond `check`.
 
 OIDC/OAuth paths are NOT here — they live in models.py (OIDC_TOKEN_PATH and
 friends) and are pinned by tests/test_endpoints.py. This module is the admin
@@ -33,37 +34,89 @@ import httpx
 
 from typing import Any
 
-# --- native admin routes -----------------------------------------------------
+# --- collections -------------------------------------------------------------
 
-USER = "/v1/iam/users/get"
 USERS = "/v1/iam/users"
-APPLICATION = "/v1/iam/application"
-APPLICATIONS = "/v1/iam/applications"
-ORGANIZATION = "/v1/iam/organizations/get"
 ORGANIZATIONS = "/v1/iam/organizations"
-PROVIDERS = "/v1/iam/providers"
-ROLE = "/v1/iam/roles/get"
+APPLICATIONS = "/v1/iam/applications"
 ROLES = "/v1/iam/roles"
+PROVIDERS = "/v1/iam/providers"
+PERMISSIONS = "/v1/iam/permissions"
+PROJECTS = "/v1/iam/projects"
+WORKSPACES = "/v1/iam/workspaces"
+INVITATIONS = "/v1/iam/invitations"
+AUDIT_LOGS = "/v1/iam/audit-logs"
+TOKENS = "/v1/iam/tokens"
+SESSIONS = "/v1/iam/sessions"
+CERTS = "/v1/iam/certs"
+KEYS = "/v1/iam/keys"
+
+# --- single-address surfaces -------------------------------------------------
+
+#: Own profile. Answers the envelope.
+ACCOUNT = "/v1/iam/account"
+
+#: Org membership. GET takes exactly one of ?user= or ?org=. Answers the envelope.
+MEMBERSHIPS = "/v1/iam/memberships"
+
+#: PUT to set a password. IAM hashes it, so a password is never a row field.
+#: Answers the envelope.
+PASSWORD = "/v1/iam/password"
+
+#: POST username+password to sign in. Answers the envelope.
+LOGIN = "/v1/iam/login"
 
 #: OAuth 2.0 token endpoint (RFC 6749 §3.2). The `oauth/access_token` spelling
 #: this SDK used is a legacy alias the server still answers but never advertises
 #: — OIDC discovery names only this one.
 TOKEN = "/v1/iam/oauth/token"
 
-#: The key the native surface wraps a LIST in, per route. The verb surface put
-#: every list under "data"; the native one names what it returns. A list route
-#: missing from this table unwraps to [] and reads as "empty".
+#: The key each collection GET wraps its list in. The plural in the path and the
+#: key in the body are not always the same word, and a route missing from this
+#: table has no reader — which is the point: add it here or do not read it.
 LIST_KEY = {
     USERS: "users",
-    APPLICATIONS: "applications",
     ORGANIZATIONS: "organizations",
-    PROVIDERS: "providers",
+    APPLICATIONS: "applications",
     ROLES: "roles",
+    PROVIDERS: "providers",
+    PERMISSIONS: "permissions",
+    PROJECTS: "projects",
+    WORKSPACES: "workspaces",
+    INVITATIONS: "invitations",
+    AUDIT_LOGS: "auditLogs",
+    TOKENS: "tokens",
+    SESSIONS: "sessions",
+    CERTS: "certs",
+    KEYS: "keys",
 }
 
 
 class IAMError(Exception):
-    """An IAM call did not produce a value."""
+    """An IAM call did not produce a value.
+
+    `status` is the HTTP status when IAM refused, so a caller can tell absence
+    (404) from a scope refusal (403); it is None when the answer never was IAM.
+    """
+
+    def __init__(self, message: str, response: httpx.Response | None = None):
+        super().__init__(message)
+        self.response = response
+
+    @property
+    def status(self) -> int | None:
+        return None if self.response is None else self.response.status_code
+
+
+def row(collection: str, owner: str, name: str) -> str:
+    """Address one row of a collection."""
+    return f"{collection}/{owner}/{name}"
+
+
+def owner_name(ident: str, default_owner: str) -> tuple[str, str]:
+    """Split an `owner/name` identity, filling the owner when only a name is given."""
+    owner, _, name = ident.rpartition("/")
+    return (owner or default_owner), name
 
 
 def decode(response: httpx.Response) -> Any:
@@ -78,37 +131,51 @@ def decode(response: httpx.Response) -> Any:
         raise IAMError(
             f"{response.request.method} {response.request.url} answered"
             f" {response.status_code} {kind or 'no content-type'} rather than JSON"
-            " — that is a path IAM does not serve, not a refusal"
+            " — that is a path IAM does not serve, not a refusal",
+            response,
         )
     try:
         return response.json()
     except ValueError as e:
-        raise IAMError(f"{response.request.url} returned unparseable JSON: {e}") from e
+        raise IAMError(
+            f"{response.request.url} returned unparseable JSON: {e}", response
+        ) from e
 
 
-def unwrap(body: Any, list_key: str | None = None) -> Any:
-    """Return the payload from either the native or the legacy envelope.
+def reason(response: httpx.Response) -> str:
+    """The reason IAM gave for refusing: the RFC 9457 detail, else the body."""
+    try:
+        body = response.json()
+    except ValueError:
+        return response.text[:200]
+    if isinstance(body, dict):
+        return str(body.get("detail") or body.get("title") or body.get("msg") or body)
+    return str(body)
 
-    Raises ValueError when the legacy envelope carries an error, because that
-    surface reported failures INSIDE a 200 and callers relied on this raising
-    rather than on a falsy return. The native surface signals with the status
-    code, which the caller has already checked via raise_for_status().
-    """
+
+def check(response: httpx.Response) -> Any:
+    """The body IAM answered, or a raise carrying the reason it refused."""
+    if response.is_error:
+        raise IAMError(
+            f"{response.status_code} {response.request.url.path}: {reason(response)}",
+            response,
+        )
+    return decode(response)
+
+
+def listing(body: Any, key: str) -> list:
+    """Read a collection GET: {"users": [...], "total": N} -> the list."""
+    if not isinstance(body, dict):
+        raise IAMError(f"expected an object keyed {key!r}, got {type(body).__name__}")
+    if key not in body:
+        raise IAMError(f"{key!r} missing from the response; keys are {sorted(body)}")
+    return body[key] or []
+
+
+def envelope(body: Any) -> Any:
+    """Read the {status, msg, data} shape and return what it carries."""
     if not isinstance(body, dict):
         return body
-
     if body.get("status") == "error":
-        raise ValueError(body.get("msg") or "IAM request failed")
-
-    if list_key is not None:
-        if list_key in body:  # native: {"users": [...]}
-            return body[list_key] or []
-        if "data" in body:  # legacy: {"status", "msg", "data": [...]}
-            return body["data"] or []
-        return []
-
-    # Only a body whose keys are EXACTLY the envelope's is unwrapped, so a native
-    # row that legitimately carries a `data` column survives intact.
-    if "data" in body and set(body) <= {"status", "msg", "data", "data2"}:
-        return body["data"]
-    return body
+        raise IAMError(body.get("msg") or "IAM refused the request")
+    return body.get("data")
