@@ -373,7 +373,7 @@ class IAMClient:
         return User.model_validate(body)
 
     def get_users(self, owner: str | None = None) -> list[User]:
-        """List users. Omitting `owner` lets the server scope the read."""
+        """List users in `owner`, or in whatever scope the server picks without one."""
         params = {"owner": owner} if owner else {}
         body = routes.check(
             self.http.get(routes.USERS, params=params, headers=self._admin_headers())
@@ -575,11 +575,11 @@ class IAMClient:
         )
         return Application.model_validate(body)
 
-    def get_applications(self, owner: str) -> list[Application]:
-        """List an organization's applications. IAM requires the owner here."""
+    def get_applications(self, owner: str | None = None) -> list[Application]:
+        """List an organization's applications."""
         body = routes.check(
             self.http.get(
-                routes.APPLICATIONS, params={"owner": owner}, headers=self._admin_headers()
+                routes.APPLICATIONS, params=({"owner": owner} if owner else {}), headers=self._admin_headers()
             )
         )
         return [Application.model_validate(a) for a in routes.listing(body, "applications")]

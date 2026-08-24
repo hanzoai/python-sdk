@@ -108,6 +108,17 @@ def _rows(data: Any, key: str) -> list:
     return data[key] or []
 
 
+def _reason(response: httpx.Response) -> str:
+    """The reason IAM gave: the RFC 9457 detail, the envelope's msg, else the body."""
+    try:
+        body = response.json()
+    except ValueError:
+        return response.text[:200]
+    if isinstance(body, dict):
+        return str(body.get("detail") or body.get("title") or body.get("msg") or body)
+    return str(body)
+
+
 def _carried(data: Any) -> Any:
     """Read the {status, msg, data} envelope memberships and account answer."""
     if not isinstance(data, dict):
@@ -164,12 +175,10 @@ class TeamTool(BaseTool):
         except RuntimeError as e:
             return json.dumps({"error": str(e)})
         except httpx.HTTPStatusError as e:
-            body = e.response.text
-            try:
-                body = e.response.json()
-            except Exception:
-                pass
-            return json.dumps({"error": f"IAM API error {e.response.status_code}", "detail": body})
+            return json.dumps({
+                "error": f"IAM API error {e.response.status_code}",
+                "detail": _reason(e.response),
+            })
         except Exception as e:
             logger.exception(f"Team tool error: {e}")
             return json.dumps({"error": f"Team error: {e}"})
@@ -177,7 +186,6 @@ class TeamTool(BaseTool):
     # -- Workspace actions ---------------------------------------------------
 
     async def _workspaces(self, owner: str | None) -> str:
-        # Omitting owner asks for the caller's own scope, which IAM decides.
         params = {"owner": owner} if owner else {}
         data = await _iam("GET", "workspaces", params=params)
         result = [
