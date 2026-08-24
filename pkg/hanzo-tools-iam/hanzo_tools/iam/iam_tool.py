@@ -1,10 +1,20 @@
 """MCP tool for Hanzo IAM — identity and access management.
 
-Full control over users, organizations, roles, permissions, providers,
-applications, tokens, sessions, invitations, and audit records.
+Users, organizations, roles, permissions, providers, applications, tokens,
+sessions, invitations and audit logs.
 
 Auth: Uses HanzoSession from hanzo-tools-auth for Bearer JWT tokens.
-Backend: Hanzo IAM (HIP-0026) — canonical surface under iam.hanzo.ai/v1/iam/
+Backend: Hanzo IAM (HIP-0026) — the CRUD surface under /v1/iam/.
+
+Addresses: a collection is a plural noun and one row of it is
+{collection}/{owner}/{name}. A collection GET answers a wrapper keyed by the
+plural — {"users": [...], "total": N} — a row GET answers the record itself,
+absence is 404, and a refusal is an RFC 9457 problem document.
+
+Scope: IAM decides which organizations a caller may read. Omitting `owner` asks
+for the caller's own scope, which is the right default; naming someone else's org
+is refused rather than silently reinterpreted. Applications and sessions are the
+two routes that require an owner, so those ask for one.
 """
 
 from __future__ import annotations
@@ -31,38 +41,45 @@ Requires authentication via `hanzo login` (stored at ~/.hanzo/auth/token.json).
 
 User actions:
 - users: List users (params: owner)
-- user: Get user by ID (params: id)
+- user: Get one user (params: id, as owner/name)
 - create_user: Create a user (params: owner, name, email, password, display_name)
 - update_user: Update a user (params: id, plus fields to update)
 - delete_user: Delete a user (params: id)
 
 Organization actions:
 - orgs: List organizations
-- org: Get organization details (params: id)
+- org: Get one organization (params: id, as admin/org-name)
 
 Role and permission actions:
-- roles: List roles
-- role: Get role details (params: id)
-- permissions: List permissions
-- enforce: Check permission (params: owner, model, resource, action)
+- roles: List roles (params: owner)
+- role: Get one role (params: id, as owner/role-name)
+- permissions: List permissions (params: owner)
 
 Provider and application actions:
-- providers: List auth providers
-- apps: List applications
+- providers: List auth providers (params: owner)
+- apps: List applications (params: owner, required)
 
 Token and session actions:
-- tokens: List tokens
-- sessions: List sessions
+- tokens: List tokens (params: owner)
+- sessions: List sessions (params: owner, required)
 
 Invitation actions:
-- invitations: List invitations
-- invite: Send invitation (params: email, org)
+- invitations: List invitations (params: owner)
+- invite: Send an invitation (params: email, org)
 
-Audit and system actions:
-- records: List audit records
-- system_info: Get IAM system info
-- health: Health check
+Audit actions:
+- records: List audit logs (params: owner)
 """
+
+ACTIONS = (
+    "users", "user", "create_user", "update_user", "delete_user",
+    "orgs", "org",
+    "roles", "role", "permissions",
+    "providers", "apps",
+    "tokens", "sessions",
+    "invitations", "invite",
+    "records",
+)
 
 
 def _get_session():
@@ -74,8 +91,7 @@ def _get_session():
 def _iam_url(path: str) -> str:
     """Build full IAM API URL.
 
-    The Hanzo IAM server (HIP-0026) registers its admin CRUD surface only
-    under /v1/iam/ — the upstream-shape /api/ path is not served. One way.
+    The Hanzo IAM server (HIP-0026) registers its CRUD surface under /v1/iam/.
     """
     return f"{IAM_BASE_URL}/v1/iam/{path.lstrip('/')}"
 
@@ -89,55 +105,44 @@ def _auth_headers(token: str) -> dict[str, str]:
     }
 
 
-async def _iam_get(path: str, params: dict[str, Any] | None = None) -> Any:
-    """GET request to IAM API."""
+async def _iam(
+    method: str,
+    path: str,
+    params: dict[str, Any] | None = None,
+    body: dict[str, Any] | None = None,
+) -> Any:
+    """Call IAM and return the decoded body."""
     session = _get_session()
     token = session.get_iam_token()
     if not token:
         raise RuntimeError("Not authenticated. Run 'hanzo login' first.")
 
     async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.get(
+        resp = await client.request(
+            method,
             _iam_url(path),
             headers=_auth_headers(token),
             params=params,
+            json=body,
         )
         resp.raise_for_status()
         return resp.json()
 
 
-async def _iam_post(path: str, body: dict[str, Any] | None = None) -> Any:
-    """POST request to IAM API."""
-    session = _get_session()
-    token = session.get_iam_token()
-    if not token:
-        raise RuntimeError("Not authenticated. Run 'hanzo login' first.")
+def _rows(data: Any, key: str) -> list:
+    """Read a collection GET: {"users": [...], "total": N} -> the list.
 
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.post(
-            _iam_url(path),
-            headers=_auth_headers(token),
-            json=body or {},
-        )
-        resp.raise_for_status()
-        return resp.json()
+    A missing key is an error, not an empty page: reading it as [] would report
+    "none" for a healthy org.
+    """
+    if not isinstance(data, dict) or key not in data:
+        raise RuntimeError(f"IAM answered no {key} list")
+    return data[key] or []
 
 
-async def _iam_delete(path: str, body: dict[str, Any] | None = None) -> Any:
-    """DELETE request to IAM API."""
-    session = _get_session()
-    token = session.get_iam_token()
-    if not token:
-        raise RuntimeError("Not authenticated. Run 'hanzo login' first.")
-
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.post(
-            _iam_url(path),
-            headers=_auth_headers(token),
-            json=body or {},
-        )
-        resp.raise_for_status()
-        return resp.json()
+def _scope(owner: str | None) -> dict[str, str]:
+    """Query scope. Omitted means the caller's own, which the server decides."""
+    return {"owner": owner} if owner else {}
 
 
 @final
@@ -155,7 +160,7 @@ class IAMTool(BaseTool):
     async def call(
         self,
         ctx: MCPContext,
-        action: str = "health",
+        action: str,
         id: str | None = None,
         owner: str | None = None,
         name: str | None = None,
@@ -163,9 +168,6 @@ class IAMTool(BaseTool):
         password: str | None = None,
         display_name: str | None = None,
         org: str | None = None,
-        model: str | None = None,
-        resource: str | None = None,
-        permission_action: str | None = None,
         **kwargs: Any,
     ) -> str:
         try:
@@ -189,52 +191,38 @@ class IAMTool(BaseTool):
 
             # Role and permission actions
             elif action == "roles":
-                return await self._roles()
+                return await self._roles(owner)
             elif action == "role":
                 return await self._role(id)
             elif action == "permissions":
-                return await self._permissions()
-            elif action == "enforce":
-                return await self._enforce(owner, model, resource, permission_action)
+                return await self._permissions(owner)
 
             # Provider and application actions
             elif action == "providers":
-                return await self._providers()
+                return await self._providers(owner)
             elif action == "apps":
-                return await self._apps()
+                return await self._apps(owner)
 
             # Token and session actions
             elif action == "tokens":
-                return await self._tokens()
+                return await self._tokens(owner)
             elif action == "sessions":
-                return await self._sessions()
+                return await self._sessions(owner)
 
             # Invitation actions
             elif action == "invitations":
-                return await self._invitations()
+                return await self._invitations(owner)
             elif action == "invite":
                 return await self._invite(email, org)
 
-            # Audit and system actions
+            # Audit actions
             elif action == "records":
-                return await self._records()
-            elif action == "system_info":
-                return await self._system_info()
-            elif action == "health":
-                return await self._health()
+                return await self._records(owner)
 
             else:
                 return json.dumps({
                     "error": f"Unknown action: {action}",
-                    "available": [
-                        "users", "user", "create_user", "update_user", "delete_user",
-                        "orgs", "org",
-                        "roles", "role", "permissions", "enforce",
-                        "providers", "apps",
-                        "tokens", "sessions",
-                        "invitations", "invite",
-                        "records", "system_info", "health",
-                    ],
+                    "available": list(ACTIONS),
                 })
         except RuntimeError as e:
             return json.dumps({"error": str(e)})
@@ -252,33 +240,26 @@ class IAMTool(BaseTool):
     # -- User actions --------------------------------------------------------
 
     async def _users(self, owner: str | None) -> str:
-        owner = owner or "hanzo"
-        # Native noun route, not the legacy get-users verb — the server is
-        # removing those. It answers {"users": [...]}, where the verb answered a
-        # bare list, so BOTH halves change together: swapping only the path would
-        # leave isinstance(data, list) False and report zero users for a healthy
-        # org, which reads as "no users" rather than as an error.
-        data = await _iam_get("users", params={"owner": owner})
-        if isinstance(data, dict):
-            users = data.get("users") or data.get("data") or []
-        else:
-            users = data if isinstance(data, list) else []
-        result = []
-        for u in users:
-            result.append({
+        data = await _iam("GET", "users", params=_scope(owner))
+        result = [
+            {
                 "id": u.get("id"),
                 "name": u.get("name"),
                 "email": u.get("email"),
                 "displayName": u.get("displayName"),
                 "createdTime": u.get("createdTime"),
-            })
-        return json.dumps({"owner": owner, "count": len(result), "users": result}, indent=2)
+            }
+            for u in _rows(data, "users")
+        ]
+        return json.dumps(
+            {"owner": owner, "count": len(result), "total": data.get("total"), "users": result},
+            indent=2,
+        )
 
     async def _user(self, id: str | None) -> str:
         if not id:
-            return json.dumps({"error": "Required: id (user ID, format: org/username)"})
-        data = await _iam_get("get-user", params={"id": id})
-        return json.dumps(data, indent=2)
+            return json.dumps({"error": "Required: id (user ID, format: owner/name)"})
+        return json.dumps(await _iam("GET", f"users/{id}"), indent=2)
 
     async def _create_user(
         self,
@@ -288,19 +269,23 @@ class IAMTool(BaseTool):
         password: str | None,
         display_name: str | None,
     ) -> str:
-        if not name or not email:
-            return json.dumps({"error": "Required: name, email. Optional: owner, password, display_name"})
+        if not owner or not name or not email:
+            return json.dumps({"error": "Required: owner, name, email. Optional: password, display_name"})
 
-        user_data = {
-            "owner": owner or "hanzo",
-            "name": name,
-            "email": email,
-            "displayName": display_name or name,
+        body: dict[str, Any] = {
+            "user": {
+                "owner": owner,
+                "name": name,
+                "email": email,
+                "displayName": display_name or name,
+            },
         }
+        # The password rides the create call and the server hashes it. It is
+        # never a field on the user row.
         if password:
-            user_data["password"] = password
+            body["password"] = password
 
-        data = await _iam_post("add-user", body={"user": user_data})
+        data = await _iam("POST", "users", body=body)
         return json.dumps({"action": "created", "result": data}, indent=2)
 
     async def _update_user(
@@ -312,14 +297,11 @@ class IAMTool(BaseTool):
         **kwargs: Any,
     ) -> str:
         if not id:
-            return json.dumps({"error": "Required: id (user ID, format: org/username)"})
+            return json.dumps({"error": "Required: id (user ID, format: owner/name)"})
 
-        # Fetch current user first
-        current = await _iam_get("get-user", params={"id": id})
-        if not isinstance(current, dict):
-            return json.dumps({"error": f"User not found: {id}"})
+        # A PUT replaces the row, so start from the stored one.
+        current = await _iam("GET", f"users/{id}")
 
-        # Apply updates
         if name is not None:
             current["name"] = name
         if email is not None:
@@ -330,193 +312,163 @@ class IAMTool(BaseTool):
             if v is not None:
                 current[k] = v
 
-        data = await _iam_post("update-user", body={"user": current})
+        data = await _iam("PUT", f"users/{id}", body={"user": current})
         return json.dumps({"action": "updated", "id": id, "result": data}, indent=2)
 
     async def _delete_user(self, id: str | None) -> str:
         if not id:
-            return json.dumps({"error": "Required: id (user ID, format: org/username)"})
-
-        # Fetch user to get full object for deletion
-        current = await _iam_get("get-user", params={"id": id})
-        if not isinstance(current, dict):
-            return json.dumps({"error": f"User not found: {id}"})
-
-        data = await _iam_delete("delete-user", body={"user": current})
+            return json.dumps({"error": "Required: id (user ID, format: owner/name)"})
+        data = await _iam("DELETE", f"users/{id}")
         return json.dumps({"action": "deleted", "id": id, "result": data}, indent=2)
 
     # -- Organization actions ------------------------------------------------
 
     async def _orgs(self) -> str:
-        data = await _iam_get("get-organizations", params={"owner": "admin"})
-        orgs = data if isinstance(data, list) else []
-        result = []
-        for o in orgs:
-            result.append({
+        data = await _iam("GET", "organizations")
+        result = [
+            {
                 "name": o.get("name"),
                 "displayName": o.get("displayName"),
                 "websiteUrl": o.get("websiteUrl"),
                 "createdTime": o.get("createdTime"),
-            })
+            }
+            for o in _rows(data, "organizations")
+        ]
         return json.dumps({"count": len(result), "organizations": result}, indent=2)
 
     async def _org(self, id: str | None) -> str:
         if not id:
             return json.dumps({"error": "Required: id (organization ID, format: admin/org-name)"})
-        data = await _iam_get("get-organization", params={"id": id})
-        return json.dumps(data, indent=2)
+        return json.dumps(await _iam("GET", f"organizations/{id}"), indent=2)
 
     # -- Role and permission actions -----------------------------------------
 
-    async def _roles(self) -> str:
-        data = await _iam_get("get-roles", params={"owner": "hanzo"})
-        roles = data if isinstance(data, list) else []
-        result = []
-        for r in roles:
-            result.append({
+    async def _roles(self, owner: str | None) -> str:
+        data = await _iam("GET", "roles", params=_scope(owner))
+        result = [
+            {
                 "name": r.get("name"),
                 "displayName": r.get("displayName"),
-                "users": len(r.get("users", [])),
-                "roles": len(r.get("roles", [])),
-            })
+                "users": len(r.get("users") or []),
+                "roles": len(r.get("roles") or []),
+            }
+            for r in _rows(data, "roles")
+        ]
         return json.dumps({"count": len(result), "roles": result}, indent=2)
 
     async def _role(self, id: str | None) -> str:
         if not id:
-            return json.dumps({"error": "Required: id (role ID, format: org/role-name)"})
-        data = await _iam_get("get-role", params={"id": id})
-        return json.dumps(data, indent=2)
+            return json.dumps({"error": "Required: id (role ID, format: owner/role-name)"})
+        return json.dumps(await _iam("GET", f"roles/{id}"), indent=2)
 
-    async def _permissions(self) -> str:
-        data = await _iam_get("get-permissions", params={"owner": "hanzo"})
-        perms = data if isinstance(data, list) else []
-        result = []
-        for p in perms:
-            result.append({
+    async def _permissions(self, owner: str | None) -> str:
+        data = await _iam("GET", "permissions", params=_scope(owner))
+        result = [
+            {
                 "name": p.get("name"),
                 "displayName": p.get("displayName"),
-                "resources": p.get("resources", []),
-                "actions": p.get("actions", []),
+                "resources": p.get("resources") or [],
+                "actions": p.get("actions") or [],
                 "effect": p.get("effect"),
-            })
+            }
+            for p in _rows(data, "permissions")
+        ]
         return json.dumps({"count": len(result), "permissions": result}, indent=2)
-
-    async def _enforce(
-        self,
-        owner: str | None,
-        model: str | None,
-        resource: str | None,
-        action: str | None,
-    ) -> str:
-        if not model or not resource or not action:
-            return json.dumps({"error": "Required: model, resource, permission_action. Optional: owner"})
-
-        data = await _iam_get("enforce", params={
-            "owner": owner or "hanzo",
-            "model": model,
-            "resource": resource,
-            "action": action,
-        })
-        return json.dumps({
-            "allowed": data,
-            "model": model,
-            "resource": resource,
-            "action": action,
-        }, indent=2)
 
     # -- Provider and application actions ------------------------------------
 
-    async def _providers(self) -> str:
-        data = await _iam_get("get-providers", params={"owner": "admin"})
-        providers = data if isinstance(data, list) else []
-        result = []
-        for p in providers:
-            result.append({
+    async def _providers(self, owner: str | None) -> str:
+        data = await _iam("GET", "providers", params=_scope(owner))
+        result = [
+            {
                 "name": p.get("name"),
                 "displayName": p.get("displayName"),
                 "type": p.get("type"),
                 "category": p.get("category"),
-            })
+            }
+            for p in _rows(data, "providers")
+        ]
         return json.dumps({"count": len(result), "providers": result}, indent=2)
 
-    async def _apps(self) -> str:
-        data = await _iam_get("get-applications", params={"owner": "admin"})
-        apps = data if isinstance(data, list) else []
-        result = []
-        for a in apps:
-            result.append({
+    async def _apps(self, owner: str | None) -> str:
+        if not owner:
+            return json.dumps({"error": "Required: owner (IAM scopes applications by owner)"})
+        data = await _iam("GET", "applications", params={"owner": owner})
+        result = [
+            {
                 "name": a.get("name"),
                 "displayName": a.get("displayName"),
                 "organization": a.get("organization"),
                 "clientId": a.get("clientId"),
-            })
+            }
+            for a in _rows(data, "applications")
+        ]
         return json.dumps({"count": len(result), "applications": result}, indent=2)
 
     # -- Token and session actions -------------------------------------------
 
-    async def _tokens(self) -> str:
-        data = await _iam_get("get-tokens", params={"owner": "admin"})
-        tokens = data if isinstance(data, list) else []
-        result = []
-        for t in tokens:
-            result.append({
+    async def _tokens(self, owner: str | None) -> str:
+        data = await _iam("GET", "tokens", params=_scope(owner))
+        result = [
+            {
                 "name": t.get("name"),
                 "user": t.get("user"),
                 "application": t.get("application"),
                 "createdTime": t.get("createdTime"),
                 "expiresIn": t.get("expiresIn"),
-            })
+            }
+            for t in _rows(data, "tokens")
+        ]
         return json.dumps({"count": len(result), "tokens": result}, indent=2)
 
-    async def _sessions(self) -> str:
-        data = await _iam_get("get-sessions", params={"owner": "admin"})
-        sessions = data if isinstance(data, list) else []
-        result = []
-        for s in sessions:
-            result.append({
+    async def _sessions(self, owner: str | None) -> str:
+        if not owner:
+            return json.dumps({"error": "Required: owner (IAM scopes sessions by owner)"})
+        data = await _iam("GET", "sessions", params={"owner": owner})
+        result = [
+            {
                 "name": s.get("name"),
                 "application": s.get("application"),
                 "createdTime": s.get("createdTime"),
-                "sessionId": s.get("sessionId", []),
-            })
+                "sessionId": s.get("sessionId") or [],
+            }
+            for s in _rows(data, "sessions")
+        ]
         return json.dumps({"count": len(result), "sessions": result}, indent=2)
 
     # -- Invitation actions --------------------------------------------------
 
-    async def _invitations(self) -> str:
-        data = await _iam_get("get-invitations", params={"owner": "admin"})
-        invitations = data if isinstance(data, list) else []
-        result = []
-        for i in invitations:
-            result.append({
+    async def _invitations(self, owner: str | None) -> str:
+        data = await _iam("GET", "invitations", params=_scope(owner))
+        result = [
+            {
                 "name": i.get("name"),
                 "email": i.get("email"),
                 "state": i.get("state"),
                 "createdTime": i.get("createdTime"),
-            })
+            }
+            for i in _rows(data, "invitations")
+        ]
         return json.dumps({"count": len(result), "invitations": result}, indent=2)
 
     async def _invite(self, email: str | None, org: str | None) -> str:
-        if not email:
-            return json.dumps({"error": "Required: email. Optional: org"})
+        if not email or not org:
+            return json.dumps({"error": "Required: email, org"})
 
-        invitation = {
-            "owner": "admin",
+        data = await _iam("POST", "invitations", body={
+            "owner": org,
             "name": email.replace("@", "-at-").replace(".", "-"),
+            "displayName": email,
             "email": email,
-            "organization": org or "hanzo",
-        }
-        data = await _iam_post("add-invitation", body={"invitation": invitation})
+        })
         return json.dumps({"action": "invited", "email": email, "result": data}, indent=2)
 
-    # -- Audit and system actions --------------------------------------------
+    # -- Audit actions -------------------------------------------------------
 
-    async def _records(self) -> str:
-        data = await _iam_get("get-records", params={"owner": "admin"})
-        records = data if isinstance(data, list) else []
-        result = []
-        for r in records[:50]:  # Limit to 50 most recent
-            result.append({
+    async def _records(self, owner: str | None) -> str:
+        data = await _iam("GET", "audit-logs", params=_scope(owner))
+        result = [
+            {
                 "name": r.get("name"),
                 "method": r.get("method"),
                 "requestUri": r.get("requestUri"),
@@ -524,34 +476,10 @@ class IAMTool(BaseTool):
                 "createdTime": r.get("createdTime"),
                 "user": r.get("user"),
                 "ip": r.get("ip"),
-            })
+            }
+            for r in _rows(data, "auditLogs")[:50]
+        ]
         return json.dumps({"count": len(result), "records": result}, indent=2)
-
-    async def _system_info(self) -> str:
-        data = await _iam_get("get-system-info")
-        return json.dumps(data, indent=2)
-
-    async def _health(self) -> str:
-        # Canonical health probe is /v1/iam/healthz. IAM serves a 200 text/html
-        # SPA catch-all for unregistered paths, so a 200 alone is not "healthy" —
-        # require a JSON body reporting status "ok" before claiming health.
-        url = f"{IAM_BASE_URL}/v1/iam/healthz"
-        try:
-            async with httpx.AsyncClient(timeout=10.0) as client:
-                resp = await client.get(url)
-                healthy = False
-                data: Any = None
-                if "application/json" in resp.headers.get("content-type", ""):
-                    data = resp.json()
-                    healthy = resp.status_code == 200 and isinstance(data, dict) and data.get("status") == "ok"
-                return json.dumps({
-                    "status": "ok" if healthy else "error",
-                    "code": resp.status_code,
-                    "url": IAM_BASE_URL,
-                    "data": data.get("data") if isinstance(data, dict) else None,
-                }, indent=2)
-        except Exception as e:
-            return json.dumps({"status": "error", "error": str(e), "url": IAM_BASE_URL})
 
     # -- Registration --------------------------------------------------------
 
@@ -571,20 +499,25 @@ class IAMTool(BaseTool):
                         "Action to perform. "
                         "Users: users, user, create_user, update_user, delete_user. "
                         "Orgs: orgs, org. "
-                        "Roles: roles, role, permissions, enforce. "
+                        "Roles: roles, role, permissions. "
                         "Auth: providers, apps, tokens, sessions. "
                         "Invitations: invitations, invite. "
-                        "System: records, system_info, health."
+                        "Audit: records."
                     ),
                 ),
-            ] = "health",
+            ],
             id: Annotated[
                 str | None,
-                Field(description="Entity ID (format: org/name for users, roles, etc.)"),
+                Field(description="Row identity, as owner/name (users, roles, orgs)"),
             ] = None,
             owner: Annotated[
                 str | None,
-                Field(description="Organization owner (default: hanzo)"),
+                Field(
+                    description=(
+                        "Organization to read. Omit for your own scope; apps and"
+                        " sessions require one."
+                    )
+                ),
             ] = None,
             name: Annotated[
                 str | None,
@@ -596,7 +529,7 @@ class IAMTool(BaseTool):
             ] = None,
             password: Annotated[
                 str | None,
-                Field(description="Password for user creation"),
+                Field(description="Password for user creation; the server hashes it"),
             ] = None,
             display_name: Annotated[
                 str | None,
@@ -605,18 +538,6 @@ class IAMTool(BaseTool):
             org: Annotated[
                 str | None,
                 Field(description="Organization name for invitations"),
-            ] = None,
-            model: Annotated[
-                str | None,
-                Field(description="Permission model name (for enforce action)"),
-            ] = None,
-            resource: Annotated[
-                str | None,
-                Field(description="Resource path (for enforce action)"),
-            ] = None,
-            permission_action: Annotated[
-                str | None,
-                Field(description="Permission action to check (for enforce action)"),
             ] = None,
             ctx: MCPContext = None,
         ) -> str:
@@ -630,7 +551,4 @@ class IAMTool(BaseTool):
                 password=password,
                 display_name=display_name,
                 org=org,
-                model=model,
-                resource=resource,
-                permission_action=permission_action,
             )

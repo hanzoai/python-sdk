@@ -18,7 +18,6 @@ import jwt
 from .config import IAMConfig
 from . import routes
 from .models import (
-    IAM_ROUTE_PREFIX,
     OIDC_AUTHORIZE_PATH,
     OIDC_DISCOVERY_PATH,
     OIDC_INTROSPECT_PATH,
@@ -363,245 +362,177 @@ class IAMClient:
     # =========================================================================
 
     def get_user(self, user_id: str) -> User:
-        """Get user by ID.
+        """Get one user, by `name` or by `owner/name`.
 
-        Args:
-            user_id: User ID or username
-
-        Returns:
-            User object with full profile.
+        Raises routes.IAMError with status 404 when the user is absent.
         """
-        params = {
-            "id": f"{self._config.organization}/{user_id}",
-        }
-
-        response = self.http.get(
-            routes.USER,
-            params=params,
-            headers=self._admin_headers(),
+        owner, name = routes.owner_name(user_id, self._config.organization)
+        body = routes.check(
+            self.http.get(routes.row(routes.USERS, owner, name), headers=self._admin_headers())
         )
-        response.raise_for_status()
-        data = routes.decode(response)
+        return User.model_validate(body)
 
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get user"))
-
-        return User.model_validate(routes.unwrap(data))
-
-    def get_users(self) -> list[User]:
-        """Get all users in organization.
-
-        Returns:
-            List of User objects.
-        """
-        params = {
-            "owner": self._config.organization,
-        }
-
-        response = self.http.get(
-            routes.USERS,
-            params=params,
-            headers=self._admin_headers(),
+    def get_users(self, owner: str | None = None) -> list[User]:
+        """List users. Omitting `owner` lets the server scope the read."""
+        params = {"owner": owner} if owner else {}
+        body = routes.check(
+            self.http.get(routes.USERS, params=params, headers=self._admin_headers())
         )
-        response.raise_for_status()
-        data = routes.decode(response)
+        return [User.model_validate(u) for u in routes.listing(body, "users")]
 
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get users"))
-
-        users_data = routes.unwrap(data, "users")
-        return [User.model_validate(u) for u in users_data]
-
-    def get_application(self) -> Application:
-        """Get current application configuration.
-
-        Returns:
-            Application configuration including OAuth2 settings.
-        """
-        params = {
-            "id": f"{self._config.organization}/{self._config.application}",
-        }
-
-        response = self.http.get(
-            routes.APPLICATION,
-            params=params,
-            headers=self._admin_headers(),
+    def get_user_count(self, owner: str | None = None) -> int:
+        """Number of users in scope, from the list route's own total."""
+        params = {"owner": owner} if owner else {}
+        params["limit"] = "1"
+        body = routes.check(
+            self.http.get(routes.USERS, params=params, headers=self._admin_headers())
         )
-        response.raise_for_status()
-        data = routes.decode(response)
+        return int(body["total"])
 
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get application"))
+    def create_user(self, user: User, password: str = "") -> User:
+        """Create a user. The server hashes the password; it never stores it as given."""
+        body = routes.check(
+            self.http.post(
+                routes.USERS,
+                headers=self._admin_headers(),
+                json=self._user_body(user, password),
+            )
+        )
+        return User.model_validate(body)
 
-        return Application.model_validate(routes.unwrap(data))
+    def update_user(self, user: User, password: str = "") -> User:
+        """Replace a user row. Omitted secrets and flags are carried over by the server."""
+        body = routes.check(
+            self.http.put(
+                routes.row(routes.USERS, user.owner, user.name),
+                headers=self._admin_headers(),
+                json=self._user_body(user, password),
+            )
+        )
+        return User.model_validate(body)
+
+    def delete_user(self, user: User) -> bool:
+        """Delete a user. True once the row is gone."""
+        body = routes.check(
+            self.http.delete(
+                routes.row(routes.USERS, user.owner, user.name), headers=self._admin_headers()
+            )
+        )
+        return bool(body.get("deleted"))
+
+    @staticmethod
+    def _user_body(user: User, password: str) -> dict:
+        """The nested write body the users routes take."""
+        body = {"user": user.model_dump(by_alias=True, exclude_none=True)}
+        if password:
+            body["password"] = password
+        return body
 
     # =========================================================================
-    # User Management (Admin API)
+    # Organizations
     # =========================================================================
 
-    def create_user(self, user: User) -> dict:
-        """Create a new user.
-
-        Args:
-            user: User object to create.
-
-        Returns:
-            API response data.
-        """
-        return self._modify_user("add-user", user)
-
-    def update_user(self, user: User) -> dict:
-        """Update an existing user.
-
-        Args:
-            user: User object with updated fields.
-
-        Returns:
-            API response data.
-        """
-        return self._modify_user("update-user", user)
-
-    def delete_user(self, user: User) -> dict:
-        """Delete a user.
-
-        Args:
-            user: User object to delete.
-
-        Returns:
-            API response data.
-        """
-        return self._modify_user("delete-user", user)
-
-    def _modify_user(self, action: str, user: User) -> dict:
-        """Modify user via IAM admin API."""
-        response = self.http.post(
-            f"{IAM_ROUTE_PREFIX}/{action}",
-            headers=self._admin_headers(),
-            json=user.model_dump(by_alias=True, exclude_none=True),
+    def get_organizations(self, q: str = "", limit: int = 0) -> list[dict]:
+        """List organizations visible to the caller."""
+        params: dict[str, str] = {}
+        if q:
+            params["q"] = q
+        if limit:
+            params["limit"] = str(limit)
+        body = routes.check(
+            self.http.get(routes.ORGANIZATIONS, params=params, headers=self._admin_headers())
         )
-        response.raise_for_status()
-        data = routes.decode(response)
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", f"Failed to {action}"))
-
-        return data
-
-    # =========================================================================
-    # Organization Management
-    # =========================================================================
-
-    def get_organizations(self) -> list[dict]:
-        """Get all organizations.
-
-        Returns:
-            List of organization dicts.
-        """
-        params = {
-            "owner": "admin",
-        }
-
-        response = self.http.get(
-            routes.ORGANIZATIONS,
-            params=params,
-            headers=self._admin_headers(),
-        )
-        response.raise_for_status()
-        data = routes.decode(response)
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get organizations"))
-
-        return routes.unwrap(data, "organizations")
+        return routes.listing(body, "organizations")
 
     def get_organization(self, name: str) -> dict:
-        """Get organization by name.
-
-        Args:
-            name: Organization name.
-
-        Returns:
-            Organization data dict.
-        """
-        params = {
-            "id": f"admin/{name}",
-        }
-
-        response = self.http.get(
-            routes.ORGANIZATION,
-            params=params,
-            headers=self._admin_headers(),
+        """Get one organization. Organization rows are owned by `admin`."""
+        return routes.check(
+            self.http.get(
+                routes.row(routes.ORGANIZATIONS, "admin", name), headers=self._admin_headers()
+            )
         )
-        response.raise_for_status()
-        data = routes.decode(response)
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get organization"))
-
-        return routes.unwrap(data)
 
     # =========================================================================
-    # Provider Management
+    # Providers
     # =========================================================================
 
-    def get_providers(self, owner: str = "admin") -> list[dict]:
-        """Get all providers.
-
-        Args:
-            owner: Owner of providers (default: admin).
-
-        Returns:
-            List of provider dicts.
-        """
-        params = {
-            "owner": owner,
-        }
-
-        response = self.http.get(
-            routes.PROVIDERS,
-            params=params,
-            headers=self._admin_headers(),
+    def get_providers(self, owner: str | None = None) -> list[dict]:
+        """List authentication providers."""
+        params = {"owner": owner} if owner else {}
+        body = routes.check(
+            self.http.get(routes.PROVIDERS, params=params, headers=self._admin_headers())
         )
-        response.raise_for_status()
-        data = routes.decode(response)
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get providers"))
-
-        return routes.unwrap(data, "providers")
+        return routes.listing(body, "providers")
 
     # =========================================================================
-    # Role Management
+    # Roles
     # =========================================================================
 
     def get_roles(self, owner: str | None = None) -> list[dict]:
-        """Get all roles in organization.
-
-        Args:
-            owner: Organization name (defaults to config.organization).
-
-        Returns:
-            List of role dicts.
-        """
-        params = {
-            "owner": owner or self._config.organization,
-        }
-
-        response = self.http.get(
-            routes.ROLES,
-            params=params,
-            headers=self._admin_headers(),
+        """List roles."""
+        params = {"owner": owner or self._config.organization}
+        body = routes.check(
+            self.http.get(routes.ROLES, params=params, headers=self._admin_headers())
         )
-        response.raise_for_status()
-        data = routes.decode(response)
+        return routes.listing(body, "roles")
 
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get roles"))
+    def get_role(self, name: str, *, owner: str | None = None) -> dict:
+        """Get one role, members included."""
+        org = owner or self._config.organization
+        return routes.check(
+            self.http.get(routes.row(routes.ROLES, org, name), headers=self._admin_headers())
+        )
 
-        return routes.unwrap(data, "roles")
+    def put_role(self, role: dict) -> dict:
+        """Replace a role row."""
+        return routes.check(
+            self.http.put(
+                routes.row(routes.ROLES, role["owner"], role["name"]),
+                headers=self._admin_headers(),
+                json=role,
+            )
+        )
+
+    def get_user_roles(self, username: str, *, owner: str | None = None) -> list[dict]:
+        """Roles the user belongs to.
+
+        Membership is the role's own `users` list, so this reads the roles of the
+        organization and keeps the ones naming this user.
+        """
+        org = owner or self._config.organization
+        member = f"{org}/{username}"
+        return [r for r in self.get_roles(org) if member in (r.get("users") or [])]
+
+    def add_role_for_user(
+        self, username: str, role_name: str, *, owner: str | None = None
+    ) -> bool:
+        """Add a user to a role. True if the role changed."""
+        org = owner or self._config.organization
+        member = f"{org}/{username}"
+        role = self.get_role(role_name, owner=org)
+        members = list(role.get("users") or [])
+        if member in members:
+            return False
+        role["users"] = members + [member]
+        self.put_role(role)
+        return True
+
+    def remove_role_from_user(
+        self, username: str, role_name: str, *, owner: str | None = None
+    ) -> bool:
+        """Remove a user from a role. True if the role changed."""
+        org = owner or self._config.organization
+        member = f"{org}/{username}"
+        role = self.get_role(role_name, owner=org)
+        members = list(role.get("users") or [])
+        if member not in members:
+            return False
+        role["users"] = [m for m in members if m != member]
+        self.put_role(role)
+        return True
 
     # =========================================================================
-    # Password Management
+    # Password
     # =========================================================================
 
     def set_password(
@@ -611,120 +542,78 @@ class IAMClient:
         new_password: str,
         old_password: str = "",
     ) -> dict:
-        """Set or reset a user's password.
-
-        Args:
-            user_owner: Organization that owns the user.
-            user_name: Username.
-            new_password: New password to set.
-            old_password: Current password (empty for admin reset).
-
-        Returns:
-            API response data.
-        """
-        payload = {
-            "userOwner": user_owner,
-            "userName": user_name,
-            "oldPassword": old_password,
-            "newPassword": new_password,
-        }
-
-        response = self.http.post(
-            f"{IAM_ROUTE_PREFIX}/set-password",
-            headers=self._admin_headers(),
-            json=payload,
+        """Set a user's password. The server hashes it; nothing stores it in the clear."""
+        body = routes.check(
+            self.http.put(
+                routes.PASSWORD,
+                headers=self._admin_headers(),
+                json={
+                    "organization": user_owner,
+                    "username": user_name,
+                    "oldPassword": old_password,
+                    "password": new_password,
+                },
+            )
         )
-        response.raise_for_status()
-        data = routes.decode(response)
-
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to set password"))
-
-        return data
+        return routes.envelope(body)
 
     # =========================================================================
-    # Application Management
+    # Applications
     # =========================================================================
 
-    def get_applications(self, owner: str = "admin") -> list[Application]:
-        """Get all applications.
-
-        Args:
-            owner: Owner of applications (default: admin).
-
-        Returns:
-            List of Application objects.
-        """
-        params = {
-            "owner": owner,
-        }
-
-        response = self.http.get(
-            routes.APPLICATIONS,
-            params=params,
-            headers=self._admin_headers(),
+    def get_application(self) -> Application:
+        """Get the application this client is configured for."""
+        body = routes.check(
+            self.http.get(
+                routes.row(
+                    routes.APPLICATIONS,
+                    self._config.organization,
+                    self._config.application,
+                ),
+                headers=self._admin_headers(),
+            )
         )
-        response.raise_for_status()
-        data = routes.decode(response)
+        return Application.model_validate(body)
 
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to get applications"))
-
-        apps_data = routes.unwrap(data, "applications")
-        return [Application.model_validate(a) for a in apps_data]
-
-    def update_application(self, application: Application) -> dict:
-        """Update an application.
-
-        Args:
-            application: Application object with updated fields.
-
-        Returns:
-            API response data.
-        """
-        response = self.http.post(
-            f"{IAM_ROUTE_PREFIX}/update-application",
-            headers=self._admin_headers(),
-            json=application.model_dump(by_alias=True, exclude_none=True),
+    def get_applications(self, owner: str) -> list[Application]:
+        """List an organization's applications. IAM requires the owner here."""
+        body = routes.check(
+            self.http.get(
+                routes.APPLICATIONS, params={"owner": owner}, headers=self._admin_headers()
+            )
         )
-        response.raise_for_status()
-        data = routes.decode(response)
+        return [Application.model_validate(a) for a in routes.listing(body, "applications")]
 
-        if data.get("status") == "error":
-            raise ValueError(data.get("msg", "Failed to update application"))
-
-        return data
+    def update_application(self, application: Application) -> Application:
+        """Replace an application row. An omitted clientSecret keeps the stored one."""
+        body = routes.check(
+            self.http.put(
+                routes.row(routes.APPLICATIONS, application.owner, application.name),
+                headers=self._admin_headers(),
+                json=application.model_dump(by_alias=True, exclude_none=True),
+            )
+        )
+        return Application.model_validate(body)
 
     # =========================================================================
-    # Login (Masquerade)
+    # Login
     # =========================================================================
 
     def login(self, username: str, password: str) -> dict:
-        """Login as a user (email/password).
-
-        Args:
-            username: Email or username.
-            password: User password.
-
-        Returns:
-            Login response with access code or token.
-        """
-        payload = {
-            "type": "code",
-            "username": username,
-            "password": password,
-            "organization": self._config.organization,
-            "application": self._config.application,
-        }
-
-        response = self.http.post(f"{IAM_ROUTE_PREFIX}/login", json=payload)
-        response.raise_for_status()
-        data = routes.decode(response)
-
-        if data.get("status") != "ok":
-            raise ValueError(data.get("msg", "Login failed"))
-
-        return data
+        """Sign in as a user and return what the sign-in answered."""
+        body = routes.check(
+            self.http.post(
+                routes.LOGIN,
+                json={
+                    "type": "code",
+                    "username": username,
+                    "password": password,
+                    "organization": self._config.organization,
+                    "application": self._config.application,
+                },
+            )
+        )
+        return routes.envelope(body)
 
     # =========================================================================
     # Lifecycle
