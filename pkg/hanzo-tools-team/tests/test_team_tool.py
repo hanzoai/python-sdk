@@ -147,6 +147,18 @@ async def test_a_stated_error_in_the_envelope_is_raised(monkeypatch):
     assert out["error"] == "org required"
 
 
+async def test_a_refusal_reaches_the_caller_with_the_reason_iam_gave(monkeypatch):
+    """memberships refuses with a 400 carrying the envelope, not problem+json."""
+
+    def refuse(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(400, json={"status": "error", "msg": "org or user is required"})
+
+    _serve(monkeypatch, refuse)
+    out = json.loads(await TeamTool().call(None, action="members", org="hanzo"))
+    assert "400" in out["error"]
+    assert out["detail"] == "org or user is required"
+
+
 async def test_a_missing_workspace_is_reported_as_a_404(monkeypatch):
     def handler(request: httpx.Request) -> httpx.Response:
         return httpx.Response(404, json={"title": "not found"})
