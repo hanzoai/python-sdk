@@ -11,10 +11,10 @@ Addresses: a collection is a plural noun and one row of it is
 plural — {"users": [...], "total": N} — a row GET answers the record itself,
 absence is 404, and a refusal is an RFC 9457 problem document.
 
-Scope: IAM decides which organizations a caller may read. Omitting `owner` asks
-for the caller's own scope, which is the right default; naming someone else's org
-is refused rather than silently reinterpreted. Applications and sessions are the
-two routes that require an owner, so those ask for one.
+Scope: `owner` is passed through when the caller names one and left off when
+they do not. Which routes insist on one is the server's to decide and it varies
+by release, so this file keeps no copy of that rule — a refusal arrives as a 400
+carrying the reason, and the reason is what the caller sees.
 """
 
 from __future__ import annotations
@@ -57,11 +57,11 @@ Role and permission actions:
 
 Provider and application actions:
 - providers: List auth providers (params: owner)
-- apps: List applications (params: owner, required)
+- apps: List applications (params: owner)
 
 Token and session actions:
 - tokens: List tokens (params: owner)
-- sessions: List sessions (params: owner, required)
+- sessions: List sessions (params: owner)
 
 Invitation actions:
 - invitations: List invitations (params: owner)
@@ -140,8 +140,19 @@ def _rows(data: Any, key: str) -> list:
     return data[key] or []
 
 
+def _reason(response: httpx.Response) -> str:
+    """The reason IAM gave: the RFC 9457 detail, the envelope's msg, else the body."""
+    try:
+        body = response.json()
+    except ValueError:
+        return response.text[:200]
+    if isinstance(body, dict):
+        return str(body.get("detail") or body.get("title") or body.get("msg") or body)
+    return str(body)
+
+
 def _scope(owner: str | None) -> dict[str, str]:
-    """Query scope. Omitted means the caller's own, which the server decides."""
+    """The scope the caller named, or nothing when they named none."""
     return {"owner": owner} if owner else {}
 
 
@@ -227,12 +238,10 @@ class IAMTool(BaseTool):
         except RuntimeError as e:
             return json.dumps({"error": str(e)})
         except httpx.HTTPStatusError as e:
-            body = e.response.text
-            try:
-                body = e.response.json()
-            except Exception:
-                pass
-            return json.dumps({"error": f"IAM API error {e.response.status_code}", "detail": body})
+            return json.dumps({
+                "error": f"IAM API error {e.response.status_code}",
+                "detail": _reason(e.response),
+            })
         except Exception as e:
             logger.exception(f"IAM tool error: {e}")
             return json.dumps({"error": f"IAM error: {e}"})
@@ -391,9 +400,7 @@ class IAMTool(BaseTool):
         return json.dumps({"count": len(result), "providers": result}, indent=2)
 
     async def _apps(self, owner: str | None) -> str:
-        if not owner:
-            return json.dumps({"error": "Required: owner (IAM scopes applications by owner)"})
-        data = await _iam("GET", "applications", params={"owner": owner})
+        data = await _iam("GET", "applications", params=_scope(owner))
         result = [
             {
                 "name": a.get("name"),
@@ -422,9 +429,7 @@ class IAMTool(BaseTool):
         return json.dumps({"count": len(result), "tokens": result}, indent=2)
 
     async def _sessions(self, owner: str | None) -> str:
-        if not owner:
-            return json.dumps({"error": "Required: owner (IAM scopes sessions by owner)"})
-        data = await _iam("GET", "sessions", params={"owner": owner})
+        data = await _iam("GET", "sessions", params=_scope(owner))
         result = [
             {
                 "name": s.get("name"),
@@ -514,8 +519,8 @@ class IAMTool(BaseTool):
                 str | None,
                 Field(
                     description=(
-                        "Organization to read. Omit for your own scope; apps and"
-                        " sessions require one."
+                        "Organization to read. Some routes insist on one and say"
+                        " so when they do."
                     )
                 ),
             ] = None,

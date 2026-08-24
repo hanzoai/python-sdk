@@ -440,7 +440,7 @@ class AsyncIAMClient:
         return User.model_validate(body)
 
     async def get_users(self, owner: str | None = None) -> list[User]:
-        """List users. Omitting `owner` lets the server scope the read."""
+        """List users in `owner`, or in whatever scope the server picks without one."""
         params = {"owner": owner} if owner else {}
         http = await self._get_http()
         body = routes.check(
@@ -661,12 +661,12 @@ class AsyncIAMClient:
         )
         return Application.model_validate(body)
 
-    async def get_applications(self, owner: str) -> list[Application]:
-        """List an organization's applications. IAM requires the owner here."""
+    async def get_applications(self, owner: str | None = None) -> list[Application]:
+        """List an organization's applications."""
         http = await self._get_http()
         body = routes.check(
             await http.get(
-                routes.APPLICATIONS, params={"owner": owner}, headers=self._admin_headers()
+                routes.APPLICATIONS, params=({"owner": owner} if owner else {}), headers=self._admin_headers()
             )
         )
         return [

@@ -282,7 +282,6 @@ def register(entity: str) -> None:
     @click.option("--limit", type=int, default=0)
     @click.option("--offset", type=int, default=0)
     def _list(org: str, limit: int, offset: int):
-        # No org asks for the caller's own scope, which IAM decides.
         scope = {SCOPE.get(entity, "owner"): org} if org else {}
         if limit:
             scope["limit"] = limit

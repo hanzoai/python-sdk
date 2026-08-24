@@ -185,10 +185,34 @@ async def test_absence_is_reported_as_a_404(monkeypatch):
     assert "404" in out["error"]
 
 
-async def test_a_route_that_needs_an_owner_asks_for_one(monkeypatch):
-    _, handler = _recorder(LIST_BODY)
+@pytest.mark.parametrize("action", ["users", "apps", "sessions", "roles", "providers"])
+async def test_the_scope_is_passed_through_never_second_guessed(monkeypatch, action):
+    """Which routes insist on an owner is the server's rule, and it moves.
+
+    v8.5.150 requires it on users, sessions and applications and not on the
+    rest; the commit that drops the requirement is written but unreleased. A
+    copy of that rule here would refuse calls the server would have answered,
+    so the tool sends what the caller said and nothing more.
+    """
+    seen, handler = _recorder(LIST_BODY)
     _serve(monkeypatch, handler)
 
-    for action in ("apps", "sessions"):
-        out = json.loads(await IAMTool().call(None, action=action))
-        assert "owner" in out["error"]
+    await IAMTool().call(None, action=action)
+    assert "owner=" not in seen["url"]
+
+    await IAMTool().call(None, action=action, owner="hanzo")
+    assert seen["url"].endswith("?owner=hanzo")
+
+
+async def test_a_refusal_reaches_the_caller_with_the_reason_iam_gave(monkeypatch):
+    def handler(request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            400,
+            json={"type": "about:blank", "title": "bad request", "detail": "owner is required"},
+            headers={"content-type": "application/problem+json"},
+        )
+
+    _serve(monkeypatch, handler)
+    out = json.loads(await IAMTool().call(None, action="users"))
+    assert "400" in out["error"]
+    assert out["detail"] == "owner is required"
