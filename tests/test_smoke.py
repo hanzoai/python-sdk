@@ -35,23 +35,24 @@ def test_the_bearer_comes_from_the_configuration():
         "value": "Bearer sk-test",
     }
 
-    api = hanzoai.cloud.KeysApi(hanzoai.cloud.ApiClient(cfg))
-    _, _, headers, _, _ = api._get_keys_serialize(
-        _request_auth=None, _content_type=None, _headers=None, _host_index=0)
+    api = hanzoai.cloud.IamApi(hanzoai.cloud.ApiClient(cfg))
+    _, _, headers, _, _ = api._get_iam_keys_serialize(
+        owner=None, _request_auth=None, _content_type=None, _headers=None, _host_index=0)
     assert headers["Authorization"] == "Bearer sk-test"
 
 
 def test_the_public_operations_send_no_credential():
-    """The four `security: []` operations must not carry the header.
+    """An operation the document marks `security: []` must not carry the header.
 
-    `GET /v1/models` is public by design and states so in its own description —
-    it answers 200 to a caller with nothing. A client that attaches a credential
-    to it makes the API look like it authenticates when it does not, which is
-    the failure the route's description exists to prevent.
+    A client that attaches a credential to an operation that takes none makes
+    the API look like it authenticates when it does not. Five operations carry
+    the marking; `GET /v1/openapi.json` is the one that has carried it across
+    every pin, so it is what the mechanism is held to. `/v1/models` was here
+    until it stopped declaring the marking, which is the document's call.
     """
     cfg = hanzoai.cloud.Configuration(host="https://api.hanzo.ai", access_token="sk-test")
-    api = hanzoai.cloud.ModelsApi(hanzoai.cloud.ApiClient(cfg))
-    _, _, headers, _, _ = api._get_models_serialize(
+    api = hanzoai.cloud.OpenapiApi(hanzoai.cloud.ApiClient(cfg))
+    _, _, headers, _, _ = api._get_openapi_json_serialize(
         _request_auth=None, _content_type=None, _headers=None, _host_index=0)
     assert "Authorization" not in headers
 
@@ -59,18 +60,16 @@ def test_the_public_operations_send_no_credential():
 def test_product_apis_present():
     """Whole products, not just the AI routes, reach the SDK.
 
-    This asked for `TrackerApi` until the document stopped carrying a `tracker`
-    tag — no `/v1/tracker` path is emitted at all now — so it named a module the
-    client does not have and failed on the import. `analytics` is the surviving
-    surface next door (`/v1/analytics/{health,overview,timeseries,top}`), read
-    off the client rather than guessed.
+    Name products the document still tags, read off the client rather than
+    guessed. Tags move: `tracker`, then `analytics` and `chat`, each stood here
+    until cloud folded those routes into the product that owns them.
     """
-    from hanzoai.cloud.api.analytics_api import AnalyticsApi
-    from hanzoai.cloud.api.chat_api import ChatApi
+    from hanzoai.cloud.api.commerce_api import CommerceApi
     from hanzoai.cloud.api.crm_api import CrmApi
+    from hanzoai.cloud.api.iam_api import IamApi
 
     client = hanzoai.cloud.ApiClient(hanzoai.cloud.Configuration(host="https://api.hanzo.ai"))
-    for cls in (AnalyticsApi, ChatApi, CrmApi):
+    for cls in (CommerceApi, CrmApi, IamApi):
         assert cls(client) is not None
 
 
@@ -80,9 +79,10 @@ def test_full_surface_breadth():
 
     api_dir = os.path.dirname(hanzoai.cloud.api.__file__)
     modules = glob.glob(os.path.join(api_dir, "*_api.py"))
-    # One API group per product in the document, not the ~40 of the LLM-gateway
-    # client this replaced.
-    assert len(modules) > 150, f"only {len(modules)} api modules — surface too small"
+    # One API group per TAG in the document, not the ~40 of the LLM-gateway
+    # client this replaced. 117 at the pinned ref, where cloud carries 130
+    # products; the floor is a breadth check, not a count to keep in step.
+    assert len(modules) > 100, f"only {len(modules)} api modules — surface too small"
 
 
 def test_one_client_only():
@@ -129,25 +129,25 @@ def test_cloud_package_imports():
     """
     import hanzoai.cloud
 
-    for name in ("AiApi", "KeysApi", "McpApi", "AdminApi"):
+    for name in ("AiApi", "IamApi", "ToolsApi", "OpenapiApi"):
         assert hasattr(hanzoai.cloud, name), f"hanzoai.cloud.{name} missing"
 
 
-def test_admin_plugin_operator_surface():
-    """The /v1/admin/plugins operator surface must be reachable from the SDK.
+def test_plugin_operator_surface():
+    """The plugin operator surface must be reachable from the SDK.
 
-    Four served routes: GET /v1/admin/plugins and POST
-    /v1/admin/plugins/{name}/{enable,disable,reload}. The `plugin_` prefix these
-    once carried came from the hand-merged master's `<svc>_` operationId
-    namespacing; cloud's emission names them `adminPlugins`,
-    `adminEnablePlugin`, `adminDisablePlugin`, `adminReloadPlugin`.
+    Four published routes under `tools`: GET /v1/tools/plugins, GET and DELETE
+    /v1/tools/plugins/authored[/{id}], POST /v1/tools/plugins/build. This asked
+    `AdminApi` for /v1/admin/plugins until cloud stopped publishing an `admin`
+    tag; that address still answers, and a client is a projection of the
+    document, which no longer names it.
     """
-    from hanzoai.cloud.api.admin_api import AdminApi
+    from hanzoai.cloud.api.tools_api import ToolsApi
 
     for op in (
-        "admin_plugins",
-        "admin_enable_plugin",
-        "admin_disable_plugin",
-        "admin_reload_plugin",
+        "get_tools_plugins",
+        "get_tools_plugins_authored",
+        "delete_tools_plugins_authored_by_id",
+        "post_tools_plugins_build",
     ):
-        assert callable(getattr(AdminApi, op, None)), f"AdminApi.{op} missing"
+        assert callable(getattr(ToolsApi, op, None)), f"ToolsApi.{op} missing"
