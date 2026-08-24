@@ -3,11 +3,15 @@
 Every entity IAM serves has the same five routes, so this file has one
 implementation of them and a table of the entities it applies to:
 
-    GET  /v1/iam/<entity>            list, scoped by owner
-    ...  /v1/iam/<entity>/get        read one, by (owner, name)
-    POST /v1/iam/<entity>            create
-    POST /v1/iam/<entity>/update     update
-    POST /v1/iam/<entity>/delete     delete
+    GET    /v1/iam/<entity>                  list, scoped by owner
+    POST   /v1/iam/<entity>                  create
+    GET    /v1/iam/<entity>/<owner>/<name>   read one
+    PUT    /v1/iam/<entity>/<owner>/<name>   replace one
+    DELETE /v1/iam/<entity>/<owner>/<name>   delete one
+
+A row is named by owner and name, so every one of them needs --org. A list
+answers a wrapper keyed by the plural — {"users": [...], "total": N} — and the
+key is not always the word in the path, which is what the table carries.
 
 The credential goes in Authorization, which is the only place IAM reads one.
 """
@@ -27,25 +31,29 @@ from ..utils.output import console
 
 AUTH = Path.home() / ".hanzo" / "auth.json"
 
-# Entity, and whether its read route answers GET or POST. Everything else about
-# the five routes is the same for every row, which is why there is a table here
-# and not fourteen command trees.
+# Entity, and the key its list arrives under. Everything else about the five
+# routes is the same for every row, which is why there is a table here and not
+# fourteen command trees.
 ENTITIES: dict[str, str] = {
-    "applications": "GET",
-    "audit-logs": "POST",
-    "certs": "GET",
-    "invitations": "POST",
-    "keys": "GET",
-    "organizations": "GET",
-    "permissions": "GET",
-    "projects": "POST",
-    "providers": "POST",
-    "roles": "POST",
-    "tokens": "POST",
-    "users": "GET",
-    "webauthn-credentials": "POST",
-    "workspaces": "POST",
+    "applications": "applications",
+    "audit-logs": "auditLogs",
+    "certs": "certs",
+    "invitations": "invitations",
+    "keys": "keys",
+    "organizations": "organizations",
+    "permissions": "permissions",
+    "projects": "projects",
+    "providers": "providers",
+    "roles": "roles",
+    "tokens": "tokens",
+    "users": "users",
+    "webauthn-credentials": "webauthnCredentials",
+    "workspaces": "workspaces",
 }
+
+# webauthn-credentials scopes by the user it belongs to; every other entity
+# scopes by owner.
+SCOPE = {"webauthn-credentials": "user"}
 
 # The columns worth showing for a row of each entity, in order. A row that has
 # none of them prints as JSON.
@@ -101,7 +109,14 @@ def call(method: str, path: str, *, params: dict | None = None, body: dict | Non
         detail = response.text.strip()
         try:
             payload = response.json()
-            detail = payload.get("error") or payload.get("message") or detail
+            # A refusal is an RFC 9457 problem document; absence is a 404.
+            detail = (
+                payload.get("detail")
+                or payload.get("title")
+                or payload.get("error")
+                or payload.get("message")
+                or detail
+            )
         except Exception:
             pass
         console.print(f"[red]HTTP {response.status_code}[/red] {detail}")
@@ -110,15 +125,17 @@ def call(method: str, path: str, *, params: dict | None = None, body: dict | Non
     return response.json() if response.content else {}
 
 
-def rows(payload: dict | list, entity: str) -> list[dict]:
-    """The records in a reply, whichever key the entity nests them under."""
-    if isinstance(payload, list):
-        return payload
-    for key in (entity, entity.replace("-", "_"), "data", "items"):
-        value = payload.get(key)
-        if isinstance(value, list):
-            return value
-    return [payload] if payload else []
+def rows(payload: dict, entity: str) -> list[dict]:
+    """The records in a list reply, under the key the entity declares.
+
+    A key that is absent is an error, not an empty page: reading it as [] would
+    report "no users" for a healthy org.
+    """
+    key = ENTITIES[entity]
+    if not isinstance(payload, dict) or key not in payload:
+        console.print(f"[red]no {key} in the reply[/red]")
+        raise SystemExit(1)
+    return payload[key] or []
 
 
 def show(records: list[dict], entity: str) -> None:
@@ -160,7 +177,8 @@ def iam_group():
       hanzo iam status                           who the credential is
       hanzo iam users list --org hanzo           any entity, five verbs
       hanzo iam users get z --org hanzo
-      hanzo iam users create --org hanzo --set name=z --set email=z@hanzo.ai
+      hanzo iam users create --org hanzo --set name=z --set email=z@hanzo.ai \\
+                             --set password=...              IAM hashes it
       hanzo iam users update z --org hanzo --set displayName=Z
       hanzo iam users delete z --org hanzo
       hanzo iam password z --org hanzo           set a password
@@ -235,7 +253,24 @@ def raw(method: str, path: str, param: tuple[str, ...], body: tuple[str, ...]):
     console.print_json(json.dumps(call(method.upper(), path, params=fields(param), body=payload)))
 
 
-def register(entity: str, read: str) -> None:
+def wrap(entity: str, record: dict) -> dict:
+    """The write body an entity takes.
+
+    users nests its record so the create and update inputs can carry a password
+    beside it — IAM hashes that, and it is never a field on the row itself.
+    Every other entity writes the record flat.
+    """
+    if entity != "users":
+        return record
+    record = dict(record)
+    password = record.pop("password", None)
+    body = {"user": record}
+    if password is not None:
+        body["password"] = password
+    return body
+
+
+def register(entity: str) -> None:
     """Give one entity its five commands. Called once per row of ENTITIES."""
 
     @iam_group.group(name=entity)
@@ -247,7 +282,8 @@ def register(entity: str, read: str) -> None:
     @click.option("--limit", type=int, default=0)
     @click.option("--offset", type=int, default=0)
     def _list(org: str, limit: int, offset: int):
-        scope = {"owner": org} if org else {}
+        # No org asks for the caller's own scope, which IAM decides.
+        scope = {SCOPE.get(entity, "owner"): org} if org else {}
         if limit:
             scope["limit"] = limit
         if offset:
@@ -256,15 +292,9 @@ def register(entity: str, read: str) -> None:
 
     @group.command(name="get")
     @click.argument("name")
-    @click.option("--org", "-o", default="", help="Organization")
+    @click.option("--org", "-o", required=True, help="Organization")
     def _get(name: str, org: str):
-        key = {"owner": org, "name": name}
-        answer = (
-            call(read, f"/v1/iam/{entity}/get", params=key)
-            if read == "GET"
-            else call(read, f"/v1/iam/{entity}/get", body=key)
-        )
-        console.print_json(json.dumps(answer))
+        console.print_json(json.dumps(call("GET", f"/v1/iam/{entity}/{org}/{name}")))
 
     @group.command(name="create")
     @click.option("--org", "-o", default="", help="Organization the record belongs to")
@@ -274,27 +304,26 @@ def register(entity: str, read: str) -> None:
         record = json.load(file) if file else fields(values)
         if org:
             record.setdefault("owner", org)
-        # users is the one entity that nests its record, so its create input can
-        # carry a password beside it.
-        body = {"user": record} if entity == "users" else record
-        console.print_json(json.dumps(call("POST", f"/v1/iam/{entity}", body=body)))
+        console.print_json(json.dumps(call("POST", f"/v1/iam/{entity}", body=wrap(entity, record))))
 
     @group.command(name="update")
     @click.argument("name")
-    @click.option("--org", "-o", default="", help="Organization")
+    @click.option("--org", "-o", required=True, help="Organization")
     @click.option("--set", "-d", "values", multiple=True, help="key=value; repeatable")
     def _update(name: str, org: str, values: tuple[str, ...]):
-        record = {"owner": org, "name": name, **fields(values)}
-        body = {"user": record} if entity == "users" else record
-        console.print_json(json.dumps(call("POST", f"/v1/iam/{entity}/update", body=body)))
+        # PUT replaces the row, so start from the stored one and change what was
+        # asked for. Sending only the changed fields would blank the rest.
+        address = f"/v1/iam/{entity}/{org}/{name}"
+        record = {**call("GET", address), **fields(values)}
+        console.print_json(json.dumps(call("PUT", address, body=wrap(entity, record))))
 
     @group.command(name="delete")
     @click.argument("name")
-    @click.option("--org", "-o", default="", help="Organization")
+    @click.option("--org", "-o", required=True, help="Organization")
     def _delete(name: str, org: str):
-        call("POST", f"/v1/iam/{entity}/delete", body={"owner": org, "name": name})
+        call("DELETE", f"/v1/iam/{entity}/{org}/{name}")
         console.print(f"[green]deleted[/green] {org}/{name}")
 
 
-for _entity, _read in ENTITIES.items():
-    register(_entity, _read)
+for _entity in ENTITIES:
+    register(_entity)
