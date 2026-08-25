@@ -198,6 +198,7 @@ __all__ = [
     "Appearance",
     "Application",
     "ApplicationList",
+    "AppliedResource",
     "ApplyRequest",
     "ApprovePairingIn",
     "ArgoApp",
@@ -2019,6 +2020,8 @@ __all__ = [
     "Receipt",
     "Recharge",
     "Recharged",
+    "ReconcileReport",
+    "ReconcileSource",
     "Record",
     "RecordIn",
     "RecordList",
@@ -2239,6 +2242,7 @@ __all__ = [
     "SeriesLine",
     "SeriesPoint",
     "SessionDetail",
+    "SessionEnded",
     "SessionList",
     "SessionUser",
     "SessionView",
@@ -2652,6 +2656,7 @@ from hanzoai.cloud.models.app_view import AppView as AppView
 from hanzoai.cloud.models.appearance import Appearance as Appearance
 from hanzoai.cloud.models.application import Application as Application
 from hanzoai.cloud.models.application_list import ApplicationList as ApplicationList
+from hanzoai.cloud.models.applied_resource import AppliedResource as AppliedResource
 from hanzoai.cloud.models.apply_request import ApplyRequest as ApplyRequest
 from hanzoai.cloud.models.approve_pairing_in import ApprovePairingIn as ApprovePairingIn
 from hanzoai.cloud.models.argo_app import ArgoApp as ArgoApp
@@ -4473,6 +4478,8 @@ from hanzoai.cloud.models.readme_json import ReadmeJSON as ReadmeJSON
 from hanzoai.cloud.models.receipt import Receipt as Receipt
 from hanzoai.cloud.models.recharge import Recharge as Recharge
 from hanzoai.cloud.models.recharged import Recharged as Recharged
+from hanzoai.cloud.models.reconcile_report import ReconcileReport as ReconcileReport
+from hanzoai.cloud.models.reconcile_source import ReconcileSource as ReconcileSource
 from hanzoai.cloud.models.record import Record as Record
 from hanzoai.cloud.models.record_in import RecordIn as RecordIn
 from hanzoai.cloud.models.record_list import RecordList as RecordList
@@ -4693,6 +4700,7 @@ from hanzoai.cloud.models.sequences import Sequences as Sequences
 from hanzoai.cloud.models.series_line import SeriesLine as SeriesLine
 from hanzoai.cloud.models.series_point import SeriesPoint as SeriesPoint
 from hanzoai.cloud.models.session_detail import SessionDetail as SessionDetail
+from hanzoai.cloud.models.session_ended import SessionEnded as SessionEnded
 from hanzoai.cloud.models.session_list import SessionList as SessionList
 from hanzoai.cloud.models.session_user import SessionUser as SessionUser
 from hanzoai.cloud.models.session_view import SessionView as SessionView

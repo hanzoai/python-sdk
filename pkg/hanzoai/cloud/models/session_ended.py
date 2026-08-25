@@ -17,18 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class D1Query(BaseModel):
+class SessionEnded(BaseModel):
     """
-    D1Query
+    SessionEnded
     """ # noqa: E501
-    params: Optional[List[Any]] = Field(default=None, description="Params are the statement's bound values, in the order its `?` placeholders appear — a string, a number, a boolean or null, whatever the column takes. Absent means the statement carries no placeholders; bind values here rather than interpolating them into the statement.")
-    sql: Optional[StrictStr] = Field(default=None, description="SQL is the statement to run. Blank (or absent) is refused before anything reaches D1.")
-    __properties: ClassVar[List[str]] = ["params", "sql"]
+    logged_in: Optional[StrictBool] = Field(default=None, description="LoggedIn is always false — this is the answer to having just signed out, so it states the resulting session state rather than reporting the request's outcome. It is not omitempty: false is the whole answer.", alias="loggedIn")
+    login_url: Optional[StrictStr] = Field(default=None, description="LoginURL is where to sign in again. Always present, because a caller that has just signed out is exactly the caller who needs it.", alias="loginUrl")
+    __properties: ClassVar[List[str]] = ["loggedIn", "loginUrl"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +48,7 @@ class D1Query(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of D1Query from a JSON string"""
+        """Create an instance of SessionEnded from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +73,7 @@ class D1Query(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of D1Query from a dict"""
+        """Create an instance of SessionEnded from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +81,8 @@ class D1Query(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "params": obj.get("params"),
-            "sql": obj.get("sql")
+            "loggedIn": obj.get("loggedIn"),
+            "loginUrl": obj.get("loginUrl")
         })
         return _obj
 

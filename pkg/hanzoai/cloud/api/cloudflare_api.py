@@ -5849,7 +5849,7 @@ class CloudflareApi:
     def post_cloudflare_d1_databases_by_database_query(
         self,
         database: StrictStr,
-        d1_query: Optional[D1Query] = None,
+        d1_query: D1Query,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5863,13 +5863,13 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Run a SQL statement against a D1 database
+        """Runs one SQL statement against a D1 database.
 
-        Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+        Runs one SQL statement against a D1 database. It executes on the org's OWN Cloudflare account and relays D1's result set. The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here.  Requires ORG ADMIN — a statement may INSERT, UPDATE or DROP, so a query takes the write gate rather than the read one — and a caller who is only an org member is refused 403. A missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
 
         :param database: (required)
         :type database: str
-        :param d1_query:
+        :param d1_query: (required)
         :type d1_query: D1Query
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5903,7 +5903,7 @@ class CloudflareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "object",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5920,7 +5920,7 @@ class CloudflareApi:
     def post_cloudflare_d1_databases_by_database_query_with_http_info(
         self,
         database: StrictStr,
-        d1_query: Optional[D1Query] = None,
+        d1_query: D1Query,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5934,13 +5934,13 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Run a SQL statement against a D1 database
+        """Runs one SQL statement against a D1 database.
 
-        Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+        Runs one SQL statement against a D1 database. It executes on the org's OWN Cloudflare account and relays D1's result set. The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here.  Requires ORG ADMIN — a statement may INSERT, UPDATE or DROP, so a query takes the write gate rather than the read one — and a caller who is only an org member is refused 403. A missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
 
         :param database: (required)
         :type database: str
-        :param d1_query:
+        :param d1_query: (required)
         :type d1_query: D1Query
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5974,7 +5974,7 @@ class CloudflareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "object",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5991,7 +5991,7 @@ class CloudflareApi:
     def post_cloudflare_d1_databases_by_database_query_without_preload_content(
         self,
         database: StrictStr,
-        d1_query: Optional[D1Query] = None,
+        d1_query: D1Query,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6005,13 +6005,13 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Run a SQL statement against a D1 database
+        """Runs one SQL statement against a D1 database.
 
-        Executes a statement on one D1 database on the org's OWN Cloudflare account and relays D1's result set. `sql` is required and `params` carries the bound values in placeholder order — use them rather than interpolating values into the statement.  The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here; the declared schema is open for that reason. That verbatim forward is why this is not a typed op — decoding and re-encoding the body would drop `params`, where the query's bound values live. Requires ORG ADMIN (403 otherwise); a malformed body or missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
+        Runs one SQL statement against a D1 database. It executes on the org's OWN Cloudflare account and relays D1's result set. The body is checked for a non-empty `sql` and then forwarded VERBATIM, so every field D1 accepts reaches D1 even though only two are named here.  Requires ORG ADMIN — a statement may INSERT, UPDATE or DROP, so a query takes the write gate rather than the read one — and a caller who is only an org member is refused 403. A missing `sql` is 400; 503 if the org has never connected a Cloudflare token.
 
         :param database: (required)
         :type database: str
-        :param d1_query:
+        :param d1_query: (required)
         :type d1_query: D1Query
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6045,7 +6045,7 @@ class CloudflareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "object",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8670,8 +8670,8 @@ class CloudflareApi:
     @validate_call
     def put_cloudflare_workers_scripts_by_script(
         self,
-        script: StrictStr,
-        worker_script_put: Optional[WorkerScriptPut] = None,
+        script: Annotated[StrictStr, Field(description="Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker.")],
+        worker_script_put: WorkerScriptPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8685,13 +8685,13 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Upload or replace a module Worker script
+        """Uploads or replaces a module Worker script.
 
-        Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+        Uploads or replaces a module Worker script. It publishes to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. The compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects, beside the module source.  Requires ORG ADMIN — a Worker is arbitrary code on the org's own account and domains — so a caller who is only an org member is refused 403. An empty source is 400, as is a `mainModule` that is not a plain file name; 503 if the org has never connected a Cloudflare token.
 
-        :param script: (required)
+        :param script: Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. (required)
         :type script: str
-        :param worker_script_put:
+        :param worker_script_put: (required)
         :type worker_script_put: WorkerScriptPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8725,7 +8725,7 @@ class CloudflareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "object",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8741,8 +8741,8 @@ class CloudflareApi:
     @validate_call
     def put_cloudflare_workers_scripts_by_script_with_http_info(
         self,
-        script: StrictStr,
-        worker_script_put: Optional[WorkerScriptPut] = None,
+        script: Annotated[StrictStr, Field(description="Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker.")],
+        worker_script_put: WorkerScriptPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8756,13 +8756,13 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Upload or replace a module Worker script
+        """Uploads or replaces a module Worker script.
 
-        Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+        Uploads or replaces a module Worker script. It publishes to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. The compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects, beside the module source.  Requires ORG ADMIN — a Worker is arbitrary code on the org's own account and domains — so a caller who is only an org member is refused 403. An empty source is 400, as is a `mainModule` that is not a plain file name; 503 if the org has never connected a Cloudflare token.
 
-        :param script: (required)
+        :param script: Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. (required)
         :type script: str
-        :param worker_script_put:
+        :param worker_script_put: (required)
         :type worker_script_put: WorkerScriptPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8796,7 +8796,7 @@ class CloudflareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "object",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8812,8 +8812,8 @@ class CloudflareApi:
     @validate_call
     def put_cloudflare_workers_scripts_by_script_without_preload_content(
         self,
-        script: StrictStr,
-        worker_script_put: Optional[WorkerScriptPut] = None,
+        script: Annotated[StrictStr, Field(description="Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker.")],
+        worker_script_put: WorkerScriptPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8827,13 +8827,13 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Upload or replace a module Worker script
+        """Uploads or replaces a module Worker script.
 
-        Publishes a module Worker to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. `script` carries the module SOURCE; the optional compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects.  The path names the script and the body field named `script` is its source — two different things that share a name, which is exactly why this cannot be a typed op: a binder that gives the URL the last word would overwrite the source with the script's name. Requires ORG ADMIN (403 otherwise); an unparseable body or empty source is 400; 503 if the org has never connected a Cloudflare token.
+        Uploads or replaces a module Worker script. It publishes to the org's OWN Cloudflare account under the name in the path, replacing whatever was there, and relays Cloudflare's result. The compatibility date, compatibility flags and bindings are packed into the multipart upload Cloudflare expects, beside the module source.  Requires ORG ADMIN — a Worker is arbitrary code on the org's own account and domains — so a caller who is only an org member is refused 403. An empty source is 400, as is a `mainModule` that is not a plain file name; 503 if the org has never connected a Cloudflare token.
 
-        :param script: (required)
+        :param script: Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. (required)
         :type script: str
-        :param worker_script_put:
+        :param worker_script_put: (required)
         :type worker_script_put: WorkerScriptPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8867,7 +8867,7 @@ class CloudflareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '2XX': "object",
+            '200': "object",
         }
         response_data = self.api_client.call_api(
             *_param,

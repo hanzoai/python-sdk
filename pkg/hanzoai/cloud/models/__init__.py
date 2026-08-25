@@ -68,6 +68,7 @@ from hanzoai.cloud.models.app_view import AppView
 from hanzoai.cloud.models.appearance import Appearance
 from hanzoai.cloud.models.application import Application
 from hanzoai.cloud.models.application_list import ApplicationList
+from hanzoai.cloud.models.applied_resource import AppliedResource
 from hanzoai.cloud.models.apply_request import ApplyRequest
 from hanzoai.cloud.models.approve_pairing_in import ApprovePairingIn
 from hanzoai.cloud.models.argo_app import ArgoApp
@@ -1889,6 +1890,8 @@ from hanzoai.cloud.models.readme_json import ReadmeJSON
 from hanzoai.cloud.models.receipt import Receipt
 from hanzoai.cloud.models.recharge import Recharge
 from hanzoai.cloud.models.recharged import Recharged
+from hanzoai.cloud.models.reconcile_report import ReconcileReport
+from hanzoai.cloud.models.reconcile_source import ReconcileSource
 from hanzoai.cloud.models.record import Record
 from hanzoai.cloud.models.record_in import RecordIn
 from hanzoai.cloud.models.record_list import RecordList
@@ -2109,6 +2112,7 @@ from hanzoai.cloud.models.sequences import Sequences
 from hanzoai.cloud.models.series_line import SeriesLine
 from hanzoai.cloud.models.series_point import SeriesPoint
 from hanzoai.cloud.models.session_detail import SessionDetail
+from hanzoai.cloud.models.session_ended import SessionEnded
 from hanzoai.cloud.models.session_list import SessionList
 from hanzoai.cloud.models.session_user import SessionUser
 from hanzoai.cloud.models.session_view import SessionView
