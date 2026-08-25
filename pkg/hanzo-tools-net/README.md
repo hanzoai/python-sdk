@@ -4,7 +4,7 @@ Network tools for Hanzo AI MCP (HIP-0300).
 
 ## Tools
 
-- `fetch` — the web, one door per verb:
+- `fetch` — the web, one entry point per verb:
   - `search` — query → [url, title, snippet]
   - `web_read` — url → clean markdown
   - `research` — question → cited answer + sources (search + read + synthesize)

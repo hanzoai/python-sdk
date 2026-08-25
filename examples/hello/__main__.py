@@ -14,7 +14,7 @@ worse than no check because it reads as proof.
 ``/v1/keys`` answers 403 ``{"code":"forbidden","error":"sign in to manage API
 keys"}`` with no key and with a bogus one, while the nonsense sibling
 ``/v1/keys-zzq9`` answers 404 — so the 403 is this route refusing, not a
-wildcard door swallowing the address.
+wildcard route swallowing the address.
 
 This replaces ``bot_authMe`` (``GET /v1/bot/auth/me``), which no longer
 resolves: cloud relays all of ``/v1/bot`` through one ``app.All("/v1/bot/*")``,
