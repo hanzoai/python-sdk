@@ -3,7 +3,7 @@
 ``GET /v1/tools`` (operationId ``get_tools``), the catalog behind the
 MCP surface: each entry is a tool name, its description and its input schema.
 
-A note on the MCP door, because it is easy to pick the wrong one. There is a
+A note on the MCP endpoints, because it is easy to pick the wrong one. There is a
 JSON-RPC endpoint at ``POST /v1/mcp`` that answers ``tools/list`` with the same
 catalog — but it is NOT in the document, so the generator emits no method for it
 and an example would have to bypass the SDK to call it, which defeats the point

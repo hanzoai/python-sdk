@@ -73,7 +73,7 @@ def _research_mode(mode: str) -> str:
     """The one pass this action opens.
 
     ``deep`` is the older name for the same research pass, so it normalizes.
-    Anything else is a different door — plain web search is its own action — and
+    Anything else names a different pass — plain web search is its own action — and
     is refused rather than silently downgraded.
     """
     m = (mode or "research").strip().lower()
@@ -140,7 +140,7 @@ Actions:
 - search: Web search — cloud Bing meta-search (api.hanzo.ai) with a local
   DuckDuckGo fallback (Query → [URL, title, snippet])
 - web_read: Fetch a URL → clean markdown (cloud Crawl4AI, local fallback)
-- research: Search + read + synthesize behind one door — the cloud answer
+- research: Search + read + synthesize behind one endpoint — the cloud answer
   engine (Query → {answer with citations, sources, follow_ups})
 - fetch: Retrieve URL content (URL → {text, mime, status})
 - download: Save page with assets (URL → Path)
@@ -352,7 +352,7 @@ Effect: NONDETERMINISTIC_EFFECT (network I/O)
             """Research a question end to end and return a cited answer.
 
             Search finds pages and web_read reads one; research is the whole
-            loop behind a single door — the cloud answer engine
+            loop behind a single endpoint — the cloud answer engine
             (api.hanzo.ai /v1/ask) plans queries, searches, reads the best
             pages and writes an answer that cites them. Its progress frames are
             consumed here, so the caller gets the finished result without
