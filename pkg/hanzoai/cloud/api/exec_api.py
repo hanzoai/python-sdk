@@ -58,9 +58,9 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> List[Listing]:
-        """Files lists what a session holds.
+        """Lists the files in an execution session.
 
-        Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
+        Lists the files in an execution session.  Everything the session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from GET /v1/exec/download.  The answer is a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. The obvious typed shape, `{files: […]}`, would have been a silent wire change: the request still succeeds and `response.data.find(...)` finds nothing, which reads as a session holding no files.  The NAME of this handler is what the published summary is cut from, and it used to leak: the comment opened \"Files lists …\", which is not this function's identifier, so zipdoc's exact-match strip left it and every SDK, tool list and CLI help line opened with a Go symbol no caller can see. An openapi.Describe stated a better summary beside the route and was DISCARDED — Fold replaces a structural operation with the typed one — so the declaration read as landed and rendered nowhere. The comment is the one home for this sentence.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
 
         :param sid: SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. (required)
         :type sid: str
@@ -125,9 +125,9 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[List[Listing]]:
-        """Files lists what a session holds.
+        """Lists the files in an execution session.
 
-        Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
+        Lists the files in an execution session.  Everything the session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from GET /v1/exec/download.  The answer is a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. The obvious typed shape, `{files: […]}`, would have been a silent wire change: the request still succeeds and `response.data.find(...)` finds nothing, which reads as a session holding no files.  The NAME of this handler is what the published summary is cut from, and it used to leak: the comment opened \"Files lists …\", which is not this function's identifier, so zipdoc's exact-match strip left it and every SDK, tool list and CLI help line opened with a Go symbol no caller can see. An openapi.Describe stated a better summary beside the route and was DISCARDED — Fold replaces a structural operation with the typed one — so the declaration read as landed and rendered nowhere. The comment is the one home for this sentence.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
 
         :param sid: SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. (required)
         :type sid: str
@@ -192,9 +192,9 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Files lists what a session holds.
+        """Lists the files in an execution session.
 
-        Files lists what a session holds.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
+        Lists the files in an execution session.  Everything the session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from GET /v1/exec/download.  The answer is a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. The obvious typed shape, `{files: […]}`, would have been a silent wire change: the request still succeeds and `response.data.find(...)` finds nothing, which reads as a session holding no files.  The NAME of this handler is what the published summary is cut from, and it used to leak: the comment opened \"Files lists …\", which is not this function's identifier, so zipdoc's exact-match strip left it and every SDK, tool list and CLI help line opened with a Go symbol no caller can see. An openapi.Describe stated a better summary beside the route and was DISCARDED — Fold replaces a structural operation with the typed one — so the declaration read as landed and rendered nowhere. The comment is the one home for this sentence.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
 
         :param sid: SID is the session identifier — the sandbox this listing is of. The URL is the addressing authority: a path segment binds after the body and after the query, so the address decides which session is read whatever else is sent. (required)
         :type sid: str
@@ -592,9 +592,9 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Programmatic tool calling (not served here)
+        """Answers 501 — this deployment does not serve programmatic tool calling.
 
-        Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
+        Answers 501 — this deployment does not serve programmatic tool calling.  That sentence is the SUMMARY every projection shows, so it says what a caller gets rather than what the code does; the rest names what it would take to stop refusing.  /exec/programmatic is NOT this contract's sibling — it is a different protocol on an adjacent path: a multi-round-trip loop where the server suspends a Python program on a tool call, returns the pending calls with a continuation_token, and resumes when the client posts the results back (@hanzochat/agents ProgrammaticToolCalling). Implementing it means implementing suspension and resumption, which is a program, not an endpoint.  So it answers 501 with that fact rather than being routed into `run`, which would hand the caller a CodeResult its parser cannot read — a wrong answer, where this is a refusal a client can act on.  IT IS A TYPED OP, and the refusal for keeping it raw did not survive reading. It binds no body, opens no stream, relays no other process and sits on no wildcard, so none of the four wire facts that keep a route raw applies to it; what was cited instead was that a permanent stub should declare nothing. That argues for silence in the DOCUMENT and buys the silence everywhere else too — no MCP tool, no CLI command, no SDK method — so a caller could read this address and reach it by no projection but REST, and learn only by calling it that the protocol is not served. Declaring `zip.WithStatus(501)` is what makes typing honest: the document publishes the ONE status this route sends, over an Out with no schema, rather than the 204 a void op would otherwise have invented.  ONE delta, pinned by TestProgrammaticRefusesEveryBody: a body that is not JSON now answers 400 rather than 501, because op.invoke decodes before the handler is entered. Both are refusals of a protocol this deployment does not serve, no real caller sends one, and 400 is what the rest of the fleet answers to bytes it cannot parse.  It asks tenantOf for the reason every other operation here does, and the answer is the same on the wire it was: over HTTP the credential middleware has already run, so an admitted caller still reads 501. What the call closes is the entry point a route table cannot see — typing an operation makes it an MCP tool, which zip dispatches straight into the handler with no route and therefore no middleware. Uniformity is the whole property: every path into this subsystem reads the admission marker, so there is no operation anybody has to remember is the exception.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -626,6 +626,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '501': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -654,9 +655,9 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Programmatic tool calling (not served here)
+        """Answers 501 — this deployment does not serve programmatic tool calling.
 
-        Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
+        Answers 501 — this deployment does not serve programmatic tool calling.  That sentence is the SUMMARY every projection shows, so it says what a caller gets rather than what the code does; the rest names what it would take to stop refusing.  /exec/programmatic is NOT this contract's sibling — it is a different protocol on an adjacent path: a multi-round-trip loop where the server suspends a Python program on a tool call, returns the pending calls with a continuation_token, and resumes when the client posts the results back (@hanzochat/agents ProgrammaticToolCalling). Implementing it means implementing suspension and resumption, which is a program, not an endpoint.  So it answers 501 with that fact rather than being routed into `run`, which would hand the caller a CodeResult its parser cannot read — a wrong answer, where this is a refusal a client can act on.  IT IS A TYPED OP, and the refusal for keeping it raw did not survive reading. It binds no body, opens no stream, relays no other process and sits on no wildcard, so none of the four wire facts that keep a route raw applies to it; what was cited instead was that a permanent stub should declare nothing. That argues for silence in the DOCUMENT and buys the silence everywhere else too — no MCP tool, no CLI command, no SDK method — so a caller could read this address and reach it by no projection but REST, and learn only by calling it that the protocol is not served. Declaring `zip.WithStatus(501)` is what makes typing honest: the document publishes the ONE status this route sends, over an Out with no schema, rather than the 204 a void op would otherwise have invented.  ONE delta, pinned by TestProgrammaticRefusesEveryBody: a body that is not JSON now answers 400 rather than 501, because op.invoke decodes before the handler is entered. Both are refusals of a protocol this deployment does not serve, no real caller sends one, and 400 is what the rest of the fleet answers to bytes it cannot parse.  It asks tenantOf for the reason every other operation here does, and the answer is the same on the wire it was: over HTTP the credential middleware has already run, so an admitted caller still reads 501. What the call closes is the entry point a route table cannot see — typing an operation makes it an MCP tool, which zip dispatches straight into the handler with no route and therefore no middleware. Uniformity is the whole property: every path into this subsystem reads the admission marker, so there is no operation anybody has to remember is the exception.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -688,6 +689,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '501': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -716,9 +718,9 @@ class ExecApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Programmatic tool calling (not served here)
+        """Answers 501 — this deployment does not serve programmatic tool calling.
 
-        Answers 501. This address belongs to a DIFFERENT protocol from /v1/exec: the server suspends a program on each tool call, returns the pending calls with a continuation token, and resumes when the client posts results back. Serving it means implementing suspension and resumption, so it refuses in the open rather than answering with a shape the caller's parser cannot read.
+        Answers 501 — this deployment does not serve programmatic tool calling.  That sentence is the SUMMARY every projection shows, so it says what a caller gets rather than what the code does; the rest names what it would take to stop refusing.  /exec/programmatic is NOT this contract's sibling — it is a different protocol on an adjacent path: a multi-round-trip loop where the server suspends a Python program on a tool call, returns the pending calls with a continuation_token, and resumes when the client posts the results back (@hanzochat/agents ProgrammaticToolCalling). Implementing it means implementing suspension and resumption, which is a program, not an endpoint.  So it answers 501 with that fact rather than being routed into `run`, which would hand the caller a CodeResult its parser cannot read — a wrong answer, where this is a refusal a client can act on.  IT IS A TYPED OP, and the refusal for keeping it raw did not survive reading. It binds no body, opens no stream, relays no other process and sits on no wildcard, so none of the four wire facts that keep a route raw applies to it; what was cited instead was that a permanent stub should declare nothing. That argues for silence in the DOCUMENT and buys the silence everywhere else too — no MCP tool, no CLI command, no SDK method — so a caller could read this address and reach it by no projection but REST, and learn only by calling it that the protocol is not served. Declaring `zip.WithStatus(501)` is what makes typing honest: the document publishes the ONE status this route sends, over an Out with no schema, rather than the 204 a void op would otherwise have invented.  ONE delta, pinned by TestProgrammaticRefusesEveryBody: a body that is not JSON now answers 400 rather than 501, because op.invoke decodes before the handler is entered. Both are refusals of a protocol this deployment does not serve, no real caller sends one, and 400 is what the rest of the fleet answers to bytes it cannot parse.  It asks tenantOf for the reason every other operation here does, and the answer is the same on the wire it was: over HTTP the credential middleware has already run, so an admitted caller still reads 501. What the call closes is the entry point a route table cannot see — typing an operation makes it an MCP tool, which zip dispatches straight into the handler with no route and therefore no middleware. Uniformity is the whole property: every path into this subsystem reads the admission marker, so there is no operation anybody has to remember is the exception.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -750,6 +752,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '501': None,
         }
         response_data = self.api_client.call_api(
             *_param,

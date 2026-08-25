@@ -27,7 +27,7 @@ class PresignResponse(BaseModel):
     PresignResponse
     """ # noqa: E501
     expires_in: Optional[StrictInt] = Field(default=None, description="seconds until the URL expires", alias="expiresIn")
-    key: Optional[StrictStr] = None
+    key: Optional[StrictStr] = Field(default=None, description="Key is the object key the URL was signed for, relative to the bucket root and path-cleaned — so it is what the store will actually read or write, which is not always the string the caller sent. The signature covers this one bucket and this one key: a URL minted here reaches nothing else.")
     method: Optional[StrictStr] = Field(default=None, description="\"PUT\" (upload) or \"GET\" (download)")
     url: Optional[StrictStr] = Field(default=None, description="presigned URL the browser follows directly")
     __properties: ClassVar[List[str]] = ["expiresIn", "key", "method", "url"]

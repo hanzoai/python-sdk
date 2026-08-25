@@ -22,13 +22,14 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class D1Query(BaseModel):
+class ReconcileSource(BaseModel):
     """
-    D1Query
+    ReconcileSource
     """ # noqa: E501
-    params: Optional[List[Any]] = Field(default=None, description="Params are the statement's bound values, in the order its `?` placeholders appear — a string, a number, a boolean or null, whatever the column takes. Absent means the statement carries no placeholders; bind values here rather than interpolating them into the statement.")
-    sql: Optional[StrictStr] = Field(default=None, description="SQL is the statement to run. Blank (or absent) is refused before anything reaches D1.")
-    __properties: ClassVar[List[str]] = ["params", "sql"]
+    path: Optional[StrictStr] = Field(default=None, description="Path is the directory WITHIN the repository that is rendered — everything outside it is not this plane's desired state and is never applied.")
+    ref: Optional[StrictStr] = Field(default=None, description="Ref is the branch or tag the revision was resolved from.")
+    repo: Optional[StrictStr] = Field(default=None, description="Repo is the clone URL of the repository holding the desired state.")
+    __properties: ClassVar[List[str]] = ["path", "ref", "repo"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class D1Query(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of D1Query from a JSON string"""
+        """Create an instance of ReconcileSource from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +74,7 @@ class D1Query(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of D1Query from a dict"""
+        """Create an instance of ReconcileSource from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +82,9 @@ class D1Query(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "params": obj.get("params"),
-            "sql": obj.get("sql")
+            "path": obj.get("path"),
+            "ref": obj.get("ref"),
+            "repo": obj.get("repo")
         })
         return _obj
 
