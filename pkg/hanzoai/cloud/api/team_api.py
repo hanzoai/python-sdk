@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
-from typing import List, Optional
+from pydantic import Field, StrictBytes, StrictStr
+from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.bot_roster import BotRoster
 from hanzoai.cloud.models.bot_sync import BotSync
@@ -1587,7 +1587,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> bytearray:
         """Open the wallet page
 
         Serves the usage-and-wallet page the Team front links to — HTML, not JSON. It is a static React build compiled into this binary, so there is no upstream to be down and no build step at request time.  SESSION-GATED: without a verified team session token — bearer, else the HttpOnly account cookie — the caller gets 401 and not one byte of the page, so an anonymous browser meets a refusal rather than a shell that then fails to load anything.  The page is markup only. It reads money SAME-ORIGIN from cloud's own balance and usage endpoints, which pin the org from the IAM cookie the team OAuth callback set — nothing under this path proxies a money read, so there is no second auth mechanism here to get wrong. A deployment whose page was never built answers 503 naming the missing bundle, never a blank 200.
@@ -1622,6 +1622,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1649,7 +1650,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[bytearray]:
         """Open the wallet page
 
         Serves the usage-and-wallet page the Team front links to — HTML, not JSON. It is a static React build compiled into this binary, so there is no upstream to be down and no build step at request time.  SESSION-GATED: without a verified team session token — bearer, else the HttpOnly account cookie — the caller gets 401 and not one byte of the page, so an anonymous browser meets a refusal rather than a shell that then fails to load anything.  The page is markup only. It reads money SAME-ORIGIN from cloud's own balance and usage endpoints, which pin the org from the IAM cookie the team OAuth callback set — nothing under this path proxies a money read, so there is no second auth mechanism here to get wrong. A deployment whose page was never built answers 503 naming the missing bundle, never a blank 200.
@@ -1684,6 +1685,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1746,6 +1748,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1783,6 +1786,13 @@ class TeamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'text/html; charset=utf-8'
+                ]
+            )
 
 
         # authentication setting
@@ -2307,7 +2317,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> bytearray:
         """Download a workspace file
 
         Streams one blob's raw BYTES back — this is the read side of the workspace file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the workspace. A genuine miss, another tenant's workspace, a workspace the caller is not in, and a blob id belonging to a different workspace are ONE answer — 404 — because the physical key is org- and workspace-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
@@ -2348,6 +2358,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2377,7 +2388,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[bytearray]:
         """Download a workspace file
 
         Streams one blob's raw BYTES back — this is the read side of the workspace file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the workspace. A genuine miss, another tenant's workspace, a workspace the caller is not in, and a blob id belonging to a different workspace are ONE answer — 404 — because the physical key is org- and workspace-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
@@ -2418,6 +2429,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2488,6 +2500,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2531,6 +2544,13 @@ class TeamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/octet-stream'
+                ]
+            )
 
 
         # authentication setting
@@ -4108,6 +4128,7 @@ class TeamApi:
     def post_team_files_by_workspace(
         self,
         workspace: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4120,13 +4141,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> bytearray:
         """Upload a file into a workspace
 
         Stores one file in a workspace's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or workspace token AND be a member of the workspace; an unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the workspace, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
 
         :param workspace: (required)
         :type workspace: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4151,6 +4174,7 @@ class TeamApi:
 
         _param = self._post_team_files_by_workspace_serialize(
             workspace=workspace,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4158,6 +4182,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4174,6 +4199,7 @@ class TeamApi:
     def post_team_files_by_workspace_with_http_info(
         self,
         workspace: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4186,13 +4212,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[bytearray]:
         """Upload a file into a workspace
 
         Stores one file in a workspace's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or workspace token AND be a member of the workspace; an unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the workspace, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
 
         :param workspace: (required)
         :type workspace: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4217,6 +4245,7 @@ class TeamApi:
 
         _param = self._post_team_files_by_workspace_serialize(
             workspace=workspace,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4224,6 +4253,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4240,6 +4270,7 @@ class TeamApi:
     def post_team_files_by_workspace_without_preload_content(
         self,
         workspace: StrictStr,
+        body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4259,6 +4290,8 @@ class TeamApi:
 
         :param workspace: (required)
         :type workspace: str
+        :param body:
+        :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4283,6 +4316,7 @@ class TeamApi:
 
         _param = self._post_team_files_by_workspace_serialize(
             workspace=workspace,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4290,6 +4324,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4301,6 +4336,7 @@ class TeamApi:
     def _post_team_files_by_workspace_serialize(
         self,
         workspace,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -4328,9 +4364,39 @@ class TeamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            # convert to byte array if the input is a file name (str)
+            if isinstance(body, str):
+                with open(body, "rb") as _fp:
+                    _body_params = _fp.read()
+            elif isinstance(body, tuple):
+                # drop the filename from the tuple
+                _body_params = body[1]
+            else:
+                _body_params = body
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'text/plain; charset=utf-8'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/octet-stream'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -4370,7 +4436,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> CookieAck:
         """Store the session token as this browser's cookie
 
         Writes the team session token into the HttpOnly `account-token` cookie — Secure, SameSite=Lax, whole-origin scope, thirty days — and answers {\"result\": true}. This is how the client turns the token it caught off the OAuth bounce into a credential page JS can no longer read, which IS the security property: script that cannot see the cookie cannot exfiltrate it, and every later call on the files, billing and collaborator planes authenticates from it when no bearer is sent.  The token is VERIFIED — signature and expiry, against this service's own signing secret — BEFORE it is stored. Anything this service did not sign is 401 and nothing is written; persisting a caller-supplied value unchecked would be a session-fixation hole, where an attacker pins a cookie the victim's browser then presents as its own.  The token may arrive as `token` in the JSON body or, when the body is absent or unparseable, from the Authorization bearer — an unreadable body is NOT an error here. The sibling DELETE clears this same cookie and signs the browser out of team only: the IAM cookie set alongside it is a different credential with its own lifetime and is left alone.
@@ -4405,6 +4471,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "CookieAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4432,7 +4499,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[CookieAck]:
         """Store the session token as this browser's cookie
 
         Writes the team session token into the HttpOnly `account-token` cookie — Secure, SameSite=Lax, whole-origin scope, thirty days — and answers {\"result\": true}. This is how the client turns the token it caught off the OAuth bounce into a credential page JS can no longer read, which IS the security property: script that cannot see the cookie cannot exfiltrate it, and every later call on the files, billing and collaborator planes authenticates from it when no bearer is sent.  The token is VERIFIED — signature and expiry, against this service's own signing secret — BEFORE it is stored. Anything this service did not sign is 401 and nothing is written; persisting a caller-supplied value unchecked would be a session-fixation hole, where an attacker pins a cookie the victim's browser then presents as its own.  The token may arrive as `token` in the JSON body or, when the body is absent or unparseable, from the Authorization bearer — an unreadable body is NOT an error here. The sibling DELETE clears this same cookie and signs the browser out of team only: the IAM cookie set alongside it is a different credential with its own lifetime and is left alone.
@@ -4467,6 +4534,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "CookieAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4529,6 +4597,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "CookieAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4566,6 +4635,13 @@ class TeamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting

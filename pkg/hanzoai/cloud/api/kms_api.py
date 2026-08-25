@@ -16,8 +16,9 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import Field, StrictStr
 from typing import Optional
+from typing_extensions import Annotated
 from hanzoai.cloud.models.kms_config import KmsConfig
 from hanzoai.cloud.models.kms_health import KmsHealth
 from hanzoai.cloud.models.kms_login import KmsLogin
@@ -542,10 +543,10 @@ class KmsApi:
     @validate_call
     def get_kms_secrets(
         self,
-        env: Optional[StrictStr] = None,
-        environment: Optional[StrictStr] = None,
-        path: Optional[StrictStr] = None,
-        secret_path: Optional[StrictStr] = None,
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment, which is part of a secret's storage key. OMITTED means EVERY environment — this is the enumeration surface, so it must be able to answer \"what is in here\" without being told where to look.")] = None,
+        environment: Annotated[Optional[StrictStr], Field(description="Environment is the KMS operator's spelling of Env, accepted so one caller need not learn the other's vocabulary. Env wins when both are sent.")] = None,
+        path: Annotated[Optional[StrictStr], Field(description="Path narrows the listing to one subtree beneath the caller's org root, as a `/`-separated path such as `/ci`. OMITTED means the whole org.")] = None,
+        secret_path: Annotated[Optional[StrictStr], Field(description="SecretPath is the KMS operator's spelling of Path. Path wins when both are sent.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -563,13 +564,13 @@ class KmsApi:
 
         Lists the secrets your org holds, without their values.  Returns the METADATA of the caller's own secrets: each one's name, path, environment and sealing scheme. No value and no ciphertext is included — this operation exists to enumerate what is held, and reading a value is a separate, per-secret call.  Scoped to the caller's own org and nothing else, structurally: there is no org in the path, the store root is derived from the validated org claim, and a caller therefore has no way to name another tenant's namespace. `path` narrows to a subpath and `env` selects the environment; both are also accepted under the operator's spellings, `secretPath` and `environment`. An omitted `env` means every environment and an omitted `path` means the whole org, because a default here reported a populated store as empty.  Admission is fail-closed and in order: a validated member, an org that is a DNS-1123 label, and a store holding a master key — 403, 400 and 503 respectively, all decided before any record is touched.
 
-        :param env:
+        :param env: Env selects the environment, which is part of a secret's storage key. OMITTED means EVERY environment — this is the enumeration surface, so it must be able to answer \"what is in here\" without being told where to look.
         :type env: str
-        :param environment:
+        :param environment: Environment is the KMS operator's spelling of Env, accepted so one caller need not learn the other's vocabulary. Env wins when both are sent.
         :type environment: str
-        :param path:
+        :param path: Path narrows the listing to one subtree beneath the caller's org root, as a `/`-separated path such as `/ci`. OMITTED means the whole org.
         :type path: str
-        :param secret_path:
+        :param secret_path: SecretPath is the KMS operator's spelling of Path. Path wins when both are sent.
         :type secret_path: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -621,10 +622,10 @@ class KmsApi:
     @validate_call
     def get_kms_secrets_with_http_info(
         self,
-        env: Optional[StrictStr] = None,
-        environment: Optional[StrictStr] = None,
-        path: Optional[StrictStr] = None,
-        secret_path: Optional[StrictStr] = None,
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment, which is part of a secret's storage key. OMITTED means EVERY environment — this is the enumeration surface, so it must be able to answer \"what is in here\" without being told where to look.")] = None,
+        environment: Annotated[Optional[StrictStr], Field(description="Environment is the KMS operator's spelling of Env, accepted so one caller need not learn the other's vocabulary. Env wins when both are sent.")] = None,
+        path: Annotated[Optional[StrictStr], Field(description="Path narrows the listing to one subtree beneath the caller's org root, as a `/`-separated path such as `/ci`. OMITTED means the whole org.")] = None,
+        secret_path: Annotated[Optional[StrictStr], Field(description="SecretPath is the KMS operator's spelling of Path. Path wins when both are sent.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -642,13 +643,13 @@ class KmsApi:
 
         Lists the secrets your org holds, without their values.  Returns the METADATA of the caller's own secrets: each one's name, path, environment and sealing scheme. No value and no ciphertext is included — this operation exists to enumerate what is held, and reading a value is a separate, per-secret call.  Scoped to the caller's own org and nothing else, structurally: there is no org in the path, the store root is derived from the validated org claim, and a caller therefore has no way to name another tenant's namespace. `path` narrows to a subpath and `env` selects the environment; both are also accepted under the operator's spellings, `secretPath` and `environment`. An omitted `env` means every environment and an omitted `path` means the whole org, because a default here reported a populated store as empty.  Admission is fail-closed and in order: a validated member, an org that is a DNS-1123 label, and a store holding a master key — 403, 400 and 503 respectively, all decided before any record is touched.
 
-        :param env:
+        :param env: Env selects the environment, which is part of a secret's storage key. OMITTED means EVERY environment — this is the enumeration surface, so it must be able to answer \"what is in here\" without being told where to look.
         :type env: str
-        :param environment:
+        :param environment: Environment is the KMS operator's spelling of Env, accepted so one caller need not learn the other's vocabulary. Env wins when both are sent.
         :type environment: str
-        :param path:
+        :param path: Path narrows the listing to one subtree beneath the caller's org root, as a `/`-separated path such as `/ci`. OMITTED means the whole org.
         :type path: str
-        :param secret_path:
+        :param secret_path: SecretPath is the KMS operator's spelling of Path. Path wins when both are sent.
         :type secret_path: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -700,10 +701,10 @@ class KmsApi:
     @validate_call
     def get_kms_secrets_without_preload_content(
         self,
-        env: Optional[StrictStr] = None,
-        environment: Optional[StrictStr] = None,
-        path: Optional[StrictStr] = None,
-        secret_path: Optional[StrictStr] = None,
+        env: Annotated[Optional[StrictStr], Field(description="Env selects the environment, which is part of a secret's storage key. OMITTED means EVERY environment — this is the enumeration surface, so it must be able to answer \"what is in here\" without being told where to look.")] = None,
+        environment: Annotated[Optional[StrictStr], Field(description="Environment is the KMS operator's spelling of Env, accepted so one caller need not learn the other's vocabulary. Env wins when both are sent.")] = None,
+        path: Annotated[Optional[StrictStr], Field(description="Path narrows the listing to one subtree beneath the caller's org root, as a `/`-separated path such as `/ci`. OMITTED means the whole org.")] = None,
+        secret_path: Annotated[Optional[StrictStr], Field(description="SecretPath is the KMS operator's spelling of Path. Path wins when both are sent.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -721,13 +722,13 @@ class KmsApi:
 
         Lists the secrets your org holds, without their values.  Returns the METADATA of the caller's own secrets: each one's name, path, environment and sealing scheme. No value and no ciphertext is included — this operation exists to enumerate what is held, and reading a value is a separate, per-secret call.  Scoped to the caller's own org and nothing else, structurally: there is no org in the path, the store root is derived from the validated org claim, and a caller therefore has no way to name another tenant's namespace. `path` narrows to a subpath and `env` selects the environment; both are also accepted under the operator's spellings, `secretPath` and `environment`. An omitted `env` means every environment and an omitted `path` means the whole org, because a default here reported a populated store as empty.  Admission is fail-closed and in order: a validated member, an org that is a DNS-1123 label, and a store holding a master key — 403, 400 and 503 respectively, all decided before any record is touched.
 
-        :param env:
+        :param env: Env selects the environment, which is part of a secret's storage key. OMITTED means EVERY environment — this is the enumeration surface, so it must be able to answer \"what is in here\" without being told where to look.
         :type env: str
-        :param environment:
+        :param environment: Environment is the KMS operator's spelling of Env, accepted so one caller need not learn the other's vocabulary. Env wins when both are sent.
         :type environment: str
-        :param path:
+        :param path: Path narrows the listing to one subtree beneath the caller's org root, as a `/`-separated path such as `/ci`. OMITTED means the whole org.
         :type path: str
-        :param secret_path:
+        :param secret_path: SecretPath is the KMS operator's spelling of Path. Path wins when both are sent.
         :type secret_path: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

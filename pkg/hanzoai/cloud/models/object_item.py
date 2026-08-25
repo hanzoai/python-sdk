@@ -26,7 +26,7 @@ class ObjectItem(BaseModel):
     """
     ObjectItem
     """ # noqa: E501
-    etag: Optional[StrictStr] = None
+    etag: Optional[StrictStr] = Field(default=None, description="ETag is the store's entity tag for the bytes currently at this key, with the quotes the store wraps it in stripped. It is an opaque VERSION and not a checksum to verify against: a single-part upload's tag happens to be the MD5 of the content and a multipart upload's is not, and nothing here says which this was. Compare two reads of one key to learn whether the object changed; absent for a folder entry, and for an object the store reports none for.")
     is_dir: Optional[StrictBool] = Field(default=None, description="true for a folder (common prefix)", alias="isDir")
     key: Optional[StrictStr] = Field(default=None, description="key RELATIVE to the requested prefix")
     last_modified: Optional[StrictInt] = Field(default=None, description="unix seconds (0 for a folder)", alias="lastModified")

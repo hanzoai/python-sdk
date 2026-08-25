@@ -22,13 +22,14 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class D1Query(BaseModel):
+class AppliedResource(BaseModel):
     """
-    D1Query
+    AppliedResource
     """ # noqa: E501
-    params: Optional[List[Any]] = Field(default=None, description="Params are the statement's bound values, in the order its `?` placeholders appear — a string, a number, a boolean or null, whatever the column takes. Absent means the statement carries no placeholders; bind values here rather than interpolating them into the statement.")
-    sql: Optional[StrictStr] = Field(default=None, description="SQL is the statement to run. Blank (or absent) is refused before anything reaches D1.")
-    __properties: ClassVar[List[str]] = ["params", "sql"]
+    message: Optional[StrictStr] = Field(default=None, description="Message is the engine's own sentence about this object — the apiserver's refusal on a failure, and typically empty on success. It is for a human reading a failed run, not a value to branch on.")
+    resource: Optional[StrictStr] = Field(default=None, description="Resource identifies the object as group/version/kind/namespace/name, the engine's own key. It is stable across runs, so two reports can be diffed on it.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is what happened to this object, from the engine's closed vocabulary: `Synced` (applied), `Pruned` (deleted because the source no longer declares it), `SyncFailed` (refused — read Message) and `PruneSkipped` (deletion was declined). It is the per-object detail behind the report's counts.")
+    __properties: ClassVar[List[str]] = ["message", "resource", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class D1Query(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of D1Query from a JSON string"""
+        """Create an instance of AppliedResource from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +74,7 @@ class D1Query(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of D1Query from a dict"""
+        """Create an instance of AppliedResource from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +82,9 @@ class D1Query(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "params": obj.get("params"),
-            "sql": obj.get("sql")
+            "message": obj.get("message"),
+            "resource": obj.get("resource"),
+            "status": obj.get("status")
         })
         return _obj
 

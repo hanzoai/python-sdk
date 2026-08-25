@@ -176,6 +176,7 @@ pkg/hanzoai/cloud/models/app_view.py
 pkg/hanzoai/cloud/models/appearance.py
 pkg/hanzoai/cloud/models/application.py
 pkg/hanzoai/cloud/models/application_list.py
+pkg/hanzoai/cloud/models/applied_resource.py
 pkg/hanzoai/cloud/models/apply_request.py
 pkg/hanzoai/cloud/models/approve_pairing_in.py
 pkg/hanzoai/cloud/models/argo_app.py
@@ -1997,6 +1998,8 @@ pkg/hanzoai/cloud/models/readme_json.py
 pkg/hanzoai/cloud/models/receipt.py
 pkg/hanzoai/cloud/models/recharge.py
 pkg/hanzoai/cloud/models/recharged.py
+pkg/hanzoai/cloud/models/reconcile_report.py
+pkg/hanzoai/cloud/models/reconcile_source.py
 pkg/hanzoai/cloud/models/record.py
 pkg/hanzoai/cloud/models/record_in.py
 pkg/hanzoai/cloud/models/record_list.py
@@ -2216,6 +2219,7 @@ pkg/hanzoai/cloud/models/sequences.py
 pkg/hanzoai/cloud/models/series_line.py
 pkg/hanzoai/cloud/models/series_point.py
 pkg/hanzoai/cloud/models/session_detail.py
+pkg/hanzoai/cloud/models/session_ended.py
 pkg/hanzoai/cloud/models/session_list.py
 pkg/hanzoai/cloud/models/session_user.py
 pkg/hanzoai/cloud/models/session_view.py

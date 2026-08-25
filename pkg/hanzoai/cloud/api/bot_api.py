@@ -16,7 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import StrictStr
+from pydantic import Field, StrictStr
+from typing_extensions import Annotated
 from hanzoai.cloud.models.bot_runs import BotRuns
 from hanzoai.cloud.models.bot_stopped import BotStopped
 
@@ -300,9 +301,9 @@ class BotApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Reserved address for launching a bot run — not implemented, always 501
+        """Answers 501 to every call: launching a bot run is not implemented.
 
-        Answers 501 to every call. The bot runtime exposes no launch operation, so nothing here can start a sandbox, and this address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. The handler never reads the body, so any bytes at all — malformed JSON included — get the same 501; no run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots.
+        Answers 501 to every call: launching a bot run is not implemented.  The bot runtime exposes no launch operation, so nothing here can start a sandbox. This address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. No run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it. 501 is the truth, and the truth is cheaper than a plausible lie.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots — a runtime-side launch operation first (TS, cross-repo), with the entitlement gate and the meter beside it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -334,6 +335,7 @@ class BotApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '501': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -362,9 +364,9 @@ class BotApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Reserved address for launching a bot run — not implemented, always 501
+        """Answers 501 to every call: launching a bot run is not implemented.
 
-        Answers 501 to every call. The bot runtime exposes no launch operation, so nothing here can start a sandbox, and this address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. The handler never reads the body, so any bytes at all — malformed JSON included — get the same 501; no run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots.
+        Answers 501 to every call: launching a bot run is not implemented.  The bot runtime exposes no launch operation, so nothing here can start a sandbox. This address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. No run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it. 501 is the truth, and the truth is cheaper than a plausible lie.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots — a runtime-side launch operation first (TS, cross-repo), with the entitlement gate and the meter beside it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -396,6 +398,7 @@ class BotApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '501': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -424,9 +427,9 @@ class BotApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Reserved address for launching a bot run — not implemented, always 501
+        """Answers 501 to every call: launching a bot run is not implemented.
 
-        Answers 501 to every call. The bot runtime exposes no launch operation, so nothing here can start a sandbox, and this address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. The handler never reads the body, so any bytes at all — malformed JSON included — get the same 501; no run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots.
+        Answers 501 to every call: launching a bot run is not implemented.  The bot runtime exposes no launch operation, so nothing here can start a sandbox. This address is published rather than dropped because it is the collection every run is created in: GET lists them, POST would launch one.  The refusal is total and takes no input. No run id is minted, no session URL is handed back, and no per-run fee is charged. That is the point: the earlier version minted an id the runtime had never heard of, pointed it at a VNC node that did not exist, and took real money for it. 501 is the truth, and the truth is cheaper than a plausible lie.  Listing and stopping runs are live and org-scoped. Only the launch is missing, and it returns in the same change that can prove a bot boots — a runtime-side launch operation first (TS, cross-repo), with the entitlement gate and the meter beside it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -458,6 +461,7 @@ class BotApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '501': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -523,7 +527,7 @@ class BotApi:
     @validate_call
     def post_bot_runs_by_runid_stop(
         self,
-        run_id: StrictStr,
+        run_id: Annotated[StrictStr, Field(description="RunID is the run to stop, as the bot runtime named it. It is read from the URL — the `{runId}` segment the router matched on — and a body carrying a different id cannot redirect the stop.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -541,7 +545,7 @@ class BotApi:
 
         Stop terminates one of the caller org's own bot runs and reports its terminal state.  The own-key guard is the org: it is the caller's validated org, never theirs to choose, and the runtime resolves the run id UNDER it. A run belonging to another tenant is not among this org's runs, so it answers absent — the same 404 a nonexistent id gets, which is what keeps this from being an oracle.  Absence is honoured ONLY when the runtime answers it. A runtime that does not serve stop reports nothing about the run, and reporting \"stopped\" on that basis would be a stop that cannot fail — so it is a 502.
 
-        :param run_id: (required)
+        :param run_id: RunID is the run to stop, as the bot runtime named it. It is read from the URL — the `{runId}` segment the router matched on — and a body carrying a different id cannot redirect the stop. (required)
         :type run_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -590,7 +594,7 @@ class BotApi:
     @validate_call
     def post_bot_runs_by_runid_stop_with_http_info(
         self,
-        run_id: StrictStr,
+        run_id: Annotated[StrictStr, Field(description="RunID is the run to stop, as the bot runtime named it. It is read from the URL — the `{runId}` segment the router matched on — and a body carrying a different id cannot redirect the stop.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -608,7 +612,7 @@ class BotApi:
 
         Stop terminates one of the caller org's own bot runs and reports its terminal state.  The own-key guard is the org: it is the caller's validated org, never theirs to choose, and the runtime resolves the run id UNDER it. A run belonging to another tenant is not among this org's runs, so it answers absent — the same 404 a nonexistent id gets, which is what keeps this from being an oracle.  Absence is honoured ONLY when the runtime answers it. A runtime that does not serve stop reports nothing about the run, and reporting \"stopped\" on that basis would be a stop that cannot fail — so it is a 502.
 
-        :param run_id: (required)
+        :param run_id: RunID is the run to stop, as the bot runtime named it. It is read from the URL — the `{runId}` segment the router matched on — and a body carrying a different id cannot redirect the stop. (required)
         :type run_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -657,7 +661,7 @@ class BotApi:
     @validate_call
     def post_bot_runs_by_runid_stop_without_preload_content(
         self,
-        run_id: StrictStr,
+        run_id: Annotated[StrictStr, Field(description="RunID is the run to stop, as the bot runtime named it. It is read from the URL — the `{runId}` segment the router matched on — and a body carrying a different id cannot redirect the stop.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -675,7 +679,7 @@ class BotApi:
 
         Stop terminates one of the caller org's own bot runs and reports its terminal state.  The own-key guard is the org: it is the caller's validated org, never theirs to choose, and the runtime resolves the run id UNDER it. A run belonging to another tenant is not among this org's runs, so it answers absent — the same 404 a nonexistent id gets, which is what keeps this from being an oracle.  Absence is honoured ONLY when the runtime answers it. A runtime that does not serve stop reports nothing about the run, and reporting \"stopped\" on that basis would be a stop that cannot fail — so it is a 502.
 
-        :param run_id: (required)
+        :param run_id: RunID is the run to stop, as the bot runtime named it. It is read from the URL — the `{runId}` segment the router matched on — and a body carrying a different id cannot redirect the stop. (required)
         :type run_id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
