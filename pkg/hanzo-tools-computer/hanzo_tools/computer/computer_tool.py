@@ -12,13 +12,11 @@ Performance:
 - Batch operations with minimal overhead
 """
 
-import io
 import os
 import re
 import sys
 import json
 import time
-import base64
 import shutil
 import asyncio
 import tempfile
@@ -31,7 +29,8 @@ from pydantic import Field
 from mcp.server import FastMCP
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout
+from hanzo_tools.core import BaseTool, PermissionManager, auto_timeout, capture
+from hanzo_tools.core.unified import _result_to_mcp
 
 # Platform detection
 PLATFORM = sys.platform
@@ -1078,6 +1077,10 @@ SCREEN (< 50ms native):
 - get_screens(): List displays
 - screen_size() / current_screen()
 
+Screenshots are downscaled JPEG (~1280px, q70) by default to save context; the
+full-resolution capture is saved to a file whose path is returned — pass
+full_res=true (or max_width/quality) only when you need pixel detail.
+
 IMAGE LOCATION:
 - locate(image_path): Find image, return center
 - locate_all(image_path): Find all matches
@@ -1157,12 +1160,16 @@ Examples:
         name: str | None = None,
         width: int | None = None,
         height: int | None = None,
+        # Screenshot detail
+        max_width: int = 1280,
+        quality: int = 70,
+        full_res: bool = False,
         # Settings
         value: float | bool | None = None,
         # Batch
         actions: list[dict[str, Any]] | None = None,
         **kwargs,
-    ) -> str:
+    ) -> Any:
         """Execute computer control action."""
         loop = asyncio.get_event_loop()
 
@@ -1281,37 +1288,16 @@ Examples:
             # Screen actions
             elif action == "screenshot" or action == "screenshot_region":
                 data = await run(NativeControl.screenshot_native, region)
-
-                # If name is provided, save to file instead of returning base64
-                if name:
-                    # Expand ~ and make absolute path
-                    file_path = os.path.expanduser(name)
-                    if not os.path.isabs(file_path):
-                        file_path = os.path.join(tempfile.gettempdir(), name)
-                    if not file_path.endswith(".png"):
-                        file_path += ".png"
-
-                    with open(file_path, "wb") as f:
-                        f.write(data)
-
-                    return json.dumps(
-                        {
-                            "success": True,
-                            "format": "png",
-                            "size": len(data),
-                            "path": file_path,
-                        }
+                return _result_to_mcp(
+                    capture(
+                        data,
+                        fmt="png",
+                        alt="screen",
+                        path=self._destination(name),
+                        max_width=max_width,
+                        quality=quality,
+                        full_res=full_res,
                     )
-
-                # Otherwise return base64 (large output warning)
-                b64 = base64.b64encode(data).decode()
-                return json.dumps(
-                    {
-                        "success": True,
-                        "format": "png",
-                        "size": len(data),
-                        "base64": b64,
-                    }
                 )
 
             # Image location (uses pyautogui)
@@ -1416,9 +1402,15 @@ Examples:
                     return json.dumps({"error": f"Region '{name}' not defined"})
                 reg = list(self._defined_regions[name])
                 data = await run(NativeControl.screenshot_native, reg)
-                b64 = base64.b64encode(data).decode()
-                return json.dumps(
-                    {"success": True, "format": "png", "size": len(data), "base64": b64}
+                return _result_to_mcp(
+                    capture(
+                        data,
+                        fmt="png",
+                        alt=f"region {name}",
+                        max_width=max_width,
+                        quality=quality,
+                        full_res=full_res,
+                    )
                 )
 
             elif action == "region_locate":
@@ -1544,6 +1536,16 @@ Examples:
 
         except Exception as e:
             return json.dumps({"error": str(e)})
+
+    @staticmethod
+    def _destination(name: str | None) -> str | None:
+        """Resolve a caller-supplied screenshot name to an absolute .png path."""
+        if not name:
+            return None
+        p = os.path.expanduser(name)
+        if not os.path.isabs(p):
+            p = os.path.join(tempfile.gettempdir(), p)
+        return p if p.endswith(".png") else p + ".png"
 
     # Helper methods for pyautogui-only features
 
@@ -1760,12 +1762,33 @@ Examples:
             name: Annotated[str | None, Field(description="Region name")] = None,
             width: Annotated[int | None, Field(description="Width")] = None,
             height: Annotated[int | None, Field(description="Height")] = None,
+            max_width: Annotated[
+                int,
+                Field(
+                    description=(
+                        "Longest edge of the inline screenshot, in pixels. 0 "
+                        "inlines the capture at native resolution."
+                    )
+                ),
+            ] = 1280,
+            quality: Annotated[
+                int, Field(description="Inline JPEG quality, 1-95.")
+            ] = 70,
+            full_res: Annotated[
+                bool,
+                Field(
+                    description=(
+                        "Inline the native-resolution PNG. Costs 15-25x the "
+                        "context; ask for it only when the pixels are the question."
+                    )
+                ),
+            ] = False,
             value: Annotated[float | None, Field(description="Value")] = None,
             actions: Annotated[
                 list[dict] | None, Field(description="Batch actions")
             ] = None,
             ctx: MCPContext = None,
-        ) -> str:
+        ) -> Any:
             return await tool_self.call(
                 ctx,
                 action=action,
@@ -1794,6 +1817,9 @@ Examples:
                 name=name,
                 width=width,
                 height=height,
+                max_width=max_width,
+                quality=quality,
+                full_res=full_res,
                 value=value,
                 actions=actions,
             )
