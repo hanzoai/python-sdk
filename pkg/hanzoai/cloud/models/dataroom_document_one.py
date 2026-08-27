@@ -27,7 +27,7 @@ class DataroomDocumentOne(BaseModel):
     """
     DataroomDocumentOne
     """ # noqa: E501
-    document: Optional[DataroomDocument] = Field(default=None, description="Document is the document itself.")
+    document: Optional[DataroomDocument] = Field(default=None, description="Document is the requested document's METADATA. Its bytes are a separate read, GET /v1/dataroom/documents/{id}/file.")
     __properties: ClassVar[List[str]] = ["document"]
 
     model_config = ConfigDict(

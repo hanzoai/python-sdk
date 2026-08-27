@@ -48,6 +48,7 @@ class SessionDetail(BaseModel):
     published: Optional[StrictBool] = None
     recent_events: Optional[List[EventView]] = Field(default=None, description="RecentEvents is the 50 most recent turns, OLDEST of those first — a transcript to read down, not a feed. The promoted `events` integer says how many the log holds in total; page the rest from a seq.", alias="recentEvents")
     repo: Optional[StrictStr] = None
+    room: Optional[StrictStr] = None
     root_session_id: Optional[StrictStr] = Field(default=None, alias="rootSessionId")
     started_at: Optional[StrictStr] = Field(default=None, alias="startedAt")
     status: Optional[StrictStr] = None
@@ -57,7 +58,7 @@ class SessionDetail(BaseModel):
     terminal: Optional[StrictStr] = None
     title: Optional[StrictStr] = None
     updated_at: Optional[StrictStr] = Field(default=None, alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "childSessions", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "project", "provider", "published", "recentEvents", "repo", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "childSessions", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "project", "provider", "published", "recentEvents", "repo", "room", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -146,6 +147,7 @@ class SessionDetail(BaseModel):
             "published": obj.get("published"),
             "recentEvents": [EventView.from_dict(_item) for _item in obj["recentEvents"]] if obj.get("recentEvents") is not None else None,
             "repo": obj.get("repo"),
+            "room": obj.get("room"),
             "rootSessionId": obj.get("rootSessionId"),
             "startedAt": obj.get("startedAt"),
             "status": obj.get("status"),

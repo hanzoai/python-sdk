@@ -34,6 +34,7 @@ from hanzoai.cloud.api.dataroom_api import DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi
 from hanzoai.cloud.api.deploy_api import DeployApi
 from hanzoai.cloud.api.destination_api import DestinationApi
+from hanzoai.cloud.api.dns_api import DnsApi
 from hanzoai.cloud.api.domain_api import DomainApi
 from hanzoai.cloud.api.engine_api import EngineApi
 from hanzoai.cloud.api.entitlement_api import EntitlementApi

@@ -32,11 +32,12 @@ class IssueHit(BaseModel):
     priority: Optional[StrictStr] = Field(default=None, description="Priority is urgent, high, medium, low or none. Never empty — an unset priority is the value \"none\".")
     project: Optional[StrictStr] = Field(default=None, description="Project is the board key the issue is on. It and Number are the issue's address in every other route on this surface, which is why a hit carries it.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the git repository the issue is bound to, empty when it is not repo-bound.")
+    room: Optional[StrictStr] = Field(default=None, description="Room is the collaboration room the issue belongs to, spelled \"<workspace>_<room>\" — empty when it is not room-bound, which is most of them. It is here so an org-wide search says which channel each item came from without a second read.")
     source: Optional[StrictStr] = Field(default=None, description="Source is which surface opened it: team, git, crm, helpdesk, cms or agent. \"git\" is how the mirrored forge and GitHub rows are spelled.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the board column: backlog, todo, in_progress, done or canceled. Claiming moves backlog and todo to in_progress and leaves the other three where they are.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the issue's one-line summary — what the q filter matched, along with the description.")
     url: Optional[StrictStr] = Field(default=None, description="URL is the row's external anchor — its extRef — which is a link only when the feeder sent one. A mirrored GitHub issue carries \"github:owner/repo#123\" and an agent's PR row carries the pushed branch. Empty for a row opened here.")
-    __properties: ClassVar[List[str]] = ["assignee", "kind", "number", "priority", "project", "repo", "source", "status", "title", "url"]
+    __properties: ClassVar[List[str]] = ["assignee", "kind", "number", "priority", "project", "repo", "room", "source", "status", "title", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,6 +96,7 @@ class IssueHit(BaseModel):
             "priority": obj.get("priority"),
             "project": obj.get("project"),
             "repo": obj.get("repo"),
+            "room": obj.get("room"),
             "source": obj.get("source"),
             "status": obj.get("status"),
             "title": obj.get("title"),

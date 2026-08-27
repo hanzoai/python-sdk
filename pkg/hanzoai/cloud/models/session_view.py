@@ -44,6 +44,7 @@ class SessionView(BaseModel):
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the linked AI account's provider (claude | codex | hanzo | …) that served this run. Empty when the surface did not say.")
     published: Optional[StrictBool] = Field(default=None, description="Published is the author's decision to let anyone read this session's story at the public build route. It only ever widens READ access to a session that already exists and grants nothing else; false, an unpublished session is invisible there no matter who asks. It cannot be true without a Project, because that route is keyed on (org, project).")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the code the session is working on, as the surface reported it. It is truth the SURFACE states, so it is a label rather than something resolved here.")
+    room: Optional[StrictStr] = Field(default=None, description="Room is the collaborative room this run was started in (HIP-0523), empty when it came from anywhere else — a CLI, a schedule, an API call. It is what lets a workspace view show the runs of one room beside its messages.")
     root_session_id: Optional[StrictStr] = Field(default=None, description="RootSessionID is the top of this session's tree, inherited from the parent and shared by every node in one flow. A root session's own id, when it has no parent. It is the key one indexed read pulls a whole flow by, and what ?root= narrows a list or a stream to.", alias="rootSessionId")
     started_at: Optional[StrictStr] = Field(default=None, description="StartedAt is when the session opened, RFC 3339 in UTC to the second.", alias="startedAt")
     status: Optional[StrictStr] = Field(default=None, description="Status is one of exactly four: running, paused, done, error. running and paused are LIVE; done and error are TERMINAL and monotonic — once a session reaches one it can never go back, because reopening a finished run would fabricate liveness. A control command never moves it: the surface running the agent reports the new status, and until it does the command is only recorded.")
@@ -53,7 +54,7 @@ class SessionView(BaseModel):
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal is where this session can be WATCHED — the URL the machine published for its live terminal. Omitted when it publishes none.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the human line a card shows (\"ship the landing page\"), up to 512 characters. Free text, and the one field a surface may rewrite as the work turns out to be something else.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "project", "provider", "published", "repo", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "project", "provider", "published", "repo", "room", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -126,6 +127,7 @@ class SessionView(BaseModel):
             "provider": obj.get("provider"),
             "published": obj.get("published"),
             "repo": obj.get("repo"),
+            "room": obj.get("room"),
             "rootSessionId": obj.get("rootSessionId"),
             "startedAt": obj.get("startedAt"),
             "status": obj.get("status"),

@@ -29,7 +29,7 @@ class CaptableRoundDetail(BaseModel):
     CaptableRoundDetail
     """ # noqa: E501
     investments: Optional[List[CaptableRoundInvestment]] = Field(default=None, description="Investments is every investment into this round, oldest first.")
-    round: Optional[CaptableRound] = Field(default=None, description="Round is the round itself.")
+    round: Optional[CaptableRound] = Field(default=None, description="Round is the round's own terms — name, type, valuation, target and status — as against the investments beside it.")
     __properties: ClassVar[List[str]] = ["investments", "round"]
 
     model_config = ConfigDict(

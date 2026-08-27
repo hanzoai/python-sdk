@@ -17,22 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.team_room import TeamRoom
 from typing import Optional, Set
 from typing_extensions import Self
 
-class CaptableHolding(BaseModel):
+class TeamRooms(BaseModel):
     """
-    CaptableHolding
+    TeamRooms
     """ # noqa: E501
-    fully_diluted: Optional[StrictInt] = Field(default=None, description="FullyDiluted is shares plus options.", alias="fullyDiluted")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the stakeholder's name.")
-    options: Optional[StrictInt] = Field(default=None, description="Options is the shares under this stakeholder's non-terminal option grants.")
-    ownership_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="OwnershipPct is fullyDiluted as a percentage of the company's fullyDilutedShares, rounded to two decimals; 0 when nothing is issued.", alias="ownershipPct")
-    shares: Optional[StrictInt] = Field(default=None, description="Shares is the shares this stakeholder holds by certificate.")
-    stakeholder_id: Optional[StrictStr] = Field(default=None, description="StakeholderID addresses the stakeholder these totals are for.", alias="stakeholderId")
-    __properties: ClassVar[List[str]] = ["fullyDiluted", "name", "options", "ownershipPct", "shares", "stakeholderId"]
+    rooms: Optional[List[TeamRoom]] = Field(default=None, description="Rooms is every room of every workspace the caller's org owns, each with the work facet it carries.")
+    __properties: ClassVar[List[str]] = ["rooms"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +48,7 @@ class CaptableHolding(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CaptableHolding from a JSON string"""
+        """Create an instance of TeamRooms from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,11 +69,18 @@ class CaptableHolding(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in rooms (list)
+        _items = []
+        if self.rooms:
+            for _item_rooms in self.rooms:
+                if _item_rooms:
+                    _items.append(_item_rooms.to_dict())
+            _dict['rooms'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CaptableHolding from a dict"""
+        """Create an instance of TeamRooms from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +88,7 @@ class CaptableHolding(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "fullyDiluted": obj.get("fullyDiluted"),
-            "name": obj.get("name"),
-            "options": obj.get("options"),
-            "ownershipPct": obj.get("ownershipPct"),
-            "shares": obj.get("shares"),
-            "stakeholderId": obj.get("stakeholderId")
+            "rooms": [TeamRoom.from_dict(_item) for _item in obj["rooms"]] if obj.get("rooms") is not None else None
         })
         return _obj
 

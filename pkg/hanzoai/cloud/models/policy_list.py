@@ -26,7 +26,7 @@ class PolicyList(BaseModel):
     """
     PolicyList
     """ # noqa: E501
-    policies: Optional[List[Any]] = Field(default=None, description="Policies is the list.")
+    policies: Optional[List[Any]] = Field(default=None, description="Policies is the organization's published policy documents, each as the centre holds it.")
     __properties: ClassVar[List[str]] = ["policies"]
 
     model_config = ConfigDict(

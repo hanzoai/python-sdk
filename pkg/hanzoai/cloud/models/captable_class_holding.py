@@ -30,7 +30,7 @@ class CaptableClassHolding(BaseModel):
     class_type: Optional[StrictStr] = Field(default=None, description="ClassType is COMMON or PREFERRED.", alias="classType")
     issued: Optional[StrictInt] = Field(default=None, description="Issued is how many shares of the class have been issued.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the class name.")
-    share_class_id: Optional[StrictStr] = Field(default=None, description="ShareClassID is the share class.", alias="shareClassId")
+    share_class_id: Optional[StrictStr] = Field(default=None, description="ShareClassID addresses the class this position is for.", alias="shareClassId")
     __properties: ClassVar[List[str]] = ["authorized", "classType", "issued", "name", "shareClassId"]
 
     model_config = ConfigDict(

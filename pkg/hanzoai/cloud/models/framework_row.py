@@ -32,7 +32,7 @@ class FrameworkRow(BaseModel):
     publisher: Optional[StrictStr] = Field(default=None, description="Publisher is who publishes it.")
     total: Optional[StrictInt] = Field(default=None, description="Total is how many clauses the standard publishes.")
     unit: Optional[StrictStr] = Field(default=None, description="Unit is what one clause is; Units is its plural.")
-    units: Optional[StrictStr] = Field(default=None, description="Units is the plural of Unit.")
+    units: Optional[StrictStr] = Field(default=None, description="Units is Unit's plural, carried so a caller renders \"12 controls\" without having to pluralise a word it does not know.")
     __properties: ClassVar[List[str]] = ["edition", "framework", "name", "publisher", "total", "unit", "units"]
 
     model_config = ConfigDict(
