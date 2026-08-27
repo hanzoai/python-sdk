@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,13 +26,10 @@ class Call(BaseModel):
     """
     Call
     """ # noqa: E501
-    agent: Optional[StrictStr] = Field(default=None, description="Agent names the Hanzo assistant handling the call. Set means the call was answered by that assistant rather than connected to a person.")
-    var_from: Optional[StrictStr] = Field(default=None, description="From is the calling number in E.164. It must be one this org holds: a carrier refuses an origination from a number nobody proved they own.", alias="from")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the carrier's handle for the call — what a hangup or a lookup names.")
-    org: Optional[StrictStr] = Field(default=None, description="Org is the tenant the call was placed for or received by.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is where the call is: \"queued\", \"ringing\", \"answered\", \"completed\" or \"failed\". Only the last two are terminal.")
-    to: Optional[StrictStr] = Field(default=None, description="To is the called number in E.164.")
-    __properties: ClassVar[List[str]] = ["agent", "from", "id", "org", "status", "to"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is the media room to join: the value POST /v1/meet/getToken takes as roomName, and the value the media server keys participants on.")
+    ready: Optional[StrictBool] = Field(default=None, description="Ready reports that this deployment can mint a join token for this room. It is false on a deployment holding no media-server key, where Name is still correct — the name is a property of the room and the key is a property of the deployment, so a caller learns the room's identity either way and learns not to offer a join button.")
+    ws: Optional[StrictStr] = Field(default=None, description="WS is where the media plane is — the address a client opens its own browser-to-server connection to. Empty when this deployment has not been told where its media server lives, which is reported rather than refused: a surface can say a call is unavailable without a second request.")
+    __properties: ClassVar[List[str]] = ["name", "ready", "ws"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,12 +82,9 @@ class Call(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "agent": obj.get("agent"),
-            "from": obj.get("from"),
-            "id": obj.get("id"),
-            "org": obj.get("org"),
-            "status": obj.get("status"),
-            "to": obj.get("to")
+            "name": obj.get("name"),
+            "ready": obj.get("ready"),
+            "ws": obj.get("ws")
         })
         return _obj
 

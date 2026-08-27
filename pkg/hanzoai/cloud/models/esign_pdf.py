@@ -27,7 +27,7 @@ class EsignPDF(BaseModel):
     EsignPDF
     """ # noqa: E501
     filename: Optional[StrictStr] = Field(default=None, description="Filename is the name to save it under, built from the title and marked _signed once it is sealed.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the document.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the document this PDF was rendered from.")
     pdf_base64: Optional[StrictStr] = Field(default=None, description="PdfBase64 is the PDF itself, base64-encoded. There is one field either way, so Sealed is what tells you which artifact you are holding.", alias="pdfBase64")
     sealed: Optional[StrictBool] = Field(default=None, description="Sealed is whether this is the SEALED artifact — the field values rendered onto the page and a real x509 PKCS#7 signature applied — rather than the original upload.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the document's state at the moment it was read.")

@@ -33,6 +33,7 @@ pkg/hanzoai/cloud/api/dataroom_api.py
 pkg/hanzoai/cloud/api/dataset_api.py
 pkg/hanzoai/cloud/api/deploy_api.py
 pkg/hanzoai/cloud/api/destination_api.py
+pkg/hanzoai/cloud/api/dns_api.py
 pkg/hanzoai/cloud/api/domain_api.py
 pkg/hanzoai/cloud/api/engine_api.py
 pkg/hanzoai/cloud/api/entitlement_api.py
@@ -2124,6 +2125,7 @@ pkg/hanzoai/cloud/models/rollback_req.py
 pkg/hanzoai/cloud/models/rollup.py
 pkg/hanzoai/cloud/models/rollup_allotment.py
 pkg/hanzoai/cloud/models/rollup_balance.py
+pkg/hanzoai/cloud/models/room_work.py
 pkg/hanzoai/cloud/models/root.py
 pkg/hanzoai/cloud/models/round_input.py
 pkg/hanzoai/cloud/models/round_out.py
@@ -2324,6 +2326,9 @@ pkg/hanzoai/cloud/models/tariff_in.py
 pkg/hanzoai/cloud/models/taxon.py
 pkg/hanzoai/cloud/models/taxon_in.py
 pkg/hanzoai/cloud/models/taxonomy.py
+pkg/hanzoai/cloud/models/team_room.py
+pkg/hanzoai/cloud/models/team_room_bind.py
+pkg/hanzoai/cloud/models/team_rooms.py
 pkg/hanzoai/cloud/models/template_catalog.py
 pkg/hanzoai/cloud/models/template_override.py
 pkg/hanzoai/cloud/models/template_reply.py

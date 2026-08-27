@@ -28,7 +28,7 @@ class ReferenceVersion(BaseModel):
     """ # noqa: E501
     as_of: Optional[StrictStr] = Field(default=None, description="AsOf is when the oldest of them was current, RFC 3339.", alias="asOf")
     refusal: Optional[StrictStr] = Field(default=None, description="Refusal is why it could not be consulted, when it could not.")
-    set: Optional[StrictStr] = Field(default=None, description="Set is the set.")
+    set: Optional[StrictStr] = Field(default=None, description="Set is the name the consulted set is addressed by.")
     stale: Optional[StrictBool] = Field(default=None, description="Stale is whether it is past its freshness bound.")
     version: Optional[StrictStr] = Field(default=None, description="Version is every contributing publisher and its content digest.")
     __properties: ClassVar[List[str]] = ["asOf", "refusal", "set", "stale", "version"]

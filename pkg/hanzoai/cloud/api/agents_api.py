@@ -3428,6 +3428,7 @@ class AgentsApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
             None,
@@ -3454,6 +3455,8 @@ class AgentsApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
+        :param room: Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.
+        :type room: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -3483,6 +3486,7 @@ class AgentsApi:
             parent=parent,
             status=status,
             project=project,
+            room=room,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3511,6 +3515,7 @@ class AgentsApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
             None,
@@ -3537,6 +3542,8 @@ class AgentsApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
+        :param room: Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.
+        :type room: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -3566,6 +3573,7 @@ class AgentsApi:
             parent=parent,
             status=status,
             project=project,
+            room=room,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3594,6 +3602,7 @@ class AgentsApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
             None,
@@ -3620,6 +3629,8 @@ class AgentsApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
+        :param room: Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.
+        :type room: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -3649,6 +3660,7 @@ class AgentsApi:
             parent=parent,
             status=status,
             project=project,
+            room=room,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3672,6 +3684,7 @@ class AgentsApi:
         parent,
         status,
         project,
+        room,
         limit,
         _request_auth,
         _content_type,
@@ -3710,6 +3723,10 @@ class AgentsApi:
         if project is not None:
             
             _query_params.append(('project', project))
+            
+        if room is not None:
+            
+            _query_params.append(('room', room))
             
         if limit is not None:
             
