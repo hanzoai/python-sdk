@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.5.10"
+version = "0.5.11"
 description = "Browser automation tools — zapd consumer. The MCP hosts no server; it routes CDP commands to the browser extension through the shared local zapd router (~/.zap/run/zapd.sock). No in-process server, no HTTP bridge, no mDNS, no port pool."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -12,8 +12,10 @@ license = { text = "MIT" }
 authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
 keywords = ["hanzo", "tools", "browser", "playwright", "mcp", "ai", "automation", "extension"]
 dependencies = [
-    "hanzo-tools>=0.3.0",
+    "hanzo-tools>=0.3.6",  # 0.3.6 carries capture(): downscaled inline, full-res on disk
     "mcp>=1.25.0",
+    # capture() downscales with PIL; without it a screenshot is a path and no pixels.
+    "pillow>=10.0.0",
     "pydantic>=2.12.5",
     # Canonical ZAP router envelope (zap.frame + ZapClient). The zapd wire is
     # imported from here, never reimplemented in this package.

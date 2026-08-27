@@ -84,6 +84,87 @@ class ToolImage:
         return p
 
 
+#: Formats ``capture`` can downscale. Anything else (pdf) is saved, not inlined.
+_MIME = {"png": "image/png", "jpeg": "image/jpeg", "jpg": "image/jpeg", "webp": "image/webp"}
+
+
+def capture(
+    raw: bytes,
+    *,
+    fmt: str = "png",
+    alt: str = "screenshot",
+    path: str | None = None,
+    max_width: int = 1280,
+    quality: int = 70,
+    full_res: bool = False,
+) -> dict[str, Any]:
+    """Persist a capture, hand back a view of it that fits in a context window.
+
+    A 4480x1440 screen is ~740K base64 chars as a full-res PNG — more than the
+    whole budget an agent has to think with, so inlining one wedges the run.
+    This is the ONE way a tool returns a capture:
+
+    * the native bytes are always written to disk and their ``path`` returned,
+      so pixel detail is one file read away;
+    * the inline ``ToolImage`` is downscaled into a ``max_width`` box and
+      re-encoded JPEG at ``quality`` — 15-25x smaller, and indistinguishable
+      from the original for reading a UI.
+
+    ``full_res=True`` (or ``max_width<=0``) inlines the native capture instead;
+    ask for it only when the pixels themselves are the question. A format with
+    no raster (pdf) is saved and returned as a path with no image at all.
+    """
+    import uuid
+    from pathlib import Path
+
+    if path:
+        p = Path(path).expanduser()
+        p.parent.mkdir(parents=True, exist_ok=True)
+    else:
+        d = Path.home() / ".hanzo" / "screenshots"
+        d.mkdir(parents=True, exist_ok=True)
+        p = d / f"capture-{uuid.uuid4().hex[:12]}.{fmt}"
+
+    out: dict[str, Any] = {"success": True, "format": fmt, "size": len(raw)}
+    try:
+        p.write_bytes(raw)
+        out["path"] = str(p)
+    except OSError as e:  # a full disk must not cost the caller its screenshot
+        out["note"] = f"not saved: {e}"
+
+    mime = _MIME.get(fmt.lower())
+    if mime is None:
+        return out
+    if full_res or max_width <= 0:
+        out["image"] = ToolImage.from_bytes(raw, mime, alt)
+        return out
+
+    try:
+        from io import BytesIO
+
+        from PIL import Image
+
+        img = Image.open(BytesIO(raw))
+        out["width"], out["height"] = img.size
+        img.thumbnail((max_width, max_width))
+        buf = BytesIO()
+        img.convert("RGB").save(buf, "JPEG", quality=quality, optimize=True)
+        small = buf.getvalue()
+        out["preview"] = {
+            "format": "jpeg",
+            "width": img.width,
+            "height": img.height,
+            "size": len(small),
+            "quality": quality,
+        }
+        out["image"] = ToolImage.from_bytes(small, "image/jpeg", alt)
+    except Exception as e:
+        # Inlining the native bytes here would be the very blowup this exists to
+        # prevent, so the path is the answer and the reason is on the record.
+        out["note"] = f"not downscaled ({e}); read the full-res capture at path"
+    return out
+
+
 @dataclass
 class ToolError(Exception):
     """Structured error for tool operations."""
