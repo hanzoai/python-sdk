@@ -13,14 +13,20 @@ Use ``cdp`` when you need a CDP method the high-level surface doesn't expose.
 """
 from __future__ import annotations
 
+import base64
 import json
+import logging
 from typing import Any, Union, Optional, Annotated
 
 from pydantic import Field
 from mcp.server import FastMCP
 
-from hanzo_tools.core import BaseTool
+from hanzo_tools.core import BaseTool, capture
+from hanzo_tools.core.unified import _result_to_mcp
+from hanzo_tools.browser.browser_tool import _extract_b64
 from hanzo_tools.browser.zapd_consumer import get_consumer
+
+logger = logging.getLogger(__name__)
 
 
 # Sugared actions → the bare CDP method they map to.
@@ -69,7 +75,20 @@ async def _route_cdp(
         return {"error": str(e), "transport": "native-zap", "method": method}
 
     text = raw.decode("utf-8", errors="replace") if isinstance(raw, (bytes, bytearray)) else raw
-    return {"success": True, "transport": "native-zap", "source": "zapd", "provider": provider, "method": method, "result": text}
+    meta = {"transport": "native-zap", "source": "zapd", "provider": provider, "method": method}
+    # Raw dispatch, but a capture is still a capture: it goes to a file and comes
+    # back as pixels, never as base64 in the JSON text. Same door as every other
+    # tool. Pass CDP's own format/quality (and maxWidth) in params to steer it.
+    if method.endswith("captureScreenshot") and isinstance(text, str):
+        b64 = _extract_b64(text)
+        if b64:
+            try:
+                data = base64.b64decode(b64)
+                fmt = "jpeg" if data[:3] == b"\xff\xd8\xff" else "png"
+                return {**capture(data, fmt=fmt), **meta}
+            except Exception as e:
+                logger.warning(f"cdp capture decode failed ({e}); returning raw")
+    return {"success": True, **meta, "result": text}
 
 
 async def _list_browsers() -> dict[str, Any]:
@@ -107,6 +126,10 @@ ACTIONS:
 - tabs       : Target.getTargets — list connected tabs
 - status     : Browser.getVersion — connection + version
 - list_browsers : list extension providers (firefox/chrome/safari/edge) connected
+
+Page.captureScreenshot answers with a downscaled JPEG (~1280px, q70) by default
+to save context; the full-resolution capture is saved to a file whose path is
+returned. Pass params={"format":"png","maxWidth":0} for pixel detail.
 
 EXAMPLES:
 - cdp(action="send", method="Page.navigate", params={"url": "https://example.com"})
@@ -182,7 +205,7 @@ Use `browser` for high-level verbs (navigate, click, screenshot).
                 Optional[float],
                 Field(description="Per-call timeout (seconds)"),
             ] = None,
-        ) -> str:
+        ) -> Any:
             result = await tool_instance.execute(
                 action=action,
                 method=method,
@@ -192,4 +215,4 @@ Use `browser` for high-level verbs (navigate, click, screenshot).
                 client_id=client_id,
                 timeout=timeout,
             )
-            return json.dumps(result, indent=2, default=str)
+            return _result_to_mcp(result)

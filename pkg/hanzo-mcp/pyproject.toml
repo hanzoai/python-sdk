@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.15.15"
+version = "0.15.16"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -30,16 +30,16 @@ dependencies = [
     "hanzo-async>=0.1.3",
     "uvloop>=0.22.1; sys_platform != 'win32'",
     # Hanzo tool infrastructure (all tools)
-    "hanzo-tools>=0.3.4",        # 0.3.4 owns hanzo_tools.core exclusively, incl. HanzoCloud (the unified `hanzo` tool needs it)
+    "hanzo-tools>=0.3.6",        # 0.3.6 carries capture(): downscaled inline, full-res on disk
     "hanzo-tools-fs>=0.3.4",     # 0.3.4 returns image files as native MCP ImageContent
     "hanzo-tools-shell>=0.6.5",  # 0.6.5 pairs with hanzo-tools>=0.3.0 (ToolError)
     "hanzo-tools-core>=0.3.1",   # 0.3.1 is the EMPTY shim — no longer shadows canonical hanzo-tools.core
-    "hanzo-tools-browser[playwright]>=0.5.9",  # 0.5.9 emits screenshots as native MCP ImageContent
+    "hanzo-tools-browser[playwright]>=0.5.11",  # 0.5.11 screenshots downscale before they reach the wire
     "hanzo-tools-memory>=0.2.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",
     "hanzo-tools-lsp>=0.1.0",
-    "hanzo-tools-computer>=0.1.0",
+    "hanzo-tools-computer>=0.5.5",  # 0.5.5 screenshots downscale before they reach the wire
     # 0.2.1 fixes ConfigTool passing permission_manager positionally into BaseTool.__init__
     "hanzo-tools-config>=0.2.1",
     "hanzo-tools-refactor>=0.1.0",

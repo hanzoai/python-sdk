@@ -58,4 +58,9 @@ Same action surface as `browser` but forces backend="playwright":
 Use `browser` for auto-routing (extension > CDP-bridge > Playwright).
 Use `cdp` for raw Chrome DevTools Protocol method dispatch.
 Use `playwright` for deterministic headless automation.
+
+SCREENSHOTS: downscaled JPEG (~1280px, q70) by default to save context; the
+full-resolution capture is saved to a file whose path is returned — pass
+full_res=true (or max_width/quality) only when you need pixel detail.
+
 """ + BrowserTool.description.fget(self).split("CATEGORIES:", 1)[-1].rstrip()

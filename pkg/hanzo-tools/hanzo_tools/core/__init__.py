@@ -25,6 +25,7 @@ from hanzo_tools.core.unified import (
     ConflictError,
     NotFoundError,
     InvalidParamsError,
+    capture,
     file_uri,
     content_hash,
 )
@@ -56,6 +57,7 @@ __all__ = [
     "InvalidParamsError",
     "Paging",
     "Range",
+    "capture",
     "content_hash",
     "file_uri",
     # Identity tool

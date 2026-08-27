@@ -31,7 +31,7 @@ from dataclasses import field, dataclass
 from pydantic import Field
 from mcp.server import FastMCP
 
-from hanzo_tools.core import BaseTool, ToolImage
+from hanzo_tools.core import BaseTool, capture
 from hanzo_tools.core.unified import _result_to_mcp
 
 # Playwright import with graceful fallback
@@ -80,36 +80,6 @@ def _save_config(config: dict) -> None:
         config_path.write_text(json.dumps(config, indent=2))
     except Exception as e:
         logger.warning(f"Failed to save config: {e}")
-
-
-def _save_capture(data: bytes, fmt: str, path: Optional[str] = None) -> dict:
-    """Persist a screenshot/pdf capture to disk and return a COMPACT result.
-
-    A full-page PNG inlined as base64 (100K+ chars) overflows an agent's context
-    window and wedges the whole run — the single biggest cause of "the browser
-    tool hangs". So captures ALWAYS go to a file and we return its ``path`` + byte
-    ``size``; ``base64`` is inlined ONLY for a small PNG (<= 40 KB raw) that a
-    caller can display without blowing the context. Honors a caller-supplied path.
-    """
-    import uuid
-
-    if path:
-        p = Path(path).expanduser()
-        if p.parent and not p.parent.exists():
-            p.parent.mkdir(parents=True, exist_ok=True)
-    else:
-        d = Path.home() / ".hanzo" / "screenshots"
-        d.mkdir(parents=True, exist_ok=True)
-        p = d / f"capture-{uuid.uuid4().hex[:12]}.{fmt}"
-    try:
-        p.write_bytes(data)
-    except Exception as e:  # never let a save failure wedge the action
-        logger.warning(f"screenshot save failed ({e}); returning base64 inline")
-        return {"success": True, "format": fmt, "size": len(data), "base64": base64.b64encode(data).decode()}
-    out = {"success": True, "format": fmt, "size": len(data), "path": str(p)}
-    if fmt == "png" and len(data) <= 40000:
-        out["base64"] = base64.b64encode(data).decode()
-    return out
 
 
 def _extract_b64(text: str) -> Optional[str]:
@@ -326,10 +296,22 @@ def _zap_params(
     code: Optional[str] = None,
     expression: Optional[str] = None,
     full_page: Optional[bool] = None,
+    max_width: Optional[int] = None,
+    quality: Optional[int] = None,
+    full_res: Optional[bool] = None,
     **rest,
 ) -> dict:
     """Translate the extension-tool kwargs into wire params."""
     params: dict[str, Any] = {}
+    if action == "screenshot":
+        # Shrink where the pixels are. A 4480x1440 PNG is ~740 KB of base64 on the
+        # native-messaging hop; asking the browser for a 1280px JPEG means that
+        # payload is never built, let alone carried.
+        params["format"] = "png" if full_res else "jpeg"
+        if quality is not None:
+            params["quality"] = quality
+        if max_width is not None and not full_res:
+            params["maxWidth"] = max_width
     if url is not None:
         params["url"] = url
     if selector is not None:
@@ -380,6 +362,7 @@ async def _bidi_dispatch(
     text: Optional[str] = None,
     code: Optional[str] = None,
     key: Optional[str] = None,
+    detail: Optional[dict] = None,
 ) -> Optional[dict[str, Any]]:
     """Drive Firefox via WebDriver BiDi (real navigation + trusted input).
 
@@ -434,7 +417,8 @@ async def _bidi_dispatch(
             return {"success": True, "source": "bidi"}
         if action == "screenshot":
             c = await _ctx()
-            return {"success": True, "source": "bidi", "image": ToolImage(data=await client.capture_screenshot(c), mime_type="image/png", alt="screenshot")}
+            data = base64.b64decode(await client.capture_screenshot(c))
+            return {**capture(data, fmt="png", **(detail or {})), "source": "bidi"}
         if action == "evaluate":
             c = await _ctx()
             return {"success": True, "source": "bidi", "result": _val(await client.script_evaluate(c, code or ""))}
@@ -464,6 +448,7 @@ async def _extension_command(
     browser: Optional[str] = None,
     tab_id: Optional[Union[str, int]] = None,
     client_id: Optional[str] = None,
+    detail: Optional[dict] = None,
     **kwargs,
 ) -> Optional[dict]:
     """Route a browser command to a provider via the local zapd router.
@@ -487,8 +472,9 @@ async def _extension_command(
     if not provider:
         return {"error": "no browser provider connected over zapd", "transport": "native-zap"}
 
+    detail = detail or {}
     method = _zap_method_for(action)
-    params = _zap_params(action, tab_id=tab_id, **kwargs) or {}
+    params = _zap_params(action, tab_id=tab_id, **detail, **kwargs) or {}
     str_params = {k: (v if isinstance(v, str) else str(v)) for k, v in params.items() if v is not None}
     try:
         raw = await asyncio.to_thread(consumer.route, provider, method, str_params)
@@ -496,21 +482,20 @@ async def _extension_command(
         return {"error": str(e), "transport": "native-zap"}
 
     text = raw.decode("utf-8", errors="replace") if isinstance(raw, (bytes, bytearray)) else raw
-    # A screenshot/pdf comes back as (JSON-wrapped) base64. Inlining a full-page
-    # PNG (100K+ chars) as text overflows the agent's context and wedges the whole
-    # run — the #1 cause of "the browser tool hangs". One way for images: return a
-    # ToolImage → the register() converter turns it into native MCP ImageContent the
-    # client SEES (no base64-in-text). A PDF isn't an image → persist to disk, path.
-    if action in ("screenshot", "pdf") and isinstance(text, str) and len(text) > 20000:
+    # A screenshot/pdf comes back as (JSON-wrapped) base64. Base64 in the JSON text
+    # is charged to the agent's context by the character, so a capture never travels
+    # that way: capture() writes the bytes to a file and returns a ToolImage that
+    # register() turns into a native MCP ImageContent block the client SEES.
+    if action in ("screenshot", "pdf") and isinstance(text, str):
         b64 = _extract_b64(text)
         if b64:
             try:
                 data = base64.b64decode(b64)
                 meta = {"transport": "native-zap", "source": "zapd", "provider": provider}
-                if action == "pdf":
-                    return {**_save_capture(data, "pdf", kwargs.get("path")), **meta}
-                return {"success": True, "format": "png", "size": len(data),
-                        "image": ToolImage.from_bytes(data, "image/png", alt="screenshot"), **meta}
+                # Trust the bytes, not the provider's label — the extension picks
+                # the encoding and older builds report it inconsistently.
+                fmt = "pdf" if action == "pdf" else ("jpeg" if data[:3] == b"\xff\xd8\xff" else "png")
+                return {**capture(data, fmt=fmt, path=kwargs.get("path"), **detail), **meta}
             except Exception as e:  # fall back to raw on any decode failure
                 logger.warning(f"native-zap capture decode failed ({e}); returning raw")
     return {"success": True, "transport": "native-zap", "source": "zapd", "provider": provider, "result": text}
@@ -1041,6 +1026,10 @@ DISPLAY INSTRUCTIONS: Show results as bullet points.
 • expect_*: ✓ Assertion passed / ✗ Assertion failed
 • screenshot: Captured [size] bytes
 
+SCREENSHOTS: downscaled JPEG (~1280px, q70) by default to save context; the
+full-resolution capture is saved to a file whose path is returned — pass
+full_res=true (or max_width/quality) only when you need pixel detail.
+
 PARALLEL AGENTS:
 - Use `new_context` for isolated sessions
 - One Chrome, many parallel agent contexts
@@ -1149,6 +1138,11 @@ CATEGORIES:
         # Options
         timeout: Optional[int] = None,
         full_page: bool = False,
+        # Capture detail
+        path: Optional[str] = None,
+        max_width: int = 1280,
+        quality: int = 70,
+        full_res: bool = False,
         tab_index: Optional[int] = None,
         tab_id: Optional[Union[str, int]] = None,
         client_id: Optional[str] = None,
@@ -1178,6 +1172,9 @@ CATEGORIES:
         """
         timeout = timeout or self.timeout
         sel = selector or ref
+        # How much pixel detail comes back inline. Travels together to every
+        # capture site so all three backends answer a screenshot the same way.
+        detail = {"max_width": max_width, "quality": quality, "full_res": full_res}
 
         # === LOCAL ACTIONS (answered from the zapd provider list) ===
         if action in ("list_mcp_instances", "list_browsers", "browsers"):
@@ -1212,7 +1209,7 @@ CATEGORIES:
         bidi_target = target_browser or (self.backend if self.backend == "firefox" else None)
         if bidi_target == "firefox":
             bidi_res = await _bidi_dispatch(
-                action, url=url, selector=sel, text=text, code=code, key=key
+                action, url=url, selector=sel, text=text, code=code, key=key, detail=detail
             )
             if bidi_res is not None:
                 return bidi_res
@@ -1264,6 +1261,8 @@ CATEGORIES:
                 browser=browser_filter,
                 tab_id=tab_id,
                 client_id=client_id,
+                detail=detail,
+                path=path,
                 url=url,
                 selector=sel,
                 text=text,
@@ -1928,17 +1927,10 @@ CATEGORIES:
                     data = await loc.screenshot(**opts)
                 else:
                     data = await page.screenshot(**opts)
-                return {
-                    "success": True,
-                    "format": "png",
-                    "size": len(data),
-                    "image": ToolImage.from_bytes(data, "image/png", alt="screenshot"),
-                }
+                return capture(data, fmt="png", path=path, **detail)
 
             elif action == "pdf":
-                data = await page.pdf()
-                out = _save_capture(data, "pdf", locals().get("path"))
-                return out
+                return capture(await page.pdf(), fmt="pdf", path=path)
 
             elif action == "snapshot":
                 return {
@@ -2456,6 +2448,31 @@ CATEGORIES:
             full_page: Annotated[
                 bool, Field(description="Full page screenshot")
             ] = False,
+            path: Annotated[
+                Optional[str],
+                Field(description="Where to write the screenshot/pdf capture"),
+            ] = None,
+            max_width: Annotated[
+                int,
+                Field(
+                    description=(
+                        "Longest edge of the inline screenshot, in pixels. 0 "
+                        "inlines the capture at native resolution."
+                    )
+                ),
+            ] = 1280,
+            quality: Annotated[
+                int, Field(description="Inline JPEG quality, 1-95.")
+            ] = 70,
+            full_res: Annotated[
+                bool,
+                Field(
+                    description=(
+                        "Inline the native-resolution PNG. Costs 15-25x the "
+                        "context; ask for it only when the pixels are the question."
+                    )
+                ),
+            ] = False,
             tab_index: Annotated[Optional[int], Field(description="Tab index in current window")] = None,
             tab_id: Annotated[
                 Optional[str],
@@ -2559,6 +2576,10 @@ CATEGORIES:
                 not_=not_,
                 timeout=timeout,
                 full_page=full_page,
+                path=path,
+                max_width=max_width,
+                quality=quality,
+                full_res=full_res,
                 tab_index=tab_index,
                 tab_id=tab_id,
                 client_id=client_id,
