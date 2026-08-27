@@ -2246,6 +2246,7 @@ __all__ = [
     "SessionDetail",
     "SessionEnded",
     "SessionList",
+    "SessionProgress",
     "SessionUser",
     "SessionView",
     "SetEnvReq",
@@ -4709,6 +4710,7 @@ from hanzoai.cloud.models.series_point import SeriesPoint as SeriesPoint
 from hanzoai.cloud.models.session_detail import SessionDetail as SessionDetail
 from hanzoai.cloud.models.session_ended import SessionEnded as SessionEnded
 from hanzoai.cloud.models.session_list import SessionList as SessionList
+from hanzoai.cloud.models.session_progress import SessionProgress as SessionProgress
 from hanzoai.cloud.models.session_user import SessionUser as SessionUser
 from hanzoai.cloud.models.session_view import SessionView as SessionView
 from hanzoai.cloud.models.set_env_req import SetEnvReq as SetEnvReq

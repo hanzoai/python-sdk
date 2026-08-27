@@ -2223,6 +2223,7 @@ pkg/hanzoai/cloud/models/series_point.py
 pkg/hanzoai/cloud/models/session_detail.py
 pkg/hanzoai/cloud/models/session_ended.py
 pkg/hanzoai/cloud/models/session_list.py
+pkg/hanzoai/cloud/models/session_progress.py
 pkg/hanzoai/cloud/models/session_user.py
 pkg/hanzoai/cloud/models/session_view.py
 pkg/hanzoai/cloud/models/set_env_req.py

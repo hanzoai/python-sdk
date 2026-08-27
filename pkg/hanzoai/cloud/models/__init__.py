@@ -2115,6 +2115,7 @@ from hanzoai.cloud.models.series_point import SeriesPoint
 from hanzoai.cloud.models.session_detail import SessionDetail
 from hanzoai.cloud.models.session_ended import SessionEnded
 from hanzoai.cloud.models.session_list import SessionList
+from hanzoai.cloud.models.session_progress import SessionProgress
 from hanzoai.cloud.models.session_user import SessionUser
 from hanzoai.cloud.models.session_view import SessionView
 from hanzoai.cloud.models.set_env_req import SetEnvReq

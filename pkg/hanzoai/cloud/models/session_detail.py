@@ -21,6 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, Strict
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.event_view import EventView
 from hanzoai.cloud.models.last_event_view import LastEventView
+from hanzoai.cloud.models.session_progress import SessionProgress
 from hanzoai.cloud.models.session_view import SessionView
 from typing import Optional, Set
 from typing_extensions import Self
@@ -43,6 +44,7 @@ class SessionDetail(BaseModel):
     last_event: Optional[LastEventView] = Field(default=None, alias="lastEvent")
     org: Optional[StrictStr] = None
     parent_session_id: Optional[StrictStr] = Field(default=None, alias="parentSessionId")
+    progress: Optional[SessionProgress] = None
     project: Optional[StrictStr] = None
     provider: Optional[StrictStr] = None
     published: Optional[StrictBool] = None
@@ -58,7 +60,7 @@ class SessionDetail(BaseModel):
     terminal: Optional[StrictStr] = None
     title: Optional[StrictStr] = None
     updated_at: Optional[StrictStr] = Field(default=None, alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "childSessions", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "project", "provider", "published", "recentEvents", "repo", "room", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "childSessions", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "progress", "project", "provider", "published", "recentEvents", "repo", "room", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -109,6 +111,9 @@ class SessionDetail(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of last_event
         if self.last_event:
             _dict['lastEvent'] = self.last_event.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of progress
+        if self.progress:
+            _dict['progress'] = self.progress.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in recent_events (list)
         _items = []
         if self.recent_events:
@@ -142,6 +147,7 @@ class SessionDetail(BaseModel):
             "lastEvent": LastEventView.from_dict(obj["lastEvent"]) if obj.get("lastEvent") is not None else None,
             "org": obj.get("org"),
             "parentSessionId": obj.get("parentSessionId"),
+            "progress": SessionProgress.from_dict(obj["progress"]) if obj.get("progress") is not None else None,
             "project": obj.get("project"),
             "provider": obj.get("provider"),
             "published": obj.get("published"),
