@@ -30,7 +30,7 @@ class NewIssue(BaseModel):
     key: Optional[StrictStr] = Field(default=None, description="Key is the board — the repository name, from the path.")
     priority: Optional[StrictStr] = Field(default=None, description="Priority is one of none, urgent, high, medium or low.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the board column to open into: backlog, todo, in_progress, done or canceled. Empty opens into backlog.")
-    title: Optional[StrictStr] = Field(default=None, description="Title is required.")
+    title: Optional[StrictStr] = Field(default=None, description="Title is the one line the card is read by on the board. Blank or whitespace is refused — an untitled card cannot be told apart from any other.")
     __properties: ClassVar[List[str]] = ["description", "key", "priority", "status", "title"]
 
     model_config = ConfigDict(

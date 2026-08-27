@@ -51,6 +51,7 @@ __all__ = [
     "DatasetApi",
     "DeployApi",
     "DestinationApi",
+    "DnsApi",
     "DomainApi",
     "EngineApi",
     "EntitlementApi",
@@ -2146,6 +2147,7 @@ __all__ = [
     "Rollup",
     "RollupAllotment",
     "RollupBalance",
+    "RoomWork",
     "Root",
     "RoundInput",
     "RoundOut",
@@ -2347,6 +2349,9 @@ __all__ = [
     "Taxon",
     "TaxonIn",
     "Taxonomy",
+    "TeamRoom",
+    "TeamRoomBind",
+    "TeamRooms",
     "TemplateCatalog",
     "TemplateOverride",
     "TemplateReply",
@@ -2505,6 +2510,7 @@ from hanzoai.cloud.api.dataroom_api import DataroomApi as DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi as DatasetApi
 from hanzoai.cloud.api.deploy_api import DeployApi as DeployApi
 from hanzoai.cloud.api.destination_api import DestinationApi as DestinationApi
+from hanzoai.cloud.api.dns_api import DnsApi as DnsApi
 from hanzoai.cloud.api.domain_api import DomainApi as DomainApi
 from hanzoai.cloud.api.engine_api import EngineApi as EngineApi
 from hanzoai.cloud.api.entitlement_api import EntitlementApi as EntitlementApi
@@ -4604,6 +4610,7 @@ from hanzoai.cloud.models.rollback_req import RollbackReq as RollbackReq
 from hanzoai.cloud.models.rollup import Rollup as Rollup
 from hanzoai.cloud.models.rollup_allotment import RollupAllotment as RollupAllotment
 from hanzoai.cloud.models.rollup_balance import RollupBalance as RollupBalance
+from hanzoai.cloud.models.room_work import RoomWork as RoomWork
 from hanzoai.cloud.models.root import Root as Root
 from hanzoai.cloud.models.round_input import RoundInput as RoundInput
 from hanzoai.cloud.models.round_out import RoundOut as RoundOut
@@ -4805,6 +4812,9 @@ from hanzoai.cloud.models.tariff_in import TariffIn as TariffIn
 from hanzoai.cloud.models.taxon import Taxon as Taxon
 from hanzoai.cloud.models.taxon_in import TaxonIn as TaxonIn
 from hanzoai.cloud.models.taxonomy import Taxonomy as Taxonomy
+from hanzoai.cloud.models.team_room import TeamRoom as TeamRoom
+from hanzoai.cloud.models.team_room_bind import TeamRoomBind as TeamRoomBind
+from hanzoai.cloud.models.team_rooms import TeamRooms as TeamRooms
 from hanzoai.cloud.models.template_catalog import TemplateCatalog as TemplateCatalog
 from hanzoai.cloud.models.template_override import TemplateOverride as TemplateOverride
 from hanzoai.cloud.models.template_reply import TemplateReply as TemplateReply

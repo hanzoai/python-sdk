@@ -17,22 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class CaptableHolding(BaseModel):
+class RoomWork(BaseModel):
     """
-    CaptableHolding
+    RoomWork
     """ # noqa: E501
-    fully_diluted: Optional[StrictInt] = Field(default=None, description="FullyDiluted is shares plus options.", alias="fullyDiluted")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the stakeholder's name.")
-    options: Optional[StrictInt] = Field(default=None, description="Options is the shares under this stakeholder's non-terminal option grants.")
-    ownership_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="OwnershipPct is fullyDiluted as a percentage of the company's fullyDilutedShares, rounded to two decimals; 0 when nothing is issued.", alias="ownershipPct")
-    shares: Optional[StrictInt] = Field(default=None, description="Shares is the shares this stakeholder holds by certificate.")
-    stakeholder_id: Optional[StrictStr] = Field(default=None, description="StakeholderID addresses the stakeholder these totals are for.", alias="stakeholderId")
-    __properties: ClassVar[List[str]] = ["fullyDiluted", "name", "options", "ownershipPct", "shares", "stakeholderId"]
+    open: Optional[StrictInt] = Field(default=None, description="Open is how many items are still work: everything whose status does not end it. It is the number a channel header shows.")
+    room: Optional[StrictStr] = Field(default=None, description="Room is the room these counts are for, echoed back as it was resolved.")
+    status: Optional[Dict[str, StrictInt]] = Field(default=None, description="Status is the count per board column, carrying EVERY column this surface knows — an empty column reads 0 rather than being absent, so a caller can render the board without inventing the vocabulary. The keys are the same closed set every other operation here validates against.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is every item bound to this room, settled ones included, so Total minus Open is what the room has finished.")
+    updated: Optional[StrictInt] = Field(default=None, description="Updated is when anything in this room's work last moved, in unix seconds. ABSENT when the room has no work at all: zero would read as the epoch, and a room nobody has filed anything in has no last activity rather than an infinitely old one. Total is 0 in exactly that case.")
+    __properties: ClassVar[List[str]] = ["open", "room", "status", "total", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +51,7 @@ class CaptableHolding(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CaptableHolding from a JSON string"""
+        """Create an instance of RoomWork from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,7 +76,7 @@ class CaptableHolding(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CaptableHolding from a dict"""
+        """Create an instance of RoomWork from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +84,11 @@ class CaptableHolding(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "fullyDiluted": obj.get("fullyDiluted"),
-            "name": obj.get("name"),
-            "options": obj.get("options"),
-            "ownershipPct": obj.get("ownershipPct"),
-            "shares": obj.get("shares"),
-            "stakeholderId": obj.get("stakeholderId")
+            "open": obj.get("open"),
+            "room": obj.get("room"),
+            "status": obj.get("status"),
+            "total": obj.get("total"),
+            "updated": obj.get("updated")
         })
         return _obj
 

@@ -2016,6 +2016,7 @@ from hanzoai.cloud.models.rollback_req import RollbackReq
 from hanzoai.cloud.models.rollup import Rollup
 from hanzoai.cloud.models.rollup_allotment import RollupAllotment
 from hanzoai.cloud.models.rollup_balance import RollupBalance
+from hanzoai.cloud.models.room_work import RoomWork
 from hanzoai.cloud.models.root import Root
 from hanzoai.cloud.models.round_input import RoundInput
 from hanzoai.cloud.models.round_out import RoundOut
@@ -2217,6 +2218,9 @@ from hanzoai.cloud.models.tariff_in import TariffIn
 from hanzoai.cloud.models.taxon import Taxon
 from hanzoai.cloud.models.taxon_in import TaxonIn
 from hanzoai.cloud.models.taxonomy import Taxonomy
+from hanzoai.cloud.models.team_room import TeamRoom
+from hanzoai.cloud.models.team_room_bind import TeamRoomBind
+from hanzoai.cloud.models.team_rooms import TeamRooms
 from hanzoai.cloud.models.template_catalog import TemplateCatalog
 from hanzoai.cloud.models.template_override import TemplateOverride
 from hanzoai.cloud.models.template_reply import TemplateReply

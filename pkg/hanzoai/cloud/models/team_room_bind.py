@@ -17,22 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class CaptableHolding(BaseModel):
+class TeamRoomBind(BaseModel):
     """
-    CaptableHolding
+    TeamRoomBind
     """ # noqa: E501
-    fully_diluted: Optional[StrictInt] = Field(default=None, description="FullyDiluted is shares plus options.", alias="fullyDiluted")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the stakeholder's name.")
-    options: Optional[StrictInt] = Field(default=None, description="Options is the shares under this stakeholder's non-terminal option grants.")
-    ownership_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="OwnershipPct is fullyDiluted as a percentage of the company's fullyDilutedShares, rounded to two decimals; 0 when nothing is issued.", alias="ownershipPct")
-    shares: Optional[StrictInt] = Field(default=None, description="Shares is the shares this stakeholder holds by certificate.")
-    stakeholder_id: Optional[StrictStr] = Field(default=None, description="StakeholderID addresses the stakeholder these totals are for.", alias="stakeholderId")
-    __properties: ClassVar[List[str]] = ["fullyDiluted", "name", "options", "ownershipPct", "shares", "stakeholderId"]
+    bindings: Optional[List[StrictStr]] = Field(default=None, description="Bindings REPLACES what the room is about, wholly. It is a replace and not a merge because a caller that cannot remove a binding would have no way to correct a wrong one, and an empty list sent explicitly is how a room is unbound. Absent (null) leaves the existing list alone.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write.")
+    life: Optional[StrictStr] = Field(default=None, description="Life sets the lifecycle intent: \"standing\" or \"bound\". Any other value is refused rather than stored, so a reader never has to interpret a third one. Empty leaves the current intent unchanged.")
+    workspace: Optional[StrictStr] = Field(default=None, description="Workspace names the workspace holding the room. It is required, because a room id is unique only within one and searching every workspace for a matching id would make the write's target depend on iteration order.")
+    __properties: ClassVar[List[str]] = ["bindings", "id", "life", "workspace"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +50,7 @@ class CaptableHolding(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of CaptableHolding from a JSON string"""
+        """Create an instance of TeamRoomBind from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,7 +75,7 @@ class CaptableHolding(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of CaptableHolding from a dict"""
+        """Create an instance of TeamRoomBind from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +83,10 @@ class CaptableHolding(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "fullyDiluted": obj.get("fullyDiluted"),
-            "name": obj.get("name"),
-            "options": obj.get("options"),
-            "ownershipPct": obj.get("ownershipPct"),
-            "shares": obj.get("shares"),
-            "stakeholderId": obj.get("stakeholderId")
+            "bindings": obj.get("bindings"),
+            "id": obj.get("id"),
+            "life": obj.get("life"),
+            "workspace": obj.get("workspace")
         })
         return _obj
 

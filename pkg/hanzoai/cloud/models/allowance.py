@@ -28,10 +28,11 @@ class Allowance(BaseModel):
     """ # noqa: E501
     limit: Optional[StrictInt] = Field(default=None, description="calls the plan allows per period; 0 = unbounded")
     plan: Optional[StrictStr] = Field(default=None, description="the tier the limit came from")
-    resets: Optional[StrictInt] = Field(default=None, description="unix seconds; when the count starts again")
+    resets: Optional[StrictInt] = Field(default=None, description="unix seconds; when THAT window starts again")
     spent: Optional[StrictBool] = Field(default=None, description="the subject is at the limit")
     used: Optional[StrictInt] = Field(default=None, description="Used is how many zero-priced calls this subject has been SERVED in the period ending at Resets — the UTC calendar day. Only a served call counts, so an admission check, a refusal, or a vendor that never answered leaves it where it stood. It stops AT Limit rather than climbing past it, so Limit-Used is what remains and never goes negative.")
-    __properties: ClassVar[List[str]] = ["limit", "plan", "resets", "spent", "used"]
+    window: Optional[StrictStr] = Field(default=None, description="Window is which ceiling these numbers describe — \"hour\" or \"day\" — because a caller is held to both and only one of them is the answer. It is the window that REFUSED where one did, and otherwise the one with least left, so Limit-Used is always the number that will actually stop them next. Empty where no window bounds the subject at all.")
+    __properties: ClassVar[List[str]] = ["limit", "plan", "resets", "spent", "used", "window"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,7 +89,8 @@ class Allowance(BaseModel):
             "plan": obj.get("plan"),
             "resets": obj.get("resets"),
             "spent": obj.get("spent"),
-            "used": obj.get("used")
+            "used": obj.get("used"),
+            "window": obj.get("window")
         })
         return _obj
 
