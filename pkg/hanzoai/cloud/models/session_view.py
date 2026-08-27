@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.last_event_view import LastEventView
+from hanzoai.cloud.models.session_progress import SessionProgress
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -40,6 +41,7 @@ class SessionView(BaseModel):
     last_event: Optional[LastEventView] = Field(default=None, description="LastEvent is the compact latest-activity line for the list projection (nil in register/patch/tree responses; set by list + detail). It lets a swipe card show a live one-line preview without fetching full detail.", alias="lastEvent")
     org: Optional[StrictStr] = Field(default=None, description="Org is the caller's OWN tenant, echoed so a client can build the public build URL (/builds/:org/:project) without a second call or a guess. It is never another tenant's — every read is org-scoped before it gets here.")
     parent_session_id: Optional[StrictStr] = Field(default=None, description="ParentSessionID is the session that spawned this one, making this a subagent of it. Empty means this session is a root — a flow of its own. A parent always belongs to the same org, so a tree never crosses a tenant.", alias="parentSessionId")
+    progress: Optional[SessionProgress] = Field(default=None, description="Progress is how far along this run is — a share of its goal, a phase, and a line saying what it is doing. Always present, so a board never branches on whether it is there; `phase` says \"unknown\" when nothing has estimated it. It is a MODEL ESTIMATE wherever `estimated` is true, and the row's own word where it is false. See progress.go.")
     project: Optional[StrictStr] = Field(default=None, description="The readable build: the product this session built and whether its story is public (provenance.go).")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the linked AI account's provider (claude | codex | hanzo | …) that served this run. Empty when the surface did not say.")
     published: Optional[StrictBool] = Field(default=None, description="Published is the author's decision to let anyone read this session's story at the public build route. It only ever widens READ access to a session that already exists and grants nothing else; false, an unpublished session is invisible there no matter who asks. It cannot be true without a Project, because that route is keyed on (org, project).")
@@ -54,7 +56,7 @@ class SessionView(BaseModel):
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal is where this session can be WATCHED — the URL the machine published for its live terminal. Omitted when it publishes none.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the human line a card shows (\"ship the landing page\"), up to 512 characters. Free text, and the one field a surface may rewrite as the work turns out to be something else.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the session's last-activity clock, same format. It moves on a write to the row — a status, a title, a re-dispatch — AND on every appended turn, because the append bumps it in the same transaction. The list is ordered on CreatedAt, so this is the field that says whether a session is still saying anything.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "project", "provider", "published", "repo", "room", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "children", "createdAt", "cwd", "endedAt", "events", "host", "id", "lastEvent", "org", "parentSessionId", "progress", "project", "provider", "published", "repo", "room", "rootSessionId", "startedAt", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -98,6 +100,9 @@ class SessionView(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of last_event
         if self.last_event:
             _dict['lastEvent'] = self.last_event.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of progress
+        if self.progress:
+            _dict['progress'] = self.progress.to_dict()
         return _dict
 
     @classmethod
@@ -123,6 +128,7 @@ class SessionView(BaseModel):
             "lastEvent": LastEventView.from_dict(obj["lastEvent"]) if obj.get("lastEvent") is not None else None,
             "org": obj.get("org"),
             "parentSessionId": obj.get("parentSessionId"),
+            "progress": SessionProgress.from_dict(obj["progress"]) if obj.get("progress") is not None else None,
             "project": obj.get("project"),
             "provider": obj.get("provider"),
             "published": obj.get("published"),
