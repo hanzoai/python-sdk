@@ -564,6 +564,7 @@ from hanzoai.cloud.models.framework_row import FrameworkRow
 from hanzoai.cloud.models.function_detail import FunctionDetail
 from hanzoai.cloud.models.function_view import FunctionView
 from hanzoai.cloud.models.funnel import Funnel
+from hanzoai.cloud.models.fusion import Fusion
 from hanzoai.cloud.models.gl_row import GLRow
 from hanzoai.cloud.models.gpu import GPU
 from hanzoai.cloud.models.gc_out import GcOut
@@ -874,7 +875,6 @@ from hanzoai.cloud.models.machine_view import MachineView
 from hanzoai.cloud.models.make_in import MakeIn
 from hanzoai.cloud.models.market_catalog import MarketCatalog
 from hanzoai.cloud.models.market_item import MarketItem
-from hanzoai.cloud.models.match import Match
 from hanzoai.cloud.models.mcp_catalog import McpCatalog
 from hanzoai.cloud.models.mcp_catalog_sync import McpCatalogSync
 from hanzoai.cloud.models.mcp_server_list import McpServerList
@@ -1845,6 +1845,7 @@ from hanzoai.cloud.models.prompt_list import PromptList
 from hanzoai.cloud.models.prompt_meta import PromptMeta
 from hanzoai.cloud.models.prompt_req import PromptReq
 from hanzoai.cloud.models.prop_spec import PropSpec
+from hanzoai.cloud.models.provenance import Provenance
 from hanzoai.cloud.models.provider_breakdown import ProviderBreakdown
 from hanzoai.cloud.models.provider_info import ProviderInfo
 from hanzoai.cloud.models.provider_row import ProviderRow
@@ -1950,7 +1951,6 @@ from hanzoai.cloud.models.request import Request
 from hanzoai.cloud.models.resolve_reference_in import ResolveReferenceIn
 from hanzoai.cloud.models.resolve_reference_out import ResolveReferenceOut
 from hanzoai.cloud.models.resource_usage import ResourceUsage
-from hanzoai.cloud.models.response import Response
 from hanzoai.cloud.models.responsible import Responsible
 from hanzoai.cloud.models.restart_ref import RestartRef
 from hanzoai.cloud.models.restarted import Restarted

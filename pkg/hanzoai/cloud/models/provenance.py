@@ -22,11 +22,11 @@ from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Match(BaseModel):
+class Provenance(BaseModel):
     """
-    Match
+    Provenance
     """ # noqa: E501
-    backend: Optional[StrictStr] = Field(default=None, description="Backend is the leg that contributed this match: \"index\" (lexical), \"vector\" (semantic) or \"code\" (the org's repositories). It is the same name that leg reports itself under in Response.Backends, so a hit can be traced to a status.")
+    backend: Optional[StrictStr] = Field(default=None, description="Backend is the leg that contributed this match: \"index\" (lexical), \"vector\" (semantic) or \"code\" (the org's repositories). It is the same name that leg reports itself under in Fusion.Backends, so a hit can be traced to a status.")
     rank: Optional[StrictInt] = Field(default=None, description="Rank is this document's 1-based position in THAT leg's own result list, before fusion — 1 is the leg's best hit. It is the only input to the fused score: RRF adds 1/(60+rank) per leg, which is why a document two legs ranked second beats one a single leg ranked first.")
     score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Score is the leg's NATIVE score, on that leg's own scale, reported for explanation and never used in ranking — the scales are incomparable (a cosine similarity against a term-match count), which is why fusion works on ranks. The vector leg reports Qdrant's cosine similarity; the lexical leg exposes no per-row score and reports 0, meaning \"unscored\", not \"scored zero\".")
     __properties: ClassVar[List[str]] = ["backend", "rank", "score"]
@@ -49,7 +49,7 @@ class Match(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Match from a JSON string"""
+        """Create an instance of Provenance from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +74,7 @@ class Match(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Match from a dict"""
+        """Create an instance of Provenance from a dict"""
         if obj is None:
             return None
 
