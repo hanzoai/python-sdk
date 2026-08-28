@@ -31,7 +31,6 @@ from hanzoai.cloud.models.index_stats import IndexStats
 from hanzoai.cloud.models.index_task import IndexTask
 from hanzoai.cloud.models.index_version import IndexVersion
 from hanzoai.cloud.models.index_view import IndexView
-from hanzoai.cloud.models.post_index_indexes_by_uid_documents_delete_batch_request import PostIndexIndexesByUidDocumentsDeleteBatchRequest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -3786,7 +3785,7 @@ class IndexApi:
     def post_index_indexes_by_uid_documents_delete_batch(
         self,
         uid: StrictStr,
-        post_index_indexes_by_uid_documents_delete_batch_request: Optional[PostIndexIndexesByUidDocumentsDeleteBatchRequest] = None,
+        request_body: Optional[List[Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3806,8 +3805,8 @@ class IndexApi:
 
         :param uid: (required)
         :type uid: str
-        :param post_index_indexes_by_uid_documents_delete_batch_request:
-        :type post_index_indexes_by_uid_documents_delete_batch_request: PostIndexIndexesByUidDocumentsDeleteBatchRequest
+        :param request_body:
+        :type request_body: List[object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3832,7 +3831,7 @@ class IndexApi:
 
         _param = self._post_index_indexes_by_uid_documents_delete_batch_serialize(
             uid=uid,
-            post_index_indexes_by_uid_documents_delete_batch_request=post_index_indexes_by_uid_documents_delete_batch_request,
+            request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3857,7 +3856,7 @@ class IndexApi:
     def post_index_indexes_by_uid_documents_delete_batch_with_http_info(
         self,
         uid: StrictStr,
-        post_index_indexes_by_uid_documents_delete_batch_request: Optional[PostIndexIndexesByUidDocumentsDeleteBatchRequest] = None,
+        request_body: Optional[List[Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3877,8 +3876,8 @@ class IndexApi:
 
         :param uid: (required)
         :type uid: str
-        :param post_index_indexes_by_uid_documents_delete_batch_request:
-        :type post_index_indexes_by_uid_documents_delete_batch_request: PostIndexIndexesByUidDocumentsDeleteBatchRequest
+        :param request_body:
+        :type request_body: List[object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3903,7 +3902,7 @@ class IndexApi:
 
         _param = self._post_index_indexes_by_uid_documents_delete_batch_serialize(
             uid=uid,
-            post_index_indexes_by_uid_documents_delete_batch_request=post_index_indexes_by_uid_documents_delete_batch_request,
+            request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3928,7 +3927,7 @@ class IndexApi:
     def post_index_indexes_by_uid_documents_delete_batch_without_preload_content(
         self,
         uid: StrictStr,
-        post_index_indexes_by_uid_documents_delete_batch_request: Optional[PostIndexIndexesByUidDocumentsDeleteBatchRequest] = None,
+        request_body: Optional[List[Any]] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3948,8 +3947,8 @@ class IndexApi:
 
         :param uid: (required)
         :type uid: str
-        :param post_index_indexes_by_uid_documents_delete_batch_request:
-        :type post_index_indexes_by_uid_documents_delete_batch_request: PostIndexIndexesByUidDocumentsDeleteBatchRequest
+        :param request_body:
+        :type request_body: List[object]
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3974,7 +3973,7 @@ class IndexApi:
 
         _param = self._post_index_indexes_by_uid_documents_delete_batch_serialize(
             uid=uid,
-            post_index_indexes_by_uid_documents_delete_batch_request=post_index_indexes_by_uid_documents_delete_batch_request,
+            request_body=request_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3994,7 +3993,7 @@ class IndexApi:
     def _post_index_indexes_by_uid_documents_delete_batch_serialize(
         self,
         uid,
-        post_index_indexes_by_uid_documents_delete_batch_request,
+        request_body,
         _request_auth,
         _content_type,
         _headers,
@@ -4004,6 +4003,7 @@ class IndexApi:
         _host = None
 
         _collection_formats: Dict[str, str] = {
+            'request_body': '',
         }
 
         _path_params: Dict[str, str] = {}
@@ -4022,8 +4022,8 @@ class IndexApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if post_index_indexes_by_uid_documents_delete_batch_request is not None:
-            _body_params = post_index_indexes_by_uid_documents_delete_batch_request
+        if request_body is not None:
+            _body_params = request_body
 
 
         # set the HTTP header `Accept`

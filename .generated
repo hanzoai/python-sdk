@@ -1895,7 +1895,6 @@ pkg/hanzoai/cloud/models/pool_scale.py
 pkg/hanzoai/cloud/models/populated_flow.py
 pkg/hanzoai/cloud/models/position.py
 pkg/hanzoai/cloud/models/post_event_request.py
-pkg/hanzoai/cloud/models/post_index_indexes_by_uid_documents_delete_batch_request.py
 pkg/hanzoai/cloud/models/post_list.py
 pkg/hanzoai/cloud/models/prefs_view.py
 pkg/hanzoai/cloud/models/preset.py

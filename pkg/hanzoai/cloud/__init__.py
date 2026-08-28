@@ -1917,7 +1917,6 @@ __all__ = [
     "PopulatedFlow",
     "Position",
     "PostEventRequest",
-    "PostIndexIndexesByUidDocumentsDeleteBatchRequest",
     "PostList",
     "PrefsView",
     "Preset",
@@ -4381,7 +4380,6 @@ from hanzoai.cloud.models.pool_scale import PoolScale as PoolScale
 from hanzoai.cloud.models.populated_flow import PopulatedFlow as PopulatedFlow
 from hanzoai.cloud.models.position import Position as Position
 from hanzoai.cloud.models.post_event_request import PostEventRequest as PostEventRequest
-from hanzoai.cloud.models.post_index_indexes_by_uid_documents_delete_batch_request import PostIndexIndexesByUidDocumentsDeleteBatchRequest as PostIndexIndexesByUidDocumentsDeleteBatchRequest
 from hanzoai.cloud.models.post_list import PostList as PostList
 from hanzoai.cloud.models.prefs_view import PrefsView as PrefsView
 from hanzoai.cloud.models.preset import Preset as Preset
