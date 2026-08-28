@@ -28,7 +28,7 @@ class EventIn(BaseModel):
     """ # noqa: E501
     actor: Optional[StrictStr] = Field(default=None, description="Actor is who produced the turn. Empty takes the validated caller, which is what an agent writing its own transcript wants; naming one is for a surface recording on somebody else's behalf.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the session to append to, from the path.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is what this turn IS: message, tool-call, spawn, log, status or control. Anything else is refused — the vocabulary is closed so a reader can branch on it.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is what this turn IS: message, tool-call, spawn, log, status, control or progress. Anything else is refused — the vocabulary is closed so a reader can branch on it.")
     payload: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["actor", "id", "kind", "payload"]
 
