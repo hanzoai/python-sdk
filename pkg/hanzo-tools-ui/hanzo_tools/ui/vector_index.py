@@ -16,7 +16,7 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-# Hanzo Cloud search endpoints (canonical front door: api.hanzo.ai)
+# Hanzo Cloud search endpoints (canonical address: api.hanzo.ai)
 CLOUD_API = os.environ.get("HANZO_CLOUD_API", "https://api.hanzo.ai")
 SEARCH_ENDPOINT = f"{CLOUD_API}/v1/search-docs"
 CHAT_ENDPOINT = f"{CLOUD_API}/v1/chat-docs"

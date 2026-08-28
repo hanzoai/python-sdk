@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.module_info import ModuleInfo
+from hanzoai.cloud.models.module import Module
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,7 +27,7 @@ class ModuleList(BaseModel):
     """
     ModuleList
     """ # noqa: E501
-    data: Optional[List[ModuleInfo]] = Field(default=None, description="Data is every module compiled into this binary, with the DocTypes it installs.")
+    data: Optional[List[Module]] = Field(default=None, description="Data is every module compiled into this binary, with the DocTypes it installs and whether the caller's org has turned it on.")
     __properties: ClassVar[List[str]] = ["data"]
 
     model_config = ConfigDict(
@@ -88,7 +88,7 @@ class ModuleList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [ModuleInfo.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "data": [Module.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
         })
         return _obj
 

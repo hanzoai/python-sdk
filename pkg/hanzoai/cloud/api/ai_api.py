@@ -17,9 +17,92 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBool, StrictStr
-from typing import Optional
+from typing import List, Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
+from hanzoai.cloud.models.ai_model_list import AiModelList
+from hanzoai.cloud.models.ai_ranking import AiRanking
+from hanzoai.cloud.models.ai_response import AiResponse
+from hanzoai.cloud.models.ai_responses_resource import AiResponsesResource
+from hanzoai.cloud.models.ai_token_count import AiTokenCount
+from hanzoai.cloud.models.ai_video_status import AiVideoStatus
+from hanzoai.cloud.models.doc_search_result import DocSearchResult
+from hanzoai.cloud.models.envelope import Envelope
+from hanzoai.cloud.models.get_ai_activities200_response import GetAiActivities200Response
+from hanzoai.cloud.models.get_ai_articles200_response import GetAiArticles200Response
+from hanzoai.cloud.models.get_ai_assets200_response import GetAiAssets200Response
+from hanzoai.cloud.models.get_ai_chats200_response import GetAiChats200Response
+from hanzoai.cloud.models.get_ai_connections200_response import GetAiConnections200Response
+from hanzoai.cloud.models.get_ai_connections_by_provider_authorize200_response import GetAiConnectionsByProviderAuthorize200Response
+from hanzoai.cloud.models.get_ai_connections_by_provider_usage200_response import GetAiConnectionsByProviderUsage200Response
+from hanzoai.cloud.models.get_ai_deployments200_response import GetAiDeployments200Response
+from hanzoai.cloud.models.get_ai_files200_response import GetAiFiles200Response
+from hanzoai.cloud.models.get_ai_finetune_hf_datasets200_response import GetAiFinetuneHfDatasets200Response
+from hanzoai.cloud.models.get_ai_finetune_hf_models200_response import GetAiFinetuneHfModels200Response
+from hanzoai.cloud.models.get_ai_finetune_hf_repo200_response import GetAiFinetuneHfRepo200Response
+from hanzoai.cloud.models.get_ai_finetune_jobs200_response import GetAiFinetuneJobs200Response
+from hanzoai.cloud.models.get_ai_finetune_presets200_response import GetAiFinetunePresets200Response
+from hanzoai.cloud.models.get_ai_forms200_response import GetAiForms200Response
+from hanzoai.cloud.models.get_ai_graphs200_response import GetAiGraphs200Response
+from hanzoai.cloud.models.get_ai_memory_facts200_response import GetAiMemoryFacts200Response
+from hanzoai.cloud.models.get_ai_messages200_response import GetAiMessages200Response
+from hanzoai.cloud.models.get_ai_nodes200_response import GetAiNodes200Response
+from hanzoai.cloud.models.get_ai_providers200_response import GetAiProviders200Response
+from hanzoai.cloud.models.get_ai_records200_response import GetAiRecords200Response
+from hanzoai.cloud.models.get_ai_remote_connections200_response import GetAiRemoteConnections200Response
+from hanzoai.cloud.models.get_ai_router_history200_response import GetAiRouterHistory200Response
+from hanzoai.cloud.models.get_ai_router_judge_panel200_response import GetAiRouterJudgePanel200Response
+from hanzoai.cloud.models.get_ai_router_stats200_response import GetAiRouterStats200Response
+from hanzoai.cloud.models.get_ai_routes200_response import GetAiRoutes200Response
+from hanzoai.cloud.models.get_ai_scales200_response import GetAiScales200Response
+from hanzoai.cloud.models.get_ai_scans200_response import GetAiScans200Response
+from hanzoai.cloud.models.get_ai_signin_sessions200_response import GetAiSigninSessions200Response
+from hanzoai.cloud.models.get_ai_stores200_response import GetAiStores200Response
+from hanzoai.cloud.models.get_ai_tasks200_response import GetAiTasks200Response
+from hanzoai.cloud.models.get_ai_templates200_response import GetAiTemplates200Response
+from hanzoai.cloud.models.get_ai_traffic_globe200_response import GetAiTrafficGlobe200Response
+from hanzoai.cloud.models.get_ai_usages200_response import GetAiUsages200Response
+from hanzoai.cloud.models.get_ai_vectors200_response import GetAiVectors200Response
+from hanzoai.cloud.models.get_ai_videos200_response import GetAiVideos200Response
+from hanzoai.cloud.models.get_ai_workflows200_response import GetAiWorkflows200Response
+from hanzoai.cloud.models.get_models_providers200_response import GetModelsProviders200Response
+from hanzoai.cloud.models.openai_audio_response import OpenaiAudioResponse
+from hanzoai.cloud.models.openai_chat_completion_response import OpenaiChatCompletionResponse
+from hanzoai.cloud.models.openai_embedding_response import OpenaiEmbeddingResponse
+from hanzoai.cloud.models.openai_image_response import OpenaiImageResponse
+from hanzoai.cloud.models.post_ai_articles200_response import PostAiArticles200Response
+from hanzoai.cloud.models.post_ai_assets200_response import PostAiAssets200Response
+from hanzoai.cloud.models.post_ai_chats200_response import PostAiChats200Response
+from hanzoai.cloud.models.post_ai_connections200_response import PostAiConnections200Response
+from hanzoai.cloud.models.post_ai_deployments200_response import PostAiDeployments200Response
+from hanzoai.cloud.models.post_ai_feedback200_response import PostAiFeedback200Response
+from hanzoai.cloud.models.post_ai_files200_response import PostAiFiles200Response
+from hanzoai.cloud.models.post_ai_finetune_cancel200_response import PostAiFinetuneCancel200Response
+from hanzoai.cloud.models.post_ai_finetune_deploy200_response import PostAiFinetuneDeploy200Response
+from hanzoai.cloud.models.post_ai_forms200_response import PostAiForms200Response
+from hanzoai.cloud.models.post_ai_graphs200_response import PostAiGraphs200Response
+from hanzoai.cloud.models.post_ai_memory_delete200_response import PostAiMemoryDelete200Response
+from hanzoai.cloud.models.post_ai_memory_remember200_response import PostAiMemoryRemember200Response
+from hanzoai.cloud.models.post_ai_messages200_response import PostAiMessages200Response
+from hanzoai.cloud.models.post_ai_nodes200_response import PostAiNodes200Response
+from hanzoai.cloud.models.post_ai_providers200_response import PostAiProviders200Response
+from hanzoai.cloud.models.post_ai_rag_embed200_response import PostAiRagEmbed200Response
+from hanzoai.cloud.models.post_ai_rag_ingest200_response import PostAiRagIngest200Response
+from hanzoai.cloud.models.post_ai_records200_response import PostAiRecords200Response
+from hanzoai.cloud.models.post_ai_remote_connections200_response import PostAiRemoteConnections200Response
+from hanzoai.cloud.models.post_ai_routes200_response import PostAiRoutes200Response
+from hanzoai.cloud.models.post_ai_scales200_response import PostAiScales200Response
+from hanzoai.cloud.models.post_ai_scans200_response import PostAiScans200Response
+from hanzoai.cloud.models.post_ai_signin_sessions200_response import PostAiSigninSessions200Response
+from hanzoai.cloud.models.post_ai_stores200_response import PostAiStores200Response
+from hanzoai.cloud.models.post_ai_tasks200_response import PostAiTasks200Response
+from hanzoai.cloud.models.post_ai_templates200_response import PostAiTemplates200Response
+from hanzoai.cloud.models.post_ai_tree_files200_response import PostAiTreeFiles200Response
+from hanzoai.cloud.models.post_ai_vectors200_response import PostAiVectors200Response
+from hanzoai.cloud.models.post_ai_videos200_response import PostAiVideos200Response
+from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows200Response
+from hanzoai.cloud.models.post_models_by_model_access200_response import PostModelsByModelAccess200Response
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -319,7 +402,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiArticles200Response:
         """Delete a article
 
         Delete one article.
@@ -360,6 +443,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -389,7 +475,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Delete a article
 
         Delete one article.
@@ -430,6 +516,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -500,6 +589,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -543,6 +635,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -585,7 +684,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiAssets200Response:
         """Delete a asset
 
         Delete one asset.
@@ -626,6 +725,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -655,7 +757,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Delete a asset
 
         Delete one asset.
@@ -696,6 +798,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -766,6 +871,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -809,6 +917,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -851,7 +966,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiChats200Response:
         """Delete a chat
 
         Delete one chat.
@@ -892,6 +1007,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -921,7 +1039,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Delete a chat
 
         Delete one chat.
@@ -962,6 +1080,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1032,6 +1153,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1075,6 +1199,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1116,7 +1247,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiConnections200Response:
         """Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret.
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
@@ -1154,6 +1285,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1182,7 +1316,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiConnections200Response]:
         """Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret.
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
@@ -1220,6 +1354,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1286,6 +1423,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1326,6 +1466,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1368,7 +1515,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiDeployments200Response:
         """Delete a application
 
         Delete one application.
@@ -1409,6 +1556,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1438,7 +1588,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Delete a application
 
         Delete one application.
@@ -1479,6 +1629,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1549,6 +1702,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1592,6 +1748,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1634,7 +1797,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFiles200Response:
         """Delete a file
 
         Delete one file.
@@ -1675,6 +1838,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1704,7 +1870,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Delete a file
 
         Delete one file.
@@ -1745,6 +1911,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1815,6 +1984,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1858,6 +2030,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -1900,7 +2079,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiForms200Response:
         """Delete a form
 
         Delete one form.
@@ -1941,6 +2120,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1970,7 +2152,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Delete a form
 
         Delete one form.
@@ -2011,6 +2193,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2081,6 +2266,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2124,6 +2312,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -2166,7 +2361,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiGraphs200Response:
         """Delete a graph
 
         Delete one graph.
@@ -2207,6 +2402,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2236,7 +2434,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Delete a graph
 
         Delete one graph.
@@ -2277,6 +2475,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2347,6 +2548,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2390,6 +2594,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -2432,7 +2643,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMessages200Response:
         """Delete a message
 
         Delete one message.
@@ -2473,6 +2684,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2502,7 +2716,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Delete a message
 
         Delete one message.
@@ -2543,6 +2757,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2613,6 +2830,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2656,6 +2876,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -2696,7 +2923,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Welcome (message)
 
 
@@ -2730,6 +2957,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2757,7 +2987,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Welcome (message)
 
 
@@ -2791,6 +3021,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2852,6 +3085,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2889,6 +3125,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -2931,7 +3174,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiNodes200Response:
         """Delete a node
 
         Delete one node.
@@ -2972,6 +3215,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3001,7 +3247,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Delete a node
 
         Delete one node.
@@ -3042,6 +3288,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3112,6 +3361,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3155,6 +3407,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -3195,7 +3454,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -3230,6 +3489,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3257,7 +3519,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -3292,6 +3554,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3354,6 +3619,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3391,6 +3659,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -3431,7 +3706,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -3466,6 +3741,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3493,7 +3771,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -3528,6 +3806,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3590,6 +3871,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3627,6 +3911,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -3669,7 +3960,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiProviders200Response:
         """Delete a provider
 
         Delete one provider.
@@ -3710,6 +4001,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3739,7 +4033,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Delete a provider
 
         Delete one provider.
@@ -3780,6 +4074,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3850,6 +4147,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3893,6 +4193,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -3935,7 +4242,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRecords200Response:
         """Delete a record
 
         Delete one record.
@@ -3976,6 +4283,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4005,7 +4315,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Delete a record
 
         Delete one record.
@@ -4046,6 +4356,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4116,6 +4429,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4159,6 +4475,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4201,7 +4524,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRemoteConnections200Response:
         """Delete a connection
 
         Delete one connection.
@@ -4242,6 +4565,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4271,7 +4597,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Delete a connection
 
         Delete one connection.
@@ -4312,6 +4638,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4382,6 +4711,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4425,6 +4757,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4465,7 +4804,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -4500,6 +4839,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4527,7 +4869,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -4562,6 +4904,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4624,6 +4969,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4661,6 +5009,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4701,7 +5056,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Router Data
 
 
@@ -4735,6 +5090,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4762,7 +5120,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Router Data
 
 
@@ -4796,6 +5154,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4857,6 +5218,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4894,6 +5258,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -4934,7 +5305,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -4969,6 +5340,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4996,7 +5370,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5031,6 +5405,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5093,6 +5470,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5130,6 +5510,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -5170,7 +5557,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5205,6 +5592,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5232,7 +5622,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5267,6 +5657,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5329,6 +5722,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5366,6 +5762,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -5406,7 +5809,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5441,6 +5844,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5468,7 +5874,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5503,6 +5909,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5565,6 +5974,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5602,6 +6014,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -5642,7 +6061,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5677,6 +6096,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5704,7 +6126,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -5739,6 +6161,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5801,6 +6226,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5838,6 +6266,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -5880,7 +6315,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRoutes200Response:
         """Delete a model-route
 
         Delete one model-route.
@@ -5921,6 +6356,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5950,7 +6388,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Delete a model-route
 
         Delete one model-route.
@@ -5991,6 +6429,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6061,6 +6502,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6104,6 +6548,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6146,7 +6597,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScales200Response:
         """Delete a scale
 
         Delete one scale.
@@ -6187,6 +6638,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6216,7 +6670,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Delete a scale
 
         Delete one scale.
@@ -6257,6 +6711,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6327,6 +6784,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6370,6 +6830,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6412,7 +6879,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScans200Response:
         """Delete a scan
 
         Delete one scan.
@@ -6453,6 +6920,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6482,7 +6952,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Delete a scan
 
         Delete one scan.
@@ -6523,6 +6993,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6593,6 +7066,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6636,6 +7112,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6678,7 +7161,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiSigninSessions200Response:
         """Delete a session
 
         Delete one session.
@@ -6719,6 +7202,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6748,7 +7234,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Delete a session
 
         Delete one session.
@@ -6789,6 +7275,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6859,6 +7348,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6902,6 +7394,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -6944,7 +7443,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiStores200Response:
         """Delete a store
 
         Delete one store.
@@ -6985,6 +7484,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7014,7 +7516,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Delete a store
 
         Delete one store.
@@ -7055,6 +7557,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7125,6 +7630,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7168,6 +7676,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -7210,7 +7725,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTasks200Response:
         """Delete a task
 
         Delete one task.
@@ -7251,6 +7766,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7280,7 +7798,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Delete a task
 
         Delete one task.
@@ -7321,6 +7839,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7391,6 +7912,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7434,6 +7958,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -7476,7 +8007,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTemplates200Response:
         """Delete a template
 
         Delete one template.
@@ -7517,6 +8048,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7546,7 +8080,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Delete a template
 
         Delete one template.
@@ -7587,6 +8121,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7657,6 +8194,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7700,6 +8240,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -7742,7 +8289,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTreeFiles200Response:
         """Delete a tree-file
 
         Delete one tree-file.
@@ -7783,6 +8330,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7812,7 +8362,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Delete a tree-file
 
         Delete one tree-file.
@@ -7853,6 +8403,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7923,6 +8476,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7966,6 +8522,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -8006,7 +8569,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """All (vector)
 
 
@@ -8040,6 +8603,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8067,7 +8633,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """All (vector)
 
 
@@ -8101,6 +8667,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8162,6 +8731,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8199,6 +8771,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -8241,7 +8820,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVectors200Response:
         """Delete a vector
 
         Delete one vector.
@@ -8282,6 +8861,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8311,7 +8893,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Delete a vector
 
         Delete one vector.
@@ -8352,6 +8934,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8422,6 +9007,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8465,6 +9053,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -8507,7 +9102,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVideos200Response:
         """Delete a video
 
         Delete one video.
@@ -8548,6 +9143,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8577,7 +9175,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Delete a video
 
         Delete one video.
@@ -8618,6 +9216,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8688,6 +9289,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8731,6 +9335,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -8773,7 +9384,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiWorkflows200Response:
         """Delete a workflow
 
         Delete one workflow.
@@ -8814,6 +9425,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8843,7 +9457,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Delete a workflow
 
         Delete one workflow.
@@ -8884,6 +9498,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8954,6 +9571,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8997,6 +9617,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9037,7 +9664,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Account
 
 
@@ -9071,6 +9698,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9098,7 +9728,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Account
 
 
@@ -9132,6 +9762,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9193,6 +9826,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9230,6 +9866,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9270,7 +9913,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiActivities200Response:
         """List activities
 
         List the caller's activities.
@@ -9305,6 +9948,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiActivities200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9332,7 +9978,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiActivities200Response]:
         """List activities
 
         List the caller's activities.
@@ -9367,6 +10013,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiActivities200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9429,6 +10078,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiActivities200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9466,6 +10118,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9506,7 +10165,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Answer
 
 
@@ -9540,6 +10199,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9567,7 +10229,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Answer
 
 
@@ -9601,6 +10263,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9662,6 +10327,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9699,6 +10367,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9739,7 +10414,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiArticles200Response:
         """List articles
 
         List the caller's articles.
@@ -9774,6 +10449,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9801,7 +10479,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiArticles200Response]:
         """List articles
 
         List the caller's articles.
@@ -9836,6 +10514,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9898,6 +10579,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9935,6 +10619,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9977,7 +10668,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiArticles200Response:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
@@ -10018,6 +10709,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10047,7 +10741,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Retrieve a article
 
         Read one article by its (owner, name) key.
@@ -10088,6 +10782,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10158,6 +10855,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10201,6 +10901,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10241,7 +10948,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiArticles200Response:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10276,6 +10983,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10303,7 +11013,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiArticles200Response]:
         """List articles across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -10338,6 +11048,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10400,6 +11113,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10437,6 +11153,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10477,7 +11200,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiAssets200Response:
         """List assets
 
         List the caller's assets.
@@ -10512,6 +11235,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10539,7 +11265,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiAssets200Response]:
         """List assets
 
         List the caller's assets.
@@ -10574,6 +11300,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10636,6 +11365,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10673,6 +11405,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10715,7 +11454,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiAssets200Response:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
@@ -10756,6 +11495,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10785,7 +11527,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Retrieve a asset
 
         Read one asset by its (owner, name) key.
@@ -10826,6 +11568,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10896,6 +11641,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10939,6 +11687,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10979,7 +11734,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiChats200Response:
         """List chats
 
         List the caller's chats.
@@ -11014,6 +11769,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11041,7 +11799,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiChats200Response]:
         """List chats
 
         List the caller's chats.
@@ -11076,6 +11834,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11138,6 +11899,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11175,6 +11939,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11217,7 +11988,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiChats200Response:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
@@ -11258,6 +12029,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11287,7 +12061,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Retrieve a chat
 
         Read one chat by its (owner, name) key.
@@ -11328,6 +12102,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11398,6 +12175,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11441,6 +12221,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11481,7 +12268,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiChats200Response:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -11516,6 +12303,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11543,7 +12333,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiChats200Response]:
         """List chats across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -11578,6 +12368,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11640,6 +12433,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11677,6 +12473,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11717,7 +12520,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiConnections200Response:
         """Lists the org's connectable AI accounts and whether each is currently connected.
 
         Lists the org's connectable AI accounts and whether each is currently connected. Never returns a key or a kms:// reference.
@@ -11752,6 +12555,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11779,7 +12585,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiConnections200Response]:
         """Lists the org's connectable AI accounts and whether each is currently connected.
 
         Lists the org's connectable AI accounts and whether each is currently connected. Never returns a key or a kms:// reference.
@@ -11814,6 +12620,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11876,6 +12685,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11913,6 +12725,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11954,7 +12773,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiConnectionsByProviderAuthorize200Response:
         """Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL.
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
@@ -11992,6 +12811,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderAuthorize200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12020,7 +12842,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiConnectionsByProviderAuthorize200Response]:
         """Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL.
 
         Begins an OAuth connection for the caller's org: it binds the org into a signed state and sends the caller to the provider's authorize URL. By default it 302-redirects (a top-level browser \"connect your login\" click); a SPA/BFF that needs to drive the redirect itself passes ?format=json and gets {authorizeUrl} in the standard envelope. The org is the VERIFIED principal, so only the caller's own connection can result.
@@ -12058,6 +12880,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderAuthorize200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12124,6 +12949,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderAuthorize200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12164,6 +12992,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -12456,7 +13291,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiConnectionsByProviderUsage200Response:
         """Imports the caller org's usage for a connected third-party account.
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
@@ -12494,6 +13329,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderUsage200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12522,7 +13360,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiConnectionsByProviderUsage200Response]:
         """Imports the caller org's usage for a connected third-party account.
 
         Imports the caller org's usage for a connected third-party account. The org is resolved from the VERIFIED principal (requireConnectionOrg), so a tenant reads only its own connection. The key is unsealed SERVER-SIDE and never returned. An unconnected account, a missing importer, or a scope-denied provider all return a 200 ProviderUsage with connected/available flags + a human note — the UI's honest-empty states — never a fabricated figure.
@@ -12560,6 +13398,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderUsage200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12626,6 +13467,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderUsage200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12666,6 +13510,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -12706,7 +13557,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Dashboards Agents
 
 
@@ -12740,6 +13591,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12767,7 +13621,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Dashboards Agents
 
 
@@ -12801,6 +13655,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12862,6 +13719,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12899,6 +13759,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -12939,7 +13806,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Dashboards Vm
 
 
@@ -12973,6 +13840,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13000,7 +13870,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Dashboards Vm
 
 
@@ -13034,6 +13904,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13095,6 +13968,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13132,6 +14008,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13172,7 +14055,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiDeployments200Response:
         """List deployments
 
         List the caller's deployments.
@@ -13207,6 +14090,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13234,7 +14120,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiDeployments200Response]:
         """List deployments
 
         List the caller's deployments.
@@ -13269,6 +14155,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13331,6 +14220,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13368,6 +14260,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13410,7 +14309,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiDeployments200Response:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
@@ -13451,6 +14350,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13480,7 +14382,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Retrieve a application
 
         Read one application by its (owner, name) key.
@@ -13521,6 +14423,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13591,6 +14496,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13634,6 +14542,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13674,7 +14589,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFiles200Response:
         """List files
 
         List the caller's files.
@@ -13709,6 +14624,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13736,7 +14654,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFiles200Response]:
         """List files
 
         List the caller's files.
@@ -13771,6 +14689,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13833,6 +14754,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13870,6 +14794,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13910,7 +14841,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Active (file)
 
 
@@ -13944,6 +14875,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13971,7 +14905,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Active (file)
 
 
@@ -14005,6 +14939,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14066,6 +15003,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14103,6 +15043,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14145,7 +15092,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFiles200Response:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
@@ -14186,6 +15133,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14215,7 +15165,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Retrieve a file
 
         Read one file by its (owner, name) key.
@@ -14256,6 +15206,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14326,6 +15279,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14369,6 +15325,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14409,7 +15372,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFiles200Response:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14444,6 +15407,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14471,7 +15437,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFiles200Response]:
         """List files across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -14506,6 +15472,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14568,6 +15537,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14605,6 +15577,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14645,7 +15624,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFinetuneHfDatasets200Response:
         """Proxies a HuggingFace dataset search (dataset picker).
 
         Proxies a HuggingFace dataset search (dataset picker).
@@ -14680,6 +15659,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfDatasets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14707,7 +15689,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFinetuneHfDatasets200Response]:
         """Proxies a HuggingFace dataset search (dataset picker).
 
         Proxies a HuggingFace dataset search (dataset picker).
@@ -14742,6 +15724,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfDatasets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14804,6 +15789,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfDatasets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14841,6 +15829,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14881,7 +15876,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFinetuneHfModels200Response:
         """Proxies a HuggingFace model search (base-model picker).
 
         Proxies a HuggingFace model search (base-model picker).
@@ -14916,6 +15911,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfModels200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14943,7 +15941,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFinetuneHfModels200Response]:
         """Proxies a HuggingFace model search (base-model picker).
 
         Proxies a HuggingFace model search (base-model picker).
@@ -14978,6 +15976,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfModels200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15040,6 +16041,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfModels200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15077,6 +16081,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15117,7 +16128,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFinetuneHfRepo200Response:
         """Returns a repo's detail (files, gated/private state).
 
         Returns a repo's detail (files, gated/private state). ?id=&kind=model|dataset
@@ -15152,6 +16163,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfRepo200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15179,7 +16193,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFinetuneHfRepo200Response]:
         """Returns a repo's detail (files, gated/private state).
 
         Returns a repo's detail (files, gated/private state). ?id=&kind=model|dataset
@@ -15214,6 +16228,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfRepo200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15276,6 +16293,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneHfRepo200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15313,6 +16333,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15353,7 +16380,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFinetuneCancel200Response:
         """Returns one job with refreshed live status.
 
         Returns one job with refreshed live status. ?id=owner/name or ?name=
@@ -15388,6 +16415,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15415,7 +16445,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFinetuneCancel200Response]:
         """Returns one job with refreshed live status.
 
         Returns one job with refreshed live status. ?id=owner/name or ?name=
@@ -15450,6 +16480,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15512,6 +16545,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15549,6 +16585,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15589,7 +16632,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFinetuneJobs200Response:
         """Returns the org's jobs, refreshing live status for active ones.
 
         Returns the org's jobs, refreshing live status for active ones.
@@ -15624,6 +16667,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneJobs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15651,7 +16697,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFinetuneJobs200Response]:
         """Returns the org's jobs, refreshing live status for active ones.
 
         Returns the org's jobs, refreshing live status for active ones.
@@ -15686,6 +16732,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneJobs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15748,6 +16797,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetuneJobs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15785,6 +16837,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15825,7 +16884,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFinetunePresets200Response:
         """Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
 
         Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
@@ -15860,6 +16919,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetunePresets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15887,7 +16949,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFinetunePresets200Response]:
         """Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
 
         Returns the new-job catalog plus, when a selection is passed (?baseModel&method&task&preset[&datasetExamples]), the recommended config so the console can render \"Recommended\" as a one-click, ready-to-run default.
@@ -15922,6 +16984,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetunePresets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15984,6 +17049,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetunePresets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16021,6 +17089,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16061,7 +17136,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiForms200Response:
         """List forms
 
         List the caller's forms.
@@ -16096,6 +17171,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16123,7 +17201,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiForms200Response]:
         """List forms
 
         List the caller's forms.
@@ -16158,6 +17236,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16220,6 +17301,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16257,6 +17341,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16299,7 +17390,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiForms200Response:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
@@ -16340,6 +17431,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16369,7 +17463,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Retrieve a form
 
         Read one form by its (owner, name) key.
@@ -16410,6 +17504,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16480,6 +17577,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16523,6 +17623,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16563,7 +17670,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Data (form)
 
 
@@ -16597,6 +17704,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16624,7 +17734,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Data (form)
 
 
@@ -16658,6 +17768,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16719,6 +17832,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16756,6 +17872,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -16796,7 +17919,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiForms200Response:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16831,6 +17954,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16858,7 +17984,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiForms200Response]:
         """List forms across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -16893,6 +18019,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16955,6 +18084,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16992,6 +18124,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -17032,7 +18171,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiGraphs200Response:
         """List graphs
 
         List the caller's graphs.
@@ -17067,6 +18206,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17094,7 +18236,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiGraphs200Response]:
         """List graphs
 
         List the caller's graphs.
@@ -17129,6 +18271,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17191,6 +18336,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17228,6 +18376,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -17270,7 +18425,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiGraphs200Response:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
@@ -17311,6 +18466,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17340,7 +18498,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Retrieve a graph
 
         Read one graph by its (owner, name) key.
@@ -17381,6 +18539,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17451,6 +18612,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17494,6 +18658,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -17534,7 +18705,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiGraphs200Response:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -17569,6 +18740,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17596,7 +18770,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiGraphs200Response]:
         """List graphs across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -17631,6 +18805,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17693,6 +18870,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17730,6 +18910,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -17770,7 +18957,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """K8s Status
 
 
@@ -17804,6 +18991,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17831,7 +19021,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """K8s Status
 
 
@@ -17865,6 +19055,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17926,6 +19119,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17963,6 +19159,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -18003,7 +19206,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiMemoryFacts200Response:
         """List the authenticated user's stored facts
 
         List the authenticated user's stored facts
@@ -18038,6 +19241,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18065,7 +19271,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiMemoryFacts200Response]:
         """List the authenticated user's stored facts
 
         List the authenticated user's stored facts
@@ -18100,6 +19306,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18162,6 +19371,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18199,6 +19411,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -18239,7 +19458,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiMemoryFacts200Response:
         """List the authenticated user's memories, newest first
 
         List the authenticated user's memories, newest first
@@ -18274,6 +19493,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18301,7 +19523,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiMemoryFacts200Response]:
         """List the authenticated user's memories, newest first
 
         List the authenticated user's memories, newest first
@@ -18336,6 +19558,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18398,6 +19623,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18435,6 +19663,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -18475,7 +19710,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiMemoryFacts200Response:
         """Recall recent/relevant memories for context injection; with q it
 
         Recall recent/relevant memories for context injection; with q it ranks semantically, without q it returns the most recent
@@ -18510,6 +19745,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18537,7 +19775,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiMemoryFacts200Response]:
         """Recall recent/relevant memories for context injection; with q it
 
         Recall recent/relevant memories for context injection; with q it ranks semantically, without q it returns the most recent
@@ -18572,6 +19810,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18634,6 +19875,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18671,6 +19915,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -18711,7 +19962,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiMemoryFacts200Response:
         """Search the authenticated user's memories (semantic, text fallback)
 
         Search the authenticated user's memories (semantic, text fallback)
@@ -18746,6 +19997,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18773,7 +20027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiMemoryFacts200Response]:
         """Search the authenticated user's memories (semantic, text fallback)
 
         Search the authenticated user's memories (semantic, text fallback)
@@ -18808,6 +20062,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18870,6 +20127,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMemoryFacts200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18907,6 +20167,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -18947,7 +20214,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiMessages200Response:
         """List messages
 
         List the caller's messages.
@@ -18982,6 +20249,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19009,7 +20279,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiMessages200Response]:
         """List messages
 
         List the caller's messages.
@@ -19044,6 +20314,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19106,6 +20379,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19143,6 +20419,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -19185,7 +20468,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMessages200Response:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
@@ -19226,6 +20509,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19255,7 +20541,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Retrieve a message
 
         Read one message by its (owner, name) key.
@@ -19296,6 +20582,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19366,6 +20655,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19409,6 +20701,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -19451,7 +20750,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Answer (message)
 
 
@@ -19491,6 +20790,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19520,7 +20822,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Answer (message)
 
 
@@ -19560,6 +20862,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19629,6 +20934,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19672,6 +20980,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -19712,7 +21027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiMessages200Response:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -19747,6 +21062,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19774,7 +21092,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiMessages200Response]:
         """List messages across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -19809,6 +21127,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19871,6 +21192,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19908,6 +21232,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -19948,7 +21279,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiNodes200Response:
         """List nodes
 
         List the caller's nodes.
@@ -19983,6 +21314,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20010,7 +21344,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiNodes200Response]:
         """List nodes
 
         List the caller's nodes.
@@ -20045,6 +21379,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20107,6 +21444,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20144,6 +21484,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -20186,7 +21533,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiNodes200Response:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
@@ -20227,6 +21574,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20256,7 +21606,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Retrieve a node
 
         Read one node by its (owner, name) key.
@@ -20297,6 +21647,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20367,6 +21720,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20410,6 +21766,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -20452,7 +21815,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Tunnel (node)
 
 
@@ -20492,6 +21855,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20521,7 +21887,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Tunnel (node)
 
 
@@ -20561,6 +21927,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20630,6 +21999,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20673,6 +22045,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -20713,7 +22092,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -20748,6 +22127,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20775,7 +22157,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -20810,6 +22192,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20872,6 +22257,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20909,6 +22297,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -20949,7 +22344,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -20984,6 +22379,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21011,7 +22409,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -21046,6 +22444,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21108,6 +22509,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21145,6 +22549,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -21185,7 +22596,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Prometheus
 
 
@@ -21219,6 +22630,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21246,7 +22660,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Prometheus
 
 
@@ -21280,6 +22694,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21341,6 +22758,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21378,6 +22798,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -21418,7 +22845,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiProviders200Response:
         """List providers
 
         List the caller's providers.
@@ -21453,6 +22880,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21480,7 +22910,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiProviders200Response]:
         """List providers
 
         List the caller's providers.
@@ -21515,6 +22945,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21577,6 +23010,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21614,6 +23050,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -21656,7 +23099,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiProviders200Response:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
@@ -21697,6 +23140,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21726,7 +23172,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Retrieve a provider
 
         Read one provider by its (owner, name) key.
@@ -21767,6 +23213,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21837,6 +23286,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21880,6 +23332,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -21920,7 +23379,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiProviders200Response:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -21955,6 +23414,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21982,7 +23444,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiProviders200Response]:
         """List providers across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -22017,6 +23479,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22079,6 +23544,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22116,6 +23584,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -22156,7 +23631,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> List[DocSearchResult]:
         """Return every stored chunk of one file_id (full document context).
 
         Return every stored chunk of one file_id (full document context). Consolidates the retired chat-rag-api GET /documents/{id}/context.
@@ -22191,6 +23666,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22218,7 +23696,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[List[DocSearchResult]]:
         """Return every stored chunk of one file_id (full document context).
 
         Return every stored chunk of one file_id (full document context). Consolidates the retired chat-rag-api GET /documents/{id}/context.
@@ -22253,6 +23731,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22315,6 +23796,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22352,6 +23836,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -22392,7 +23883,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiRecords200Response:
         """List records
 
         List the caller's records.
@@ -22427,6 +23918,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22454,7 +23948,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiRecords200Response]:
         """List records
 
         List the caller's records.
@@ -22489,6 +23983,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22551,6 +24048,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22588,6 +24088,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -22630,7 +24137,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRecords200Response:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
@@ -22671,6 +24178,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22700,7 +24210,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Retrieve a record
 
         Read one record by its (owner, name) key.
@@ -22741,6 +24251,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22811,6 +24324,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22854,6 +24370,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -22894,7 +24417,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Query (record)
 
 
@@ -22928,6 +24451,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22955,7 +24481,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Query (record)
 
 
@@ -22989,6 +24515,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23050,6 +24579,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23087,6 +24619,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -23127,7 +24666,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Query Second (record)
 
 
@@ -23161,6 +24700,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23188,7 +24730,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Query Second (record)
 
 
@@ -23222,6 +24764,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23283,6 +24828,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23320,6 +24868,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -23360,7 +24915,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiRemoteConnections200Response:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -23395,6 +24950,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23422,7 +24980,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiRemoteConnections200Response]:
         """List remote-connections
 
         List the caller's remote-connections.
@@ -23457,6 +25015,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23519,6 +25080,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23556,6 +25120,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -23598,7 +25169,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRemoteConnections200Response:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
@@ -23639,6 +25210,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23668,7 +25242,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Retrieve a connection
 
         Read one connection by its (owner, name) key.
@@ -23709,6 +25283,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23779,6 +25356,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23822,6 +25402,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -23862,7 +25449,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -23897,6 +25484,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23924,7 +25514,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -23959,6 +25549,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24021,6 +25614,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24058,6 +25654,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -24098,7 +25701,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Router Data
 
 
@@ -24132,6 +25735,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24159,7 +25765,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Router Data
 
 
@@ -24193,6 +25799,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24254,6 +25863,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24291,6 +25903,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -24331,7 +25950,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -24366,6 +25985,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24393,7 +26015,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -24428,6 +26050,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24490,6 +26115,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24527,6 +26155,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -24567,7 +26202,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiRouterHistory200Response:
         """Returns the router-improvement time-series.
 
         Returns the router-improvement time-series. Two scopes, one route, mirroring /v1/ai/router/stats:    - ?scope=platform — PUBLIC-safe aggregate over ALL orgs, no authentication. Emits     the daily reward/cost-saved/adoption series (task mix included, model ids NOT)     and the retrain timeline. This is what world.hanzo.ai polls.   - default (org scope) — requires a signed-in principal, scoped to the caller's OWN     org (a super admin may pass ?org= to target another or \"\" for all).  Window: ?days=N (default 30, capped at 90). Aggregates only.
@@ -24602,6 +26237,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterHistory200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24629,7 +26267,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiRouterHistory200Response]:
         """Returns the router-improvement time-series.
 
         Returns the router-improvement time-series. Two scopes, one route, mirroring /v1/ai/router/stats:    - ?scope=platform — PUBLIC-safe aggregate over ALL orgs, no authentication. Emits     the daily reward/cost-saved/adoption series (task mix included, model ids NOT)     and the retrain timeline. This is what world.hanzo.ai polls.   - default (org scope) — requires a signed-in principal, scoped to the caller's OWN     org (a super admin may pass ?org= to target another or \"\" for all).  Window: ?days=N (default 30, capped at 90). Aggregates only.
@@ -24664,6 +26302,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterHistory200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24726,6 +26367,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterHistory200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24763,6 +26407,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -24803,7 +26454,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiRouterJudgePanel200Response:
         """Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark.
 
         Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark. PUBLIC-safe and platform-global (model ids + scalars only), so it rides the same unauthenticated, balance-exempt class as /v1/ai/router/stats?scope=platform — the world widget polls it with no auth. The judge state is a single in-process population (not per-org), so there is nothing to scope; ?scope=platform is accepted for symmetry with router-stats.
@@ -24838,6 +26489,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterJudgePanel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24865,7 +26519,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiRouterJudgePanel200Response]:
         """Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark.
 
         Returns the LIVE Mean-Field Judge Panel state: the configured panel + dynamic judge posture (enabled/sample) resolved from the \"*\" GlobalDefaultOwner row, the live in-process per-judge calibration (weight/mean/n), and the static published benchmark. PUBLIC-safe and platform-global (model ids + scalars only), so it rides the same unauthenticated, balance-exempt class as /v1/ai/router/stats?scope=platform — the world widget polls it with no auth. The judge state is a single in-process population (not per-org), so there is nothing to scope; ?scope=platform is accepted for symmetry with router-stats.
@@ -24900,6 +26554,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterJudgePanel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24962,6 +26619,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterJudgePanel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24999,6 +26659,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -25039,7 +26706,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -25074,6 +26741,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25101,7 +26771,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -25136,6 +26806,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25198,6 +26871,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25235,6 +26911,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -25275,7 +26958,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -25310,6 +26993,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25337,7 +27023,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -25372,6 +27058,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25434,6 +27123,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25471,6 +27163,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -25511,7 +27210,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -25546,6 +27245,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25573,7 +27275,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -25608,6 +27310,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25670,6 +27375,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25707,6 +27415,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -25747,7 +27462,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiRouterStats200Response:
         """Returns the router observability aggregate.
 
         Returns the router observability aggregate. Two scopes, one route:    - ?scope=platform — PUBLIC-safe aggregate over ALL orgs, no authentication.     Emits rates, shares, per-task/per-model counts, throughput, and the cost     RATIO (saved_pct) + counterfactual model id, but NEVER absolute $ levels,     org identity, raw events, or feature vectors. This is what world.hanzo.ai     polls.   - default (org scope) — requires a signed-in principal; scoped to the caller's     OWN org (a super admin may pass ?org= to target another org or \"\" for all).     Carries the absolute $/MTok indices for the admin savings panel.  Window: ?since= (RFC3339) or ?hours= (default 24, capped). Aggregates only.
@@ -25782,6 +27497,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterStats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25809,7 +27527,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiRouterStats200Response]:
         """Returns the router observability aggregate.
 
         Returns the router observability aggregate. Two scopes, one route:    - ?scope=platform — PUBLIC-safe aggregate over ALL orgs, no authentication.     Emits rates, shares, per-task/per-model counts, throughput, and the cost     RATIO (saved_pct) + counterfactual model id, but NEVER absolute $ levels,     org identity, raw events, or feature vectors. This is what world.hanzo.ai     polls.   - default (org scope) — requires a signed-in principal; scoped to the caller's     OWN org (a super admin may pass ?org= to target another org or \"\" for all).     Carries the absolute $/MTok indices for the admin savings panel.  Window: ?since= (RFC3339) or ?hours= (default 24, capped). Aggregates only.
@@ -25844,6 +27562,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterStats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25906,6 +27627,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRouterStats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25943,6 +27667,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -25983,7 +27714,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiRoutes200Response:
         """List routes
 
         List the caller's routes.
@@ -26018,6 +27749,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26045,7 +27779,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiRoutes200Response]:
         """List routes
 
         List the caller's routes.
@@ -26080,6 +27814,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26142,6 +27879,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26179,6 +27919,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -26221,7 +27968,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRoutes200Response:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
@@ -26262,6 +28009,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26291,7 +28041,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Retrieve a model-route
 
         Read one model-route by its (owner, name) key.
@@ -26332,6 +28082,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26402,6 +28155,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26445,6 +28201,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -26485,7 +28248,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiScales200Response:
         """List scales
 
         List the caller's scales.
@@ -26520,6 +28283,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26547,7 +28313,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiScales200Response]:
         """List scales
 
         List the caller's scales.
@@ -26582,6 +28348,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26644,6 +28413,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26681,6 +28453,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -26723,7 +28502,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScales200Response:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
@@ -26764,6 +28543,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26793,7 +28575,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Retrieve a scale
 
         Read one scale by its (owner, name) key.
@@ -26834,6 +28616,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26904,6 +28689,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26947,6 +28735,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -26987,7 +28782,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiScales200Response:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27022,6 +28817,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27049,7 +28847,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiScales200Response]:
         """List scales across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -27084,6 +28882,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27146,6 +28947,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27183,6 +28987,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -27223,7 +29034,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Public (scale)
 
 
@@ -27257,6 +29068,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27284,7 +29098,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Public (scale)
 
 
@@ -27318,6 +29132,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27379,6 +29196,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27416,6 +29236,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -27456,7 +29283,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiScans200Response:
         """List scans
 
         List the caller's scans.
@@ -27491,6 +29318,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27518,7 +29348,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiScans200Response]:
         """List scans
 
         List the caller's scans.
@@ -27553,6 +29383,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27615,6 +29448,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27652,6 +29488,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -27694,7 +29537,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScans200Response:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
@@ -27735,6 +29578,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27764,7 +29610,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Retrieve a scan
 
         Read one scan by its (owner, name) key.
@@ -27805,6 +29651,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27875,6 +29724,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27918,6 +29770,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -27958,7 +29817,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiSigninSessions200Response:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -27993,6 +29852,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28020,7 +29882,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiSigninSessions200Response]:
         """List signin-sessions
 
         List the caller's signin-sessions.
@@ -28055,6 +29917,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28117,6 +29982,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28154,6 +30022,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -28196,7 +30071,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiSigninSessions200Response:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
@@ -28237,6 +30112,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28266,7 +30144,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Retrieve a session
 
         Read one session by its (owner, name) key.
@@ -28307,6 +30185,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28377,6 +30258,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28420,6 +30304,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -28460,7 +30351,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Duplicated (session)
 
 
@@ -28494,6 +30385,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28521,7 +30415,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Duplicated (session)
 
 
@@ -28555,6 +30449,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28616,6 +30513,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28653,6 +30553,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -28693,7 +30600,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiStores200Response:
         """List stores
 
         List the caller's stores.
@@ -28728,6 +30635,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28755,7 +30665,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiStores200Response]:
         """List stores
 
         List the caller's stores.
@@ -28790,6 +30700,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28852,6 +30765,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28889,6 +30805,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -28931,7 +30854,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiStores200Response:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
@@ -28972,6 +30895,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29001,7 +30927,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Retrieve a store
 
         Read one store by its (owner, name) key.
@@ -29042,6 +30968,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29112,6 +31041,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29155,6 +31087,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -29195,7 +31134,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiStores200Response:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29230,6 +31169,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29257,7 +31199,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiStores200Response]:
         """List stores across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -29292,6 +31234,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29354,6 +31299,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29391,6 +31339,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -29431,7 +31386,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Names (store)
 
 
@@ -29465,6 +31420,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29492,7 +31450,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Names (store)
 
 
@@ -29526,6 +31484,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29587,6 +31548,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29624,6 +31588,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -29664,7 +31635,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Providers (store)
 
 
@@ -29698,6 +31669,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29725,7 +31699,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Providers (store)
 
 
@@ -29759,6 +31733,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29820,6 +31797,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29857,6 +31837,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -29897,7 +31884,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """System
 
 
@@ -29931,6 +31918,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29958,7 +31948,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """System
 
 
@@ -29992,6 +31982,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30053,6 +32046,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30090,6 +32086,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -30130,7 +32133,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiTasks200Response:
         """List tasks
 
         List the caller's tasks.
@@ -30165,6 +32168,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30192,7 +32198,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiTasks200Response]:
         """List tasks
 
         List the caller's tasks.
@@ -30227,6 +32233,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30289,6 +32298,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30326,6 +32338,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -30368,7 +32387,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTasks200Response:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
@@ -30409,6 +32428,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30438,7 +32460,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Retrieve a task
 
         Read one task by its (owner, name) key.
@@ -30479,6 +32501,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30549,6 +32574,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30592,6 +32620,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -30632,7 +32667,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiTasks200Response:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -30667,6 +32702,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30694,7 +32732,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiTasks200Response]:
         """List tasks across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -30729,6 +32767,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30791,6 +32832,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30828,6 +32872,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -30868,7 +32919,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiTemplates200Response:
         """List templates
 
         List the caller's templates.
@@ -30903,6 +32954,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30930,7 +32984,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiTemplates200Response]:
         """List templates
 
         List the caller's templates.
@@ -30965,6 +33019,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31027,6 +33084,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31064,6 +33124,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -31106,7 +33173,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTemplates200Response:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
@@ -31147,6 +33214,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31176,7 +33246,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Retrieve a template
 
         Read one template by its (owner, name) key.
@@ -31217,6 +33287,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31287,6 +33360,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31330,6 +33406,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -31370,7 +33453,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiTrafficGlobe200Response:
         """Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.
 
         Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.  It is AUTH-exempt and BALANCE-exempt exactly like /v1/ai/router/stats?scope=platform:   - auth: the controller name \"traffic/globe\" is neither a get-/update- CRUD name     nor a super-admin/present-credential endpoint, so the authz filter passes it     through, and this handler requires no principal.   - balance: isBalanceExempt(\"/v1/ai/traffic/...\") returns true.  It exposes ONLY aggregates — counts, rates, and country/region centroids — and NEVER any IP, per-request row, org, or user dimension (see object/traffic.go). Marketing telemetry; nothing sensitive.
@@ -31405,6 +33488,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTrafficGlobe200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31432,7 +33518,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiTrafficGlobe200Response]:
         """Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.
 
         Returns the PUBLIC live request-geo aggregate for the world.hanzo.ai \"Hanzo mode\" globe: WHERE requests to api.hanzo.ai are coming from, as country/region points with per-service-class counts, plus headline throughput rates.  It is AUTH-exempt and BALANCE-exempt exactly like /v1/ai/router/stats?scope=platform:   - auth: the controller name \"traffic/globe\" is neither a get-/update- CRUD name     nor a super-admin/present-credential endpoint, so the authz filter passes it     through, and this handler requires no principal.   - balance: isBalanceExempt(\"/v1/ai/traffic/...\") returns true.  It exposes ONLY aggregates — counts, rates, and country/region centroids — and NEVER any IP, per-request row, org, or user dimension (see object/traffic.go). Marketing telemetry; nothing sensitive.
@@ -31467,6 +33553,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTrafficGlobe200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31529,6 +33618,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiTrafficGlobe200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31566,6 +33658,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -31606,7 +33705,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Training Contribution
 
 
@@ -31640,6 +33739,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31667,7 +33769,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Training Contribution
 
 
@@ -31701,6 +33803,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31762,6 +33867,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31799,6 +33907,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -31839,7 +33954,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiUsages200Response:
         """List usages
 
         List the caller's usages.
@@ -31874,6 +33989,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiUsages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31901,7 +34019,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiUsages200Response]:
         """List usages
 
         List the caller's usages.
@@ -31936,6 +34054,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiUsages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31998,6 +34119,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiUsages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32035,6 +34159,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -32075,7 +34206,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """By User (usage)
 
 
@@ -32109,6 +34240,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32136,7 +34270,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """By User (usage)
 
 
@@ -32170,6 +34304,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32231,6 +34368,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32268,6 +34408,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -32308,7 +34455,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Cloud (usage)
 
 
@@ -32342,6 +34489,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32369,7 +34519,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Cloud (usage)
 
 
@@ -32403,6 +34553,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32464,6 +34617,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32501,6 +34657,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -32541,7 +34704,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Range (usage)
 
 
@@ -32575,6 +34738,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32602,7 +34768,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Range (usage)
 
 
@@ -32636,6 +34802,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32697,6 +34866,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32734,6 +34906,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -32774,7 +34953,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """User Names (usage)
 
 
@@ -32808,6 +34987,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32835,7 +35017,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """User Names (usage)
 
 
@@ -32869,6 +35051,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32930,6 +35115,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32967,6 +35155,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -33007,7 +35202,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiVectors200Response:
         """List vectors
 
         List the caller's vectors.
@@ -33042,6 +35237,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33069,7 +35267,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiVectors200Response]:
         """List vectors
 
         List the caller's vectors.
@@ -33104,6 +35302,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33166,6 +35367,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33203,6 +35407,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -33245,7 +35456,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVectors200Response:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
@@ -33286,6 +35497,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33315,7 +35529,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Retrieve a vector
 
         Read one vector by its (owner, name) key.
@@ -33356,6 +35570,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33426,6 +35643,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33469,6 +35689,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -33509,7 +35736,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiVectors200Response:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -33544,6 +35771,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33571,7 +35801,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiVectors200Response]:
         """List vectors across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -33606,6 +35836,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33668,6 +35901,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33705,6 +35941,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -33745,7 +35988,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Version
 
 
@@ -33779,6 +36022,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33806,7 +36052,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Version
 
 
@@ -33840,6 +36086,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33901,6 +36150,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33938,6 +36190,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -33978,7 +36237,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiVideos200Response:
         """List videos
 
         List the caller's videos.
@@ -34013,6 +36272,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34040,7 +36302,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiVideos200Response]:
         """List videos
 
         List the caller's videos.
@@ -34075,6 +36337,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34137,6 +36402,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34174,6 +36442,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -34216,7 +36491,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVideos200Response:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
@@ -34257,6 +36532,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34286,7 +36564,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Retrieve a video
 
         Read one video by its (owner, name) key.
@@ -34327,6 +36605,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34397,6 +36678,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34440,6 +36724,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -34480,7 +36771,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiVideos200Response:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -34515,6 +36806,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34542,7 +36836,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiVideos200Response]:
         """List videos across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -34577,6 +36871,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34639,6 +36936,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34676,6 +36976,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -34716,7 +37023,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiWorkflows200Response:
         """List workflows
 
         List the caller's workflows.
@@ -34751,6 +37058,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34778,7 +37088,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiWorkflows200Response]:
         """List workflows
 
         List the caller's workflows.
@@ -34813,6 +37123,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34875,6 +37188,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34912,6 +37228,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -34954,7 +37277,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiWorkflows200Response:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
@@ -34995,6 +37318,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35024,7 +37350,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Retrieve a workflow
 
         Read one workflow by its (owner, name) key.
@@ -35065,6 +37391,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35135,6 +37464,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35178,6 +37510,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -35218,7 +37557,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiWorkflows200Response:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -35253,6 +37592,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35280,7 +37622,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiWorkflows200Response]:
         """List workflows across tenants
 
         Cross-tenant listing. Admin-only; a tenant caller is refused.
@@ -35315,6 +37657,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35377,6 +37722,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35414,6 +37762,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -35454,7 +37809,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiModelList:
         """Returns the list of available models from the routing table.
 
         Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it already says so out loud: the authz filter lists \"models\" as public, filter_balance refuses to gate it (a 402 here was a console-wide outage), the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  It used to hold a \"require authentication\" gate that authenticated nobody: it rejected an ABSENT credential and a MALFORMED one, then accepted any string that merely looked like a key. `Bearer sk-` followed by 36 zeroes returned 200 in production; so did a JWT three days expired. It was a shape check wearing an auth check's clothes, and its cost was diagnostic: /v1/models is the natural \"is my auth working?\" probe, and answering 200 to a dead credential sent people debugging the wrong system. A public endpoint must not appear to validate. Either check the credential or ignore it — this one ignores it, deliberately and visibly.  Removing that gate discloses nothing new: the catalogue was already reachable by anyone willing to type three characters, so there is no confidentiality delta, only an honesty one.
@@ -35489,6 +37844,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiModelList",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35516,7 +37874,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiModelList]:
         """Returns the list of available models from the routing table.
 
         Returns the list of available models from the routing table.  PUBLIC BY DESIGN, AND IT DOES NOT AUTHENTICATE — that is the whole contract, so it is stated here rather than left to be inferred. The catalogue is the same for everyone (listAvailableModels takes no principal), docs.hanzo.ai fetches it from the browser, and every policy layer around it already says so out loud: the authz filter lists \"models\" as public, filter_balance refuses to gate it (a 402 here was a console-wide outage), the rate limiter excludes it, and cloud's spend.Reachable carries /v1/models/ as \"the model catalog the shell reads for discovery\".  SO THE Authorization HEADER IS NOT AN ADMISSION CHECK HERE. It is read for ONE thing — annotating gated SKUs with the caller's own access standing — and annotation degrades to nothing when there is no verified principal.  It used to hold a \"require authentication\" gate that authenticated nobody: it rejected an ABSENT credential and a MALFORMED one, then accepted any string that merely looked like a key. `Bearer sk-` followed by 36 zeroes returned 200 in production; so did a JWT three days expired. It was a shape check wearing an auth check's clothes, and its cost was diagnostic: /v1/models is the natural \"is my auth working?\" probe, and answering 200 to a dead credential sent people debugging the wrong system. A public endpoint must not appear to validate. Either check the credential or ignore it — this one ignores it, deliberately and visibly.  Removing that gate discloses nothing new: the catalogue was already reachable by anyone willing to type three characters, so there is no confidentiality delta, only an honesty one.
@@ -35551,6 +37909,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiModelList",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35613,6 +37974,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiModelList",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35650,6 +38014,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -35691,7 +38062,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiConnectionsByProviderAuthorize200Response:
         """Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
 
         Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
@@ -35729,6 +38100,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderAuthorize200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35757,7 +38131,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiConnectionsByProviderAuthorize200Response]:
         """Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
 
         Returns the caller's own standing for a gated model: \"granted\", \"requested\", or empty when they have never asked.
@@ -35795,6 +38169,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderAuthorize200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35861,6 +38238,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiConnectionsByProviderAuthorize200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35901,6 +38281,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -35941,7 +38328,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetModelsProviders200Response:
         """Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected.
 
         Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected. Safe unauthenticated: no keys, URLs, or config are returned, and it reports a SET of names, never which provider serves which model.
@@ -35976,6 +38363,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetModelsProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36003,7 +38393,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetModelsProviders200Response]:
         """Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected.
 
         Public, secret-free list of the providers serving the models that GET /v1/models lists — the same source, projected. Safe unauthenticated: no keys, URLs, or config are returned, and it reports a SET of names, never which provider serves which model.
@@ -36038,6 +38428,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetModelsProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36100,6 +38493,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetModelsProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36137,6 +38533,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -36178,7 +38581,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiVideoStatus:
         """Implements GET /v1/videos/{id} — poll a job's status.
 
         Implements GET /v1/videos/{id} — poll a job's status.  It authenticates the caller, verifies they OWN the job (the caller's billing subject must equal the job's), performs ONE upstream status poll, and — the first time the job is observed completed — settles the reservation with the actual cost and records the billable usage event (exactly once). Returns the OpenAI-shaped video object.
@@ -36216,6 +38619,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiVideoStatus",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36244,7 +38650,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiVideoStatus]:
         """Implements GET /v1/videos/{id} — poll a job's status.
 
         Implements GET /v1/videos/{id} — poll a job's status.  It authenticates the caller, verifies they OWN the job (the caller's billing subject must equal the job's), performs ONE upstream status poll, and — the first time the job is observed completed — settles the reservation with the actual cost and records the billable usage event (exactly once). Returns the OpenAI-shaped video object.
@@ -36282,6 +38688,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiVideoStatus",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36348,6 +38757,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiVideoStatus",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36388,6 +38800,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -36681,7 +39100,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiArticles200Response:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36722,6 +39141,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36751,7 +39173,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Update a article
 
         Update one article. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36792,6 +39214,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36862,6 +39287,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36905,6 +39333,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -36947,7 +39382,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiAssets200Response:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -36988,6 +39423,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37017,7 +39455,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Update a asset
 
         Update one asset. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37058,6 +39496,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37128,6 +39569,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37171,6 +39615,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -37213,7 +39664,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiChats200Response:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37254,6 +39705,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37283,7 +39737,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Update a chat
 
         Update one chat. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37324,6 +39778,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37394,6 +39851,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37437,6 +39897,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -37479,7 +39946,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiDeployments200Response:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37520,6 +39987,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37549,7 +40019,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Update a application
 
         Update one application. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37590,6 +40060,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37660,6 +40133,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37703,6 +40179,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -37745,7 +40228,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFiles200Response:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37786,6 +40269,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37815,7 +40301,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Update a file
 
         Update one file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -37856,6 +40342,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37926,6 +40415,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37969,6 +40461,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -38011,7 +40510,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiForms200Response:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38052,6 +40551,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38081,7 +40583,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Update a form
 
         Update one form. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38122,6 +40624,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38192,6 +40697,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38235,6 +40743,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -38277,7 +40792,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiGraphs200Response:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38318,6 +40833,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38347,7 +40865,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Update a graph
 
         Update one graph. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38388,6 +40906,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38458,6 +40979,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38501,6 +41025,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -38543,7 +41074,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMessages200Response:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38584,6 +41115,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38613,7 +41147,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Update a message
 
         Update one message. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38654,6 +41188,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38724,6 +41261,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38767,6 +41307,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -38809,7 +41356,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiNodes200Response:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38850,6 +41397,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38879,7 +41429,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Update a node
 
         Update one node. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -38920,6 +41470,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38990,6 +41543,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39033,6 +41589,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -39073,7 +41636,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -39108,6 +41671,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39135,7 +41701,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -39170,6 +41736,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39232,6 +41801,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39269,6 +41841,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -39309,7 +41888,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -39344,6 +41923,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39371,7 +41953,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -39406,6 +41988,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39468,6 +42053,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39505,6 +42093,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -39545,7 +42140,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Preferences
 
 
@@ -39579,6 +42174,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39606,7 +42204,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Preferences
 
 
@@ -39640,6 +42238,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39701,6 +42302,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39738,6 +42342,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -39780,7 +42391,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiProviders200Response:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -39821,6 +42432,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39850,7 +42464,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Update a provider
 
         Update one provider. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -39891,6 +42505,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39961,6 +42578,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40004,6 +42624,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -40046,7 +42673,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRecords200Response:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -40087,6 +42714,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40116,7 +42746,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Update a record
 
         Update one record. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -40157,6 +42787,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40227,6 +42860,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40270,6 +42906,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -40312,7 +42955,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRemoteConnections200Response:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -40353,6 +42996,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40382,7 +43028,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Update a connection
 
         Update one connection. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -40423,6 +43069,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40493,6 +43142,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40536,6 +43188,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -40576,7 +43235,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -40611,6 +43270,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40638,7 +43300,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -40673,6 +43335,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40735,6 +43400,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40772,6 +43440,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -40812,7 +43487,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -40847,6 +43522,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40874,7 +43552,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -40909,6 +43587,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40971,6 +43652,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41008,6 +43692,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -41048,7 +43739,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -41083,6 +43774,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41110,7 +43804,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -41145,6 +43839,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41207,6 +43904,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41244,6 +43944,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -41284,7 +43991,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -41319,6 +44026,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41346,7 +44056,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -41381,6 +44091,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41443,6 +44156,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41480,6 +44196,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -41520,7 +44243,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -41555,6 +44278,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41582,7 +44308,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -41617,6 +44343,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41679,6 +44408,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41716,6 +44448,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -41758,7 +44497,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRoutes200Response:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -41799,6 +44538,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41828,7 +44570,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Update a model-route
 
         Update one model-route. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -41869,6 +44611,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41939,6 +44684,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41982,6 +44730,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -42024,7 +44779,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScales200Response:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42065,6 +44820,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42094,7 +44852,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Update a scale
 
         Update one scale. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42135,6 +44893,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42205,6 +44966,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42248,6 +45012,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -42290,7 +45061,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScans200Response:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42331,6 +45102,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42360,7 +45134,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Update a scan
 
         Update one scan. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42401,6 +45175,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42471,6 +45248,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42514,6 +45294,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -42556,7 +45343,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiSigninSessions200Response:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42597,6 +45384,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42626,7 +45416,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Update a session
 
         Update one session. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42667,6 +45457,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42737,6 +45530,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42780,6 +45576,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -42822,7 +45625,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiStores200Response:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42863,6 +45666,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42892,7 +45698,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Update a store
 
         Update one store. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -42933,6 +45739,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43003,6 +45812,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43046,6 +45858,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -43088,7 +45907,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTasks200Response:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -43129,6 +45948,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43158,7 +45980,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Update a task
 
         Update one task. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -43199,6 +46021,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43269,6 +46094,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43312,6 +46140,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -43354,7 +46189,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTemplates200Response:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -43395,6 +46230,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43424,7 +46262,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Update a template
 
         Update one template. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -43465,6 +46303,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43535,6 +46376,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43578,6 +46422,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -43618,7 +46469,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Training Contribution
 
 
@@ -43652,6 +46503,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43679,7 +46533,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Training Contribution
 
 
@@ -43713,6 +46567,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43774,6 +46631,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43811,6 +46671,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -43853,7 +46720,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTreeFiles200Response:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -43894,6 +46761,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43923,7 +46793,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Update a tree-file
 
         Update one tree-file. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -43964,6 +46834,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44034,6 +46907,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44077,6 +46953,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -44119,7 +47002,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVectors200Response:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -44160,6 +47043,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44189,7 +47075,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Update a vector
 
         Update one vector. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -44230,6 +47116,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44300,6 +47189,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44343,6 +47235,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -44385,7 +47284,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVideos200Response:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -44426,6 +47325,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44455,7 +47357,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Update a video
 
         Update one video. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -44496,6 +47398,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44566,6 +47471,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44609,6 +47517,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -44651,7 +47566,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiWorkflows200Response:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -44692,6 +47607,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44721,7 +47639,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Update a workflow
 
         Update one workflow. PATCH and PUT reach the same handler, which has always taken a whole object.
@@ -44762,6 +47680,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44832,6 +47753,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44875,6 +47799,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -44915,7 +47846,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiArticles200Response:
         """Create a article
 
         Create one article.
@@ -44950,6 +47881,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44977,7 +47911,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Create a article
 
         Create one article.
@@ -45012,6 +47946,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45074,6 +48011,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45111,6 +48051,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -45151,7 +48098,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiAssets200Response:
         """Create a asset
 
         Create one asset.
@@ -45186,6 +48133,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45213,7 +48163,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Create a asset
 
         Create one asset.
@@ -45248,6 +48198,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45310,6 +48263,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45347,6 +48303,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -45389,7 +48352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Scan (asset)
 
 
@@ -45429,6 +48392,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45458,7 +48424,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Scan (asset)
 
 
@@ -45498,6 +48464,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45567,6 +48536,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45610,6 +48582,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -45650,7 +48629,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Scan (asset)
 
 
@@ -45684,6 +48663,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45711,7 +48693,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Scan (asset)
 
 
@@ -45745,6 +48727,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45806,6 +48791,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45843,6 +48831,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -45883,7 +48878,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiChats200Response:
         """Create a chat
 
         Create one chat.
@@ -45918,6 +48913,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45945,7 +48943,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Create a chat
 
         Create one chat.
@@ -45980,6 +48978,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46042,6 +49043,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46079,6 +49083,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -46119,7 +49130,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiConnections200Response:
         """Connects (or reconnects) a third-party AI account for the org by sealing the supplied key into KMS and upserting the org's provider row.
 
         Connects (or reconnects) a third-party AI account for the org by sealing the supplied key into KMS and upserting the org's provider row. The raw key is sealed BEFORE the row is built and is never persisted or echoed.
@@ -46154,6 +49165,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46181,7 +49195,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiConnections200Response]:
         """Connects (or reconnects) a third-party AI account for the org by sealing the supplied key into KMS and upserting the org's provider row.
 
         Connects (or reconnects) a third-party AI account for the org by sealing the supplied key into KMS and upserting the org's provider row. The raw key is sealed BEFORE the row is built and is never persisted or echoed.
@@ -46216,6 +49230,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46278,6 +49295,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46315,6 +49335,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -46356,7 +49383,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiConnections200Response:
         """Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret.
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
@@ -46394,6 +49421,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46422,7 +49452,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiConnections200Response]:
         """Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret.
 
         Disconnects a third-party AI account: it deactivates the org's row so completion resolution falls back to the global Hanzo account (no BYO), and best-effort tombstones the sealed secret. Idempotent.
@@ -46460,6 +49490,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46526,6 +49559,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46566,6 +49602,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -46606,7 +49649,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiDeployments200Response:
         """Create a application
 
         Create one application.
@@ -46641,6 +49684,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46668,7 +49714,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Create a application
 
         Create one application.
@@ -46703,6 +49749,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46765,6 +49814,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46802,6 +49854,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -46844,7 +49903,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Deploy (application)
 
 
@@ -46884,6 +49943,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46913,7 +49975,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Deploy (application)
 
 
@@ -46953,6 +50015,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47022,6 +50087,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47065,6 +50133,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -47107,7 +50182,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Undeploy (application)
 
 
@@ -47147,6 +50222,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47176,7 +50254,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Undeploy (application)
 
 
@@ -47216,6 +50294,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47285,6 +50366,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47328,6 +50412,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -47368,7 +50459,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFeedback200Response:
         """Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal.
 
         Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal. Org-scoped via the same session-OR-Bearer principal the usage read uses (RequirePrincipal): the reward lands only on the caller's OWN org's event, so a request_id from another org (or unknown) is a 404 — cross-org writes are impossible and unknown ids are indistinguishable from foreign ones. Idempotent: a repeat overwrites. The body carries NO prompt text — only {request_id, reward|rating}.
@@ -47403,6 +50494,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFeedback200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47430,7 +50524,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFeedback200Response]:
         """Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal.
 
         Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal. Org-scoped via the same session-OR-Bearer principal the usage read uses (RequirePrincipal): the reward lands only on the caller's OWN org's event, so a request_id from another org (or unknown) is a 404 — cross-org writes are impossible and unknown ids are indistinguishable from foreign ones. Idempotent: a repeat overwrites. The body carries NO prompt text — only {request_id, reward|rating}.
@@ -47465,6 +50559,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFeedback200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47527,6 +50624,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFeedback200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47564,6 +50664,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -47604,7 +50711,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFiles200Response:
         """Create a file
 
         Create one file.
@@ -47639,6 +50746,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47666,7 +50776,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Create a file
 
         Create one file.
@@ -47701,6 +50811,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47763,6 +50876,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47800,6 +50916,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -47840,7 +50963,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Activate (file)
 
 
@@ -47874,6 +50997,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47901,7 +51027,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Activate (file)
 
 
@@ -47935,6 +51061,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47996,6 +51125,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48033,6 +51165,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -48075,7 +51214,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Vectors (file)
 
 
@@ -48115,6 +51254,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48144,7 +51286,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Vectors (file)
 
 
@@ -48184,6 +51326,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48253,6 +51398,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48296,6 +51444,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -48336,7 +51491,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Upload (file)
 
 
@@ -48370,6 +51525,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48397,7 +51555,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Upload (file)
 
 
@@ -48431,6 +51589,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48492,6 +51653,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48529,6 +51693,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -48569,7 +51740,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFinetuneCancel200Response:
         """Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled.
 
         Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled. ?id= or ?name=
@@ -48604,6 +51775,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48631,7 +51805,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFinetuneCancel200Response]:
         """Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled.
 
         Deletes the TrainJob CR, meters the GPU-hours used so far, and marks the job cancelled. ?id= or ?name=
@@ -48666,6 +51840,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48728,6 +51905,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48765,6 +51945,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -48805,7 +51992,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFinetuneDeploy200Response:
         """Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai.
 
         Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai. ?id= or ?name=
@@ -48840,6 +52027,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneDeploy200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48867,7 +52057,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFinetuneDeploy200Response]:
         """Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai.
 
         Serves a completed job's checkpoints and registers the result as a routable model on api.hanzo.ai. ?id= or ?name=
@@ -48902,6 +52092,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneDeploy200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48964,6 +52157,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneDeploy200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49001,6 +52197,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -49041,7 +52244,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFinetuneCancel200Response:
         """Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR.
 
         Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR. A submit failure (e.g. no cluster wired) is surfaced honestly: the job is saved with status \"failed\" + the reason, never faked.
@@ -49076,6 +52279,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49103,7 +52309,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFinetuneCancel200Response]:
         """Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR.
 
         Validates the request, resolves efficient defaults, persists the job, and submits a real TrainJob CR. A submit failure (e.g. no cluster wired) is surfaced honestly: the job is saved with status \"failed\" + the reason, never faked.
@@ -49138,6 +52344,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49200,6 +52409,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFinetuneCancel200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49237,6 +52449,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -49277,7 +52496,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiForms200Response:
         """Create a form
 
         Create one form.
@@ -49312,6 +52531,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49339,7 +52561,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Create a form
 
         Create one form.
@@ -49374,6 +52596,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49436,6 +52661,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49473,6 +52701,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -49513,7 +52748,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiGraphs200Response:
         """Create a graph
 
         Create one graph.
@@ -49548,6 +52783,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49575,7 +52813,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Create a graph
 
         Create one graph.
@@ -49610,6 +52848,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49672,6 +52913,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49709,6 +52953,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -49749,7 +53000,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMemoryDelete200Response:
         """Delete one of the authenticated user's memories
 
         Delete one of the authenticated user's memories
@@ -49784,6 +53035,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryDelete200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49811,7 +53065,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMemoryDelete200Response]:
         """Delete one of the authenticated user's memories
 
         Delete one of the authenticated user's memories
@@ -49846,6 +53100,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryDelete200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49908,6 +53165,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryDelete200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49945,6 +53205,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -49985,7 +53252,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMemoryRemember200Response:
         """Store a memory for the authenticated user
 
         Store a memory for the authenticated user
@@ -50020,6 +53287,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryRemember200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50047,7 +53317,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMemoryRemember200Response]:
         """Store a memory for the authenticated user
 
         Store a memory for the authenticated user
@@ -50082,6 +53352,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryRemember200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50144,6 +53417,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryRemember200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50181,6 +53457,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -50221,7 +53504,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMemoryDelete200Response:
         """Update one of the authenticated user's memories
 
         Update one of the authenticated user's memories
@@ -50256,6 +53539,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryDelete200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50283,7 +53569,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMemoryDelete200Response]:
         """Update one of the authenticated user's memories
 
         Update one of the authenticated user's memories
@@ -50318,6 +53604,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryDelete200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50380,6 +53669,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMemoryDelete200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50417,6 +53709,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -50457,7 +53756,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMessages200Response:
         """Create a message
 
         Create one message.
@@ -50492,6 +53791,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50519,7 +53821,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Create a message
 
         Create one message.
@@ -50554,6 +53856,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50616,6 +53921,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50653,6 +53961,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -50693,7 +54008,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiNodes200Response:
         """Create a node
 
         Create one node.
@@ -50728,6 +54043,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50755,7 +54073,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Create a node
 
         Create one node.
@@ -50790,6 +54108,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50852,6 +54173,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50889,6 +54213,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -50931,7 +54262,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Tunnel (node)
 
 
@@ -50971,6 +54302,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51000,7 +54334,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Tunnel (node)
 
 
@@ -51040,6 +54374,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51109,6 +54446,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51152,6 +54492,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -51192,7 +54539,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -51227,6 +54574,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51254,7 +54604,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -51289,6 +54639,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51351,6 +54704,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51388,6 +54744,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -51428,7 +54791,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -51463,6 +54826,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51490,7 +54856,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -51525,6 +54891,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51587,6 +54956,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51624,6 +54996,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -51664,7 +55043,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiProviders200Response:
         """Create a provider
 
         Create one provider.
@@ -51699,6 +55078,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51726,7 +55108,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Create a provider
 
         Create one provider.
@@ -51761,6 +55143,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51823,6 +55208,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51860,6 +55248,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -51900,7 +55295,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Mcp Tools (provider)
 
 
@@ -51934,6 +55329,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51961,7 +55359,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Mcp Tools (provider)
 
 
@@ -51995,6 +55393,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52056,6 +55457,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52093,6 +55497,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -52133,7 +55544,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> GetAiFinetunePresets200Response:
         """Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index.
 
         Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index. Consolidates the retired chat-rag-api DELETE /documents.
@@ -52168,6 +55579,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetunePresets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52195,7 +55609,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[GetAiFinetunePresets200Response]:
         """Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index.
 
         Delete all chunks of one or more uploaded files (by file_id) from the owner's Search+Vector index. Consolidates the retired chat-rag-api DELETE /documents.
@@ -52230,6 +55644,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetunePresets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52292,6 +55709,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GetAiFinetunePresets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52329,6 +55749,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -52369,7 +55796,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRagEmbed200Response:
         """Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner.
 
         Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner. Provide inline `content` or a `url` to fetch+parse (PDF/CSV/XLSX/PPTX/…). Re-embedding the same file_id replaces its chunks. Consolidates the retired chat-rag-api POST /embed and /local/embed.
@@ -52404,6 +55831,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRagEmbed200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52431,7 +55861,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRagEmbed200Response]:
         """Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner.
 
         Parse, chunk, and embed one uploaded file under its file_id into the unified Search+Vector index, scoped to the authenticated owner. Provide inline `content` or a `url` to fetch+parse (PDF/CSV/XLSX/PPTX/…). Re-embedding the same file_id replaces its chunks. Consolidates the retired chat-rag-api POST /embed and /local/embed.
@@ -52466,6 +55896,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRagEmbed200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52528,6 +55961,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRagEmbed200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52565,6 +56001,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -52605,7 +56048,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRagIngest200Response:
         """Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads.
 
         Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads. The source is pluggable: \"upload\" (inline files/documents), \"github\" (index a repo), \"crawl\" (web), or \"s3\" (the store's object-storage space). The owner is bound to the authenticated principal; the client-supplied owner is never trusted.
@@ -52640,6 +56083,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRagIngest200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52667,7 +56113,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRagIngest200Response]:
         """Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads.
 
         Unified RAG ingest: parse + chunk + embed documents and pipe them to BOTH Hanzo Vector (semantic) AND Hanzo Search (keyword) under the tenant index {owner}-{store}-docs — the same index /v1/chat retrieval reads. The source is pluggable: \"upload\" (inline files/documents), \"github\" (index a repo), \"crawl\" (web), or \"s3\" (the store's object-storage space). The owner is bound to the authenticated principal; the client-supplied owner is never trusted.
@@ -52702,6 +56148,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRagIngest200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52764,6 +56213,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRagIngest200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52801,6 +56253,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -52841,7 +56300,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> List[DocSearchResult]:
         """Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`).
 
         Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`). Hybrid keyword+vector retrieval over the same index. Consolidates the retired chat-rag-api POST /query.
@@ -52876,6 +56335,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52903,7 +56365,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[List[DocSearchResult]]:
         """Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`).
 
         Retrieve the top-K chunks relevant to a query, scoped to a single uploaded file (`file_id`). Hybrid keyword+vector retrieval over the same index. Consolidates the retired chat-rag-api POST /query.
@@ -52938,6 +56400,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53000,6 +56465,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53037,6 +56505,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -53077,7 +56552,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> List[DocSearchResult]:
         """Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`).
 
         Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`). Consolidates the retired chat-rag-api POST /query_multiple. Shares one retrieval path with /rag/query.
@@ -53112,6 +56587,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53139,7 +56617,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[List[DocSearchResult]]:
         """Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`).
 
         Retrieve the top-K chunks relevant to a query, scoped to a SET of uploaded files (`file_ids`). Consolidates the retired chat-rag-api POST /query_multiple. Shares one retrieval path with /rag/query.
@@ -53174,6 +56652,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53236,6 +56717,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "List[DocSearchResult]",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53273,6 +56757,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -53313,7 +56804,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRecords200Response:
         """Create a record
 
         Create one record.
@@ -53348,6 +56839,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53375,7 +56869,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Create a record
 
         Create one record.
@@ -53410,6 +56904,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53472,6 +56969,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53509,6 +57009,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -53549,7 +57056,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Batch (record)
 
 
@@ -53583,6 +57090,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53610,7 +57120,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Batch (record)
 
 
@@ -53644,6 +57154,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53705,6 +57218,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53742,6 +57258,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -53782,7 +57305,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Commit (record)
 
 
@@ -53816,6 +57339,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53843,7 +57369,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Commit (record)
 
 
@@ -53877,6 +57403,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53938,6 +57467,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53975,6 +57507,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -54015,7 +57554,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Commit Second (record)
 
 
@@ -54049,6 +57588,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54076,7 +57618,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Commit Second (record)
 
 
@@ -54110,6 +57652,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54171,6 +57716,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54208,6 +57756,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -54248,7 +57803,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRemoteConnections200Response:
         """Create a connection
 
         Create one connection.
@@ -54283,6 +57838,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54310,7 +57868,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Create a connection
 
         Create one connection.
@@ -54345,6 +57903,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54407,6 +57968,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54444,6 +58008,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -54486,7 +58057,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Start (connection)
 
 
@@ -54526,6 +58097,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54555,7 +58129,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Start (connection)
 
 
@@ -54595,6 +58169,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54664,6 +58241,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54707,6 +58287,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -54749,7 +58336,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Stop (connection)
 
 
@@ -54789,6 +58376,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54818,7 +58408,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Stop (connection)
 
 
@@ -54858,6 +58448,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54927,6 +58520,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54970,6 +58566,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -55010,7 +58613,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55045,6 +58648,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55072,7 +58678,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55107,6 +58713,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55169,6 +58778,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55206,6 +58818,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -55246,7 +58865,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55281,6 +58900,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55308,7 +58930,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55343,6 +58965,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55405,6 +59030,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55442,6 +59070,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -55482,7 +59117,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55517,6 +59152,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55544,7 +59182,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55579,6 +59217,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55641,6 +59282,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55678,6 +59322,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -55718,7 +59369,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55753,6 +59404,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55780,7 +59434,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55815,6 +59469,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55877,6 +59534,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55914,6 +59574,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -55954,7 +59621,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -55989,6 +59656,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56016,7 +59686,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -56051,6 +59721,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56113,6 +59786,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56150,6 +59826,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -56190,7 +59873,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRoutes200Response:
         """Create a model-route
 
         Create one model-route.
@@ -56225,6 +59908,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56252,7 +59938,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Create a model-route
 
         Create one model-route.
@@ -56287,6 +59973,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56349,6 +60038,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56386,6 +60078,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -56426,7 +60125,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScales200Response:
         """Create a scale
 
         Create one scale.
@@ -56461,6 +60160,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56488,7 +60190,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Create a scale
 
         Create one scale.
@@ -56523,6 +60225,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56585,6 +60290,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56622,6 +60330,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -56662,7 +60377,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScans200Response:
         """Create a scan
 
         Create one scan.
@@ -56697,6 +60412,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56724,7 +60442,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Create a scan
 
         Create one scan.
@@ -56759,6 +60477,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56821,6 +60542,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56858,6 +60582,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -56898,7 +60629,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Signin
 
 
@@ -56932,6 +60663,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56959,7 +60693,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Signin
 
 
@@ -56993,6 +60727,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57054,6 +60791,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57091,6 +60831,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -57131,7 +60878,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiSigninSessions200Response:
         """Create a session
 
         Create one session.
@@ -57166,6 +60913,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57193,7 +60943,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Create a session
 
         Create one session.
@@ -57228,6 +60978,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57290,6 +61043,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57327,6 +61083,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -57367,7 +61130,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Signout
 
 
@@ -57401,6 +61164,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57428,7 +61194,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Signout
 
 
@@ -57462,6 +61228,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57523,6 +61292,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57560,6 +61332,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -57600,7 +61379,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiStores200Response:
         """Create a store
 
         Create one store.
@@ -57635,6 +61414,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57662,7 +61444,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Create a store
 
         Create one store.
@@ -57697,6 +61479,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57759,6 +61544,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57796,6 +61584,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -57838,7 +61633,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Vectors (store)
 
 
@@ -57878,6 +61673,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57907,7 +61705,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Vectors (store)
 
 
@@ -57947,6 +61745,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58016,6 +61817,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58059,6 +61863,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -58099,7 +61910,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTasks200Response:
         """Create a task
 
         Create one task.
@@ -58134,6 +61945,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58161,7 +61975,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Create a task
 
         Create one task.
@@ -58196,6 +62010,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58258,6 +62075,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58295,6 +62115,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -58337,7 +62164,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Analyze (task)
 
 
@@ -58377,6 +62204,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58406,7 +62236,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Analyze (task)
 
 
@@ -58446,6 +62276,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58515,6 +62348,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58558,6 +62394,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -58600,7 +62443,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Document (task)
 
 
@@ -58640,6 +62483,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58669,7 +62515,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Document (task)
 
 
@@ -58709,6 +62555,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58778,6 +62627,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58821,6 +62673,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -58861,7 +62720,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTemplates200Response:
         """Create a template
 
         Create one template.
@@ -58896,6 +62755,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58923,7 +62785,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Create a template
 
         Create one template.
@@ -58958,6 +62820,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59020,6 +62885,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59057,6 +62925,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -59097,7 +62972,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTreeFiles200Response:
         """Create a tree-file
 
         Create one tree-file.
@@ -59132,6 +63007,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59159,7 +63037,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Create a tree-file
 
         Create one tree-file.
@@ -59194,6 +63072,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59256,6 +63137,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59293,6 +63177,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -59333,7 +63224,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVectors200Response:
         """Create a vector
 
         Create one vector.
@@ -59368,6 +63259,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59395,7 +63289,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Create a vector
 
         Create one vector.
@@ -59430,6 +63324,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59492,6 +63389,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59529,6 +63429,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -59569,7 +63476,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVideos200Response:
         """Create a video
 
         Create one video.
@@ -59604,6 +63511,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59631,7 +63541,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Create a video
 
         Create one video.
@@ -59666,6 +63576,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59728,6 +63641,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59765,6 +63681,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -59805,7 +63728,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Upload (video)
 
 
@@ -59839,6 +63762,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59866,7 +63792,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Upload (video)
 
 
@@ -59900,6 +63826,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59961,6 +63890,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59998,6 +63930,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -60038,7 +63977,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiWorkflows200Response:
         """Create a workflow
 
         Create one workflow.
@@ -60073,6 +64012,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60100,7 +64042,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Create a workflow
 
         Create one workflow.
@@ -60135,6 +64077,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60197,6 +64142,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60234,6 +64182,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -60982,7 +64937,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiAudioResponse:
         """The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
 
         The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. This is the ONE way to transcribe: OpenAI-shaped, with no store coupling, so a caller needs no chat to be heard.
@@ -61017,6 +64972,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiAudioResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61044,7 +65002,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiAudioResponse]:
         """The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]).
 
         The OpenAI-compatible STT endpoint (POST /v1/audio/transcriptions, multipart: file + model [+ language + response_format]). It mirrors AudioSpeech exactly: authenticate the caller, resolve `model` to its STT provider through the SAME model-route resolution (so the in-cluster speech service — or any BYO node registered as an STT provider — works transparently), transcribe, and return the OpenAI body. This is the ONE way to transcribe: OpenAI-shaped, with no store coupling, so a caller needs no chat to be heard.
@@ -61079,6 +65037,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiAudioResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61141,6 +65102,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiAudioResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61178,6 +65142,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -61454,7 +65425,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiChatCompletionResponse:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -61489,6 +65460,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61516,7 +65490,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiChatCompletionResponse]:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -61551,6 +65525,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61613,6 +65590,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61650,6 +65630,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -61690,7 +65677,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiChatCompletionResponse:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -61725,6 +65712,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61752,7 +65742,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiChatCompletionResponse]:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -61787,6 +65777,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61849,6 +65842,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61886,6 +65882,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -61926,7 +65929,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiChatCompletionResponse:
         """Serves one completion to a caller with no account.
 
         Serves one completion to a caller with no account.
@@ -61961,6 +65964,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61988,7 +65994,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiChatCompletionResponse]:
         """Serves one completion to a caller with no account.
 
         Serves one completion to a caller with no account.
@@ -62023,6 +66029,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62085,6 +66094,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62122,6 +66134,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -62162,7 +66181,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiChatCompletionResponse:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -62197,6 +66216,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62224,7 +66246,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiChatCompletionResponse]:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -62259,6 +66281,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62321,6 +66346,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiChatCompletionResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62358,6 +66386,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -62398,7 +66433,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiEmbeddingResponse:
         """Implements POST /v1/embeddings (OpenAI-compatible).
 
         Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
@@ -62433,6 +66468,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiEmbeddingResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62460,7 +66498,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiEmbeddingResponse]:
         """Implements POST /v1/embeddings (OpenAI-compatible).
 
         Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
@@ -62495,6 +66533,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiEmbeddingResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62557,6 +66598,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiEmbeddingResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62594,6 +66638,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -62634,7 +66685,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> OpenaiImageResponse:
         """Implements POST /v1/images/generations (OpenAI-compatible).
 
         Implements POST /v1/images/generations (OpenAI-compatible).  Body: {\"model\": \"...\", \"prompt\": \"...\", \"n\"?: int, \"size\"?: \"1024x1024\",   \"response_format\"?: \"url\"|\"b64_json\"}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-image* → do-ai fal diffusion), reserves the per-image budget, generates the image(s) through the do-ai async image client, records usage for billing, and returns the OpenAI images response.
@@ -62669,6 +66720,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiImageResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62696,7 +66750,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[OpenaiImageResponse]:
         """Implements POST /v1/images/generations (OpenAI-compatible).
 
         Implements POST /v1/images/generations (OpenAI-compatible).  Body: {\"model\": \"...\", \"prompt\": \"...\", \"n\"?: int, \"size\"?: \"1024x1024\",   \"response_format\"?: \"url\"|\"b64_json\"}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-image* → do-ai fal diffusion), reserves the per-image budget, generates the image(s) through the do-ai async image client, records usage for billing, and returns the OpenAI images response.
@@ -62731,6 +66785,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiImageResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62793,6 +66850,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiImageResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62830,6 +66890,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -62870,7 +66937,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiAnthropicResponse:
         """Implements the Anthropic Messages API.
 
         Implements the Anthropic Messages API.
@@ -62905,6 +66972,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiAnthropicResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62932,7 +67002,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiAnthropicResponse]:
         """Implements the Anthropic Messages API.
 
         Implements the Anthropic Messages API.
@@ -62967,6 +67037,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiAnthropicResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63029,6 +67102,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiAnthropicResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63066,6 +67142,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -63106,7 +67189,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiTokenCount:
         """Implements POST /v1/messages/count_tokens.
 
         Implements POST /v1/messages/count_tokens. Claude Code calls it before a request; it returns {\"input_tokens\": N} for the given model + messages + tools.
@@ -63141,6 +67224,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiTokenCount",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63168,7 +67254,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiTokenCount]:
         """Implements POST /v1/messages/count_tokens.
 
         Implements POST /v1/messages/count_tokens. Claude Code calls it before a request; it returns {\"input_tokens\": N} for the given model + messages + tools.
@@ -63203,6 +67289,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiTokenCount",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63265,6 +67354,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiTokenCount",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63302,6 +67394,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -63343,7 +67442,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostModelsByModelAccess200Response:
         """Records the caller's waitlist request for a gated model and answers their new standing.
 
         Records the caller's waitlist request for a gated model and answers their new standing. Authed, idempotent, and self-scoped: the row is keyed to the caller's own org and identity, never to a body-supplied owner.
@@ -63381,6 +67480,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostModelsByModelAccess200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63409,7 +67511,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostModelsByModelAccess200Response]:
         """Records the caller's waitlist request for a gated model and answers their new standing.
 
         Records the caller's waitlist request for a gated model and answers their new standing. Authed, idempotent, and self-scoped: the row is keyed to the caller's own org and identity, never to a body-supplied owner.
@@ -63447,6 +67549,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostModelsByModelAccess200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63513,6 +67618,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostModelsByModelAccess200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63553,6 +67661,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -63593,7 +67708,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiRanking:
         """Implements POST /v1/rerank (Cohere/Jina-compatible).
 
         Implements POST /v1/rerank (Cohere/Jina-compatible).  Body: {\"model\": \"...\", \"query\": \"...\", \"documents\": [\"...\", ...]|[{\"text\":\"...\"}],   \"top_n\"?: int, \"return_documents\"?: bool}  Response: {\"object\":\"list\",\"model\":...,\"results\":[{\"index\",\"relevance_score\",\"document\"?}],\"usage\":{...}}  Backend selection is provider-driven (one endpoint, one contract):   - If the model routes to a native rerank provider (Jina/Cohere/Voyage) the     request is proxied to that provider's /rerank endpoint.   - Otherwise scores are computed as a real bi-encoder ranking: embed the     query and documents through the resolved embedding model and rank by     cosine similarity. No rerank-specific key required.
@@ -63628,6 +67743,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiRanking",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63655,7 +67773,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiRanking]:
         """Implements POST /v1/rerank (Cohere/Jina-compatible).
 
         Implements POST /v1/rerank (Cohere/Jina-compatible).  Body: {\"model\": \"...\", \"query\": \"...\", \"documents\": [\"...\", ...]|[{\"text\":\"...\"}],   \"top_n\"?: int, \"return_documents\"?: bool}  Response: {\"object\":\"list\",\"model\":...,\"results\":[{\"index\",\"relevance_score\",\"document\"?}],\"usage\":{...}}  Backend selection is provider-driven (one endpoint, one contract):   - If the model routes to a native rerank provider (Jina/Cohere/Voyage) the     request is proxied to that provider's /rerank endpoint.   - Otherwise scores are computed as a real bi-encoder ranking: embed the     query and documents through the resolved embedding model and rank by     cosine similarity. No rerank-specific key required.
@@ -63690,6 +67808,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiRanking",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63752,6 +67873,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiRanking",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63789,6 +67913,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -63829,7 +67960,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponsesResource:
         """Implements POST /v1/responses.
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
@@ -63864,6 +67995,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponsesResource",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63891,7 +68025,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponsesResource]:
         """Implements POST /v1/responses.
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
@@ -63926,6 +68060,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponsesResource",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63988,6 +68125,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponsesResource",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64025,6 +68165,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -64065,7 +68212,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiVideoStatus:
         """Implements POST /v1/videos/generations — the ASYNC create.
 
         Implements POST /v1/videos/generations — the ASYNC create.  Body: {\"model\": \"...\", \"prompt\": \"...\", \"size\"?: \"1280x720\", \"seconds\"?: int}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-video* / wan2-2-t2v-a14b → the spark-video backend), reserves the per-video budget (the balance gate), creates ONE upstream job, registers it in the in-pod store, and returns the OpenAI-shaped video object with status \"queued\" IMMEDIATELY. The client then polls GET /v1/videos/{id} and downloads GET /v1/videos/{id}/content. Nothing is billed here — the debit lands on completion.
@@ -64100,6 +68247,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiVideoStatus",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64127,7 +68277,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiVideoStatus]:
         """Implements POST /v1/videos/generations — the ASYNC create.
 
         Implements POST /v1/videos/generations — the ASYNC create.  Body: {\"model\": \"...\", \"prompt\": \"...\", \"size\"?: \"1280x720\", \"seconds\"?: int}  It authenticates the caller, resolves the model to its upstream provider via the shared routing table (zen3-video* / wan2-2-t2v-a14b → the spark-video backend), reserves the per-video budget (the balance gate), creates ONE upstream job, registers it in the in-pod store, and returns the OpenAI-shaped video object with status \"queued\" IMMEDIATELY. The client then polls GET /v1/videos/{id} and downloads GET /v1/videos/{id}/content. Nothing is billed here — the debit lands on completion.
@@ -64162,6 +68312,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiVideoStatus",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64224,6 +68377,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiVideoStatus",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64261,6 +68417,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -64303,7 +68466,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiArticles200Response:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -64344,6 +68507,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64373,7 +68539,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiArticles200Response]:
         """Replace a article
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -64414,6 +68580,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64484,6 +68653,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiArticles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64527,6 +68699,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -64569,7 +68748,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiAssets200Response:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -64610,6 +68789,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64639,7 +68821,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiAssets200Response]:
         """Replace a asset
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -64680,6 +68862,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64750,6 +68935,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiAssets200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64793,6 +68981,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -64835,7 +69030,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiChats200Response:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -64876,6 +69071,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64905,7 +69103,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiChats200Response]:
         """Replace a chat
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -64946,6 +69144,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65016,6 +69217,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiChats200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65059,6 +69263,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -65101,7 +69312,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiDeployments200Response:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65142,6 +69353,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65171,7 +69385,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiDeployments200Response]:
         """Replace a application
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65212,6 +69426,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65282,6 +69499,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiDeployments200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65325,6 +69545,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -65367,7 +69594,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiFiles200Response:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65408,6 +69635,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65437,7 +69667,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiFiles200Response]:
         """Replace a file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65478,6 +69708,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65548,6 +69781,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65591,6 +69827,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -65633,7 +69876,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiForms200Response:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65674,6 +69917,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65703,7 +69949,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiForms200Response]:
         """Replace a form
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65744,6 +69990,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65814,6 +70063,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiForms200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65857,6 +70109,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -65899,7 +70158,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiGraphs200Response:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -65940,6 +70199,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65969,7 +70231,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiGraphs200Response]:
         """Replace a graph
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -66010,6 +70272,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66080,6 +70345,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiGraphs200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66123,6 +70391,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -66165,7 +70440,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiMessages200Response:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -66206,6 +70481,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66235,7 +70513,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiMessages200Response]:
         """Replace a message
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -66276,6 +70554,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66346,6 +70627,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiMessages200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66389,6 +70673,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -66431,7 +70722,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiNodes200Response:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -66472,6 +70763,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66501,7 +70795,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiNodes200Response]:
         """Replace a node
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -66542,6 +70836,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66612,6 +70909,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiNodes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66655,6 +70955,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -66695,7 +71002,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -66730,6 +71037,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66757,7 +71067,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -66792,6 +71102,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66854,6 +71167,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66891,6 +71207,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -66931,7 +71254,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -66966,6 +71289,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66993,7 +71319,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -67028,6 +71354,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67090,6 +71419,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67127,6 +71459,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -67167,7 +71506,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Preferences
 
 
@@ -67201,6 +71540,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67228,7 +71570,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Preferences
 
 
@@ -67262,6 +71604,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67323,6 +71668,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67360,6 +71708,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -67402,7 +71757,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiProviders200Response:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -67443,6 +71798,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67472,7 +71830,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiProviders200Response]:
         """Replace a provider
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -67513,6 +71871,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67583,6 +71944,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiProviders200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67626,6 +71990,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -67668,7 +72039,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRecords200Response:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -67709,6 +72080,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67738,7 +72112,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRecords200Response]:
         """Replace a record
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -67779,6 +72153,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67849,6 +72226,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRecords200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67892,6 +72272,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -67934,7 +72321,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRemoteConnections200Response:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -67975,6 +72362,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68004,7 +72394,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRemoteConnections200Response]:
         """Replace a connection
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -68045,6 +72435,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68115,6 +72508,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRemoteConnections200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68158,6 +72554,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -68198,7 +72601,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68233,6 +72636,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68260,7 +72666,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68295,6 +72701,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68357,6 +72766,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68394,6 +72806,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -68434,7 +72853,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68469,6 +72888,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68496,7 +72918,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68531,6 +72953,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68593,6 +73018,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68630,6 +73058,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -68670,7 +73105,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68705,6 +73140,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68732,7 +73170,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68767,6 +73205,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68829,6 +73270,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68866,6 +73310,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -68906,7 +73357,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -68941,6 +73392,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68968,7 +73422,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -69003,6 +73457,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69065,6 +73522,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69102,6 +73562,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -69142,7 +73609,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> AiResponse:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -69177,6 +73644,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69204,7 +73674,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[AiResponse]:
         """The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]).
 
         The HTTP transport binding for the RESTful router-config nouns (/v1/ai/router/{policy,defaults,ledger,rewards,artifact-meta} and /v1/ai/org/settings[/list]). It dispatches IN-PROCESS through dispatchGateway — the SAME canonical ZAP gateway registry (zap_registry.go) that the MsgType 200 handler serves over the gateway transport. The native ZAP handler is the ONE and ONLY implementation of these routes; this is purely the api.hanzo.ai HTTP binding, so there is NO controller twin to drift from and the split-brain the router refactor removed stays removed.  Why a bridge and not a twin controller method: every other migrated route (get-records, get-connections, …) carries BOTH a controller method and a ZAP handler — the exact dual-impl drift that silently NULLed customer router settings (the update-router-policy data-wipe). Routing these nouns through the ZAP handler over one adapter keeps a single source of truth.  Identity is the request's own Bearer credential (Authorization header), which the native handlers resolve exactly as the gateway does — every caller (console, chat, app) already sends it. The dispatched handler returns a ZAP message whose status is field 0 and body is field 4 (BuildCloudResponse / BuildGatewayResponse layout); both are relayed verbatim. The route is mapped \"*\" (any verb) because the native handler is method-aware: /v1/ai/router/policy splits GET (read) vs PUT (write), /v1/ai/org/settings GET/PUT/DELETE, and returns 405 for a verb it does not own.
@@ -69239,6 +73709,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69301,6 +73774,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiResponse",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69338,6 +73814,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -69380,7 +73863,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiRoutes200Response:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -69421,6 +73904,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69450,7 +73936,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiRoutes200Response]:
         """Replace a model-route
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -69491,6 +73977,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69561,6 +74050,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiRoutes200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69604,6 +74096,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -69646,7 +74145,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScales200Response:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -69687,6 +74186,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69716,7 +74218,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScales200Response]:
         """Replace a scale
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -69757,6 +74259,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69827,6 +74332,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScales200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69870,6 +74378,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -69912,7 +74427,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiScans200Response:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -69953,6 +74468,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69982,7 +74500,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiScans200Response]:
         """Replace a scan
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70023,6 +74541,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70093,6 +74614,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiScans200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70136,6 +74660,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -70178,7 +74709,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiSigninSessions200Response:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70219,6 +74750,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70248,7 +74782,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiSigninSessions200Response]:
         """Replace a session
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70289,6 +74823,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70359,6 +74896,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiSigninSessions200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70402,6 +74942,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -70444,7 +74991,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiStores200Response:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70485,6 +75032,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70514,7 +75064,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiStores200Response]:
         """Replace a store
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70555,6 +75105,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70625,6 +75178,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiStores200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70668,6 +75224,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -70710,7 +75273,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTasks200Response:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70751,6 +75314,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70780,7 +75346,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTasks200Response]:
         """Replace a task
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -70821,6 +75387,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70891,6 +75460,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTasks200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70934,6 +75506,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -70976,7 +75555,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTemplates200Response:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -71017,6 +75596,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71046,7 +75628,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTemplates200Response]:
         """Replace a template
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -71087,6 +75669,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71157,6 +75742,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTemplates200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71200,6 +75788,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -71240,7 +75835,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> Envelope:
         """Training Contribution
 
 
@@ -71274,6 +75869,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71301,7 +75899,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[Envelope]:
         """Training Contribution
 
 
@@ -71335,6 +75933,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71396,6 +75997,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Envelope",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71433,6 +76037,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -71475,7 +76086,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiTreeFiles200Response:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -71516,6 +76127,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71545,7 +76159,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiTreeFiles200Response]:
         """Replace a tree-file
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -71586,6 +76200,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71656,6 +76273,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiTreeFiles200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71699,6 +76319,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -71741,7 +76368,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVectors200Response:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -71782,6 +76409,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71811,7 +76441,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVectors200Response]:
         """Replace a vector
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -71852,6 +76482,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71922,6 +76555,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVectors200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71965,6 +76601,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -72007,7 +76650,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiVideos200Response:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -72048,6 +76691,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72077,7 +76723,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiVideos200Response]:
         """Replace a video
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -72118,6 +76764,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72188,6 +76837,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiVideos200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72231,6 +76883,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -72273,7 +76932,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> PostAiWorkflows200Response:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -72314,6 +76973,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72343,7 +77005,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[PostAiWorkflows200Response]:
         """Replace a workflow
 
         Identical to PATCH — the handler takes a whole object either way.
@@ -72384,6 +77046,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72454,6 +77119,9 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PostAiWorkflows200Response",
+            '401': None,
+            '403': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72497,6 +77165,13 @@ class AiApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting

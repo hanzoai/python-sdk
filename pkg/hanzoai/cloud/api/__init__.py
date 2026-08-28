@@ -29,7 +29,6 @@ from hanzoai.cloud.api.company_api import CompanyApi
 from hanzoai.cloud.api.compliance_api import ComplianceApi
 from hanzoai.cloud.api.content_api import ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi
-from hanzoai.cloud.api.crm_api import CrmApi
 from hanzoai.cloud.api.dataroom_api import DataroomApi
 from hanzoai.cloud.api.dataset_api import DatasetApi
 from hanzoai.cloud.api.deploy_api import DeployApi
