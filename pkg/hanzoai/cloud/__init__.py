@@ -695,6 +695,7 @@ __all__ = [
     "FunctionDetail",
     "FunctionView",
     "Funnel",
+    "Fusion",
     "GLRow",
     "GPU",
     "GcOut",
@@ -1005,7 +1006,6 @@ __all__ = [
     "MakeIn",
     "MarketCatalog",
     "MarketItem",
-    "Match",
     "McpCatalog",
     "McpCatalogSync",
     "McpServerList",
@@ -1976,6 +1976,7 @@ __all__ = [
     "PromptMeta",
     "PromptReq",
     "PropSpec",
+    "Provenance",
     "ProviderBreakdown",
     "ProviderInfo",
     "ProviderRow",
@@ -2081,7 +2082,6 @@ __all__ = [
     "ResolveReferenceIn",
     "ResolveReferenceOut",
     "ResourceUsage",
-    "Response",
     "Responsible",
     "RestartRef",
     "Restarted",
@@ -3159,6 +3159,7 @@ from hanzoai.cloud.models.framework_row import FrameworkRow as FrameworkRow
 from hanzoai.cloud.models.function_detail import FunctionDetail as FunctionDetail
 from hanzoai.cloud.models.function_view import FunctionView as FunctionView
 from hanzoai.cloud.models.funnel import Funnel as Funnel
+from hanzoai.cloud.models.fusion import Fusion as Fusion
 from hanzoai.cloud.models.gl_row import GLRow as GLRow
 from hanzoai.cloud.models.gpu import GPU as GPU
 from hanzoai.cloud.models.gc_out import GcOut as GcOut
@@ -3469,7 +3470,6 @@ from hanzoai.cloud.models.machine_view import MachineView as MachineView
 from hanzoai.cloud.models.make_in import MakeIn as MakeIn
 from hanzoai.cloud.models.market_catalog import MarketCatalog as MarketCatalog
 from hanzoai.cloud.models.market_item import MarketItem as MarketItem
-from hanzoai.cloud.models.match import Match as Match
 from hanzoai.cloud.models.mcp_catalog import McpCatalog as McpCatalog
 from hanzoai.cloud.models.mcp_catalog_sync import McpCatalogSync as McpCatalogSync
 from hanzoai.cloud.models.mcp_server_list import McpServerList as McpServerList
@@ -4440,6 +4440,7 @@ from hanzoai.cloud.models.prompt_list import PromptList as PromptList
 from hanzoai.cloud.models.prompt_meta import PromptMeta as PromptMeta
 from hanzoai.cloud.models.prompt_req import PromptReq as PromptReq
 from hanzoai.cloud.models.prop_spec import PropSpec as PropSpec
+from hanzoai.cloud.models.provenance import Provenance as Provenance
 from hanzoai.cloud.models.provider_breakdown import ProviderBreakdown as ProviderBreakdown
 from hanzoai.cloud.models.provider_info import ProviderInfo as ProviderInfo
 from hanzoai.cloud.models.provider_row import ProviderRow as ProviderRow
@@ -4545,7 +4546,6 @@ from hanzoai.cloud.models.request import Request as Request
 from hanzoai.cloud.models.resolve_reference_in import ResolveReferenceIn as ResolveReferenceIn
 from hanzoai.cloud.models.resolve_reference_out import ResolveReferenceOut as ResolveReferenceOut
 from hanzoai.cloud.models.resource_usage import ResourceUsage as ResourceUsage
-from hanzoai.cloud.models.response import Response as Response
 from hanzoai.cloud.models.responsible import Responsible as Responsible
 from hanzoai.cloud.models.restart_ref import RestartRef as RestartRef
 from hanzoai.cloud.models.restarted import Restarted as Restarted
