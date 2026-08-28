@@ -2419,6 +2419,7 @@ pkg/hanzoai/cloud/models/validator_list.py
 pkg/hanzoai/cloud/models/variant.py
 pkg/hanzoai/cloud/models/vendor_row.py
 pkg/hanzoai/cloud/models/vendors_out.py
+pkg/hanzoai/cloud/models/venue.py
 pkg/hanzoai/cloud/models/verdict.py
 pkg/hanzoai/cloud/models/verification_decision.py
 pkg/hanzoai/cloud/models/verification_req.py

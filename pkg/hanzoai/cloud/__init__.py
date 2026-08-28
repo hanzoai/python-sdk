@@ -2441,6 +2441,7 @@ __all__ = [
     "Variant",
     "VendorRow",
     "VendorsOut",
+    "Venue",
     "Verdict",
     "VerificationDecision",
     "VerificationReq",
@@ -4904,6 +4905,7 @@ from hanzoai.cloud.models.validator_list import ValidatorList as ValidatorList
 from hanzoai.cloud.models.variant import Variant as Variant
 from hanzoai.cloud.models.vendor_row import VendorRow as VendorRow
 from hanzoai.cloud.models.vendors_out import VendorsOut as VendorsOut
+from hanzoai.cloud.models.venue import Venue as Venue
 from hanzoai.cloud.models.verdict import Verdict as Verdict
 from hanzoai.cloud.models.verification_decision import VerificationDecision as VerificationDecision
 from hanzoai.cloud.models.verification_req import VerificationReq as VerificationReq
