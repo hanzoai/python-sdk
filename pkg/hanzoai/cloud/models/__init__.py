@@ -2310,6 +2310,7 @@ from hanzoai.cloud.models.validator_list import ValidatorList
 from hanzoai.cloud.models.variant import Variant
 from hanzoai.cloud.models.vendor_row import VendorRow
 from hanzoai.cloud.models.vendors_out import VendorsOut
+from hanzoai.cloud.models.venue import Venue
 from hanzoai.cloud.models.verdict import Verdict
 from hanzoai.cloud.models.verification_decision import VerificationDecision
 from hanzoai.cloud.models.verification_req import VerificationReq
