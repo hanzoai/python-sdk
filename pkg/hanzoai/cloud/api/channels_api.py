@@ -294,7 +294,7 @@ class ChannelsApi:
     @validate_call
     def get_channels_allowlist(
         self,
-        channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -312,7 +312,7 @@ class ChannelsApi:
 
         Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
 
-        :param channel: Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.
+        :param channel: Channel is the transport to read: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.
         :type channel: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -361,7 +361,7 @@ class ChannelsApi:
     @validate_call
     def get_channels_allowlist_with_http_info(
         self,
-        channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -379,7 +379,7 @@ class ChannelsApi:
 
         Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
 
-        :param channel: Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.
+        :param channel: Channel is the transport to read: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.
         :type channel: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -428,7 +428,7 @@ class ChannelsApi:
     @validate_call
     def get_channels_allowlist_without_preload_content(
         self,
-        channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.")] = None,
+        channel: Annotated[Optional[StrictStr], Field(description="Channel is the transport to read: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -446,7 +446,7 @@ class ChannelsApi:
 
         Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
 
-        :param channel: Channel is the transport to read: discord, slack, teams or telegram. Required; an unknown value is a 404.
+        :param channel: Channel is the transport to read: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.
         :type channel: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1099,7 +1099,7 @@ class ChannelsApi:
     ) -> None:
         """Send a message from your org's bot to one chat room
 
-        Delivers text, attachments and actions to one room on a connected chat transport — discord, slack, teams or telegram — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. All four transports currently render text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
+        Delivers text, attachments and actions to one room on a connected chat transport — discord, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
 
         :param channel: (required)
         :type channel: str
@@ -1165,7 +1165,7 @@ class ChannelsApi:
     ) -> ApiResponse[None]:
         """Send a message from your org's bot to one chat room
 
-        Delivers text, attachments and actions to one room on a connected chat transport — discord, slack, teams or telegram — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. All four transports currently render text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
+        Delivers text, attachments and actions to one room on a connected chat transport — discord, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
 
         :param channel: (required)
         :type channel: str
@@ -1231,7 +1231,7 @@ class ChannelsApi:
     ) -> RESTResponseType:
         """Send a message from your org's bot to one chat room
 
-        Delivers text, attachments and actions to one room on a connected chat transport — discord, slack, teams or telegram — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. All four transports currently render text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
+        Delivers text, attachments and actions to one room on a connected chat transport — discord, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
 
         :param channel: (required)
         :type channel: str
