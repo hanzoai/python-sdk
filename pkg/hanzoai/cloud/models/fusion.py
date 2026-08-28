@@ -24,9 +24,9 @@ from hanzoai.cloud.models.hit import Hit
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Response(BaseModel):
+class Fusion(BaseModel):
     """
-    Response
+    Fusion
     """ # noqa: E501
     backends: Optional[List[BackendStatus]] = Field(default=None, description="Backends is the per-leg report. Always populated.")
     hits: Optional[List[Hit]] = Field(default=None, description="Hits is the fused, ranked result set.")
@@ -53,7 +53,7 @@ class Response(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Response from a JSON string"""
+        """Create an instance of Fusion from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -92,7 +92,7 @@ class Response(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Response from a dict"""
+        """Create an instance of Fusion from a dict"""
         if obj is None:
             return None
 

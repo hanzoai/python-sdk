@@ -673,6 +673,7 @@ pkg/hanzoai/cloud/models/framework_row.py
 pkg/hanzoai/cloud/models/function_detail.py
 pkg/hanzoai/cloud/models/function_view.py
 pkg/hanzoai/cloud/models/funnel.py
+pkg/hanzoai/cloud/models/fusion.py
 pkg/hanzoai/cloud/models/gc_out.py
 pkg/hanzoai/cloud/models/generate_input.py
 pkg/hanzoai/cloud/models/generate_request.py
@@ -976,7 +977,6 @@ pkg/hanzoai/cloud/models/machine_view.py
 pkg/hanzoai/cloud/models/make_in.py
 pkg/hanzoai/cloud/models/market_catalog.py
 pkg/hanzoai/cloud/models/market_item.py
-pkg/hanzoai/cloud/models/match.py
 pkg/hanzoai/cloud/models/mcp_catalog.py
 pkg/hanzoai/cloud/models/mcp_catalog_sync.py
 pkg/hanzoai/cloud/models/mcp_error.py
@@ -1954,6 +1954,7 @@ pkg/hanzoai/cloud/models/prompt_list.py
 pkg/hanzoai/cloud/models/prompt_meta.py
 pkg/hanzoai/cloud/models/prompt_req.py
 pkg/hanzoai/cloud/models/prop_spec.py
+pkg/hanzoai/cloud/models/provenance.py
 pkg/hanzoai/cloud/models/provider_breakdown.py
 pkg/hanzoai/cloud/models/provider_info.py
 pkg/hanzoai/cloud/models/provider_row.py
@@ -2059,7 +2060,6 @@ pkg/hanzoai/cloud/models/request.py
 pkg/hanzoai/cloud/models/resolve_reference_in.py
 pkg/hanzoai/cloud/models/resolve_reference_out.py
 pkg/hanzoai/cloud/models/resource_usage.py
-pkg/hanzoai/cloud/models/response.py
 pkg/hanzoai/cloud/models/responsible.py
 pkg/hanzoai/cloud/models/restart_ref.py
 pkg/hanzoai/cloud/models/restarted.py
