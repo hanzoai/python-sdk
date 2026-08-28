@@ -1786,7 +1786,6 @@ from hanzoai.cloud.models.pool_scale import PoolScale
 from hanzoai.cloud.models.populated_flow import PopulatedFlow
 from hanzoai.cloud.models.position import Position
 from hanzoai.cloud.models.post_event_request import PostEventRequest
-from hanzoai.cloud.models.post_index_indexes_by_uid_documents_delete_batch_request import PostIndexIndexesByUidDocumentsDeleteBatchRequest
 from hanzoai.cloud.models.post_list import PostList
 from hanzoai.cloud.models.prefs_view import PrefsView
 from hanzoai.cloud.models.preset import Preset
