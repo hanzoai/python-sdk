@@ -18,10 +18,10 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.call import Call
 from hanzoai.cloud.models.meet_health import MeetHealth
 from hanzoai.cloud.models.record_in import RecordIn
 from hanzoai.cloud.models.recording import Recording
+from hanzoai.cloud.models.venue import Venue
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -543,7 +543,7 @@ class MeetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Call:
+    ) -> Venue:
         """Where a room's call happens
 
         Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a workspace-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
@@ -584,7 +584,7 @@ class MeetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Call",
+            '200': "Venue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -614,7 +614,7 @@ class MeetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Call]:
+    ) -> ApiResponse[Venue]:
         """Where a room's call happens
 
         Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a workspace-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
@@ -655,7 +655,7 @@ class MeetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Call",
+            '200': "Venue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -726,7 +726,7 @@ class MeetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Call",
+            '200': "Venue",
         }
         response_data = self.api_client.call_api(
             *_param,
