@@ -8,6 +8,8 @@ from hanzo_zap.wire import (
     ZAP_MAGIC,
     HEADER_SIZE,
     VERSION,
+    VERSION1,
+    VERSION2,
     MSG_TYPE_CLOUD,
     REQ_FLAG_REQ,
     REQ_FLAG_RESP,
@@ -43,7 +45,11 @@ def test_zap_magic():
 
 
 def test_version():
-    assert VERSION == 1
+    assert VERSION1 == 1
+    assert VERSION2 == 2
+    # What this layer emits. Reading is wider than writing: see
+    # test_reads_the_go_oracles_v2_handshake.
+    assert VERSION == VERSION1
 
 
 def test_msg_type_cloud():
@@ -338,3 +344,57 @@ async def test_full_message_through_frames():
         assert peer == "frame-test-node"
     finally:
         await cleanup()
+
+
+# ── Conformance to the Go oracle ─────────────────────────────────────────
+#
+# Go is the network. These are not hand-written vectors: they are the output
+# of github.com/luxfi/zap v1.2.6 — the version luxfi/node ships — captured by
+# calling zap.EncodeNodeIDHandshake. luxd's default builder emits VERSION2, so
+# a reader that admits only VERSION1 cannot read the live network at all.
+
+GO_HANDSHAKE_V2 = bytes.fromhex(
+    "5a41500002000000100000005000000068616e7a6f2d6e6f646500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000a000000"
+)
+GO_HANDSHAKE_NODEID_V2 = bytes.fromhex(
+    "5a4150000200000010000000500000004e6f646549442d415572454270666e6f595569436348465851646a3764415a363453396d534d5a73000000000000000000000000000000000000000028000000"
+)
+
+
+def test_reads_the_go_oracles_v2_handshake():
+    """The regression test for the break: luxd emits VERSION2."""
+    for wire, want in (
+        (GO_HANDSHAKE_V2, "hanzo-node"),
+        (GO_HANDSHAKE_NODEID_V2, "NodeID-AUrEBpfnoYUiCcHFXQdj7dAZ64S9mSMZs"),
+    ):
+        assert len(wire) == 80
+        msg = Message.parse(wire)
+        assert msg.version == VERSION2
+        assert parse_handshake(msg) == want
+
+
+def test_version_acceptance_matches_go():
+    """Go's Parse accepts exactly {1, 2}. Not 0, not 3.
+
+    Accepting a frame the network refuses is as wrong as refusing one it
+    accepts, so the bounds are exact rather than merely permissive.
+    """
+    for version, accepted in ((0, False), (1, True), (2, True), (3, False)):
+        wire = bytearray(GO_HANDSHAKE_V2)
+        wire[4] = version
+        if accepted:
+            assert Message.parse(bytes(wire)).version == version
+        else:
+            with pytest.raises(ValueError):
+                Message.parse(bytes(wire))
+
+
+def test_payload_is_byte_identical_to_go():
+    """Our handshake equals Go's in every byte but the version.
+
+    That is what makes flipping the emitter to VERSION2 a one-byte change
+    rather than a re-encoding, and it proves the arena layout agrees.
+    """
+    want = bytearray(GO_HANDSHAKE_V2)
+    want[4] = VERSION1
+    assert build_handshake("hanzo-node") == bytes(want)
