@@ -26,7 +26,13 @@ from zap import wire as _zw
 # Codec constants are sourced from the canonical wire so they can never drift.
 ZAP_MAGIC = _zw.MAGIC          # b"ZAP\x00"
 HEADER_SIZE = _zw.HEADER_SIZE  # 16
-VERSION = _zw.VERSION          # 1
+# Both accepted versions come from the canonical wire, so the set this layer
+# admits is the set ``zap.wire.parse`` admits — which is the set Go's
+# ``zap.Parse`` admits. luxd emits VERSION2 by default, so a reader that
+# recognises only VERSION1 cannot read the live network.
+VERSION1 = _zw.VERSION1        # 1 — legacy schema
+VERSION2 = _zw.VERSION2        # 2 — current; what luxd emits
+VERSION = _zw.VERSION          # the version this layer emits
 ALIGNMENT = _zw.ALIGNMENT      # 8
 MAX_MESSAGE_SIZE = 10 * 1024 * 1024  # 10 MB
 
@@ -76,8 +82,10 @@ class Message:
         if data[:4] != ZAP_MAGIC:
             raise ValueError(f"Bad ZAP magic: {data[:4]!r}")
         ver = struct.unpack_from("<H", data, 4)[0]
-        if ver != VERSION:
-            raise ValueError(f"Unsupported ZAP version: {ver} (expected {VERSION})")
+        if ver not in (VERSION1, VERSION2):
+            raise ValueError(
+                f"Unsupported ZAP version: {ver} (expected {VERSION1} or {VERSION2})"
+            )
         return cls(data)
 
     @property
