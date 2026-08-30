@@ -1,7 +1,7 @@
 """CoreDNS (Hanzo DNS) provider.
 
 Manages DNS via Hanzo's CoreDNS API (K8s-native DNS for Hanzo infrastructure).
-Endpoint: configurable, defaults to https://dns.hanzo.ai/api/v1
+Endpoint: configurable, defaults to https://dns.hanzo.ai/v1
 """
 
 from __future__ import annotations
@@ -12,7 +12,7 @@ import click
 
 from .provider import DNSZone, DNSRecord, DNSProvider, register_provider
 
-DEFAULT_ENDPOINT = "https://dns.hanzo.ai/api/v1"
+DEFAULT_ENDPOINT = "https://dns.hanzo.ai/v1"
 
 
 class CoreDNSProvider(DNSProvider):
