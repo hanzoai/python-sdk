@@ -1,6 +1,6 @@
 """MCP tool for Hanzo Commerce -- orders, products, collections, stores.
 
-Wraps the Hanzo Commerce API at api.hanzo.ai/v1/.
+Wraps the Hanzo Commerce API at api.hanzo.ai/v1/commerce/.
 Auth: Uses HanzoSession from hanzo-tools-auth for bearer tokens.
 """
 
@@ -36,7 +36,7 @@ Actions:
 - webhooks: List configured webhooks
 """
 
-API_BASE = "https://api.hanzo.ai/v1"
+API_BASE = "https://api.hanzo.ai/v1/commerce"
 
 
 def _get_session():
@@ -145,64 +145,63 @@ class CommerceTool(BaseTool):
 
     # -- Actions -------------------------------------------------------------
 
+    # The fleet publishes no order collection under /v1/commerce. An order is
+    # reachable only through the store that holds it — authorize and capture take
+    # an orderid — so there is no address to list or fetch one by id. Saying so is
+    # the honest answer; asking anyway returned a 404 an agent read as "no orders".
+    _NO_ORDERS = (
+        "Hanzo Commerce publishes no order collection. An order is addressed "
+        "through its store (/v1/commerce/store/{storeid}/authorize/{orderid}), "
+        "so listing or fetching one by id has no endpoint."
+    )
+
     async def _orders(self, query: str | None) -> str:
-        token = self._get_token()
-        params = {"q": query} if query else None
-        data = _get("/orders", token, params=params)
-        return json.dumps(data, indent=2)
+        return json.dumps({"error": self._NO_ORDERS})
 
     async def _order(self, order_id: str | None) -> str:
-        if not order_id:
-            return json.dumps({"error": "Required: order_id"})
-        token = self._get_token()
-        data = _get(f"/orders/{order_id}", token)
-        return json.dumps(data, indent=2)
+        return json.dumps({"error": self._NO_ORDERS})
 
     async def _products(self, query: str | None) -> str:
         token = self._get_token()
         params = {"q": query} if query else None
-        data = _get("/products", token, params=params)
+        data = _get("/product/", token, params=params)
         return json.dumps(data, indent=2)
 
     async def _product(self, product_id: str | None) -> str:
         if not product_id:
             return json.dumps({"error": "Required: product_id"})
         token = self._get_token()
-        data = _get(f"/products/{product_id}", token)
+        data = _get(f"/product/{product_id}", token)
         return json.dumps(data, indent=2)
 
     async def _collections(self) -> str:
         token = self._get_token()
-        data = _get("/collections", token)
+        data = _get("/collection/", token)
         return json.dumps(data, indent=2)
 
     async def _search_users(self, query: str | None) -> str:
-        if not query:
-            return json.dumps({"error": "Required: query (search term)"})
-        token = self._get_token()
-        data = _get("/users", token, params={"q": query})
-        return json.dumps(data, indent=2)
+        # A user is identity, and identity is IAM's. Commerce holds subscribers
+        # and wallets, never people.
+        return json.dumps({
+            "error": "Users are IAM's, not commerce's — search them at /v1/iam."
+        })
 
     async def _search_orders(self, query: str | None) -> str:
-        if not query:
-            return json.dumps({"error": "Required: query (search term)"})
-        token = self._get_token()
-        data = _get("/orders", token, params={"q": query})
-        return json.dumps(data, indent=2)
+        return json.dumps({"error": self._NO_ORDERS})
 
     async def _stores(self) -> str:
         token = self._get_token()
-        data = _get("/stores", token)
+        data = _get("/store/", token)
         return json.dumps(data, indent=2)
 
     async def _discounts(self) -> str:
         token = self._get_token()
-        data = _get("/discounts", token)
+        data = _get("/discount/", token)
         return json.dumps(data, indent=2)
 
     async def _webhooks(self) -> str:
         token = self._get_token()
-        data = _get("/webhooks", token)
+        data = _get("/webhook/", token)
         return json.dumps(data, indent=2)
 
     # -- Registration --------------------------------------------------------
