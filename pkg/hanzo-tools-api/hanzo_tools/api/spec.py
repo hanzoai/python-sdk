@@ -14,16 +14,48 @@ The catalog is a pure function of the spec. Fetching/caching is separate (see
 from __future__ import annotations
 
 import json
+import logging
 import os
 import time
 import urllib.error
 import urllib.request
 from collections.abc import Iterable
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, NamedTuple
 
 DEFAULT_BASE = "https://api.hanzo.ai"
+logger = logging.getLogger(__name__)
+
 SPEC_PATH = "/v1/openapi.json"
+
+# What an agent may reach, generated from cloud's own typed operations
+# (`plugin/gen-mcp-catalog`) and shipped beside this module.
+#
+# The published contract is NOT that set. cloud keeps an operation off the agent
+# surface when its name discloses a bearer secret at any verb, or when a mutating
+# verb acts on identity or authority — and /v1/openapi.json carries them anyway,
+# because it describes the API rather than what a model is handed. Measured:
+# `post_iam_users` is in the contract and is refused at /v1/mcp.
+#
+# So the document supplies each operation's METHOD and PATH, which a caller needs
+# to make the request, and the catalog supplies which operations are OFFERED. Two
+# facts, one source each, and the rule itself is asked of cloud rather than
+# restated here.
+_OFFERED_FILE = Path(__file__).with_name("catalog.json")
+
+
+@lru_cache(maxsize=1)
+def offered() -> frozenset[str]:
+    """Every operation id the fleet offers an agent."""
+    try:
+        raw = json.loads(_OFFERED_FILE.read_text())
+    except (OSError, ValueError):
+        # An unreadable catalog must not silently widen the surface, so nothing
+        # is offered rather than everything.
+        logger.warning("agent catalog unreadable at %s; offering nothing", _OFFERED_FILE)
+        return frozenset()
+    return frozenset(op for entry in raw.values() for op in entry.get("ops", ()))
 CACHE_TTL = 24 * 3600
 METHODS = ("get", "post", "put", "patch", "delete", "head", "options")
 # Methods that carry input as a JSON body; everything else takes a query string.
@@ -96,8 +128,9 @@ def _bind(want: str, have: str) -> dict[str, str] | None:
 class Catalog:
     """Services and actions derived from an OpenAPI document."""
 
-    def __init__(self, spec: dict[str, Any]):
+    def __init__(self, spec: dict[str, Any], allow: frozenset[str] | None = None):
         self.spec = spec
+        allow = offered() if allow is None else allow
         self._ops: dict[str, list[Operation]] = {}
         for path, item in (spec.get("paths") or {}).items():
             if not isinstance(item, dict):
@@ -108,6 +141,10 @@ class Catalog:
                 # An op is typed when cloud folded a real schema in; untyped ops
                 # are router-shape only and take params on trust.
                 typed = bool(op.get("requestBody") or op.get("responses"))
+                # Withheld once, in cloud. An operation the fleet refuses to hand
+                # an agent is not offered here either.
+                if op.get("operationId") not in allow:
+                    continue
                 for tag in op.get("tags") or ["_untagged"]:
                     self._ops.setdefault(tag, []).append(
                         Operation(method, path, action_of(path, tag), typed)
