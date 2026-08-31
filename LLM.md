@@ -281,6 +281,41 @@ metadata contradicted the file inside it. Metadata now matches the file: `Apache
 emitted any more, so the suite had a failing test that named a module the client does not
 have. It reads `analytics_api` now, off the client.
 
+## The cloud tool surface is GENERATED, and ten packages duplicate it
+
+`pkg/hanzo-tools-cloud` offers the fleet the way the fleet offers itself: one
+routing tool over 114 subsystems and 1,416 operations, read from
+`catalog.json` — generated out of cloud's own typed operations
+(`plugin/gen-mcp-catalog`). It is the SAME file `@hanzo/mcp` and the Rust
+`hanzo-mcp` crate embed, and `tests/test_cloud.py` compares the three by digest,
+because three copies of one value is how they come to disagree.
+
+It is a catalog and not a fetch because a tool list is answered before any
+request has been made. Refresh every runtime's copy at once with
+`pnpm sync:catalog` in `hanzoai/mcp`; it refuses to write a smaller catalog than
+it replaces without `--shrink`, since a fleet answering partially and a fleet
+that lost capabilities look identical.
+
+**The withholding rule is applied once, in cloud.** The endpoint keeps an
+operation off the agent surface when its name discloses a bearer secret at any
+verb, or when a mutating verb acts on identity or authority — 124 of 1,540. The
+generator asks `fleet.Withheld`, the same predicate the endpoint asks, so a
+client cannot offer what the fleet refuses. `get_iam_users` survives;
+`post_iam_users` does not.
+
+**Ten hand-written packages duplicate this, and they duplicate `hanzoai.cloud`
+too.** `hanzo-tools-{auth,billing,commerce,iam,ingress,kms,mpc,paas,s3,team}` are
+4,893 lines addressing the fleet by hand, and every one of them predates both the
+generated tool surface and the generated typed client. They have already drifted:
+`paas` is the name the fleet left behind (it is `platform`), `storage` is `s3`,
+`auth` folded into `iam`, and the commerce tool asked for plural resources
+(`/products`, `/orders`) where the fleet publishes singulars under
+`/v1/commerce/product/` — with no order or user collection at all, because an
+order is reached through its store and a user is IAM's.
+
+`hanzo-tools-api` is NOT in that set: 8,028 of its 14,653 lines are a vendored
+APIs.guru directory, so it is a generic any-API tool rather than ours.
+
 ## Key entry points
 - `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus
   seven hand-written modules beside it (`config`, `mcp`, `protocols`, `session`, `zap`, …).
