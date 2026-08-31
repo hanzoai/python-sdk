@@ -41,6 +41,21 @@ from hanzo_tools.api.storage import (
 )
 
 
+class _All(frozenset):  # type: ignore[type-arg]
+    """An allow-set containing everything, for fixtures that name no operations.
+
+    These exercise ROUTING — how a service and action resolve to a method and
+    path — not which operations the fleet offers an agent. The offer rule is
+    asserted in test_spec_catalog.py rather than weakened here.
+    """
+
+    def __contains__(self, item: object) -> bool:
+        return True
+
+
+_EVERYTHING = _All()
+
+
 class TestCredentialManager:
     """Tests for CredentialManager."""
 
@@ -441,7 +456,7 @@ class TestHanzoTool:
         from hanzo_tools.api import spec as openapi
 
         tool = HanzoTool()
-        tool._catalog = openapi.Catalog(SPEC_FIXTURE)
+        tool._catalog = openapi.Catalog(SPEC_FIXTURE, allow=_EVERYTHING)
         tool._source = "test"
         return tool
 
