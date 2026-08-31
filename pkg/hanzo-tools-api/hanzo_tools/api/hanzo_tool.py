@@ -26,12 +26,12 @@ from . import spec as openapi
 CATALOG_SERVICES = frozenset({"services", "list"})
 REFRESH_SERVICES = frozenset({"refresh", "reload"})
 
-# Convenience synonyms for services whose product tag is not the obvious word.
+# Synonyms for a product tag that is not the obvious word. They may only point AT
+# a name the fleet serves — `platform -> paas` and `identity -> iam` pointed at
+# names it had left behind, so they mapped a caller off the live surface. One
+# thing, one name; a synonym that renames is a second name.
 SERVICE_ALIASES: dict[str, str] = {
-    "identity": "iam",
-    "payments": "billing",
     "knowledge": "kb",
-    "platform": "paas",
     "rag": "kb",
 }
 

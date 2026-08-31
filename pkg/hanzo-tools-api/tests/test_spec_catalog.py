@@ -9,7 +9,19 @@ import json
 
 import pytest
 
+from pathlib import Path
+
 from hanzo_tools.api import spec as openapi
+
+
+class _All(frozenset):  # type: ignore[type-arg]
+    """An allow-set that contains everything, for specs that name no operations."""
+
+    def __contains__(self, item: object) -> bool:
+        return True
+
+
+_EVERYTHING = _All()
 
 SPEC = {
     "paths": {
@@ -27,7 +39,11 @@ SPEC = {
 
 @pytest.fixture
 def catalog():
-    return openapi.Catalog(SPEC)
+    # These exercise ROUTING — how a path and method are found — not which
+    # operations the fleet offers an agent. This spec carries no operationIds, so
+    # the offer rule would filter every one of them; it is asked for explicitly
+    # elsewhere (test_the_offer_rule_filters) rather than weakened here.
+    return openapi.Catalog(SPEC, allow=_EVERYTHING)
 
 
 class TestActionNaming:
@@ -154,3 +170,33 @@ class TestSpecSource:
         )
         document, source = openapi.load("https://api.hanzo.ai", refresh=True)
         assert document == SPEC and source.startswith("cache-stale:")
+
+
+def test_the_offer_rule_filters() -> None:
+    """An operation the fleet withholds is not routable here either.
+
+    The rule is cloud's and is applied once, there; this asserts it reaches the
+    client through the shipped catalog rather than being restated.
+    """
+    spec = {
+        "paths": {
+            "/v1/iam/users": {
+                "get": {"operationId": "get_iam_users", "tags": ["iam"]},
+                "post": {"operationId": "post_iam_users", "tags": ["iam"]},
+            }
+        }
+    }
+    catalog = openapi.Catalog(spec)
+    methods = {op.method for op in catalog.operations("iam")}
+    assert "get" in methods, "reading who holds a role is offered"
+    assert "post" not in methods, "mutating identity is withheld by the fleet"
+
+
+def test_an_unreadable_catalog_offers_nothing(monkeypatch) -> None:
+    """Failing open would widen the surface silently, so it fails closed."""
+    monkeypatch.setattr(openapi, "_OFFERED_FILE", Path("/nonexistent/catalog.json"))
+    openapi.offered.cache_clear()
+    try:
+        assert openapi.offered() == frozenset()
+    finally:
+        openapi.offered.cache_clear()

@@ -281,40 +281,51 @@ metadata contradicted the file inside it. Metadata now matches the file: `Apache
 emitted any more, so the suite had a failing test that named a module the client does not
 have. It reads `analytics_api` now, off the client.
 
-## The cloud tool surface is GENERATED, and ten packages duplicate it
+## The unified `hanzo` tool offers what the FLEET offers, not what the contract lists
 
-`pkg/hanzo-tools-cloud` offers the fleet the way the fleet offers itself: one
-routing tool over 114 subsystems and 1,416 operations, read from
-`catalog.json` — generated out of cloud's own typed operations
-(`plugin/gen-mcp-catalog`). It is the SAME file `@hanzo/mcp` and the Rust
-`hanzo-mcp` crate embed, and `tests/test_cloud.py` compares the three by digest,
-because three copies of one value is how they come to disagree.
+`hanzo-tools-api`'s `hanzo_tool.py` is the one unified tool: one MCP tool over
+every service cloud serves, its service/action surface derived from
+`/v1/openapi.json` at runtime with a disk cache, so a newly mounted app is
+callable the moment cloud serves it.
 
-It is a catalog and not a fetch because a tool list is answered before any
-request has been made. Refresh every runtime's copy at once with
-`pnpm sync:catalog` in `hanzoai/mcp`; it refuses to write a smaller catalog than
-it replaces without `--shrink`, since a fleet answering partially and a fleet
-that lost capabilities look identical.
-
-**The withholding rule is applied once, in cloud.** The endpoint keeps an
+**The contract is not the agent surface, and that gap was live.** cloud keeps an
 operation off the agent surface when its name discloses a bearer secret at any
-verb, or when a mutating verb acts on identity or authority — 124 of 1,540. The
-generator asks `fleet.Withheld`, the same predicate the endpoint asks, so a
-client cannot offer what the fleet refuses. `get_iam_users` survives;
-`post_iam_users` does not.
+verb, or when a mutating verb acts on identity or authority. `/v1/openapi.json`
+carries them anyway, because it describes the API rather than what a model is
+handed — measured: `post_iam_users` is in the contract (2,265 operations) and is
+refused at `/v1/mcp`. So this tool offered an identity mutation the fleet declines.
 
-**Ten hand-written packages duplicate this, and they duplicate `hanzoai.cloud`
-too.** `hanzo-tools-{auth,billing,commerce,iam,ingress,kms,mpc,paas,s3,team}` are
-4,893 lines addressing the fleet by hand, and every one of them predates both the
-generated tool surface and the generated typed client. They have already drifted:
-`paas` is the name the fleet left behind (it is `platform`), `storage` is `s3`,
-`auth` folded into `iam`, and the commerce tool asked for plural resources
-(`/products`, `/orders`) where the fleet publishes singulars under
-`/v1/commerce/product/` — with no order or user collection at all, because an
-order is reached through its store and a user is IAM's.
+`spec.py` now filters by `catalog.json`, generated out of cloud's own typed
+operations by `plugin/gen-mcp-catalog`, which asks `fleet.Withheld` — the same
+predicate the endpoint asks. Two facts, one source each: the document supplies
+each operation's METHOD and PATH, which a caller needs to make the request, and
+the catalog supplies which operations are OFFERED. The rule itself is never
+restated here. An unreadable catalog offers NOTHING rather than everything, since
+failing open would widen the surface silently.
 
-`hanzo-tools-api` is NOT in that set: 8,028 of its 14,653 lines are a vendored
-APIs.guru directory, so it is a generic any-API tool rather than ours.
+It is the same file `@hanzo/mcp` and the Rust `hanzo-mcp` crate embed. Refresh
+every runtime's copy at once with `pnpm sync:catalog` in `hanzoai/mcp`.
+
+**Two aliases pointed at names the fleet had left behind** — `platform -> paas`
+and `identity -> iam` — so they mapped a caller off the live surface. A synonym
+may only point AT a name the fleet serves; `knowledge`/`rag -> kb` stay.
+
+**A test fixture that names no operations is not exercising the offer rule**, and
+says so: `test_spec_catalog.py` and `test_api_tools.py` pass an explicit
+everything-allow for their synthetic specs, and the rule gets its own test
+(`test_the_offer_rule_filters`) rather than the default being weakened to keep
+them green.
+
+**Ten hand-written packages still address the fleet by hand.**
+`hanzo-tools-{billing,commerce,iam,ingress,kms,mpc,paas,s3,team}` are ~3,900 lines
+that predate both this tool and the generated `hanzoai.cloud` client, and they
+have drifted the same way: `paas` is `platform`, `storage` is `s3`, and the
+commerce tool asked for plurals where the fleet publishes singulars under
+`/v1/commerce/product/`. `hanzo-tools-auth` is NOT one of them — it is a login and
+session tool that verifies tokens against the IdP's signing keys, which no
+catalog replaces. `hanzo-tools-api` is not either: 8,028 of its lines are a
+vendored APIs.guru directory, making it a generic any-API tool beside the
+Hanzo-specific `hanzo_tool.py`.
 
 ## Key entry points
 - `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus
