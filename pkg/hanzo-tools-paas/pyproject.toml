@@ -22,8 +22,11 @@ dependencies = [
     "httpx>=0.27.0",
 ]
 
-[project.entry-points."hanzo.tools"]
-paas = "hanzo_tools.paas:TOOLS"
+# No `hanzo.tools` entry point: this addresses the fleet by hand, and the fleet
+# is reached by the unified `hanzo` tool, which filters by what cloud offers an
+# agent. Registering here put `paas` in a model's tool list beside it — two ways
+# to one API, and the second one unfiltered. Still importable for a human at a
+# CLI; it is the auto-registration that is withdrawn.
 
 [build-system]
 requires = ["hatchling"]

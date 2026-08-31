@@ -316,16 +316,40 @@ everything-allow for their synthetic specs, and the rule gets its own test
 (`test_the_offer_rule_filters`) rather than the default being weakened to keep
 them green.
 
-**Ten hand-written packages still address the fleet by hand.**
-`hanzo-tools-{billing,commerce,iam,ingress,kms,mpc,paas,s3,team}` are ~3,900 lines
-that predate both this tool and the generated `hanzoai.cloud` client, and they
-have drifted the same way: `paas` is `platform`, `storage` is `s3`, and the
-commerce tool asked for plurals where the fleet publishes singulars under
-`/v1/commerce/product/`. `hanzo-tools-auth` is NOT one of them — it is a login and
-session tool that verifies tokens against the IdP's signing keys, which no
-catalog replaces. `hanzo-tools-api` is not either: 8,028 of its lines are a
-vendored APIs.guru directory, making it a generic any-API tool beside the
-Hanzo-specific `hanzo_tool.py`.
+**A model was handed secrets, and the fleet had already said no.** Nine per-service
+packages registered a `hanzo.tools` entry point AND sat in `hanzo-mcp`'s default
+dependencies, so `pip install hanzo-mcp` put them in a model's tool list — beside
+the unified tool, and without its filter. What that offered:
+
+| package | actions reaching a model | what the fleet offers an agent |
+|---|---|---|
+| `hanzo-tools-kms` | `list get set delete inject` | `get_kms_config`, `get_kms_health` — and nothing else |
+| `hanzo-tools-iam` | `create_user delete_user update_user tokens sessions roles` | the reads; every one of those is withheld |
+| `hanzo-tools-team` | `create_workspace delete_workspace invite` | the reads |
+
+`inject` is the sharp one: it lists a path and reads every secret at it, in one
+call. cloud's rule exists to prevent exactly this — "a tool is not projected when
+its name discloses a bearer secret at any verb, or when a mutating verb acts on an
+identity or authority object" — and these packages were a second, unfiltered way
+to the same API, so the rule held on one path and not the other.
+
+**The auto-registration is withdrawn, not the packages.** `iam`, `kms`, `team`,
+`billing`, `commerce`, `ingress`, `paas` and `s3` no longer declare
+`[project.entry-points."hanzo.tools"]` and no longer ship in `hanzo-mcp`. They
+stay importable for a human at a CLI, which is where reading a secret is a
+legitimate act. An agent reaches all eight through the unified `hanzo` tool, whose
+surface is filtered — verified against the live document: iam 41 operations, kms
+2, team 7, billing 35, commerce 5, ingress 18, platform 34, s3 6.
+
+**Two stay registered, for reasons worth stating.** `hanzo-tools-mpc` has NO
+equivalent in the fleet catalog, so unregistering it would remove capability with
+nothing to replace it. `hanzo-tools-auth` is a login and session tool — it reads
+the CALLER's own claims and verifies tokens against the IdP's signing keys, which
+is not another identity's secret and which no catalog replaces.
+
+**`paas` is the name the fleet left behind.** It is `platform` there, which is why
+the retired alias mattered: a caller typing the old name was mapped off the live
+surface rather than onto it.
 
 ## Key entry points
 - `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus
