@@ -27,8 +27,12 @@ from hanzoai.cloud.models.cookie_ack import CookieAck
 from hanzoai.cloud.models.plan_info import PlanInfo
 from hanzoai.cloud.models.provider_info import ProviderInfo
 from hanzoai.cloud.models.stats_out import StatsOut
+from hanzoai.cloud.models.team_message import TeamMessage
+from hanzoai.cloud.models.team_message_write import TeamMessageWrite
+from hanzoai.cloud.models.team_messages import TeamMessages
 from hanzoai.cloud.models.team_room import TeamRoom
 from hanzoai.cloud.models.team_room_bind import TeamRoomBind
+from hanzoai.cloud.models.team_room_new import TeamRoomNew
 from hanzoai.cloud.models.team_rooms import TeamRooms
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -296,9 +300,9 @@ class TeamApi:
 
 
     @validate_call
-    def delete_team_files_by_workspace_by_filename(
+    def delete_team_files_by_space_by_filename(
         self,
-        workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid the blob belongs to, from the path.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid the blob belongs to, from the path.")],
         filename: Annotated[StrictStr, Field(description="Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`.")],
         file: Annotated[Optional[StrictStr], Field(description="File is the blob id, and wins over the path segment when both are present.")] = None,
         _request_timeout: Union[
@@ -314,12 +318,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Removes one blob from a workspace's file store.
+        """Removes one blob from a space's file store.
 
-        Removes one blob from a workspace's file store. The caller must hold a verified session AND be a member of the workspace; anything else — an unknown workspace, another tenant's workspace, a workspace the caller is not in — answers the same 404, so a probe learns nothing about what exists.  It is IDEMPOTENT: deleting a present or an absent blob both answer 204, so a delete never confirms a blob's existence and a foreign blob id (a physical key the caller can never name into another tenant's box) is a harmless no-op. A storage backend that is unavailable fails closed with 502 rather than lying about success.
+        Removes one blob from a space's file store. The caller must hold a verified session AND be a member of the space; anything else — an unknown space, another tenant's space, a space the caller is not in — answers the same 404, so a probe learns nothing about what exists.  It is IDEMPOTENT: deleting a present or an absent blob both answer 204, so a delete never confirms a blob's existence and a foreign blob id (a physical key the caller can never name into another tenant's box) is a harmless no-op. A storage backend that is unavailable fails closed with 502 rather than lying about success.
 
-        :param workspace: Workspace is the workspace uuid the blob belongs to, from the path. (required)
-        :type workspace: str
+        :param space: Space is the space uuid the blob belongs to, from the path. (required)
+        :type space: str
         :param filename: Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`. (required)
         :type filename: str
         :param file: File is the blob id, and wins over the path segment when both are present.
@@ -346,8 +350,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_team_files_by_workspace_by_filename_serialize(
-            workspace=workspace,
+        _param = self._delete_team_files_by_space_by_filename_serialize(
+            space=space,
             filename=filename,
             file=file,
             _request_auth=_request_auth,
@@ -371,9 +375,9 @@ class TeamApi:
 
 
     @validate_call
-    def delete_team_files_by_workspace_by_filename_with_http_info(
+    def delete_team_files_by_space_by_filename_with_http_info(
         self,
-        workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid the blob belongs to, from the path.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid the blob belongs to, from the path.")],
         filename: Annotated[StrictStr, Field(description="Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`.")],
         file: Annotated[Optional[StrictStr], Field(description="File is the blob id, and wins over the path segment when both are present.")] = None,
         _request_timeout: Union[
@@ -389,12 +393,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Removes one blob from a workspace's file store.
+        """Removes one blob from a space's file store.
 
-        Removes one blob from a workspace's file store. The caller must hold a verified session AND be a member of the workspace; anything else — an unknown workspace, another tenant's workspace, a workspace the caller is not in — answers the same 404, so a probe learns nothing about what exists.  It is IDEMPOTENT: deleting a present or an absent blob both answer 204, so a delete never confirms a blob's existence and a foreign blob id (a physical key the caller can never name into another tenant's box) is a harmless no-op. A storage backend that is unavailable fails closed with 502 rather than lying about success.
+        Removes one blob from a space's file store. The caller must hold a verified session AND be a member of the space; anything else — an unknown space, another tenant's space, a space the caller is not in — answers the same 404, so a probe learns nothing about what exists.  It is IDEMPOTENT: deleting a present or an absent blob both answer 204, so a delete never confirms a blob's existence and a foreign blob id (a physical key the caller can never name into another tenant's box) is a harmless no-op. A storage backend that is unavailable fails closed with 502 rather than lying about success.
 
-        :param workspace: Workspace is the workspace uuid the blob belongs to, from the path. (required)
-        :type workspace: str
+        :param space: Space is the space uuid the blob belongs to, from the path. (required)
+        :type space: str
         :param filename: Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`. (required)
         :type filename: str
         :param file: File is the blob id, and wins over the path segment when both are present.
@@ -421,8 +425,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_team_files_by_workspace_by_filename_serialize(
-            workspace=workspace,
+        _param = self._delete_team_files_by_space_by_filename_serialize(
+            space=space,
             filename=filename,
             file=file,
             _request_auth=_request_auth,
@@ -446,9 +450,9 @@ class TeamApi:
 
 
     @validate_call
-    def delete_team_files_by_workspace_by_filename_without_preload_content(
+    def delete_team_files_by_space_by_filename_without_preload_content(
         self,
-        workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid the blob belongs to, from the path.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid the blob belongs to, from the path.")],
         filename: Annotated[StrictStr, Field(description="Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`.")],
         file: Annotated[Optional[StrictStr], Field(description="File is the blob id, and wins over the path segment when both are present.")] = None,
         _request_timeout: Union[
@@ -464,12 +468,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Removes one blob from a workspace's file store.
+        """Removes one blob from a space's file store.
 
-        Removes one blob from a workspace's file store. The caller must hold a verified session AND be a member of the workspace; anything else — an unknown workspace, another tenant's workspace, a workspace the caller is not in — answers the same 404, so a probe learns nothing about what exists.  It is IDEMPOTENT: deleting a present or an absent blob both answer 204, so a delete never confirms a blob's existence and a foreign blob id (a physical key the caller can never name into another tenant's box) is a harmless no-op. A storage backend that is unavailable fails closed with 502 rather than lying about success.
+        Removes one blob from a space's file store. The caller must hold a verified session AND be a member of the space; anything else — an unknown space, another tenant's space, a space the caller is not in — answers the same 404, so a probe learns nothing about what exists.  It is IDEMPOTENT: deleting a present or an absent blob both answer 204, so a delete never confirms a blob's existence and a foreign blob id (a physical key the caller can never name into another tenant's box) is a harmless no-op. A storage backend that is unavailable fails closed with 502 rather than lying about success.
 
-        :param workspace: Workspace is the workspace uuid the blob belongs to, from the path. (required)
-        :type workspace: str
+        :param space: Space is the space uuid the blob belongs to, from the path. (required)
+        :type space: str
         :param filename: Filename is the last path segment, which the front sets to the blob id when it sends no explicit `file`. (required)
         :type filename: str
         :param file: File is the blob id, and wins over the path segment when both are present.
@@ -496,8 +500,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_team_files_by_workspace_by_filename_serialize(
-            workspace=workspace,
+        _param = self._delete_team_files_by_space_by_filename_serialize(
+            space=space,
             filename=filename,
             file=file,
             _request_auth=_request_auth,
@@ -516,9 +520,9 @@ class TeamApi:
         return response_data.response
 
 
-    def _delete_team_files_by_workspace_by_filename_serialize(
+    def _delete_team_files_by_space_by_filename_serialize(
         self,
-        workspace,
+        space,
         filename,
         file,
         _request_auth,
@@ -542,8 +546,8 @@ class TeamApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if workspace is not None:
-            _path_params['workspace'] = workspace
+        if space is not None:
+            _path_params['space'] = space
         if filename is not None:
             _path_params['filename'] = filename
         # process the query parameters
@@ -565,7 +569,7 @@ class TeamApi:
 
         return self.api_client.param_serialize(
             method='DELETE',
-            resource_path='/v1/team/files/{workspace}/{filename}',
+            resource_path='/v1/team/files/{space}/{filename}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -851,7 +855,7 @@ class TeamApi:
     ) -> None:
         """Complete a sign-in and hand the browser its session
 
-        COMPLETES the OAuth hop: hanzo.id redirects the browser here with ?code and ?state, and the answer is another 302 — back to the client's login route carrying the freshly minted team session token in the query. Never JSON, and never a token in this response's own body.  THE STATE IS CHECKED FIRST, before the code is even looked at: the flow cookie is read and cleared one-shot, and a callback whose ?state does not equal the nonce it held is bounced with error=state_mismatch and NEVER exchanged. That is what makes a forged or replayed callback inert. Only then is the code exchanged server-side — team is a confidential client with a client_secret, so there is no PKCE and the code never passes through the browser's JS.  The tenant is derived from the IAM access token VERIFIED RS256 against the JWKS, the same trust anchor the identity boundary uses; a token whose owner claim is empty fails closed with no login at all. Every org that token proves gets a workspace ensured, so a member of two orgs is a counted seat in both. The IAM access token is also parked in an HttpOnly cookie for the same-origin agents proxy — page JS never reads it.  EVERY failure is a redirect, not a status: a denied consent, a missing code, a failed exchange, an unreadable userinfo, an unverifiable org and a token-mint failure each bounce to the login page with an ?error code naming the step.
+        COMPLETES the OAuth hop: hanzo.id redirects the browser here with ?code and ?state, and the answer is another 302 — back to the client's login route carrying the freshly minted team session token in the query. Never JSON, and never a token in this response's own body.  THE STATE IS CHECKED FIRST, before the code is even looked at: the flow cookie is read and cleared one-shot, and a callback whose ?state does not equal the nonce it held is bounced with error=state_mismatch and NEVER exchanged. That is what makes a forged or replayed callback inert. Only then is the code exchanged server-side — team is a confidential client with a client_secret, so there is no PKCE and the code never passes through the browser's JS.  The tenant is derived from the IAM access token VERIFIED RS256 against the JWKS, the same trust anchor the identity boundary uses; a token whose owner claim is empty fails closed with no login at all. Every org that token proves gets a space ensured, so a member of two orgs is a counted seat in both. The IAM access token is also parked in an HttpOnly cookie for the same-origin agents proxy — page JS never reads it.  EVERY failure is a redirect, not a status: a denied consent, a missing code, a failed exchange, an unreadable userinfo, an unverifiable org and a token-mint failure each bounce to the login page with an ?error code naming the step.
 
         :param provider: (required)
         :type provider: str
@@ -917,7 +921,7 @@ class TeamApi:
     ) -> ApiResponse[None]:
         """Complete a sign-in and hand the browser its session
 
-        COMPLETES the OAuth hop: hanzo.id redirects the browser here with ?code and ?state, and the answer is another 302 — back to the client's login route carrying the freshly minted team session token in the query. Never JSON, and never a token in this response's own body.  THE STATE IS CHECKED FIRST, before the code is even looked at: the flow cookie is read and cleared one-shot, and a callback whose ?state does not equal the nonce it held is bounced with error=state_mismatch and NEVER exchanged. That is what makes a forged or replayed callback inert. Only then is the code exchanged server-side — team is a confidential client with a client_secret, so there is no PKCE and the code never passes through the browser's JS.  The tenant is derived from the IAM access token VERIFIED RS256 against the JWKS, the same trust anchor the identity boundary uses; a token whose owner claim is empty fails closed with no login at all. Every org that token proves gets a workspace ensured, so a member of two orgs is a counted seat in both. The IAM access token is also parked in an HttpOnly cookie for the same-origin agents proxy — page JS never reads it.  EVERY failure is a redirect, not a status: a denied consent, a missing code, a failed exchange, an unreadable userinfo, an unverifiable org and a token-mint failure each bounce to the login page with an ?error code naming the step.
+        COMPLETES the OAuth hop: hanzo.id redirects the browser here with ?code and ?state, and the answer is another 302 — back to the client's login route carrying the freshly minted team session token in the query. Never JSON, and never a token in this response's own body.  THE STATE IS CHECKED FIRST, before the code is even looked at: the flow cookie is read and cleared one-shot, and a callback whose ?state does not equal the nonce it held is bounced with error=state_mismatch and NEVER exchanged. That is what makes a forged or replayed callback inert. Only then is the code exchanged server-side — team is a confidential client with a client_secret, so there is no PKCE and the code never passes through the browser's JS.  The tenant is derived from the IAM access token VERIFIED RS256 against the JWKS, the same trust anchor the identity boundary uses; a token whose owner claim is empty fails closed with no login at all. Every org that token proves gets a space ensured, so a member of two orgs is a counted seat in both. The IAM access token is also parked in an HttpOnly cookie for the same-origin agents proxy — page JS never reads it.  EVERY failure is a redirect, not a status: a denied consent, a missing code, a failed exchange, an unreadable userinfo, an unverifiable org and a token-mint failure each bounce to the login page with an ?error code naming the step.
 
         :param provider: (required)
         :type provider: str
@@ -983,7 +987,7 @@ class TeamApi:
     ) -> RESTResponseType:
         """Complete a sign-in and hand the browser its session
 
-        COMPLETES the OAuth hop: hanzo.id redirects the browser here with ?code and ?state, and the answer is another 302 — back to the client's login route carrying the freshly minted team session token in the query. Never JSON, and never a token in this response's own body.  THE STATE IS CHECKED FIRST, before the code is even looked at: the flow cookie is read and cleared one-shot, and a callback whose ?state does not equal the nonce it held is bounced with error=state_mismatch and NEVER exchanged. That is what makes a forged or replayed callback inert. Only then is the code exchanged server-side — team is a confidential client with a client_secret, so there is no PKCE and the code never passes through the browser's JS.  The tenant is derived from the IAM access token VERIFIED RS256 against the JWKS, the same trust anchor the identity boundary uses; a token whose owner claim is empty fails closed with no login at all. Every org that token proves gets a workspace ensured, so a member of two orgs is a counted seat in both. The IAM access token is also parked in an HttpOnly cookie for the same-origin agents proxy — page JS never reads it.  EVERY failure is a redirect, not a status: a denied consent, a missing code, a failed exchange, an unreadable userinfo, an unverifiable org and a token-mint failure each bounce to the login page with an ?error code naming the step.
+        COMPLETES the OAuth hop: hanzo.id redirects the browser here with ?code and ?state, and the answer is another 302 — back to the client's login route carrying the freshly minted team session token in the query. Never JSON, and never a token in this response's own body.  THE STATE IS CHECKED FIRST, before the code is even looked at: the flow cookie is read and cleared one-shot, and a callback whose ?state does not equal the nonce it held is bounced with error=state_mismatch and NEVER exchanged. That is what makes a forged or replayed callback inert. Only then is the code exchanged server-side — team is a confidential client with a client_secret, so there is no PKCE and the code never passes through the browser's JS.  The tenant is derived from the IAM access token VERIFIED RS256 against the JWKS, the same trust anchor the identity boundary uses; a token whose owner claim is empty fails closed with no login at all. Every org that token proves gets a space ensured, so a member of two orgs is a counted seat in both. The IAM access token is also parked in an HttpOnly cookie for the same-origin agents proxy — page JS never reads it.  EVERY failure is a redirect, not a status: a denied consent, a missing code, a failed exchange, an unreadable userinfo, an unverifiable org and a token-mint failure each bounce to the login page with an ?error code naming the step.
 
         :param provider: (required)
         :type provider: str
@@ -1837,9 +1841,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BotRoster:
-        """Returns the caller org's bot members — the org's agents projected as the workspace Employees they become, each with the member account uuid and Person reference the roster addresses it by.
+        """Returns the caller org's bot members — the org's agents projected as the space Employees they become, each with the member account uuid and Person reference the roster addresses it by.
 
-        Returns the caller org's bot members — the org's agents projected as the workspace Employees they become, each with the member account uuid and Person reference the roster addresses it by. An agents subsystem that is not mounted answers an empty list, never an error.
+        Returns the caller org's bot members — the org's agents projected as the space Employees they become, each with the member account uuid and Person reference the roster addresses it by. An agents subsystem that is not mounted answers an empty list, never an error.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1900,9 +1904,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BotRoster]:
-        """Returns the caller org's bot members — the org's agents projected as the workspace Employees they become, each with the member account uuid and Person reference the roster addresses it by.
+        """Returns the caller org's bot members — the org's agents projected as the space Employees they become, each with the member account uuid and Person reference the roster addresses it by.
 
-        Returns the caller org's bot members — the org's agents projected as the workspace Employees they become, each with the member account uuid and Person reference the roster addresses it by. An agents subsystem that is not mounted answers an empty list, never an error.
+        Returns the caller org's bot members — the org's agents projected as the space Employees they become, each with the member account uuid and Person reference the roster addresses it by. An agents subsystem that is not mounted answers an empty list, never an error.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1963,9 +1967,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the caller org's bot members — the org's agents projected as the workspace Employees they become, each with the member account uuid and Person reference the roster addresses it by.
+        """Returns the caller org's bot members — the org's agents projected as the space Employees they become, each with the member account uuid and Person reference the roster addresses it by.
 
-        Returns the caller org's bot members — the org's agents projected as the workspace Employees they become, each with the member account uuid and Person reference the roster addresses it by. An agents subsystem that is not mounted answers an empty list, never an error.
+        Returns the caller org's bot members — the org's agents projected as the space Employees they become, each with the member account uuid and Person reference the roster addresses it by. An agents subsystem that is not mounted answers an empty list, never an error.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2085,7 +2089,7 @@ class TeamApi:
     ) -> None:
         """Open the live collaborative-editing socket
 
-        Upgrades to the hocuspocus WebSocket the Team editor syncs its Y.js documents over: binary frames of document name, message type and payload, with ONE socket multiplexing every document a tab has open. The server is a relay and an ordered update log, not a CRDT engine — it replays the log to each joining peer and broadcasts every update to the rest, which converges because Y.js updates are commutative and idempotent. There is no body; the response is a protocol upgrade.  BOTH LANES SHARE ONE ROOT. The client derives them from one configured URL — this socket at its root, the markup-snapshot RPC one segment in — so pointing the editor at this service is one value, and the two lanes cannot drift apart.  AUTH IS IN-BAND, PER DOCUMENT, NOT ON THE UPGRADE. The handshake gates only on browser Origin (403 outside the team surfaces; no Origin at all is admitted, which is what a non-browser sends), and then the first frame for a document must be an Auth message carrying the same session or workspace token every other team route verifies — a browser WebSocket cannot set an Authorization header, which is why the token rides inside the protocol. Anything else on an unauthenticated document is answered with one permission denial and nothing further.  Every document is authorized on its own: the document's workspace must be the token's workspace when the token pins one, and the caller must be a member of it. A mismatch, an unknown workspace and a non-member deny alike with \"document not found\". Rooms are keyed by org and workspace and the persisted log's key embeds both, so a foreign document id can neither join a room nor read a blob.  The server pings every twenty seconds and drops a socket silent for sixty, so a backgrounded tab — whose JS timers are throttled but whose network stack still auto-pongs — stays connected instead of dying into a reconnect loop.
+        Upgrades to the hocuspocus WebSocket the Team editor syncs its Y.js documents over: binary frames of document name, message type and payload, with ONE socket multiplexing every document a tab has open. The server is a relay and an ordered update log, not a CRDT engine — it replays the log to each joining peer and broadcasts every update to the rest, which converges because Y.js updates are commutative and idempotent. There is no body; the response is a protocol upgrade.  BOTH LANES SHARE ONE ROOT. The client derives them from one configured URL — this socket at its root, the markup-snapshot RPC one segment in — so pointing the editor at this service is one value, and the two lanes cannot drift apart.  AUTH IS IN-BAND, PER DOCUMENT, NOT ON THE UPGRADE. The handshake gates only on browser Origin (403 outside the team surfaces; no Origin at all is admitted, which is what a non-browser sends), and then the first frame for a document must be an Auth message carrying the same session or space token every other team route verifies — a browser WebSocket cannot set an Authorization header, which is why the token rides inside the protocol. Anything else on an unauthenticated document is answered with one permission denial and nothing further.  Every document is authorized on its own: the document's space must be the token's space when the token pins one, and the caller must be a member of it. A mismatch, an unknown space and a non-member deny alike with \"document not found\". Rooms are keyed by org and space and the persisted log's key embeds both, so a foreign document id can neither join a room nor read a blob.  The server pings every twenty seconds and drops a socket silent for sixty, so a backgrounded tab — whose JS timers are throttled but whose network stack still auto-pongs — stays connected instead of dying into a reconnect loop.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2147,7 +2151,7 @@ class TeamApi:
     ) -> ApiResponse[None]:
         """Open the live collaborative-editing socket
 
-        Upgrades to the hocuspocus WebSocket the Team editor syncs its Y.js documents over: binary frames of document name, message type and payload, with ONE socket multiplexing every document a tab has open. The server is a relay and an ordered update log, not a CRDT engine — it replays the log to each joining peer and broadcasts every update to the rest, which converges because Y.js updates are commutative and idempotent. There is no body; the response is a protocol upgrade.  BOTH LANES SHARE ONE ROOT. The client derives them from one configured URL — this socket at its root, the markup-snapshot RPC one segment in — so pointing the editor at this service is one value, and the two lanes cannot drift apart.  AUTH IS IN-BAND, PER DOCUMENT, NOT ON THE UPGRADE. The handshake gates only on browser Origin (403 outside the team surfaces; no Origin at all is admitted, which is what a non-browser sends), and then the first frame for a document must be an Auth message carrying the same session or workspace token every other team route verifies — a browser WebSocket cannot set an Authorization header, which is why the token rides inside the protocol. Anything else on an unauthenticated document is answered with one permission denial and nothing further.  Every document is authorized on its own: the document's workspace must be the token's workspace when the token pins one, and the caller must be a member of it. A mismatch, an unknown workspace and a non-member deny alike with \"document not found\". Rooms are keyed by org and workspace and the persisted log's key embeds both, so a foreign document id can neither join a room nor read a blob.  The server pings every twenty seconds and drops a socket silent for sixty, so a backgrounded tab — whose JS timers are throttled but whose network stack still auto-pongs — stays connected instead of dying into a reconnect loop.
+        Upgrades to the hocuspocus WebSocket the Team editor syncs its Y.js documents over: binary frames of document name, message type and payload, with ONE socket multiplexing every document a tab has open. The server is a relay and an ordered update log, not a CRDT engine — it replays the log to each joining peer and broadcasts every update to the rest, which converges because Y.js updates are commutative and idempotent. There is no body; the response is a protocol upgrade.  BOTH LANES SHARE ONE ROOT. The client derives them from one configured URL — this socket at its root, the markup-snapshot RPC one segment in — so pointing the editor at this service is one value, and the two lanes cannot drift apart.  AUTH IS IN-BAND, PER DOCUMENT, NOT ON THE UPGRADE. The handshake gates only on browser Origin (403 outside the team surfaces; no Origin at all is admitted, which is what a non-browser sends), and then the first frame for a document must be an Auth message carrying the same session or space token every other team route verifies — a browser WebSocket cannot set an Authorization header, which is why the token rides inside the protocol. Anything else on an unauthenticated document is answered with one permission denial and nothing further.  Every document is authorized on its own: the document's space must be the token's space when the token pins one, and the caller must be a member of it. A mismatch, an unknown space and a non-member deny alike with \"document not found\". Rooms are keyed by org and space and the persisted log's key embeds both, so a foreign document id can neither join a room nor read a blob.  The server pings every twenty seconds and drops a socket silent for sixty, so a backgrounded tab — whose JS timers are throttled but whose network stack still auto-pongs — stays connected instead of dying into a reconnect loop.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2209,7 +2213,7 @@ class TeamApi:
     ) -> RESTResponseType:
         """Open the live collaborative-editing socket
 
-        Upgrades to the hocuspocus WebSocket the Team editor syncs its Y.js documents over: binary frames of document name, message type and payload, with ONE socket multiplexing every document a tab has open. The server is a relay and an ordered update log, not a CRDT engine — it replays the log to each joining peer and broadcasts every update to the rest, which converges because Y.js updates are commutative and idempotent. There is no body; the response is a protocol upgrade.  BOTH LANES SHARE ONE ROOT. The client derives them from one configured URL — this socket at its root, the markup-snapshot RPC one segment in — so pointing the editor at this service is one value, and the two lanes cannot drift apart.  AUTH IS IN-BAND, PER DOCUMENT, NOT ON THE UPGRADE. The handshake gates only on browser Origin (403 outside the team surfaces; no Origin at all is admitted, which is what a non-browser sends), and then the first frame for a document must be an Auth message carrying the same session or workspace token every other team route verifies — a browser WebSocket cannot set an Authorization header, which is why the token rides inside the protocol. Anything else on an unauthenticated document is answered with one permission denial and nothing further.  Every document is authorized on its own: the document's workspace must be the token's workspace when the token pins one, and the caller must be a member of it. A mismatch, an unknown workspace and a non-member deny alike with \"document not found\". Rooms are keyed by org and workspace and the persisted log's key embeds both, so a foreign document id can neither join a room nor read a blob.  The server pings every twenty seconds and drops a socket silent for sixty, so a backgrounded tab — whose JS timers are throttled but whose network stack still auto-pongs — stays connected instead of dying into a reconnect loop.
+        Upgrades to the hocuspocus WebSocket the Team editor syncs its Y.js documents over: binary frames of document name, message type and payload, with ONE socket multiplexing every document a tab has open. The server is a relay and an ordered update log, not a CRDT engine — it replays the log to each joining peer and broadcasts every update to the rest, which converges because Y.js updates are commutative and idempotent. There is no body; the response is a protocol upgrade.  BOTH LANES SHARE ONE ROOT. The client derives them from one configured URL — this socket at its root, the markup-snapshot RPC one segment in — so pointing the editor at this service is one value, and the two lanes cannot drift apart.  AUTH IS IN-BAND, PER DOCUMENT, NOT ON THE UPGRADE. The handshake gates only on browser Origin (403 outside the team surfaces; no Origin at all is admitted, which is what a non-browser sends), and then the first frame for a document must be an Auth message carrying the same session or space token every other team route verifies — a browser WebSocket cannot set an Authorization header, which is why the token rides inside the protocol. Anything else on an unauthenticated document is answered with one permission denial and nothing further.  Every document is authorized on its own: the document's space must be the token's space when the token pins one, and the caller must be a member of it. A mismatch, an unknown space and a non-member deny alike with \"document not found\". Rooms are keyed by org and space and the persisted log's key embeds both, so a foreign document id can neither join a room nor read a blob.  The server pings every twenty seconds and drops a socket silent for sixty, so a backgrounded tab — whose JS timers are throttled but whose network stack still auto-pongs — stays connected instead of dying into a reconnect loop.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2304,9 +2308,9 @@ class TeamApi:
 
 
     @validate_call
-    def get_team_files_by_workspace_by_filename(
+    def get_team_files_by_space_by_filename(
         self,
-        workspace: StrictStr,
+        space: StrictStr,
         filename: StrictStr,
         _request_timeout: Union[
             None,
@@ -2321,12 +2325,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytearray:
-        """Download a workspace file
+        """Download a space file
 
-        Streams one blob's raw BYTES back — this is the read side of the workspace file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the workspace. A genuine miss, another tenant's workspace, a workspace the caller is not in, and a blob id belonging to a different workspace are ONE answer — 404 — because the physical key is org- and workspace-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
+        Streams one blob's raw BYTES back — this is the read side of the space file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the space. A genuine miss, another tenant's space, a space the caller is not in, and a blob id belonging to a different space are ONE answer — 404 — because the physical key is org- and space-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
 
-        :param workspace: (required)
-        :type workspace: str
+        :param space: (required)
+        :type space: str
         :param filename: (required)
         :type filename: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2351,8 +2355,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_team_files_by_workspace_by_filename_serialize(
-            workspace=workspace,
+        _param = self._get_team_files_by_space_by_filename_serialize(
+            space=space,
             filename=filename,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2375,9 +2379,9 @@ class TeamApi:
 
 
     @validate_call
-    def get_team_files_by_workspace_by_filename_with_http_info(
+    def get_team_files_by_space_by_filename_with_http_info(
         self,
-        workspace: StrictStr,
+        space: StrictStr,
         filename: StrictStr,
         _request_timeout: Union[
             None,
@@ -2392,12 +2396,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytearray]:
-        """Download a workspace file
+        """Download a space file
 
-        Streams one blob's raw BYTES back — this is the read side of the workspace file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the workspace. A genuine miss, another tenant's workspace, a workspace the caller is not in, and a blob id belonging to a different workspace are ONE answer — 404 — because the physical key is org- and workspace-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
+        Streams one blob's raw BYTES back — this is the read side of the space file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the space. A genuine miss, another tenant's space, a space the caller is not in, and a blob id belonging to a different space are ONE answer — 404 — because the physical key is org- and space-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
 
-        :param workspace: (required)
-        :type workspace: str
+        :param space: (required)
+        :type space: str
         :param filename: (required)
         :type filename: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2422,8 +2426,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_team_files_by_workspace_by_filename_serialize(
-            workspace=workspace,
+        _param = self._get_team_files_by_space_by_filename_serialize(
+            space=space,
             filename=filename,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2446,9 +2450,9 @@ class TeamApi:
 
 
     @validate_call
-    def get_team_files_by_workspace_by_filename_without_preload_content(
+    def get_team_files_by_space_by_filename_without_preload_content(
         self,
-        workspace: StrictStr,
+        space: StrictStr,
         filename: StrictStr,
         _request_timeout: Union[
             None,
@@ -2463,12 +2467,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Download a workspace file
+        """Download a space file
 
-        Streams one blob's raw BYTES back — this is the read side of the workspace file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the workspace. A genuine miss, another tenant's workspace, a workspace the caller is not in, and a blob id belonging to a different workspace are ONE answer — 404 — because the physical key is org- and workspace-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
+        Streams one blob's raw BYTES back — this is the read side of the space file store, not a JSON envelope around it.  THE BLOB IS NAMED BY THE `file` QUERY PARAMETER, NOT BY :filename. The path segment is only the name a browser saves the download under; a request without ?file= is a 400 no matter what the path says.  The Content-Type is derived from the STORED BYTES, never from the name: only png, jpeg, gif and webp, recognized by their magic bytes, are served inline under their true type, and everything else is served inert as application/octet-stream with an attachment disposition. Every response carries nosniff, so a file uploaded under an .svg or .html name cannot be talked into executing in a viewer's origin. Blobs are immutable, so a hit caches privately for a year.  Same gate as the upload: verified token, membership of the space. A genuine miss, another tenant's space, a space the caller is not in, and a blob id belonging to a different space are ONE answer — 404 — because the physical key is org- and space-scoped and a foreign id is simply a key that does not exist. An unavailable backend is a 502, never an empty 200.
 
-        :param workspace: (required)
-        :type workspace: str
+        :param space: (required)
+        :type space: str
         :param filename: (required)
         :type filename: str
         :param _request_timeout: timeout setting for this request. If one
@@ -2493,8 +2497,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._get_team_files_by_workspace_by_filename_serialize(
-            workspace=workspace,
+        _param = self._get_team_files_by_space_by_filename_serialize(
+            space=space,
             filename=filename,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -2512,9 +2516,9 @@ class TeamApi:
         return response_data.response
 
 
-    def _get_team_files_by_workspace_by_filename_serialize(
+    def _get_team_files_by_space_by_filename_serialize(
         self,
-        workspace,
+        space,
         filename,
         _request_auth,
         _content_type,
@@ -2537,8 +2541,8 @@ class TeamApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if workspace is not None:
-            _path_params['workspace'] = workspace
+        if space is not None:
+            _path_params['space'] = space
         if filename is not None:
             _path_params['filename'] = filename
         # process the query parameters
@@ -2563,7 +2567,7 @@ class TeamApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/team/files/{workspace}/{filename}',
+            resource_path='/v1/team/files/{space}/{filename}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2595,9 +2599,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> TeamRooms:
-        """Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.
+        """Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
 
-        Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+        Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2658,9 +2662,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[TeamRooms]:
-        """Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.
+        """Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
 
-        Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+        Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2721,9 +2725,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.
+        """Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
 
-        Returns every room of the caller's org, across the workspaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+        Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2826,6 +2830,284 @@ class TeamApi:
 
 
     @validate_call
+    def get_team_rooms_by_id_messages(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path. The URL is the authority.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamMessages:
+        """Returns the tail of one room's conversation, oldest first.
+
+        Returns the tail of one room's conversation, oldest first.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A room the caller's org does not own answers 404 rather than 403, so a probe learns nothing about what exists.
+
+        :param id: ID is the room, from the path. The URL is the authority. (required)
+        :type id: str
+        :param space: Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_rooms_by_id_messages_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_rooms_by_id_messages_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path. The URL is the authority.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamMessages]:
+        """Returns the tail of one room's conversation, oldest first.
+
+        Returns the tail of one room's conversation, oldest first.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A room the caller's org does not own answers 404 rather than 403, so a probe learns nothing about what exists.
+
+        :param id: ID is the room, from the path. The URL is the authority. (required)
+        :type id: str
+        :param space: Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_rooms_by_id_messages_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_rooms_by_id_messages_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path. The URL is the authority.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the tail of one room's conversation, oldest first.
+
+        Returns the tail of one room's conversation, oldest first.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A room the caller's org does not own answers 404 rather than 403, so a probe learns nothing about what exists.
+
+        :param id: ID is the room, from the path. The URL is the authority. (required)
+        :type id: str
+        :param space: Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_rooms_by_id_messages_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_rooms_by_id_messages_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/rooms/{id}/messages',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_team_transactor_by_token(
         self,
         token: StrictStr,
@@ -2842,9 +3124,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Open the workspace data-plane socket
+        """Open the space data-plane socket
 
-        Upgrades to the WebSocket the Team client runs an entire workspace over: every frame is a ZAP envelope wrapping one JSON-RPC message — findAll/findOne reads against the workspace's documents, tx writes that broadcast to the other live sessions, hello negotiating JSON rather than msgpack. The response is a protocol upgrade, so there is no body to read.  THE PATH SEGMENT IS THE CREDENTIAL. It is the workspace token selectWorkspace minted — bearer-equivalent, and sitting in a URL that proxies and access logs record, which is exactly why it expires in twelve hours and is re-minted on demand rather than being long-lived like the session token. It is decoded and verified (signature and expiry) BEFORE the upgrade, so a bad one is a 401 and never a socket that is accepted and then dropped, and it must carry both an account and a workspace claim. Nothing ambient authorizes this socket: a WebSocket is exempt from CORS, so a cookie-borne credential would make the Origin check the only access control on the whole data plane.  The tenant is the token's SIGNED org claim and it keys every store path, so no header can name another workspace's data. The upgrade ALSO refuses a browser Origin outside the team surfaces with 403 — otherwise any page could open an authenticated socket with a token it lured out of a logged-in browser — while a request with no Origin at all is admitted, because that is what a non-browser client sends.  On connect the workspace's system spaces are seeded once and the roster is reconciled every time, so the org's human members and its bots are present as workspace people without a separate sync call.
+        Upgrades to the WebSocket the Team client runs an entire space over: every frame is a ZAP envelope wrapping one JSON-RPC message — findAll/findOne reads against the space's documents, tx writes that broadcast to the other live sessions, hello negotiating JSON rather than msgpack. The response is a protocol upgrade, so there is no body to read.  THE PATH SEGMENT IS THE CREDENTIAL. It is the space token selectWorkspace minted — bearer-equivalent, and sitting in a URL that proxies and access logs record, which is exactly why it expires in twelve hours and is re-minted on demand rather than being long-lived like the session token. It is decoded and verified (signature and expiry) BEFORE the upgrade, so a bad one is a 401 and never a socket that is accepted and then dropped, and it must carry both an account and a space claim. Nothing ambient authorizes this socket: a WebSocket is exempt from CORS, so a cookie-borne credential would make the Origin check the only access control on the whole data plane.  The tenant is the token's SIGNED org claim and it keys every store path, so no header can name another space's data. The upgrade ALSO refuses a browser Origin outside the team surfaces with 403 — otherwise any page could open an authenticated socket with a token it lured out of a logged-in browser — while a request with no Origin at all is admitted, because that is what a non-browser client sends.  On connect the space's system spaces are seeded once and the roster is reconciled every time, so the org's human members and its bots are present as space people without a separate sync call.
 
         :param token: (required)
         :type token: str
@@ -2908,9 +3190,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Open the workspace data-plane socket
+        """Open the space data-plane socket
 
-        Upgrades to the WebSocket the Team client runs an entire workspace over: every frame is a ZAP envelope wrapping one JSON-RPC message — findAll/findOne reads against the workspace's documents, tx writes that broadcast to the other live sessions, hello negotiating JSON rather than msgpack. The response is a protocol upgrade, so there is no body to read.  THE PATH SEGMENT IS THE CREDENTIAL. It is the workspace token selectWorkspace minted — bearer-equivalent, and sitting in a URL that proxies and access logs record, which is exactly why it expires in twelve hours and is re-minted on demand rather than being long-lived like the session token. It is decoded and verified (signature and expiry) BEFORE the upgrade, so a bad one is a 401 and never a socket that is accepted and then dropped, and it must carry both an account and a workspace claim. Nothing ambient authorizes this socket: a WebSocket is exempt from CORS, so a cookie-borne credential would make the Origin check the only access control on the whole data plane.  The tenant is the token's SIGNED org claim and it keys every store path, so no header can name another workspace's data. The upgrade ALSO refuses a browser Origin outside the team surfaces with 403 — otherwise any page could open an authenticated socket with a token it lured out of a logged-in browser — while a request with no Origin at all is admitted, because that is what a non-browser client sends.  On connect the workspace's system spaces are seeded once and the roster is reconciled every time, so the org's human members and its bots are present as workspace people without a separate sync call.
+        Upgrades to the WebSocket the Team client runs an entire space over: every frame is a ZAP envelope wrapping one JSON-RPC message — findAll/findOne reads against the space's documents, tx writes that broadcast to the other live sessions, hello negotiating JSON rather than msgpack. The response is a protocol upgrade, so there is no body to read.  THE PATH SEGMENT IS THE CREDENTIAL. It is the space token selectWorkspace minted — bearer-equivalent, and sitting in a URL that proxies and access logs record, which is exactly why it expires in twelve hours and is re-minted on demand rather than being long-lived like the session token. It is decoded and verified (signature and expiry) BEFORE the upgrade, so a bad one is a 401 and never a socket that is accepted and then dropped, and it must carry both an account and a space claim. Nothing ambient authorizes this socket: a WebSocket is exempt from CORS, so a cookie-borne credential would make the Origin check the only access control on the whole data plane.  The tenant is the token's SIGNED org claim and it keys every store path, so no header can name another space's data. The upgrade ALSO refuses a browser Origin outside the team surfaces with 403 — otherwise any page could open an authenticated socket with a token it lured out of a logged-in browser — while a request with no Origin at all is admitted, because that is what a non-browser client sends.  On connect the space's system spaces are seeded once and the roster is reconciled every time, so the org's human members and its bots are present as space people without a separate sync call.
 
         :param token: (required)
         :type token: str
@@ -2974,9 +3256,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Open the workspace data-plane socket
+        """Open the space data-plane socket
 
-        Upgrades to the WebSocket the Team client runs an entire workspace over: every frame is a ZAP envelope wrapping one JSON-RPC message — findAll/findOne reads against the workspace's documents, tx writes that broadcast to the other live sessions, hello negotiating JSON rather than msgpack. The response is a protocol upgrade, so there is no body to read.  THE PATH SEGMENT IS THE CREDENTIAL. It is the workspace token selectWorkspace minted — bearer-equivalent, and sitting in a URL that proxies and access logs record, which is exactly why it expires in twelve hours and is re-minted on demand rather than being long-lived like the session token. It is decoded and verified (signature and expiry) BEFORE the upgrade, so a bad one is a 401 and never a socket that is accepted and then dropped, and it must carry both an account and a workspace claim. Nothing ambient authorizes this socket: a WebSocket is exempt from CORS, so a cookie-borne credential would make the Origin check the only access control on the whole data plane.  The tenant is the token's SIGNED org claim and it keys every store path, so no header can name another workspace's data. The upgrade ALSO refuses a browser Origin outside the team surfaces with 403 — otherwise any page could open an authenticated socket with a token it lured out of a logged-in browser — while a request with no Origin at all is admitted, because that is what a non-browser client sends.  On connect the workspace's system spaces are seeded once and the roster is reconciled every time, so the org's human members and its bots are present as workspace people without a separate sync call.
+        Upgrades to the WebSocket the Team client runs an entire space over: every frame is a ZAP envelope wrapping one JSON-RPC message — findAll/findOne reads against the space's documents, tx writes that broadcast to the other live sessions, hello negotiating JSON rather than msgpack. The response is a protocol upgrade, so there is no body to read.  THE PATH SEGMENT IS THE CREDENTIAL. It is the space token selectWorkspace minted — bearer-equivalent, and sitting in a URL that proxies and access logs record, which is exactly why it expires in twelve hours and is re-minted on demand rather than being long-lived like the session token. It is decoded and verified (signature and expiry) BEFORE the upgrade, so a bad one is a 401 and never a socket that is accepted and then dropped, and it must carry both an account and a space claim. Nothing ambient authorizes this socket: a WebSocket is exempt from CORS, so a cookie-borne credential would make the Origin check the only access control on the whole data plane.  The tenant is the token's SIGNED org claim and it keys every store path, so no header can name another space's data. The upgrade ALSO refuses a browser Origin outside the team surfaces with 403 — otherwise any page could open an authenticated socket with a token it lured out of a logged-in browser — while a request with no Origin at all is admitted, because that is what a non-browser client sends.  On connect the space's system spaces are seeded once and the roster is reconciled every time, so the org's human members and its bots are present as space people without a separate sync call.
 
         :param token: (required)
         :type token: str
@@ -3079,7 +3361,7 @@ class TeamApi:
     @validate_call
     def get_team_transactor_statistics(
         self,
-        token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
+        token: Annotated[Optional[StrictStr], Field(description="Token is the space token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3093,11 +3375,11 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> StatsOut:
-        """Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base.
+        """Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
 
-        Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a workspace UUID names the workspace and is authorized against the membership rows, an HS256 workspace token names it in its signed claims. activeSessions carries ONLY that one workspace, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
+        Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
 
-        :param token: Token is the workspace token minted by selectWorkspace.
+        :param token: Token is the space token minted by selectWorkspace.
         :type token: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3146,7 +3428,7 @@ class TeamApi:
     @validate_call
     def get_team_transactor_statistics_with_http_info(
         self,
-        token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
+        token: Annotated[Optional[StrictStr], Field(description="Token is the space token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3160,11 +3442,11 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[StatsOut]:
-        """Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base.
+        """Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
 
-        Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a workspace UUID names the workspace and is authorized against the membership rows, an HS256 workspace token names it in its signed claims. activeSessions carries ONLY that one workspace, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
+        Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
 
-        :param token: Token is the workspace token minted by selectWorkspace.
+        :param token: Token is the space token minted by selectWorkspace.
         :type token: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3213,7 +3495,7 @@ class TeamApi:
     @validate_call
     def get_team_transactor_statistics_without_preload_content(
         self,
-        token: Annotated[Optional[StrictStr], Field(description="Token is the workspace token minted by selectWorkspace.")] = None,
+        token: Annotated[Optional[StrictStr], Field(description="Token is the space token minted by selectWorkspace.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3227,11 +3509,11 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base.
+        """Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
 
-        Statistics returns the transactor's live sessions for the workspace the caller's credential names — the endpoint the front's workspace switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a workspace UUID names the workspace and is authorized against the membership rows, an HS256 workspace token names it in its signed claims. activeSessions carries ONLY that one workspace, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
+        Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
 
-        :param token: Token is the workspace token minted by selectWorkspace.
+        :param token: Token is the space token minted by selectWorkspace.
         :type token: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3355,9 +3637,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Read the caller's account and switch workspace
+        """Read the caller's account and switch space
 
-        The account control plane the Team client speaks: one POST carries a `method` verb and its `params`, and answers {\"result\": …}. The verbs are the session's own reads and the workspace switch — getLoginInfoByToken, getUserWorkspaces, selectWorkspace, getWorkspaceInfo, getMemberships, getPerson, getSocialIds, getRegionInfo, isReadOnlyGuest — plus sendInvite, which adds a member to a workspace and is refused for a caller who is not its owner or admin.  A REFUSAL IS HTTP 200 carrying {\"error\": {severity, code, params}} — the platform Status the client translates — not a 4xx. An unreadable body, an unauthorized session and an unknown verb all arrive that way, so a caller that reads only the status code reads every failure here as a success.  NO CREDENTIAL IS EVER HANDLED HERE. login, signUp, the OTP verbs, password change and reset, join and the guest-token exchange each answer Unauthorized with \"sign in at hanzo.id\" — a stated policy, not an unknown method, so the refusal is a fact a test can pin. Sessions come from the OAuth pair under /account/auth.  Auth is the team session token: Authorization: Bearer, else the HttpOnly account-token cookie. The tenant is that token's SIGNED org claim, never a header, and selectWorkspace resolves only among the orgs the token proves membership of. It also demands an explicit workspaceUrl — it never falls back to a first workspace, and a slug that resolves in two of the caller's orgs answers Ambiguous rather than picking one.
+        The account control plane the Team client speaks: one POST carries a `method` verb and its `params`, and answers {\"result\": …}. The verbs are the session's own reads and the space switch — getLoginInfoByToken, getUserWorkspaces, selectWorkspace, getWorkspaceInfo, getMemberships, getPerson, getSocialIds, getRegionInfo, isReadOnlyGuest — plus sendInvite, which adds a member to a space and is refused for a caller who is not its owner or admin.  A REFUSAL IS HTTP 200 carrying {\"error\": {severity, code, params}} — the platform Status the client translates — not a 4xx. An unreadable body, an unauthorized session and an unknown verb all arrive that way, so a caller that reads only the status code reads every failure here as a success.  NO CREDENTIAL IS EVER HANDLED HERE. login, signUp, the OTP verbs, password change and reset, join and the guest-token exchange each answer Unauthorized with \"sign in at hanzo.id\" — a stated policy, not an unknown method, so the refusal is a fact a test can pin. Sessions come from the OAuth pair under /account/auth.  Auth is the team session token: Authorization: Bearer, else the HttpOnly account-token cookie. The tenant is that token's SIGNED org claim, never a header, and selectWorkspace resolves only among the orgs the token proves membership of. It also demands an explicit workspaceUrl — it never falls back to a first space, and a slug that resolves in two of the caller's orgs answers Ambiguous rather than picking one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3417,9 +3699,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Read the caller's account and switch workspace
+        """Read the caller's account and switch space
 
-        The account control plane the Team client speaks: one POST carries a `method` verb and its `params`, and answers {\"result\": …}. The verbs are the session's own reads and the workspace switch — getLoginInfoByToken, getUserWorkspaces, selectWorkspace, getWorkspaceInfo, getMemberships, getPerson, getSocialIds, getRegionInfo, isReadOnlyGuest — plus sendInvite, which adds a member to a workspace and is refused for a caller who is not its owner or admin.  A REFUSAL IS HTTP 200 carrying {\"error\": {severity, code, params}} — the platform Status the client translates — not a 4xx. An unreadable body, an unauthorized session and an unknown verb all arrive that way, so a caller that reads only the status code reads every failure here as a success.  NO CREDENTIAL IS EVER HANDLED HERE. login, signUp, the OTP verbs, password change and reset, join and the guest-token exchange each answer Unauthorized with \"sign in at hanzo.id\" — a stated policy, not an unknown method, so the refusal is a fact a test can pin. Sessions come from the OAuth pair under /account/auth.  Auth is the team session token: Authorization: Bearer, else the HttpOnly account-token cookie. The tenant is that token's SIGNED org claim, never a header, and selectWorkspace resolves only among the orgs the token proves membership of. It also demands an explicit workspaceUrl — it never falls back to a first workspace, and a slug that resolves in two of the caller's orgs answers Ambiguous rather than picking one.
+        The account control plane the Team client speaks: one POST carries a `method` verb and its `params`, and answers {\"result\": …}. The verbs are the session's own reads and the space switch — getLoginInfoByToken, getUserWorkspaces, selectWorkspace, getWorkspaceInfo, getMemberships, getPerson, getSocialIds, getRegionInfo, isReadOnlyGuest — plus sendInvite, which adds a member to a space and is refused for a caller who is not its owner or admin.  A REFUSAL IS HTTP 200 carrying {\"error\": {severity, code, params}} — the platform Status the client translates — not a 4xx. An unreadable body, an unauthorized session and an unknown verb all arrive that way, so a caller that reads only the status code reads every failure here as a success.  NO CREDENTIAL IS EVER HANDLED HERE. login, signUp, the OTP verbs, password change and reset, join and the guest-token exchange each answer Unauthorized with \"sign in at hanzo.id\" — a stated policy, not an unknown method, so the refusal is a fact a test can pin. Sessions come from the OAuth pair under /account/auth.  Auth is the team session token: Authorization: Bearer, else the HttpOnly account-token cookie. The tenant is that token's SIGNED org claim, never a header, and selectWorkspace resolves only among the orgs the token proves membership of. It also demands an explicit workspaceUrl — it never falls back to a first space, and a slug that resolves in two of the caller's orgs answers Ambiguous rather than picking one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3479,9 +3761,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Read the caller's account and switch workspace
+        """Read the caller's account and switch space
 
-        The account control plane the Team client speaks: one POST carries a `method` verb and its `params`, and answers {\"result\": …}. The verbs are the session's own reads and the workspace switch — getLoginInfoByToken, getUserWorkspaces, selectWorkspace, getWorkspaceInfo, getMemberships, getPerson, getSocialIds, getRegionInfo, isReadOnlyGuest — plus sendInvite, which adds a member to a workspace and is refused for a caller who is not its owner or admin.  A REFUSAL IS HTTP 200 carrying {\"error\": {severity, code, params}} — the platform Status the client translates — not a 4xx. An unreadable body, an unauthorized session and an unknown verb all arrive that way, so a caller that reads only the status code reads every failure here as a success.  NO CREDENTIAL IS EVER HANDLED HERE. login, signUp, the OTP verbs, password change and reset, join and the guest-token exchange each answer Unauthorized with \"sign in at hanzo.id\" — a stated policy, not an unknown method, so the refusal is a fact a test can pin. Sessions come from the OAuth pair under /account/auth.  Auth is the team session token: Authorization: Bearer, else the HttpOnly account-token cookie. The tenant is that token's SIGNED org claim, never a header, and selectWorkspace resolves only among the orgs the token proves membership of. It also demands an explicit workspaceUrl — it never falls back to a first workspace, and a slug that resolves in two of the caller's orgs answers Ambiguous rather than picking one.
+        The account control plane the Team client speaks: one POST carries a `method` verb and its `params`, and answers {\"result\": …}. The verbs are the session's own reads and the space switch — getLoginInfoByToken, getUserWorkspaces, selectWorkspace, getWorkspaceInfo, getMemberships, getPerson, getSocialIds, getRegionInfo, isReadOnlyGuest — plus sendInvite, which adds a member to a space and is refused for a caller who is not its owner or admin.  A REFUSAL IS HTTP 200 carrying {\"error\": {severity, code, params}} — the platform Status the client translates — not a 4xx. An unreadable body, an unauthorized session and an unknown verb all arrive that way, so a caller that reads only the status code reads every failure here as a success.  NO CREDENTIAL IS EVER HANDLED HERE. login, signUp, the OTP verbs, password change and reset, join and the guest-token exchange each answer Unauthorized with \"sign in at hanzo.id\" — a stated policy, not an unknown method, so the refusal is a fact a test can pin. Sessions come from the OAuth pair under /account/auth.  Auth is the team session token: Authorization: Bearer, else the HttpOnly account-token cookie. The tenant is that token's SIGNED org claim, never a header, and selectWorkspace resolves only among the orgs the token proves membership of. It also demands an explicit workspaceUrl — it never falls back to a first space, and a slug that resolves in two of the caller's orgs answers Ambiguous rather than picking one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3591,9 +3873,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BotSync:
-        """SyncBots re-projects the caller org's agents as workspace members into EVERY workspace of the org, and removes the ones whose agent is gone.
+        """SyncBots re-projects the caller org's agents as space members into EVERY space of the org, and removes the ones whose agent is gone.
 
-        SyncBots re-projects the caller org's agents as workspace members into EVERY workspace of the org, and removes the ones whose agent is gone. It is idempotent, and admin only: mutating a workspace's roster requires the gateway-minted admin flag, which a client can never forge. It answers how many roster entries the reconcile touched.
+        SyncBots re-projects the caller org's agents as space members into EVERY space of the org, and removes the ones whose agent is gone. It is idempotent, and admin only: mutating a space's roster requires the gateway-minted admin flag, which a client can never forge. It answers how many roster entries the reconcile touched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3654,9 +3936,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BotSync]:
-        """SyncBots re-projects the caller org's agents as workspace members into EVERY workspace of the org, and removes the ones whose agent is gone.
+        """SyncBots re-projects the caller org's agents as space members into EVERY space of the org, and removes the ones whose agent is gone.
 
-        SyncBots re-projects the caller org's agents as workspace members into EVERY workspace of the org, and removes the ones whose agent is gone. It is idempotent, and admin only: mutating a workspace's roster requires the gateway-minted admin flag, which a client can never forge. It answers how many roster entries the reconcile touched.
+        SyncBots re-projects the caller org's agents as space members into EVERY space of the org, and removes the ones whose agent is gone. It is idempotent, and admin only: mutating a space's roster requires the gateway-minted admin flag, which a client can never forge. It answers how many roster entries the reconcile touched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3717,9 +3999,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """SyncBots re-projects the caller org's agents as workspace members into EVERY workspace of the org, and removes the ones whose agent is gone.
+        """SyncBots re-projects the caller org's agents as space members into EVERY space of the org, and removes the ones whose agent is gone.
 
-        SyncBots re-projects the caller org's agents as workspace members into EVERY workspace of the org, and removes the ones whose agent is gone. It is idempotent, and admin only: mutating a workspace's roster requires the gateway-minted admin flag, which a client can never forge. It answers how many roster entries the reconcile touched.
+        SyncBots re-projects the caller org's agents as space members into EVERY space of the org, and removes the ones whose agent is gone. It is idempotent, and admin only: mutating a space's roster requires the gateway-minted admin flag, which a client can never forge. It answers how many roster entries the reconcile touched.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3824,7 +4106,7 @@ class TeamApi:
     @validate_call
     def post_team_collaborator_rpc_by_documentid(
         self,
-        document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
+        document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
         collab_request: CollabRequest,
         _request_timeout: Union[
             None,
@@ -3841,9 +4123,9 @@ class TeamApi:
     ) -> CollabResult:
         """CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.
 
-        CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or workspace token: the documentId's workspace must be the token's workspace when the token names one, and the caller must be a member of it. An unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists.
+        CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or space token: the documentId's space must be the token's space when the token names one, and the caller must be a member of it. An unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists.
 
-        :param document_id: DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
+        :param document_id: DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
         :type document_id: str
         :param collab_request: (required)
         :type collab_request: CollabRequest
@@ -3895,7 +4177,7 @@ class TeamApi:
     @validate_call
     def post_team_collaborator_rpc_by_documentid_with_http_info(
         self,
-        document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
+        document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
         collab_request: CollabRequest,
         _request_timeout: Union[
             None,
@@ -3912,9 +4194,9 @@ class TeamApi:
     ) -> ApiResponse[CollabResult]:
         """CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.
 
-        CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or workspace token: the documentId's workspace must be the token's workspace when the token names one, and the caller must be a member of it. An unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists.
+        CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or space token: the documentId's space must be the token's space when the token names one, and the caller must be a member of it. An unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists.
 
-        :param document_id: DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
+        :param document_id: DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
         :type document_id: str
         :param collab_request: (required)
         :type collab_request: CollabRequest
@@ -3966,7 +4248,7 @@ class TeamApi:
     @validate_call
     def post_team_collaborator_rpc_by_documentid_without_preload_content(
         self,
-        document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
+        document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
         collab_request: CollabRequest,
         _request_timeout: Union[
             None,
@@ -3983,9 +4265,9 @@ class TeamApi:
     ) -> RESTResponseType:
         """CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.
 
-        CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or workspace token: the documentId's workspace must be the token's workspace when the token names one, and the caller must be a member of it. An unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists.
+        CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or space token: the documentId's space must be the token's space when the token names one, and the caller must be a member of it. An unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists.
 
-        :param document_id: DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
+        :param document_id: DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
         :type document_id: str
         :param collab_request: (required)
         :type collab_request: CollabRequest
@@ -4111,9 +4393,9 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_files_by_workspace(
+    def post_team_files_by_space(
         self,
-        workspace: StrictStr,
+        space: StrictStr,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
@@ -4128,12 +4410,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> bytearray:
-        """Upload a file into a workspace
+        """Upload a file into a space
 
-        Stores one file in a workspace's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or workspace token AND be a member of the workspace; an unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the workspace, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
+        Stores one file in a space's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or space token AND be a member of the space; an unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the space, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
 
-        :param workspace: (required)
-        :type workspace: str
+        :param space: (required)
+        :type space: str
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -4158,8 +4440,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_files_by_workspace_serialize(
-            workspace=workspace,
+        _param = self._post_team_files_by_space_serialize(
+            space=space,
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4182,9 +4464,9 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_files_by_workspace_with_http_info(
+    def post_team_files_by_space_with_http_info(
         self,
-        workspace: StrictStr,
+        space: StrictStr,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
@@ -4199,12 +4481,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[bytearray]:
-        """Upload a file into a workspace
+        """Upload a file into a space
 
-        Stores one file in a workspace's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or workspace token AND be a member of the workspace; an unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the workspace, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
+        Stores one file in a space's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or space token AND be a member of the space; an unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the space, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
 
-        :param workspace: (required)
-        :type workspace: str
+        :param space: (required)
+        :type space: str
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -4229,8 +4511,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_files_by_workspace_serialize(
-            workspace=workspace,
+        _param = self._post_team_files_by_space_serialize(
+            space=space,
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4253,9 +4535,9 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_files_by_workspace_without_preload_content(
+    def post_team_files_by_space_without_preload_content(
         self,
-        workspace: StrictStr,
+        space: StrictStr,
         body: Optional[Union[StrictBytes, StrictStr, Tuple[StrictStr, StrictBytes]]] = None,
         _request_timeout: Union[
             None,
@@ -4270,12 +4552,12 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Upload a file into a workspace
+        """Upload a file into a space
 
-        Stores one file in a workspace's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or workspace token AND be a member of the workspace; an unknown workspace, another tenant's workspace and a workspace the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the workspace, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
+        Stores one file in a space's blob store and answers the blob id it is addressable by, as plain text — the front discards that body, it is there for a caller driving this by hand.  The body is a multipart form with a `file` part, and THAT PART'S FILENAME IS THE BLOB ID: the client mints it (a uuid v4) and the server stores under it, so a part whose filename is not a uuid is refused rather than assigned one. A file over 100 MiB is 413 and an empty one is 400.  The caller must hold a verified session or space token AND be a member of the space; an unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists. The stored key embeds the verified org and the space, so an upload cannot land in another tenant's box whatever id it names. A storage backend that is unavailable fails closed with 502 rather than reporting a write it never made.
 
-        :param workspace: (required)
-        :type workspace: str
+        :param space: (required)
+        :type space: str
         :param body:
         :type body: bytearray
         :param _request_timeout: timeout setting for this request. If one
@@ -4300,8 +4582,8 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_files_by_workspace_serialize(
-            workspace=workspace,
+        _param = self._post_team_files_by_space_serialize(
+            space=space,
             body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4319,9 +4601,9 @@ class TeamApi:
         return response_data.response
 
 
-    def _post_team_files_by_workspace_serialize(
+    def _post_team_files_by_space_serialize(
         self,
-        workspace,
+        space,
         body,
         _request_auth,
         _content_type,
@@ -4344,8 +4626,8 @@ class TeamApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
-        if workspace is not None:
-            _path_params['workspace'] = workspace
+        if space is not None:
+            _path_params['space'] = space
         # process the query parameters
         # process the header parameters
         # process the form parameters
@@ -4391,7 +4673,570 @@ class TeamApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/team/files/{workspace}',
+            resource_path='/v1/team/files/{space}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_rooms(
+        self,
+        team_room_new: TeamRoomNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamRoom:
+        """Opens a named room and answers it as the store now holds it.
+
+        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+
+        :param team_room_new: (required)
+        :type team_room_new: TeamRoomNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_serialize(
+            team_room_new=team_room_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_rooms_with_http_info(
+        self,
+        team_room_new: TeamRoomNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamRoom]:
+        """Opens a named room and answers it as the store now holds it.
+
+        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+
+        :param team_room_new: (required)
+        :type team_room_new: TeamRoomNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_serialize(
+            team_room_new=team_room_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_rooms_without_preload_content(
+        self,
+        team_room_new: TeamRoomNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens a named room and answers it as the store now holds it.
+
+        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+
+        :param team_room_new: (required)
+        :type team_room_new: TeamRoomNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_serialize(
+            team_room_new=team_room_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_rooms_serialize(
+        self,
+        team_room_new,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_room_new is not None:
+            _body_params = team_room_new
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/rooms',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_rooms_by_id_messages(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
+        team_message_write: TeamMessageWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamMessage:
+        """Says one thing in a room, as the caller.
+
+        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.
+
+        :param id: ID is the room to say it in, from the path. (required)
+        :type id: str
+        :param team_message_write: (required)
+        :type team_message_write: TeamMessageWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_by_id_messages_serialize(
+            id=id,
+            team_message_write=team_message_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_rooms_by_id_messages_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
+        team_message_write: TeamMessageWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamMessage]:
+        """Says one thing in a room, as the caller.
+
+        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.
+
+        :param id: ID is the room to say it in, from the path. (required)
+        :type id: str
+        :param team_message_write: (required)
+        :type team_message_write: TeamMessageWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_by_id_messages_serialize(
+            id=id,
+            team_message_write=team_message_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_rooms_by_id_messages_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
+        team_message_write: TeamMessageWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Says one thing in a room, as the caller.
+
+        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.
+
+        :param id: ID is the room to say it in, from the path. (required)
+        :type id: str
+        :param team_message_write: (required)
+        :type team_message_write: TeamMessageWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_by_id_messages_serialize(
+            id=id,
+            team_message_write=team_message_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_rooms_by_id_messages_serialize(
+        self,
+        id,
+        team_message_write,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_message_write is not None:
+            _body_params = team_message_write
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/rooms/{id}/messages',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -4673,7 +5518,7 @@ class TeamApi:
     ) -> TeamRoom:
         """States what a room is for: its lifecycle intent, and what it is about.
 
-        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open workspace rather than on the next reload.
+        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload.
 
         :param id: ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. (required)
         :type id: str
@@ -4744,7 +5589,7 @@ class TeamApi:
     ) -> ApiResponse[TeamRoom]:
         """States what a room is for: its lifecycle intent, and what it is about.
 
-        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open workspace rather than on the next reload.
+        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload.
 
         :param id: ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. (required)
         :type id: str
@@ -4815,7 +5660,7 @@ class TeamApi:
     ) -> RESTResponseType:
         """States what a room is for: its lifecycle intent, and what it is about.
 
-        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open workspace rather than on the next reload.
+        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload.
 
         :param id: ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. (required)
         :type id: str

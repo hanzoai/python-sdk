@@ -27,7 +27,7 @@ class AllowlistPutIn(BaseModel):
     AllowlistPutIn
     """ # noqa: E501
     access_groups: Optional[Dict[str, Dict[str, List[StrictStr]]]] = Field(default=None, description="AccessGroups REPLACES the org's named access groups, as group name -> channel -> entries. Absent or null leaves them alone.", alias="accessGroups")
-    channel: Optional[StrictStr] = Field(default=None, description="Channel is the transport to edit: discord, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.")
+    channel: Optional[StrictStr] = Field(default=None, description="Channel is the transport to edit: discord, github, linear, slack, teams, telegram or whatsapp. Required; an unknown value is a 404.")
     dm: Optional[List[StrictStr]] = Field(default=None, description="DM REPLACES the config-managed DM allow entries. Absent or null leaves them alone; an empty list clears them. It never touches senders approved through pairing — a policy edit cannot revoke an approved pairing.")
     dm_policy: Optional[StrictStr] = Field(default=None, description="DMPolicy sets how direct messages are admitted: \"pairing\" (a person must be approved first), \"allowlist\" (only listed senders) or \"open\". Empty leaves it unchanged.", alias="dmPolicy")
     group: Optional[List[StrictStr]] = Field(default=None, description="Group REPLACES the config-managed group allow entries. Absent or null leaves them alone; an empty list clears them.")

@@ -26,9 +26,9 @@ class GraphEdge(BaseModel):
     """
     GraphEdge
     """ # noqa: E501
-    var_from: Optional[StrictStr] = Field(default=None, description="From is the id of the node the edge starts at: the child page for a parent edge, the page holding the wikilink for a link edge, the kb-source for a provenance edge. Always one of Nodes.", alias="from")
+    var_from: Optional[StrictStr] = Field(default=None, description="From is the id of the node the edge starts at: the child page for a parent edge, the page holding the wikilink for a link edge, the kb.source for a provenance edge. Always one of Nodes.", alias="from")
     kind: Optional[StrictStr] = Field(default=None, description="parent | link | provenance")
-    to: Optional[StrictStr] = Field(default=None, description="To is the id of the node the edge points at: the parent page, the linked page, the kb-connector. Always one of Nodes — a wikilink matching no page points at a synthetic \"unresolved:<lowercased title>\" node rather than dangling.")
+    to: Optional[StrictStr] = Field(default=None, description="To is the id of the node the edge points at: the parent page, the linked page, the kb.connector. Always one of Nodes — a wikilink matching no page points at a synthetic \"unresolved:<lowercased title>\" node rather than dangling.")
     __properties: ClassVar[List[str]] = ["from", "kind", "to"]
 
     model_config = ConfigDict(

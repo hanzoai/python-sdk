@@ -27,7 +27,7 @@ class StatsSessions(BaseModel):
     """
     StatsSessions
     """ # noqa: E501
-    active_sessions: Optional[Dict[str, List[StatsUser]]] = Field(default=None, description="ActiveSessions maps a workspace uuid to its connected sessions. It carries only the token's OWN workspace, and is empty for a token that names none.", alias="activeSessions")
+    active_sessions: Optional[Dict[str, List[StatsUser]]] = Field(default=None, description="ActiveSessions maps a space uuid to its connected sessions. It carries only the token's OWN space, and is empty for a token that names none.", alias="activeSessions")
     __properties: ClassVar[List[str]] = ["activeSessions"]
 
     model_config = ConfigDict(

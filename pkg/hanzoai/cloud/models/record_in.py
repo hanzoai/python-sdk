@@ -26,7 +26,7 @@ class RecordIn(BaseModel):
     """
     RecordIn
     """ # noqa: E501
-    room: StrictStr = Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")
+    room: StrictStr = Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")
     __properties: ClassVar[List[str]] = ["room"]
 
     model_config = ConfigDict(

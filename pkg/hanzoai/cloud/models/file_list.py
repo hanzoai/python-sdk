@@ -17,18 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.role_assignment import RoleAssignment
+from hanzoai.cloud.models.file_item import FileItem
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RoleList(BaseModel):
+class FileList(BaseModel):
     """
-    RoleList
+    FileList
     """ # noqa: E501
-    data: Optional[List[RoleAssignment]] = Field(default=None, description="Data is every (user, role) assignment in the caller's org.")
-    __properties: ClassVar[List[str]] = ["data"]
+    drive: Optional[StrictStr] = Field(default=None, description="Drive is the drive that was listed.")
+    files: Optional[List[FileItem]] = Field(default=None, description="Files are the entries at this level, names RELATIVE to Folder.")
+    folder: Optional[StrictStr] = Field(default=None, description="Folder is the sub-folder the listing was scoped to, cleaned. Empty for the drive's own root.")
+    space: Optional[StrictStr] = Field(default=None, description="Space is the space that was listed.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is how many entries came back. The listing is BOUNDED, so a drive with more files than the cap answers the cap and this says so — it is not a count of what the drive holds.")
+    __properties: ClassVar[List[str]] = ["drive", "files", "folder", "space", "total"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +52,7 @@ class RoleList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RoleList from a JSON string"""
+        """Create an instance of FileList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +73,18 @@ class RoleList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in files (list)
         _items = []
-        if self.data:
-            for _item_data in self.data:
-                if _item_data:
-                    _items.append(_item_data.to_dict())
-            _dict['data'] = _items
+        if self.files:
+            for _item_files in self.files:
+                if _item_files:
+                    _items.append(_item_files.to_dict())
+            _dict['files'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RoleList from a dict"""
+        """Create an instance of FileList from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +92,11 @@ class RoleList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [RoleAssignment.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "drive": obj.get("drive"),
+            "files": [FileItem.from_dict(_item) for _item in obj["files"]] if obj.get("files") is not None else None,
+            "folder": obj.get("folder"),
+            "space": obj.get("space"),
+            "total": obj.get("total")
         })
         return _obj
 

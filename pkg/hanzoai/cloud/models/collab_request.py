@@ -27,7 +27,7 @@ class CollabRequest(BaseModel):
     """
     CollabRequest
     """ # noqa: E501
-    document_id: Optional[StrictStr] = Field(default=None, description="DocumentID addresses the document field, as \"<workspaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.", alias="documentId")
+    document_id: Optional[StrictStr] = Field(default=None, description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.", alias="documentId")
     method: Optional[StrictStr] = Field(default=None, description="Method is the verb: createContent, updateContent or getContent.")
     payload: Optional[CollabPayload] = Field(default=None, description="Payload is the verb's argument.")
     __properties: ClassVar[List[str]] = ["documentId", "method", "payload"]

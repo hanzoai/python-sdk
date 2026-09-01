@@ -669,7 +669,7 @@ class TodoApi:
         status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<workspace>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
         assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
@@ -700,7 +700,7 @@ class TodoApi:
         :type kind: str
         :param repo: Repo keeps issues bound to one git repository.
         :type repo: str
-        :param room: Room keeps issues bound to one collaboration room, spelled \"<workspace>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
+        :param room: Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
         :type room: str
         :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
         :type source: str
@@ -768,7 +768,7 @@ class TodoApi:
         status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<workspace>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
         assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
@@ -799,7 +799,7 @@ class TodoApi:
         :type kind: str
         :param repo: Repo keeps issues bound to one git repository.
         :type repo: str
-        :param room: Room keeps issues bound to one collaboration room, spelled \"<workspace>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
+        :param room: Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
         :type room: str
         :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
         :type source: str
@@ -867,7 +867,7 @@ class TodoApi:
         status: Annotated[Optional[StrictStr], Field(description="Status keeps one board column: backlog, todo, in_progress, done, canceled.")] = None,
         kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one shape: issue, pr, epic.")] = None,
         repo: Annotated[Optional[StrictStr], Field(description="Repo keeps issues bound to one git repository.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<workspace>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.")] = None,
         assignee: Annotated[Optional[StrictStr], Field(description="Assignee keeps issues held by one person. Pass \"me\" for yourself.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the answer; 0 means the default, and anything above the ceiling is clamped rather than refused — a search that errors on being too broad teaches people to guess.")] = None,
@@ -898,7 +898,7 @@ class TodoApi:
         :type kind: str
         :param repo: Repo keeps issues bound to one git repository.
         :type repo: str
-        :param room: Room keeps issues bound to one collaboration room, spelled \"<workspace>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
+        :param room: Room keeps issues bound to one collaboration room, spelled \"<space>_<room>\" — the exact value GET /v1/meet/call answers with, so a channel's call and its todo list name the room the same way. This is the read a channel view runs to draw its own list; it spans every board of the org, because the work a channel is about is not confined to one board.
         :type room: str
         :param source: Source keeps one origin: team, git, crm, helpdesk, cms, agent. \"git\" is how you ask for the mirrored GitHub issues specifically.
         :type source: str
@@ -2209,7 +2209,7 @@ class TodoApi:
     @validate_call
     def get_todo_rooms_by_room(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<workspace>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
+        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2227,7 +2227,7 @@ class TodoApi:
 
         Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
 
-        :param room: Room is the room, spelled \"<workspace>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
+        :param room: Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2276,7 +2276,7 @@ class TodoApi:
     @validate_call
     def get_todo_rooms_by_room_with_http_info(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<workspace>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
+        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2294,7 +2294,7 @@ class TodoApi:
 
         Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
 
-        :param room: Room is the room, spelled \"<workspace>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
+        :param room: Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2343,7 +2343,7 @@ class TodoApi:
     @validate_call
     def get_todo_rooms_by_room_without_preload_content(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<workspace>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
+        room: Annotated[StrictStr, Field(description="Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2361,7 +2361,7 @@ class TodoApi:
 
         Summarises one room's work.  The room is opaque here and is deliberately not resolved: this package cannot say whether a room exists — apps/team owns that document — so an unknown room answers an EMPTY board rather than a 404. That is the honest answer and the useful one: a channel that has never had an item filed in it and a channel id that was mistyped both have no work, and inventing a distinction would require this surface to hold a second copy of the room list (HIP-0523 §2 forbids it, and it would drift the first time a room was renamed).  Tenancy is the validated principal's org and nothing else, so a caller cannot read another tenant's channel by naming its room.
 
-        :param room: Room is the room, spelled \"<workspace>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
+        :param room: Room is the room, spelled \"<space>_<room>\" — the same value GET /v1/meet/call answers with, so a channel's call and its work name the room identically. From the path. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

@@ -27,9 +27,11 @@ class AgentDetail(BaseModel):
     """
     AgentDetail
     """ # noqa: E501
+    avatar: Optional[StrictStr] = None
     compute_ref: Optional[StrictStr] = Field(default=None, alias="computeRef")
     created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
     description: Optional[StrictStr] = None
+    emoji: Optional[StrictStr] = None
     execution_mode: Optional[StrictStr] = Field(default=None, alias="executionMode")
     id: Optional[StrictStr] = None
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions is the agent's system prompt, verbatim, up to 32 KiB. It is the one field the list read withholds, because it is the agent's whole behaviour and a page of them would be a page of prompts.")
@@ -42,7 +44,7 @@ class AgentDetail(BaseModel):
     status: Optional[StrictStr] = None
     tools: Optional[List[StrictStr]] = None
     updated_at: Optional[StrictStr] = Field(default=None, alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["computeRef", "createdAt", "description", "executionMode", "id", "instructions", "model", "name", "recentRuns", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["avatar", "computeRef", "createdAt", "description", "emoji", "executionMode", "id", "instructions", "model", "name", "recentRuns", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -102,9 +104,11 @@ class AgentDetail(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "avatar": obj.get("avatar"),
             "computeRef": obj.get("computeRef"),
             "createdAt": obj.get("createdAt"),
             "description": obj.get("description"),
+            "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),

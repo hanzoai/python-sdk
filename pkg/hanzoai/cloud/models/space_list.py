@@ -17,24 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.space_item import SpaceItem
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PaymentRecord(BaseModel):
+class SpaceList(BaseModel):
     """
-    PaymentRecord
+    SpaceList
     """ # noqa: E501
-    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is the credited amount in whole cents.", alias="amountCents")
-    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the credit was written, RFC3339.", alias="createdAt")
-    currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO 4217 code.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the ledger transaction id.")
-    notes: Optional[StrictStr] = Field(default=None, description="Notes is the ledger memo, carrying the processor and its reference.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is the payment's state. This ledger writes a deposit only AFTER the processor settled, so a payment that can be read is one that succeeded.")
-    subject: Optional[StrictStr] = Field(default=None, description="Subject is the billing key this payment credited.")
-    test: Optional[StrictBool] = Field(default=None, description="Test reports whether this was a sandbox charge (test balance) or live money.")
-    __properties: ClassVar[List[str]] = ["amountCents", "createdAt", "currency", "id", "notes", "status", "subject", "test"]
+    spaces: Optional[List[SpaceItem]] = Field(default=None, description="Spaces are the caller org's spaces, oldest first as the store returns them.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is how many spaces this org has. It equals len(spaces): the listing is not paged, because one bucket per (org, space) keeps an org's count small by construction, which is the whole reason a drive is a prefix and not a bucket.")
+    __properties: ClassVar[List[str]] = ["spaces", "total"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +49,7 @@ class PaymentRecord(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PaymentRecord from a JSON string"""
+        """Create an instance of SpaceList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,11 +70,18 @@ class PaymentRecord(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in spaces (list)
+        _items = []
+        if self.spaces:
+            for _item_spaces in self.spaces:
+                if _item_spaces:
+                    _items.append(_item_spaces.to_dict())
+            _dict['spaces'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PaymentRecord from a dict"""
+        """Create an instance of SpaceList from a dict"""
         if obj is None:
             return None
 
@@ -87,14 +89,8 @@ class PaymentRecord(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "amountCents": obj.get("amountCents"),
-            "createdAt": obj.get("createdAt"),
-            "currency": obj.get("currency"),
-            "id": obj.get("id"),
-            "notes": obj.get("notes"),
-            "status": obj.get("status"),
-            "subject": obj.get("subject"),
-            "test": obj.get("test")
+            "spaces": [SpaceItem.from_dict(_item) for _item in obj["spaces"]] if obj.get("spaces") is not None else None,
+            "total": obj.get("total")
         })
         return _obj
 

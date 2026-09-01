@@ -25,8 +25,6 @@ from hanzoai.cloud.models.document_list import DocumentList
 from hanzoai.cloud.models.install import Install
 from hanzoai.cloud.models.module_list import ModuleList
 from hanzoai.cloud.models.module_state import ModuleState
-from hanzoai.cloud.models.role_assignment import RoleAssignment
-from hanzoai.cloud.models.role_list import RoleList
 from hanzoai.cloud.models.summary_view import SummaryView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -50,7 +48,7 @@ class FrameworkApi:
     @validate_call
     def delete_framework_by_doctype_by_name(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -69,7 +67,7 @@ class FrameworkApi:
 
         Removes one document, after its on_trash hooks agree. A SUBMITTED document cannot be deleted — cancel it first. Answers 204.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -121,7 +119,7 @@ class FrameworkApi:
     @validate_call
     def delete_framework_by_doctype_by_name_with_http_info(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -140,7 +138,7 @@ class FrameworkApi:
 
         Removes one document, after its on_trash hooks agree. A SUBMITTED document cannot be deleted — cancel it first. Answers 204.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -192,7 +190,7 @@ class FrameworkApi:
     @validate_call
     def delete_framework_by_doctype_by_name_without_preload_content(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -211,7 +209,7 @@ class FrameworkApi:
 
         Removes one document, after its on_trash hooks agree. A SUBMITTED document cannot be deleted — cancel it first. Answers 204.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -319,7 +317,7 @@ class FrameworkApi:
     @validate_call
     def delete_framework_doctypes_by_name(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
+        name: Annotated[StrictStr, Field(description="Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -337,7 +335,7 @@ class FrameworkApi:
 
         Removes a DocType and every document stored under it. The definition and its data go together — a document with no schema can be neither validated nor read back — so there is no undo. Manager-only. Answers 204.
 
-        :param name: Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
+        :param name: Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -386,7 +384,7 @@ class FrameworkApi:
     @validate_call
     def delete_framework_doctypes_by_name_with_http_info(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
+        name: Annotated[StrictStr, Field(description="Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -404,7 +402,7 @@ class FrameworkApi:
 
         Removes a DocType and every document stored under it. The definition and its data go together — a document with no schema can be neither validated nor read back — so there is no undo. Manager-only. Answers 204.
 
-        :param name: Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
+        :param name: Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -453,7 +451,7 @@ class FrameworkApi:
     @validate_call
     def delete_framework_doctypes_by_name_without_preload_content(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
+        name: Annotated[StrictStr, Field(description="Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -471,7 +469,7 @@ class FrameworkApi:
 
         Removes a DocType and every document stored under it. The definition and its data go together — a document with no schema can be neither validated nor read back — so there is no undo. Manager-only. Answers 204.
 
-        :param name: Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
+        :param name: Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -571,278 +569,9 @@ class FrameworkApi:
 
 
     @validate_call
-    def delete_framework_roles_by_user_by_role(
-        self,
-        user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
-        role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Removes one (user, role) grant in the caller's org.
-
-        Removes one (user, role) grant in the caller's org. Manager-only. Answers 204; a grant that does not exist is not found.
-
-        :param user: User is the assignee whose grant is being revoked, from the path. (required)
-        :type user: str
-        :param role: Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment. (required)
-        :type role: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_framework_roles_by_user_by_role_serialize(
-            user=user,
-            role=role,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_framework_roles_by_user_by_role_with_http_info(
-        self,
-        user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
-        role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Removes one (user, role) grant in the caller's org.
-
-        Removes one (user, role) grant in the caller's org. Manager-only. Answers 204; a grant that does not exist is not found.
-
-        :param user: User is the assignee whose grant is being revoked, from the path. (required)
-        :type user: str
-        :param role: Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment. (required)
-        :type role: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_framework_roles_by_user_by_role_serialize(
-            user=user,
-            role=role,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_framework_roles_by_user_by_role_without_preload_content(
-        self,
-        user: Annotated[StrictStr, Field(description="User is the assignee whose grant is being revoked, from the path.")],
-        role: Annotated[StrictStr, Field(description="Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Removes one (user, role) grant in the caller's org.
-
-        Removes one (user, role) grant in the caller's org. Manager-only. Answers 204; a grant that does not exist is not found.
-
-        :param user: User is the assignee whose grant is being revoked, from the path. (required)
-        :type user: str
-        :param role: Role is the role to revoke, from the path. A role name containing a space (\"System Manager\") arrives percent-encoded and is decoded before it is matched against the stored assignment. (required)
-        :type role: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_framework_roles_by_user_by_role_serialize(
-            user=user,
-            role=role,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_framework_roles_by_user_by_role_serialize(
-        self,
-        user,
-        role,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if user is not None:
-            _path_params['user'] = user
-        if role is not None:
-            _path_params['role'] = role
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/framework/roles/{user}/{role}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def get_framework_by_doctype(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, by ADDRESS — \"module.name\", from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
         fields: Annotated[Optional[StrictStr], Field(description="Fields projects the response to a subset — a JSON array [\"a\",\"b\"] or a comma list \"a,b\". The envelope keys are always returned.")] = None,
         order_by: Annotated[Optional[StrictStr], Field(description="OrderBy is \"<field> [asc|desc]\". Empty means most-recently-updated first.")] = None,
@@ -864,7 +593,7 @@ class FrameworkApi:
 
         Returns the caller org's documents of one DocType, filtered, ordered and projected by the query. The DocType is resolved FIRST — through the same permission gate the list itself uses — because the query is validated against its schema: a filter, sort or field name the DocType does not declare is refused rather than reaching the store.
 
-        :param doctype: DocType is the DocType to list, from the path. (required)
+        :param doctype: DocType is the DocType to list, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param filters: Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.
         :type filters: str
@@ -925,7 +654,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_by_doctype_with_http_info(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, by ADDRESS — \"module.name\", from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
         fields: Annotated[Optional[StrictStr], Field(description="Fields projects the response to a subset — a JSON array [\"a\",\"b\"] or a comma list \"a,b\". The envelope keys are always returned.")] = None,
         order_by: Annotated[Optional[StrictStr], Field(description="OrderBy is \"<field> [asc|desc]\". Empty means most-recently-updated first.")] = None,
@@ -947,7 +676,7 @@ class FrameworkApi:
 
         Returns the caller org's documents of one DocType, filtered, ordered and projected by the query. The DocType is resolved FIRST — through the same permission gate the list itself uses — because the query is validated against its schema: a filter, sort or field name the DocType does not declare is refused rather than reaching the store.
 
-        :param doctype: DocType is the DocType to list, from the path. (required)
+        :param doctype: DocType is the DocType to list, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param filters: Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.
         :type filters: str
@@ -1008,7 +737,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_by_doctype_without_preload_content(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the DocType to list, by ADDRESS — \"module.name\", from the path.")],
         filters: Annotated[Optional[StrictStr], Field(description="Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.")] = None,
         fields: Annotated[Optional[StrictStr], Field(description="Fields projects the response to a subset — a JSON array [\"a\",\"b\"] or a comma list \"a,b\". The envelope keys are always returned.")] = None,
         order_by: Annotated[Optional[StrictStr], Field(description="OrderBy is \"<field> [asc|desc]\". Empty means most-recently-updated first.")] = None,
@@ -1030,7 +759,7 @@ class FrameworkApi:
 
         Returns the caller org's documents of one DocType, filtered, ordered and projected by the query. The DocType is resolved FIRST — through the same permission gate the list itself uses — because the query is validated against its schema: a filter, sort or field name the DocType does not declare is refused rather than reaching the store.
 
-        :param doctype: DocType is the DocType to list, from the path. (required)
+        :param doctype: DocType is the DocType to list, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param filters: Filters is a JSON object of equality matches, e.g. {\"priority\":\"High\"}. Every key must be a field the DocType declares (or the managed name / docstatus); an undeclared one is refused rather than silently ignored.
         :type filters: str
@@ -1171,7 +900,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_by_doctype_by_name(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -1190,7 +919,7 @@ class FrameworkApi:
 
         Returns one document by name, with Password fields redacted.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -1242,7 +971,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_by_doctype_by_name_with_http_info(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -1261,7 +990,7 @@ class FrameworkApi:
 
         Returns one document by name, with Password fields redacted.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -1313,7 +1042,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_by_doctype_by_name_without_preload_content(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -1332,7 +1061,7 @@ class FrameworkApi:
 
         Returns one document by name, with Password fields redacted.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -1693,7 +1422,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_doctypes_by_name(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
+        name: Annotated[StrictStr, Field(description="Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1711,7 +1440,7 @@ class FrameworkApi:
 
         Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags. Scoped to the caller's org, so another tenant's DocType of the same name is simply not found.
 
-        :param name: Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
+        :param name: Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1760,7 +1489,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_doctypes_by_name_with_http_info(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
+        name: Annotated[StrictStr, Field(description="Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1778,7 +1507,7 @@ class FrameworkApi:
 
         Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags. Scoped to the caller's org, so another tenant's DocType of the same name is simply not found.
 
-        :param name: Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
+        :param name: Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1827,7 +1556,7 @@ class FrameworkApi:
     @validate_call
     def get_framework_doctypes_by_name_without_preload_content(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
+        name: Annotated[StrictStr, Field(description="Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1845,7 +1574,7 @@ class FrameworkApi:
 
         Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags. Scoped to the caller's org, so another tenant's DocType of the same name is simply not found.
 
-        :param name: Name is the DocType's name, from the path. A name containing a space (\"Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
+        :param name: Name is the DocType's ADDRESS — \"module.name\", e.g. \"kb.page\". A name containing a space (\"erp.Sales Invoice\") arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2459,252 +2188,6 @@ class FrameworkApi:
 
 
     @validate_call
-    def get_framework_roles(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RoleList:
-        """Returns every (user, role) assignment in the caller's org.
-
-        Returns every (user, role) assignment in the caller's org. Roles are what DocType permissions are written against, so this is the grant table the permission calculus resolves a member's rights from.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_framework_roles_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoleList",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_framework_roles_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RoleList]:
-        """Returns every (user, role) assignment in the caller's org.
-
-        Returns every (user, role) assignment in the caller's org. Roles are what DocType permissions are written against, so this is the grant table the permission calculus resolves a member's rights from.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_framework_roles_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoleList",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_framework_roles_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns every (user, role) assignment in the caller's org.
-
-        Returns every (user, role) assignment in the caller's org. Roles are what DocType permissions are written against, so this is the grant table the permission calculus resolves a member's rights from.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_framework_roles_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoleList",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_framework_roles_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/framework/roles',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def get_framework_summary(
         self,
         _request_timeout: Union[
@@ -3204,7 +2687,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_by_doctype_by_name_cancel(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -3223,7 +2706,7 @@ class FrameworkApi:
 
         Moves a submitted document to cancelled (docstatus 1 → 2) after its on_cancel hooks agree. Cancelling is terminal — a cancelled document cannot be re-submitted — but it CAN then be deleted.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -3275,7 +2758,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_by_doctype_by_name_cancel_with_http_info(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -3294,7 +2777,7 @@ class FrameworkApi:
 
         Moves a submitted document to cancelled (docstatus 1 → 2) after its on_cancel hooks agree. Cancelling is terminal — a cancelled document cannot be re-submitted — but it CAN then be deleted.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -3346,7 +2829,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_by_doctype_by_name_cancel_without_preload_content(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -3365,7 +2848,7 @@ class FrameworkApi:
 
         Moves a submitted document to cancelled (docstatus 1 → 2) after its on_cancel hooks agree. Cancelling is terminal — a cancelled document cannot be re-submitted — but it CAN then be deleted.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -3480,7 +2963,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_by_doctype_by_name_submit(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -3499,7 +2982,7 @@ class FrameworkApi:
 
         Moves a draft to submitted (docstatus 0 → 1) after its on_submit hooks agree. A submitted document is IMMUTABLE: further writes and deletes are refused until it is cancelled. Only a submittable DocType has this lifecycle; any other docstatus is an illegal transition.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -3551,7 +3034,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_by_doctype_by_name_submit_with_http_info(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -3570,7 +3053,7 @@ class FrameworkApi:
 
         Moves a draft to submitted (docstatus 0 → 1) after its on_submit hooks agree. A submitted document is IMMUTABLE: further writes and deletes are refused until it is cancelled. Only a submittable DocType has this lifecycle; any other docstatus is an illegal transition.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -3622,7 +3105,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_by_doctype_by_name_submit_without_preload_content(
         self,
-        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, from the path.")],
+        doctype: Annotated[StrictStr, Field(description="DocType is the document's DocType, by ADDRESS — \"module.name\", from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one.")],
         _request_timeout: Union[
             None,
@@ -3641,7 +3124,7 @@ class FrameworkApi:
 
         Moves a draft to submitted (docstatus 0 → 1) after its on_submit hooks agree. A submitted document is IMMUTABLE: further writes and deletes are refused until it is cancelled. Only a submittable DocType has this lifecycle; any other docstatus is an illegal transition.
 
-        :param doctype: DocType is the document's DocType, from the path. (required)
+        :param doctype: DocType is the document's DocType, by ADDRESS — \"module.name\", from the path. (required)
         :type doctype: str
         :param name: Name is the document's name — its key within the DocType — from the path. A name containing a space arrives percent-encoded and is decoded before it is matched against the stored one. (required)
         :type name: str
@@ -4273,280 +3756,6 @@ class FrameworkApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/framework/modules/{module}/install',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_framework_roles(
-        self,
-        role_assignment: RoleAssignment,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RoleAssignment:
-        """Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
-
-        Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
-
-        :param role_assignment: (required)
-        :type role_assignment: RoleAssignment
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_framework_roles_serialize(
-            role_assignment=role_assignment,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RoleAssignment",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_framework_roles_with_http_info(
-        self,
-        role_assignment: RoleAssignment,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RoleAssignment]:
-        """Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
-
-        Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
-
-        :param role_assignment: (required)
-        :type role_assignment: RoleAssignment
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_framework_roles_serialize(
-            role_assignment=role_assignment,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RoleAssignment",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_framework_roles_without_preload_content(
-        self,
-        role_assignment: RoleAssignment,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users.
-
-        Grants one user one role in the caller's org — how a member gains rights on a DocType, since permissions name roles and never users. Manager-only. Answers 201.
-
-        :param role_assignment: (required)
-        :type role_assignment: RoleAssignment
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_framework_roles_serialize(
-            role_assignment=role_assignment,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RoleAssignment",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_framework_roles_serialize(
-        self,
-        role_assignment,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if role_assignment is not None:
-            _body_params = role_assignment
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/framework/roles',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

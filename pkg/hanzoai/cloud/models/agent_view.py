@@ -26,9 +26,11 @@ class AgentView(BaseModel):
     """
     AgentView
     """ # noqa: E501
+    avatar: Optional[StrictStr] = Field(default=None, description="Avatar is an image the agent is drawn as — a link to one, or the bytes inline as a data URL, up to 96 KiB. Emoji is the one glyph a caller picked when they had no image. At most one is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is. Both are iam/pkg/schema's Mark, so a face means the same thing on an agent as it does on a person or an org. Avatar is the agent's picture: an image URL, or the image itself inline as a data URL up to 96 KiB. Empty when the agent has no image.")
     compute_ref: Optional[StrictStr] = Field(default=None, description="ComputeRef is the visor machine this bot is bound to, opaque here: this package stores and echoes it, and the binding's lifecycle belongs elsewhere. Empty means unbound, which is what every one-shot agent is.", alias="computeRef")
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the agent was defined, RFC 3339 in UTC to the second.", alias="createdAt")
     description: Optional[StrictStr] = Field(default=None, description="Description is the one line another agent reads when deciding whether to call this one: the tool catalogue publishes it as the description of `agent_<name>`, falling back to \"agent <name>\" when it is empty. It is not part of the prompt — Instructions is — so writing the behaviour here reaches the caller and not the model.")
+    emoji: Optional[StrictStr] = Field(default=None, description="Emoji is the single glyph a caller picked when they had no image. At most one of avatar and emoji is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is.")
     execution_mode: Optional[StrictStr] = Field(default=None, description="ExecutionMode is one-shot or long-running, and it decides who may start this agent. one-shot runs only when something POSTs to it; long-running is additionally invoked by the scheduler on Schedule, once a minute against the cron. An org's long-running agents are capped, so a switch INTO it can be refused with 409.", alias="executionMode")
     id: Optional[StrictStr] = Field(default=None, description="ID is the agent's stable handle, minted here as \"agent_\" + 32 hex characters of crypto/rand. A caller cannot choose it, and it never changes — unlike Name, which is the other way to address the same agent.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the Zen model this agent runs on, and it is always OUR name for it: writes normalize through cloud.ZenModel and the read normalizes again, so an upstream family name never leaves here even from a row written before that rule existed. A create that named none took the deployment's configured default, so this is where a caller learns which model it actually got.")
@@ -39,7 +41,7 @@ class AgentView(BaseModel):
     status: Optional[StrictStr] = Field(default=None, description="Status is the agent's readiness, and today it is \"ready\" on every row: an agent is a definition rather than a provisioned thing, so nothing transitions it. Server-set at create; no route accepts it.")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools are the tool names this agent may call, and the list IS the authority: an agent that declares none gets none. The single entry \"*\" means whatever the fleet's MCP server serves at the moment of the run, resolved per run rather than frozen here, which is how the default assistant reaches subsystems that shipped after it was defined. Empty array, never null.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last time any field above was written, same format. It moves on an update to the DEFINITION and never on a run, so a busy agent nobody has edited keeps an old one.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["computeRef", "createdAt", "description", "executionMode", "id", "model", "name", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["avatar", "computeRef", "createdAt", "description", "emoji", "executionMode", "id", "model", "name", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -92,9 +94,11 @@ class AgentView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "avatar": obj.get("avatar"),
             "computeRef": obj.get("computeRef"),
             "createdAt": obj.get("createdAt"),
             "description": obj.get("description"),
+            "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
             "id": obj.get("id"),
             "model": obj.get("model"),

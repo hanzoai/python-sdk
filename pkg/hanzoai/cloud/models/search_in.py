@@ -26,7 +26,7 @@ class SearchIn(BaseModel):
     """
     SearchIn
     """ # noqa: E501
-    doctypes: Optional[List[StrictStr]] = Field(default=None, description="DocTypes restricts retrieval to a subset of the indexed knowledge doctypes (kb-page, kb-memory, kb-source). An empty or foreign list reads all of them.")
+    doctypes: Optional[List[StrictStr]] = Field(default=None, description="DocTypes restricts retrieval to a subset of the indexed knowledge doctypes (kb.page, kb.memory, kb.source). An empty or foreign list reads all of them.")
     limit: Optional[StrictInt] = Field(default=None, description="Limit bounds the hits returned. Default 10, maximum 50.")
     project: Optional[StrictStr] = Field(default=None, description="Project narrows retrieval to one project scope.")
     query: Optional[StrictStr] = Field(default=None, description="Query is the natural-language question. Required.")
