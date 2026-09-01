@@ -1,43 +1,18 @@
-"""
-hanzo-tasks — Durable workflow execution for AI agents.
+"""hanzo-tasks — the Hanzo Tasks client.
 
-Wraps the Temporal Python SDK with Hanzo conventions for agent task
-orchestration, including pre-built workflows for pipelines and fan-out.
+Durable workflows in Hanzo Cloud run on hanzoai/tasks, embedded in the cloud
+process and served under `/v1/tasks`. From Python you start, signal, query,
+cancel, terminate and reset them, and manage schedules; a workflow's body runs
+in a worker written with the Go (`tasks/pkg/sdk`) or TypeScript
+(`@hanzoai/tasks`) SDK.
 
-Example:
     >>> from hanzo_tasks import Client, TasksConfig
-    >>> client = await Client.connect(TasksConfig(namespace="hanzo"))
-    >>> handle = await client.submit(AgentTaskWorkflow.run, task_input, queue="agents")
-    >>> result = await handle.result()
+    >>> with Client(TasksConfig(token=TOKEN, namespace="acme")) as tasks:
+    ...     wf = tasks.start("agent.review", task_queue="agents", input={"repo": "acme/widgets"})
+    ...     tasks.signal(wf.workflow_id, "approve", {"by": "z"})
 """
 
-from .activities import execute_agent_task, send_notification, set_agent_executor
-from .client import Client, TasksConfig, WorkflowHandle
-from .worker import Worker
-from .workflows import (
-    AgentTaskInput,
-    AgentTaskOutput,
-    AgentTaskWorkflow,
-    FanOutWorkflow,
-    PipelineWorkflow,
-)
+from .client import DEFAULT_HOST, Client, TasksConfig, TasksError, Workflow
 
-__version__ = "0.1.0"
-__all__ = [
-    # Client
-    "Client",
-    "TasksConfig",
-    "WorkflowHandle",
-    # Worker
-    "Worker",
-    # Workflows
-    "AgentTaskWorkflow",
-    "PipelineWorkflow",
-    "FanOutWorkflow",
-    "AgentTaskInput",
-    "AgentTaskOutput",
-    # Activities
-    "execute_agent_task",
-    "send_notification",
-    "set_agent_executor",
-]
+__version__ = "0.2.0"
+__all__ = ["Client", "TasksConfig", "TasksError", "Workflow", "DEFAULT_HOST"]
