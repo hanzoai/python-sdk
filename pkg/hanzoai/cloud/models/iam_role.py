@@ -33,15 +33,15 @@ class IamRole(BaseModel):
     description: Optional[StrictStr] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     domains: Optional[List[StrictStr]] = None
-    groups: Optional[List[StrictStr]] = None
     id: Optional[StrictStr] = None
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     roles: Optional[List[StrictStr]] = None
+    teams: Optional[List[StrictStr]] = None
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     users: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["createdAt", "createdTime", "deleted", "description", "displayName", "domains", "groups", "id", "isEnabled", "name", "owner", "roles", "updatedAt", "users"]
+    __properties: ClassVar[List[str]] = ["createdAt", "createdTime", "deleted", "description", "displayName", "domains", "id", "isEnabled", "name", "owner", "roles", "teams", "updatedAt", "users"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -100,12 +100,12 @@ class IamRole(BaseModel):
             "description": obj.get("description"),
             "displayName": obj.get("displayName"),
             "domains": obj.get("domains"),
-            "groups": obj.get("groups"),
             "id": obj.get("id"),
             "isEnabled": obj.get("isEnabled"),
             "name": obj.get("name"),
             "owner": obj.get("owner"),
             "roles": obj.get("roles"),
+            "teams": obj.get("teams"),
             "updatedAt": obj.get("updatedAt"),
             "users": obj.get("users")
         })

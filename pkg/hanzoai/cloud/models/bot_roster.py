@@ -27,7 +27,7 @@ class BotRoster(BaseModel):
     """
     BotRoster
     """ # noqa: E501
-    bots: Optional[List[BotMember]] = Field(default=None, description="Bots is every agent of the caller's org, projected as a workspace member.")
+    bots: Optional[List[BotMember]] = Field(default=None, description="Bots is every agent of the caller's org, projected as a space member.")
     __properties: ClassVar[List[str]] = ["bots"]
 
     model_config = ConfigDict(

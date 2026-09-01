@@ -28,8 +28,6 @@ from hanzoai.cloud.models.iam_managed_account import IamManagedAccount
 from hanzoai.cloud.models.iam_mfa_account import IamMfaAccount
 from hanzoai.cloud.models.iam_mfa_item import IamMfaItem
 from hanzoai.cloud.models.iam_mfa_props import IamMfaProps
-from hanzoai.cloud.models.iam_permission import IamPermission
-from hanzoai.cloud.models.iam_role import IamRole
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -37,7 +35,7 @@ class IamUser(BaseModel):
     """
     IamUser
     """ # noqa: E501
-    access_key: Optional[StrictStr] = Field(default=None, description="API credentials. AccessSecret / AccessSecretHash / the OAuth tokens are bearer material. AccessSecretHash MUST persist (orm stores via JSON; a json:\"-\" field is never saved), so it carries a real json tag and the handler's redact() strips it (and AccessSecret + the token fields) before responding.", alias="accessKey")
+    access_key: Optional[StrictStr] = Field(default=None, description="API credentials. AccessSecret / AccessSecretHash / the OAuth tokens are bearer material, so Mask blanks them and the handler's redact() strips them before responding. They carry real json tags because a field orm never saves is a field that silently vanishes.  A presented secret is resolved through Key.AccessSecretDigest and nowhere else, so no credential is ISSUED into these columns: they hold what older rows left behind, and every writer that touches them clears them.", alias="accessKey")
     access_secret: Optional[StrictStr] = Field(default=None, alias="accessSecret")
     access_secret_hash: Optional[StrictStr] = Field(default=None, alias="accessSecretHash")
     access_token: Optional[StrictStr] = Field(default=None, alias="accessToken")
@@ -106,7 +104,6 @@ class IamUser(BaseModel):
     github: Optional[StrictStr] = Field(default=None, description="Linked federated-identity subjects, one column per connector (v1 parity).")
     gitlab: Optional[StrictStr] = None
     google: Optional[StrictStr] = None
-    groups: Optional[List[StrictStr]] = None
     hash: Optional[StrictStr] = None
     heroku: Optional[StrictStr] = None
     homepage: Optional[StrictStr] = None
@@ -175,7 +172,6 @@ class IamUser(BaseModel):
     patreon: Optional[StrictStr] = None
     paypal: Optional[StrictStr] = None
     permanent_avatar: Optional[StrictStr] = Field(default=None, alias="permanentAvatar")
-    permissions: Optional[List[IamPermission]] = None
     phone: Optional[StrictStr] = None
     pre_hash: Optional[StrictStr] = Field(default=None, alias="preHash")
     preferred_mfa_type: Optional[StrictStr] = Field(default=None, alias="preferredMfaType")
@@ -187,7 +183,6 @@ class IamUser(BaseModel):
     region: Optional[StrictStr] = None
     register_source: Optional[StrictStr] = Field(default=None, alias="registerSource")
     register_type: Optional[StrictStr] = Field(default=None, alias="registerType")
-    roles: Optional[List[IamRole]] = Field(default=None, description="Authorization attachments. Roles and Permissions are computed on read from the authz store and carried here for API parity with v1.")
     salesforce: Optional[StrictStr] = None
     score: Optional[StrictInt] = None
     shopify: Optional[StrictStr] = None
@@ -224,7 +219,7 @@ class IamUser(BaseModel):
     yammer: Optional[StrictStr] = None
     yandex: Optional[StrictStr] = None
     zoom: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretHash", "accessToken", "address", "addresses", "adfs", "affiliation", "alipay", "amazon", "apple", "applicationScopes", "auth0", "avatar", "avatarType", "azuread", "azureadb2c", "baidu", "balance", "balanceCredit", "balanceCurrency", "battlenet", "bilibili", "bio", "birthday", "bitbucket", "box", "cart", "cloudfoundry", "countryCode", "createdAt", "createdIp", "createdTime", "currency", "custom", "custom2", "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "custom10", "dailymotion", "deezer", "deleted", "deletedTime", "digitalocean", "dingtalk", "discord", "displayName", "douyin", "dropbox", "education", "email", "emailVerified", "eveonline", "externalId", "faceIds", "facebook", "firstName", "fitbit", "gender", "gitea", "gitee", "github", "gitlab", "google", "groups", "hash", "heroku", "homepage", "iam", "id", "idCard", "idCardType", "influxcloud", "infoflow", "instagram", "intercom", "invitation", "invitationCode", "ipWhitelist", "isAdmin", "isDefaultAvatar", "isDeleted", "isForbidden", "isOnline", "isVerified", "kakao", "karma", "kwai", "language", "lark", "lastChangePasswordTime", "lastName", "lastSigninIp", "lastSigninTime", "lastSigninWrongTime", "lastfm", "ldap", "line", "linkedin", "location", "mailru", "managedAccounts", "meetup", "mfaAccounts", "mfaEmailEnabled", "mfaItems", "mfaPhoneEnabled", "mfaPushEnabled", "mfaPushProvider", "mfaPushReceiver", "mfaRadiusEnabled", "mfaRadiusProvider", "mfaRadiusUsername", "mfaRememberDeadline", "mfaRememberDigest", "microsoftonline", "multiFactorAuths", "name", "naver", "needUpdatePassword", "nextcloud", "okta", "onedrive", "originalRefreshToken", "originalToken", "oura", "owner", "passwordHash", "passwordSalt", "passwordType", "patreon", "paypal", "permanentAvatar", "permissions", "phone", "preHash", "preferredMfaType", "properties", "qq", "ranking", "realName", "recoveryCodes", "region", "registerSource", "registerType", "roles", "salesforce", "score", "shopify", "signinWrongTimes", "signupApplication", "slack", "soundcloud", "spotify", "steam", "strava", "stripe", "tag", "telegram", "tiktok", "title", "totpSecret", "tumblr", "twitch", "twitter", "type", "typetalk", "uber", "updatedAt", "updatedTime", "verificationCode", "vk", "webauthnCredentials", "wechat", "wecom", "weibo", "wepay", "xero", "yahoo", "yammer", "yandex", "zoom"]
+    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretHash", "accessToken", "address", "addresses", "adfs", "affiliation", "alipay", "amazon", "apple", "applicationScopes", "auth0", "avatar", "avatarType", "azuread", "azureadb2c", "baidu", "balance", "balanceCredit", "balanceCurrency", "battlenet", "bilibili", "bio", "birthday", "bitbucket", "box", "cart", "cloudfoundry", "countryCode", "createdAt", "createdIp", "createdTime", "currency", "custom", "custom2", "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "custom10", "dailymotion", "deezer", "deleted", "deletedTime", "digitalocean", "dingtalk", "discord", "displayName", "douyin", "dropbox", "education", "email", "emailVerified", "eveonline", "externalId", "faceIds", "facebook", "firstName", "fitbit", "gender", "gitea", "gitee", "github", "gitlab", "google", "hash", "heroku", "homepage", "iam", "id", "idCard", "idCardType", "influxcloud", "infoflow", "instagram", "intercom", "invitation", "invitationCode", "ipWhitelist", "isAdmin", "isDefaultAvatar", "isDeleted", "isForbidden", "isOnline", "isVerified", "kakao", "karma", "kwai", "language", "lark", "lastChangePasswordTime", "lastName", "lastSigninIp", "lastSigninTime", "lastSigninWrongTime", "lastfm", "ldap", "line", "linkedin", "location", "mailru", "managedAccounts", "meetup", "mfaAccounts", "mfaEmailEnabled", "mfaItems", "mfaPhoneEnabled", "mfaPushEnabled", "mfaPushProvider", "mfaPushReceiver", "mfaRadiusEnabled", "mfaRadiusProvider", "mfaRadiusUsername", "mfaRememberDeadline", "mfaRememberDigest", "microsoftonline", "multiFactorAuths", "name", "naver", "needUpdatePassword", "nextcloud", "okta", "onedrive", "originalRefreshToken", "originalToken", "oura", "owner", "passwordHash", "passwordSalt", "passwordType", "patreon", "paypal", "permanentAvatar", "phone", "preHash", "preferredMfaType", "properties", "qq", "ranking", "realName", "recoveryCodes", "region", "registerSource", "registerType", "salesforce", "score", "shopify", "signinWrongTimes", "signupApplication", "slack", "soundcloud", "spotify", "steam", "strava", "stripe", "tag", "telegram", "tiktok", "title", "totpSecret", "tumblr", "twitch", "twitter", "type", "typetalk", "uber", "updatedAt", "updatedTime", "verificationCode", "vk", "webauthnCredentials", "wechat", "wecom", "weibo", "wepay", "xero", "yahoo", "yammer", "yandex", "zoom"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -321,20 +316,6 @@ class IamUser(BaseModel):
                 if _item_multi_factor_auths:
                     _items.append(_item_multi_factor_auths.to_dict())
             _dict['multiFactorAuths'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in permissions (list)
-        _items = []
-        if self.permissions:
-            for _item_permissions in self.permissions:
-                if _item_permissions:
-                    _items.append(_item_permissions.to_dict())
-            _dict['permissions'] = _items
-        # override the default output from pydantic by calling `to_dict()` of each item in roles (list)
-        _items = []
-        if self.roles:
-            for _item_roles in self.roles:
-                if _item_roles:
-                    _items.append(_item_roles.to_dict())
-            _dict['roles'] = _items
         return _dict
 
     @classmethod
@@ -416,7 +397,6 @@ class IamUser(BaseModel):
             "github": obj.get("github"),
             "gitlab": obj.get("gitlab"),
             "google": obj.get("google"),
-            "groups": obj.get("groups"),
             "hash": obj.get("hash"),
             "heroku": obj.get("heroku"),
             "homepage": obj.get("homepage"),
@@ -485,7 +465,6 @@ class IamUser(BaseModel):
             "patreon": obj.get("patreon"),
             "paypal": obj.get("paypal"),
             "permanentAvatar": obj.get("permanentAvatar"),
-            "permissions": [IamPermission.from_dict(_item) for _item in obj["permissions"]] if obj.get("permissions") is not None else None,
             "phone": obj.get("phone"),
             "preHash": obj.get("preHash"),
             "preferredMfaType": obj.get("preferredMfaType"),
@@ -497,7 +476,6 @@ class IamUser(BaseModel):
             "region": obj.get("region"),
             "registerSource": obj.get("registerSource"),
             "registerType": obj.get("registerType"),
-            "roles": [IamRole.from_dict(_item) for _item in obj["roles"]] if obj.get("roles") is not None else None,
             "salesforce": obj.get("salesforce"),
             "score": obj.get("score"),
             "shopify": obj.get("shopify"),

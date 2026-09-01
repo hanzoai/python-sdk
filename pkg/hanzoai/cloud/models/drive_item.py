@@ -17,21 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PaymentOut(BaseModel):
+class DriveItem(BaseModel):
     """
-    PaymentOut
+    DriveItem
     """ # noqa: E501
-    balance_cents: Optional[StrictInt] = Field(default=None, description="BalanceCents is the org's balance AFTER this payment, read back from the same key just credited so it matches what the balance endpoint reports.", alias="balanceCents")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the ledger transaction id for the credit. It is what getPayment reads back, and the customer-visible receipt for the money.")
-    processor_ref: Optional[StrictStr] = Field(default=None, description="ProcessorRef is the payment processor's own reference for the charge (Square's payment id). It is the field that proves money actually moved at the gateway rather than only in our ledger — the thing to quote when reconciling against a processor dashboard.", alias="processorRef")
-    status: Optional[StrictStr] = Field(default=None, description="Status is \"ok\" on a settled charge. A charge that did not settle is an error with the processor's reason, never a status field to inspect.")
-    test: Optional[StrictBool] = Field(default=None, description="Test reports which bucket this credited: true is a SANDBOX charge crediting the test balance, false is live money. It is always stated so a receipt can never be mistaken for the other kind.")
-    __properties: ClassVar[List[str]] = ["balanceCents", "id", "processorRef", "status", "test"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is the drive's name — the first segment of every key it holds.")
+    __properties: ClassVar[List[str]] = ["name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +47,7 @@ class PaymentOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PaymentOut from a JSON string"""
+        """Create an instance of DriveItem from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +72,7 @@ class PaymentOut(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PaymentOut from a dict"""
+        """Create an instance of DriveItem from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +80,7 @@ class PaymentOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "balanceCents": obj.get("balanceCents"),
-            "id": obj.get("id"),
-            "processorRef": obj.get("processorRef"),
-            "status": obj.get("status"),
-            "test": obj.get("test")
+            "name": obj.get("name")
         })
         return _obj
 

@@ -22,6 +22,7 @@ from hanzoai.cloud.api.campaign_api import CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi
 from hanzoai.cloud.api.catalog_api import CatalogApi
 from hanzoai.cloud.api.channels_api import ChannelsApi
+from hanzoai.cloud.api.ci_api import CiApi
 from hanzoai.cloud.api.cloudflare_api import CloudflareApi
 from hanzoai.cloud.api.code_api import CodeApi
 from hanzoai.cloud.api.commerce_api import CommerceApi
@@ -65,6 +66,7 @@ from hanzoai.cloud.api.legal_api import LegalApi
 from hanzoai.cloud.api.licensing_api import LicensingApi
 from hanzoai.cloud.api.link_api import LinkApi
 from hanzoai.cloud.api.lsp_api import LspApi
+from hanzoai.cloud.api.market_api import MarketApi
 from hanzoai.cloud.api.marketing_api import MarketingApi
 from hanzoai.cloud.api.marketplace_api import MarketplaceApi
 from hanzoai.cloud.api.meet_api import MeetApi
@@ -97,6 +99,7 @@ from hanzoai.cloud.api.seo_api import SeoApi
 from hanzoai.cloud.api.settings_api import SettingsApi
 from hanzoai.cloud.api.share_api import ShareApi
 from hanzoai.cloud.api.social_api import SocialApi
+from hanzoai.cloud.api.space_api import SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi
 from hanzoai.cloud.api.sync_api import SyncApi
 from hanzoai.cloud.api.tasks_api import TasksApi

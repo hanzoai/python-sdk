@@ -26,13 +26,14 @@ class IssueEdit(BaseModel):
     """
     IssueEdit
     """ # noqa: E501
+    assignee: Optional[StrictStr] = Field(default=None, description="Assignee hands the work to somebody — a person or an agent, by the name they are known by on the forge. \"\" TAKES IT OFF whoever holds it, which is why this is a pointer: absent leaves the holder alone.  It is the other half of `claim`, which that handler already named: a claim takes work for the CALLER and refuses to name anyone else, because giving work away is a different act with different authority. This is that act, and until it existed a board could only be worked by whoever clicked first — an agent could never be given anything.")
     description: Optional[StrictStr] = Field(default=None, description="Description rewrites the body.")
     key: Optional[StrictStr] = Field(default=None, description="Key is the board — the repository name, from the path.")
     num: Optional[StrictInt] = Field(default=None, description="Num is the issue number on that repository, from the path.")
     priority: Optional[StrictStr] = Field(default=None, description="Priority re-prioritises it.")
     status: Optional[StrictStr] = Field(default=None, description="Status moves the card to another column.")
     title: Optional[StrictStr] = Field(default=None, description="Title renames the work item.")
-    __properties: ClassVar[List[str]] = ["description", "key", "num", "priority", "status", "title"]
+    __properties: ClassVar[List[str]] = ["assignee", "description", "key", "num", "priority", "status", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,6 +86,7 @@ class IssueEdit(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "assignee": obj.get("assignee"),
             "description": obj.get("description"),
             "key": obj.get("key"),
             "num": obj.get("num"),

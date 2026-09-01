@@ -3429,7 +3429,7 @@ class AgentsApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
             None,
@@ -3456,7 +3456,7 @@ class AgentsApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
-        :param room: Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.
+        :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
         :type room: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
@@ -3516,7 +3516,7 @@ class AgentsApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
             None,
@@ -3543,7 +3543,7 @@ class AgentsApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
-        :param room: Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.
+        :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
         :type room: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
@@ -3603,7 +3603,7 @@ class AgentsApi:
         parent: Annotated[Optional[StrictStr], Field(description="Parent scopes the page to the direct children of one session. Ignored when root is set; with neither, only ROOT sessions come back.")] = None,
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
-        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.")] = None,
+        room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
         _request_timeout: Union[
             None,
@@ -3630,7 +3630,7 @@ class AgentsApi:
         :type status: str
         :param project: Project filters to the sessions tagged with one product slug.
         :type project: str
-        :param room: Room filters to the sessions started in one collaborative room — the query a workspace view runs to show what has been run in it.
+        :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
         :type room: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
@@ -7187,6 +7187,242 @@ class AgentsApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agents/chat',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agents_chat_conversations(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Record turns in a conversation
+
+        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agents_chat_conversations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agents_chat_conversations_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Record turns in a conversation
+
+        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agents_chat_conversations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agents_chat_conversations_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Record turns in a conversation
+
+        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agents_chat_conversations_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agents_chat_conversations_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agents/chat/conversations',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

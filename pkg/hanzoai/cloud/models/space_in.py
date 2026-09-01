@@ -22,13 +22,12 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class RoleAssignment(BaseModel):
+class SpaceIn(BaseModel):
     """
-    RoleAssignment
+    SpaceIn
     """ # noqa: E501
-    role: Optional[StrictStr] = Field(default=None, description="Role is the granted role's name.")
-    user: Optional[StrictStr] = Field(default=None, description="User is the member the role is granted to.")
-    __properties: ClassVar[List[str]] = ["role", "user"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is the space's name, matching ^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$ — the shape a drive name takes too, so a caller learns one rule. It is validated AS GIVEN and never lower-cased for you: a client that creates \"Photos\" and then lists \"photos\" would be reading a space it did not make, so mixed case is a clean 400.")
+    __properties: ClassVar[List[str]] = ["name"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +47,7 @@ class RoleAssignment(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of RoleAssignment from a JSON string"""
+        """Create an instance of SpaceIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +72,7 @@ class RoleAssignment(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of RoleAssignment from a dict"""
+        """Create an instance of SpaceIn from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +80,7 @@ class RoleAssignment(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "role": obj.get("role"),
-            "user": obj.get("user")
+            "name": obj.get("name")
         })
         return _obj
 

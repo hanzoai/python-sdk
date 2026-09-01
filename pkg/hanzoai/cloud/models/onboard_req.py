@@ -27,7 +27,7 @@ class OnboardReq(BaseModel):
     OnboardReq
     """ # noqa: E501
     name: Optional[StrictStr] = Field(default=None, description="Name is the organization's display name. Ignored when personal is true, which derives the name from the caller's own username instead.")
-    personal: Optional[StrictBool] = Field(default=None, description="Personal asks for the caller's own workspace: the name is derived from their username and the slug auto-suffixes to stay unique. Meaningless — and refused — for a caller who already has an organization.")
+    personal: Optional[StrictBool] = Field(default=None, description="Personal asks for the caller's own space: the name is derived from their username and the slug auto-suffixes to stay unique. Meaningless — and refused — for a caller who already has an organization.")
     __properties: ClassVar[List[str]] = ["name", "personal"]
 
     model_config = ConfigDict(
