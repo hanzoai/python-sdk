@@ -30,13 +30,13 @@ class IamRolesInput(BaseModel):
     description: Optional[StrictStr] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     domains: Optional[List[StrictStr]] = None
-    groups: Optional[List[StrictStr]] = None
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     roles: Optional[List[StrictStr]] = None
+    teams: Optional[List[StrictStr]] = None
     users: Optional[List[StrictStr]] = None
-    __properties: ClassVar[List[str]] = ["createdTime", "description", "displayName", "domains", "groups", "isEnabled", "name", "owner", "roles", "users"]
+    __properties: ClassVar[List[str]] = ["createdTime", "description", "displayName", "domains", "isEnabled", "name", "owner", "roles", "teams", "users"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,11 +93,11 @@ class IamRolesInput(BaseModel):
             "description": obj.get("description"),
             "displayName": obj.get("displayName"),
             "domains": obj.get("domains"),
-            "groups": obj.get("groups"),
             "isEnabled": obj.get("isEnabled"),
             "name": obj.get("name"),
             "owner": obj.get("owner"),
             "roles": obj.get("roles"),
+            "teams": obj.get("teams"),
             "users": obj.get("users")
         })
         return _obj

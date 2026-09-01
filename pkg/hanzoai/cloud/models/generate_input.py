@@ -29,7 +29,7 @@ class GenerateInput(BaseModel):
     brief: Optional[StrictStr] = Field(default=None, description="the brief/goal driving copy generation")
     channels: Optional[StrictStr] = Field(default=None, description="target channels (SocialPost)")
     design: Optional[StrictStr] = Field(default=None, description="studio design slug (asset source)")
-    doctype: Optional[StrictStr] = Field(default=None, description="Campaign | SocialPost | Asset")
+    doctype: Optional[StrictStr] = Field(default=None, description="marketing.Campaign | marketing.SocialPost | marketing.Asset")
     kind: Optional[StrictStr] = Field(default=None, description="asset kind: ecom|product|lifestyle|hover|hero")
     model: Optional[StrictStr] = Field(default=None, description="optional zen model override (copy)")
     product: Optional[StrictStr] = Field(default=None, description="commerce product handle (copy context)")

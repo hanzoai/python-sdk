@@ -29,8 +29,8 @@ class TeamRoomBind(BaseModel):
     bindings: Optional[List[StrictStr]] = Field(default=None, description="Bindings REPLACES what the room is about, wholly. It is a replace and not a merge because a caller that cannot remove a binding would have no way to correct a wrong one, and an empty list sent explicitly is how a room is unbound. Absent (null) leaves the existing list alone.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write.")
     life: Optional[StrictStr] = Field(default=None, description="Life sets the lifecycle intent: \"standing\" or \"bound\". Any other value is refused rather than stored, so a reader never has to interpret a third one. Empty leaves the current intent unchanged.")
-    workspace: Optional[StrictStr] = Field(default=None, description="Workspace names the workspace holding the room. It is required, because a room id is unique only within one and searching every workspace for a matching id would make the write's target depend on iteration order.")
-    __properties: ClassVar[List[str]] = ["bindings", "id", "life", "workspace"]
+    space: Optional[StrictStr] = Field(default=None, description="Space names the space holding the room. It is required, because a room id is unique only within one and searching every space for a matching id would make the write's target depend on iteration order.")
+    __properties: ClassVar[List[str]] = ["bindings", "id", "life", "space"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +86,7 @@ class TeamRoomBind(BaseModel):
             "bindings": obj.get("bindings"),
             "id": obj.get("id"),
             "life": obj.get("life"),
-            "workspace": obj.get("workspace")
+            "space": obj.get("space")
         })
         return _obj
 

@@ -29,14 +29,14 @@ class TeamRoom(BaseModel):
     archived: Optional[StrictBool] = Field(default=None, description="Archived reports that the room has been closed. It is the platform's own Space attribute — the same one the Team client writes — and NOT a field of the work facet, so there is exactly one answer to \"is this room open\".")
     bindings: Optional[List[StrictStr]] = Field(default=None, description="Bindings are what this room is ABOUT, each a \"<kind>:<ref>\" string — \"project:acme/web\", \"repo:hanzoai/cloud\", \"issue:1010\". One list rather than one field per kind, because the next thing a room can be about should not be a schema change; and a bound value is opaque here on purpose, since the app that owns a project is the app that can resolve one. HIP-0523 §2: a binding is a REFERENCE, never a copy — a room holding an issue's title or status would be the parallel work-item store HIP-1160 §1 forbids.")
     direct: Optional[StrictBool] = Field(default=None, description="Direct reports that this is a room between people rather than a named room. It is derived from the document's class, so it cannot disagree with what the client will render.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the room document's own id, and the value the bind op addresses. It is unique within a workspace, not across the org.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the room document's own id, and the value the bind op addresses. It is unique within a space, not across the org.")
     life: Optional[StrictStr] = Field(default=None, description="Life is the room's lifecycle INTENT — \"standing\" or \"bound\" (HIP-0523 §2). Absent on the document it reads \"standing\": a room nobody classified is one that persists.")
-    members: Optional[List[StrictStr]] = Field(default=None, description="Members are the account uuids in the room, agents included: an agent projects as a workspace member under a uuid derived from its id, so a caller comparing this against GET /v1/team/bots learns which rooms an agent is in.")
+    members: Optional[List[StrictStr]] = Field(default=None, description="Members are the account uuids in the room, agents included: an agent projects as a space member under a uuid derived from its id, so a caller comparing this against GET /v1/team/bots learns which rooms an agent is in.")
     name: Optional[StrictStr] = Field(default=None, description="Name is what a person sees in a sidebar. A direct message carries none, so this is empty for one — the members are its name.")
     private: Optional[StrictBool] = Field(default=None, description="Private reports that the room is restricted to its members.")
+    space: Optional[StrictStr] = Field(default=None, description="Space is the space uuid holding this room. It is part of the room's address: two spaces of one org may each hold a room with the same name, and only the pair identifies one.")
     topic: Optional[StrictStr] = Field(default=None, description="Topic is the room's own one-line subject, as the Team client sets it.")
-    workspace: Optional[StrictStr] = Field(default=None, description="Workspace is the workspace uuid holding this room. It is part of the room's address: two workspaces of one org may each hold a room with the same name, and only the pair identifies one.")
-    __properties: ClassVar[List[str]] = ["archived", "bindings", "direct", "id", "life", "members", "name", "private", "topic", "workspace"]
+    __properties: ClassVar[List[str]] = ["archived", "bindings", "direct", "id", "life", "members", "name", "private", "space", "topic"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,8 +97,8 @@ class TeamRoom(BaseModel):
             "members": obj.get("members"),
             "name": obj.get("name"),
             "private": obj.get("private"),
-            "topic": obj.get("topic"),
-            "workspace": obj.get("workspace")
+            "space": obj.get("space"),
+            "topic": obj.get("topic")
         })
         return _obj
 

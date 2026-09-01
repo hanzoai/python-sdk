@@ -30,7 +30,7 @@ class GraphNode(BaseModel):
     name: Optional[StrictStr] = Field(default=None, description="the document name (empty for synthetic nodes)")
     project: Optional[StrictStr] = Field(default=None, description="Project is the project scope the underlying document was saved under. Absent for a document saved with none, and for the synthetic nodes — unresolved link targets and connectors belong to no project. When ?project= narrows the graph, every page, memory and source node carries that value.")
     title: Optional[StrictStr] = Field(default=None, description="display label")
-    type: Optional[StrictStr] = Field(default=None, description="kb-page | kb-memory | kb-source | kb-connector | unresolved")
+    type: Optional[StrictStr] = Field(default=None, description="kb.page | kb.memory | kb.source | kb.connector | unresolved")
     __properties: ClassVar[List[str]] = ["id", "name", "project", "title", "type"]
 
     model_config = ConfigDict(

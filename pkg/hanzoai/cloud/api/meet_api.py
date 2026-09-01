@@ -308,7 +308,7 @@ class MeetApi:
     ) -> None:
         """What this caller may open a room in
 
-        Answers the three facts the native lobby cannot know on its own: the identity a seat would be taken under, the LiveKit address the browser dials, and the workspaces this caller may open a room in.  It is the SAME decision getToken makes, asked before the room exists rather than after it is named. A room is bound to its tenant by its name's leading workspace segment, and only a workspace this answer lists will be admitted — so the lobby offers exactly what the mint would grant, and a person is never shown a room they would then be refused. Workspaces the caller holds only a guest role in are omitted for that reason.  An empty list is a real answer, not a fault: an IAM identity with no workspace has no room to open, and the lobby says so instead of failing.  `ws` is empty when this deployment has not been told where its media plane is (LIVEKIT_WS). Token minting is unaffected — the published office client supplies its own address — so this is a degraded native UI, not a degraded service, and the lobby refuses to dial rather than guessing a host.
+        Answers the three facts the native lobby cannot know on its own: the identity a seat would be taken under, the LiveKit address the browser dials, and the spaces this caller may open a room in.  It is the SAME decision getToken makes, asked before the room exists rather than after it is named. A room is bound to its tenant by its name's leading space segment, and only a space this answer lists will be admitted — so the lobby offers exactly what the mint would grant, and a person is never shown a room they would then be refused. Spaces the caller holds only a guest role in are omitted for that reason.  An empty list is a real answer, not a fault: an IAM identity with no space has no room to open, and the lobby says so instead of failing.  `ws` is empty when this deployment has not been told where its media plane is (LIVEKIT_WS). Token minting is unaffected — the published office client supplies its own address — so this is a degraded native UI, not a degraded service, and the lobby refuses to dial rather than guessing a host.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -370,7 +370,7 @@ class MeetApi:
     ) -> ApiResponse[None]:
         """What this caller may open a room in
 
-        Answers the three facts the native lobby cannot know on its own: the identity a seat would be taken under, the LiveKit address the browser dials, and the workspaces this caller may open a room in.  It is the SAME decision getToken makes, asked before the room exists rather than after it is named. A room is bound to its tenant by its name's leading workspace segment, and only a workspace this answer lists will be admitted — so the lobby offers exactly what the mint would grant, and a person is never shown a room they would then be refused. Workspaces the caller holds only a guest role in are omitted for that reason.  An empty list is a real answer, not a fault: an IAM identity with no workspace has no room to open, and the lobby says so instead of failing.  `ws` is empty when this deployment has not been told where its media plane is (LIVEKIT_WS). Token minting is unaffected — the published office client supplies its own address — so this is a degraded native UI, not a degraded service, and the lobby refuses to dial rather than guessing a host.
+        Answers the three facts the native lobby cannot know on its own: the identity a seat would be taken under, the LiveKit address the browser dials, and the spaces this caller may open a room in.  It is the SAME decision getToken makes, asked before the room exists rather than after it is named. A room is bound to its tenant by its name's leading space segment, and only a space this answer lists will be admitted — so the lobby offers exactly what the mint would grant, and a person is never shown a room they would then be refused. Spaces the caller holds only a guest role in are omitted for that reason.  An empty list is a real answer, not a fault: an IAM identity with no space has no room to open, and the lobby says so instead of failing.  `ws` is empty when this deployment has not been told where its media plane is (LIVEKIT_WS). Token minting is unaffected — the published office client supplies its own address — so this is a degraded native UI, not a degraded service, and the lobby refuses to dial rather than guessing a host.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -432,7 +432,7 @@ class MeetApi:
     ) -> RESTResponseType:
         """What this caller may open a room in
 
-        Answers the three facts the native lobby cannot know on its own: the identity a seat would be taken under, the LiveKit address the browser dials, and the workspaces this caller may open a room in.  It is the SAME decision getToken makes, asked before the room exists rather than after it is named. A room is bound to its tenant by its name's leading workspace segment, and only a workspace this answer lists will be admitted — so the lobby offers exactly what the mint would grant, and a person is never shown a room they would then be refused. Workspaces the caller holds only a guest role in are omitted for that reason.  An empty list is a real answer, not a fault: an IAM identity with no workspace has no room to open, and the lobby says so instead of failing.  `ws` is empty when this deployment has not been told where its media plane is (LIVEKIT_WS). Token minting is unaffected — the published office client supplies its own address — so this is a degraded native UI, not a degraded service, and the lobby refuses to dial rather than guessing a host.
+        Answers the three facts the native lobby cannot know on its own: the identity a seat would be taken under, the LiveKit address the browser dials, and the spaces this caller may open a room in.  It is the SAME decision getToken makes, asked before the room exists rather than after it is named. A room is bound to its tenant by its name's leading space segment, and only a space this answer lists will be admitted — so the lobby offers exactly what the mint would grant, and a person is never shown a room they would then be refused. Spaces the caller holds only a guest role in are omitted for that reason.  An empty list is a real answer, not a fault: an IAM identity with no space has no room to open, and the lobby says so instead of failing.  `ws` is empty when this deployment has not been told where its media plane is (LIVEKIT_WS). Token minting is unaffected — the published office client supplies its own address — so this is a degraded native UI, not a degraded service, and the lobby refuses to dial rather than guessing a host.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -529,8 +529,8 @@ class MeetApi:
     @validate_call
     def meet_call(
         self,
-        workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
-        room: Annotated[StrictStr, Field(description="Room is the room's own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -546,11 +546,11 @@ class MeetApi:
     ) -> Venue:
         """Where a room's call happens
 
-        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a workspace-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
+        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
 
-        :param workspace: Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
-        :type workspace: str
-        :param room: Room is the room's own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it. (required)
+        :param space: Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
+        :type space: str
+        :param room: Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -575,7 +575,7 @@ class MeetApi:
         """ # noqa: E501
 
         _param = self._meet_call_serialize(
-            workspace=workspace,
+            space=space,
             room=room,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -600,8 +600,8 @@ class MeetApi:
     @validate_call
     def meet_call_with_http_info(
         self,
-        workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
-        room: Annotated[StrictStr, Field(description="Room is the room's own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -617,11 +617,11 @@ class MeetApi:
     ) -> ApiResponse[Venue]:
         """Where a room's call happens
 
-        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a workspace-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
+        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
 
-        :param workspace: Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
-        :type workspace: str
-        :param room: Room is the room's own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it. (required)
+        :param space: Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
+        :type space: str
+        :param room: Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -646,7 +646,7 @@ class MeetApi:
         """ # noqa: E501
 
         _param = self._meet_call_serialize(
-            workspace=workspace,
+            space=space,
             room=room,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -671,8 +671,8 @@ class MeetApi:
     @validate_call
     def meet_call_without_preload_content(
         self,
-        workspace: Annotated[StrictStr, Field(description="Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
-        room: Annotated[StrictStr, Field(description="Room is the room's own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it.")],
+        space: Annotated[StrictStr, Field(description="Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -688,11 +688,11 @@ class MeetApi:
     ) -> RESTResponseType:
         """Where a room's call happens
 
-        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a workspace-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
+        Answers where a room's call happens, for a caller who may join it.  It is the \"resolved at render\" half of HIP-0523 §12: a surface showing a channel asks for the room's call at the moment it draws one, rather than reading a media room name someone stored on the room. Nothing here is persisted and nothing is created — a media room begins existing when the first participant connects and stops when the last leaves, so there is no call to create and none to clean up.  AUTHORIZATION IS THE JOIN DECISION, unchanged and shared. It delegates to state.admits, the same function POST /v1/meet/getToken and all three recording operations admit on, so a caller who is told where a call is, is a caller who could have joined it. Answering the address to someone who cannot join would make this a space-membership oracle for anyone who can guess a room id.  It deliberately does NOT report whether a call is in progress. That is a fact the media server holds and this binary would have to ask for it over the network, which is a different decision with a different failure mode — and reporting \"nobody is in this call\" when the question could not be asked would be exactly the unknown-rendered-as-zero this surface refuses elsewhere.
 
-        :param workspace: Workspace is the workspace uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
-        :type workspace: str
-        :param room: Room is the room's own id within that workspace, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the workspace holding it. (required)
+        :param space: Space is the space uuid holding the room, as GET /v1/team/rooms reports it. It is the segment the caller's membership is checked against. (required)
+        :type space: str
+        :param room: Room is the room's own id within that space, as GET /v1/team/rooms reports it. It is opaque here: meet keeps no rooms and cannot say whether one exists, only whether this caller may be seated in the space holding it. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -717,7 +717,7 @@ class MeetApi:
         """ # noqa: E501
 
         _param = self._meet_call_serialize(
-            workspace=workspace,
+            space=space,
             room=room,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -737,7 +737,7 @@ class MeetApi:
 
     def _meet_call_serialize(
         self,
-        workspace,
+        space,
         room,
         _request_auth,
         _content_type,
@@ -761,9 +761,9 @@ class MeetApi:
 
         # process the path parameters
         # process the query parameters
-        if workspace is not None:
+        if space is not None:
             
-            _query_params.append(('workspace', workspace))
+            _query_params.append(('space', space))
             
         if room is not None:
             
@@ -809,7 +809,7 @@ class MeetApi:
     @validate_call
     def meet_record_read(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -827,7 +827,7 @@ class MeetApi:
 
         Answers what is being recorded in a room, and where the file went.  It reports the recording that is RUNNING, and once none is, the most recent one the media server still holds — with its final status and its object. That second case is the one that matters for finding a file: the answer to a start is the only other place the location appears, and a client that lost it, or a colleague who was not the one to press record, has nowhere else to look.  It is behind the same check as starting one: where a recording of a private conversation is kept is a fact about that conversation, so it is told to the people the room admits and to nobody else.
 
-        :param room: Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
+        :param room: Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -876,7 +876,7 @@ class MeetApi:
     @validate_call
     def meet_record_read_with_http_info(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -894,7 +894,7 @@ class MeetApi:
 
         Answers what is being recorded in a room, and where the file went.  It reports the recording that is RUNNING, and once none is, the most recent one the media server still holds — with its final status and its object. That second case is the one that matters for finding a file: the answer to a start is the only other place the location appears, and a client that lost it, or a colleague who was not the one to press record, has nowhere else to look.  It is behind the same check as starting one: where a recording of a private conversation is kept is a fact about that conversation, so it is told to the people the room admits and to nobody else.
 
-        :param room: Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
+        :param room: Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -943,7 +943,7 @@ class MeetApi:
     @validate_call
     def meet_record_read_without_preload_content(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -961,7 +961,7 @@ class MeetApi:
 
         Answers what is being recorded in a room, and where the file went.  It reports the recording that is RUNNING, and once none is, the most recent one the media server still holds — with its final status and its object. That second case is the one that matters for finding a file: the answer to a start is the only other place the location appears, and a client that lost it, or a colleague who was not the one to press record, has nowhere else to look.  It is behind the same check as starting one: where a recording of a private conversation is kept is a fact about that conversation, so it is told to the people the room admits and to nobody else.
 
-        :param room: Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
+        :param room: Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1346,7 +1346,7 @@ class MeetApi:
     @validate_call
     def meet_record_stop(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1364,7 +1364,7 @@ class MeetApi:
 
         Ends a room's recording — EVERY one of them.  Whoever the room admits may stop it, including someone who did not start it: a person being recorded has to be able to end it, and a rule that only the starter may stop would deny exactly that. Stopping is free — a caller made to pay to stop being recorded would be paying for the wrong thing.  200 MEANS THE ROOM IS NOT BEING RECORDED, and that is why this ends all of them rather than the first. \"At most one per room\" is an invariant this surface wants and cannot impose: reading the list and starting are two calls, and two replicas racing through that window both start. When the list comes back holding two, two is the truth — and ending one while answering 200 tells the person withdrawing consent that it stopped while a second worker keeps writing. A stop that cannot finish the job says so instead.  Stopping a room that is not being recorded is not an error. The answer names the room with no recording on it, which is the state the caller asked for.
 
-        :param room: Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
+        :param room: Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1413,7 +1413,7 @@ class MeetApi:
     @validate_call
     def meet_record_stop_with_http_info(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1431,7 +1431,7 @@ class MeetApi:
 
         Ends a room's recording — EVERY one of them.  Whoever the room admits may stop it, including someone who did not start it: a person being recorded has to be able to end it, and a rule that only the starter may stop would deny exactly that. Stopping is free — a caller made to pay to stop being recorded would be paying for the wrong thing.  200 MEANS THE ROOM IS NOT BEING RECORDED, and that is why this ends all of them rather than the first. \"At most one per room\" is an invariant this surface wants and cannot impose: reading the list and starting are two calls, and two replicas racing through that window both start. When the list comes back holding two, two is the truth — and ending one while answering 200 tells the person withdrawing consent that it stopped while a second worker keeps writing. A stop that cannot finish the job says so instead.  Stopping a room that is not being recorded is not an error. The answer names the room with no recording on it, which is the state the caller asked for.
 
-        :param room: Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
+        :param room: Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1480,7 +1480,7 @@ class MeetApi:
     @validate_call
     def meet_record_stop_without_preload_content(
         self,
-        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
+        room: Annotated[StrictStr, Field(description="Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1498,7 +1498,7 @@ class MeetApi:
 
         Ends a room's recording — EVERY one of them.  Whoever the room admits may stop it, including someone who did not start it: a person being recorded has to be able to end it, and a rule that only the starter may stop would deny exactly that. Stopping is free — a caller made to pay to stop being recorded would be paying for the wrong thing.  200 MEANS THE ROOM IS NOT BEING RECORDED, and that is why this ends all of them rather than the first. \"At most one per room\" is an invariant this surface wants and cannot impose: reading the list and starting are two calls, and two replicas racing through that window both start. When the list comes back holding two, two is the truth — and ending one while answering 200 tells the person withdrawing consent that it stopped while a second worker keeps writing. A stop that cannot finish the job says so instead.  Stopping a room that is not being recorded is not an error. The answer names the room with no recording on it, which is the state the caller asked for.
 
-        :param room: Room is the LiveKit room, named the way the office client names one (`<workspace>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
+        :param room: Room is the LiveKit room, named the way the office client names one (`<space>_<name>_<id>`). Its leading segment is what binds the room to a tenant, and it is the segment the caller's membership is checked against. (required)
         :type room: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1624,7 +1624,7 @@ class MeetApi:
     ) -> None:
         """Mint a join token for one video room
 
-        Answers with a LiveKit join token for exactly the room named in the body. The body is the RAW token as text/plain — one opaque string, not JSON and not wrapped in an envelope, which is what the office client reads.  The caller presents its workspace session as a Bearer. Every clause is a refusal: the session must verify, its SIGNED workspace claim must equal the room's leading name segment — rooms are named `<workspace>_<room>_<id>`, and that prefix is the only thing binding a room to a tenant — and the session must carry a privileged workspace role, so a guest is refused rather than seated.  The participant identity is the SESSION'S, never the body's. `_id` is accepted for compatibility with the published client bundle and deliberately ignored: LiveKit treats the identity as unique and ejects a duplicate, so honouring a caller-chosen one would let anyone in a workspace kick out a colleague and impersonate them. `participantName` is a display name only.  An unconfigured deployment answers 503 under its own name rather than 404, and the refusal states only that the office is unconfigured — the reason names key material and stays in the boot log.
+        Answers with a LiveKit join token for exactly the room named in the body. The body is the RAW token as text/plain — one opaque string, not JSON and not wrapped in an envelope, which is what the office client reads.  The caller presents its space session as a Bearer. Every clause is a refusal: the session must verify, its SIGNED space claim must equal the room's leading name segment — rooms are named `<space>_<room>_<id>`, and that prefix is the only thing binding a room to a tenant — and the session must carry a privileged space role, so a guest is refused rather than seated.  The participant identity is the SESSION'S, never the body's. `_id` is accepted for compatibility with the published client bundle and deliberately ignored: LiveKit treats the identity as unique and ejects a duplicate, so honouring a caller-chosen one would let anyone in a space kick out a colleague and impersonate them. `participantName` is a display name only.  An unconfigured deployment answers 503 under its own name rather than 404, and the refusal states only that the office is unconfigured — the reason names key material and stays in the boot log.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1686,7 +1686,7 @@ class MeetApi:
     ) -> ApiResponse[None]:
         """Mint a join token for one video room
 
-        Answers with a LiveKit join token for exactly the room named in the body. The body is the RAW token as text/plain — one opaque string, not JSON and not wrapped in an envelope, which is what the office client reads.  The caller presents its workspace session as a Bearer. Every clause is a refusal: the session must verify, its SIGNED workspace claim must equal the room's leading name segment — rooms are named `<workspace>_<room>_<id>`, and that prefix is the only thing binding a room to a tenant — and the session must carry a privileged workspace role, so a guest is refused rather than seated.  The participant identity is the SESSION'S, never the body's. `_id` is accepted for compatibility with the published client bundle and deliberately ignored: LiveKit treats the identity as unique and ejects a duplicate, so honouring a caller-chosen one would let anyone in a workspace kick out a colleague and impersonate them. `participantName` is a display name only.  An unconfigured deployment answers 503 under its own name rather than 404, and the refusal states only that the office is unconfigured — the reason names key material and stays in the boot log.
+        Answers with a LiveKit join token for exactly the room named in the body. The body is the RAW token as text/plain — one opaque string, not JSON and not wrapped in an envelope, which is what the office client reads.  The caller presents its space session as a Bearer. Every clause is a refusal: the session must verify, its SIGNED space claim must equal the room's leading name segment — rooms are named `<space>_<room>_<id>`, and that prefix is the only thing binding a room to a tenant — and the session must carry a privileged space role, so a guest is refused rather than seated.  The participant identity is the SESSION'S, never the body's. `_id` is accepted for compatibility with the published client bundle and deliberately ignored: LiveKit treats the identity as unique and ejects a duplicate, so honouring a caller-chosen one would let anyone in a space kick out a colleague and impersonate them. `participantName` is a display name only.  An unconfigured deployment answers 503 under its own name rather than 404, and the refusal states only that the office is unconfigured — the reason names key material and stays in the boot log.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1748,7 +1748,7 @@ class MeetApi:
     ) -> RESTResponseType:
         """Mint a join token for one video room
 
-        Answers with a LiveKit join token for exactly the room named in the body. The body is the RAW token as text/plain — one opaque string, not JSON and not wrapped in an envelope, which is what the office client reads.  The caller presents its workspace session as a Bearer. Every clause is a refusal: the session must verify, its SIGNED workspace claim must equal the room's leading name segment — rooms are named `<workspace>_<room>_<id>`, and that prefix is the only thing binding a room to a tenant — and the session must carry a privileged workspace role, so a guest is refused rather than seated.  The participant identity is the SESSION'S, never the body's. `_id` is accepted for compatibility with the published client bundle and deliberately ignored: LiveKit treats the identity as unique and ejects a duplicate, so honouring a caller-chosen one would let anyone in a workspace kick out a colleague and impersonate them. `participantName` is a display name only.  An unconfigured deployment answers 503 under its own name rather than 404, and the refusal states only that the office is unconfigured — the reason names key material and stays in the boot log.
+        Answers with a LiveKit join token for exactly the room named in the body. The body is the RAW token as text/plain — one opaque string, not JSON and not wrapped in an envelope, which is what the office client reads.  The caller presents its space session as a Bearer. Every clause is a refusal: the session must verify, its SIGNED space claim must equal the room's leading name segment — rooms are named `<space>_<room>_<id>`, and that prefix is the only thing binding a room to a tenant — and the session must carry a privileged space role, so a guest is refused rather than seated.  The participant identity is the SESSION'S, never the body's. `_id` is accepted for compatibility with the published client bundle and deliberately ignored: LiveKit treats the identity as unique and ejects a duplicate, so honouring a caller-chosen one would let anyone in a space kick out a colleague and impersonate them. `participantName` is a display name only.  An unconfigured deployment answers 503 under its own name rather than 404, and the refusal states only that the office is unconfigured — the reason names key material and stays in the boot log.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

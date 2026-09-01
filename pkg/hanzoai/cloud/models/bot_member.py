@@ -26,7 +26,7 @@ class BotMember(BaseModel):
     """
     BotMember
     """ # noqa: E501
-    active: Optional[StrictBool] = Field(default=None, description="Active is whether the agent projects as a LIVE workspace member, derived from its registry status: empty, \"active\" and \"ready\" are live, anything else (archived/retired) is not. An inactive bot drops out of the Team list while its past authorship survives.")
+    active: Optional[StrictBool] = Field(default=None, description="Active is whether the agent projects as a LIVE space member, derived from its registry status: empty, \"active\" and \"ready\" are live, anything else (archived/retired) is not. An inactive bot drops out of the Team list while its past authorship survives.")
     id: Optional[StrictStr] = Field(default=None, description="the agent id")
     name: Optional[StrictStr] = Field(default=None, description="display name")
     person_ref: Optional[StrictStr] = Field(default=None, description="the projected Person _id", alias="personRef")

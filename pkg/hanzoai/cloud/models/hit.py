@@ -26,7 +26,7 @@ class Hit(BaseModel):
     """
     Hit
     """ # noqa: E501
-    doctype: Optional[StrictStr] = Field(default=None, description="DocType is which kind of knowledge matched: kb-page (a wiki page), kb-memory (a unit of agent memory) or kb-source (a document a connector ingested). Those three are the whole indexed set, and searchIn.DocTypes filters on them.")
+    doctype: Optional[StrictStr] = Field(default=None, description="DocType is which kind of knowledge matched, by address: kb.page (a wiki page), kb.memory (a unit of agent memory) or kb.source (a document a connector ingested). Those three are the whole indexed set, and searchIn.DocTypes filters on them.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the document's name in the framework store — the id to read or open it with. Unique per (org, doctype), so it identifies the document with DocType and not alone.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the project scope the document was saved under. Absent for a document saved with none, which is also why a project-scoped query cannot reach it.")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the connector that ingested the document — github, slack, google or notion. Absent for a page or memory written in the product, which came from no connector.")

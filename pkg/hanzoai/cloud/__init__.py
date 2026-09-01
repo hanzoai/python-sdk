@@ -39,6 +39,7 @@ __all__ = [
     "CaptableApi",
     "CatalogApi",
     "ChannelsApi",
+    "CiApi",
     "CloudflareApi",
     "CodeApi",
     "CommerceApi",
@@ -82,6 +83,7 @@ __all__ = [
     "LicensingApi",
     "LinkApi",
     "LspApi",
+    "MarketApi",
     "MarketingApi",
     "MarketplaceApi",
     "MeetApi",
@@ -114,6 +116,7 @@ __all__ = [
     "SettingsApi",
     "ShareApi",
     "SocialApi",
+    "SpaceApi",
     "StandingApi",
     "SyncApi",
     "TasksApi",
@@ -276,6 +279,7 @@ __all__ = [
     "ArgoTree",
     "Arm",
     "Article",
+    "Artifact",
     "AskAnswer",
     "AskPostIn",
     "AskRequest",
@@ -294,6 +298,8 @@ __all__ = [
     "AuthoredPluginList",
     "AuthoredSkillList",
     "AuthorizeOut",
+    "AutoRecharge",
+    "AutoRechargeEdit",
     "Backend",
     "BackendStatus",
     "BalanceLine",
@@ -452,6 +458,8 @@ __all__ = [
     "ChallengeView",
     "Channel",
     "ChannelAdd",
+    "ChannelAgents",
+    "ChannelAgentsPut",
     "ChannelList",
     "ChannelMetric",
     "ChannelResult",
@@ -463,6 +471,7 @@ __all__ = [
     "ChatChannels",
     "ChatRequest",
     "ChatResponse",
+    "Check",
     "CheckList",
     "CheckView",
     "Citation",
@@ -589,6 +598,7 @@ __all__ = [
     "DatasetList",
     "DatasetReq",
     "DatasetView",
+    "Day",
     "DecideBody",
     "DecisionIn",
     "DeckOut",
@@ -639,6 +649,9 @@ __all__ = [
     "DriftBoard",
     "DriftFlag",
     "DriftTally",
+    "DriveIn",
+    "DriveItem",
+    "DriveList",
     "Dropped",
     "Durable",
     "EIN",
@@ -706,14 +719,19 @@ __all__ = [
     "Exception",
     "ExecRequest",
     "ExecResult",
+    "Execution",
+    "Executions",
     "ExperimentList",
     "Extracted",
     "FaqList",
     "Figure",
+    "Figures",
     "File",
     "FileContent",
     "FileInput",
+    "FileItem",
     "FileJSON",
+    "FileList",
     "FilesJSON",
     "Filing",
     "FilingPage",
@@ -868,6 +886,7 @@ __all__ = [
     "HfModel",
     "HfRepoInfo",
     "HfSibling",
+    "History",
     "HistoryOut",
     "Hit",
     "Holder",
@@ -942,9 +961,14 @@ __all__ = [
     "IamScopeItem",
     "IamSession",
     "IamSetAvatarInput",
+    "IamSetProfileInput",
     "IamSigninItem",
     "IamSigninMethod",
     "IamSignupItem",
+    "IamTeam",
+    "IamTeamsDeleteOutput",
+    "IamTeamsInput",
+    "IamTeamsListOutput",
     "IamThemeData",
     "IamToggle",
     "IamToken",
@@ -1085,6 +1109,12 @@ __all__ = [
     "LimitsBlock",
     "LimitsView",
     "LineItem",
+    "LinearBackfillIn",
+    "LinearBackfillResult",
+    "LinearClaimIn",
+    "LinearClaimOut",
+    "LinearCommentIn",
+    "LinearCommentOut",
     "Link",
     "LinkList",
     "LinkMint",
@@ -1107,6 +1137,7 @@ __all__ = [
     "MachineList",
     "MachineView",
     "MakeIn",
+    "Market",
     "MarketCatalog",
     "MarketItem",
     "McpCatalog",
@@ -2019,16 +2050,15 @@ __all__ = [
     "PatchTargetIn",
     "PathIn",
     "PaymentConfig",
-    "PaymentIn",
-    "PaymentOut",
-    "PaymentRecord",
     "Payout",
     "PeriodEarningView",
     "PickOut",
+    "Pipeline",
     "PipelineBoard",
     "PipelineReq",
     "PipelineRow",
     "PipelineView",
+    "Pipelines",
     "PlanEntitlements",
     "PlanHealth",
     "PlanInfo",
@@ -2047,8 +2077,10 @@ __all__ = [
     "PointView",
     "Policy",
     "PolicyList",
+    "Pool",
     "PoolCreate",
     "PoolScale",
+    "Pools",
     "PopulatedFlow",
     "Position",
     "PostAiArticles200Response",
@@ -2085,6 +2117,7 @@ __all__ = [
     "PostEventRequest",
     "PostList",
     "PostModelsByModelAccess200Response",
+    "Precompile",
     "PrefsView",
     "Preset",
     "PresetAccepted",
@@ -2181,6 +2214,7 @@ __all__ = [
     "Ran",
     "Range",
     "RateCard",
+    "Reach",
     "Reachability",
     "ReadOut",
     "Readiness",
@@ -2313,14 +2347,13 @@ __all__ = [
     "RiskTopology",
     "RiskTrial",
     "RiskValue",
-    "RoleAssignment",
-    "RoleList",
     "RollbackReq",
     "Rollup",
     "RollupAllotment",
     "RollupBalance",
     "RoomWork",
     "Root",
+    "Roster",
     "RoundInput",
     "RoundOut",
     "Route",
@@ -2459,6 +2492,10 @@ __all__ = [
     "SourceState",
     "SourceToolList",
     "Sources",
+    "SpaceHealth",
+    "SpaceIn",
+    "SpaceItem",
+    "SpaceList",
     "Span",
     "SpanBody",
     "Spec",
@@ -2509,6 +2546,7 @@ __all__ = [
     "SummaryView",
     "Suppression",
     "SuppressionList",
+    "Survey",
     "Sweep",
     "Symbol",
     "SyncList",
@@ -2528,8 +2566,12 @@ __all__ = [
     "Taxon",
     "TaxonIn",
     "Taxonomy",
+    "TeamMessage",
+    "TeamMessageWrite",
+    "TeamMessages",
     "TeamRoom",
     "TeamRoomBind",
+    "TeamRoomNew",
     "TeamRooms",
     "Template",
     "TemplateCatalog",
@@ -2543,7 +2585,10 @@ __all__ = [
     "TierBalance",
     "TierLimits",
     "Timeseries",
+    "Tip",
     "TodoProject",
+    "Token",
+    "Tokens",
     "Tool",
     "ToolCall",
     "ToolList",
@@ -2690,6 +2735,7 @@ from hanzoai.cloud.api.campaign_api import CampaignApi as CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi as CaptableApi
 from hanzoai.cloud.api.catalog_api import CatalogApi as CatalogApi
 from hanzoai.cloud.api.channels_api import ChannelsApi as ChannelsApi
+from hanzoai.cloud.api.ci_api import CiApi as CiApi
 from hanzoai.cloud.api.cloudflare_api import CloudflareApi as CloudflareApi
 from hanzoai.cloud.api.code_api import CodeApi as CodeApi
 from hanzoai.cloud.api.commerce_api import CommerceApi as CommerceApi
@@ -2733,6 +2779,7 @@ from hanzoai.cloud.api.legal_api import LegalApi as LegalApi
 from hanzoai.cloud.api.licensing_api import LicensingApi as LicensingApi
 from hanzoai.cloud.api.link_api import LinkApi as LinkApi
 from hanzoai.cloud.api.lsp_api import LspApi as LspApi
+from hanzoai.cloud.api.market_api import MarketApi as MarketApi
 from hanzoai.cloud.api.marketing_api import MarketingApi as MarketingApi
 from hanzoai.cloud.api.marketplace_api import MarketplaceApi as MarketplaceApi
 from hanzoai.cloud.api.meet_api import MeetApi as MeetApi
@@ -2765,6 +2812,7 @@ from hanzoai.cloud.api.seo_api import SeoApi as SeoApi
 from hanzoai.cloud.api.settings_api import SettingsApi as SettingsApi
 from hanzoai.cloud.api.share_api import ShareApi as ShareApi
 from hanzoai.cloud.api.social_api import SocialApi as SocialApi
+from hanzoai.cloud.api.space_api import SpaceApi as SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi as StandingApi
 from hanzoai.cloud.api.sync_api import SyncApi as SyncApi
 from hanzoai.cloud.api.tasks_api import TasksApi as TasksApi
@@ -2931,6 +2979,7 @@ from hanzoai.cloud.models.argo_sync_windows import ArgoSyncWindows as ArgoSyncWi
 from hanzoai.cloud.models.argo_tree import ArgoTree as ArgoTree
 from hanzoai.cloud.models.arm import Arm as Arm
 from hanzoai.cloud.models.article import Article as Article
+from hanzoai.cloud.models.artifact import Artifact as Artifact
 from hanzoai.cloud.models.ask_answer import AskAnswer as AskAnswer
 from hanzoai.cloud.models.ask_post_in import AskPostIn as AskPostIn
 from hanzoai.cloud.models.ask_request import AskRequest as AskRequest
@@ -2949,6 +2998,8 @@ from hanzoai.cloud.models.authored_plugin import AuthoredPlugin as AuthoredPlugi
 from hanzoai.cloud.models.authored_plugin_list import AuthoredPluginList as AuthoredPluginList
 from hanzoai.cloud.models.authored_skill_list import AuthoredSkillList as AuthoredSkillList
 from hanzoai.cloud.models.authorize_out import AuthorizeOut as AuthorizeOut
+from hanzoai.cloud.models.auto_recharge import AutoRecharge as AutoRecharge
+from hanzoai.cloud.models.auto_recharge_edit import AutoRechargeEdit as AutoRechargeEdit
 from hanzoai.cloud.models.backend import Backend as Backend
 from hanzoai.cloud.models.backend_status import BackendStatus as BackendStatus
 from hanzoai.cloud.models.balance_line import BalanceLine as BalanceLine
@@ -3107,6 +3158,8 @@ from hanzoai.cloud.models.chain_status import ChainStatus as ChainStatus
 from hanzoai.cloud.models.challenge_view import ChallengeView as ChallengeView
 from hanzoai.cloud.models.channel import Channel as Channel
 from hanzoai.cloud.models.channel_add import ChannelAdd as ChannelAdd
+from hanzoai.cloud.models.channel_agents import ChannelAgents as ChannelAgents
+from hanzoai.cloud.models.channel_agents_put import ChannelAgentsPut as ChannelAgentsPut
 from hanzoai.cloud.models.channel_list import ChannelList as ChannelList
 from hanzoai.cloud.models.channel_metric import ChannelMetric as ChannelMetric
 from hanzoai.cloud.models.channel_result import ChannelResult as ChannelResult
@@ -3118,6 +3171,7 @@ from hanzoai.cloud.models.chat import Chat as Chat
 from hanzoai.cloud.models.chat_channels import ChatChannels as ChatChannels
 from hanzoai.cloud.models.chat_request import ChatRequest as ChatRequest
 from hanzoai.cloud.models.chat_response import ChatResponse as ChatResponse
+from hanzoai.cloud.models.check import Check as Check
 from hanzoai.cloud.models.check_list import CheckList as CheckList
 from hanzoai.cloud.models.check_view import CheckView as CheckView
 from hanzoai.cloud.models.citation import Citation as Citation
@@ -3244,6 +3298,7 @@ from hanzoai.cloud.models.dataroom_stats import DataroomStats as DataroomStats
 from hanzoai.cloud.models.dataset_list import DatasetList as DatasetList
 from hanzoai.cloud.models.dataset_req import DatasetReq as DatasetReq
 from hanzoai.cloud.models.dataset_view import DatasetView as DatasetView
+from hanzoai.cloud.models.day import Day as Day
 from hanzoai.cloud.models.decide_body import DecideBody as DecideBody
 from hanzoai.cloud.models.decision_in import DecisionIn as DecisionIn
 from hanzoai.cloud.models.deck_out import DeckOut as DeckOut
@@ -3294,6 +3349,9 @@ from hanzoai.cloud.models.domain_view import DomainView as DomainView
 from hanzoai.cloud.models.drift_board import DriftBoard as DriftBoard
 from hanzoai.cloud.models.drift_flag import DriftFlag as DriftFlag
 from hanzoai.cloud.models.drift_tally import DriftTally as DriftTally
+from hanzoai.cloud.models.drive_in import DriveIn as DriveIn
+from hanzoai.cloud.models.drive_item import DriveItem as DriveItem
+from hanzoai.cloud.models.drive_list import DriveList as DriveList
 from hanzoai.cloud.models.dropped import Dropped as Dropped
 from hanzoai.cloud.models.durable import Durable as Durable
 from hanzoai.cloud.models.ein import EIN as EIN
@@ -3361,14 +3419,19 @@ from hanzoai.cloud.models.example_question import ExampleQuestion as ExampleQues
 from hanzoai.cloud.models.exception import Exception as Exception
 from hanzoai.cloud.models.exec_request import ExecRequest as ExecRequest
 from hanzoai.cloud.models.exec_result import ExecResult as ExecResult
+from hanzoai.cloud.models.execution import Execution as Execution
+from hanzoai.cloud.models.executions import Executions as Executions
 from hanzoai.cloud.models.experiment_list import ExperimentList as ExperimentList
 from hanzoai.cloud.models.extracted import Extracted as Extracted
 from hanzoai.cloud.models.faq_list import FaqList as FaqList
 from hanzoai.cloud.models.figure import Figure as Figure
+from hanzoai.cloud.models.figures import Figures as Figures
 from hanzoai.cloud.models.file import File as File
 from hanzoai.cloud.models.file_content import FileContent as FileContent
 from hanzoai.cloud.models.file_input import FileInput as FileInput
+from hanzoai.cloud.models.file_item import FileItem as FileItem
 from hanzoai.cloud.models.file_json import FileJSON as FileJSON
+from hanzoai.cloud.models.file_list import FileList as FileList
 from hanzoai.cloud.models.files_json import FilesJSON as FilesJSON
 from hanzoai.cloud.models.filing import Filing as Filing
 from hanzoai.cloud.models.filing_page import FilingPage as FilingPage
@@ -3523,6 +3586,7 @@ from hanzoai.cloud.models.hf_dataset import HfDataset as HfDataset
 from hanzoai.cloud.models.hf_model import HfModel as HfModel
 from hanzoai.cloud.models.hf_repo_info import HfRepoInfo as HfRepoInfo
 from hanzoai.cloud.models.hf_sibling import HfSibling as HfSibling
+from hanzoai.cloud.models.history import History as History
 from hanzoai.cloud.models.history_out import HistoryOut as HistoryOut
 from hanzoai.cloud.models.hit import Hit as Hit
 from hanzoai.cloud.models.holder import Holder as Holder
@@ -3597,9 +3661,14 @@ from hanzoai.cloud.models.iam_scope_description import IamScopeDescription as Ia
 from hanzoai.cloud.models.iam_scope_item import IamScopeItem as IamScopeItem
 from hanzoai.cloud.models.iam_session import IamSession as IamSession
 from hanzoai.cloud.models.iam_set_avatar_input import IamSetAvatarInput as IamSetAvatarInput
+from hanzoai.cloud.models.iam_set_profile_input import IamSetProfileInput as IamSetProfileInput
 from hanzoai.cloud.models.iam_signin_item import IamSigninItem as IamSigninItem
 from hanzoai.cloud.models.iam_signin_method import IamSigninMethod as IamSigninMethod
 from hanzoai.cloud.models.iam_signup_item import IamSignupItem as IamSignupItem
+from hanzoai.cloud.models.iam_team import IamTeam as IamTeam
+from hanzoai.cloud.models.iam_teams_delete_output import IamTeamsDeleteOutput as IamTeamsDeleteOutput
+from hanzoai.cloud.models.iam_teams_input import IamTeamsInput as IamTeamsInput
+from hanzoai.cloud.models.iam_teams_list_output import IamTeamsListOutput as IamTeamsListOutput
 from hanzoai.cloud.models.iam_theme_data import IamThemeData as IamThemeData
 from hanzoai.cloud.models.iam_toggle import IamToggle as IamToggle
 from hanzoai.cloud.models.iam_token import IamToken as IamToken
@@ -3740,6 +3809,12 @@ from hanzoai.cloud.models.licensing_verify_response import LicensingVerifyRespon
 from hanzoai.cloud.models.limits_block import LimitsBlock as LimitsBlock
 from hanzoai.cloud.models.limits_view import LimitsView as LimitsView
 from hanzoai.cloud.models.line_item import LineItem as LineItem
+from hanzoai.cloud.models.linear_backfill_in import LinearBackfillIn as LinearBackfillIn
+from hanzoai.cloud.models.linear_backfill_result import LinearBackfillResult as LinearBackfillResult
+from hanzoai.cloud.models.linear_claim_in import LinearClaimIn as LinearClaimIn
+from hanzoai.cloud.models.linear_claim_out import LinearClaimOut as LinearClaimOut
+from hanzoai.cloud.models.linear_comment_in import LinearCommentIn as LinearCommentIn
+from hanzoai.cloud.models.linear_comment_out import LinearCommentOut as LinearCommentOut
 from hanzoai.cloud.models.link import Link as Link
 from hanzoai.cloud.models.link_list import LinkList as LinkList
 from hanzoai.cloud.models.link_mint import LinkMint as LinkMint
@@ -3762,6 +3837,7 @@ from hanzoai.cloud.models.mcp_server import MCPServer as MCPServer
 from hanzoai.cloud.models.machine_list import MachineList as MachineList
 from hanzoai.cloud.models.machine_view import MachineView as MachineView
 from hanzoai.cloud.models.make_in import MakeIn as MakeIn
+from hanzoai.cloud.models.market import Market as Market
 from hanzoai.cloud.models.market_catalog import MarketCatalog as MarketCatalog
 from hanzoai.cloud.models.market_item import MarketItem as MarketItem
 from hanzoai.cloud.models.mcp_catalog import McpCatalog as McpCatalog
@@ -4674,16 +4750,15 @@ from hanzoai.cloud.models.patch_sync_in import PatchSyncIn as PatchSyncIn
 from hanzoai.cloud.models.patch_target_in import PatchTargetIn as PatchTargetIn
 from hanzoai.cloud.models.path_in import PathIn as PathIn
 from hanzoai.cloud.models.payment_config import PaymentConfig as PaymentConfig
-from hanzoai.cloud.models.payment_in import PaymentIn as PaymentIn
-from hanzoai.cloud.models.payment_out import PaymentOut as PaymentOut
-from hanzoai.cloud.models.payment_record import PaymentRecord as PaymentRecord
 from hanzoai.cloud.models.payout import Payout as Payout
 from hanzoai.cloud.models.period_earning_view import PeriodEarningView as PeriodEarningView
 from hanzoai.cloud.models.pick_out import PickOut as PickOut
+from hanzoai.cloud.models.pipeline import Pipeline as Pipeline
 from hanzoai.cloud.models.pipeline_board import PipelineBoard as PipelineBoard
 from hanzoai.cloud.models.pipeline_req import PipelineReq as PipelineReq
 from hanzoai.cloud.models.pipeline_row import PipelineRow as PipelineRow
 from hanzoai.cloud.models.pipeline_view import PipelineView as PipelineView
+from hanzoai.cloud.models.pipelines import Pipelines as Pipelines
 from hanzoai.cloud.models.plan_entitlements import PlanEntitlements as PlanEntitlements
 from hanzoai.cloud.models.plan_health import PlanHealth as PlanHealth
 from hanzoai.cloud.models.plan_info import PlanInfo as PlanInfo
@@ -4702,8 +4777,10 @@ from hanzoai.cloud.models.pn_l_line import PnLLine as PnLLine
 from hanzoai.cloud.models.point_view import PointView as PointView
 from hanzoai.cloud.models.policy import Policy as Policy
 from hanzoai.cloud.models.policy_list import PolicyList as PolicyList
+from hanzoai.cloud.models.pool import Pool as Pool
 from hanzoai.cloud.models.pool_create import PoolCreate as PoolCreate
 from hanzoai.cloud.models.pool_scale import PoolScale as PoolScale
+from hanzoai.cloud.models.pools import Pools as Pools
 from hanzoai.cloud.models.populated_flow import PopulatedFlow as PopulatedFlow
 from hanzoai.cloud.models.position import Position as Position
 from hanzoai.cloud.models.post_ai_articles200_response import PostAiArticles200Response as PostAiArticles200Response
@@ -4740,6 +4817,7 @@ from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows20
 from hanzoai.cloud.models.post_event_request import PostEventRequest as PostEventRequest
 from hanzoai.cloud.models.post_list import PostList as PostList
 from hanzoai.cloud.models.post_models_by_model_access200_response import PostModelsByModelAccess200Response as PostModelsByModelAccess200Response
+from hanzoai.cloud.models.precompile import Precompile as Precompile
 from hanzoai.cloud.models.prefs_view import PrefsView as PrefsView
 from hanzoai.cloud.models.preset import Preset as Preset
 from hanzoai.cloud.models.preset_accepted import PresetAccepted as PresetAccepted
@@ -4836,6 +4914,7 @@ from hanzoai.cloud.models.raise_in import RaiseIn as RaiseIn
 from hanzoai.cloud.models.ran import Ran as Ran
 from hanzoai.cloud.models.range import Range as Range
 from hanzoai.cloud.models.rate_card import RateCard as RateCard
+from hanzoai.cloud.models.reach import Reach as Reach
 from hanzoai.cloud.models.reachability import Reachability as Reachability
 from hanzoai.cloud.models.read_out import ReadOut as ReadOut
 from hanzoai.cloud.models.readiness import Readiness as Readiness
@@ -4968,14 +5047,13 @@ from hanzoai.cloud.models.risk_surface import RiskSurface as RiskSurface
 from hanzoai.cloud.models.risk_topology import RiskTopology as RiskTopology
 from hanzoai.cloud.models.risk_trial import RiskTrial as RiskTrial
 from hanzoai.cloud.models.risk_value import RiskValue as RiskValue
-from hanzoai.cloud.models.role_assignment import RoleAssignment as RoleAssignment
-from hanzoai.cloud.models.role_list import RoleList as RoleList
 from hanzoai.cloud.models.rollback_req import RollbackReq as RollbackReq
 from hanzoai.cloud.models.rollup import Rollup as Rollup
 from hanzoai.cloud.models.rollup_allotment import RollupAllotment as RollupAllotment
 from hanzoai.cloud.models.rollup_balance import RollupBalance as RollupBalance
 from hanzoai.cloud.models.room_work import RoomWork as RoomWork
 from hanzoai.cloud.models.root import Root as Root
+from hanzoai.cloud.models.roster import Roster as Roster
 from hanzoai.cloud.models.round_input import RoundInput as RoundInput
 from hanzoai.cloud.models.round_out import RoundOut as RoundOut
 from hanzoai.cloud.models.route import Route as Route
@@ -5114,6 +5192,10 @@ from hanzoai.cloud.models.source_failure import SourceFailure as SourceFailure
 from hanzoai.cloud.models.source_state import SourceState as SourceState
 from hanzoai.cloud.models.source_tool_list import SourceToolList as SourceToolList
 from hanzoai.cloud.models.sources import Sources as Sources
+from hanzoai.cloud.models.space_health import SpaceHealth as SpaceHealth
+from hanzoai.cloud.models.space_in import SpaceIn as SpaceIn
+from hanzoai.cloud.models.space_item import SpaceItem as SpaceItem
+from hanzoai.cloud.models.space_list import SpaceList as SpaceList
 from hanzoai.cloud.models.span import Span as Span
 from hanzoai.cloud.models.span_body import SpanBody as SpanBody
 from hanzoai.cloud.models.spec import Spec as Spec
@@ -5164,6 +5246,7 @@ from hanzoai.cloud.models.summary_resp import SummaryResp as SummaryResp
 from hanzoai.cloud.models.summary_view import SummaryView as SummaryView
 from hanzoai.cloud.models.suppression import Suppression as Suppression
 from hanzoai.cloud.models.suppression_list import SuppressionList as SuppressionList
+from hanzoai.cloud.models.survey import Survey as Survey
 from hanzoai.cloud.models.sweep import Sweep as Sweep
 from hanzoai.cloud.models.symbol import Symbol as Symbol
 from hanzoai.cloud.models.sync_list import SyncList as SyncList
@@ -5183,8 +5266,12 @@ from hanzoai.cloud.models.task import Task as Task
 from hanzoai.cloud.models.taxon import Taxon as Taxon
 from hanzoai.cloud.models.taxon_in import TaxonIn as TaxonIn
 from hanzoai.cloud.models.taxonomy import Taxonomy as Taxonomy
+from hanzoai.cloud.models.team_message import TeamMessage as TeamMessage
+from hanzoai.cloud.models.team_message_write import TeamMessageWrite as TeamMessageWrite
+from hanzoai.cloud.models.team_messages import TeamMessages as TeamMessages
 from hanzoai.cloud.models.team_room import TeamRoom as TeamRoom
 from hanzoai.cloud.models.team_room_bind import TeamRoomBind as TeamRoomBind
+from hanzoai.cloud.models.team_room_new import TeamRoomNew as TeamRoomNew
 from hanzoai.cloud.models.team_rooms import TeamRooms as TeamRooms
 from hanzoai.cloud.models.template import Template as Template
 from hanzoai.cloud.models.template_catalog import TemplateCatalog as TemplateCatalog
@@ -5198,7 +5285,10 @@ from hanzoai.cloud.models.tier import Tier as Tier
 from hanzoai.cloud.models.tier_balance import TierBalance as TierBalance
 from hanzoai.cloud.models.tier_limits import TierLimits as TierLimits
 from hanzoai.cloud.models.timeseries import Timeseries as Timeseries
+from hanzoai.cloud.models.tip import Tip as Tip
 from hanzoai.cloud.models.todo_project import TodoProject as TodoProject
+from hanzoai.cloud.models.token import Token as Token
+from hanzoai.cloud.models.tokens import Tokens as Tokens
 from hanzoai.cloud.models.tool import Tool as Tool
 from hanzoai.cloud.models.tool_call import ToolCall as ToolCall
 from hanzoai.cloud.models.tool_list import ToolList as ToolList

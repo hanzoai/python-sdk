@@ -17,20 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PaymentIn(BaseModel):
+class Artifact(BaseModel):
     """
-    PaymentIn
+    Artifact
     """ # noqa: E501
-    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is the amount to charge, in whole cents (5000 is $50.00). Server-side bounds apply and are authoritative — the default floor is $1 and the ceiling $5,000, so a fat-fingered or hostile amount is refused before any money moves.", alias="amountCents")
-    currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO 4217 code, lower-cased. Empty means usd.")
-    idempotency_key: Optional[StrictStr] = Field(default=None, description="IdempotencyKey makes a retry safe: the same key never charges twice, it replays the first result. Sending one is strongly recommended for an agent, which retries by construction. Empty falls back to a windowed key derived from the amount and currency, so a double-submit inside 15 minutes still collapses onto one charge.", alias="idempotencyKey")
-    source_id: Optional[StrictStr] = Field(default=None, description="SourceID is the single-use payment token that stands in for the card: a Square Web Payments SDK nonce minted in the browser, or a Square sandbox test nonce when the org's credentials are sandbox ones. The card number itself never reaches this process, which is what keeps it out of PCI scope.", alias="sourceId")
-    __properties: ClassVar[List[str]] = ["amountCents", "currency", "idempotencyKey", "sourceId"]
+    digest: Optional[StrictStr] = None
+    tag: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["digest", "tag"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +48,7 @@ class PaymentIn(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PaymentIn from a JSON string"""
+        """Create an instance of Artifact from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +73,7 @@ class PaymentIn(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PaymentIn from a dict"""
+        """Create an instance of Artifact from a dict"""
         if obj is None:
             return None
 
@@ -83,10 +81,8 @@ class PaymentIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "amountCents": obj.get("amountCents"),
-            "currency": obj.get("currency"),
-            "idempotencyKey": obj.get("idempotencyKey"),
-            "sourceId": obj.get("sourceId")
+            "digest": obj.get("digest"),
+            "tag": obj.get("tag")
         })
         return _obj
 

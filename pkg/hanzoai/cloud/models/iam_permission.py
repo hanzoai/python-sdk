@@ -38,7 +38,6 @@ class IamPermission(BaseModel):
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     domains: Optional[List[StrictStr]] = None
     effect: Optional[StrictStr] = None
-    groups: Optional[List[StrictStr]] = None
     id: Optional[StrictStr] = None
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     model: Optional[StrictStr] = Field(default=None, description="Authorization model, targets, and decision. AuthzModel carries the v1 `model` column (the named authz model); it is not the Go identifier `Model` because that name is taken by the embedded orm.Model[Permission] mixin. The HTTP contract is unchanged — json:\"model\".")
@@ -49,9 +48,10 @@ class IamPermission(BaseModel):
     roles: Optional[List[StrictStr]] = None
     state: Optional[StrictStr] = None
     submitter: Optional[StrictStr] = Field(default=None, description="Submission / approval workflow.")
+    teams: Optional[List[StrictStr]] = None
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     users: Optional[List[StrictStr]] = Field(default=None, description="Subjects the grant is evaluated for.")
-    __properties: ClassVar[List[str]] = ["actions", "adapter", "approveTime", "approver", "createdAt", "createdTime", "deleted", "description", "displayName", "domains", "effect", "groups", "id", "isEnabled", "model", "name", "owner", "resourceType", "resources", "roles", "state", "submitter", "updatedAt", "users"]
+    __properties: ClassVar[List[str]] = ["actions", "adapter", "approveTime", "approver", "createdAt", "createdTime", "deleted", "description", "displayName", "domains", "effect", "id", "isEnabled", "model", "name", "owner", "resourceType", "resources", "roles", "state", "submitter", "teams", "updatedAt", "users"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -115,7 +115,6 @@ class IamPermission(BaseModel):
             "displayName": obj.get("displayName"),
             "domains": obj.get("domains"),
             "effect": obj.get("effect"),
-            "groups": obj.get("groups"),
             "id": obj.get("id"),
             "isEnabled": obj.get("isEnabled"),
             "model": obj.get("model"),
@@ -126,6 +125,7 @@ class IamPermission(BaseModel):
             "roles": obj.get("roles"),
             "state": obj.get("state"),
             "submitter": obj.get("submitter"),
+            "teams": obj.get("teams"),
             "updatedAt": obj.get("updatedAt"),
             "users": obj.get("users")
         })
