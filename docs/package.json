@@ -10,8 +10,8 @@
     "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@hanzo/mdx": "14.2.6",
-    "@hanzo/ui": "8.27.2",
+    "@hanzo/mdx": "^14.2.6",
+    "@hanzo/ui": "^8.27.5",
     "fumadocs-core": "^16.15.4",
     "fumadocs-mdx": "^15.4.0",
     "fumadocs-ui": "^16.15.4",
