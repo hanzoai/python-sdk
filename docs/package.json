@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@hanzo/mdx": "^14.2.6",
-    "@hanzo/ui": "^8.27.5",
+    "@hanzo/ui": "^8.27.7",
     "fumadocs-core": "^16.15.4",
     "fumadocs-mdx": "^15.4.0",
     "fumadocs-ui": "^16.15.4",
