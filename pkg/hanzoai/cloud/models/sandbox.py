@@ -27,6 +27,7 @@ class Sandbox(BaseModel):
     Sandbox
     """ # noqa: E501
     var_class: Optional[StrictStr] = Field(default=None, description="Class is what the sandbox is FOR, and it decides the image, the working directory and the isolation: \"exec\" for a code-interpreter call (workdir /mnt/data, no project, bounded per org), \"dev\" for a workspace bound to a project (workdir /work, single-attach), \"desktop\" for one with a screen.", alias="class")
+    cluster: Optional[StrictStr] = Field(default=None, description="Cluster is the attached cluster this sandbox runs on — the fleet-local name the lease named — or empty for the home cluster. Immutable for the life of the lease, like the pod it locates: every later call into the sandbox reads it to reach the right apiserver.")
     connected_at: Optional[StrictInt] = Field(default=None, description="ConnectedAt is when somebody was last known to have this sandbox's project OPEN, Unix seconds. It is a fact with an EXPIRY rather than a flag: a watcher restamps it every beat of its stream, and it goes stale on its own when the stream dies, so nothing has to be turned off by a process that may not be there any more. The reaper reads it to choose WHICH idle allowance applies — see lifecycle.go.  Zero means nobody has said so, which puts the sandbox on the short clock.", alias="connectedAt")
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the lease was first taken, Unix seconds.", alias="createdAt")
     error: Optional[StrictStr] = Field(default=None, description="Error is why the sandbox could not come up, in plain words. Present only with status \"error\", and it is the field to read rather than inferring a cause from the absence of a pod.")
@@ -40,7 +41,7 @@ class Sandbox(BaseModel):
     runtime: Optional[StrictStr] = Field(default=None, description="Runtime is the isolation boundary this sandbox GOT, which is not always the one it asked for: a caller states a preference and runtimeFor answers with what the sandbox can actually have. Reported so a person comparing two runtimes is comparing the runtimes they got rather than the ones they typed — the difference between those two is the whole reason to record it.  Empty means the node's default runtime, which is a real answer and not a missing one.  This is not a copy that can go stale. runtimeClassName is IMMUTABLE on a pod, a sandbox's pod is created once and never recreated (restartPolicy Never, no pool), and its name is never reused — so for as long as the pod this row names exists, it is running this runtime. The alternative, asking the apiserver on every read, buys nothing and costs a round trip per row.")
     status: Optional[StrictStr] = Field(default=None, description="Status is where the sandbox is in its life: \"pending\" while the pod is coming up, \"running\" once it can take work, \"error\" when it cannot. Only a running sandbox takes an exec or mints an interactive ticket.")
     volume: Optional[StrictStr] = Field(default=None, description="Volume is the persistent volume attached to the sandbox, when it has one. A dev sandbox keeps its work across leases through it; an exec sandbox has none and loses everything outside /mnt/data when the lease ends.")
-    __properties: ClassVar[List[str]] = ["class", "connectedAt", "createdAt", "error", "expiresAt", "id", "image", "kind", "lastUsedAt", "org", "project", "runtime", "status", "volume"]
+    __properties: ClassVar[List[str]] = ["class", "cluster", "connectedAt", "createdAt", "error", "expiresAt", "id", "image", "kind", "lastUsedAt", "org", "project", "runtime", "status", "volume"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,6 +95,7 @@ class Sandbox(BaseModel):
 
         _obj = cls.model_validate({
             "class": obj.get("class"),
+            "cluster": obj.get("cluster"),
             "connectedAt": obj.get("connectedAt"),
             "createdAt": obj.get("createdAt"),
             "error": obj.get("error"),

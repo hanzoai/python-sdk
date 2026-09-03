@@ -22,16 +22,13 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Event(BaseModel):
+class EnrollmentView(BaseModel):
     """
-    Event
+    EnrollmentView
     """ # noqa: E501
-    distinct_id: Optional[StrictStr] = Field(default=None, alias="distinctId")
-    event: Optional[StrictStr] = None
-    properties: Optional[Dict[str, Any]] = None
-    time: Optional[StrictStr] = None
-    type: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["distinctId", "event", "properties", "time", "type"]
+    expires_at: Optional[StrictStr] = Field(default=None, description="ExpiresAt is when the un-used token lapses, RFC 3339.", alias="expiresAt")
+    jwt: Optional[StrictStr] = Field(default=None, description="JWT is the one-time enrollment token the device presents ONCE to join the fabric (zt edge enroll / zt-edge-tunnel enroll). Spent or lapsed, it authenticates nothing; this surface stores it nowhere.")
+    __properties: ClassVar[List[str]] = ["expiresAt", "jwt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +48,7 @@ class Event(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Event from a JSON string"""
+        """Create an instance of EnrollmentView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +73,7 @@ class Event(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Event from a dict"""
+        """Create an instance of EnrollmentView from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +81,8 @@ class Event(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "distinctId": obj.get("distinctId"),
-            "event": obj.get("event"),
-            "properties": obj.get("properties"),
-            "time": obj.get("time"),
-            "type": obj.get("type")
+            "expiresAt": obj.get("expiresAt"),
+            "jwt": obj.get("jwt")
         })
         return _obj
 

@@ -26,11 +26,11 @@ class CodingStarted(BaseModel):
     """
     CodingStarted
     """ # noqa: E501
-    branch: Optional[StrictStr] = Field(default=None, description="Branch is the ref the run will push its work to, and the ONLY ref it is permitted to write. It exists before the work does, so it is safe to tell somebody where to look while the run is still going.")
-    repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository the run was admitted against, echoed back as the engine resolved it.")
-    routed: Optional[StrictBool] = Field(default=None, description="Routed says the run went to one of the org's own registered machines rather than to a sandbox in our cluster. False is the ordinary case.")
-    session_id: Optional[StrictStr] = Field(default=None, description="SessionID is the run's handle: its durable record, and the id its live progress streams under at /v1/agents/sessions/{sessionId}/stream. Every later question about this run is asked with it.", alias="sessionId")
-    target_id: Optional[StrictStr] = Field(default=None, description="TargetID names that machine when Routed is true, and is empty otherwise.", alias="targetId")
+    branch: Optional[StrictStr] = None
+    repo: Optional[StrictStr] = None
+    routed: Optional[StrictBool] = None
+    session_id: Optional[StrictStr] = Field(default=None, alias="sessionId")
+    target_id: Optional[StrictStr] = Field(default=None, alias="targetId")
     __properties: ClassVar[List[str]] = ["branch", "repo", "routed", "sessionId", "targetId"]
 
     model_config = ConfigDict(

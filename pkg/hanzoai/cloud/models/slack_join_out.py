@@ -17,19 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.join_failure import JoinFailure
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ZapProcReq(BaseModel):
+class SlackJoinOut(BaseModel):
     """
-    ZapProcReq
+    SlackJoinOut
     """ # noqa: E501
-    description: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
-    project: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["description", "name", "project"]
+    already: Optional[StrictInt] = Field(default=None, description="Already counts the channels it was a member of before, kept apart from Joined because only one of the two is a change.")
+    failed: Optional[List[JoinFailure]] = Field(default=None, description="Failed is per-channel, so one refusal does not hide the rest of the walk.")
+    joined: Optional[List[StrictStr]] = Field(default=None, description="Joined names the channels this run walked into — the change it made.")
+    listed: Optional[StrictInt] = Field(default=None, description="Listed is every public, unarchived channel the workspace has.")
+    __properties: ClassVar[List[str]] = ["already", "failed", "joined", "listed"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +51,7 @@ class ZapProcReq(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ZapProcReq from a JSON string"""
+        """Create an instance of SlackJoinOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,11 +72,18 @@ class ZapProcReq(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in failed (list)
+        _items = []
+        if self.failed:
+            for _item_failed in self.failed:
+                if _item_failed:
+                    _items.append(_item_failed.to_dict())
+            _dict['failed'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ZapProcReq from a dict"""
+        """Create an instance of SlackJoinOut from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +91,10 @@ class ZapProcReq(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "description": obj.get("description"),
-            "name": obj.get("name"),
-            "project": obj.get("project")
+            "already": obj.get("already"),
+            "failed": [JoinFailure.from_dict(_item) for _item in obj["failed"]] if obj.get("failed") is not None else None,
+            "joined": obj.get("joined"),
+            "listed": obj.get("listed")
         })
         return _obj
 

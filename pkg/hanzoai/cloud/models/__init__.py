@@ -540,6 +540,7 @@ from hanzoai.cloud.models.enroll_req import EnrollReq
 from hanzoai.cloud.models.enroll_result import EnrollResult
 from hanzoai.cloud.models.enrollment import Enrollment
 from hanzoai.cloud.models.enrollment_list import EnrollmentList
+from hanzoai.cloud.models.enrollment_view import EnrollmentView
 from hanzoai.cloud.models.enrolment import Enrolment
 from hanzoai.cloud.models.entitlements_view import EntitlementsView
 from hanzoai.cloud.models.entry import Entry
@@ -578,7 +579,6 @@ from hanzoai.cloud.models.evaluate_in import EvaluateIn
 from hanzoai.cloud.models.evaluator_list import EvaluatorList
 from hanzoai.cloud.models.evaluator_req import EvaluatorReq
 from hanzoai.cloud.models.evaluator_view import EvaluatorView
-from hanzoai.cloud.models.event import Event
 from hanzoai.cloud.models.event_in import EventIn
 from hanzoai.cloud.models.event_list import EventList
 from hanzoai.cloud.models.event_view import EventView
@@ -854,6 +854,9 @@ from hanzoai.cloud.models.iam_workspace import IamWorkspace
 from hanzoai.cloud.models.iam_workspaces_delete_output import IamWorkspacesDeleteOutput
 from hanzoai.cloud.models.iam_workspaces_input import IamWorkspacesInput
 from hanzoai.cloud.models.iam_workspaces_list_output import IamWorkspacesListOutput
+from hanzoai.cloud.models.identity_in import IdentityIn
+from hanzoai.cloud.models.identity_list import IdentityList
+from hanzoai.cloud.models.identity_view import IdentityView
 from hanzoai.cloud.models.image_origin import ImageOrigin
 from hanzoai.cloud.models.image_view import ImageView
 from hanzoai.cloud.models.import_cap_table_in import ImportCapTableIn
@@ -916,6 +919,7 @@ from hanzoai.cloud.models.item_view import ItemView
 from hanzoai.cloud.models.job_cancel import JobCancel
 from hanzoai.cloud.models.job_canceled import JobCanceled
 from hanzoai.cloud.models.job_list import JobList
+from hanzoai.cloud.models.join_failure import JoinFailure
 from hanzoai.cloud.models.journey_step import JourneyStep
 from hanzoai.cloud.models.judge_spec import JudgeSpec
 from hanzoai.cloud.models.kb_authorize_out import KbAuthorizeOut
@@ -987,6 +991,7 @@ from hanzoai.cloud.models.link_list import LinkList
 from hanzoai.cloud.models.link_mint import LinkMint
 from hanzoai.cloud.models.link_view import LinkView
 from hanzoai.cloud.models.list_out import ListOut
+from hanzoai.cloud.models.listed import Listed
 from hanzoai.cloud.models.listing import Listing
 from hanzoai.cloud.models.listing_page import ListingPage
 from hanzoai.cloud.models.liveness import Liveness
@@ -2053,11 +2058,13 @@ from hanzoai.cloud.models.provision_request import ProvisionRequest
 from hanzoai.cloud.models.provision_result import ProvisionResult
 from hanzoai.cloud.models.provisioned_resource import ProvisionedResource
 from hanzoai.cloud.models.provisioned_summary import ProvisionedSummary
+from hanzoai.cloud.models.public_rooms import PublicRooms
 from hanzoai.cloud.models.publish_input import PublishInput
 from hanzoai.cloud.models.publish_kit_in import PublishKitIn
 from hanzoai.cloud.models.publish_req import PublishReq
 from hanzoai.cloud.models.publish_result import PublishResult
 from hanzoai.cloud.models.published_claim import PublishedClaim
+from hanzoai.cloud.models.published_view import PublishedView
 from hanzoai.cloud.models.pull_list import PullList
 from hanzoai.cloud.models.pull_view import PullView
 from hanzoai.cloud.models.purge import Purge
@@ -2133,6 +2140,7 @@ from hanzoai.cloud.models.registry_project_list import RegistryProjectList
 from hanzoai.cloud.models.registry_status import RegistryStatus
 from hanzoai.cloud.models.registry_tag_list import RegistryTagList
 from hanzoai.cloud.models.registry_token import RegistryToken
+from hanzoai.cloud.models.reindex_out import ReindexOut
 from hanzoai.cloud.models.release_board import ReleaseBoard
 from hanzoai.cloud.models.release_row import ReleaseRow
 from hanzoai.cloud.models.remark import Remark
@@ -2317,6 +2325,7 @@ from hanzoai.cloud.models.series_line import SeriesLine
 from hanzoai.cloud.models.series_point import SeriesPoint
 from hanzoai.cloud.models.service import Service
 from hanzoai.cloud.models.service_detail import ServiceDetail
+from hanzoai.cloud.models.service_in import ServiceIn
 from hanzoai.cloud.models.service_port import ServicePort
 from hanzoai.cloud.models.session import Session
 from hanzoai.cloud.models.session_detail import SessionDetail
@@ -2342,6 +2351,7 @@ from hanzoai.cloud.models.skill import Skill
 from hanzoai.cloud.models.skill_deleted import SkillDeleted
 from hanzoai.cloud.models.skill_in import SkillIn
 from hanzoai.cloud.models.skill_written import SkillWritten
+from hanzoai.cloud.models.slack_join_out import SlackJoinOut
 from hanzoai.cloud.models.slot_view import SlotView
 from hanzoai.cloud.models.social_account import SocialAccount
 from hanzoai.cloud.models.social_account_body import SocialAccountBody
@@ -2577,4 +2587,3 @@ from hanzoai.cloud.models.world_wire import WorldWire
 from hanzoai.cloud.models.write_in import WriteIn
 from hanzoai.cloud.models.written import Written
 from hanzoai.cloud.models.wrote import Wrote
-from hanzoai.cloud.models.zap_proc_req import ZapProcReq

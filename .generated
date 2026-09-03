@@ -651,6 +651,7 @@ pkg/hanzoai/cloud/models/enroll_req.py
 pkg/hanzoai/cloud/models/enroll_result.py
 pkg/hanzoai/cloud/models/enrollment.py
 pkg/hanzoai/cloud/models/enrollment_list.py
+pkg/hanzoai/cloud/models/enrollment_view.py
 pkg/hanzoai/cloud/models/enrolment.py
 pkg/hanzoai/cloud/models/entitlements_view.py
 pkg/hanzoai/cloud/models/entry.py
@@ -689,7 +690,6 @@ pkg/hanzoai/cloud/models/evaluate_in.py
 pkg/hanzoai/cloud/models/evaluator_list.py
 pkg/hanzoai/cloud/models/evaluator_req.py
 pkg/hanzoai/cloud/models/evaluator_view.py
-pkg/hanzoai/cloud/models/event.py
 pkg/hanzoai/cloud/models/event_in.py
 pkg/hanzoai/cloud/models/event_list.py
 pkg/hanzoai/cloud/models/event_view.py
@@ -965,6 +965,9 @@ pkg/hanzoai/cloud/models/iam_workspace.py
 pkg/hanzoai/cloud/models/iam_workspaces_delete_output.py
 pkg/hanzoai/cloud/models/iam_workspaces_input.py
 pkg/hanzoai/cloud/models/iam_workspaces_list_output.py
+pkg/hanzoai/cloud/models/identity_in.py
+pkg/hanzoai/cloud/models/identity_list.py
+pkg/hanzoai/cloud/models/identity_view.py
 pkg/hanzoai/cloud/models/image_origin.py
 pkg/hanzoai/cloud/models/image_view.py
 pkg/hanzoai/cloud/models/import_cap_table_in.py
@@ -1027,6 +1030,7 @@ pkg/hanzoai/cloud/models/item_view.py
 pkg/hanzoai/cloud/models/job_cancel.py
 pkg/hanzoai/cloud/models/job_canceled.py
 pkg/hanzoai/cloud/models/job_list.py
+pkg/hanzoai/cloud/models/join_failure.py
 pkg/hanzoai/cloud/models/journey_step.py
 pkg/hanzoai/cloud/models/judge_spec.py
 pkg/hanzoai/cloud/models/kb_authorize_out.py
@@ -1096,6 +1100,7 @@ pkg/hanzoai/cloud/models/link_list.py
 pkg/hanzoai/cloud/models/link_mint.py
 pkg/hanzoai/cloud/models/link_view.py
 pkg/hanzoai/cloud/models/list_out.py
+pkg/hanzoai/cloud/models/listed.py
 pkg/hanzoai/cloud/models/listing.py
 pkg/hanzoai/cloud/models/listing_page.py
 pkg/hanzoai/cloud/models/liveness.py
@@ -2164,11 +2169,13 @@ pkg/hanzoai/cloud/models/provision_request.py
 pkg/hanzoai/cloud/models/provision_result.py
 pkg/hanzoai/cloud/models/provisioned_resource.py
 pkg/hanzoai/cloud/models/provisioned_summary.py
+pkg/hanzoai/cloud/models/public_rooms.py
 pkg/hanzoai/cloud/models/publish_input.py
 pkg/hanzoai/cloud/models/publish_kit_in.py
 pkg/hanzoai/cloud/models/publish_req.py
 pkg/hanzoai/cloud/models/publish_result.py
 pkg/hanzoai/cloud/models/published_claim.py
+pkg/hanzoai/cloud/models/published_view.py
 pkg/hanzoai/cloud/models/pull_list.py
 pkg/hanzoai/cloud/models/pull_view.py
 pkg/hanzoai/cloud/models/purge.py
@@ -2244,6 +2251,7 @@ pkg/hanzoai/cloud/models/registry_project_list.py
 pkg/hanzoai/cloud/models/registry_status.py
 pkg/hanzoai/cloud/models/registry_tag_list.py
 pkg/hanzoai/cloud/models/registry_token.py
+pkg/hanzoai/cloud/models/reindex_out.py
 pkg/hanzoai/cloud/models/release_board.py
 pkg/hanzoai/cloud/models/release_row.py
 pkg/hanzoai/cloud/models/remark.py
@@ -2427,6 +2435,7 @@ pkg/hanzoai/cloud/models/series_line.py
 pkg/hanzoai/cloud/models/series_point.py
 pkg/hanzoai/cloud/models/service.py
 pkg/hanzoai/cloud/models/service_detail.py
+pkg/hanzoai/cloud/models/service_in.py
 pkg/hanzoai/cloud/models/service_port.py
 pkg/hanzoai/cloud/models/session.py
 pkg/hanzoai/cloud/models/session_detail.py
@@ -2452,6 +2461,7 @@ pkg/hanzoai/cloud/models/skill.py
 pkg/hanzoai/cloud/models/skill_deleted.py
 pkg/hanzoai/cloud/models/skill_in.py
 pkg/hanzoai/cloud/models/skill_written.py
+pkg/hanzoai/cloud/models/slack_join_out.py
 pkg/hanzoai/cloud/models/slot_view.py
 pkg/hanzoai/cloud/models/sms.py
 pkg/hanzoai/cloud/models/social_account.py
@@ -2688,5 +2698,4 @@ pkg/hanzoai/cloud/models/world_wire.py
 pkg/hanzoai/cloud/models/write_in.py
 pkg/hanzoai/cloud/models/written.py
 pkg/hanzoai/cloud/models/wrote.py
-pkg/hanzoai/cloud/models/zap_proc_req.py
 pkg/hanzoai/cloud/rest.py
