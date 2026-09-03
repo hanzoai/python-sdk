@@ -17,21 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.enrollment_view import EnrollmentView
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BackendStatus(BaseModel):
+class IdentityView(BaseModel):
     """
-    BackendStatus
+    IdentityView
     """ # noqa: E501
-    error: Optional[StrictStr] = Field(default=None, description="Error is the failure text from a leg whose status is degraded — the reason a configured backend could not answer. Absent otherwise.")
-    hits: Optional[StrictInt] = Field(default=None, description="Hits is how many results this leg returned, counted BEFORE fusion, so it is not the number that survived into Fusion.Hits — fusion merges what both legs found and the caller's limit and offset then page it. 0 for a leg that did not run.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is which leg this reports: \"index\", the lexical store, \"vector\", the semantic one, \"code\", the org's own repositories, or \"rerank\", the relevance pass over the fused window. Match.Backend uses the same names.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is one of ok, degraded, disabled, skipped — four distinct operational facts that are never collapsed. It ran and answered; it is configured and FAILED (Error says how, and only this one is a fault); this deployment never provisioned it; or the request's mode excluded it.")
-    took_ms: Optional[StrictInt] = Field(default=None, description="TookMS is how long this leg took, in milliseconds, timed around its own call and excluding fusion. 0 for a leg that was skipped or is disabled, since nothing was called.")
-    __properties: ClassVar[List[str]] = ["error", "hits", "name", "status", "took_ms"]
+    enrollment: Optional[EnrollmentView] = Field(default=None, description="Enrollment is present only while the identity holds an un-used one-time token — on create, and on a listed identity that has not yet enrolled, so a mislaid JWT can be read again until it is spent or lapses.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the identity's fabric id — the key DELETE addresses.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the identity's name within the org.")
+    roles: Optional[List[StrictStr]] = Field(default=None, description="Roles are the identity's role attributes as the fabric holds them: the org's own \"org-<org>\" plus any org-scoped roles it was minted with.")
+    __properties: ClassVar[List[str]] = ["enrollment", "id", "name", "roles"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +51,7 @@ class BackendStatus(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BackendStatus from a JSON string"""
+        """Create an instance of IdentityView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,11 +72,14 @@ class BackendStatus(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of enrollment
+        if self.enrollment:
+            _dict['enrollment'] = self.enrollment.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BackendStatus from a dict"""
+        """Create an instance of IdentityView from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +87,10 @@ class BackendStatus(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "error": obj.get("error"),
-            "hits": obj.get("hits"),
+            "enrollment": EnrollmentView.from_dict(obj["enrollment"]) if obj.get("enrollment") is not None else None,
+            "id": obj.get("id"),
             "name": obj.get("name"),
-            "status": obj.get("status"),
-            "took_ms": obj.get("took_ms")
+            "roles": obj.get("roles")
         })
         return _obj
 

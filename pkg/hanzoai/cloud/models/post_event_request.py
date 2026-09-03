@@ -18,28 +18,28 @@ import pprint
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, ValidationError, field_validator
 from typing import Any, List, Optional
 from hanzoai.cloud.models.capture_batch import CaptureBatch
-from hanzoai.cloud.models.event import Event
+from hanzoai.cloud.models.capture_event import CaptureEvent
 from hanzoai.cloud.models.insights_body import InsightsBody
 from pydantic import StrictStr, Field
 from typing import Union, List, Set, Optional, Dict
 from typing_extensions import Literal, Self
 
-POSTEVENTREQUEST_ONE_OF_SCHEMAS = ["CaptureBatch", "Event", "InsightsBody", "List[Event]"]
+POSTEVENTREQUEST_ONE_OF_SCHEMAS = ["CaptureBatch", "CaptureEvent", "InsightsBody", "List[CaptureEvent]"]
 
 class PostEventRequest(BaseModel):
     """
     PostEventRequest
     """
-    # data type: Event
-    oneof_schema_1_validator: Optional[Event] = None
-    # data type: List[Event]
-    oneof_schema_2_validator: Optional[List[Event]] = None
+    # data type: CaptureEvent
+    oneof_schema_1_validator: Optional[CaptureEvent] = None
+    # data type: List[CaptureEvent]
+    oneof_schema_2_validator: Optional[List[CaptureEvent]] = None
     # data type: CaptureBatch
     oneof_schema_3_validator: Optional[CaptureBatch] = None
     # data type: InsightsBody
     oneof_schema_4_validator: Optional[InsightsBody] = None
-    actual_instance: Optional[Union[CaptureBatch, Event, InsightsBody, List[Event]]] = None
-    one_of_schemas: Set[str] = { "CaptureBatch", "Event", "InsightsBody", "List[Event]" }
+    actual_instance: Optional[Union[CaptureBatch, CaptureEvent, InsightsBody, List[CaptureEvent]]] = None
+    one_of_schemas: Set[str] = { "CaptureBatch", "CaptureEvent", "InsightsBody", "List[CaptureEvent]" }
 
     model_config = ConfigDict(
         validate_assignment=True,
@@ -62,12 +62,12 @@ class PostEventRequest(BaseModel):
         instance = PostEventRequest.model_construct()
         error_messages = []
         match = 0
-        # validate data type: Event
-        if not isinstance(v, Event):
-            error_messages.append(f"Error! Input type `{type(v)}` is not `Event`")
+        # validate data type: CaptureEvent
+        if not isinstance(v, CaptureEvent):
+            error_messages.append(f"Error! Input type `{type(v)}` is not `CaptureEvent`")
         else:
             match += 1
-        # validate data type: List[Event]
+        # validate data type: List[CaptureEvent]
         try:
             instance.oneof_schema_2_validator = v
             match += 1
@@ -85,10 +85,10 @@ class PostEventRequest(BaseModel):
             match += 1
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when setting `actual_instance` in PostEventRequest with oneOf schemas: CaptureBatch, Event, InsightsBody, List[Event]. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when setting `actual_instance` in PostEventRequest with oneOf schemas: CaptureBatch, CaptureEvent, InsightsBody, List[CaptureEvent]. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when setting `actual_instance` in PostEventRequest with oneOf schemas: CaptureBatch, Event, InsightsBody, List[Event]. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when setting `actual_instance` in PostEventRequest with oneOf schemas: CaptureBatch, CaptureEvent, InsightsBody, List[CaptureEvent]. Details: " + ", ".join(error_messages))
         else:
             return v
 
@@ -103,13 +103,13 @@ class PostEventRequest(BaseModel):
         error_messages = []
         match = 0
 
-        # deserialize data into Event
+        # deserialize data into CaptureEvent
         try:
-            instance.actual_instance = Event.from_json(json_str)
+            instance.actual_instance = CaptureEvent.from_json(json_str)
             match += 1
         except (ValidationError, ValueError) as e:
             error_messages.append(str(e))
-        # deserialize data into List[Event]
+        # deserialize data into List[CaptureEvent]
         try:
             # validation
             instance.oneof_schema_2_validator = json.loads(json_str)
@@ -133,10 +133,10 @@ class PostEventRequest(BaseModel):
 
         if match > 1:
             # more than 1 match
-            raise ValueError("Multiple matches found when deserializing the JSON string into PostEventRequest with oneOf schemas: CaptureBatch, Event, InsightsBody, List[Event]. Details: " + ", ".join(error_messages))
+            raise ValueError("Multiple matches found when deserializing the JSON string into PostEventRequest with oneOf schemas: CaptureBatch, CaptureEvent, InsightsBody, List[CaptureEvent]. Details: " + ", ".join(error_messages))
         elif match == 0:
             # no match
-            raise ValueError("No match found when deserializing the JSON string into PostEventRequest with oneOf schemas: CaptureBatch, Event, InsightsBody, List[Event]. Details: " + ", ".join(error_messages))
+            raise ValueError("No match found when deserializing the JSON string into PostEventRequest with oneOf schemas: CaptureBatch, CaptureEvent, InsightsBody, List[CaptureEvent]. Details: " + ", ".join(error_messages))
         else:
             return instance
 
@@ -150,7 +150,7 @@ class PostEventRequest(BaseModel):
         else:
             return json.dumps(self.actual_instance)
 
-    def to_dict(self) -> Optional[Union[Dict[str, Any], CaptureBatch, Event, InsightsBody, List[Event]]]:
+    def to_dict(self) -> Optional[Union[Dict[str, Any], CaptureBatch, CaptureEvent, InsightsBody, List[CaptureEvent]]]:
         """Returns the dict representation of the actual instance"""
         if self.actual_instance is None:
             return None

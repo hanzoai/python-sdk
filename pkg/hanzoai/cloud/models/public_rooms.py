@@ -17,21 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.listed import Listed
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BackendStatus(BaseModel):
+class PublicRooms(BaseModel):
     """
-    BackendStatus
+    PublicRooms
     """ # noqa: E501
-    error: Optional[StrictStr] = Field(default=None, description="Error is the failure text from a leg whose status is degraded — the reason a configured backend could not answer. Absent otherwise.")
-    hits: Optional[StrictInt] = Field(default=None, description="Hits is how many results this leg returned, counted BEFORE fusion, so it is not the number that survived into Fusion.Hits — fusion merges what both legs found and the caller's limit and offset then page it. 0 for a leg that did not run.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is which leg this reports: \"index\", the lexical store, \"vector\", the semantic one, \"code\", the org's own repositories, or \"rerank\", the relevance pass over the fused window. Match.Backend uses the same names.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is one of ok, degraded, disabled, skipped — four distinct operational facts that are never collapsed. It ran and answered; it is configured and FAILED (Error says how, and only this one is a fault); this deployment never provisioned it; or the request's mode excluded it.")
-    took_ms: Optional[StrictInt] = Field(default=None, description="TookMS is how long this leg took, in milliseconds, timed around its own call and excluding fusion. 0 for a leg that was skipped or is disabled, since nothing was called.")
-    __properties: ClassVar[List[str]] = ["error", "hits", "name", "status", "took_ms"]
+    rooms: Optional[List[Listed]] = Field(default=None, description="Rooms is every published room the query matched, newest-written first.")
+    __properties: ClassVar[List[str]] = ["rooms"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +48,7 @@ class BackendStatus(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BackendStatus from a JSON string"""
+        """Create an instance of PublicRooms from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,11 +69,18 @@ class BackendStatus(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in rooms (list)
+        _items = []
+        if self.rooms:
+            for _item_rooms in self.rooms:
+                if _item_rooms:
+                    _items.append(_item_rooms.to_dict())
+            _dict['rooms'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BackendStatus from a dict"""
+        """Create an instance of PublicRooms from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +88,7 @@ class BackendStatus(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "error": obj.get("error"),
-            "hits": obj.get("hits"),
-            "name": obj.get("name"),
-            "status": obj.get("status"),
-            "took_ms": obj.get("took_ms")
+            "rooms": [Listed.from_dict(_item) for _item in obj["rooms"]] if obj.get("rooms") is not None else None
         })
         return _obj
 

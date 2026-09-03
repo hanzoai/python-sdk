@@ -27,11 +27,12 @@ class LeaseIn(BaseModel):
     LeaseIn
     """ # noqa: E501
     var_class: Optional[StrictStr] = Field(default=None, description="Class is what the sandbox is FOR: \"exec\" for a code-interpreter call, \"dev\" for a workspace bound to a project, \"desktop\" for one with a screen. It decides the image, the working directory and the isolation.", alias="class")
+    cluster: Optional[StrictStr] = Field(default=None, description="Cluster names one of the org's attached clusters to run the sandbox on — the fleet-local name it was registered under. Empty runs on the home cluster. The named cluster must carry the sandbox namespace and the gvisor runtime class; a name the org has not attached is 404.")
     image: Optional[StrictStr] = Field(default=None, description="Image overrides the image the class would pick. Honoured only for a caller the policy admits, and the sandbox that comes back names the image it GOT.")
     project: Optional[StrictStr] = Field(default=None, description="Project binds the sandbox to one of the org's projects. Required for a dev or desktop class, which are single-attach per project; an exec sandbox carries none.")
     runtime: Optional[StrictStr] = Field(default=None, description="Runtime asks for an isolation: runc, gvisor, kata-clh or kata-fc. It is a REQUEST, not a guarantee — the sandbox that comes back carries the runtime it was actually given, which is the field to read.")
     ttl_sec: Optional[StrictInt] = Field(default=None, description="TTLSec is how long the lease runs before the reaper may take it, in seconds. Zero takes the class's own default.", alias="ttlSec")
-    __properties: ClassVar[List[str]] = ["class", "image", "project", "runtime", "ttlSec"]
+    __properties: ClassVar[List[str]] = ["class", "cluster", "image", "project", "runtime", "ttlSec"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,6 +86,7 @@ class LeaseIn(BaseModel):
 
         _obj = cls.model_validate({
             "class": obj.get("class"),
+            "cluster": obj.get("cluster"),
             "image": obj.get("image"),
             "project": obj.get("project"),
             "runtime": obj.get("runtime"),

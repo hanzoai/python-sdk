@@ -17,7 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import StrictInt, StrictStr
-from typing import Any, Dict, Optional
+from typing import Optional
 from hanzoai.cloud.models.buy_input import BuyInput
 from hanzoai.cloud.models.call import Call
 from hanzoai.cloud.models.call_input import CallInput
@@ -63,7 +63,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> None:
         """Ends a call this org placed.
 
         Ends a call this org placed. The holding is read for THIS org before the carrier is asked, for the reason releaseNumber gives one surface up: an id belonging to another tenant would otherwise be hung up by whoever guessed it.
@@ -101,7 +101,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -130,7 +130,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[None]:
         """Ends a call this org placed.
 
         Ends a call this org placed. The holding is read for THIS org before the carrier is asked, for the reason releaseNumber gives one surface up: an id belonging to another tenant would otherwise be hung up by whoever guessed it.
@@ -168,7 +168,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -235,7 +235,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -276,13 +276,6 @@ class TelApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
@@ -324,7 +317,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> object:
+    ) -> None:
         """Checks the holding is THIS org's before it reaches the carrier.
 
         Checks the holding is THIS org's before it reaches the carrier. Without that read, an id belonging to another tenant would be released by whoever guessed it.
@@ -362,7 +355,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -391,7 +384,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[object]:
+    ) -> ApiResponse[None]:
         """Checks the holding is THIS org's before it reaches the carrier.
 
         Checks the holding is THIS org's before it reaches the carrier. Without that read, an id belonging to another tenant would be released by whoever guessed it.
@@ -429,7 +422,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -496,7 +489,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "object",
+            '204': None,
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -537,13 +530,6 @@ class TelApi:
         # process the body parameter
 
 
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
 
 
         # authentication setting
