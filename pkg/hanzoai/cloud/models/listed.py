@@ -22,16 +22,18 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BackendStatus(BaseModel):
+class Listed(BaseModel):
     """
-    BackendStatus
+    Listed
     """ # noqa: E501
-    error: Optional[StrictStr] = Field(default=None, description="Error is the failure text from a leg whose status is degraded — the reason a configured backend could not answer. Absent otherwise.")
-    hits: Optional[StrictInt] = Field(default=None, description="Hits is how many results this leg returned, counted BEFORE fusion, so it is not the number that survived into Fusion.Hits — fusion merges what both legs found and the caller's limit and offset then page it. 0 for a leg that did not run.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is which leg this reports: \"index\", the lexical store, \"vector\", the semantic one, \"code\", the org's own repositories, or \"rerank\", the relevance pass over the fused window. Match.Backend uses the same names.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is one of ok, degraded, disabled, skipped — four distinct operational facts that are never collapsed. It ran and answered; it is configured and FAILED (Error says how, and only this one is a fault); this deployment never provisioned it; or the request's mode excluded it.")
-    took_ms: Optional[StrictInt] = Field(default=None, description="TookMS is how long this leg took, in milliseconds, timed around its own call and excluding fusion. 0 for a leg that was skipped or is disabled, since nothing was called.")
-    __properties: ClassVar[List[str]] = ["error", "hits", "name", "status", "took_ms"]
+    members: Optional[StrictInt] = Field(default=None, description="Members counts the room, and never names anybody in it.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is what a person sees, without the sigil a client draws.")
+    org: Optional[StrictStr] = Field(default=None, description="Org owns the room. It is also what a caller filters by to browse one org.")
+    room: Optional[StrictStr] = Field(default=None, description="Room addresses it in the owning store — what a join is called with.")
+    space: Optional[StrictStr] = Field(default=None, description="Space is where the room lives inside that org.")
+    topic: Optional[StrictStr] = Field(default=None, description="Topic is the room's one-line subject, empty when it has none.")
+    updated: Optional[StrictInt] = Field(default=None, description="Updated is when this row was last written, unix seconds.")
+    __properties: ClassVar[List[str]] = ["members", "name", "org", "room", "space", "topic", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +53,7 @@ class BackendStatus(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BackendStatus from a JSON string"""
+        """Create an instance of Listed from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +78,7 @@ class BackendStatus(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BackendStatus from a dict"""
+        """Create an instance of Listed from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +86,13 @@ class BackendStatus(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "error": obj.get("error"),
-            "hits": obj.get("hits"),
+            "members": obj.get("members"),
             "name": obj.get("name"),
-            "status": obj.get("status"),
-            "took_ms": obj.get("took_ms")
+            "org": obj.get("org"),
+            "room": obj.get("room"),
+            "space": obj.get("space"),
+            "topic": obj.get("topic"),
+            "updated": obj.get("updated")
         })
         return _obj
 

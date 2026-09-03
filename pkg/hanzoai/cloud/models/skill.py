@@ -32,7 +32,8 @@ class Skill(BaseModel):
     id: Optional[StrictStr] = Field(default=None, description="ID is the skill's id within the org. It is DERIVED from Name, so writing the same name again revises that skill rather than adding another.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the skill's name: one lowercase path segment (a-z0-9, _ or -).")
     org: Optional[StrictStr] = Field(default=None, description="Org is the org that authored the skill — the validated caller's, never a value the body supplied.")
-    __properties: ClassVar[List[str]] = ["content", "createdAt", "description", "id", "name", "org"]
+    source: Optional[StrictStr] = Field(default=None, description="Source is the repository the skill was read from, \"<project>/<name>\" or \"<name>\"; empty for a skill written through the API. A push replaces every skill of its source at once, so a skill leaves when its file does.")
+    __properties: ClassVar[List[str]] = ["content", "createdAt", "description", "id", "name", "org", "source"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,7 +91,8 @@ class Skill(BaseModel):
             "description": obj.get("description"),
             "id": obj.get("id"),
             "name": obj.get("name"),
-            "org": obj.get("org")
+            "org": obj.get("org"),
+            "source": obj.get("source")
         })
         return _obj
 
