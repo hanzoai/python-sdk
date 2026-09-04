@@ -62,14 +62,20 @@ def test_product_apis_present():
 
     Name products the document still tags, read off the client rather than
     guessed. Tags move: `tracker`, then `analytics` and `chat`, each stood here
-    until cloud folded those routes into the product that owns them.
+    until cloud folded those routes into the product that owns them. `crm` left
+    differently — cloud withdrew /v1/crm entirely, so contacts, companies,
+    opportunities and applications have no successor address to follow.
+
+    `billing` takes the seat because it has been in every emission since the
+    first, which is the property this test wants: a product broad enough that
+    losing it would mean the client stopped projecting whole products.
     """
+    from hanzoai.cloud.api.billing_api import BillingApi
     from hanzoai.cloud.api.commerce_api import CommerceApi
-    from hanzoai.cloud.api.crm_api import CrmApi
     from hanzoai.cloud.api.iam_api import IamApi
 
     client = hanzoai.cloud.ApiClient(hanzoai.cloud.Configuration(host="https://api.hanzo.ai"))
-    for cls in (CommerceApi, CrmApi, IamApi):
+    for cls in (BillingApi, CommerceApi, IamApi):
         assert cls(client) is not None
 
 
