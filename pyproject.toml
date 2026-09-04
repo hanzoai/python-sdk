@@ -70,7 +70,7 @@ members = [
   "pkg/hanzo-mcp",
   "pkg/hanzo-memory",
   "pkg/hanzo-network",
-  "pkg/hanzo-dev-py",
+  "pkg/hanzo-dev",
   "pkg/hanzo-flags",
   "pkg/hanzo-s3",
   "pkg/hanzo-train",
@@ -119,6 +119,19 @@ dev = [
     "fastapi>=0.128.0",
     "fastembed>=0.7.4",
     "hanzo-memory",
+    # The hanzo-tools-core suite imports each of these and asserts an exact
+    # TOOLS count. A uv source alone installs nothing, so name them here.
+    "hanzo-tools",
+    "hanzo-tools-agent",
+    "hanzo-tools-browser",
+    "hanzo-tools-fs",
+    "hanzo-tools-jupyter",
+    "hanzo-tools-lsp",
+    "hanzo-tools-memory",
+    "hanzo-tools-reasoning",
+    "hanzo-tools-refactor",
+    "hanzo-tools-shell",
+    "hanzo-tools-todo",
     "httpx>=0.28.1",
     "importlib-metadata>=6.7.0",
     "mypy",
@@ -209,7 +222,7 @@ exclude = [
     "pkg/hanzo-memory",
     "pkg/hanzo-network",
     "pkg/hanzo-node",
-    "pkg/hanzo-dev-py",
+    "pkg/hanzo-dev",
     "pkg/hanzo-train",
     "pkg/hanzo-tools",
     "pkg/hanzo-tools-agent",
@@ -471,7 +484,7 @@ exclude = [
     "pkg/hanzo-mcp/",
     "pkg/hanzo-memory/",
     "pkg/hanzo-network/",
-    "pkg/hanzo-dev-py/",
+    "pkg/hanzo-dev/",
     "pkg/hanzo/",
     # Non-production code
     "bin/",
@@ -551,10 +564,10 @@ hanzo-tools-s3 = { workspace = true }
 "**/__main__.py" = ["T201", "T203"]
 # Specific file ignores
 "pkg/hanzo-memory/src/hanzo_memory/db/base.py" = ["B027"]
-"pkg/hanzo-dev-py/src/hanzo_dev/backends.py" = ["S603"]
-"pkg/hanzo-dev-py/src/hanzo_dev/repl.py" = ["S605"]
-"pkg/hanzo-dev-py/src/hanzo_dev/tests.py" = ["ARG001"]
-"pkg/hanzo-dev-py/src/hanzo_dev/ipython_repl.py" = ["ARG002"]
+"pkg/hanzo-dev/src/hanzo_dev/backends.py" = ["S603"]
+"pkg/hanzo-dev/src/hanzo_dev/repl.py" = ["S605"]
+"pkg/hanzo-dev/src/hanzo_dev/tests.py" = ["ARG001"]
+"pkg/hanzo-dev/src/hanzo_dev/ipython_repl.py" = ["ARG002"]
 "**/cli.py" = ["T201", "T203"]
 # Test files
 "**/test_*.py" = ["F401", "F841"]
