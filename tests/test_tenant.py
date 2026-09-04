@@ -21,7 +21,7 @@ from hanzoai import (
     is_done,
     is_held,
 )
-from hanzoai.cloud import KeysApi, Configuration
+from hanzoai.cloud import IamApi, Configuration
 from hanzoai.cloud.exceptions import ApiException
 
 
@@ -181,8 +181,8 @@ def test_as_puts_the_minted_token_on_the_request():
     transport = Transport(issued("tok-user-42"))
     client = operator(transport).as_("user_42")
 
-    _, _, headers, _, _ = KeysApi(client)._get_keys_serialize(
-        _request_auth=None, _content_type=None, _headers=None, _host_index=0
+    _, _, headers, _, _ = IamApi(client)._get_iam_keys_serialize(
+        "org_1", _request_auth=None, _content_type=None, _headers=None, _host_index=0
     )
     assert headers["Authorization"] == "Bearer tok-user-42"
 
@@ -192,8 +192,8 @@ def test_the_operator_key_never_rides_a_scoped_client():
     client = operator(transport).as_("user_42")
 
     assert client.grant.subject == "user_42"
-    _, _, headers, _, _ = KeysApi(client)._get_keys_serialize(
-        _request_auth=None, _content_type=None, _headers=None, _host_index=0
+    _, _, headers, _, _ = IamApi(client)._get_iam_keys_serialize(
+        "org_1", _request_auth=None, _content_type=None, _headers=None, _host_index=0
     )
     assert "hk-operator" not in headers["Authorization"]
 
