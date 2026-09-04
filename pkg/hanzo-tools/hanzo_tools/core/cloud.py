@@ -5,8 +5,8 @@ search, web search, research, vision — talks to it through this one client.
 There is exactly one place that knows the base URL, the auth header, and how to
 turn a non-2xx into a typed error; tools compose it, never re-implement it.
 
-Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` (a ``pk-``/``sk-``
-key) in ``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session.
+Auth resolves in order: ``HANZO_API_KEY`` env, the ``apiKey`` in
+``~/.hanzo/config.json``, then the ``hanzo`` CLI's live IAM session.
 Base URL is ``https://api.hanzo.ai``, overridable via ``HANZO_API_BASE``.
 
 Reference: HIP-0300 unified tools; api.hanzo.ai /v1 surface.
@@ -22,11 +22,12 @@ from collections.abc import AsyncIterator
 DEFAULT_BASE = "https://api.hanzo.ai"
 
 #: What a cloud-backed tool says when no key resolved — one sentence in one
-#: place, so the shapes cannot drift apart tool by tool. Cloud admits two:
-#: ``pk-`` is the publishable key you may ship in a browser bundle, ``sk-`` is
-#: the one you may not. ``APIKeyPrefixes`` in cloud's ``auth_identity.go`` is
-#: the authority; anything else resolves to no principal.
-NO_KEY = "no API key: run `hanzo login` or set HANZO_API_KEY (pk-/sk-)"
+#: place, so the shapes cannot drift apart tool by tool. ``pk-`` is the
+#: publishable key you may ship in a browser bundle; ``sk-`` and ``hk-`` are the
+#: ones you may not. ``isAPIKey`` in cloud's ``auth_identity.go`` is the
+#: authority — it admits ``hk-``, ``sk-``, ``pk-``, ``fw_`` and ``hz_``, and a
+#: token carrying no such prefix never reaches key validation at all.
+NO_KEY = "no API key: run `hanzo login` or set HANZO_API_KEY (hk-/sk-/pk-)"
 
 
 # Memo for cli_session_token: shelling out costs ~100ms and the token is stable
