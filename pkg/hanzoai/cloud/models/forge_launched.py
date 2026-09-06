@@ -17,21 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class O11yO11yAgentCheckInIn(BaseModel):
+class ForgeLaunched(BaseModel):
     """
-    O11yO11yAgentCheckInIn
+    ForgeLaunched
     """ # noqa: E501
-    account_id: Optional[StrictStr] = None
-    cloud_integration_id: Optional[Any] = Field(default=None, alias="cloudIntegrationId")
-    cloud_account_id: Optional[StrictStr] = None
-    data: Optional[Dict[str, Dict[str, Any]]] = None
-    provider_account_id: Optional[StrictStr] = Field(default=None, alias="providerAccountId")
-    __properties: ClassVar[List[str]] = ["account_id", "cloudIntegrationId", "cloud_account_id", "data", "providerAccountId"]
+    job: Optional[StrictInt] = None
+    org: Optional[StrictStr] = None
+    repo: Optional[StrictStr] = None
+    runner: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["job", "org", "repo", "runner"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +50,7 @@ class O11yO11yAgentCheckInIn(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of O11yO11yAgentCheckInIn from a JSON string"""
+        """Create an instance of ForgeLaunched from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,16 +71,11 @@ class O11yO11yAgentCheckInIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # set to None if cloud_integration_id (nullable) is None
-        # and model_fields_set contains the field
-        if self.cloud_integration_id is None and "cloud_integration_id" in self.model_fields_set:
-            _dict['cloudIntegrationId'] = None
-
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of O11yO11yAgentCheckInIn from a dict"""
+        """Create an instance of ForgeLaunched from a dict"""
         if obj is None:
             return None
 
@@ -89,11 +83,10 @@ class O11yO11yAgentCheckInIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "account_id": obj.get("account_id"),
-            "cloudIntegrationId": obj.get("cloudIntegrationId"),
-            "cloud_account_id": obj.get("cloud_account_id"),
-            "data": obj.get("data"),
-            "providerAccountId": obj.get("providerAccountId")
+            "job": obj.get("job"),
+            "org": obj.get("org"),
+            "repo": obj.get("repo"),
+            "runner": obj.get("runner")
         })
         return _obj
 

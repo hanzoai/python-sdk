@@ -26,7 +26,7 @@ class AgentBinding(BaseModel):
     """
     AgentBinding
     """ # noqa: E501
-    agent_name: Optional[StrictStr] = Field(default=None, description="AgentName is the cloud Agent (/v1/agents) this machine runs — the agent a message to the bot is actually run against. It is the one field that decides what the bot DOES.", alias="agentName")
+    agent_name: Optional[StrictStr] = Field(default=None, description="AgentName is the cloud Agent (/v1/agent) this machine runs — the agent a message to the bot is actually run against. It is the one field that decides what the bot DOES.", alias="agentName")
     bot_version: Optional[StrictStr] = Field(default=None, description="BotVersion pins the @hanzo/bot runtime version the machine runs. Empty means the machine took the default in force when it was bound.", alias="botVersion")
     created_time: Optional[StrictStr] = Field(default=None, description="CreatedTime is when the binding was first made.", alias="createdTime")
     machine_id: Optional[StrictStr] = Field(default=None, description="MachineId is the bound machine as vm addresses it, owner-qualified (\"<org>/<machine>\"). The unqualified half is what this surface's :id routes take.", alias="machineId")

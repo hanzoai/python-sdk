@@ -19,17 +19,16 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.push_pusher import PushPusher
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PushRepository(BaseModel):
+class ForgeJobRepositoryOwner(BaseModel):
     """
-    PushRepository
+    ForgeJobRepositoryOwner
     """ # noqa: E501
-    name: Optional[StrictStr] = None
-    owner: Optional[PushPusher] = None
-    __properties: ClassVar[List[str]] = ["name", "owner"]
+    login: Optional[StrictStr] = None
+    username: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["login", "username"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class PushRepository(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PushRepository from a JSON string"""
+        """Create an instance of ForgeJobRepositoryOwner from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,14 +69,11 @@ class PushRepository(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of owner
-        if self.owner:
-            _dict['owner'] = self.owner.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PushRepository from a dict"""
+        """Create an instance of ForgeJobRepositoryOwner from a dict"""
         if obj is None:
             return None
 
@@ -85,8 +81,8 @@ class PushRepository(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "name": obj.get("name"),
-            "owner": PushPusher.from_dict(obj["owner"]) if obj.get("owner") is not None else None
+            "login": obj.get("login"),
+            "username": obj.get("username")
         })
         return _obj
 

@@ -70,6 +70,7 @@ class IamUser(BaseModel):
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     currency: Optional[StrictStr] = None
     custom: Optional[StrictStr] = None
+    custom10: Optional[StrictStr] = None
     custom2: Optional[StrictStr] = None
     custom3: Optional[StrictStr] = None
     custom4: Optional[StrictStr] = None
@@ -78,7 +79,6 @@ class IamUser(BaseModel):
     custom7: Optional[StrictStr] = None
     custom8: Optional[StrictStr] = None
     custom9: Optional[StrictStr] = None
-    custom10: Optional[StrictStr] = None
     dailymotion: Optional[StrictStr] = None
     deezer: Optional[StrictStr] = None
     deleted: Optional[StrictBool] = None
@@ -219,7 +219,7 @@ class IamUser(BaseModel):
     yammer: Optional[StrictStr] = None
     yandex: Optional[StrictStr] = None
     zoom: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretHash", "accessToken", "address", "addresses", "adfs", "affiliation", "alipay", "amazon", "apple", "applicationScopes", "auth0", "avatar", "avatarType", "azuread", "azureadb2c", "baidu", "balance", "balanceCredit", "balanceCurrency", "battlenet", "bilibili", "bio", "birthday", "bitbucket", "box", "cart", "cloudfoundry", "countryCode", "createdAt", "createdIp", "createdTime", "currency", "custom", "custom2", "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "custom10", "dailymotion", "deezer", "deleted", "deletedTime", "digitalocean", "dingtalk", "discord", "displayName", "douyin", "dropbox", "education", "email", "emailVerified", "eveonline", "externalId", "faceIds", "facebook", "firstName", "fitbit", "gender", "gitea", "gitee", "github", "gitlab", "google", "hash", "heroku", "homepage", "iam", "id", "idCard", "idCardType", "influxcloud", "infoflow", "instagram", "intercom", "invitation", "invitationCode", "ipWhitelist", "isAdmin", "isDefaultAvatar", "isDeleted", "isForbidden", "isOnline", "isVerified", "kakao", "karma", "kwai", "language", "lark", "lastChangePasswordTime", "lastName", "lastSigninIp", "lastSigninTime", "lastSigninWrongTime", "lastfm", "ldap", "line", "linkedin", "location", "mailru", "managedAccounts", "meetup", "mfaAccounts", "mfaEmailEnabled", "mfaItems", "mfaPhoneEnabled", "mfaPushEnabled", "mfaPushProvider", "mfaPushReceiver", "mfaRadiusEnabled", "mfaRadiusProvider", "mfaRadiusUsername", "mfaRememberDeadline", "mfaRememberDigest", "microsoftonline", "multiFactorAuths", "name", "naver", "needUpdatePassword", "nextcloud", "okta", "onedrive", "originalRefreshToken", "originalToken", "oura", "owner", "passwordHash", "passwordSalt", "passwordType", "patreon", "paypal", "permanentAvatar", "phone", "preHash", "preferredMfaType", "properties", "qq", "ranking", "realName", "recoveryCodes", "region", "registerSource", "registerType", "salesforce", "score", "shopify", "signinWrongTimes", "signupApplication", "slack", "soundcloud", "spotify", "steam", "strava", "stripe", "tag", "telegram", "tiktok", "title", "totpSecret", "tumblr", "twitch", "twitter", "type", "typetalk", "uber", "updatedAt", "updatedTime", "verificationCode", "vk", "webauthnCredentials", "wechat", "wecom", "weibo", "wepay", "xero", "yahoo", "yammer", "yandex", "zoom"]
+    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretHash", "accessToken", "address", "addresses", "adfs", "affiliation", "alipay", "amazon", "apple", "applicationScopes", "auth0", "avatar", "avatarType", "azuread", "azureadb2c", "baidu", "balance", "balanceCredit", "balanceCurrency", "battlenet", "bilibili", "bio", "birthday", "bitbucket", "box", "cart", "cloudfoundry", "countryCode", "createdAt", "createdIp", "createdTime", "currency", "custom", "custom10", "custom2", "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "dailymotion", "deezer", "deleted", "deletedTime", "digitalocean", "dingtalk", "discord", "displayName", "douyin", "dropbox", "education", "email", "emailVerified", "eveonline", "externalId", "faceIds", "facebook", "firstName", "fitbit", "gender", "gitea", "gitee", "github", "gitlab", "google", "hash", "heroku", "homepage", "iam", "id", "idCard", "idCardType", "influxcloud", "infoflow", "instagram", "intercom", "invitation", "invitationCode", "ipWhitelist", "isAdmin", "isDefaultAvatar", "isDeleted", "isForbidden", "isOnline", "isVerified", "kakao", "karma", "kwai", "language", "lark", "lastChangePasswordTime", "lastName", "lastSigninIp", "lastSigninTime", "lastSigninWrongTime", "lastfm", "ldap", "line", "linkedin", "location", "mailru", "managedAccounts", "meetup", "mfaAccounts", "mfaEmailEnabled", "mfaItems", "mfaPhoneEnabled", "mfaPushEnabled", "mfaPushProvider", "mfaPushReceiver", "mfaRadiusEnabled", "mfaRadiusProvider", "mfaRadiusUsername", "mfaRememberDeadline", "mfaRememberDigest", "microsoftonline", "multiFactorAuths", "name", "naver", "needUpdatePassword", "nextcloud", "okta", "onedrive", "originalRefreshToken", "originalToken", "oura", "owner", "passwordHash", "passwordSalt", "passwordType", "patreon", "paypal", "permanentAvatar", "phone", "preHash", "preferredMfaType", "properties", "qq", "ranking", "realName", "recoveryCodes", "region", "registerSource", "registerType", "salesforce", "score", "shopify", "signinWrongTimes", "signupApplication", "slack", "soundcloud", "spotify", "steam", "strava", "stripe", "tag", "telegram", "tiktok", "title", "totpSecret", "tumblr", "twitch", "twitter", "type", "typetalk", "uber", "updatedAt", "updatedTime", "verificationCode", "vk", "webauthnCredentials", "wechat", "wecom", "weibo", "wepay", "xero", "yahoo", "yammer", "yandex", "zoom"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -363,6 +363,7 @@ class IamUser(BaseModel):
             "createdTime": obj.get("createdTime"),
             "currency": obj.get("currency"),
             "custom": obj.get("custom"),
+            "custom10": obj.get("custom10"),
             "custom2": obj.get("custom2"),
             "custom3": obj.get("custom3"),
             "custom4": obj.get("custom4"),
@@ -371,7 +372,6 @@ class IamUser(BaseModel):
             "custom7": obj.get("custom7"),
             "custom8": obj.get("custom8"),
             "custom9": obj.get("custom9"),
-            "custom10": obj.get("custom10"),
             "dailymotion": obj.get("dailymotion"),
             "deezer": obj.get("deezer"),
             "deleted": obj.get("deleted"),

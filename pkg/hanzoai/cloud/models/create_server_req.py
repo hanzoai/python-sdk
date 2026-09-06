@@ -27,7 +27,7 @@ class CreateServerReq(BaseModel):
     CreateServerReq
     """ # noqa: E501
     auth_header: Optional[StrictStr] = Field(default=None, description="AuthHeader is the request header the credential is injected into, e.g. \"Authorization\". Empty means the server needs no credential.", alias="authHeader")
-    listing: Optional[StrictStr] = Field(default=None, description="Listing enables a CATALOG entry instead — the id from GET /v1/tools/catalog. The endpoint is the listing's own streamable-http remote, so a listing that only ships a stdio package is refused: there is nothing to reach yet.")
+    listing: Optional[StrictStr] = Field(default=None, description="Listing enables a CATALOG entry instead — the id from GET /v1/tool/catalog. The endpoint is the listing's own streamable-http remote, so a listing that only ships a stdio package is refused: there is nothing to reach yet.")
     name: Optional[StrictStr] = Field(default=None, description="Name labels the server for the org. Required with URL; with Listing it defaults to the listing's own title.")
     secret: Optional[StrictStr] = Field(default=None, description="Secret is the credential VALUE. It is sealed into KMS under a per-org ref and never stored in SQLite, never listed, and never returned.")
     url: Optional[StrictStr] = Field(default=None, description="URL is the server's JSON-RPC endpoint. It must be an http(s) URL naming a PUBLIC host: loopback, link-local, private and cloud-metadata addresses are refused here and again when the dialer connects.")

@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PushPusher(BaseModel):
+class ForgeJobWorkflowJob(BaseModel):
     """
-    PushPusher
+    ForgeJobWorkflowJob
     """ # noqa: E501
-    login: Optional[StrictStr] = None
-    username: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["login", "username"]
+    id: Optional[StrictInt] = None
+    labels: Optional[List[StrictStr]] = None
+    name: Optional[StrictStr] = None
+    run_id: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["id", "labels", "name", "run_id"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class PushPusher(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PushPusher from a JSON string"""
+        """Create an instance of ForgeJobWorkflowJob from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +75,7 @@ class PushPusher(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PushPusher from a dict"""
+        """Create an instance of ForgeJobWorkflowJob from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +83,10 @@ class PushPusher(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "login": obj.get("login"),
-            "username": obj.get("username")
+            "id": obj.get("id"),
+            "labels": obj.get("labels"),
+            "name": obj.get("name"),
+            "run_id": obj.get("run_id")
         })
         return _obj
 
