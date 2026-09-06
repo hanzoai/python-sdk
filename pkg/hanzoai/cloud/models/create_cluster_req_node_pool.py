@@ -24,7 +24,7 @@ from typing_extensions import Self
 
 class CreateClusterReqNodePool(BaseModel):
     """
-    NodePool is the ONE pool the cluster is born with — a cluster with no nodes runs nothing, so it is not optional. More pools are added afterwards through POST /v1/visor/clusters/:clusterId/pools.
+    NodePool is the ONE pool the cluster is born with — a cluster with no nodes runs nothing, so it is not optional. More pools are added afterwards through POST /v1/compute/clusters/:clusterId/pools.
     """ # noqa: E501
     count: Optional[StrictInt] = None
     name: Optional[StrictStr] = None

@@ -29,11 +29,11 @@ class Metrics(BaseModel):
     at: Optional[StrictInt] = Field(default=None, description="unix seconds, server-stamped")
     gpu_util: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="0..1 aggregate utilization", alias="gpuUtil")
     load1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load1 is the machine's own one-minute load average — a count of runnable and uninterruptible tasks, NOT a percentage and NOT already divided by core count, so it is read against Spec.CPUs: 8.0 is idle on 16 cores and swamped on 4. Coerced finite and non-negative on write, so 0 means either genuinely idle or nothing reported.")
-    load5: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load5 is the same figure averaged over five minutes.")
     load15: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load15 is the same figure over fifteen. The three together are what separate a machine that is busy right now from one that has been busy all along — which is the question a dispatcher is really asking.")
+    load5: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load5 is the same figure averaged over five minutes.")
     mem_free: Optional[StrictInt] = Field(default=None, description="bytes", alias="memFree")
     mem_used: Optional[StrictInt] = Field(default=None, description="bytes", alias="memUsed")
-    __properties: ClassVar[List[str]] = ["at", "gpuUtil", "load1", "load5", "load15", "memFree", "memUsed"]
+    __properties: ClassVar[List[str]] = ["at", "gpuUtil", "load1", "load15", "load5", "memFree", "memUsed"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,8 +89,8 @@ class Metrics(BaseModel):
             "at": obj.get("at"),
             "gpuUtil": obj.get("gpuUtil"),
             "load1": obj.get("load1"),
-            "load5": obj.get("load5"),
             "load15": obj.get("load15"),
+            "load5": obj.get("load5"),
             "memFree": obj.get("memFree"),
             "memUsed": obj.get("memUsed")
         })

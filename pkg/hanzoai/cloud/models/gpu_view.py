@@ -28,7 +28,7 @@ class GpuView(BaseModel):
     """ # noqa: E501
     id: Optional[StrictStr] = Field(default=None, description="ID is the card's address: its host machine's id, \"#\", and the card's ordinal within that machine (\"gpu-1#0\"). Stable for as long as the machine is, and the only id a single accelerator has — providers do not name cards.")
     location: Optional[StrictStr] = Field(default=None, description="Location is where the card physically sits, which for every source today is the same value Region carries — the console renders it in its own column.")
-    machine: Optional[StrictStr] = Field(default=None, description="Machine is the id of the machine holding this card, addressable as-is on /v1/visor/machines/:id.")
+    machine: Optional[StrictStr] = Field(default=None, description="Machine is the id of the machine holding this card, addressable as-is on /v1/compute/machines/:id.")
     memory: Optional[StrictStr] = Field(default=None, description="Memory is the card's VRAM as its own tooling reported it (\"122880 MiB\") — a display string in the reporter's units, not a byte count. BYO cards carry it (nvidia-smi); Visor's machine object states no VRAM, so a rented card leaves it empty and the console renders \"—\" rather than a fabricated 0.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the accelerator: the model token read out of the size slug for a Visor GPU droplet (\"H100\", \"MI300X\"), or the name nvidia-smi reported for a BYO card (\"NVIDIA GB10\").")
     name: Optional[StrictStr] = Field(default=None, description="Name is the HOST MACHINE's display name, not the card's — every card in a gpu-h100x8 node repeats it. Model is what says which accelerator this is.")

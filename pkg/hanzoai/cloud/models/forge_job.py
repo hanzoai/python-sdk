@@ -17,18 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.bot_view import BotView
+from hanzoai.cloud.models.forge_job_repository import ForgeJobRepository
+from hanzoai.cloud.models.forge_job_workflow_job import ForgeJobWorkflowJob
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BotList(BaseModel):
+class ForgeJob(BaseModel):
     """
-    BotList
+    ForgeJob
     """ # noqa: E501
-    bots: Optional[List[BotView]] = Field(default=None, description="Bots is one row per kind=bot machine, each joined with its agent binding when it has one.")
-    __properties: ClassVar[List[str]] = ["bots"]
+    action: Optional[StrictStr] = None
+    repository: Optional[ForgeJobRepository] = None
+    workflow_job: Optional[ForgeJobWorkflowJob] = None
+    __properties: ClassVar[List[str]] = ["action", "repository", "workflow_job"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +51,7 @@ class BotList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BotList from a JSON string"""
+        """Create an instance of ForgeJob from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +72,17 @@ class BotList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in bots (list)
-        _items = []
-        if self.bots:
-            for _item_bots in self.bots:
-                if _item_bots:
-                    _items.append(_item_bots.to_dict())
-            _dict['bots'] = _items
+        # override the default output from pydantic by calling `to_dict()` of repository
+        if self.repository:
+            _dict['repository'] = self.repository.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of workflow_job
+        if self.workflow_job:
+            _dict['workflow_job'] = self.workflow_job.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BotList from a dict"""
+        """Create an instance of ForgeJob from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +90,9 @@ class BotList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "bots": [BotView.from_dict(_item) for _item in obj["bots"]] if obj.get("bots") is not None else None
+            "action": obj.get("action"),
+            "repository": ForgeJobRepository.from_dict(obj["repository"]) if obj.get("repository") is not None else None,
+            "workflow_job": ForgeJobWorkflowJob.from_dict(obj["workflow_job"]) if obj.get("workflow_job") is not None else None
         })
         return _obj
 

@@ -35,14 +35,14 @@ class SampleView(BaseModel):
     host: Optional[StrictStr] = Field(default=None, description="Host is the hostname the unit reported at the time of the reading.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is what the measured unit is: laptop, cloud, gpu, cluster, machine or worker.")
     load1: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load1 is the 1-minute load average — runnable processes, not a percentage.")
-    load5: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load5 is the 5-minute load average, the same units as Load1.")
     load15: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load15 is the 15-minute load average, the same units as Load1.")
+    load5: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Load5 is the 5-minute load average, the same units as Load1.")
     mem_free: Optional[StrictInt] = Field(default=None, description="MemFree is host memory available, in BYTES, as reported rather than derived.", alias="memFree")
     mem_used: Optional[StrictInt] = Field(default=None, description="MemUsed is host memory in use, in BYTES.", alias="memUsed")
     memory: Optional[StrictInt] = Field(default=None, description="Memory is total system RAM in BYTES at the time of the reading.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the plane that reported the reading: \"agent\", \"byo\" or \"visor\" — the same vocabulary the board's rows carry, and what ?source= narrows on.")
     unit: Optional[StrictStr] = Field(default=None, description="Unit is the source's own id for the measured unit. With Source it is the key the chart groups by, and the key the board joins a unit's latest reading on.")
-    __properties: ClassVar[List[str]] = ["at", "costCents", "cpus", "gpuModel", "gpuUtil", "gpus", "host", "kind", "load1", "load5", "load15", "memFree", "memUsed", "memory", "source", "unit"]
+    __properties: ClassVar[List[str]] = ["at", "costCents", "cpus", "gpuModel", "gpuUtil", "gpus", "host", "kind", "load1", "load15", "load5", "memFree", "memUsed", "memory", "source", "unit"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -104,8 +104,8 @@ class SampleView(BaseModel):
             "host": obj.get("host"),
             "kind": obj.get("kind"),
             "load1": obj.get("load1"),
-            "load5": obj.get("load5"),
             "load15": obj.get("load15"),
+            "load5": obj.get("load5"),
             "memFree": obj.get("memFree"),
             "memUsed": obj.get("memUsed"),
             "memory": obj.get("memory"),

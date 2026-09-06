@@ -10546,9 +10546,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Retired — forge pushes build via platform.hanzo.ai
+        """Retired — push-to-deploy has no inbound webhook
 
-        GONE (410). Push-to-deploy belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  Every delivery answers 410 whatever it carries — this endpoint reads no body and authenticates nothing.  410 rather than 404, because the address was real and its meaning moved, which is the distinction 410 carries. A 404 from this estate is ambiguous: Hanzo Git serves /v1, so /api/v1 404s too and reads as \"the API is switched off\". A retired endpoint says it is retired and names its replacement, so the answer carries its own fix.
+        GONE (410). Push-to-deploy is not triggered by an inbound webhook. A push into this host's own git server fires the builder in-process, and a repository whose canonical home is GitHub is delivered by the Hanzo Platform GitHub App to POST /v1/integration/github/webhook. The forge does not report a push over HTTP.  Every delivery answers 410 whatever it carries — this endpoint reads no body and authenticates nothing.  410 rather than 404, because the address was real and its meaning moved, which is the distinction 410 carries. A 404 from this estate is ambiguous: Hanzo Git serves /v1, so /api/v1 404s too and reads as \"the API is switched off\". A retired endpoint says it is retired and names its replacement, so the answer carries its own fix.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10608,9 +10608,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Retired — forge pushes build via platform.hanzo.ai
+        """Retired — push-to-deploy has no inbound webhook
 
-        GONE (410). Push-to-deploy belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  Every delivery answers 410 whatever it carries — this endpoint reads no body and authenticates nothing.  410 rather than 404, because the address was real and its meaning moved, which is the distinction 410 carries. A 404 from this estate is ambiguous: Hanzo Git serves /v1, so /api/v1 404s too and reads as \"the API is switched off\". A retired endpoint says it is retired and names its replacement, so the answer carries its own fix.
+        GONE (410). Push-to-deploy is not triggered by an inbound webhook. A push into this host's own git server fires the builder in-process, and a repository whose canonical home is GitHub is delivered by the Hanzo Platform GitHub App to POST /v1/integration/github/webhook. The forge does not report a push over HTTP.  Every delivery answers 410 whatever it carries — this endpoint reads no body and authenticates nothing.  410 rather than 404, because the address was real and its meaning moved, which is the distinction 410 carries. A 404 from this estate is ambiguous: Hanzo Git serves /v1, so /api/v1 404s too and reads as \"the API is switched off\". A retired endpoint says it is retired and names its replacement, so the answer carries its own fix.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10670,9 +10670,9 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Retired — forge pushes build via platform.hanzo.ai
+        """Retired — push-to-deploy has no inbound webhook
 
-        GONE (410). Push-to-deploy belongs to POST https://platform.hanzo.ai/v1/git-webhook, which owns the build system-of-record and dispatches BuildKit Jobs. git.hanzo.ai delivers there through ONE forge-wide system webhook covering every repository; a repo opts in by committing hanzo.yml, not by owning a hook of its own.  Every delivery answers 410 whatever it carries — this endpoint reads no body and authenticates nothing.  410 rather than 404, because the address was real and its meaning moved, which is the distinction 410 carries. A 404 from this estate is ambiguous: Hanzo Git serves /v1, so /api/v1 404s too and reads as \"the API is switched off\". A retired endpoint says it is retired and names its replacement, so the answer carries its own fix.
+        GONE (410). Push-to-deploy is not triggered by an inbound webhook. A push into this host's own git server fires the builder in-process, and a repository whose canonical home is GitHub is delivered by the Hanzo Platform GitHub App to POST /v1/integration/github/webhook. The forge does not report a push over HTTP.  Every delivery answers 410 whatever it carries — this endpoint reads no body and authenticates nothing.  410 rather than 404, because the address was real and its meaning moved, which is the distinction 410 carries. A 404 from this estate is ambiguous: Hanzo Git serves /v1, so /api/v1 404s too and reads as \"the API is switched off\". A retired endpoint says it is retired and names its replacement, so the answer carries its own fix.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

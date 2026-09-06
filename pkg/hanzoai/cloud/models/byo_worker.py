@@ -28,7 +28,7 @@ class ByoWorker(BaseModel):
     """
     ByoWorker
     """ # noqa: E501
-    arch: Optional[StrictStr] = Field(default=None, description="Arch/CPUs/Memory are the connecting host's static CPU spec, mirrored from the registration: Arch is runtime.GOARCH (amd64 | arm64), Memory is total RAM in BYTES — the same fields a code-linked run-target carries, so the /v1/visor/fleet board renders a linked node's arch + cores + RAM like any other unit.")
+    arch: Optional[StrictStr] = Field(default=None, description="Arch/CPUs/Memory are the connecting host's static CPU spec, mirrored from the registration: Arch is runtime.GOARCH (amd64 | arm64), Memory is total RAM in BYTES — the same fields a code-linked run-target carries, so the /v1/compute/fleet board renders a linked node's arch + cores + RAM like any other unit.")
     capabilities: Optional[List[StrictStr]] = Field(default=None, description="Capabilities is what this worker offers the org: \"studio.render\" when the node can render, \"engine.serve\" when it serves a model endpoint. A node advertises one only once it can honour it, so an absent list means a node that has dialed in but is not ready to serve any of them yet.")
     cpu_model: Optional[StrictStr] = Field(default=None, description="CPUModel is the processor as the host names it (\"Apple M3 Max\"), for display.", alias="cpuModel")
     cpus: Optional[StrictInt] = Field(default=None, description="CPUs is the host's logical core count.")

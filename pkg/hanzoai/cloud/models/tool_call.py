@@ -27,7 +27,7 @@ class ToolCall(BaseModel):
     ToolCall
     """ # noqa: E501
     arguments: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Arguments is the tool's own input object, passed through verbatim to whichever source owns it.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is the tool to run, exactly as GET /v1/tools reports it.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the tool to run, exactly as GET /v1/tool reports it.")
     __properties: ClassVar[List[str]] = ["arguments", "name"]
 
     model_config = ConfigDict(

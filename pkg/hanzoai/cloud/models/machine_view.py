@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.agent_binding import AgentBinding
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,11 +27,13 @@ class MachineView(BaseModel):
     """
     MachineView
     """ # noqa: E501
+    agent: Optional[StrictStr] = Field(default=None, description="Agent is the cloud Agent this machine runs, lifted out of the binding so a list reads without following one. Empty means nothing is bound — for a kind=bot machine that means it costs money and answers nothing.")
+    binding: Optional[AgentBinding] = Field(default=None, description="Binding is the record joining this machine to that agent, carrying vm's own reconciled status and its reason. Absent means no runtime is bound, which is also what a stopped bot looks like: stopping unbinds and leaves the machine running.")
     created_time: Optional[StrictStr] = Field(default=None, description="CreatedTime is when the machine came into being: the provider's own creation timestamp for a Visor machine, passed through in whatever form it states it, and for a BYO machine the RFC 3339 moment it first dialed in.", alias="createdTime")
     gpu: Optional[StrictStr] = Field(default=None, description="GPU names the accelerators this machine holds (\"H100\", or \"2× NVIDIA GB10\" for a BYO machine reporting a matched pair). Empty means the machine is not a GPU machine — the size slug does not parse as one, or nvidia-smi found nothing.")
-    id: Optional[StrictStr] = Field(default=None, description="ID addresses this machine on the /v1/visor/machines/:id routes: the org-scoped NAME Visor keys a machine by, falling back to the provider id for a machine that has no name. A BYO machine's is the id it dialed in under.")
+    id: Optional[StrictStr] = Field(default=None, description="ID addresses this machine on the /v1/compute/machines/:id routes: the org-scoped NAME Visor keys a machine by, falling back to the provider id for a machine that has no name. A BYO machine's is the id it dialed in under.")
     image: Optional[StrictStr] = Field(default=None, description="Image is the OS image the machine booted from, as the provider names it.")
-    mem: Optional[StrictStr] = Field(default=None, description="Mem is system RAM rendered for a human (\"8 GB\"), not a number to compute with. Empty when the provider's figure is ambiguous, or when the only figure available is a GPU slug's gb — that is VRAM, and reporting it as system RAM would be a fabrication. A BYO machine's RAM is on /v1/visor/fleet/workers.")
+    mem: Optional[StrictStr] = Field(default=None, description="Mem is system RAM rendered for a human (\"8 GB\"), not a number to compute with. Empty when the provider's figure is ambiguous, or when the only figure available is a GPU slug's gb — that is VRAM, and reporting it as system RAM would be a fabrication. A BYO machine's RAM is on /v1/compute/fleet/workers.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the label to show a human — Visor's displayName, or the machine name when it carries none. A BYO machine's is its hostname. It is not an address: ID is what the routes take.")
     os: Optional[StrictStr] = Field(default=None, description="Os is the operating system on the machine — Visor's record for a provisioned one, the host's own report (linux, darwin, windows) for a BYO one.")
     private_ip: Optional[StrictStr] = Field(default=None, description="PrivateIp is the address on the provider's own network, reachable from the org's other machines in the same region. Empty on the same terms as PublicIp.", alias="privateIp")
@@ -39,8 +42,8 @@ class MachineView(BaseModel):
     region: Optional[StrictStr] = Field(default=None, description="Region is the provider region slug (\"sfo3\"), or the zone when the provider reports only that. \"on-prem\" for a BYO machine, which has no cloud region.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the lifecycle state in the PROVIDER's own words (\"active\", \"running\", \"off\"), passed through rather than mapped onto a vocabulary of ours. A BYO machine's is \"online\" or \"offline\", decided by whether its last heartbeat is within 90s.")
     type: Optional[StrictStr] = Field(default=None, description="Type is the provider SIZE SLUG the machine runs at (\"s-2vcpu-4gb\", \"gpu-h100x8-640gb\") — the value a launch asks for, and what Vcpu/Mem/GPU are read out of when the provider states them no other way. \"byo-gpu\" for a dialed-in machine, which was never bought from a size catalog.")
-    vcpu: Optional[StrictInt] = Field(default=None, description="Vcpu is logical cores — the provider's own cpuSize when that is a clean integer, else the count read out of the size slug (4 from \"s-4vcpu-8gb\"). ABSENT, never 0, when neither says. A BYO machine leaves it absent here; its real core count is on GET /v1/visor/fleet/workers.")
-    __properties: ClassVar[List[str]] = ["createdTime", "gpu", "id", "image", "mem", "name", "os", "privateIp", "provider", "publicIp", "region", "status", "type", "vcpu"]
+    vcpu: Optional[StrictInt] = Field(default=None, description="Vcpu is logical cores — the provider's own cpuSize when that is a clean integer, else the count read out of the size slug (4 from \"s-4vcpu-8gb\"). ABSENT, never 0, when neither says. A BYO machine leaves it absent here; its real core count is on GET /v1/compute/fleet/workers.")
+    __properties: ClassVar[List[str]] = ["agent", "binding", "createdTime", "gpu", "id", "image", "mem", "name", "os", "privateIp", "provider", "publicIp", "region", "status", "type", "vcpu"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,6 +84,9 @@ class MachineView(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of binding
+        if self.binding:
+            _dict['binding'] = self.binding.to_dict()
         return _dict
 
     @classmethod
@@ -93,6 +99,8 @@ class MachineView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "agent": obj.get("agent"),
+            "binding": AgentBinding.from_dict(obj["binding"]) if obj.get("binding") is not None else None,
             "createdTime": obj.get("createdTime"),
             "gpu": obj.get("gpu"),
             "id": obj.get("id"),

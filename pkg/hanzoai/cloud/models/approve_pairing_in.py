@@ -27,7 +27,7 @@ class ApprovePairingIn(BaseModel):
     ApprovePairingIn
     """ # noqa: E501
     channel: Optional[StrictStr] = Field(default=None, description="Channel is the transport the request came in on: discord, slack, teams, telegram or whatsapp.")
-    code: Optional[StrictStr] = Field(default=None, description="Code is the pairing code from GET /v1/channels/pairing. It is a capability: holding it is what authorises the approval, alongside org admin.")
+    code: Optional[StrictStr] = Field(default=None, description="Code is the pairing code from GET /v1/channel/pairing. It is a capability: holding it is what authorises the approval, alongside org admin.")
     __properties: ClassVar[List[str]] = ["channel", "code"]
 
     model_config = ConfigDict(

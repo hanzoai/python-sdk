@@ -21,7 +21,7 @@ __all__ = [
     "AccountApi",
     "AdApi",
     "AffiliateApi",
-    "AgentsApi",
+    "AgentApi",
     "AiApi",
     "AllowanceApi",
     "AskApi",
@@ -38,13 +38,14 @@ __all__ = [
     "CampaignApi",
     "CaptableApi",
     "CatalogApi",
-    "ChannelsApi",
+    "ChannelApi",
     "CiApi",
     "CloudflareApi",
     "CodeApi",
     "CommerceApi",
     "CompanyApi",
     "ComplianceApi",
+    "ComputeApi",
     "ContentApi",
     "CrawlApi",
     "DataroomApi",
@@ -61,10 +62,10 @@ __all__ = [
     "ExecApi",
     "ExperimentApi",
     "ExplorerApi",
-    "FlagsApi",
+    "FlagApi",
     "FlowApi",
     "FrameworkApi",
-    "FunctionsApi",
+    "FunctionApi",
     "GatewayApi",
     "GitApi",
     "GraphApi",
@@ -73,7 +74,7 @@ __all__ = [
     "IamApi",
     "IndexApi",
     "IngressApi",
-    "IntegrationsApi",
+    "IntegrationApi",
     "KmsApi",
     "KnowledgeApi",
     "KvApi",
@@ -99,7 +100,7 @@ __all__ = [
     "PlatformApi",
     "PrefApi",
     "PricingApi",
-    "ProjectsApi",
+    "ProjectApi",
     "PromptApi",
     "ProvisioningApi",
     "PubsubApi",
@@ -125,13 +126,12 @@ __all__ = [
     "TelApi",
     "TemplateApi",
     "TodoApi",
-    "ToolsApi",
+    "ToolApi",
     "TranslateApi",
     "TreasuryApi",
     "TrustApi",
     "UsageApi",
     "ValidatorApi",
-    "VisorApi",
     "WalletApi",
     "Web3Api",
     "WebhookApi",
@@ -339,14 +339,12 @@ __all__ = [
     "BoardTotals",
     "BookRequest",
     "BookResponse",
-    "BotList",
     "BotMember",
     "BotRoster",
     "BotRun",
     "BotRuns",
     "BotStopped",
     "BotSync",
-    "BotView",
     "Breakdown",
     "BreakdownRow",
     "BrowserTagOut",
@@ -758,6 +756,11 @@ __all__ = [
     "FlowUpdate",
     "FlowVersion",
     "FnList",
+    "ForgeJob",
+    "ForgeJobRepository",
+    "ForgeJobRepositoryOwner",
+    "ForgeJobWorkflowJob",
+    "ForgeLaunched",
     "Form",
     "FormItem",
     "Formation",
@@ -2203,10 +2206,7 @@ __all__ = [
     "Purge",
     "PurgeIn",
     "PurgeOut",
-    "Push",
     "PushFile",
-    "PushPusher",
-    "PushRepository",
     "PushReq",
     "PushResp",
     "PutClaimsIn",
@@ -2726,7 +2726,7 @@ __all__ = [
 from hanzoai.cloud.api.account_api import AccountApi as AccountApi
 from hanzoai.cloud.api.ad_api import AdApi as AdApi
 from hanzoai.cloud.api.affiliate_api import AffiliateApi as AffiliateApi
-from hanzoai.cloud.api.agents_api import AgentsApi as AgentsApi
+from hanzoai.cloud.api.agent_api import AgentApi as AgentApi
 from hanzoai.cloud.api.ai_api import AiApi as AiApi
 from hanzoai.cloud.api.allowance_api import AllowanceApi as AllowanceApi
 from hanzoai.cloud.api.ask_api import AskApi as AskApi
@@ -2743,13 +2743,14 @@ from hanzoai.cloud.api.bot_api import BotApi as BotApi
 from hanzoai.cloud.api.campaign_api import CampaignApi as CampaignApi
 from hanzoai.cloud.api.captable_api import CaptableApi as CaptableApi
 from hanzoai.cloud.api.catalog_api import CatalogApi as CatalogApi
-from hanzoai.cloud.api.channels_api import ChannelsApi as ChannelsApi
+from hanzoai.cloud.api.channel_api import ChannelApi as ChannelApi
 from hanzoai.cloud.api.ci_api import CiApi as CiApi
 from hanzoai.cloud.api.cloudflare_api import CloudflareApi as CloudflareApi
 from hanzoai.cloud.api.code_api import CodeApi as CodeApi
 from hanzoai.cloud.api.commerce_api import CommerceApi as CommerceApi
 from hanzoai.cloud.api.company_api import CompanyApi as CompanyApi
 from hanzoai.cloud.api.compliance_api import ComplianceApi as ComplianceApi
+from hanzoai.cloud.api.compute_api import ComputeApi as ComputeApi
 from hanzoai.cloud.api.content_api import ContentApi as ContentApi
 from hanzoai.cloud.api.crawl_api import CrawlApi as CrawlApi
 from hanzoai.cloud.api.dataroom_api import DataroomApi as DataroomApi
@@ -2766,10 +2767,10 @@ from hanzoai.cloud.api.event_api import EventApi as EventApi
 from hanzoai.cloud.api.exec_api import ExecApi as ExecApi
 from hanzoai.cloud.api.experiment_api import ExperimentApi as ExperimentApi
 from hanzoai.cloud.api.explorer_api import ExplorerApi as ExplorerApi
-from hanzoai.cloud.api.flags_api import FlagsApi as FlagsApi
+from hanzoai.cloud.api.flag_api import FlagApi as FlagApi
 from hanzoai.cloud.api.flow_api import FlowApi as FlowApi
 from hanzoai.cloud.api.framework_api import FrameworkApi as FrameworkApi
-from hanzoai.cloud.api.functions_api import FunctionsApi as FunctionsApi
+from hanzoai.cloud.api.function_api import FunctionApi as FunctionApi
 from hanzoai.cloud.api.gateway_api import GatewayApi as GatewayApi
 from hanzoai.cloud.api.git_api import GitApi as GitApi
 from hanzoai.cloud.api.graph_api import GraphApi as GraphApi
@@ -2778,7 +2779,7 @@ from hanzoai.cloud.api.help_api import HelpApi as HelpApi
 from hanzoai.cloud.api.iam_api import IamApi as IamApi
 from hanzoai.cloud.api.index_api import IndexApi as IndexApi
 from hanzoai.cloud.api.ingress_api import IngressApi as IngressApi
-from hanzoai.cloud.api.integrations_api import IntegrationsApi as IntegrationsApi
+from hanzoai.cloud.api.integration_api import IntegrationApi as IntegrationApi
 from hanzoai.cloud.api.kms_api import KmsApi as KmsApi
 from hanzoai.cloud.api.knowledge_api import KnowledgeApi as KnowledgeApi
 from hanzoai.cloud.api.kv_api import KvApi as KvApi
@@ -2804,7 +2805,7 @@ from hanzoai.cloud.api.plan_api import PlanApi as PlanApi
 from hanzoai.cloud.api.platform_api import PlatformApi as PlatformApi
 from hanzoai.cloud.api.pref_api import PrefApi as PrefApi
 from hanzoai.cloud.api.pricing_api import PricingApi as PricingApi
-from hanzoai.cloud.api.projects_api import ProjectsApi as ProjectsApi
+from hanzoai.cloud.api.project_api import ProjectApi as ProjectApi
 from hanzoai.cloud.api.prompt_api import PromptApi as PromptApi
 from hanzoai.cloud.api.provisioning_api import ProvisioningApi as ProvisioningApi
 from hanzoai.cloud.api.pubsub_api import PubsubApi as PubsubApi
@@ -2830,13 +2831,12 @@ from hanzoai.cloud.api.team_api import TeamApi as TeamApi
 from hanzoai.cloud.api.tel_api import TelApi as TelApi
 from hanzoai.cloud.api.template_api import TemplateApi as TemplateApi
 from hanzoai.cloud.api.todo_api import TodoApi as TodoApi
-from hanzoai.cloud.api.tools_api import ToolsApi as ToolsApi
+from hanzoai.cloud.api.tool_api import ToolApi as ToolApi
 from hanzoai.cloud.api.translate_api import TranslateApi as TranslateApi
 from hanzoai.cloud.api.treasury_api import TreasuryApi as TreasuryApi
 from hanzoai.cloud.api.trust_api import TrustApi as TrustApi
 from hanzoai.cloud.api.usage_api import UsageApi as UsageApi
 from hanzoai.cloud.api.validator_api import ValidatorApi as ValidatorApi
-from hanzoai.cloud.api.visor_api import VisorApi as VisorApi
 from hanzoai.cloud.api.wallet_api import WalletApi as WalletApi
 from hanzoai.cloud.api.web3_api import Web3Api as Web3Api
 from hanzoai.cloud.api.webhook_api import WebhookApi as WebhookApi
@@ -3048,14 +3048,12 @@ from hanzoai.cloud.models.board_scope import BoardScope as BoardScope
 from hanzoai.cloud.models.board_totals import BoardTotals as BoardTotals
 from hanzoai.cloud.models.book_request import BookRequest as BookRequest
 from hanzoai.cloud.models.book_response import BookResponse as BookResponse
-from hanzoai.cloud.models.bot_list import BotList as BotList
 from hanzoai.cloud.models.bot_member import BotMember as BotMember
 from hanzoai.cloud.models.bot_roster import BotRoster as BotRoster
 from hanzoai.cloud.models.bot_run import BotRun as BotRun
 from hanzoai.cloud.models.bot_runs import BotRuns as BotRuns
 from hanzoai.cloud.models.bot_stopped import BotStopped as BotStopped
 from hanzoai.cloud.models.bot_sync import BotSync as BotSync
-from hanzoai.cloud.models.bot_view import BotView as BotView
 from hanzoai.cloud.models.breakdown import Breakdown as Breakdown
 from hanzoai.cloud.models.breakdown_row import BreakdownRow as BreakdownRow
 from hanzoai.cloud.models.browser_tag_out import BrowserTagOut as BrowserTagOut
@@ -3467,6 +3465,11 @@ from hanzoai.cloud.models.flow_trigger import FlowTrigger as FlowTrigger
 from hanzoai.cloud.models.flow_update import FlowUpdate as FlowUpdate
 from hanzoai.cloud.models.flow_version import FlowVersion as FlowVersion
 from hanzoai.cloud.models.fn_list import FnList as FnList
+from hanzoai.cloud.models.forge_job import ForgeJob as ForgeJob
+from hanzoai.cloud.models.forge_job_repository import ForgeJobRepository as ForgeJobRepository
+from hanzoai.cloud.models.forge_job_repository_owner import ForgeJobRepositoryOwner as ForgeJobRepositoryOwner
+from hanzoai.cloud.models.forge_job_workflow_job import ForgeJobWorkflowJob as ForgeJobWorkflowJob
+from hanzoai.cloud.models.forge_launched import ForgeLaunched as ForgeLaunched
 from hanzoai.cloud.models.form import Form as Form
 from hanzoai.cloud.models.form_item import FormItem as FormItem
 from hanzoai.cloud.models.formation import Formation as Formation
@@ -4912,10 +4915,7 @@ from hanzoai.cloud.models.pull_view import PullView as PullView
 from hanzoai.cloud.models.purge import Purge as Purge
 from hanzoai.cloud.models.purge_in import PurgeIn as PurgeIn
 from hanzoai.cloud.models.purge_out import PurgeOut as PurgeOut
-from hanzoai.cloud.models.push import Push as Push
 from hanzoai.cloud.models.push_file import PushFile as PushFile
-from hanzoai.cloud.models.push_pusher import PushPusher as PushPusher
-from hanzoai.cloud.models.push_repository import PushRepository as PushRepository
 from hanzoai.cloud.models.push_req import PushReq as PushReq
 from hanzoai.cloud.models.push_resp import PushResp as PushResp
 from hanzoai.cloud.models.put_claims_in import PutClaimsIn as PutClaimsIn

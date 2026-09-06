@@ -30,14 +30,14 @@ class O11yGettableAgentCheckIn(BaseModel):
     O11yGettableAgentCheckIn
     """ # noqa: E501
     account_id: Optional[StrictStr] = Field(default=None, description="Older fields for backward compatibility with existing AWS agents")
-    cloud_account_id: Optional[StrictStr] = None
     cloud_integration_id: Optional[StrictStr] = Field(default=None, alias="cloudIntegrationId")
-    integration_config_legacy: Optional[O11yIntegrationConfig] = Field(default=None, alias="integration_config")
+    cloud_account_id: Optional[StrictStr] = None
     integration_config: Optional[O11yProviderIntegrationConfig] = Field(default=None, alias="integrationConfig")
+    integration_config_legacy: Optional[O11yIntegrationConfig] = Field(default=None, alias="integration_config")
     provider_account_id: Optional[StrictStr] = Field(default=None, alias="providerAccountId")
-    removed_at_legacy: Optional[datetime] = Field(default=None, alias="removed_at")
     removed_at: Optional[datetime] = Field(default=None, alias="removedAt")
-    __properties: ClassVar[List[str]] = ["account_id", "cloud_account_id", "cloudIntegrationId", "integration_config", "integrationConfig", "providerAccountId", "removed_at", "removedAt"]
+    removed_at_legacy: Optional[datetime] = Field(default=None, alias="removed_at")
+    __properties: ClassVar[List[str]] = ["account_id", "cloudIntegrationId", "cloud_account_id", "integrationConfig", "integration_config", "providerAccountId", "removedAt", "removed_at"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -78,12 +78,12 @@ class O11yGettableAgentCheckIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of integration_config_legacy
-        if self.integration_config_legacy:
-            _dict['integration_config'] = self.integration_config_legacy.to_dict()
         # override the default output from pydantic by calling `to_dict()` of integration_config
         if self.integration_config:
             _dict['integrationConfig'] = self.integration_config.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of integration_config_legacy
+        if self.integration_config_legacy:
+            _dict['integration_config'] = self.integration_config_legacy.to_dict()
         return _dict
 
     @classmethod
@@ -97,13 +97,13 @@ class O11yGettableAgentCheckIn(BaseModel):
 
         _obj = cls.model_validate({
             "account_id": obj.get("account_id"),
-            "cloud_account_id": obj.get("cloud_account_id"),
             "cloudIntegrationId": obj.get("cloudIntegrationId"),
-            "integration_config": O11yIntegrationConfig.from_dict(obj["integration_config"]) if obj.get("integration_config") is not None else None,
+            "cloud_account_id": obj.get("cloud_account_id"),
             "integrationConfig": O11yProviderIntegrationConfig.from_dict(obj["integrationConfig"]) if obj.get("integrationConfig") is not None else None,
+            "integration_config": O11yIntegrationConfig.from_dict(obj["integration_config"]) if obj.get("integration_config") is not None else None,
             "providerAccountId": obj.get("providerAccountId"),
-            "removed_at": obj.get("removed_at"),
-            "removedAt": obj.get("removedAt")
+            "removedAt": obj.get("removedAt"),
+            "removed_at": obj.get("removed_at")
         })
         return _obj
 

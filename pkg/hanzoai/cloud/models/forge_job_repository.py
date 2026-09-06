@@ -19,21 +19,17 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.push_pusher import PushPusher
-from hanzoai.cloud.models.push_repository import PushRepository
+from hanzoai.cloud.models.forge_job_repository_owner import ForgeJobRepositoryOwner
 from typing import Optional, Set
 from typing_extensions import Self
 
-class Push(BaseModel):
+class ForgeJobRepository(BaseModel):
     """
-    Push
+    ForgeJobRepository
     """ # noqa: E501
-    after: Optional[StrictStr] = None
-    before: Optional[StrictStr] = None
-    pusher: Optional[PushPusher] = None
-    ref: Optional[StrictStr] = None
-    repository: Optional[PushRepository] = None
-    __properties: ClassVar[List[str]] = ["after", "before", "pusher", "ref", "repository"]
+    name: Optional[StrictStr] = None
+    owner: Optional[ForgeJobRepositoryOwner] = None
+    __properties: ClassVar[List[str]] = ["name", "owner"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +49,7 @@ class Push(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of Push from a JSON string"""
+        """Create an instance of ForgeJobRepository from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,17 +70,14 @@ class Push(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of pusher
-        if self.pusher:
-            _dict['pusher'] = self.pusher.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of repository
-        if self.repository:
-            _dict['repository'] = self.repository.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of owner
+        if self.owner:
+            _dict['owner'] = self.owner.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of Push from a dict"""
+        """Create an instance of ForgeJobRepository from a dict"""
         if obj is None:
             return None
 
@@ -92,11 +85,8 @@ class Push(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "after": obj.get("after"),
-            "before": obj.get("before"),
-            "pusher": PushPusher.from_dict(obj["pusher"]) if obj.get("pusher") is not None else None,
-            "ref": obj.get("ref"),
-            "repository": PushRepository.from_dict(obj["repository"]) if obj.get("repository") is not None else None
+            "name": obj.get("name"),
+            "owner": ForgeJobRepositoryOwner.from_dict(obj["owner"]) if obj.get("owner") is not None else None
         })
         return _obj
 

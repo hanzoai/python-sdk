@@ -26,11 +26,11 @@ class BotMember(BaseModel):
     """
     BotMember
     """ # noqa: E501
-    active: Optional[StrictBool] = Field(default=None, description="Active is whether the agent projects as a LIVE space member, derived from its registry status: empty, \"active\" and \"ready\" are live, anything else (archived/retired) is not. An inactive bot drops out of the Team list while its past authorship survives.")
-    id: Optional[StrictStr] = Field(default=None, description="the agent id")
-    name: Optional[StrictStr] = Field(default=None, description="display name")
-    person_ref: Optional[StrictStr] = Field(default=None, description="the projected Person _id", alias="personRef")
-    user_id: Optional[StrictStr] = Field(default=None, description="derived member account uuid (personUuid)", alias="userId")
+    active: Optional[StrictBool] = Field(default=None, description="Active is whether the agent projects as a LIVE space member, derived from its registry status: empty, \"active\" and \"ready\" are live, anything else (archived/retired) is not. An inactive bot drops out of the roster while its past authorship survives.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the agent id.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the display name.")
+    person_ref: Optional[StrictStr] = Field(default=None, description="PersonRef is the projected Person _id.", alias="personRef")
+    user_id: Optional[StrictStr] = Field(default=None, description="UserID is the derived member account uuid (personUuid).", alias="userId")
     __properties: ClassVar[List[str]] = ["active", "id", "name", "personRef", "userId"]
 
     model_config = ConfigDict(

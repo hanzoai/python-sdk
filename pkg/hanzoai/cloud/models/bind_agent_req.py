@@ -26,7 +26,7 @@ class BindAgentReq(BaseModel):
     """
     BindAgentReq
     """ # noqa: E501
-    agent_name: Optional[StrictStr] = Field(default=None, description="AgentName is the cloud Agent (/v1/agents) the machine will run. Required.", alias="agentName")
+    agent_name: Optional[StrictStr] = Field(default=None, description="AgentName is the cloud Agent (/v1/agent) the machine will run. Required.", alias="agentName")
     bot_version: Optional[StrictStr] = Field(default=None, description="BotVersion pins the @hanzo/bot runtime version; empty takes the default.", alias="botVersion")
     id: Optional[StrictStr] = Field(default=None, description="ID is the machine to bind, from the URL path.")
     __properties: ClassVar[List[str]] = ["agentName", "botVersion", "id"]
