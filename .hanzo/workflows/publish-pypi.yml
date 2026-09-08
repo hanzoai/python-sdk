@@ -1,5 +1,5 @@
 name: Publish PyPI
-# Releases run on the Hanzo git-runner fleet (`hanzo-build-linux-amd64`) from
+# Releases run on the Hanzo git-runner fleet (`linux-amd64`) from
 # git.hanzo.ai, which is canonical; GitHub is a downstream mirror. There is no
 # .github counterpart to this file — one lane, one place.
 #
@@ -30,7 +30,7 @@ concurrency:
 jobs:
   publish:
     name: Build and publish
-    runs-on: [hanzo-build-linux-amd64]
+    runs-on: [linux-amd64]
     steps:
       - uses: actions/checkout@v4
         with:
