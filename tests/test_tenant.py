@@ -1,27 +1,17 @@
-"""The tenant fabric: one operator credential, N isolated customers.
+"""One credential, one endpoint, N subjects.
 
 Nothing here touches the network. The stub below has the same `request()`
 signature as :class:`hanzoai.cloud.rest.RESTClientObject`, which is the only
-thing the client and the mint ever call, so these exercise the real code path
-and only the socket is missing.
+thing the client and the two mints ever call, so these exercise the real code
+path and only the socket is missing.
 """
 
 import json
 
 import pytest
 
-from hanzoai import (
-    Done,
-    Held,
-    Grant,
-    Client,
-    Approval,
-    result,
-    unwrap,
-    is_done,
-    is_held,
-)
-from hanzoai.cloud import IamApi, Configuration
+from hanzoai import Held, Grant, Token, Client
+from hanzoai.cloud import IamApi
 from hanzoai.cloud.exceptions import ApiException
 
 
@@ -37,7 +27,7 @@ class Reply:
             self.data = b""
         else:
             self.data = json.dumps(payload).encode()
-        self.headers = headers or {"content-type": "application/json"}
+        self.headers = headers or {"content-type": "application/json", "x-request-id": "req_1"}
 
     def read(self):
         return self.data
@@ -57,317 +47,295 @@ class Transport:
         self.calls = []
 
     def request(self, method, url, headers=None, body=None, post_params=None, _request_timeout=None):
-        self.calls.append((method, url, dict(headers or {}), body))
+        self.calls.append((method, url, dict(headers or {}), body, post_params))
         assert self.replies, "the client made more requests than the test staged"
         return self.replies.pop(0)
 
 
+def minted(token, expires_in=600):
+    """IAM's oauth answer, in RFC 6749's casing."""
+    return Reply(200, {"access_token": token, "expires_in": expires_in, "token_type": "Bearer"})
+
+
 def issued(token, expires_in=600):
-    """IAM's answer, in IAM's casing."""
+    """IAM's act answer, in IAM's own casing."""
     return Reply(200, {"accessToken": token, "expiresIn": expires_in})
 
 
+def operator(mint, calls=None):
+    """A client whose identity mint and whose API calls are both stubs.
+
+    Both mints ride the client's own pool in production, so with no separate
+    `calls` the client's transport is the mint's — which is what lets `as_`
+    reach the staged replies instead of a socket.
+    """
+    client = Client(credential=Token("cli_1", "shh", transport=mint))
+    client.rest_client = mint if calls is None else calls
+    return client
+
+
 # --------------------------------------------------------------------------
-# The mint
+# The identity — client credentials, never a bearer somebody pasted
 # --------------------------------------------------------------------------
 
 
-def test_the_mint_is_iam_s_own_host_and_the_subject_is_a_query():
+def test_the_mint_is_the_client_credentials_exchange_on_iam_s_own_host():
+    """`POST https://hanzo.id/v1/iam/oauth/token`, client_secret_basic, form-encoded.
+
+    Four things this pins, each of which fails silently if it drifts: the host
+    is IAM's, not the platform API's; the grant is client_credentials; the
+    credential rides as HTTP Basic rather than in the form; and `resource`
+    names the server the token is for, so a token minted for api.hanzo.ai is
+    useless anywhere else.
+    """
+    mint = Transport(minted("tok-1"))
+    assert Token("cli_1", "shh", transport=mint).token() == "tok-1"
+
+    method, url, headers, body, form = mint.calls[0]
+    assert (method, url) == ("POST", "https://hanzo.id/v1/iam/oauth/token")
+    assert headers["Authorization"] == "Basic Y2xpXzE6c2ho"  # base64("cli_1:shh")
+    assert headers["Content-Type"] == "application/x-www-form-urlencoded"
+    assert form == [("grant_type", "client_credentials"), ("resource", "https://api.hanzo.ai")]
+    assert body is None
+
+
+def test_the_resource_follows_the_endpoint_the_client_was_pointed_at():
+    mint = Transport(minted("tok-1"))
+    Token("cli_1", "shh", resource="https://api.acme.internal", transport=mint).token()
+    assert mint.calls[0][4] == [("grant_type", "client_credentials"), ("resource", "https://api.acme.internal")]
+
+
+def test_the_oauth_answer_is_snake_case():
+    """RFC 6749 spells it `access_token`. camelCase here reads as no token at all."""
+    mint = Transport(Reply(200, {"accessToken": "wrong", "expiresIn": 600}))
+    with pytest.raises(ApiException) as caught:
+        Token("cli_1", "shh", transport=mint).token()
+    assert "cli_1" in str(caught.value)
+
+
+def test_the_token_is_held_until_it_nears_expiry():
+    mint = Transport(minted("tok-1"))
+    identity = Token("cli_1", "shh", transport=mint)
+
+    assert [identity.token() for _ in range(5)] == ["tok-1"] * 5
+    assert len(mint.calls) == 1
+
+
+def test_a_token_inside_the_skew_is_replaced_while_it_still_works():
+    """A token that dies in flight is a 401 nobody can tell from a revoked identity.
+
+    `expires_in: 30` is inside the 60s window, so it is spent on arrival.
+    """
+    mint = Transport(minted("tok-1", expires_in=30), minted("tok-2", expires_in=600))
+    identity = Token("cli_1", "shh", transport=mint)
+
+    assert identity.token() == "tok-1"
+    assert identity.token() == "tok-2"
+
+
+def test_a_refused_mint_says_which_identity_was_refused():
+    """A 401 reads the same whether the id is wrong, the secret is stale, or the
+    app may not use this grant — and the reader is holding none of those."""
+    mint = Transport(Reply(401, {"error": "invalid_client", "error_description": "client authentication required"}))
+    with pytest.raises(ApiException) as caught:
+        Token("cli_1", "shh", transport=mint).token()
+
+    assert caught.value.status == 401
+    assert "cli_1" in str(caught.value)
+    assert "invalid_client" in str(caught.value)
+
+
+def test_the_client_takes_no_bearer():
+    """There is no way to hand this SDK a token. That is the point.
+
+    A credential the SDK is handed is a credential nobody rotates, and it says
+    nothing about who is calling.
+    """
+    import inspect
+
+    taken = set(inspect.signature(Client.__init__).parameters)
+    assert not taken & {"token", "api_key", "access_token", "key", "bearer"}
+
+
+def test_a_client_with_no_credential_refuses_to_be_built(monkeypatch):
+    for name in ("HANZO_CLIENT_ID", "HANZO_CLIENT_SECRET"):
+        monkeypatch.delenv(name, raising=False)
+    with pytest.raises(ApiException) as caught:
+        Client()
+    assert "HANZO_CLIENT_ID" in str(caught.value)
+
+
+def test_every_option_falls_back_to_its_environment_variable(monkeypatch):
+    monkeypatch.setenv("HANZO_CLIENT_ID", "cli_env")
+    monkeypatch.setenv("HANZO_CLIENT_SECRET", "shh_env")
+    monkeypatch.setenv("HANZO_BASE_URL", "https://api.acme.internal/")
+    monkeypatch.setenv("HANZO_ISSUER_URL", "https://id.acme.internal/")
+
+    client = Client()
+    assert client.base == "https://api.acme.internal"
+    assert client.issuer == "https://id.acme.internal"
+    assert client.resource == "https://api.acme.internal", "the audience follows the endpoint by default"
+    assert (client.credential.id, client.credential.secret) == ("cli_env", "shh_env")
+
+
+# --------------------------------------------------------------------------
+# The scope — the credential carries it, so no method takes a user id
+# --------------------------------------------------------------------------
+
+
+def test_as_mints_a_subject_token_from_the_client_s_own_token():
     """`POST https://hanzo.id/v1/iam/tokens/issue?id=<subject>`, no body.
 
-    Three things this pins, each of which fails silently if it drifts: the host
-    is IAM's, not the platform API's, which 404s this path; the path carries the
-    `iam` segment; and the subject rides as the `id` query, because IAM reads
-    the grant off the key and there is nothing to put in a body.
+    The subject rides as the `id` query because IAM reads the act grant off the
+    token presented, and there is nothing to put in a body.
     """
-    transport = Transport(issued("tok-user-42"))
-    grant = Grant("hk-operator", "user_42", transport=transport)
+    mint = Transport(minted("tok-operator"), issued("tok-usr-7"))
+    scoped = operator(mint).as_("usr_7")
 
-    assert grant.token() == "tok-user-42"
-
-    method, url, headers, body = transport.calls[0]
-    assert method == "POST"
-    assert url == "https://hanzo.id/v1/iam/tokens/issue?id=user_42"
-    assert headers["Authorization"] == "Bearer hk-operator"
+    assert scoped.credential.token() == "tok-usr-7"
+    method, url, headers, body, _ = mint.calls[1]
+    assert (method, url) == ("POST", "https://hanzo.id/v1/iam/tokens/issue?id=usr_7")
+    assert headers["Authorization"] == "Bearer tok-operator"
     assert body is None
 
 
 def test_the_subject_is_url_encoded():
-    """An externalId is whatever the operator filed the member under."""
-    transport = Transport(issued("tok"))
-    Grant("hk-operator", "acct/42 x&y", transport=transport).token()
-    _, url, _, _ = transport.calls[0]
-    assert url == "https://hanzo.id/v1/iam/tokens/issue?id=acct%2F42+x%26y"
+    mint = Transport(minted("tok-operator"), issued("tok"))
+    operator(mint).as_("acct/42 x&y").credential.token()
+    assert mint.calls[1][1] == "https://hanzo.id/v1/iam/tokens/issue?id=acct%2F42+x%26y"
 
 
-def test_the_issuer_is_overridable_for_a_private_estate():
-    transport = Transport(issued("tok"))
-    Grant("hk-operator", "user_42", issuer="https://id.acme.internal/", transport=transport).token()
-    _, url, _, _ = transport.calls[0]
-    assert url == "https://id.acme.internal/v1/iam/tokens/issue?id=user_42"
-
-
-def test_the_response_is_camel_case():
-    """`accessToken` / `expiresIn`. snake_case here reads as no token at all."""
-    transport = Transport(Reply(200, {"access_token": "wrong", "expires_in": 600}))
-    grant = Grant("hk-operator", "user_42", transport=transport)
-
+def test_the_act_answer_is_camel_case():
+    """The two mints are different endpoints and each keeps its own wire."""
+    mint = Transport(minted("tok-operator"), Reply(200, {"access_token": "wrong", "expires_in": 600}))
     with pytest.raises(ApiException) as caught:
-        grant.token()
-    assert "user_42" in str(caught.value)
+        operator(mint).as_("usr_7").credential.token()
+    assert "usr_7" in str(caught.value)
 
 
-def test_the_token_is_cached_to_expiry():
-    """One mint serves every call until the token nears expiry."""
-    transport = Transport(issued("tok-1"))
-    grant = Grant("hk-operator", "user_42", transport=transport)
+def test_the_client_s_own_token_never_rides_a_scoped_call():
+    """Two credentials on one request are two answers to who is calling."""
+    mint = Transport(minted("tok-operator"), issued("tok-usr-7"))
+    scoped = operator(mint).as_("usr_7")
 
-    assert [grant.token() for _ in range(5)] == ["tok-1"] * 5
-    assert len(transport.calls) == 1
-
-
-def test_a_token_inside_the_skew_is_not_reused():
-    """A token about to die is replaced before it rides a request, not after.
-
-    `expiresIn: 10` is inside the 30s skew, so it is spent on arrival.
-    """
-    transport = Transport(issued("tok-1", expires_in=10), issued("tok-2", expires_in=600))
-    grant = Grant("hk-operator", "user_42", transport=transport)
-
-    assert grant.token() == "tok-1"
-    assert grant.token() == "tok-2"
-    assert len(transport.calls) == 2
-
-
-def test_invalidate_forces_the_next_read_to_mint():
-    transport = Transport(issued("tok-1"), issued("tok-2"))
-    grant = Grant("hk-operator", "user_42", transport=transport)
-
-    assert grant.token() == "tok-1"
-    grant.invalidate()
-    assert grant.token() == "tok-2"
-
-
-def test_a_refused_mint_is_a_typed_error():
-    """Non-2xx carries the status and the body, never a bare string."""
-    transport = Transport(Reply(403, {"error": "no act grant on this key"}))
-    grant = Grant("hk-operator", "user_42", transport=transport)
-
-    with pytest.raises(ApiException) as caught:
-        grant.token()
-    assert caught.value.status == 403
-    assert "no act grant" in caught.value.body
-
-
-# --------------------------------------------------------------------------
-# The scope
-# --------------------------------------------------------------------------
-
-
-def operator(transport):
-    """An operator client whose pool — and so whose mint — is the stub."""
-    client = Client(Configuration(host="https://api.hanzo.ai", access_token="hk-operator"))
-    client.rest_client = transport
-    return client
-
-
-def test_as_puts_the_minted_token_on_the_request():
-    """End to end: serialize a real operation off a scoped client.
-
-    The generated serializer reads the credential through
-    `Configuration.auth_settings()`, so this asserts the whole path — mint,
-    cache, `auth_settings`, `_apply_auth_params` — and not a field we set.
-    """
-    transport = Transport(issued("tok-user-42"))
-    client = operator(transport).as_("user_42")
-
-    _, _, headers, _, _ = IamApi(client)._get_iam_keys_serialize(
+    _, _, headers, _, _ = IamApi(scoped)._get_iam_keys_serialize(
         "org_1", _request_auth=None, _content_type=None, _headers=None, _host_index=0
     )
-    assert headers["Authorization"] == "Bearer tok-user-42"
+    assert headers["Authorization"] == "Bearer tok-usr-7"
+    assert "tok-operator" not in headers["Authorization"]
 
 
-def test_the_operator_key_never_rides_a_scoped_client():
-    transport = Transport(issued("tok-user-42"))
-    client = operator(transport).as_("user_42")
-
-    assert client.grant.subject == "user_42"
-    _, _, headers, _, _ = IamApi(client)._get_iam_keys_serialize(
-        "org_1", _request_auth=None, _content_type=None, _headers=None, _host_index=0
-    )
-    assert "hk-operator" not in headers["Authorization"]
-
-
-def test_scoping_does_not_disturb_the_operator():
+def test_scoping_does_not_disturb_the_client_it_came_from():
     """Two subjects and the operator hold three credentials, not one shared slot."""
-    transport = Transport(issued("tok-a"), issued("tok-b"))
-    boss = operator(transport)
-    a, b = boss.as_("user_a"), boss.as_("user_b")
+    mint = Transport(minted("tok-operator"), issued("tok-a"), issued("tok-b"))
+    boss = operator(mint)
+    a, b = boss.as_("usr_a"), boss.as_("usr_b")
 
-    assert a.grant.token() == "tok-a"
-    assert b.grant.token() == "tok-b"
-    assert boss.configuration.access_token == "hk-operator"
+    assert a.credential.token() == "tok-a"
+    assert b.credential.token() == "tok-b"
+    assert boss.credential.token() == "tok-operator"
     assert a.configuration is not b.configuration
 
 
-def test_scoping_without_a_credential_refuses():
-    with pytest.raises(ApiException):
-        Client(Configuration(host="https://api.hanzo.ai")).as_("user_42")
+def test_a_scoped_client_keeps_the_endpoint_and_the_issuer():
+    mint = Transport(minted("tok-operator"))
+    boss = Client(credential=Token("cli_1", "shh", transport=mint), base="https://api.acme.internal")
+    scoped = boss.as_("usr_7")
+    assert (scoped.base, scoped.issuer, scoped.resource) == (boss.base, boss.issuer, boss.resource)
 
 
-def test_a_401_re_mints_once_and_retries():
-    """A rotated token costs a round trip, not an error the caller handles."""
-    mint = Transport(issued("tok-stale"), issued("tok-fresh"))
-    calls = Transport(Reply(401, {"error": "expired"}), Reply(200, {"ok": True}))
+def test_a_scoped_client_answers_the_same_six():
+    mint = Transport(minted("tok-operator"))
+    scoped = operator(mint).as_("usr_7")
+    for capability in ("budget", "policy", "audit", "search", "kb", "graph"):
+        assert getattr(scoped, capability).client is scoped
 
-    client = Client(
-        Configuration(host="https://api.hanzo.ai"),
-        grant=Grant("hk-operator", "user_42", transport=mint),
-    )
-    client.rest_client = calls
 
-    # What `param_serialize` did on the way in: the request rides the token the
-    # grant was holding.
-    staged = client.grant.token()
-    assert staged == "tok-stale"
+# --------------------------------------------------------------------------
+# The call
+# --------------------------------------------------------------------------
 
-    response = client.call_api(
-        "GET",
-        "https://api.hanzo.ai/v1/keys",
-        {"Authorization": "Bearer " + staged},
-    )
 
-    assert response.status == 200
+def test_send_puts_the_endpoint_the_credential_and_the_query_on_one_request():
+    mint = Transport(minted("tok-1"))
+    calls = Transport(Reply(200, {"plan": "pro"}))
+    client = operator(mint, calls)
+
+    reply = client.send("GET", "/v1/allowance", query={"window": "day", "empty": "", "absent": None})
+
+    method, url, headers, body, _ = calls.calls[0]
+    assert (method, url) == ("GET", "https://api.hanzo.ai/v1/allowance?window=day")
+    assert headers["Authorization"] == "Bearer tok-1"
+    assert body is None
+    assert reply.status == 200
+    assert reply.body == {"plan": "pro"}
+    assert reply.request == "req_1", "x-request-id is what joins a call to its audit row"
+
+
+def test_a_body_carries_its_media_type():
+    mint = Transport(minted("tok-1"))
+    calls = Transport(Reply(200, {"imported": 1}))
+    client = operator(mint, calls)
+
+    client.send("POST", "/v1/knowledge/import", body=b"PK\x03\x04", media="application/octet-stream")
+    _, _, headers, body, _ = calls.calls[0]
+    assert headers["Content-Type"] == "application/octet-stream"
+    assert body == b"PK\x03\x04"
+
+
+def test_a_401_re_mints_once_and_replays():
+    """A rotated token costs a round trip, not an error the caller has to handle."""
+    mint = Transport(minted("tok-stale"), minted("tok-fresh"))
+    calls = Transport(Reply(401, {"code": "unauthorized"}), Reply(200, {"plan": "pro"}))
+    client = operator(mint, calls)
+
+    assert client.send("GET", "/v1/allowance").status == 200
     assert len(mint.calls) == 2, "the stale token was not dropped"
     assert calls.calls[0][2]["Authorization"] == "Bearer tok-stale"
     assert calls.calls[1][2]["Authorization"] == "Bearer tok-fresh"
 
 
-def test_a_401_is_retried_once_and_then_stands():
-    """Two 401s are an answer, not a loop."""
-    mint = Transport(issued("tok-1"), issued("tok-2"))
-    calls = Transport(Reply(401, {"error": "expired"}), Reply(401, {"error": "expired"}))
+def test_a_second_401_is_the_server_saying_no():
+    mint = Transport(minted("tok-1"), minted("tok-2"))
+    calls = Transport(Reply(401, {"code": "unauthorized"}), Reply(401, {"code": "unauthorized"}))
+    client = operator(mint, calls)
 
-    client = Client(
-        Configuration(host="https://api.hanzo.ai"),
-        grant=Grant("hk-operator", "user_42", transport=mint),
-    )
-    client.rest_client = calls
-
-    assert client.call_api("GET", "https://api.hanzo.ai/v1/keys", {}).status == 401
+    assert client.send("GET", "/v1/allowance").status == 401
     assert len(calls.calls) == 2
 
 
-def test_an_unscoped_client_does_not_re_mint():
-    """No grant, nothing to re-mint: the 401 is the caller's to deal with."""
-    calls = Transport(Reply(401, {"error": "bad key"}))
-    client = Client(Configuration(host="https://api.hanzo.ai", access_token="hk-operator"))
-    client.rest_client = calls
-
-    assert client.call_api("GET", "https://api.hanzo.ai/v1/keys", {}).status == 401
-    assert len(calls.calls) == 1
-
-
-# --------------------------------------------------------------------------
-# The held result
-# --------------------------------------------------------------------------
-
-HELD = {
-    "status": "held",
-    "id": "apr_7f3",
-    "clause": "memory.remember",
-    "reason": "writes to a customer profile need review",
-}
-
-
-def deserialize(reply, types=None):
-    client = Client(Configuration(host="https://api.hanzo.ai", access_token="hk-operator"))
-    return client.response_deserialize(reply, types or {"200": "object"})
-
-
-def test_a_held_call_raises_rather_than_returning_nothing():
-    """No operation declares a schema for the hold, so the generated
-    deserializer answers it with `None` — a queued call reading as a call that
-    succeeded and returned nothing. This is the whole point of the fabric."""
-    with pytest.raises(Held) as caught:
-        deserialize(Reply(202, HELD))
-
-    held = caught.value
-    assert held.approval == Approval(
-        id="apr_7f3", clause="memory.remember", reason="writes to a customer profile need review"
+def test_a_read_that_was_refused_raises_rather_than_answering_nothing():
+    mint = Transport(minted("tok-1"), minted("tok-1"))
+    calls = Transport(
+        Reply(401, {"code": "unauthorized", "detail": "sign in to view the audit trail"}),
+        Reply(401, {"code": "unauthorized", "detail": "sign in to view the audit trail"}),
     )
-    assert held.status == 202
-    assert "memory.remember" in str(held)
+    client = operator(mint, calls)
+
+    with pytest.raises(ApiException) as caught:
+        client.audit.list()
+    assert caught.value.status == 401
+    assert "sign in to view the audit trail" in str(caught.value)
 
 
-def test_a_202_that_is_not_a_hold_passes_through():
-    """A dozen long-running operations answer 202 with their own schema.
+def test_a_generated_operation_that_was_held_raises_rather_than_returning_nothing():
+    """No operation declares a schema for the hold, so the generated deserializer
+    answers it with `None` — a queued call reading as one that succeeded and
+    returned nothing. The six answer the same hold as an arm."""
+    mint = Transport(minted("tok-1"))
+    client = operator(mint)
+    held = {"status": "held", "id": "apr_7f3", "clause": "iam.keys", "reason": "key reads are reviewed"}
 
-    The body is the discriminator, not the status code. Blanket-raising on 202
-    would break every deploy and build call in the document.
-    """
-    response = deserialize(Reply(202, {"id": "dep_1", "status": "queued"}), {"202": "object"})
+    with pytest.raises(Held) as caught:
+        client.response_deserialize(Reply(202, held), {"200": "object"})
+
+    assert (caught.value.id, caught.value.clause) == ("apr_7f3", "iam.keys")
+    assert caught.value.request == "req_1"
+
+
+def test_a_202_that_is_not_a_hold_passes_through_to_the_generated_deserializer():
+    """A dozen long-running operations answer 202 with their own schema."""
+    mint = Transport(minted("tok-1"))
+    response = operator(mint).response_deserialize(Reply(202, {"id": "dep_1", "status": "queued"}), {"202": "object"})
     assert response.status_code == 202
     assert response.data == {"id": "dep_1", "status": "queued"}
-
-
-def test_result_turns_the_raise_into_a_value():
-    def call():
-        raise Held(Approval.held(HELD), body=json.dumps(HELD))
-
-    r = result(call)
-    assert is_held(r)
-    assert not is_done(r)
-    assert (r.id, r.clause, r.reason) == ("apr_7f3", "memory.remember", "writes to a customer profile need review")
-
-
-def test_result_carries_a_completed_call():
-    r = result(lambda: {"id": "card_1"})
-    assert is_done(r)
-    assert unwrap(r) == {"id": "card_1"}
-
-
-def test_unwrapping_a_hold_raises_and_names_the_approval():
-    """The one thing a caller must not be able to do is read a hold as a value."""
-    with pytest.raises(Held) as caught:
-        unwrap(Approval.held(HELD))
-    assert caught.value.approval.id == "apr_7f3"
-
-
-def test_the_two_arms_share_no_member():
-    """`Approval` has no `value` and `Done` has no `id`.
-
-    Reading either without checking `status` first fails at the attribute
-    instead of quietly handing back a half-answer — which is as close as Python
-    gets to the sum type a compiler would refuse to let you ignore.
-    """
-    assert not hasattr(Approval.held(HELD), "value")
-    assert not hasattr(Done({"id": "card_1"}), "id")
-
-
-def test_an_approval_read_back_is_the_same_shape():
-    """`GET /v1/approvals/{id}` answers in the field names of the 202."""
-    fetched = Approval.held(json.dumps(HELD).encode())
-    assert fetched == Approval.held(HELD)
-
-
-def test_a_resolved_approval_is_not_a_hold():
-    assert Approval.held({"status": "approved", "id": "apr_7f3"}) is None
-    assert Approval.held(b"") is None
-    assert Approval.held("not json") is None
-
-
-def test_a_hold_with_fields_omitted_still_has_all_four():
-    assert Approval.held({"status": "held", "id": "apr_7f3"}) == Approval(id="apr_7f3", clause="", reason="")
-
-
-# --------------------------------------------------------------------------
-# The typed error
-# --------------------------------------------------------------------------
-
-
-def test_a_non_2xx_is_a_typed_error_carrying_status_and_body():
-    with pytest.raises(ApiException) as caught:
-        deserialize(Reply(500, {"error": "boom"}))
-    assert caught.value.status == 500
-    assert json.loads(caught.value.body) == {"error": "boom"}

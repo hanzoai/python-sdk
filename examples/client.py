@@ -6,7 +6,7 @@ answer to "which base URL?" and "which env var?" across all six.
 Run any flow from the repo root::
 
     python -m examples.models     # no credential — GET /v1/models is public
-    python -m examples.hello      # needs HANZO_API_KEY
+    python -m examples.hello      # needs HANZO_CLIENT_ID and HANZO_CLIENT_SECRET
 """
 
 from __future__ import annotations
@@ -14,6 +14,7 @@ from __future__ import annotations
 import os
 import sys
 
+from hanzoai import Client
 from hanzoai.cloud import ApiClient, Configuration
 from hanzoai.cloud.exceptions import ApiException
 
@@ -24,50 +25,22 @@ BASE_URL = os.environ.get("HANZO_BASE_URL", "https://api.hanzo.ai")
 MODEL = os.environ.get("HANZO_MODEL", "zen4")
 
 
-def api_key() -> str:
-    """Fail loudly and early when the key is absent or of the wrong shape.
+def client() -> Client:
+    """A client holding this caller's IAM credential.
 
-    Without this the SDK sends an unauthenticated request and the flow dies on a
-    403 several frames deep, which reads like an API bug rather than an unset
-    shell variable.
+    ``Client`` exchanges ``HANZO_CLIENT_ID`` and ``HANZO_CLIENT_SECRET`` for a
+    short-lived access token and presents that. It takes no bearer, because a
+    credential handed to an SDK is a credential nobody rotates and one that says
+    nothing about who is calling.
 
-    A ``pk-`` is rejected here for the same reason. It is the PUBLISHABLE shape:
-    cloud resolves it to an org so a browser beacon can be attributed, but the
-    identity boundary refuses it outright, so it never becomes a principal. Every
-    route below wants one — ``/v1/tools`` says so in as many words, "a validated
-    principal is required" — so a ``pk-`` collects the same 403 as no key at all,
-    and that 403 reads like a revoked key rather than the wrong shape of key.
+    It is an ``ApiClient``, so every generated operation takes it unchanged, and
+    it answers the six capabilities besides. ``Configuration.auth_settings()``
+    is where the token joins a generated request: the document declares one
+    security scheme, ``bearer``, and applies it to every operation except the
+    handful marked ``security: []``, so the credential goes where the document
+    says it belongs and nowhere else.
     """
-    key = os.environ.get("HANZO_API_KEY")
-    if not key:
-        raise SystemExit("HANZO_API_KEY is not set — export an sk- cloud key or an IAM access token")
-    if key.startswith("pk-"):
-        raise SystemExit("HANZO_API_KEY is a pk- (publishable) key, which authenticates nobody — use an sk-")
-    return key
-
-
-def client() -> ApiClient:
-    """An ApiClient carrying the credential the generated code knows how to send.
-
-    ``access_token`` is the whole configuration. The document declares one
-    security scheme — ``bearer``, HTTP bearer — and applies it to every operation
-    except the four marked ``security: []``, so the generator wrote a populated
-    ``Configuration.auth_settings()`` and an ``auth_settings=['bearer']`` into
-    2498 call sites. ``ApiClient._apply_auth_params`` reads that and sets
-    ``Authorization: Bearer <token>`` on the way out.
-
-    This used to pass ``header_name``/``header_value`` on the ApiClient, because
-    the document declared no scheme at all: ``auth_settings()`` returned ``{}``,
-    ``access_token`` was read by nothing, and a client built the obvious way sent
-    no ``Authorization`` header. That is fixed at the source — in the document —
-    which is where every other language got the same fix.
-
-    The header goes only where the document says it belongs. A flow that calls a
-    ``security: []`` operation through this client sends no credential on that
-    call, which is the correct behaviour and not a hole: those four operations
-    are public.
-    """
-    return ApiClient(Configuration(host=BASE_URL, access_token=api_key()))
+    return Client(base=BASE_URL)
 
 
 def public() -> ApiClient:
