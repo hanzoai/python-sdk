@@ -1,14 +1,14 @@
-"""Minting the token that lets one operator credential act as one subject.
+"""Acting as one subject.
 
-An operator holds a single key. Every call it makes on behalf of a customer has
-to be bound to that customer and nothing else. IAM does the binding: it reads
-the grant off the key and issues a short-lived token for the subject named in
-the request, so the credential carries the scope and no method has to take a
-user id.
+A caller holds one identity. Every call it makes on behalf of a customer has to
+be bound to that customer and nothing else. IAM does the binding: it reads the
+act grant off the caller's own token and issues a short-lived token for the
+subject named in the request, so the credential carries the scope and no method
+has to take a user id.
 
 The mint answers on IAM's own host — `api.hanzo.ai` 404s it — and the path
 carries the `iam` segment. The subject rides as the `id` query; there is no
-body, because the grant is already on the key.
+body, because the grant is already on the token.
 """
 
 from __future__ import annotations
@@ -18,52 +18,43 @@ import time
 from typing import Any, Optional
 from urllib.parse import urlencode
 
-from hanzoai.cloud.exceptions import ApiException
+from hanzoai.token import TTL, EARLY, ISSUER
+from hanzoai.answer import error
 
-__all__ = ["Grant", "ISSUER"]
+__all__ = ["Grant"]
 
-#: Where IAM answers. Override for a private estate.
-ISSUER = "https://hanzo.id"
-
-#: IAM's canonical mint. The platform API does not serve it.
+#: IAM's canonical act mint. The platform API does not serve it.
 PATH = "/v1/iam/tokens/issue"
-
-#: Re-mint this many seconds early so a request never rides an about-to-die token.
-SKEW = 30.0
-
-#: Lifetime assumed when IAM states none.
-TTL = 300.0
 
 
 class Grant:
-    """A cached, subject-bound token minted from an operator credential.
+    """A subject-bound token, minted from the caller's own token and held to expiry.
 
-    Holds the token until it nears expiry and drops it on request, so a 401
-    costs one extra mint rather than a failed call. Not thread-safe by design:
-    the worst a race costs is a duplicate mint.
+    Not thread-safe by design: the worst a race costs is a duplicate mint.
 
-    :param key: the operator credential IAM reads the grant off.
+    :param operator: the credential IAM reads the act grant off — a
+        :class:`hanzoai.Token`, or anything else that answers `token()` and
+        `invalidate()`.
     :param subject: a subject id, or the ``externalId`` the operator filed the
         member under.
     :param issuer: where IAM answers.
     :param transport: anything shaped like
-        :class:`hanzoai.cloud.rest.RESTClientObject` — the client passes its own
-        so the mint reuses one connection pool and the SDK's TLS settings.
+        :class:`hanzoai.cloud.rest.RESTClientObject`.
     """
 
     def __init__(
         self,
-        key: str,
+        operator: Any,
         subject: str,
         issuer: str = ISSUER,
         transport: Optional[Any] = None,
     ) -> None:
-        self.key = key
+        self.operator = operator
         self.subject = subject
         self.issuer = issuer.rstrip("/")
         self._transport = transport
-        self._token: Optional[str] = None
-        self._expires = 0.0
+        self._held: Optional[str] = None
+        self._until = 0.0
 
     @property
     def url(self) -> str:
@@ -71,44 +62,53 @@ class Grant:
         return "{0}{1}?{2}".format(self.issuer, PATH, urlencode({"id": self.subject}))
 
     def token(self) -> str:
-        """The live token, minting one if the cached token is gone or near expiry."""
-        if self._token is not None and self._expires - time.monotonic() > SKEW:
-            return self._token
+        """The live subject token, minting one when what is held nears expiry."""
+        if self._held is not None and self._until - time.monotonic() > EARLY:
+            return self._held
         return self._mint()
 
     def invalidate(self) -> None:
-        """Drops the cached token so the next read mints a fresh one."""
-        self._token = None
-        self._expires = 0.0
+        """Drops the held token so the next read mints a fresh one.
+
+        The operator's token is dropped too: a subject token IAM refused may
+        have been refused because the token it was minted from is stale.
+        """
+        self._held = None
+        self._until = 0.0
+        self.operator.invalidate()
 
     def _mint(self) -> str:
         response = self.transport.request(
             "POST",
             self.url,
             headers={
-                "Authorization": "Bearer {0}".format(self.key),
+                "Authorization": "Bearer " + self.operator.token(),
                 "Accept": "application/json",
             },
         )
         response.read()
         body = response.data.decode("utf-8", "replace") if response.data else ""
         if not 200 <= response.status <= 299:
-            raise ApiException.from_response(http_resp=response, body=body, data=None)
+            raise error(
+                response.status,
+                "{0} refused an act grant for {1}".format(self.issuer, self.subject),
+                body,
+            )
 
-        # IAM answers camelCase.
+        # IAM answers camelCase here. The oauth mint next door answers RFC 6749
+        # snake_case; they are different endpoints and each keeps its own wire.
         payload = json.loads(body) if body else {}
         token = payload.get("accessToken") if isinstance(payload, dict) else None
         if not isinstance(token, str) or not token:
-            raise ApiException(
-                status=response.status,
-                reason="IAM issued no token for {0}".format(self.subject),
-                body=body,
+            raise error(
+                response.status,
+                "IAM issued no token for {0}".format(self.subject),
+                body,
             )
 
-        expires_in = payload.get("expiresIn")
-        seconds = float(expires_in) if isinstance(expires_in, (int, float)) else TTL
-        self._token = token
-        self._expires = time.monotonic() + seconds
+        seconds = payload.get("expiresIn")
+        self._held = token
+        self._until = time.monotonic() + (float(seconds) if isinstance(seconds, (int, float)) else TTL)
         return token
 
     @property
