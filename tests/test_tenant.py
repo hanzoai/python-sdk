@@ -10,9 +10,8 @@ import json
 
 import pytest
 
-from hanzoai import Held, Grant, Token, Client
+from hanzoai import Held, Fault, Grant, Token, Client
 from hanzoai.cloud import IamApi
-from hanzoai.cloud.exceptions import ApiException
 
 
 class Reply:
@@ -108,7 +107,7 @@ def test_the_resource_follows_the_endpoint_the_client_was_pointed_at():
 def test_the_oauth_answer_is_snake_case():
     """RFC 6749 spells it `access_token`. camelCase here reads as no token at all."""
     mint = Transport(Reply(200, {"accessToken": "wrong", "expiresIn": 600}))
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         Token("cli_1", "shh", transport=mint).token()
     assert "cli_1" in str(caught.value)
 
@@ -137,7 +136,7 @@ def test_a_refused_mint_says_which_identity_was_refused():
     """A 401 reads the same whether the id is wrong, the secret is stale, or the
     app may not use this grant — and the reader is holding none of those."""
     mint = Transport(Reply(401, {"error": "invalid_client", "error_description": "client authentication required"}))
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         Token("cli_1", "shh", transport=mint).token()
 
     assert caught.value.status == 401
@@ -157,11 +156,20 @@ def test_the_client_takes_no_bearer():
     assert not taken & {"token", "api_key", "access_token", "key", "bearer"}
 
 
-def test_a_client_with_no_credential_refuses_to_be_built(monkeypatch):
+def test_a_client_with_no_credential_builds_and_fails_at_the_first_call(monkeypatch):
+    """Construction never fails on a missing credential; the first call does.
+
+    There is nothing to exchange, so nothing is sent to IAM and nothing is sent
+    unsigned to the gateway — an unsigned call comes back a bare 403, which
+    reads as a refusal of the caller rather than the absence of one.
+    """
     for name in ("HANZO_CLIENT_ID", "HANZO_CLIENT_SECRET"):
         monkeypatch.delenv(name, raising=False)
-    with pytest.raises(ApiException) as caught:
-        Client()
+
+    client = Client()
+    with pytest.raises(Fault) as caught:
+        client.credential.token()
+    assert caught.value.status == 0
     assert "HANZO_CLIENT_ID" in str(caught.value)
 
 
@@ -208,7 +216,7 @@ def test_the_subject_is_url_encoded():
 def test_the_act_answer_is_camel_case():
     """The two mints are different endpoints and each keeps its own wire."""
     mint = Transport(minted("tok-operator"), Reply(200, {"access_token": "wrong", "expires_in": 600}))
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         operator(mint).as_("usr_7").credential.token()
     assert "usr_7" in str(caught.value)
 
@@ -312,7 +320,7 @@ def test_a_read_that_was_refused_raises_rather_than_answering_nothing():
     )
     client = operator(mint, calls)
 
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         client.audit.list()
     assert caught.value.status == 401
     assert "sign in to view the audit trail" in str(caught.value)

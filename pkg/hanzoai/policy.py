@@ -3,9 +3,13 @@
 Policy appears twice and the two speak one vocabulary. Before a call,
 :meth:`Policy.check` answers `allow` as a plain boolean — asking whether you may
 is a question with an answer, not a refusal. During a call, a request a policy
-stops comes back as :class:`hanzoai.Denied` with code ``policy_denied``, or as
-:class:`hanzoai.Held` naming the clause a person still has to clear. The clause
-in a hold names the same clause a check would have refused on.
+stops comes back as :class:`hanzoai.Held` naming the clause a person still has
+to clear. The clause in a hold names the same clause a check would have refused
+on.
+
+A policy refusal has no code of its own in cloud today, so a call a policy stops
+mid-flight arrives with whatever code the response carried, and this module
+invents none.
 """
 
 from __future__ import annotations

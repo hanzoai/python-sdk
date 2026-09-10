@@ -7,9 +7,8 @@ is exactly what the client hands it.
 
 import pytest
 
-from hanzoai import Ok, Cure, Held, Denied, answer
+from hanzoai import Ok, Cure, Held, Fault, Denied, answer
 from hanzoai.wire import Reply
-from hanzoai.cloud.exceptions import ApiException
 
 REFUSAL = {
     "type": "about:blank",
@@ -52,40 +51,56 @@ def test_a_402_is_denied_whatever_the_code_says():
 def test_the_second_402_body_reads_the_same():
     """Cloud answers a refusal two ways. A caller learns neither.
 
-    `errmap` answers the RFC 9457 envelope with `code`; the money gate answers
-    `{error, product, reason, message, cure}`. Both land on the same arm with
-    the same fields filled, so no capability sniffs for a shape.
+    `errmap` answers the RFC 9457 envelope with `code` and `detail`; the money
+    gate answers `{error, product, reason, message, cure}`, where `error` is
+    always `payment_required` and `message` is the sentence. Its own `reason` —
+    "unpaid", "unresolved" — names the admit leg that failed rather than
+    explaining anything to a person, so it is dropped. Both bodies land on the
+    same arm with the same fields filled, so no capability sniffs for a shape.
     """
     a = answer.read(
         reply(
             402,
             {
-                "error": "spend_cap_exceeded",
+                "error": "payment_required",
                 "product": "inference",
-                "reason": "the monthly cap is spent",
+                "reason": "unpaid",
+                "message": "no active subscription for inference and no prepaid credit",
                 "cure": [{"kind": "raise-cap", "url": "/v1/billing/limits"}],
             },
         ),
         _never,
     )
-    assert (a.code, a.product, a.reason) == ("spend_cap_exceeded", "inference", "the monthly cap is spent")
+    assert (a.code, a.product) == ("payment_required", "inference")
+    assert a.reason == "no active subscription for inference and no prepaid credit"
     assert a.cures == (Cure(kind="raise-cap", url="/v1/billing/limits"),)
 
 
-@pytest.mark.parametrize(
-    "code", ["policy_denied", "entitlement_required", "spend_cap_exceeded", "insufficient_balance"]
-)
+@pytest.mark.parametrize("code", ["spend_cap_exceeded", "insufficient_balance"])
 def test_a_403_carrying_a_refusal_code_is_denied(code):
     """The workaround for one cloud defect, and the only reason a code list exists.
 
     Cloud spells "no validated principal" as 403 forbidden, so the status alone
-    cannot say whether the caller was refused or was never let in. These four
-    codes say it was refused. Once cloud answers 401 for the other case, the
-    rule collapses to "402 or 403" and this list goes.
+    cannot say whether the caller was refused or was never let in. These two
+    codes say it was refused, and they are the two cloud emits. Once cloud
+    answers 401 for the other case, the rule collapses to "402 or 403" and this
+    list goes.
     """
     a = answer.read(reply(403, {"code": code, "detail": "no"}), _never)
     assert isinstance(a, Denied)
     assert a.code == code
+
+
+@pytest.mark.parametrize("code", ["policy_denied", "entitlement_required"])
+def test_a_403_carrying_a_code_cloud_does_not_emit_decided_nothing(code):
+    """No route in cloud writes either word.
+
+    A 403 an SDK read as denied on a code no server sends would hand a caller a
+    cure for a refusal nobody made — and the same 403 is what an unauthenticated
+    call collects.
+    """
+    with pytest.raises(Fault):
+        answer.read(reply(403, {"code": code, "detail": "no"}), _never)
 
 
 def test_a_bare_403_decided_nothing_and_raises():
@@ -94,7 +109,7 @@ def test_a_bare_403_decided_nothing_and_raises():
     Nothing was decided about the request, so there is no arm to read. This is
     the live body of `GET /v1/allowance` with no credential.
     """
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         answer.read(reply(403, {"code": "forbidden", "detail": "allowance: a validated principal is required"}), _never)
     assert caught.value.status == 403
     assert "a validated principal is required" in str(caught.value)
@@ -123,7 +138,7 @@ def test_a_202_that_is_not_a_hold_is_ok():
 
 @pytest.mark.parametrize("status", [401, 400, 404, 409, 429, 500, 503])
 def test_a_status_with_no_decision_in_it_raises(status):
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         answer.read(reply(status, {"detail": "no"}), _never)
     assert caught.value.status == status
 
@@ -192,7 +207,7 @@ def test_a_plain_read_answers_its_body():
 
 
 def test_a_plain_read_that_failed_raises_rather_than_answering_nothing():
-    with pytest.raises(ApiException) as caught:
+    with pytest.raises(Fault) as caught:
         answer.value(reply(401, {"code": "unauthorized", "detail": "sign in to view the audit trail"}))
     assert caught.value.status == 401
 

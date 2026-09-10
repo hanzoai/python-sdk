@@ -12,7 +12,7 @@ from typing import TYPE_CHECKING, Any, Tuple, Optional, Sequence
 from datetime import timedelta
 from dataclasses import dataclass
 
-from hanzoai import answer
+from hanzoai import kb, answer
 from hanzoai.wire import Reply, real, rows, text, number
 from hanzoai.answer import Answer
 
@@ -78,6 +78,9 @@ class Hit:
 
     id: str = ""
     corpus: str = ""
+    #: The knowledge kind that matched: ``page``, ``memory`` or ``source``, the
+    #: same word :attr:`hanzoai.kb.Doc.kind` takes. A hit out of another corpus
+    #: carries that corpus's own type and keeps it.
     kind: str = ""
     title: str = ""
     url: str = ""
@@ -90,7 +93,7 @@ class Hit:
         return cls(
             id=text(body, "id"),
             corpus=text(body, "corpus"),
-            kind=_kind(text(body, "doctype")),
+            kind=kb.kind(text(body, "doctype")),
             title=text(body, "title"),
             url=text(body, "url"),
             project=text(body, "project"),
@@ -151,7 +154,9 @@ class Search:
         `mode` is ``auto``, ``text``, ``semantic`` or ``hybrid``. The modes name
         retrieval kinds, not backends: a caller chooses how to search, never
         which subsystem answers. `kinds` narrows to ``page``, ``memory`` or
-        ``source`` — the same word :attr:`hanzoai.kb.Doc.kind` uses.
+        ``source`` — the same word :attr:`hanzoai.kb.Doc.kind` uses. The route
+        filters on the doctype address and silently ignores anything that is not
+        one, so the mapping happens here rather than in a caller's head.
 
         The rerank leg runs through the AI gateway, which is metered, so this
         can come back refused on money. That is an arm, not an exception.
@@ -163,24 +168,10 @@ class Search:
                 "query": query,
                 "mode": mode,
                 "project": project,
-                "doctypes": [_doctype(k) for k in kinds] if kinds else None,
+                "doctypes": [kb.doctype(k) for k in kinds] if kinds else None,
                 "index": index,
                 "limit": limit,
                 "offset": offset,
             },
         )
         return answer.read(reply, Hits.read)
-
-
-def _doctype(kind: str) -> str:
-    """``page`` addresses ``kb.page``. A caller who already wrote the address keeps it."""
-    return kind if "." in kind else "kb." + kind
-
-
-def _kind(doctype: str) -> str:
-    """The inverse, so `kind` means the same word here as it does in `kb`.
-
-    A hit out of the code corpus carries its own type and keeps it — only the
-    knowledge address is unwrapped.
-    """
-    return doctype[3:] if doctype.startswith("kb.") else doctype

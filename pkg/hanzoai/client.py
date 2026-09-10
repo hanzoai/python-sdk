@@ -36,7 +36,6 @@ from hanzoai.budget import Budget
 from hanzoai.policy import Policy
 from hanzoai.search import Search
 from hanzoai.cloud.api_client import ApiClient
-from hanzoai.cloud.exceptions import ApiException
 from hanzoai.cloud.configuration import Configuration
 
 __all__ = ["Client"]
@@ -79,13 +78,10 @@ class Client(ApiClient):
         super().__init__(Configuration(host=self.base))
 
         if credential is None:
+            # Construction never fails on a missing credential; the first call
+            # does, and says which variable is unset (:meth:`hanzoai.Token.token`).
             id = id or os.environ.get("HANZO_CLIENT_ID") or ""
             secret = secret or os.environ.get("HANZO_CLIENT_SECRET") or ""
-            if not id or not secret:
-                raise ApiException(
-                    status=0,
-                    reason="no IAM credential: pass id and secret, or set HANZO_CLIENT_ID and HANZO_CLIENT_SECRET",
-                )
             credential = Token(id, secret, issuer=self.issuer, resource=self.resource, transport=self.rest_client)
         self.credential = credential
 
@@ -127,14 +123,16 @@ class Client(ApiClient):
     ) -> wire.Reply:
         """One call, with the credential on it and the request id off it.
 
-        A `query` entry that is `None` or empty is dropped; a `datetime` is
-        stamped RFC 3339. A 401 re-mints once and replays, so a rotated token
-        costs a round trip rather than an error the caller has to handle.
+        A `query` entry that is `None` or empty is dropped, and so is a `body`
+        member nobody set — a request carries what the caller determined, and a
+        JSON null is not that. A `datetime` is stamped RFC 3339. A 401 re-mints
+        once and replays, so a rotated token costs a round trip rather than an
+        error the caller has to handle.
         """
         headers = {"Accept": "application/json", "Authorization": "Bearer " + self.credential.token()}
         if body is not None:
             headers["Content-Type"] = media
-        response = self.call_api(method, self.base + path + _query(query), headers, body)
+        response = self.call_api(method, self.base + path + _query(query), headers, _body(body))
         response.read()
         return _reply(response)
 
@@ -189,6 +187,19 @@ def _query(params: Optional[Dict[str, Any]]) -> str:
     """The query string. What survives is decided once, in :func:`hanzoai.wire.query`."""
     asked = wire.query(params)
     return "?" + urlencode(asked) if asked else ""
+
+
+def _body(body: Any) -> Any:
+    """The body cloud reads: the members somebody set, and no nulls.
+
+    A member the caller left unset is a member the caller did not narrow by.
+    Sending it as an explicit null makes three languages send three different
+    requests for one call, and asks cloud to read a value where there is none.
+    Anything that is not a JSON object — an upload's bytes — passes through.
+    """
+    if not isinstance(body, dict):
+        return body
+    return {k: v for k, v in body.items() if v is not None}
 
 
 def _reply(response: Any) -> wire.Reply:

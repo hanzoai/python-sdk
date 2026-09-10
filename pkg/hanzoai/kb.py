@@ -21,13 +21,27 @@ from urllib.parse import quote
 
 from hanzoai import answer
 from hanzoai.page import Page
-from hanzoai.wire import Reply, flag, rows, text, number, instant
+from hanzoai.wire import Reply, flag, rows, text, number, instant, strings
 from hanzoai.answer import Answer
 
 if TYPE_CHECKING:  # the capability layer is written over the wire, not the generated client
     from hanzoai.client import Client
 
-__all__ = ["Doc", "Import", "Reindex", "Connector", "Link", "Sync", "Node", "Edge", "Links", "Kb", "KINDS"]
+__all__ = [
+    "Doc",
+    "Import",
+    "Reindex",
+    "Connector",
+    "Link",
+    "Sync",
+    "Node",
+    "Edge",
+    "Links",
+    "Kb",
+    "KINDS",
+    "doctype",
+    "kind",
+]
 
 #: The three doctypes that hold knowledge. `kind` is one of these everywhere.
 KINDS = ("page", "memory", "source")
@@ -36,13 +50,34 @@ KINDS = ("page", "memory", "source")
 _TEXT = {"page": "body", "memory": "content", "source": "body"}
 
 
+def doctype(kind: str) -> str:
+    """The doctype a kind is stored under: ``page`` addresses ``kb.page``.
+
+    A caller who already wrote the address keeps it, so this is safe to apply
+    twice. It is public because :mod:`hanzoai.search` filters and reports the
+    same vocabulary, and this is where the vocabulary lives: a knowledge kind is
+    one word — page, memory, source — everywhere a caller says one.
+    """
+    return kind if "." in kind else "kb." + kind
+
+
+def kind(doctype: str) -> str:
+    """The inverse: ``kb.page`` is ``page``.
+
+    A doctype from another corpus — a lexical row carries its own — has no
+    ``kb.`` prefix and passes through unchanged.
+    """
+    return doctype[3:] if doctype.startswith("kb.") else doctype
+
+
 @dataclass(frozen=True)
 class Doc:
     """One knowledge document. `kind` is page, memory or source.
 
-    `name` is its id within the kind — a slug for a page, a hash for a memory or
-    a source. A `put` with a name replaces that document; a `put` without one
-    creates a document and cloud names it.
+    `name` is its id within the kind. A page IS its name: the doctype is
+    autonamed from the slug field, so writing a page names it. A memory and a
+    source are named by the store, and the name is what a later read or write
+    addresses them by.
     """
 
     kind: str = ""
@@ -53,15 +88,24 @@ class Doc:
     url: str = ""
 
     def write(self) -> Dict[str, Any]:
-        """The document's own field data, in the doctype's spelling."""
+        """The document's field data, in the doctype's own spelling — and
+        nothing else.
+
+        The body of a framework write is field data, and a member no doctype
+        declares is dropped before the store sees it. A page keeps its text in
+        ``body`` and its name in ``slug``; a memory keeps its text in
+        ``content``; only a source declares a ``url``. A field the caller left
+        empty is left out, so the doctype's own required fields refuse the write
+        and say which one is missing.
+        """
         out: Dict[str, Any] = {"title": self.title, _TEXT.get(self.kind, "body"): self.body}
         if self.project:
             out["project"] = self.project
-        if self.url:
+        if self.url and self.kind == "source":
             out["url"] = self.url
         if self.name and self.kind == "page":
             out["slug"] = self.name  # a page is named by its slug
-        return out
+        return {k: v for k, v in out.items() if v}
 
     @classmethod
     def read(cls, body: Any, kind: str) -> "Doc":
@@ -81,14 +125,21 @@ class Import:
 
     `imported` counts pages that were stored, not pages that were sent — the
     bounds drop pages past the five-thousandth and skip a page the store
-    refused. Modelled here because cloud declares no response schema.
+    refused, and `pages` names the ones that landed. Modelled here because cloud
+    declares no response schema.
     """
 
+    format: str = ""
     imported: int = 0
+    pages: Tuple[str, ...] = ()
 
     @classmethod
     def read(cls, body: Any) -> "Import":
-        return cls(imported=number(body, "imported"))
+        return cls(
+            format=text(body, "format"),
+            imported=number(body, "imported"),
+            pages=strings(body, "pages"),
+        )
 
 
 @dataclass(frozen=True)
@@ -231,29 +282,53 @@ class Kb:
         self.client = client
 
     def put(self, doc: Doc) -> Answer[Doc]:
-        """Write a document. A name that already exists is replaced; absent, one is created."""
+        """Write a document.
+
+        A name that already stands is replaced; a name that does not is created.
+        The store decides which: the replace goes out first and a 404 is the
+        answer that the document is not there yet, so the create follows. That is
+        one round trip on a revision — the common case for a corpus — and two on
+        a first write.
+
+        It cannot be decided from the name alone. A page IS its slug, so a page
+        being created carries a name exactly as a page being revised does, and
+        reading a present name as "it exists" would leave no way to create one.
+        """
         path = _path(doc.kind)
-        reply: Reply = (
-            self.client.send("PUT", path + "/" + _seg(doc.name), body=doc.write())
-            if doc.name
-            else self.client.send("POST", path, body=doc.write())
-        )
+        fields = doc.write()
+        reply: Optional[Reply] = None
+        if doc.name:
+            reply = self.client.send("PUT", path + "/" + _seg(doc.name), body=fields)
+        if reply is None or reply.status == 404:
+            reply = self.client.send("POST", path, body=fields)
         return answer.read(reply, lambda body: Doc.read(body, doc.kind))
 
     def get(self, kind: str, name: str) -> Doc:
         """One document by name."""
         return Doc.read(self.client.read("GET", _path(kind) + "/" + _seg(name)), kind)
 
-    def list(self, kind: str, *, project: Optional[str] = None, limit: Optional[int] = None) -> Page[Doc]:
+    def list(
+        self,
+        kind: str,
+        *,
+        project: Optional[str] = None,
+        order: Optional[str] = None,
+        limit: Optional[int] = None,
+    ) -> Page[Doc]:
         """The org's documents of one kind, newest-updated first.
 
-        `total` is this page's count: cloud's document list reports no total of
-        its own, and a number invented here would be a number nobody counted.
+        `order` is ``"<field> [asc|desc]"``. The route bounds by `limit` alone —
+        it publishes no count and takes no page number — so `total` is this
+        page's count: a number invented here would be a number nobody counted.
         """
         body = self.client.read(
             "GET",
             _path(kind),
-            query={"filters": json.dumps({"project": project}) if project else None, "limit": limit},
+            query={
+                "filters": json.dumps({"project": project}) if project else None,
+                "order_by": order,
+                "limit": limit,
+            },
         )
         docs = tuple(Doc.read(d, kind) for d in rows(body, "data"))
         return Page(items=docs, total=len(docs))
@@ -262,18 +337,19 @@ class Kb:
         """Remove one document."""
         return answer.read(self.client.send("DELETE", _path(kind) + "/" + _seg(name)), lambda _: None)
 
-    def import_(self, export: bytes, *, format: str, project: Optional[str] = None) -> Answer[Import]:
+    def import_(self, format: str, data: bytes, *, project: Optional[str] = None) -> Answer[Import]:
         """File an exported vault as a tree of pages, links intact.
 
-        `format` picks the normalizer — obsidian, notion, roam or evernote. The
-        trailing underscore is PEP 8's escape for a keyword; the word is
-        ``import``.
+        `format` picks the normalizer — obsidian, notion, roam or evernote —
+        and `data` is the export itself: a vault zip, a Roam JSON, an Evernote
+        .enex. `project` narrows every imported page to one scope. The trailing
+        underscore is PEP 8's escape for a keyword; the word is ``import``.
         """
         reply = self.client.send(
             "POST",
             "/v1/knowledge/import",
             query={"format": format, "project": project},
-            body=export,
+            body=data,
             media="application/octet-stream",
         )
         return answer.read(reply, Import.read)
@@ -299,9 +375,12 @@ class Kb:
         """Disconnect `provider`."""
         return answer.read(self.client.send("DELETE", "/v1/knowledge/connectors/" + _seg(provider)), lambda _: None)
 
-    def links(self) -> Links:
-        """The corpus's own parent, wikilink and provenance edges."""
-        return Links.read(self.client.read("GET", "/v1/knowledge/graph"))
+    def links(self, *, project: Optional[str] = None) -> Links:
+        """The corpus's own parent, wikilink and provenance edges.
+
+        No `project` reads the whole org.
+        """
+        return Links.read(self.client.read("GET", "/v1/knowledge/graph", query={"project": project}))
 
     def install(self) -> Answer[None]:
         """Create the kb doctypes in this org. Once, before the first `put`.
@@ -316,7 +395,7 @@ def _path(kind: str) -> str:
     """Where one kind's documents live."""
     if kind not in KINDS:
         raise ValueError("kind is one of {0}, not {1!r}".format(", ".join(KINDS), kind))
-    return "/v1/framework/kb." + kind
+    return "/v1/framework/" + doctype(kind)
 
 
 def _seg(name: str) -> str:

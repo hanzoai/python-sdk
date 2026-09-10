@@ -19,7 +19,7 @@ from typing import Any, Optional
 from urllib.parse import urlencode
 
 from hanzoai.token import TTL, EARLY, ISSUER
-from hanzoai.answer import error
+from hanzoai.answer import Fault
 
 __all__ = ["Grant"]
 
@@ -89,10 +89,9 @@ class Grant:
         response.read()
         body = response.data.decode("utf-8", "replace") if response.data else ""
         if not 200 <= response.status <= 299:
-            raise error(
+            raise Fault(
                 response.status,
-                "{0} refused an act grant for {1}".format(self.issuer, self.subject),
-                body,
+                reason="{0} refused an act grant for {1}: {2}".format(self.issuer, self.subject, body),
             )
 
         # IAM answers camelCase here. The oauth mint next door answers RFC 6749
@@ -100,11 +99,7 @@ class Grant:
         payload = json.loads(body) if body else {}
         token = payload.get("accessToken") if isinstance(payload, dict) else None
         if not isinstance(token, str) or not token:
-            raise error(
-                response.status,
-                "IAM issued no token for {0}".format(self.subject),
-                body,
-            )
+            raise Fault(response.status, reason="IAM issued no token for {0}".format(self.subject))
 
         seconds = payload.get("expiresIn")
         self._held = token

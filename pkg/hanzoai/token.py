@@ -24,7 +24,7 @@ import time
 from base64 import b64encode
 from typing import Any, Optional
 
-from hanzoai.answer import error
+from hanzoai.answer import Fault
 
 __all__ = ["Token", "ISSUER", "BASE", "PATH", "EARLY", "TTL"]
 
@@ -83,7 +83,19 @@ class Token:
         return self.issuer + PATH
 
     def token(self) -> str:
-        """The live token, minting one when what is held is gone or nearly so."""
+        """The live token, minting one when what is held is gone or nearly so.
+
+        A client built with no credential raises here rather than at
+        construction: there is nothing to exchange, so nothing is sent to IAM
+        and nothing is sent unsigned to the gateway — an unsigned call comes
+        back a bare 403, which reads as a refusal of the caller rather than the
+        absence of one.
+        """
+        if not self.id or not self.secret:
+            raise Fault(
+                0,
+                reason="no IAM client credentials: pass id and secret, or set HANZO_CLIENT_ID and HANZO_CLIENT_SECRET",
+            )
         if self._held is not None and self._until - time.monotonic() > EARLY:
             return self._held
         return self._mint()
@@ -118,15 +130,14 @@ class Token:
             # Say which identity was refused. A 401 here reads the same whether
             # the id is wrong, the secret is stale, or the app may not use this
             # grant, and the reader is holding none of those.
-            raise error(
+            raise Fault(
                 response.status,
-                "{0} refused client {1}: {2} {3}".format(
+                reason="{0} refused client {1}: {2} {3}".format(
                     self.issuer,
                     self.id,
                     payload.get("error", ""),
                     payload.get("error_description", ""),
                 ).rstrip(),
-                body,
             )
 
         seconds = payload.get("expires_in")

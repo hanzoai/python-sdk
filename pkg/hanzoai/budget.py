@@ -1,7 +1,7 @@
 """What you may spend, what is left, and what it cost.
 
 Allowance and money never stand in for each other. :meth:`Budget.left` answers
-a count of free calls; :meth:`Budget.balance` answers a sum of cents. A product
+a count of free calls; :meth:`Budget.balance` answers a sum of money. A product
 that shows "17 of 20 left today" is reading the first; a gate that admits a paid
 request is reading the second. Collapsing them is how a funded account reads as
 broke, and a broke one as funded.
@@ -24,13 +24,16 @@ __all__ = ["Money", "Allowance", "Balance", "Plan", "Charge", "Budget"]
 
 @dataclass(frozen=True)
 class Money:
-    """An amount in integer minor units. Never a float, anywhere, ever.
+    """An amount in the currency's minor units. Never a float, anywhere, ever.
 
-    Cloud answers USD cents. A float dollar amount cannot represent 0.1 and
-    a page of sub-cent calls sums to something nobody was charged.
+    `minor` counts minor units as ISO 4217 defines them: hundredths for USD,
+    whole yen for JPY, thousandths for KWD. Not "cents", which is false for two
+    of those three. Cloud answers USD today. A float dollar amount cannot
+    represent 0.1, and a page of sub-cent calls sums to something nobody was
+    charged.
     """
 
-    cents: int = 0
+    minor: int = 0
     currency: str = "USD"
 
 
@@ -72,20 +75,23 @@ class Allowance:
 class Balance:
     """The wallet this caller bills from.
 
-    `account` echoes which wallet the cents belong to. A caller could only guess
+    `account` echoes which wallet the money belongs to. A caller could only guess
     its own payer by decoding its own token, and a guess that disagrees with the
     server is how money lands in an account the gate never reads.
     """
 
     available: Money = Money()
-    held: Money = Money()
+    #: What a reservation has claimed and not yet posted. The wire spells it
+    #: ``holds``; the name here is `reserved` because `held` is an arm of an
+    #: answer, and one word for two facts is what the naming rule prevents.
+    reserved: Money = Money()
     account: str = ""
 
     @classmethod
     def read(cls, body: Any) -> "Balance":
         return cls(
             available=Money(number(body, "available")),
-            held=Money(number(body, "holds")),
+            reserved=Money(number(body, "holds")),
             account=text(body, "account"),
         )
 
