@@ -17,6 +17,7 @@ import json
 from typing import TYPE_CHECKING, Any, Dict, Tuple, Optional
 from datetime import datetime
 from dataclasses import dataclass
+from urllib.parse import quote
 
 from hanzoai import answer
 from hanzoai.page import Page
@@ -186,15 +187,20 @@ class Node:
 
 @dataclass(frozen=True)
 class Edge:
-    """A link between two documents: a parent, a wikilink, a provenance edge."""
+    """A link between two documents: a parent, a wikilink, a provenance edge.
 
-    source: str = ""
-    target: str = ""
+    The trailing underscore on `from_` is PEP 8's escape for a keyword, the same
+    one :meth:`hanzoai.Client.as_` and :meth:`hanzoai.graph.Graph.assert_` take.
+    The word is still ``from``, which is what Go and TypeScript spell it.
+    """
+
+    from_: str = ""
+    to: str = ""
     kind: str = ""
 
     @classmethod
     def read(cls, body: Any) -> "Edge":
-        return cls(source=text(body, "from"), target=text(body, "to"), kind=text(body, "kind"))
+        return cls(from_=text(body, "from"), to=text(body, "to"), kind=text(body, "kind"))
 
 
 @dataclass(frozen=True)
@@ -228,7 +234,7 @@ class Kb:
         """Write a document. A name that already exists is replaced; absent, one is created."""
         path = _path(doc.kind)
         reply: Reply = (
-            self.client.send("PUT", path + "/" + doc.name, body=doc.write())
+            self.client.send("PUT", path + "/" + _seg(doc.name), body=doc.write())
             if doc.name
             else self.client.send("POST", path, body=doc.write())
         )
@@ -236,7 +242,7 @@ class Kb:
 
     def get(self, kind: str, name: str) -> Doc:
         """One document by name."""
-        return Doc.read(self.client.read("GET", _path(kind) + "/" + name), kind)
+        return Doc.read(self.client.read("GET", _path(kind) + "/" + _seg(name)), kind)
 
     def list(self, kind: str, *, project: Optional[str] = None, limit: Optional[int] = None) -> Page[Doc]:
         """The org's documents of one kind, newest-updated first.
@@ -254,7 +260,7 @@ class Kb:
 
     def drop(self, kind: str, name: str) -> Answer[None]:
         """Remove one document."""
-        return answer.read(self.client.send("DELETE", _path(kind) + "/" + name), lambda _: None)
+        return answer.read(self.client.send("DELETE", _path(kind) + "/" + _seg(name)), lambda _: None)
 
     def import_(self, export: bytes, *, format: str, project: Optional[str] = None) -> Answer[Import]:
         """File an exported vault as a tree of pages, links intact.
@@ -283,15 +289,15 @@ class Kb:
 
     def connect(self, provider: str) -> Link:
         """Where to send a person to authorize `provider`."""
-        return Link.read(self.client.read("GET", "/v1/knowledge/connectors/" + provider + "/connect"))
+        return Link.read(self.client.read("GET", "/v1/knowledge/connectors/" + _seg(provider) + "/connect"))
 
     def sync(self, provider: str) -> Answer[Sync]:
         """Pull what `provider` has now."""
-        return answer.read(self.client.send("POST", "/v1/knowledge/connectors/" + provider + "/sync"), Sync.read)
+        return answer.read(self.client.send("POST", "/v1/knowledge/connectors/" + _seg(provider) + "/sync"), Sync.read)
 
     def revoke(self, provider: str) -> Answer[None]:
         """Disconnect `provider`."""
-        return answer.read(self.client.send("DELETE", "/v1/knowledge/connectors/" + provider), lambda _: None)
+        return answer.read(self.client.send("DELETE", "/v1/knowledge/connectors/" + _seg(provider)), lambda _: None)
 
     def links(self) -> Links:
         """The corpus's own parent, wikilink and provenance edges."""
@@ -311,3 +317,8 @@ def _path(kind: str) -> str:
     if kind not in KINDS:
         raise ValueError("kind is one of {0}, not {1!r}".format(", ".join(KINDS), kind))
     return "/v1/framework/kb." + kind
+
+
+def _seg(name: str) -> str:
+    """One path segment. A name with a slash in it addresses one document, not two."""
+    return quote(name, safe="")

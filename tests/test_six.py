@@ -160,27 +160,27 @@ def test_spent_pages_the_charged_ledger():
 # --------------------------------------------------------------------------
 
 
-def test_check_takes_the_sentence_order_and_sends_cloud_s_member_order():
-    """A person says subject, verb, object. Cloud's body says `{sub, obj, act}`.
+def test_check_takes_the_sentence_order_and_sends_the_route_s_member_names():
+    """A person says subject, verb, object. The route reads `{subject, verb, path}`.
 
     The difference is spelled once, here, and nowhere a caller can see it.
     """
-    calls = Calls(ok({"allow": True, "sub": "usr_7", "obj": "graph:acme", "act": "write"}))
-    decision = Policy(calls).check("usr_7", "write", "graph:acme")
+    calls = Calls(ok({"allow": True, "subject": "usr_7", "path": "acme/graph", "verb": "write"}))
+    decision = Policy(calls).check("usr_7", "write", "acme/graph")
 
-    assert calls.asked_once.body == {"sub": "usr_7", "obj": "graph:acme", "act": "write"}
+    assert calls.asked_once.body == {"subject": "usr_7", "verb": "write", "path": "acme/graph"}
     assert decision.allow is True
-    assert (decision.sub, decision.act, decision.obj) == ("usr_7", "write", "graph:acme")
+    assert (decision.sub, decision.act, decision.obj) == ("usr_7", "write", "acme/graph")
 
 
 def test_a_denial_is_a_verdict_not_a_refusal():
     """Asking whether you may is a question with an answer. `allow` is False, and that is all."""
-    decision = Policy(Calls(ok({"allow": False, "reason": "no grant at or above graph:acme"}))).check(
-        "usr_7", "write", "graph:acme"
+    decision = Policy(Calls(ok({"allow": False, "reason": "no grant at or above acme/graph"}))).check(
+        "usr_7", "write", "acme/graph"
     )
     assert decision.allow is False
-    assert decision.reason == "no grant at or above graph:acme"
-    assert decision.obj == "graph:acme", "the question survives even when cloud echoes nothing"
+    assert decision.reason == "no grant at or above acme/graph"
+    assert decision.obj == "acme/graph", "the question survives even when cloud echoes nothing"
 
 
 # --------------------------------------------------------------------------
@@ -470,7 +470,7 @@ def test_the_corpus_map_states_its_own_incompleteness():
 
     assert links.partial is True
     assert links.nodes[0].name == "runbook"
-    assert (links.edges[0].source, links.edges[0].target, links.edges[0].kind) == (
+    assert (links.edges[0].from_, links.edges[0].to, links.edges[0].kind) == (
         "kb.page/runbook",
         "kb.page/ops",
         "parent",
@@ -619,8 +619,7 @@ def test_a_walk_follows_edges_in_the_direction_it_was_given():
         "relation": "owns",
         "direction": "both",
         "depth": 2,
-        "as_of": "",
-    }
+    }, "an instant nobody set is left off the body, not sent as an empty timestamp"
     assert walk.entities == ("acme", "acme-eu")
 
 

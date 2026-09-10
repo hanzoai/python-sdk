@@ -48,18 +48,22 @@ class Fact:
     confidence: float = 0.0
 
     def write(self) -> Dict[str, Any]:
-        """This fact as cloud reads it."""
-        return {
+        """This fact as cloud reads it.
+
+        An instant nobody set is left out rather than sent as ``""``: cloud
+        reads an absent `seen` as `at`, and an empty string as a timestamp that
+        is not RFC 3339.
+        """
+        out: Dict[str, Any] = {
             "entity": self.entity,
             "relation": self.relation,
             "value": self.value,
             "names": self.names,
-            "at": wire.stamp(self.at),
-            "seen": wire.stamp(self.seen),
             "source": self.source,
             "evidence": self.evidence,
             "confidence": self.confidence,
         }
+        return {**out, **_when(at=self.at, seen=self.seen)}
 
     @classmethod
     def read(cls, body: Any) -> "Fact":
@@ -260,12 +264,12 @@ class Graph:
         return tuple(Fact.read(f) for f in wire.rows(body, "assertions"))
 
     def resolve(self, entity: str, relation: str, at: Optional[datetime] = None) -> Resolution:
-        """Which claim about `entity`'s `relation` wins, as of `at`."""
+        """Which claim about `entity`'s `relation` wins, as of `at`. No `at` asks about now."""
         return Resolution.read(
             self.client.read(
                 "POST",
                 "/v1/graph/resolve",
-                body={"entity": entity, "relation": relation, "as_of": wire.stamp(at)},
+                body={"entity": entity, "relation": relation, **_when(as_of=at)},
             )
         )
 
@@ -291,7 +295,7 @@ class Graph:
                     "relation": relation,
                     "direction": direction,
                     "depth": depth,
-                    "as_of": wire.stamp(at),
+                    **_when(as_of=at),
                 },
             )
         )
@@ -327,4 +331,14 @@ class Graph:
 
 def _source(text: str, source: str, subject: str, at: Optional[datetime]) -> Dict[str, Any]:
     """The body both readers of a document take."""
-    return {"text": text, "source": source, "subject": subject, "at": wire.stamp(at)}
+    return {"text": text, "source": source, "subject": subject, **_when(at=at)}
+
+
+def _when(**instants: Optional[datetime]) -> Dict[str, str]:
+    """The instants that were set, RFC 3339.
+
+    An instant nobody set is left off the body. Cloud reads an absent one as its
+    own default — now, or `at` for a `seen` — and an empty string as a timestamp
+    it refuses.
+    """
+    return {name: wire.stamp(t) for name, t in instants.items() if t is not None}

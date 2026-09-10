@@ -39,9 +39,9 @@ class Decision:
     def read(cls, body: Any, sub: str, act: str, obj: str) -> "Decision":
         return cls(
             allow=flag(body, "allow"),
-            sub=text(body, "sub") or sub,
-            act=text(body, "act") or act,
-            obj=text(body, "obj") or obj,
+            sub=text(body, "subject") or sub,
+            act=text(body, "verb") or act,
+            obj=text(body, "path") or obj,
             reason=text(body, "reason"),
         )
 
@@ -56,12 +56,13 @@ class Policy:
         """Ask whether `sub` may `act` on `obj`. All three are required.
 
         The arguments read in the order the sentence does — subject, verb,
-        object. Cloud's body orders its members ``{sub, obj, act}``; the request
-        is built that way here, once, so no caller has to hold both orders.
+        object. The route reads ``{subject, verb, path}`` and answers
+        ``{allow, subject, verb, path}``; the two spellings meet here, once, so
+        no caller has to hold both.
 
         Hand-written rather than generated: the route declares neither a request
         body nor a response, so every generator emits a method that takes
         nothing and returns nothing.
         """
-        body = self.client.read("POST", "/v1/authz/check", body={"sub": sub, "obj": obj, "act": act})
+        body = self.client.read("POST", "/v1/authz/check", body={"subject": sub, "verb": act, "path": obj})
         return Decision.read(body, sub, act, obj)
