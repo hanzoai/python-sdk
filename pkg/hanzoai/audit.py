@@ -12,7 +12,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, Tuple, Iterator, Optional
 from datetime import datetime
-from dataclasses import dataclass
+from dataclasses import replace, dataclass
 
 from hanzoai.page import Page
 from hanzoai.wire import rows, text, number, instant
@@ -105,7 +105,12 @@ class Filter:
     page: int = 0
 
     def query(self, page: int = 0) -> dict:
-        """The query cloud reads, in cloud's own spelling."""
+        """The query cloud reads, in cloud's own spelling.
+
+        A term nobody set is left out: the route's own defaults are 100 rows and
+        page 1, so sending them again asks for the same trail in a different
+        request.
+        """
         return {
             "sub": self.actor,
             "action": self.action,
@@ -114,8 +119,8 @@ class Filter:
             "result": self.result,
             "since": self.since,
             "until": self.until,
-            "pageSize": self.size or SIZE,
-            "p": page or self.page or 1,
+            "pageSize": self.size or None,
+            "p": page or self.page or None,
         }
 
     def matches(self, event: Event) -> bool:
@@ -144,15 +149,20 @@ class Audit:
         """Every event the filter matches, page after page.
 
         Asks for page 1 at the filter's size and stops when a page comes back
-        empty or when the server's own rows reach the total it reported. The
-        count that decides is the server's, not the narrowed one — a page where
-        nothing matched :attr:`Filter.request` is not the end of the trail.
+        empty or when the server's own rows reach the total it reported. What is
+        counted is what the server sent, not what survived
+        :attr:`Filter.request` here — a page where nothing matched is not the
+        end of the trail.
+
+        The size is pinned so the walk advances by a page it knows the length
+        of, rather than by whatever the route defaults to today.
         """
         f = filter or Filter()
+        walked = replace(f, size=f.size or SIZE)
         seen = 0
         page = f.page or 1
         while True:
-            events, total = self._page(f, page)
+            events, total = self._page(walked, page)
             for event in events:
                 if f.matches(event):
                     yield event

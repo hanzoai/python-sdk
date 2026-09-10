@@ -49,6 +49,7 @@ _HOME = {
     "Ok": "hanzoai.answer",
     "Denied": "hanzoai.answer",
     "Held": "hanzoai.answer",
+    "Fault": "hanzoai.answer",
     "Cure": "hanzoai.answer",
     "Money": "hanzoai.budget",
     "Allowance": "hanzoai.budget",
@@ -71,6 +72,7 @@ _HOME = {
     "Walk": "hanzoai.graph",
     "Triple": "hanzoai.graph",
     "Vocabulary": "hanzoai.graph",
+    "Source": "hanzoai.graph",
 }
 
 #: The capability modules, reachable as `hanzoai.budget` and so on.
@@ -112,6 +114,7 @@ if TYPE_CHECKING:  # what a type checker and an IDE see, without the import cost
         Fact as Fact,
         Walk as Walk,
         Wrote as Wrote,
+        Source as Source,
         Triple as Triple,
         Resolution as Resolution,
         Vocabulary as Vocabulary,
@@ -121,6 +124,7 @@ if TYPE_CHECKING:  # what a type checker and an IDE see, without the import cost
         Ok as Ok,
         Cure as Cure,
         Held as Held,
+        Fault as Fault,
         Answer as Answer,
         Denied as Denied,
     )

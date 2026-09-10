@@ -25,7 +25,7 @@ from hanzoai.answer import Answer
 if TYPE_CHECKING:  # the capability layer is written over the wire, not the generated client
     from hanzoai.client import Client
 
-__all__ = ["Fact", "Wrote", "Resolution", "Walk", "Triple", "Vocabulary", "Graph"]
+__all__ = ["Fact", "Wrote", "Resolution", "Walk", "Triple", "Vocabulary", "Source", "Graph"]
 
 
 @dataclass(frozen=True)
@@ -35,6 +35,12 @@ class Fact:
     `names` declares that `value` is another entity's key, which makes the
     assertion an edge — the only thing :meth:`Graph.walk` follows. `source` and
     `evidence` are the provenance; `confidence` is how sure the source was.
+
+    `id`, `by` and `knowable` are the server's: it mints the content address,
+    stamps the filer from the validated principal, and derives when the row
+    became knowable. They arrive on a read and :meth:`write` never sends them,
+    so a fact read back and asserted again states the nine members an asserter
+    states and none of the three it cannot.
     """
 
     entity: str = ""
@@ -46,13 +52,22 @@ class Fact:
     source: str = ""
     evidence: str = ""
     confidence: float = 0.0
+    #: The assertion's content address. Two callers who assert the identical
+    #: thing land on one id and one row. Read only.
+    id: str = ""
+    #: The identity that filed it — ``owner`` or ``owner/user``. Read only.
+    by: str = ""
+    #: The first instant this plane could have answered with the assertion,
+    #: which is what an as-of read is bounded by. Read only.
+    knowable: Optional[datetime] = None
 
     def write(self) -> Dict[str, Any]:
-        """This fact as cloud reads it.
+        """This fact as an asserter states it.
 
         An instant nobody set is left out rather than sent as ``""``: cloud
         reads an absent `seen` as `at`, and an empty string as a timestamp that
-        is not RFC 3339.
+        is not RFC 3339. `id`, `by` and `knowable` are the server's and are
+        never sent.
         """
         out: Dict[str, Any] = {
             "entity": self.entity,
@@ -77,6 +92,9 @@ class Fact:
             source=wire.text(body, "source"),
             evidence=wire.text(body, "evidence"),
             confidence=wire.real(body, "confidence"),
+            id=wire.text(body, "id"),
+            by=wire.text(body, "by"),
+            knowable=wire.instant(body.get("knowable")) if isinstance(body, dict) else None,
         )
 
 
@@ -180,18 +198,47 @@ class Triple:
 
 
 @dataclass(frozen=True)
+class Source:
+    """A document to read relations out of, and where it came from.
+
+    Both :meth:`Graph.extract` and :meth:`Graph.ingest` take it, because they
+    take the same thing and differ only in what they do with what they found.
+    """
+
+    #: Where the text came from — a URL, a document id, a page title. Stamped
+    #: on every assertion as its source, and with the section number as its
+    #: evidence, so a claim can be traced back to the passage that made it.
+    source: str = ""
+    #: The document. A line written ``relation:: value`` states one relation;
+    #: prose states none.
+    text: str = ""
+    #: When what the source says was so. Part of every resulting assertion's
+    #: content address, so re-reading one source at one instant records one set
+    #: of rows however many times it is delivered.
+    at: Optional[datetime] = None
+    #: The entity the text is about before any heading names one.
+    subject: str = ""
+
+    def write(self) -> Dict[str, Any]:
+        """This source as cloud reads it."""
+        return {"source": self.source, "text": self.text, "subject": self.subject, **_when(at=self.at)}
+
+
+@dataclass(frozen=True)
 class Vocabulary:
     """The relations in use, and the ordering that decides a conflict."""
 
     relations: Tuple[str, ...] = ()
-    rule: Tuple[str, ...] = ()
+    #: The terms of the precedence order, in the order they apply. The wire
+    #: member is ``rule``; this is plural because it is a list.
+    rules: Tuple[str, ...] = ()
     bound: int = 0
 
     @classmethod
     def read(cls, body: Any) -> "Vocabulary":
         return cls(
             relations=wire.strings(body, "relations"),
-            rule=wire.strings(body, "rule"),
+            rules=wire.strings(body, "rule"),
             bound=wire.number(body, "bound"),
         )
 
@@ -300,38 +347,19 @@ class Graph:
             )
         )
 
-    def extract(
-        self,
-        text: str,
-        *,
-        source: str = "",
-        subject: str = "",
-        at: Optional[datetime] = None,
-    ) -> Tuple[Triple, ...]:
+    def extract(self, source: Source) -> Tuple[Triple, ...]:
         """Read what a document states, without recording any of it."""
-        body = self.client.read("POST", "/v1/graph/extract", body=_source(text, source, subject, at))
+        body = self.client.read("POST", "/v1/graph/extract", body=source.write())
         return tuple(Triple.read(t) for t in wire.rows(body, "triples"))
 
-    def ingest(
-        self,
-        text: str,
-        *,
-        source: str = "",
-        subject: str = "",
-        at: Optional[datetime] = None,
-    ) -> Answer[Wrote]:
+    def ingest(self, source: Source) -> Answer[Wrote]:
         """Extract and record in one call, answering the same :class:`Wrote`."""
-        reply = self.client.send("POST", "/v1/graph/ingest", body=_source(text, source, subject, at))
+        reply = self.client.send("POST", "/v1/graph/ingest", body=source.write())
         return answer.read(reply, Wrote.read)
 
     def vocabulary(self) -> Vocabulary:
         """The relations in use and the ordering that decides a conflict."""
         return Vocabulary.read(self.client.read("GET", "/v1/graph/vocabulary"))
-
-
-def _source(text: str, source: str, subject: str, at: Optional[datetime]) -> Dict[str, Any]:
-    """The body both readers of a document take."""
-    return {"text": text, "source": source, "subject": subject, **_when(at=at)}
 
 
 def _when(**instants: Optional[datetime]) -> Dict[str, str]:

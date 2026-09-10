@@ -22,7 +22,7 @@ you cannot reach the value without acknowledging which arm you got.
 
 Statuses with no decision in them — 401, a bare 403, any other 4xx, every 5xx,
 a transport failure — are not arms. Nothing was decided, so there is nothing to
-read, and they raise :class:`~hanzoai.cloud.exceptions.ApiException`.
+read, and they raise :class:`Fault`.
 """
 
 from __future__ import annotations
@@ -33,18 +33,19 @@ from typing_extensions import Literal
 
 from hanzoai.wire import Reply, rows, text
 
-__all__ = ["Cure", "Ok", "Denied", "Held", "Answer", "read", "value", "fault", "error", "held", "REFUSED"]
+__all__ = ["Cure", "Ok", "Denied", "Held", "Fault", "Answer", "read", "value", "fault", "held", "REFUSED"]
 
 T = TypeVar("T")
 
 #: The codes that make a 403 a refusal rather than an unauthenticated call.
 #:
 #: Cloud spells "no validated principal" as 403 forbidden, so status alone
-#: cannot separate "authenticated and refused" from "not signed in". These four
-#: codes do. The set is deliberately small and closed: it is the workaround for
-#: that one defect, not a vocabulary. `Denied.code` itself stays a plain string,
-#: so a code cloud adds tomorrow arrives as data.
-REFUSED = frozenset({"policy_denied", "entitlement_required", "spend_cap_exceeded", "insufficient_balance"})
+#: cannot separate "authenticated and refused" from "not signed in". These two
+#: codes do, and they are the two cloud emits: a policy refusal has no code of
+#: its own yet, and a code invented here would be one no server sends. The set
+#: is the workaround for that one defect, not a vocabulary — `Denied.code`
+#: itself stays a plain string, so a code cloud adds tomorrow arrives as data.
+REFUSED = frozenset({"spend_cap_exceeded", "insufficient_balance"})
 
 
 @dataclass(frozen=True)
@@ -119,14 +120,20 @@ class Denied(Exception):
         that there are two.
         """
         cures = []
-        for c in rows(body, "cure") + rows(body, "cures"):
+        for c in rows(body, "cure"):
             if isinstance(c, dict):
                 cures.append(Cure(kind=text(c, "kind"), url=text(c, "url")))
             elif isinstance(c, str):
                 cures.append(Cure(kind=c, url=""))
+        # The envelope's sentence is `detail` and the money gate's is `message`.
+        # The money gate's own `reason` — "unpaid", "unresolved" — names the leg
+        # that failed rather than explaining anything to a person, so it is not
+        # read. A body that named no code leaves `code` empty: cloud really does
+        # answer payment_required, and writing that word here would make its
+        # refusal and an unreadable body the same value.
         return cls(
             code=text(body, "code") or text(body, "error"),
-            reason=text(body, "detail") or text(body, "reason") or text(body, "message") or text(body, "title"),
+            reason=text(body, "detail") or text(body, "message"),
             product=text(body, "product"),
             cures=tuple(cures),
             request=request,
@@ -176,6 +183,32 @@ class Held(Exception):
         )
 
 
+class Fault(Exception):
+    """An outcome with no decision in it.
+
+    A 401, a bare 403, any other 4xx, every 5xx, a transport failure, an absent
+    credential. Nothing in it is for a caller to act on except `request`, which
+    is what support finds the call by. It is not an arm: a refusal a caller can
+    act on is :class:`Denied` and a call a person was asked about is
+    :class:`Held`, and reading a network partition as either would let a caller
+    cache a policy answer nobody gave.
+    """
+
+    def __init__(self, status: int, code: str = "", reason: str = "", request: str = "") -> None:
+        self.status = status
+        #: The RFC 9457 `code`, empty where the answer carried none — including
+        #: every fault the SDK raises before a request goes out.
+        self.code = code
+        self.reason = reason
+        self.request = request
+        at = str(status)
+        if code:
+            at += " " + code
+        if request:
+            at += " (request {0})".format(request)
+        super().__init__("hanzoai: {0}: {1}".format(at, reason))
+
+
 #: What a gated call answers. The three arms share `request` and `status` and
 #: nothing else, so reading `value` off the wrong one raises instead of handing
 #: back a half-answer.
@@ -219,27 +252,9 @@ def value(reply: Reply) -> Any:
     raise fault(reply)
 
 
-def fault(reply: Reply) -> Exception:
-    """The error for a reply that decided nothing, naming the call in the trail."""
-    detail = text(reply.body, "detail") or text(reply.body, "title") or text(reply.body, "error")
-    if not detail:
-        detail = reply.body if isinstance(reply.body, str) else "no readable body"
-    return error(
-        reply.status,
-        "{0} (request {1})".format(detail, reply.request or "unstamped"),
-        reply.body if isinstance(reply.body, str) else "",
-    )
-
-
-def error(status: int, reason: str, body: str = "") -> Exception:
-    """The SDK's one HTTP error, built in the one place that builds it.
-
-    :class:`~hanzoai.cloud.exceptions.ApiException` is imported here rather than
-    at the top of the module, so describing a failure does not pull the
-    generated client in behind it. The six capabilities are written over the
-    wire, not over the 2,479 generated operations; only
-    :class:`hanzoai.Client` bridges the two.
-    """
-    from hanzoai.cloud.exceptions import ApiException
-
-    return ApiException(status=status, reason=reason, body=body or None)
+def fault(reply: Reply) -> "Fault":
+    """The fault for a reply that decided nothing, naming the call in the trail."""
+    reason = text(reply.body, "detail") or text(reply.body, "title")
+    if not reason:
+        reason = reply.body if isinstance(reply.body, str) else "no readable body"
+    return Fault(reply.status, text(reply.body, "code"), reason, reply.request)

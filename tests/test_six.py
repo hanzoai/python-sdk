@@ -16,8 +16,9 @@ from hanzoai import Ok, Held, Denied, answer
 from hanzoai.kb import Kb, Doc, Link, Sync, Reindex
 from hanzoai.wire import Reply, query as asked
 from hanzoai.audit import Audit, Filter
-from hanzoai.graph import Fact, Graph
+from hanzoai.graph import Fact, Graph, Source
 from hanzoai.budget import Money, Budget
+from hanzoai.client import _body as sent
 from hanzoai.policy import Policy
 from hanzoai.search import Search
 
@@ -41,7 +42,10 @@ class Calls:
         self.asked = []
 
     def send(self, method, path, *, query=None, body=None, media="application/json"):
-        self.asked.append(Ask(method, path, asked(query), body, media))
+        # `asked` and `sent` are the two lines `Client.send` is, so what a test
+        # sees is what would go on the wire: a term nobody set is left out of
+        # the query, and a member nobody set is left out of the body.
+        self.asked.append(Ask(method, path, asked(query), sent(body), media))
         assert self.replies, "the capability made more calls than the test staged"
         return self.replies.pop(0)
 
@@ -101,15 +105,15 @@ def test_an_unbounded_allowance_has_no_remainder_and_no_reset():
     assert allowance.used == 4831
 
 
-def test_balance_is_integer_cents_and_says_which_wallet():
+def test_balance_is_integer_minor_units_and_says_which_wallet():
     calls = Calls(ok({"balance": 14991307, "holds": 250, "available": 14991057, "account": "org_acme"}))
     balance = Budget(calls).balance()
 
     assert calls.asked_once.path == "/v1/billing/balance"
-    assert balance.available == Money(cents=14991057, currency="USD")
-    assert balance.held == Money(cents=250, currency="USD")
+    assert balance.available == Money(minor=14991057, currency="USD")
+    assert balance.reserved == Money(minor=250, currency="USD"), "the wire says `holds`; `held` is an arm"
     assert balance.account == "org_acme"
-    assert isinstance(balance.available.cents, int), "money is never a float"
+    assert isinstance(balance.available.minor, int), "money is never a float"
 
 
 def test_a_plan_fails_to_locked_for_an_app_nobody_mentioned():
@@ -150,7 +154,7 @@ def test_spent_pages_the_charged_ledger():
     assert page.total == 2
     assert page.items[0].id == "tx_1"
     assert page.items[0].model == "zen4"
-    assert page.items[0].amount == Money(cents=137, currency="USD")
+    assert page.items[0].amount == Money(minor=137, currency="USD")
     assert page.items[1].at == datetime(2026, 9, 1, 11, 30, tzinfo=timezone.utc)
     assert list(page) == list(page.items) and len(page) == 2
 
@@ -210,7 +214,7 @@ def test_a_row_is_read_in_the_names_the_reader_wants():
     calls = Calls(ok({"data": [ROW], "total": 1, "status": "ok"}))
     page = Audit(calls).list()
 
-    assert calls.asked_once.query == {"pageSize": 100, "p": 1}
+    assert calls.asked_once.query == {}, "a term nobody set is a term the route defaults itself"
     event = page.items[0]
     assert event.actor == "usr_7", "`sub` is token jargon; the reader wants who did it"
     assert event.id == "acme", "`resourceId` sits beside `resource` and the compound says nothing more"
@@ -314,14 +318,16 @@ def test_find_asks_in_retrieval_words_and_addresses_the_doctypes():
 
     assert calls.asked_once.method == "POST"
     assert calls.asked_once.path == "/v1/search"
+    # `page` and `memory` are the words a caller says; `kb.page` and
+    # `kb.memory` are the addresses the route filters on, and it drops anything
+    # that is not one — a query narrowed to "page" would come back narrowed to
+    # nothing. A member nobody set is left out entirely rather than sent null.
     assert calls.asked_once.body == {
         "query": "q3 incident postmortems",
         "mode": "hybrid",
         "project": "ops",
         "doctypes": ["kb.page", "kb.memory"],
-        "index": None,
         "limit": 10,
-        "offset": None,
     }
 
 
@@ -372,8 +378,43 @@ def test_a_page_is_written_by_slug_and_a_named_document_is_replaced():
 
     assert calls.asked_once.method == "PUT"
     assert calls.asked_once.path == "/v1/framework/kb.page/runbook"
+    # The body is field data and nothing else. A page IS its slug — the doctype
+    # is autonamed from that field — so the name rides as `slug`, and `name` is
+    # not a field any of the three doctypes declares.
     assert calls.asked_once.body == {"title": "Runbook", "body": "restart it", "project": "ops", "slug": "runbook"}
     assert a.value == Doc(kind="page", name="runbook", title="Runbook", body="restart it", project="ops")
+
+
+def test_a_named_page_that_does_not_stand_yet_is_created():
+    """It cannot be decided from the name alone.
+
+    A page being created carries a name exactly as a page being revised does,
+    so reading a present name as "it exists" would leave no way to create one.
+    The store decides: the replace goes first and a 404 says nothing stands
+    there.
+    """
+    calls = Calls(
+        Reply(status=404, body={"detail": "document not found"}),
+        Reply(status=201, body={"name": "runbook", "title": "Runbook", "body": "restart it"}),
+    )
+    a = Kb(calls).put(Doc(kind="page", name="runbook", title="Runbook", body="restart it"))
+
+    assert [(c.method, c.path) for c in calls.asked] == [
+        ("PUT", "/v1/framework/kb.page/runbook"),
+        ("POST", "/v1/framework/kb.page"),
+    ]
+    assert a.value.name == "runbook"
+
+
+def test_a_url_belongs_to_a_source_and_to_nothing_else():
+    """Only `kb.source` declares a `url`. On a page it is a field the store drops."""
+    calls = Calls(ok({"name": "s1", "title": "Post", "body": "b", "url": "https://acme.example/post"}))
+    Kb(calls).put(Doc(kind="source", title="Post", body="b", url="https://acme.example/post"))
+    assert calls.asked_once.body["url"] == "https://acme.example/post"
+
+    calls = Calls(ok({"name": "runbook"}))
+    Kb(calls).put(Doc(kind="page", name="runbook", title="Runbook", body="b", url="https://acme.example/post"))
+    assert "url" not in calls.asked_once.body
 
 
 def test_a_document_with_no_name_is_created_and_cloud_names_it():
@@ -404,9 +445,9 @@ def test_a_kind_that_is_not_one_of_the_three_is_refused_before_a_request():
 
 def test_list_narrows_by_project_through_the_framework_s_own_filter():
     calls = Calls(ok({"data": [{"name": "runbook", "title": "Runbook", "body": "x", "project": "ops"}]}))
-    page = Kb(calls).list("page", project="ops", limit=50)
+    page = Kb(calls).list("page", project="ops", order="modified desc", limit=50)
 
-    assert calls.asked_once.query == {"filters": '{"project": "ops"}', "limit": 50}
+    assert calls.asked_once.query == {"filters": '{"project": "ops"}', "order_by": "modified desc", "limit": 50}
     assert page.total == 1, "the document list reports no total of its own; an invented one would be a lie"
     assert page.items[0].kind == "page"
 
@@ -446,13 +487,16 @@ def test_a_sync_and_a_reindex_answer_what_they_moved():
 
 
 def test_an_import_sends_the_export_verbatim_with_the_normalizer_named():
-    calls = Calls(ok({"imported": 412}))
-    a = Kb(calls).import_(b"PK\x03\x04vault", format="obsidian", project="ops")
+    calls = Calls(ok({"format": "obsidian", "imported": 412, "pages": ["runbook", "oncall"]}))
+    a = Kb(calls).import_("obsidian", b"PK\x03\x04vault", project="ops")
 
     assert calls.asked_once.query == {"format": "obsidian", "project": "ops"}
     assert calls.asked_once.body == b"PK\x03\x04vault"
     assert calls.asked_once.media == "application/octet-stream"
-    assert a.value.imported == 412
+    # What landed, and which pages: the bounds drop pages past the
+    # five-thousandth and skip a page the store refused.
+    assert (a.value.format, a.value.imported) == ("obsidian", 412)
+    assert a.value.pages == ("runbook", "oncall")
 
 
 def test_the_corpus_map_states_its_own_incompleteness():
@@ -523,6 +567,45 @@ def test_an_assertion_carries_its_provenance_and_its_two_instants():
         ]
     }
     assert a.value.recorded == 1
+
+
+def test_the_server_s_three_members_arrive_on_a_read_and_never_ride_back_out():
+    """`id`, `by` and `knowable` are the server's.
+
+    It mints the content address, stamps the filer from the validated principal
+    and derives when the row became knowable. A fact read back and asserted
+    again states the nine members an asserter states and none of the three it
+    cannot.
+    """
+    read = Calls(
+        ok(
+            {
+                "assertions": [
+                    {
+                        "id": "sha256:9f2c",
+                        "entity": "acme",
+                        "relation": "tier",
+                        "value": "gold",
+                        "at": "2026-09-10T12:00:00Z",
+                        "seen": "2026-09-10T12:00:00Z",
+                        "knowable": "2026-09-10T12:00:05Z",
+                        "source": "crm",
+                        "by": "acme/usr_7",
+                    }
+                ]
+            }
+        )
+    )
+    (fact,) = Graph(read).read(entity="acme")
+
+    assert fact.id == "sha256:9f2c"
+    assert fact.by == "acme/usr_7"
+    assert fact.knowable == datetime(2026, 9, 10, 12, 0, 5, tzinfo=timezone.utc)
+
+    wrote = Calls(ok({"recorded": 0, "duplicate": 1, "refused": 0, "reasons": []}))
+    Graph(wrote).assert_([fact])
+    sent = wrote.asked_once.body["assertions"][0]
+    assert not {"id", "by", "knowable"} & set(sent)
 
 
 def test_each_member_is_judged_on_its_own():
@@ -627,7 +710,9 @@ def test_extract_reads_what_a_document_states_without_recording_it():
     calls = Calls(
         ok({"triples": [{"subject": "acme", "predicate": "tier", "object": "gold", "names": False, "section": 2}]})
     )
-    (triple,) = Graph(calls).extract("Acme is on the gold tier.", source="crm-note", subject="acme", at=WHEN)
+    (triple,) = Graph(calls).extract(
+        Source(source="crm-note", text="Acme is on the gold tier.", subject="acme", at=WHEN)
+    )
 
     assert calls.asked_once.path == "/v1/graph/extract"
     assert calls.asked_once.body == {
@@ -641,7 +726,7 @@ def test_extract_reads_what_a_document_states_without_recording_it():
 
 def test_ingest_extracts_and_records_in_one_call():
     calls = Calls(ok({"recorded": 3, "duplicate": 0, "refused": 0}))
-    a = Graph(calls).ingest("Acme is on the gold tier.", source="crm-note")
+    a = Graph(calls).ingest(Source(source="crm-note", text="Acme is on the gold tier."))
 
     assert calls.asked_once.path == "/v1/graph/ingest"
     assert a.value.recorded == 3
@@ -652,7 +737,7 @@ def test_the_vocabulary_says_what_decides_a_conflict():
         Calls(ok({"relations": ["tier", "owns"], "rule": ["at", "confidence"], "bound": 1000}))
     ).vocabulary()
     assert vocabulary.relations == ("tier", "owns")
-    assert vocabulary.rule == ("at", "confidence")
+    assert vocabulary.rules == ("at", "confidence"), "the wire says `rule`; it is a list"
 
 
 # --------------------------------------------------------------------------
