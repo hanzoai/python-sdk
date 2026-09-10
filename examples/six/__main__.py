@@ -43,16 +43,15 @@ def main() -> None:
     started = datetime.now(timezone.utc) - timedelta(minutes=1)
     trail: List[str] = []
 
-    money(c)
-    subject = permission(c)
+    subject = permission(c, money(c))
     look(c, trail)
     file(c, trail)
     record(c, trail)
     receipts(c, trail, started, subject)
 
 
-def money(c: Client) -> None:
-    """What may be spent before anything is spent."""
+def money(c: Client) -> str:
+    """What may be spent before anything is spent. Answers the wallet's account."""
     allowance = c.budget.left()
     balance = c.budget.balance()
     plan = c.budget.plan()
@@ -63,11 +62,17 @@ def money(c: Client) -> None:
     print(
         "  wallet {0} {1} available in {2}".format(balance.available.cents, balance.available.currency, balance.account)
     )
+    return balance.account
 
 
-def permission(c: Client) -> str:
-    """Whether this caller may write, asked before it tries."""
-    decision = c.policy.check("self", "write", "graph:" + ENTITY)
+def permission(c: Client, subject: str) -> str:
+    """Whether this caller may write, asked before it tries.
+
+    The object is org-rooted and the org is not something a client may assert,
+    so it is read off the wallet the answer above already named.
+    """
+    org = subject.split("/")[0]
+    decision = c.policy.check(subject, "write", org + "/graph")
     print("\npolicy")
     print(
         "  {0} {1} {2} → {3}{4}".format(
