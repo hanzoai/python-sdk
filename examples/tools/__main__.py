@@ -1,6 +1,6 @@
 """tools — list the tools this key can reach.
 
-``GET /v1/tools`` (operationId ``get_tools``), the catalog behind the
+``GET /v1/tool`` (operationId ``get_tool``), the catalog behind the
 MCP surface: each entry is a tool name, its description and its input schema.
 
 A note on the MCP endpoints, because it is easy to pick the wrong one. There is a
@@ -14,14 +14,14 @@ served. When ``/v1/mcp`` is added to the spec, this flow should move to it.
     python -m examples.tools
 """
 
-from hanzoai.cloud import ToolsApi
+from hanzoai.cloud import ToolApi
 
 from examples.client import client, run
 
 
 def main() -> None:
     with client() as api:
-        catalog = ToolsApi(api).get_tools()
+        catalog = ToolApi(api).get_tool()
 
     tools = catalog.tools or []
     print(f"{len(tools)} tools")

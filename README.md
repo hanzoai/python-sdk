@@ -10,24 +10,43 @@ of the document this tree was cut from.
 
 ## Install
 
+Python 3.12 or newer.
+
 ```bash
 pip install hanzoai
 ```
 
-Check the install without a key — `GET /v1/models` is public:
+`Client` and the six capabilities below are newer than 8.5.156, the latest
+release on PyPI; that release has the generated client under `hanzoai.cloud`
+and not them. If `from hanzoai import Client` raises `ImportError`, install from
+`main`:
+
+```bash
+pip install 'hanzoai @ git+https://github.com/hanzoai/python-sdk'
+```
+
+On Python 3.9, 3.10 and 3.11 pip installs the 2.1 line instead, without an
+error. That is an older client with a different API (`from hanzoai import
+Hanzo`, key in `HANZO_API_KEY`), and nothing below applies to it.
+
+Check the install without a credential — `GET /v1/models` needs none:
 
 ```bash
 python -c 'from hanzoai.cloud import AiApi, ApiClient, Configuration
-print(len(AiApi(ApiClient(Configuration())).get_models().data or []), "models")'
+print(len(AiApi(ApiClient(Configuration(retries=0))).get_models().data or []), "models")'
 ```
 
-```
-481 models
-```
+It prints the number of models in the catalogue. The import alone takes 15 to
+35 seconds: the generated package is 68 MB.
 
-If it prints a count, the package imports, the host resolves and the client
-speaks the API. `examples/models` prints the same catalogue with prices and is
-in the sdist, not the wheel — clone the repo to run it.
+Calls without a valid credential are limited per address in 8-hour windows.
+Past the limit the answer is `429` with `Retry-After` in seconds, and
+`retries=0` turns that into an `ApiException` at once. A plain
+`Configuration()` sleeps for `Retry-After` and tries three more times, and the
+server has sent `Retry-After: 23730`.
+
+`examples/models` prints the same catalogue with prices and is in the sdist, not
+the wheel — clone the repo to run it.
 
 ## Quickstart
 
@@ -59,10 +78,10 @@ per operation, typed models in and out. `Client` is the generated `ApiClient`, s
 it goes anywhere an `ApiClient` goes and carries the same credential there:
 
 ```python
-from hanzoai.cloud import KeysApi
+from hanzoai.cloud import AccountApi
 
 with c as api:
-    for key in KeysApi(api).get_keys().keys or []:
+    for key in AccountApi(api).get_account_keys().keys or []:
         print(key.prefix, key.type, key.created_at)
 ```
 
@@ -91,6 +110,21 @@ Reads no gate refuses answer their value directly: `budget.left`,
 `kb.get`. `policy.check` answers a `Decision` carrying a boolean, because asking
 whether you may is a question with an answer — being stopped mid-call is what
 produces a refusal.
+
+What each status becomes for the six:
+
+| status | result |
+|---|---|
+| 2xx | `Ok`, body decoded as sent; a 200 carrying an error object is still `Ok` |
+| 202 with `"status": "held"` | `Held` |
+| 402, or 403 with code `insufficient_balance` or `spend_cap_exceeded` | `Denied` |
+| 401 | the token is re-minted and the call sent once more; a second 401 raises `Fault` |
+| anything else, including a 403 without those codes, 429 and 5xx | raises `Fault`, carrying `status`, `code`, `reason` and `request` |
+
+Apart from that one replay on a 401, one of these calls is one request, and
+`Retry-After` is not waited on. The generated operations are different: called
+through `Client`, a 429 or 503 with `Retry-After` makes them sleep for it and
+try three more times.
 
 ## Auth
 
@@ -155,9 +189,10 @@ This one raises the same `Held` the six answer as an arm:
 
 ```python
 from hanzoai import Held
+from hanzoai.cloud import AccountApi
 
 try:
-    fact = MemoryApi(acme).post_memory_remember(body)
+    AccountApi(acme).post_account_keys(key_type_in)
 except Held as held:
     print(held.id, held.clause, held.reason)   # queued — nothing ran
 ```
@@ -169,18 +204,17 @@ discriminator, not the status code.
 ## Examples
 
 `examples/` carries one directory per flow. Each is a whole path through one part
-of the API. CI imports all six and resolves every method name they call against
-the client.
+of the API.
 
 | flow | what it does | routes | credential |
 |---|---|---|---|
 | [`models`](examples/models) | the model catalog | `GET /v1/models` | none |
 | [`six`](examples/six) | budget, policy, search, kb, graph and audit in one flow | `/v1/allowance`, `/v1/billing/balance`, `/v1/entitlement`, `/v1/authz/check`, `/v1/search`, `/v1/framework/kb.page`, `/v1/graph`, `/v1/audit` | IAM |
-| [`hello`](examples/hello) | prove the credential works | `GET /v1/keys` | IAM |
+| [`hello`](examples/hello) | prove the credential works | `GET /v1/account/keys` | IAM |
 | [`money`](examples/money) | balance + usage | `GET /v1/billing/balance`, `GET /v1/billing/usage` | IAM |
-| [`store`](examples/store) | KV round-trip | `POST /v1/kv`, `GET`/`DELETE /v1/kv/{name}` | IAM |
-| [`agent`](examples/agent) | create, run, read the runs | `POST /v1/agents`, `POST /v1/agents/{ref}/run`, `GET /v1/agents/{ref}/runs` | IAM |
-| [`tools`](examples/tools) | the tool catalog | `GET /v1/tools` | IAM |
+| [`store`](examples/store) | KV round-trip | `POST /v1/provisioning/kv`, `GET`/`DELETE /v1/provisioning/kv/{name}` | IAM |
+| [`agent`](examples/agent) | create, run, read the runs | `POST /v1/agent`, `POST /v1/agent/{ref}/run`, `GET /v1/agent/runs` | IAM |
+| [`tools`](examples/tools) | the tool catalog | `GET /v1/tool` | IAM |
 
 One command each, from the repo root:
 
@@ -211,21 +245,50 @@ served from the same document — [api.hanzo.ai/v1/openapi.json](https://api.han
 ## The rest of the repo
 
 This is a `uv` workspace. `pkg/hanzoai` is the client above; the other packages
-are hand-written, ship separately, and mostly carry their own README:
+are hand-written and released on their own. What PyPI has from this repo:
 
-| Package | Install | Purpose |
-|---|---|---|
-| `pkg/hanzoai` | `hanzoai` | the client above |
-| `pkg/hanzo-mcp` | `hanzo-mcp` | Model Context Protocol server |
-| `pkg/hanzo-agent` | `hanzo-agent` | agent framework (import path `agents`) |
-| `pkg/hanzo-agents` | `hanzo-agents` | agent networks and swarms |
-| `pkg/hanzo-memory` | `hanzo-memory` | persistent memory + RAG over SQLite |
-| `pkg/hanzo-network` | `hanzo-network` | distributed compute nodes |
-| `pkg/hanzo-tools-*` | one each | single-concern tool packages, each registering a `TOOLS` list under the `hanzo.tools` entry point, which is how `hanzo-mcp` finds them |
+| install | import | Python | what it is |
+|---|---|---|---|
+| `hanzoai` | `hanzoai` | 3.12+ | the client above |
+| `hanzo-mcp` | `hanzo_mcp` | 3.12+ | MCP server, command `hanzo-mcp` |
+| `hanzo-tools` | `hanzo_tools` | 3.12+ | the base the tool packages build on |
+| `hanzo-tools-<name>` | `hanzo_tools.<name>` | 3.12+ | one tool each, registered under the `hanzo.tools` entry point, which is how `hanzo-mcp` finds it |
+| `hanzo-iam` | `hanzo_iam` | 3.12+ | Hanzo IAM client |
+| `hanzo-kms` | `hanzo_kms` | 3.12+ | Hanzo KMS client, command `hanzo-kms` |
+| `hanzo-memory` | `hanzo_memory` | 3.10+ | memory service with MCP, commands `hanzo-memory` and `hanzo-memory-server` |
+| `hanzo-zap` | `hanzo_zap` | 3.10+ | ZAP protocol client |
+| `hanzo-flags` | `hanzo_flags` | 3.9+ | feature flags over `/v1/flags` |
+| `hanzo-research` | `hanzo_research` | 3.9+ | research records over `/v1/research` |
+| `hanzo-train` | `hanzo_train` | 3.12+ | client for the Hanzo Engine training API |
+| `hanzo-tasks` | `hanzo_tasks` | 3.12+ | durable workflows for agents |
+| `hanzo-network` | `hanzo_network` | 3.12+ | agent networks |
+| `hanzo-consensus` | `hanzo_consensus` | 3.11+ | agreement among several agents |
+| `hanzo-flow` | `hanzo_flow` | 3.12+ | visual workflow builder |
+| `hanzo-web3` | `hanzo_web3` | 3.12+ | blockchain SDK |
+| `hanzo-async` | `hanzo_async` | 3.12+ | async I/O |
+| `hanzo-hooks` | `hanzo_hooks` | 3.12+ | runs shell hooks before and after tool calls |
+| `hanzo-lsp` | `hanzo_lsp` | 3.12+ | language server client |
+| `hanzo-sandbox` | `hanzo_sandbox` | 3.12+ | Linux sandbox for agent runtimes |
+
+The tool packages are agent, api, auth, billing, browser, code, commerce,
+computer, config, database, editor, fs, gimp, iam, ide, ingress, jupyter, kms,
+llm, lsp, mcp, memory, mpc, net, paas, plan, reasoning, refactor, repl, s3,
+shell, team, test, todo, ui, vcs and vector. `hanzo-tools-core` is empty and
+only installs `hanzo-tools`.
 
 The `hanzo` **command** is a native binary, not a Python package:
-`curl -fsSL https://hanzo.sh | sh`. `pip install hanzo` ships the older Python CLI
-under the name `hanzo-py`, so the two never fight over one name on a PATH.
+`curl -fsSL https://hanzo.sh | sh`. It replaces `hanzo-cli` and `hanzo-node`,
+which are still on PyPI. `pip install hanzo` ships the older Python CLI under the
+name `hanzo-py`, so the two never fight over one name on a PATH.
+
+`pkg/` also holds copies of `hanzo-agent`, `hanzo-agents`, `hanzo-aci`,
+`hanzo-dev` and `hanzo-s3`. PyPI gets those from
+[hanzoai/agent](https://github.com/hanzoai/agent),
+[hanzoai/agents](https://github.com/hanzoai/agents),
+[hanzoai/aci](https://github.com/hanzoai/aci),
+[hanzoai/ide](https://github.com/hanzoai/ide) and
+[hanzos3/py-sdk](https://github.com/hanzos3/py-sdk); read those repos, not the
+copies here.
 
 ## Development
 
