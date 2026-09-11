@@ -17,15 +17,17 @@ pip install hanzoai
 Check the install without a key — `GET /v1/models` is public:
 
 ```bash
-python -m examples.models
+python -c 'from hanzoai.cloud import AiApi, ApiClient, Configuration
+print(len(AiApi(ApiClient(Configuration())).get_models().data), "models")'
 ```
 
 ```
-https://api.hanzo.ai serves 112 models, no credential required
-  all-mini-lm-l6-v2 · do-ai · $0.02/Mtok in
-  anthropic-claude-opus-5 · do-ai · $1/Mtok in
-  …
+481 models
 ```
+
+If it prints a count, the package imports, the host resolves and the client
+speaks the API. `examples/models` prints the same catalogue with prices and is
+in the sdist, not the wheel — clone the repo to run it.
 
 ## Quickstart
 
