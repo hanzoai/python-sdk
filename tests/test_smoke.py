@@ -135,25 +135,24 @@ def test_cloud_package_imports():
     """
     import hanzoai.cloud
 
-    for name in ("AiApi", "IamApi", "ToolsApi", "OpenapiApi"):
+    for name in ("AiApi", "IamApi", "ToolApi", "OpenapiApi"):
         assert hasattr(hanzoai.cloud, name), f"hanzoai.cloud.{name} missing"
 
 
 def test_plugin_operator_surface():
     """The plugin operator surface must be reachable from the SDK.
 
-    Four published routes under `tools`: GET /v1/tools/plugins, GET and DELETE
-    /v1/tools/plugins/authored[/{id}], POST /v1/tools/plugins/build. This asked
-    `AdminApi` for /v1/admin/plugins until cloud stopped publishing an `admin`
-    tag; that address still answers, and a client is a projection of the
-    document, which no longer names it.
+    Four published routes under `tool`: GET /v1/tool/plugins, GET and DELETE
+    /v1/tool/plugins/authored[/{id}], POST /v1/tool/plugins/build. The tag was
+    `tools` before cloud named it in the singular, and `admin` before that; a
+    client is a projection of the document, so it follows the name in use.
     """
-    from hanzoai.cloud.api.tools_api import ToolsApi
+    from hanzoai.cloud.api.tool_api import ToolApi
 
     for op in (
-        "get_tools_plugins",
-        "get_tools_plugins_authored",
-        "delete_tools_plugins_authored_by_id",
-        "post_tools_plugins_build",
+        "get_tool_plugins",
+        "get_tool_plugins_authored",
+        "delete_tool_plugins_authored_by_id",
+        "post_tool_plugins_build",
     ):
-        assert callable(getattr(ToolsApi, op, None)), f"ToolsApi.{op} missing"
+        assert callable(getattr(ToolApi, op, None)), f"ToolApi.{op} missing"
