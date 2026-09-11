@@ -50,3 +50,27 @@ jobs:
 
       - name: Run tests
         run: ./scripts/test
+
+  # 2.1.2 declared requires-python >= 3.9 and could not be imported on 3.9, and
+  # the test job above only ever runs .python-version (3.12). Install the package
+  # the way a user does, on the floor and on the newest Python it classifies.
+  import:
+    name: import (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.13']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install the package
+        run: python -m pip install . pytest pytest-asyncio respx
+
+      - name: Every module imports
+        run: python -m pytest tests/test_imports.py -q
