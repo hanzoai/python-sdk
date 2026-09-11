@@ -194,18 +194,23 @@ class Fault(Exception):
     cache a policy answer nobody gave.
     """
 
-    def __init__(self, status: int, code: str = "", reason: str = "", request: str = "") -> None:
+    def __init__(self, status: int, code: str = "", reason: str = "", request: str = "", retry_after: float = 0) -> None:
         self.status = status
         #: The RFC 9457 `code`, empty where the answer carried none — including
         #: every fault the SDK raises before a request goes out.
         self.code = code
         self.reason = reason
         self.request = request
+        #: Seconds the server asked for before a retry (Retry-After), 0 when it
+        #: named none. A wait past :data:`hanzoai.client.WAIT` arrives here at once.
+        self.retry_after = retry_after
         at = str(status)
         if code:
             at += " " + code
         if request:
             at += " (request {0})".format(request)
+        if retry_after:
+            at += " (retry after {0:g}s)".format(retry_after)
         super().__init__("hanzoai: {0}: {1}".format(at, reason))
 
 
@@ -257,4 +262,4 @@ def fault(reply: Reply) -> "Fault":
     reason = text(reply.body, "detail") or text(reply.body, "title")
     if not reason:
         reason = reply.body if isinstance(reply.body, str) else "no readable body"
-    return Fault(reply.status, text(reply.body, "code"), reason, reply.request)
+    return Fault(reply.status, text(reply.body, "code"), reason, reply.request, reply.retry_after)
