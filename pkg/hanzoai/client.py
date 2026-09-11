@@ -22,8 +22,13 @@ from __future__ import annotations
 
 import os
 import json
+import time
 from typing import Any, Dict, Optional
+from email.utils import parsedate_to_datetime
 from urllib.parse import urlencode
+
+from urllib3.util.retry import Retry
+from urllib3.exceptions import MaxRetryError, ResponseError
 
 from hanzoai import wire
 from hanzoai.kb import Kb
@@ -39,6 +44,38 @@ from hanzoai.cloud.api_client import ApiClient
 from hanzoai.cloud.configuration import Configuration
 
 __all__ = ["Client"]
+
+#: The longest Retry-After a call sleeps through, in seconds. api.hanzo.ai
+#: answers an exhausted quota with the time until it resets, which is hours; a
+#: longer wait comes back to the caller at once instead.
+WAIT = 60
+
+
+class _Retry(Retry):
+    """urllib3's retries, ended at once by a server that asks for more than `WAIT`.
+
+    urllib3 sleeps for whatever Retry-After says, on each of its retries. Here a
+    longer wait ends the retries and the answer reaches the caller as it arrived:
+    a generated operation raises `ApiException`, whose `headers` carry
+    Retry-After, and a reply from :meth:`Client.send` faults with `retry_after`.
+    """
+
+    def increment(
+        self,
+        method: Optional[str] = None,
+        url: Optional[str] = None,
+        response: Any = None,
+        error: Optional[Exception] = None,
+        _pool: Any = None,
+        _stacktrace: Any = None,
+    ) -> Retry:
+        if (
+            response is not None
+            and response.status in self.RETRY_AFTER_STATUS_CODES
+            and _wait(response.headers.get("Retry-After", "")) > WAIT
+        ):
+            raise MaxRetryError(_pool, url, ResponseError("Retry-After is longer than {0}s".format(WAIT)))
+        return super().increment(method, url, response, error, _pool, _stacktrace)
 
 
 class Client(ApiClient):
@@ -75,7 +112,9 @@ class Client(ApiClient):
         self.base = (base or os.environ.get("HANZO_BASE_URL") or BASE).rstrip("/")
         self.issuer = (issuer or os.environ.get("HANZO_ISSUER_URL") or ISSUER).rstrip("/")
         self.resource = resource or os.environ.get("HANZO_RESOURCE") or self.base
-        super().__init__(Configuration(host=self.base))
+        # urllib3 takes a Retry where the generated hint names an int.
+        retries: Any = _Retry(3, raise_on_status=False)
+        super().__init__(Configuration(host=self.base, retries=retries))
 
         if credential is None:
             # Construction never fails on a missing credential; the first call
@@ -217,4 +256,15 @@ def _reply(response: Any) -> wire.Reply:
         status=response.status,
         body=body if raw else None,
         request=response.getheader("x-request-id", "") or "",
+        retry_after=_wait(response.getheader("retry-after", "") or ""),
     )
+
+
+def _wait(header: str) -> float:
+    """Retry-After in seconds, in either form RFC 9110 allows; 0 for none, or one unreadable."""
+    if header.strip().isdigit():
+        return float(header)
+    try:
+        return max(parsedate_to_datetime(header).timestamp() - time.time(), 0.0)
+    except (TypeError, ValueError):
+        return 0.0

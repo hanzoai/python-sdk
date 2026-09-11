@@ -31,6 +31,9 @@ class Reply:
     status: int
     body: Any = None
     request: str = ""
+    #: Retry-After in seconds: how long the server asked the caller to wait
+    #: before trying again, and 0 when it named no wait.
+    retry_after: float = 0
 
 
 def query(params: Optional[dict]) -> dict:
