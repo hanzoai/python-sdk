@@ -158,8 +158,23 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         self.parsers: Dict[str, Any] = {}
         self._file_cache: Dict[str, FileCache] = {}
         self._cache_lock = asyncio.Lock()
-        self._ripgrep_available = shutil.which("rg") is not None
+        # tgrep where the tree carries its trigram index, ripgrep otherwise.
+        # The index is the condition, not the binary: it prunes files a query
+        # cannot match, which is most of what reference-finding asks. Without
+        # one tgrep scans everything and is slower than plain grep, so an
+        # unindexed tree must fall back. Its --json is byte-compatible with
+        # ripgrep's (begin/match, absolute_offset, line_number, lines, path,
+        # submatches), so only the argv[0] changes.
+        self._searcher = self._pick_searcher()
         self._init_parsers()
+
+    @staticmethod
+    def _pick_searcher() -> Optional[str]:
+        if shutil.which("tgrep") and Path(".tgrep").exists():
+            return "tgrep"
+        if shutil.which("rg"):
+            return "rg"
+        return None
 
     def _init_parsers(self):
         """Initialize tree-sitter parsers for supported languages."""
@@ -404,12 +419,12 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         self, identifier: str, project_root: str, extensions: List[str]
     ) -> List[RefactorLocation]:
         """Use ripgrep for blazing fast reference finding."""
-        if not self._ripgrep_available:
+        if self._searcher is None:
             return []
 
         # Build ripgrep command with word boundaries
         cmd = [
-            "rg",
+            self._searcher,
             "--json",
             "--word-regexp",
             "--max-count",
@@ -511,7 +526,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
         extensions = source_extensions.get(language, [Path(file_path).suffix])
 
         # Try ripgrep first (much faster)
-        if self._ripgrep_available:
+        if self._searcher is not None:
             references = await self._find_references_ripgrep(
                 identifier, project_root, extensions
             )
@@ -945,7 +960,7 @@ Find references: refactor("find_references", file="f.py", line=10, column=5)"""
             message=f"Found {len(references)} references to '{identifier}'",
             stats={
                 "references_found": len(references),
-                "using_ripgrep": self._ripgrep_available,
+                "searcher": self._searcher or "none",
             },
         )
 
