@@ -18,7 +18,7 @@ Check the install without a key — `GET /v1/models` is public:
 
 ```bash
 python -c 'from hanzoai.cloud import AiApi, ApiClient, Configuration
-print(len(AiApi(ApiClient(Configuration())).get_models().data), "models")'
+print(len(AiApi(ApiClient(Configuration())).get_models().data or []), "models")'
 ```
 
 ```
