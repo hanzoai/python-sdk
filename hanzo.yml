@@ -1,16 +1,23 @@
 # Hanzo CI — the ONE way this repo is gated, read by hanzoai/ci.
 #
 # No `images:` and no `deploy:`: these are libraries. A consumer installs them
-# from PyPI at a tag, so what CI owes is a gate, not an artifact. Publishing
-# stays where it already is — .hanzo/workflows/publish-pypi.yml on our own
-# runners, which is the canonical path because it reads the PyPI token from KMS
-# like every other publish credential in the fleet. Adding a second publish here
-# would be one too many; this file only gates.
+# from PyPI at a tag, so what this repo delivers is a distribution, declared
+# below, and the rest of the file is the gate in front of it.
 #
 # Scope is the generated cloud client and the flows that exercise it. The other
 # 64 packages under pkg/ are hand-written and carry their own tests; pulling
 # them in here would make a red gate mean "something, somewhere" instead of
 # "the client the spec just produced is broken".
+
+# The root project is `hanzoai`, the generated cloud client; everything under
+# pkg/ is a distribution of its own. A glob rather than 65 names, so a package
+# added under pkg/ publishes without anyone remembering to list it — which the
+# retired per-repo workflow's hardcoded lists could not do.
+#
+# A `v*` tag releases whatever moved (twine skips the versions already on the
+# index); `hanzo-mcp-v1.2.3` releases that one. hanzoai/ci reads the name out of
+# each pyproject, so the tag and the distribution cannot disagree.
+pypi: [., pkg/*]
 
 test:
   - name: cloud-client
