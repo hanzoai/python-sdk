@@ -60,6 +60,116 @@ test:
       sys.exit(1 if bad else 0)
       '
 
+  # Which packages import something they do not declare.
+  #
+  # REPORT ONLY, and the reason is a limit of reading rather than a soft
+  # opinion: from the manifest alone, an import that works because a sibling
+  # dependency happens to pull it in is indistinguishable from one that will
+  # fail on a clean install. hanzo-zap imports `zap` and declares `zap-proto`,
+  # which provides it. hanzo-tools-iam imports `mcp` and declares
+  # hanzo-tools-core, which depends on it. Neither is broken; both look
+  # identical to a parser. Failing on 92 of these on day one is how a gate gets
+  # switched off.
+  #
+  # The authoritative check is in .github/workflows/publish-pypi.yml, which
+  # installs each built wheel alone into a clean venv and imports it before
+  # twine sees it. That one can tell the difference, because it tries.
+  #
+  # This still earns its place: relying on a transitive dependency is a break
+  # waiting for the day that sibling drops it, and 92 rows is a map of where
+  # that risk sits. Read it, do not gate on it.
+  - name: declared-imports
+    run: |
+      python - <<'PY'
+      import ast, pathlib, sys, tomllib
+
+      # import name -> distribution name, where they differ.
+      ALIAS = {
+          "yaml": "pyyaml", "PIL": "pillow", "dotenv": "python-dotenv",
+          "jwt": "pyjwt", "dateutil": "python-dateutil", "sklearn": "scikit-learn",
+          "cv2": "opencv-python", "bs4": "beautifulsoup4", "magic": "python-magic",
+          "google": "google-api-python-client", "OpenSSL": "pyopenssl",
+          "zoneinfo": "backports.zoneinfo", "pkg_resources": "setuptools",
+          "attr": "attrs", "serial": "pyserial", "usb": "pyusb",
+          # Ours: the distribution and the import name differ.
+          "zap": "zap-proto",
+      }
+      norm = lambda s: s.lower().replace("_", "-")
+
+      def declared(doc):
+          out = set()
+          proj = doc.get("project", {})
+          for d in proj.get("dependencies", []) or []:
+              out.add(norm(d.split(";")[0].strip().split("[")[0]
+                            .split("==")[0].split(">=")[0].split("<")[0]
+                            .split("~=")[0].split("!")[0].strip()))
+          for group in (proj.get("optional-dependencies") or {}).values():
+              for d in group:
+                  out.add(norm(d.split(";")[0].strip().split("[")[0]
+                                .split("==")[0].split(">=")[0].split("<")[0]
+                                .split("~=")[0].split("!")[0].strip()))
+          poetry = doc.get("tool", {}).get("poetry", {})
+          for name in (poetry.get("dependencies") or {}):
+              out.add(norm(name))
+          for group in (poetry.get("group") or {}).values():
+              for name in (group.get("dependencies") or {}):
+                  out.add(norm(name))
+          for group in (poetry.get("extras") or {}).values():
+              for name in group:
+                  out.add(norm(name))
+          out.discard("python")
+          return out
+
+      def tops(path):
+          try:
+              tree = ast.parse(path.read_text(encoding="utf-8", errors="replace"))
+          except SyntaxError:
+              return set()
+          seen = set()
+          for node in ast.walk(tree):
+              if isinstance(node, ast.Import):
+                  for a in node.names:
+                      seen.add(a.name.split(".")[0])
+              elif isinstance(node, ast.ImportFrom):
+                  # level > 0 is relative and belongs to the package itself.
+                  if not node.level and node.module:
+                      seen.add(node.module.split(".")[0])
+          return seen
+
+      missing, unmapped = [], []
+      for manifest in sorted(pathlib.Path("pkg").glob("*/pyproject.toml")):
+          pkg = manifest.parent
+          with manifest.open("rb") as fh:
+              doc = tomllib.load(fh)
+          have = declared(doc)
+          used = set()
+          for py in pkg.rglob("*.py"):
+              parts = py.parts
+              if any(p in ("test", "tests", "examples", "build", ".venv") for p in parts):
+                  continue
+              used |= tops(py)
+          for name in sorted(used):
+              if name in sys.stdlib_module_names or name.startswith("_"):
+                  continue
+              # First party: this repo's own packages, and the package itself.
+              if name.startswith("hanzo") or norm(name) == norm(pkg.name):
+                  continue
+              if (pkg / name).exists() or (pkg / f"{name}.py").exists():
+                  continue
+              dist = ALIAS.get(name, norm(name))
+              if dist in have or norm(name) in have:
+                  continue
+              (unmapped if name not in ALIAS and "." not in name and len(name) <= 2
+               else missing).append(f"{pkg.name}: imports {name!r}, declares no {dist!r}")
+
+      for line in sorted(missing + unmapped):
+          print("UNDECLARED", line)
+      total = len(list(pathlib.Path("pkg").glob("*/pyproject.toml")))
+      print(f"{total} packages checked, {len(missing) + len(unmapped)} imports not declared")
+      print("Not a failure: the publish lane installs each wheel clean and imports it,")
+      print("which is the check that can tell a transitive dependency from a missing one.")
+      PY
+
   - name: duplicate-fields
     # Read the syntax tree, because the import above cannot see this.
     #
