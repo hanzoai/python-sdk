@@ -1,6 +1,6 @@
 [project]
 name = "hanzoai"
-version = "8.5.160"
+version = "8.5.161"
 description = "The official Python library for the Hanzo API"
 dynamic = ["readme"]
 license = "Apache-2.0"

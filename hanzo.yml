@@ -78,9 +78,18 @@ test:
   # This still earns its place: relying on a transitive dependency is a break
   # waiting for the day that sibling drops it, and 92 rows is a map of where
   # that risk sits. Read it, do not gate on it.
+  #
+  # It runs under the interpreter the steps beside it fetch. The runner has no
+  # `python` on its PATH, so the bare name exited 127 and a step that is report
+  # only stopped a release.
   - name: declared-imports
     run: |
-      python - <<'PY'
+      set -e
+      if command -v uv >/dev/null 2>&1; then UV=uv; else
+        curl -fsSL https://astral.sh/uv/install.sh | sh
+        UV="$HOME/.local/bin/uv"
+      fi
+      "$UV" run --no-project --python 3.12 python - <<'PY'
       import ast, pathlib, sys, tomllib
 
       # import name -> distribution name, where they differ.
